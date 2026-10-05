@@ -154,15 +154,29 @@ function ltReport() {
   out.push('<b>Motor başlatma</b>   ' + s(initStart) + ' → ' + s(LT.end) + '  (' + s(LT.end - initStart) + ')');
   out.push('<b>Toplam</b>           ' + s(LT.end));
   out.push('');
+  out.push('<b>Açılış kontrolü</b>  ' + (LT.boot || 'bekleniyor…'));
+  out.push('');
   out.push(navigator.standalone ? 'mod: ana ekran (standalone)' : 'mod: tarayıcı');
   out.push('kapatmak için dokun');
 
+  LT.reported = true;
   var box = document.getElementById('timing');
   box.innerHTML = out.join('\n');
   if (LT.shown) box.style.display = 'block';
   box.onclick = function () { box.style.display = 'none'; };
   try { console.log(box.textContent); } catch (_) {}
 }
+
+/* Called by WebBridge.jslib once the game has checked its level file. May
+   arrive before or after the panel is drawn. */
+window.ltBoot = function (msg) {
+  LT.boot = msg;
+  if (LT.reported) {
+    var box = document.getElementById('timing'), open = box.style.display === 'block';
+    ltReport();
+    if (!open) box.style.display = 'none';
+  }
+};
 </script>
 </head>
 <body>
@@ -183,14 +197,14 @@ function ltReport() {
 <div id="timing"></div>
 
 
-<script src="Build/21a0e8067b9c7917c641be4a5ddad8b7.loader.js"></script>
+<script src="Build/fd867b1a8008329d1012dfe82d1b0450.loader.js"></script>
 <script>
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/a17f8ee8c21f82afca9ee3c52932b6c6.data.unityweb",
-    frameworkUrl: "Build/2011b4c5b790739e76d093c88f1c2d38.framework.js.unityweb",
-    codeUrl: "Build/6a49bd9a9f7ded5e44157ac006159cae.wasm.unityweb",
+    dataUrl: "Build/fe57abc76ef59b9b84972985fd873cde.data.unityweb",
+    frameworkUrl: "Build/dc400367d677900852243017406f351e.framework.js.unityweb",
+    codeUrl: "Build/902d7d87a742458ab8c1adace6448595.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
