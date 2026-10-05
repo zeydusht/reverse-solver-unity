@@ -1,0 +1,17 @@
+{
+    "name": "ReverseSolver.Platform",
+    "rootNamespace": "ReverseSolver.Platform",
+    "references": [
+        "ReverseSolver.Core",
+        "ReverseSolver.Presentation"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<!-- Ana ekrana eklenince tarayici cubugu olmadan, uygulama gibi acilir -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="{{{ PRODUCT_NAME }}}">
+<meta name="theme-color" content="#0e2a2e">
+<link rel="apple-touch-icon" href="TemplateData/icon-180.png">
+<link rel="icon" href="TemplateData/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>{{{ PRODUCT_NAME }}}</title>
+#if SHOW_DIAGNOSTICS
+<link rel="stylesheet" href="<<<TemplateData/diagnostics.css>>>">
+<script src="<<<TemplateData/diagnostics.js>>>"></script>
+#endif
+
+<style>
+  /* Safe area insets are read back by the game through WebBridge.jslib. */
+  :root{
+    --sat:env(safe-area-inset-top); --sar:env(safe-area-inset-right);
+    --sab:env(safe-area-inset-bottom); --sal:env(safe-area-inset-left);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:#0e2a2e}
+  body{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;
+    font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;color:#eaf3f2}
+  #unity-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;outline:none;
+    background:{{{ BACKGROUND_COLOR }}}}
+
+  #loader{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:18px;background:linear-gradient(178deg,#1c565c 0%,#123c42 46%,#0a2226 100%);
+    transition:opacity .25s}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader img{width:96px;height:96px;border-radius:22px}
+  #loader .track{width:180px;height:6px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
+  #loader .fill{height:100%;width:0;background:#f0a742;transition:width .15s}
+  #loader .msg{font-size:13px;color:#8fb2b3;max-width:280px;text-align:center;line-height:1.5}
+
+  /* Safari cannot lock orientation, so a landscape phone gets a hint instead. */
+  #rotate{position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+    flex-direction:column;gap:14px;background:#0e2a2e;z-index:10;font-size:15px;text-align:center;padding:24px}
+  #rotate svg{width:56px;height:56px}
+  @media (orientation:landscape) and (max-height:500px){ #rotate{display:flex} }
+</style>
+</head>
+<body>
+<canvas id="unity-canvas" tabindex="-1"></canvas>
+
+<div id="loader">
+  <img src="TemplateData/icon-192.png" alt="">
+  <div class="track"><div class="fill" id="fill"></div></div>
+  <div class="msg" id="msg"></div>
+</div>
+
+<div id="rotate">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#f0a742" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M10.5 18.5h3"/></svg>
+  <div>Telefonu dik tut</div>
+</div>
+
+#if SHOW_DIAGNOSTICS
+<div id="unity-footer"><img id="diagnostics-icon" src="TemplateData/webmemd-icon.png"
+  style="position:fixed;bottom:10px;right:0;z-index:5"></div>
+#endif
+
+<script src="Build/{{{ LOADER_FILENAME }}}"></script>
+<script>
+  var canvas = document.getElementById('unity-canvas');
+  createUnityInstance(canvas, {
+    arguments: [],
+#if PROGRESSIVE_ASSET_LOADING
+    primaryDataUrls: {{{ JSON.stringify(PRIMARY_DATA_FILES) }}},
+    secondaryDataUrls: {{{ JSON.stringify(SECONDARY_DATA_FILES) }}},
+#else
+    dataUrl: "Build/{{{ DATA_FILENAME }}}",
+#endif
+    frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+#if USE_WASM
+    codeUrl: "Build/{{{ CODE_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+    symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+#endif
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+    productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+    productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+    // iPhones report 3; rendering a 2D board at 3x costs fill rate for no visible gain.
+    devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
+  }, function (p) {
+    document.getElementById('fill').style.width = Math.round(p * 100) + '%';
+  }).then(function (unityInstance) {
+    document.getElementById('loader').classList.add('done');
+#if SHOW_DIAGNOSTICS
+    document.getElementById('diagnostics-icon').onclick = function () {
+      unityDiagnostics.openDiagnosticsDiv(unityInstance.GetMetricsInfo);
+    };
+#endif
+  }).catch(function (message) {
+    document.getElementById('msg').textContent = 'Oyun yüklenemedi: ' + message;
+  });
+</script>
+</body>
+</html>
