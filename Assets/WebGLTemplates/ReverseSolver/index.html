@@ -20,7 +20,8 @@
 #endif
 
 <style>
-  /* Safe area insets are read back by the game through WebBridge.jslib. */
+  /* Safe area insets are for the game's UI only (read back through
+     WebBridge.jslib). The canvas itself always covers the whole screen. */
   :root{
     --sat:env(safe-area-inset-top); --sar:env(safe-area-inset-right);
     --sab:env(safe-area-inset-bottom); --sal:env(safe-area-inset-left);
@@ -29,10 +30,10 @@
   html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:#0e2a2e}
   body{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;
     font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;color:#eaf3f2}
-  #unity-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;outline:none;
-    background:{{{ BACKGROUND_COLOR }}}}
+  .full{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%}
+  #unity-canvas{display:block;outline:none;background:{{{ BACKGROUND_COLOR }}}}
 
-  #loader{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;
+  #loader{display:flex;flex-direction:column;align-items:center;
     justify-content:center;gap:18px;background:linear-gradient(178deg,#1c565c 0%,#123c42 46%,#0a2226 100%);
     transition:opacity .25s}
   #loader.done{opacity:0;pointer-events:none}
@@ -42,31 +43,173 @@
   #loader .msg{font-size:13px;color:#8fb2b3;max-width:280px;text-align:center;line-height:1.5}
 
   /* Safari cannot lock orientation, so a landscape phone gets a hint instead. */
-  #rotate{position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+  #rotate{display:none;align-items:center;justify-content:center;
     flex-direction:column;gap:14px;background:#0e2a2e;z-index:10;font-size:15px;text-align:center;padding:24px}
   #rotate svg{width:56px;height:56px}
   @media (orientation:landscape) and (max-height:500px){ #rotate{display:flex} }
+
+  /* TEMPORARY load-time breakdown, remove once startup is tuned. */
+  #timing{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top) + 8px);z-index:30;
+    background:rgba(4,20,22,.92);border:1px solid rgba(255,255,255,.18);border-radius:12px;
+    padding:10px 12px;font:11px/1.5 ui-monospace,Menlo,monospace;color:#cfe6e5;white-space:pre;
+    overflow:auto;max-height:70vh;display:none;user-select:text;-webkit-user-select:text}
+  #timing b{color:#f0a742;font-weight:600}
 </style>
+
+<script>
+/* ===========================================================================
+   TEMPORARY: load-time breakdown. Remove this block and #timing once startup
+   is tuned. Must run before the Unity loader so it can wrap what the loader
+   uses:
+     - download: Resource Timing entries for Build/*
+     - JS gzip decompression: the loader inflates in a blob: Web Worker, so
+       wrapping Worker times each postMessage -> reply
+     - wasm: wrapping WebAssembly.instantiate/compile (+Streaming)
+     - engine init: from the later of wasm ready / last decompression until
+       createUnityInstance resolves
+   Add ?timing=0 to the URL to hide the panel.
+   =========================================================================== */
+var LT = { dec: [], wasm: [], end: 0, shown: !/[?&]timing=0/.test(location.search) };
+(function () {
+  var NativeWorker = window.Worker;
+  if (NativeWorker) {
+    var Wrapped = function (url, opts) {
+      var w = new NativeWorker(url, opts);
+      if (String(url).indexOf('blob:') === 0) {
+        var post = w.postMessage, pending = {};
+        w.postMessage = function (msg) {
+          if (msg && msg.compressed)
+            pending[msg.id] = { start: performance.now(), inB: msg.compressed.byteLength };
+          return post.apply(w, arguments);
+        };
+        // Registered before the loader assigns onmessage, so this runs first
+        // and the end time excludes whatever the loader does with the result.
+        w.addEventListener('message', function (e) {
+          var d = e.data, p = d && pending[d.id];
+          if (!p || !d.decompressed) return;
+          LT.dec.push({ start: p.start, end: performance.now(), inB: p.inB, outB: d.decompressed.byteLength });
+          delete pending[d.id];
+        });
+      }
+      return w;
+    };
+    Wrapped.prototype = NativeWorker.prototype;
+    window.Worker = Wrapped;
+  }
+  ['instantiateStreaming', 'instantiate', 'compileStreaming', 'compile'].forEach(function (k) {
+    var f = WebAssembly && WebAssembly[k];
+    if (!f) return;
+    WebAssembly[k] = function () {
+      var s = performance.now();
+      return f.apply(WebAssembly, arguments).then(function (r) {
+        LT.wasm.push({ k: k, start: s, end: performance.now(), ok: true }); return r;
+      }, function (err) {
+        LT.wasm.push({ k: k, start: s, end: performance.now(), ok: false }); throw err;
+      });
+    };
+  });
+})();
+
+function ltReport() {
+  var s = function (ms) { return (ms / 1000).toFixed(2); };
+  var mb = function (b) { return (b / 1048576).toFixed(1) + ' MB'; };
+  var pad = function (t, n) { t = String(t); while (t.length < n) t += ' '; return t; };
+  var kind = function (url) {
+    var m = /\.(loader\.js|framework\.js|wasm|data)/.exec(url); return m ? m[1].replace('.js', '') : url;
+  };
+  var res = performance.getEntriesByType('resource').filter(function (e) { return /\/Build\//.test(e.name); });
+  var out = [], dlStart = Infinity, dlEnd = 0, dlBytes = 0, nativeGz = false;
+
+  out.push('<b>Yükleme süreleri</b> (saniye, sayfa açılışından itibaren)');
+  out.push('');
+  out.push('<b>İndirme</b>');
+  res.forEach(function (e) {
+    var bytes = e.encodedBodySize || e.transferSize || 0;
+    if (e.decodedBodySize && e.encodedBodySize && e.decodedBodySize > e.encodedBodySize * 1.2) nativeGz = true;
+    if (!/loader/.test(e.name)) { dlStart = Math.min(dlStart, e.startTime); dlEnd = Math.max(dlEnd, e.responseEnd); dlBytes += bytes; }
+    out.push('  ' + pad(kind(e.name), 10) + pad(bytes ? mb(bytes) : '?', 9) + s(e.startTime) + ' → ' + s(e.responseEnd) +
+             '  (' + s(e.responseEnd - e.startTime) + ')');
+  });
+  if (dlEnd) out.push('  toplam    ' + pad(mb(dlBytes), 9) + s(dlStart) + ' → ' + s(dlEnd) + '  (' + s(dlEnd - dlStart) + ')');
+
+  out.push('');
+  out.push('<b>JS ile gzip açma</b> (tek worker, sırayla)');
+  var decEnd = 0, decSum = 0;
+  LT.dec.forEach(function (d) {
+    decEnd = Math.max(decEnd, d.end); decSum += d.end - d.start;
+    out.push('  ' + pad(mb(d.inB) + ' → ' + mb(d.outB), 20) + s(d.start) + ' → ' + s(d.end) + '  (' + s(d.end - d.start) + ')');
+  });
+  out.push(LT.dec.length ? '  toplam iş süresi ' + s(decSum)
+                         : '  yok: tarayıcı açtı (Content-Encoding) ya da sıkıştırma kapalı');
+  out.push('  tarayıcı yerel açtı mı: ' + (nativeGz ? 'evet' : 'hayır'));
+
+  out.push('');
+  out.push('<b>Wasm derleme + başlatma</b>');
+  var wasmEnd = 0;
+  LT.wasm.forEach(function (w) {
+    if (w.ok) wasmEnd = Math.max(wasmEnd, w.end);
+    out.push('  ' + pad(w.k + (w.ok ? '' : ' (başarısız)'), 26) + s(w.start) + ' → ' + s(w.end) + '  (' + s(w.end - w.start) + ')');
+  });
+
+  var initStart = Math.max(wasmEnd, decEnd, dlEnd);
+  out.push('');
+  out.push('<b>Motor başlatma</b>   ' + s(initStart) + ' → ' + s(LT.end) + '  (' + s(LT.end - initStart) + ')');
+  out.push('<b>Toplam</b>           ' + s(LT.end));
+  out.push('');
+  out.push(navigator.standalone ? 'mod: ana ekran (standalone)' : 'mod: tarayıcı');
+  out.push('kapatmak için dokun');
+
+  var box = document.getElementById('timing');
+  box.innerHTML = out.join('\n');
+  if (LT.shown) box.style.display = 'block';
+  box.onclick = function () { box.style.display = 'none'; };
+  try { console.log(box.textContent); } catch (_) {}
+}
+</script>
 </head>
 <body>
-<canvas id="unity-canvas" tabindex="-1"></canvas>
+<canvas id="unity-canvas" class="full" tabindex="-1"></canvas>
 
-<div id="loader">
+<div id="loader" class="full">
   <img src="TemplateData/icon-192.png" alt="">
   <div class="track"><div class="fill" id="fill"></div></div>
   <div class="msg" id="msg"></div>
 </div>
 
-<div id="rotate">
+<div id="rotate" class="full">
   <svg viewBox="0 0 24 24" fill="none" stroke="#f0a742" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
     <rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M10.5 18.5h3"/></svg>
   <div>Telefonu dik tut</div>
 </div>
 
+<div id="timing"></div>
+
 #if SHOW_DIAGNOSTICS
 <div id="unity-footer"><img id="diagnostics-icon" src="TemplateData/webmemd-icon.png"
   style="position:fixed;bottom:10px;right:0;z-index:5"></div>
 #endif
+
+<script>
+  /* Home-screen (standalone) iOS leaves the layout viewport short of the
+     home-indicator strip, so inset:0 / 100% stop above it and the body shows
+     through. There the full-screen layers are sized to the physical screen
+     instead. In Safari proper the layout viewport is already right. */
+  function fitStandalone() {
+    if (!navigator.standalone) return;
+    var portrait = window.matchMedia('(orientation: portrait)').matches;
+    var w = Math.min(screen.width, screen.height), h = Math.max(screen.width, screen.height);
+    var H = Math.max(portrait ? h : w, window.innerHeight);
+    var W = Math.max(portrait ? w : h, window.innerWidth);
+    var els = document.querySelectorAll('.full');
+    for (var i = 0; i < els.length; i++) {
+      els[i].style.bottom = 'auto'; els[i].style.right = 'auto';
+      els[i].style.height = H + 'px'; els[i].style.width = W + 'px';
+    }
+  }
+  fitStandalone();
+  window.addEventListener('resize', fitStandalone);
+  window.addEventListener('orientationchange', function () { setTimeout(fitStandalone, 250); });
+</script>
 
 <script src="Build/{{{ LOADER_FILENAME }}}"></script>
 <script>
@@ -95,7 +238,9 @@
   }, function (p) {
     document.getElementById('fill').style.width = Math.round(p * 100) + '%';
   }).then(function (unityInstance) {
+    LT.end = performance.now();
     document.getElementById('loader').classList.add('done');
+    setTimeout(ltReport, 50);
 #if SHOW_DIAGNOSTICS
     document.getElementById('diagnostics-icon').onclick = function () {
       unityDiagnostics.openDiagnosticsDiv(unityInstance.GetMetricsInfo);
