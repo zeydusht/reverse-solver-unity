@@ -26,7 +26,13 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 | `ReverseSolver.Editor` | `Assets/_Game/Editor` | Build ve editör araçları. |
 | `ReverseSolver.Core.Tests` | `Assets/_Game/Tests/EditMode` | EditMode testleri. `CoreIsolationTests` Core'un Unity'ye bağlanmadığını korur. |
 
-- Seviye verisi JSON olarak durur; ileride her seviyede `id` + `version` olacak ve engel sayıları seviyeden hesaplanabilecek.
+- Seviye verisi `Assets/_Game/Levels/levels.json` (`format` 1). Her seviyede kalıcı `id` (yeniden kullanılmaz, sıra değişince değişmez) ve `version` var; oynanışı etkileyen her değişiklikte `version` artar. Engel sayıları `LevelStats` ile seviyeden hesaplanır, dosyada tutulmaz.
+- Kural motoru (`TravelRule`, `GreedySolver`) web oyununun kodunun birebir portu. Değiştirirsen `Tools/make_travel_golden.js` ile web kodundan üretilen altın değer testleri (`Golden/travel_golden.json`) bunu yakalar; web kuralı bilinçli olarak değişmedikçe altın dosyayı yeniden üretme.
+
+## Araçlar (`Tools/`, Unity dışında)
+
+- `python Tools/extract_levels.py` — `../web-reference/index.html`'deki seviyeleri `levels.json`'a çıkarır. Yalnızca seviyeler hâlâ web'deki haliyken anlamlı; yeniden tasarım başladıktan sonra `levels.json` doğrudan düzenlenir.
+- `node Tools/make_travel_golden.js` — web kural kodunu Node'da çalıştırıp altın değerleri üretir.
 - Managed stripping High: `Assets/_Game/link.xml` Core ve Platform'u tamamen korur. EditMode testleri stripping'siz çalışır, stripping hatasını ancak web build yakalar.
 
 ## Build
@@ -34,7 +40,9 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 - Unity menüsü **Reverse Solver → Build WebGL** → `Builds/WebGL` (git dışında). Web ayarlarını `WebBuild.ApplySettings` uygular: gzip + decompression fallback (GitHub Pages `Content-Encoding` göndermez), özel şablon `Assets/WebGLTemplates/ReverseSolver`, High stripping, IL2CPP Optimize Size.
 - Her build boyutları `Builds/size-log.csv`'ye ekler ve `Builds/WebGL-report.txt`'ye wasm/data dökümünü yazar. Boyut değişikliklerini bununla ölç.
 - Sayfa arka planı build sırasında `Game` sahnesindeki kameranın rengine eşitlenir (iOS ana ekran modundaki alt şerit için).
-- Bu makinede tam IL2CPP build'i ~10 dakika sürer; yalnızca data değişen build'ler saniyeler sürer.
+- Bu makinede tam IL2CPP build'i ~5–10 dakika sürer; yalnızca data değişen build'ler saniyeler sürer.
+- Build'i telefonsuz doğrulamak için: `Builds/WebGL`'i `127.0.0.1`'de yayınla, Chrome'u `--headless=new --remote-debugging-port=9222 --use-angle=swiftshader --enable-unsafe-swiftshader` ve geçici `--user-data-dir` ile aç, sayfanın süre panelini CDP üzerinden oku. (`--virtual-time-budget`/`--dump-dom` işe yaramaz: indirmeler bitmeden döner.) iPhone Safari doğrulamasının yerini tutmaz.
+- Yayın: `gh-pages` dalı (`/gz/` gzip, `/br/` Brotli karşılaştırması). Büyük push'ta `git -c http.postBuffer=524288000 push` gerekir.
 
 ## Kurallar
 
