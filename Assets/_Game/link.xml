@@ -1,0 +1,13 @@
+<!--
+  Managed stripping is High for the web build. These assemblies are kept whole:
+  - Core is small and holds the level parser and rules; keeping it entire costs
+    little and rules out a stripped code path that only fails in the browser.
+  - Platform serializes telemetry rows with JsonUtility, which reaches fields
+    the linker cannot see being used.
+  EditMode tests run unstripped, so they cannot catch a stripping problem; the
+  web build itself has to.
+-->
+<linker>
+  <assembly fullname="ReverseSolver.Core" preserve="all"/>
+  <assembly fullname="ReverseSolver.Platform" preserve="all" ignoreIfMissing="1"/>
+</linker>
