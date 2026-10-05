@@ -158,15 +158,29 @@ function ltReport() {
   out.push('<b>Motor başlatma</b>   ' + s(initStart) + ' → ' + s(LT.end) + '  (' + s(LT.end - initStart) + ')');
   out.push('<b>Toplam</b>           ' + s(LT.end));
   out.push('');
+  out.push('<b>Açılış kontrolü</b>  ' + (LT.boot || 'bekleniyor…'));
+  out.push('');
   out.push(navigator.standalone ? 'mod: ana ekran (standalone)' : 'mod: tarayıcı');
   out.push('kapatmak için dokun');
 
+  LT.reported = true;
   var box = document.getElementById('timing');
   box.innerHTML = out.join('\n');
   if (LT.shown) box.style.display = 'block';
   box.onclick = function () { box.style.display = 'none'; };
   try { console.log(box.textContent); } catch (_) {}
 }
+
+/* Called by WebBridge.jslib once the game has checked its level file. May
+   arrive before or after the panel is drawn. */
+window.ltBoot = function (msg) {
+  LT.boot = msg;
+  if (LT.reported) {
+    var box = document.getElementById('timing'), open = box.style.display === 'block';
+    ltReport();
+    if (!open) box.style.display = 'none';
+  }
+};
 </script>
 </head>
 <body>
