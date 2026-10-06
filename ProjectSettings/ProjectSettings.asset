@@ -16,7 +16,7 @@ PlayerSettings:
   productName: Reverse Solver
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.023529412, g: 0.09019608, b: 0.101960786, a: 1}
   m_ShowUnitySplashScreen: 0
   m_ShowUnitySplashLogo: 0
   m_SplashScreenOverlayOpacity: 1
@@ -150,7 +150,8 @@ PlayerSettings:
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
   bundleVersion: 0.1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   xboxOneDisableKinectGpuReservation: 1

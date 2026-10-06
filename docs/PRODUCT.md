@@ -2,7 +2,7 @@
 
 Ürün kararlarının tek kaynağı bu dosya. Kararlar, ölçümler ve açık işler burada tutulur; `product-manager` subagent'ı her değerlendirmeden sonra günceller.
 
-Son güncelleme: 2026-10-06 (M2 iPhone kontrolü kapandı; M3 görsel yön kararı, iPhone SE ölçütü eklendi)
+Son güncelleme: 2026-10-06 gece (WebGL build Windows Akıllı Uygulama Denetimi'nce engellendi; M3 "kod tamam, build/yayın bekliyor"; M4 kodlamasına geçiş; bulut build hazırlığı)
 
 ## Hedef
 
@@ -22,7 +22,7 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 
 | Faz | İçerik | Durum |
 |---|---|---|
-| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0, M1, M2 bitti (M2 2026-10-06; iPhone kontrolü dahil). GitHub Pages yayında, kök → `/br/` (Brotli varsayılan). M3 (tahta görseli + sürükleme) başladı. Kalan: M3–M6, playtest öncesi kısa 4G (LTE) teyidi |
+| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0, M1, M2 bitti (M2 2026-10-06; iPhone kontrolü dahil). GitHub Pages yayında, kök → `/br/` (Brotli varsayılan). M3 (tahta görseli + sürükleme) kod tamam, build/yayın bekliyor (2026-10-06 gece: WebGL build Windows Akıllı Uygulama Denetimi'nce engelli). M4 kodlaması editörde başlıyor. Kalan: M3 build/iPhone, M4–M6, playtest öncesi kısa 4G (LTE) teyidi |
 | 2. Ölçüm altyapısı | Telemetri (client, level_version), test modu (rastgele sıra), ekransız çözücü + Monte Carlo | Bekliyor |
 | 3. Deney | Deney seviyeleri, playtest ile veri toplama | Bekliyor |
 | 4. Model ve tasarım | Zorluk tablosu, engel tanıtımı ve 40 seviyenin yeniden tasarımı | Bekliyor |
@@ -86,6 +86,10 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-06 | **M3 okunabilirlik (Zeyd'in kararı):** engeller iPhone SE genişliğinde ayırt edilir; dokunma alanı ≥ 44 pt (görsel küçükse dokunma alanı görselden büyük olabilir); sürüklerken sayfa kaymaz ve yakınlaşmaz | Telefonda doğru görünüm; yanlış dokunma telemetriyi (takılma, deneme) bozar |
 | 2026-10-06 | **M3 efektleri minimum (Zeyd'in kararı):** parça parmağı gecikmesiz izler (sürükleme sırasında yumuşatma/lerp yok, aynı karede parmak konumu); bırakınca kısa oturma animasyonu; bomba ve kazanma için basit geri bildirim. Diğer efektler (çıkış, çivi sökülmesi, supap partikülleri vb.) M6 cilalama adımına. M3 tanımındaki "kısa tween/partikül" maddesi buna göre daraltıldı | Playtest yolunu tıkamayan kozmetik iş sonraya; sürükleme hissi veri kalitesini etkiler, efekt etkilemez |
 | 2026-10-06 | **M3 ekran görüntüsü ölçütüne iPhone SE eklendi: 375×667 pt (SE 2./3. nesil), bağlayıcı.** 320 pt (SE 1. nesil) eklenmez | Güncel iOS'u çalıştıran en dar ve en kısa iPhone 375×667; hem genişlik (engel okunabilirliği) hem yükseklik (tahta + HUD sığması) için en kötü durum. 320 pt'lik cihazlar güncel iOS almıyor, playtest kitlesinde beklenmez; eklemek ölçeği gereksiz küçültür |
+| 2026-10-06 gece | **Build engeli için Zeyd'e önerilen sıra: (0) bilgisayarı yeniden başlat + tek build denemesi → (B) Unity 6000.6.4f1'i WebGL modülüyle kaldırıp yeniden kur → (C) GitHub Actions bulut build → (D) başka bilgisayar → (A) Akıllı Uygulama Denetimi'ni kapatmak yalnızca son çare ve yalnızca Zeyd'in açık kararıyla.** A GERİ DÖNÜŞSÜZDÜR: SAC bir kez kapatılınca Windows sıfırlanmadan/yeniden kurulmadan tekrar açılamaz. Mühendislik güvenlik ayarlarına dokunmaz | Engel kod/proje değil, makine (17:35 M2 build'i sorunsuzdu; hata `WebGLPlayerBuildProgram.Data.dll` 0x800711C7). Ucuz ve geri alınabilir adımlar önce. C uzun vadede de değerli (makineden bağımsız, tekrarlanabilir build) ama lisans adımı ve Unity 6.6 imajı belirsizliği var; A hızlı ama kalıcı güvenlik kaybı, playtest takvimi bunu henüz gerektirmiyor |
+| 2026-10-06 gece | **M3 kapanmaz: durum "kod tamam, build/yayın bekliyor".** Editörde karşılananlar: ölçüt 1 (ekran görüntüleri 375×667/390×844/430×932, en büyük tahtada hücre 56 pt ≥ 44), 1b'nin kod kısmı, 2, 3 (334 EditMode testi). Build'e bağlı olanlar açık: 5 (size-log), 6'nın web kısmı, 7 (yayın), 4 ve 8 (iPhone). Editörde Input System sanal fareyle sürükleme testi ek kanıt olarak kabul edilir ama iPhone ölçütlerinin yerine geçmez | Stripping hatasını yalnızca web build yakalar; dokunma, sayfa kaydırma/yakınlaşma ve FPS yalnızca Safari'de görülür. Bunlar M3'ün asıl riskleri; build'siz kapatmak ölçmeden kapatmak olur |
+| 2026-10-06 gece | **M4 kodlamasına geçilir (editörde derlenip test edilerek); M5'ten bu gece yalnızca Supabase'e dokunmayan kısımlar** (PlayerPrefs ilerleme, deneme kayıt kuyruğu/serileştirme, `level_id` SQL taslağı). Supabase'e gerçek gönderim kodu SQL çalıştırılıp bir web build alınana kadar yazılmaz/denenmez. Build'siz birikim sınırı: M3 + M4. Build hâlâ alınamıyorsa M4'ten sonra yeni kapsam açılmaz; PM'e gelinir. İlk build alındığında M3 + M4 birlikte yayınlanır ve iPhone testleri tek seferde yapılır | Playtest yolunu beklemek boşa zaman; M4 Presentation işi, build engelinden bağımsız. Ama yayınlanmamış kod biriktikçe stripping/Safari hatasının kaynağını bulmak zorlaşır; sınır bunu tutar. Editörden canlı `plays` tablosuna gönderim, sütun yokken veri kirletir |
+| 2026-10-06 gece | **Mühendislik bu gece C'yi hazırlar** (zaman kutusu ~1 saat): GitHub Actions workflow'u (yalnızca `workflow_dispatch`, gh-pages'e otomatik yayın yok; çıktı artifact olarak indirilir) + Zeyd için secret talimatı. Önce game-ci'de 6000.6.4f1 (WebGL) imajı olup olmadığına bakılır; yoksa durur ve raporlar, sürüm değiştirilmez. Repoya secret/lisans dosyası girmez. CI build'i gh-pages'e ancak yerel build'le aynı ayarları (gzip/Brotli, şablon, High stripping, size-log) ürettiği doğrulanınca bağlanır | Secret'sız çalışmaz ama hazır durması sabah Zeyd'in tek adımla denemesini sağlar; B tutmazsa A'ya gitmeden alternatif olur. Otomatik yayın, doğrulanmamış build'i playtest linkine koyabilir |
 | 2026-10-06 | **"Cilalama adımı" = M6 (ses ve cila), playtest öncesi.** "Yeni görsel kimlik" Faz 3 veri toplama bitene kadar yapılmaz; en erken Faz 4 yeniden tasarımıyla birlikte (backlog) | Deney sırasında görünüm değişirse oyuncu verisi iki görsel koşula bölünür; zorluk modeli karışır |
 
 ## Ölçümler
@@ -158,7 +162,9 @@ Kabul ölçütleri:
 8. Rapor (engelleyici değil): 40 seviyede değnek sonrası açgözlü çözücünün çözebildiği oran (ör. seviye başına birkaç tohum).
 9. `CoreIsolationTests` ve mevcut testler geçer. Web build size-log'a yazılır (10 MB bütçesi); genişletilmiş açılış kontrolü web build'inde 1a altın senaryolarını oynar ve "40/40 web'le aynı" gösterir (2026-10-06 değişikliği; eski "40/40 kazandı" ifadesi kayıtlı çözüme dayanıyordu).
 
-## M3 tanımı (tahta görseli + sürükleme)
+## M3 tanımı (tahta görseli + sürükleme) — KOD TAMAM, BUILD/YAYIN BEKLİYOR (2026-10-06 gece)
+
+Durum: editörde 1, 1b (kod), 2, 3 karşılandı (334 test; ekran görüntüleri üç boyutta; en büyük tahtada 375×667'de hücre 56 pt; Türkçe karakterler doğru; main 5f8cf75). Açık: 4, 5, 6 (web), 7, 8 — build engeli kalkınca M4 ile birlikte.
 
 Kapsam:
 - Presentation'da seviyeyi GameSession'dan kuran tahta: parçalar, eklemler (açık/kapalı), çivi + sayaç, zincirli çift, bomba + fitil, mühürlü kenar. Görsel yön kararına uygun: düz renk, Unlit, ışık/post-processing yok; renk paleti, parça şekilleri ve engel ikonları web sürümüyle birebir (karar 2026-10-06).
@@ -181,6 +187,16 @@ Kabul ölçütleri:
 6. Açılış: debug kapalıyken oyun doğrudan tahtaya açılır; `?debug=1` ile panel 40/40 + oturum 40/40 yazar.
 7. Yayın: gh-pages `/br/` ve `/gz/`, kök → `/br/` korunur.
 8. iPhone (Zeyd, kök adres): L01–L05 ve L11, L21, L31 oynanır; her biri sonuçlanır (kazanma veya kayıp), yanlış yöne giden/kaybolan sürükleme yok, parça parmağın gerisinde kalmıyor, sürüklerken sayfa kaymıyor/yakınlaşmıyor, engeller okunuyor.
+
+## M4 tanımı (menüler, booster arayüzü, HUD) — taslak, 2026-10-06 gece
+
+Kapsam: ana menü ve seviye listesi (40 seviye, kilit/yıldız gösterimi; kalıcılık M5'te, şimdilik oturum içi), booster arayüzü (makas, değnek, çekiç, saat; stok ve reddedilen durumlar GameSession'dan), bitiş ekranı (sonuç, yıldız, tekrar/sonraki/menü), HUD'un web görünümüne getirilmesi. Görsel yön web birebir; efektler minimum (M6'ya). `?lv=N` ve `?debug=1` korunur.
+
+Kabul ölçütleri (taslak; build alınınca kesinleşir):
+1. Presentation booster'ları yalnızca GameSession komutlarıyla kullanır; her booster için arayüz → komut → olay yolu EditMode testinde (Unity'siz denetleyici).
+2. Menüye dönüş ve yeniden başlatma "bıraktı" kaydı üretir (M2 tanımı); test.
+3. 375×667, 390×844, 430×932 ekran görüntüleri: menü, seviye listesi, booster'lı HUD, bitiş ekranı; kırpılma yok, dokunma alanları ≥ 44 pt, alt şerit bölgesinde arayüz yok.
+4. Mevcut testler geçer; size-log, yayın ve iPhone ölçütleri M3 ile birlikte (M3 ölçüt 5–8 ile aynı biçimde).
 
 ## Zorluk deneyi ilkeleri (Faz 2–4)
 
@@ -210,8 +226,10 @@ Kabul ölçütleri:
 - [x] M2: 322 test, 1a 40/40 web'le birebir, 1b 40/40 kazandı (main a578d4b, d9a11ef; gh-pages 92bcba5) — kapandı 2026-10-06
 - [x] Varsayılan Brotli + kök → `/br/` (main bc053ab, gh-pages fb5ca44, canlıda doğrulandı) — kapandı 2026-10-06
 - [x] Panel "yerel açtı mı" satırı düzeltildi (bc053ab) — kapandı 2026-10-06
-- [ ] 1. M3 (bkz. "M3 tanımı", 8 kabul ölçütü), başladı. Bitince ekran görüntüleri, size-log farkı ve test sayılarıyla PM'e raporla
-- [ ] 3. M3'te: `BootLevelCheck` ve süre panelini `?debug=1` arkasına al (silme; karar 2026-10-06)
+- [ ] 1. M3: kod tamam (5f8cf75). Build engeli kalkınca: M3+M4 tek build, size-log farkı (M2 Brotli 6,86 MB'a göre), `?debug=1` panelinde 40/40 + oturum 40/40, gh-pages `/br/` + `/gz/`, kök → `/br/`; sonra PM'e rapor
+- [ ] 2. (bu gece) C hazırlığı, ~1 saat: game-ci'de 6000.6.4f1 WebGL imajı var mı kontrol; varsa `workflow_dispatch` workflow'u (artifact, otomatik yayın yok) + Zeyd için secret talimatı; yoksa raporla. Secret/lisans repoya girmez
+- [ ] 6. (bu gece) M4 kodu (bkz. "M4 tanımı" taslağı), editörde test; M5'ten yalnızca PlayerPrefs, kayıt kuyruğu, `level_id` SQL taslağı. Build'siz M4'ten öteye geçme, PM'e gel
+- [ ] 3. M3'te: `BootLevelCheck` ve süre panelini `?debug=1` arkasına al (silme; karar 2026-10-06) — M3 build'inde web'de doğrulanacak
 - [ ] 5. Pages yayın olaylarını kayda geçir (tarih, süre, düzeltme yolu); Netlify tetikleyicisi (A) bu kayıtla sayılır
 - [ ] 7. M5 başında: `plays` tablosuna `level_id` sütunu için SQL hazırla, Zeyd'e ver (karar 2026-10-06)
 - [ ] 4. Zeyd eski re-run'ı iptal edemeden o çalışırsa ve kök eski iki bağlantılı sayfaya dönerse: boş commit ile gh-pages'i yeniden yayınla
@@ -224,7 +242,8 @@ Kabul ölçütleri:
 - [x] Ana ekran modunda alt şerit kontrolü — sorun yok, kapandı 2026-10-06
 - [x] iPhone'da kök → `/br/` ve panelde "oturum ... web'le aynı" (M2 ölçüt 9) — karşılandı 2026-10-06
 - [x] M3 görsel yön kararı (web birebir, okunabilirlik, minimum efekt) — verildi 2026-10-06
-- [ ] M3 bitince: iPhone'da M3 ölçüt 4 (FPS, `?debug=1`) ve ölçüt 8 (L01–L05, L11, L21, L31 oynanışı)
+- [ ] **(ACİL, engelleyici) WebGL build engeli.** Sırayla, biri tutunca dur: (0) bilgisayarı yeniden başlat, Unity'de Reverse Solver → Build WebGL bir kez dene. (B) Unity Hub → Installs → 6000.6.4f1 → Uninstall; sonra aynı sürümü WebGL Build Support modülüyle yeniden kur; build'i dene. (C) Mühendislik workflow'u hazırladıysa: repo → Settings → Secrets and variables → Actions → talimattaki Unity secret'larını ekle → Actions'tan workflow'u elle çalıştır. (D) başka bir bilgisayar varsa orada build. (A) Akıllı Uygulama Denetimi'ni kapatmak — GERİ DÖNÜŞSÜZ (Windows sıfırlanmadan geri açılamaz); yalnızca senin açık kararınla, önce PM'e sor. Getir: hangi adım denendi, build geçti mi, geçmediyse hata metni
+- [ ] M3+M4 build'i yayınlanınca: iPhone'da M3 ölçüt 4 (FPS, `?debug=1`) ve ölçüt 8 (L01–L05, L11, L21, L31 oynanışı) + M4 ekranları
 - [ ] Playtest öncesi 4G teyidi (M2'yi engellemez): Ayarlar → Hücresel → Hücresel Veri Seçenekleri → Ses ve Veri → LTE; Wi-Fi kapalı; kök adres, her açılış yeni özel sekme, 3 kez; panel değerleri (toplam, JS açma) + başta ve sonda fast.com
 - [x] Güvenlik duvarında Python'un "Ortak" ağ izni kaldırıldı — 2026-10-06
 

@@ -2,7 +2,9 @@
     "name": "ReverseSolver.Editor",
     "rootNamespace": "ReverseSolver.EditorTools",
     "references": [
-        "ReverseSolver.Core"
+        "ReverseSolver.Core",
+        "ReverseSolver.Presentation",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [
         "Editor"

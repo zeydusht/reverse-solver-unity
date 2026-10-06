@@ -62,3 +62,7 @@ Desktop.ini
 
 # Local Claude Code settings
 .claude/settings.local.json
+
+# Performance Testing writes these during player builds; a failed build leaves them behind
+/[Aa]ssets/Resources/PerformanceTestRun*
+/[Aa]ssets/Resources.meta
