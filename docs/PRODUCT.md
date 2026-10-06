@@ -2,7 +2,7 @@
 
 Ürün kararlarının tek kaynağı bu dosya. Kararlar, ölçümler ve açık işler burada tutulur; `product-manager` subagent'ı her değerlendirmeden sonra günceller.
 
-Son güncelleme: 2026-10-06 (M2 ölçüt 1 ikiye ayrıldı: 1a web'le birebir, 1b akıllı oynayıcı raporu)
+Son güncelleme: 2026-10-06 (M2 kapandı, M3 tanımı onaylandı; kök → `/br/` ve panel düzeltmesi kapandı)
 
 ## Hedef
 
@@ -22,7 +22,7 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 
 | Faz | İçerik | Durum |
 |---|---|---|
-| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0 ve M1 bitti (M1 ölçüt 8 iPhone'da karşılandı, 2026-10-06). GitHub Pages yayında. Sıkıştırma kararı verildi: varsayılan Brotli (2026-10-06, iPhone 5G medyan 1,83 sn). M2 (GameSession) sürüyor. Kalan: playtest öncesi kısa 4G (LTE) teyidi |
+| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0, M1, M2 bitti (M2 2026-10-06; iPhone'da oturum kontrolü Zeyd'de, engelleyici değil). GitHub Pages yayında, kök → `/br/` (Brotli varsayılan). M3 (tahta görseli + sürükleme) başladı. Kalan: M3–M6, playtest öncesi kısa 4G (LTE) teyidi |
 | 2. Ölçüm altyapısı | Telemetri (client, level_version), test modu (rastgele sıra), ekransız çözücü + Monte Carlo | Bekliyor |
 | 3. Deney | Deney seviyeleri, playtest ile veri toplama | Bekliyor |
 | 4. Model ve tasarım | Zorluk tablosu, engel tanıtımı ve 40 seviyenin yeniden tasarımı | Bekliyor |
@@ -74,6 +74,13 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-06 | **1b'de tutmayan seviye: M2'yi engellemez; rapora ve Faz 4 tasarım girdisine yazılır.** Arama sınırına takılan ("doğrulanamadı") ile gerçekten kaybettiren (aramada hiçbir yol yok) ayrı raporlanır. İkincisi seviye verisi sorunudur: seviyeler zaten Faz 4'te yeniden tasarlanacak ve playtest Faz 3'teki deney seviyeleriyle yapılacağından şimdi düzeltilmez. Yeniden tasarımda kural: her seviye akıllı oynayıcıyla 0 patlama/0 donma/0 supapla çözülebilir olmalı | Taşıma fazında seviye değiştirmek web verisiyle karşılaştırmayı bozar (2026-10-05 kararı). M1'deki açgözlü çözücü kararıyla aynı mantık |
 | 2026-10-06 | README'deki "patlayan bomba 0, donma 0, supap 0" garantisi kayıtlı çözüm için doğru değil; garanti 1b sonucu gelene kadar "doğrulanmamış" sayılır. Kayıtlı çözüm yalnızca M1 ölçüt 1 (engelsiz çıkış geçerliliği) için kanıt olarak kalır | Web harness bulgusu; case study'de veri kalitesi notu olarak kullanılabilir |
 | 2026-10-06 | Süre panelindeki "tarayıcı yerel açtı mı" satırı mühendislikçe düzeltilebilir (yalnızca Unity dosyalarına bakacak şekilde); en fazla ~30 dk, M2'yi bekletmez. Önceki "yok sayılır" kararı karar verisi açısından geçerli kalır | 4G teyidi hâlâ bu paneli kullanacak; yanıltıcı satır Zeyd'in okumasını karıştırmasın. Panel M3'te kalkıyor, bundan fazla emek değmez |
+| 2026-10-06 | Kök adres `/br/`'ye yönlendiriyor (gh-pages fb5ca44, sorgu parametreleri korunuyor, canlıda doğrulandı); main'de varsayılan Brotli + panel "yerel açtı mı" satırı düzeltildi (bc053ab). İkisi de kapandı | 2026-10-06 Brotli kararının ve panel kararının uygulanması |
+| 2026-10-06 | **M2 kapandı.** Kabul 1a ve 2–8 karşılandı; 9 iPhone hariç karşılandı (PC'de başsız Chrome'da iki build de "oturum 40/40 web'le aynı"). iPhone'da oturum satırı Zeyd'in kök adres kontrolüne eklendi; M3'ü engellemez | 322 EditMode testi; 40/40 seviyede her adım web'le birebir (37 kazandı, L24/L29/L38 bomba, web'le aynı). M1'deki gerekçeyle aynı: stripping'li build Chrome'da doğruysa Safari'de farklı sonuç için sebep yok |
+| 2026-10-06 | **1b sonucu: README garantisi Unity portunda doğrulandı** (akıllı oynayıcı 40/40 kazandı, patlama 0, donma 0, supap 0; arama yalnızca L24/L29/L38'de, 28–213 düğüm). 2026-10-06 "doğrulanmamış" kararı kapanır; Faz 4 backlog'una kazanılamayan seviye girmez. Arama kısıtlı (bomba konisi + 1 dolgu hamlesi); Faz 2 çözücüsü bunu genelleştirir, şimdilik yeterli | Ölçüldü; arama sınırına takılan seviye yok, kısıtlı aramanın eksikliği bu veride sonucu etkilemedi |
+| 2026-10-06 | **Web'den bilinçli farklar kabul edildi:** (a) süre = oturumun saydığı aktif saniye (web'deki timer − kalan, saat booster'ıyla bozuluyordu); (b) bırakma dahil her deneme bir kayıt; (c) takılma GameSession'da yalnızca sayılır, kuralı Presentation uygular: çivili parçaya basma ve sürüklemeyi durma noktasının ötesine itme, sürükleme ve yön başına bir kez. Case study'de "web telemetrisi düzeltmeleri" olarak anlatılır; web verisiyle karşılaştırmada süre ve deneme alanları bu farkla okunur | 2026-10-05 gece insan metrikleri kararının uygulanışı; oynanışı değiştirmiyor, yalnızca ölçümü düzeltiyor |
+| 2026-10-06 | **Supabase `level_id` sütunu M5'te eklenir** (şimdi değil). M5'in ilk adımı: mühendislik SQL'i hazırlar (boş bırakılabilir metin sütun; web oyunu etkilenmez), Zeyd çalıştırır, sonra gönderim kodu yazılır. M5 kabulüne eklenir: Unity satırlarında `level_id` + `level_version` + `client` dolu | Şu an gönderim yok; sütunu erken eklemek bir şey kazandırmaz, Zeyd'e şimdi iş çıkarır. Karar (level_id + version eşleşmesi) değişmedi, yalnızca zamanlaması M5 |
+| 2026-10-06 | **M3 = tahta görseli + sürükleme** (bkz. "M3 tanımı"). Menüler, booster arayüzü ve HUD cilası M4'te. Seviye seçimi M3'te yalnızca `?lv=N` sorgu parametresi ve bitişte basit "tekrar / sonraki" ile | Playtest yolundaki sıradaki darboğaz: oyuncunun tahtayı görüp parmakla oynayabilmesi. Sürükleme hissi ve takılma kuralı telemetri verisini doğrudan etkiler, menülerden önce doğrulanmalı |
+| 2026-10-06 | **Süre paneli ve açılış kontrolü M3'te silinmez; yalnızca `?debug=1` ile görünür, varsayılan kapalı** (2026-10-05 "M3'te kalkar" kararını değiştirir). Debug modunda ayrıca FPS / kare süresi gösterilir | 4G teyidi ve M3 performans ölçümü bu panele dayanıyor; oyuncu görmez, ölçüm kaybolmaz. Boyut maliyeti ihmal edilebilir |
 
 ## Ölçümler
 
@@ -93,6 +100,9 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-06 | M1, Brotli, canlı GitHub Pages (`/br/`) | — | 7,55 sn (aynı koşullar, tek ölçüm; 4G DEĞİL) | İndirme 3,07 · JS açma 3,27. 40/40. Karar verisi değil |
 | 2026-10-06 | M1, gzip, Pages `/gz/` doğrudan, **iPhone Safari, 5G (4G DEĞİL)**, fast.com 540 Mbps, her açılış yeni özel sekme | 8,2 MB | **medyan 2,64 sn** (2,41 / 2,66 / 2,64) | JS açma ~0,26 sn. Her açılışta 40/40. Sıkıştırma kararı verisi |
 | 2026-10-06 | M1, Brotli, Pages `/br/` doğrudan, aynı koşullar (5G) | 6,4 MB | **medyan 1,83 sn** (2,19 / 1,66 / 1,83) | JS açma ~0,46 sn (toplamın ~%25'i; PC tahmini 1,55 sn'den çok düşük). Her açılışta 40/40. gzip'ten 0,81 sn hızlı → Brotli varsayılan |
+| 2026-10-06 | M2, Brotli (gh-pages 92bcba5, `/br/`, kök) | 6,86 MB (+15 KB vs M1 Brotli) | — (PC başsız Chrome; iPhone'da ölçülmedi) | "40 seviye okundu, 40 çözülebilir; oturum 40/40 web'le aynı (37 kazandı, 3 bomba)". Stripped Core'da GameSession, SmartPlayer, AttemptRecord, Mulberry32 var |
+| 2026-10-06 | M2, gzip (`/gz/`) | 8,69 MB | — | Aynı kontrol, aynı sonuç. 10 MB bütçesinde |
+| 2026-10-06 | M2 testleri ve raporlar | — | — | 322 EditMode testi (227 + 95). 1a: 40/40 her adım web'le birebir. 1b: akıllı oynayıcı 40/40 kazandı, 0 patlama/donma/supap. Ölçüt 8: değnek 35 seviye × 5 tohum = 175/175 uygulandı, sonrası 175/175 açgözlü çözücüyle çözülebilir |
 
 ## M1 tanımı (seviye verisi ve kural motoru) — KAPANDI 2026-10-05
 
@@ -114,7 +124,9 @@ Kabul ölçütleri:
 7. Web build: stripped Core dll'de parser türleri var (statik kanıt) ve build size-log'a yazıldı (10 MB bütçesi).
 8. iPhone'da `/gz/` sürümünde "40 seviye okundu" görülür (Zeyd).
 
-## M2 tanımı (GameSession: oyun oturumu)
+## M2 tanımı (GameSession: oyun oturumu) — KAPANDI 2026-10-06
+
+Sonuç: 1a, 2–8 karşılandı; 9 iPhone hariç karşılandı. 322 EditMode testi; 40/40 seviyede her adım web'le birebir (37 kazandı, L24/L29/L38 bomba); akıllı oynayıcı 40/40 kazandı (0 patlama/donma/supap); değnek 175/175 uygulandı ve sonrası çözülebilir. Altın senaryo kaynağı `Tools/web_harness.js` + `Tools/make_session_golden.js`. Commit'ler: main a578d4b, d9a11ef; gh-pages 92bcba5.
 
 Kapsam:
 - Core'da saf C# `GameSession`: bir seviyenin tek denemesi. Zaman `Tick(dt)` ile, rastgelelik `IRandom` ile dışarıdan verilir; motor saati/`UnityEngine.Random` yok.
@@ -139,6 +151,28 @@ Kabul ölçütleri:
 7. EditMode, determinizm: aynı seviye + tohum + komut/Tick dizisi → birebir aynı olay listesi ve kayıt (tekrar oynatma ve Monte Carlo için).
 8. Rapor (engelleyici değil): 40 seviyede değnek sonrası açgözlü çözücünün çözebildiği oran (ör. seviye başına birkaç tohum).
 9. `CoreIsolationTests` ve mevcut testler geçer. Web build size-log'a yazılır (10 MB bütçesi); genişletilmiş açılış kontrolü web build'inde 1a altın senaryolarını oynar ve "40/40 web'le aynı" gösterir (2026-10-06 değişikliği; eski "40/40 kazandı" ifadesi kayıtlı çözüme dayanıyordu).
+
+## M3 tanımı (tahta görseli + sürükleme)
+
+Kapsam:
+- Presentation'da seviyeyi GameSession'dan kuran tahta: parçalar, eklemler (açık/kapalı), çivi + sayaç, zincirli çift, bomba + fitil, mühürlü kenar. Görsel yön kararına uygun: düz renk, Unlit, ışık/post-processing yok; renk ve biçim web sürümünden.
+- Dokunmatik sürükleme (Input System): parça baskın eksende parmağı izler, durma noktasında (M1 `travelLimit`) durur; çıkış eşiği geçilince `TryExit`, geçilmezse yerine döner. Eşikler ve yön kilidi web kodundan alınır; farklılaşırsa rapora yazılır.
+- Takılma kuralı (karar 2026-10-06): çivili parçaya basma ve durma noktasının ötesine itme; sürükleme ve yön başına bir kez. Girdi → komut mantığı Unity'siz test edilebilir bir sınıfta.
+- Çıkış, çivi sökülmesi, supap, bomba patlaması, kazanma/kaybetme için kısa tween/partikül geri bildirimi (sade; cila M6).
+- Geçici HUD: kalan süre, hamle; bitişte sonuç + "tekrar / sonraki". Seviye `?lv=N` ile seçilir (varsayılan 1). Booster'lar M3'te arayüzde yok (M4).
+- Ekran: dikey, safe area içinde; ana ekran modundaki alt şerit bölgesine arayüz konmaz (2026-10-05 kararı). 40 seviyenin en büyük tahtası 390×844 ve 430×932 noktada kırpılmadan sığar.
+- Süre paneli + açılış kontrolü yalnızca `?debug=1` ile; debug'da FPS/kare süresi.
+- Kapsam dışı: menüler, seviye haritası, booster arayüzü, yıldız ekranı (M4); Supabase/PlayerPrefs (M5); ses ve cila (M6).
+
+Kabul ölçütleri:
+1. Görsel: Presentation oyun durumunu yalnızca GameSession komut/olaylarıyla değiştirir/izler (kod incelemesi + mümkünse test). Editörde 390×844 ve 430×932'de L01, L05, L11, L21, L31 ve en büyük tahtalı seviyenin ekran görüntüsü rapora eklenir; kırpılma yok, engellerin hepsi ayırt edilebilir.
+2. EditMode: girdi denetleyicisi (Unity'siz): baskın eksen seçimi, durma noktasında kenetlenme, çıkış eşiği → `TryExit`, eşik altı → geri dönüş; takılma sayımı kurala göre (aynı sürüklemede aynı yöne ikinci itme sayılmaz, yön değişirse sayılır, çivili parçaya basma sayılır).
+3. EditMode/PlayMode: 1a altın senaryolarından en az 5 seviye (L24 dahil) girdi denetleyicisi üzerinden simüle sürüklemelerle oynatılır ve GameSession sonucu altınla aynı çıkar (girdi katmanının hamle kaybetmediğinin kanıtı).
+4. Performans: iPhone'da `?debug=1` ile en büyük tahtalı seviyede sürükleme sırasında medyan FPS ≥ 55 (Zeyd okur). Altındaysa PM'e rapor, engelleyici kararı PM verir.
+5. Boyut: size-log'a yazılır; toplam indirme 10 MB bütçesinde. Brotli build M2'ye göre +1 MB'ı geçerse (font, doku) PM'e raporlanır.
+6. Açılış: debug kapalıyken oyun doğrudan tahtaya açılır; `?debug=1` ile panel 40/40 + oturum 40/40 yazar.
+7. Yayın: gh-pages `/br/` ve `/gz/`, kök → `/br/` korunur.
+8. iPhone (Zeyd, kök adres): L01–L05 ve L11, L21, L31 oynanır; her biri sonuçlanır (kazanma veya kayıp), yanlış yöne giden/kaybolan sürükleme yok, sayfa kaydırma/yakınlaştırma oyunu bozmuyor, engeller okunuyor.
 
 ## Zorluk deneyi ilkeleri (Faz 2–4)
 
@@ -165,11 +199,13 @@ Kabul ölçütleri:
 - [x] M1: 227 EditMode testi, gh-pages `/gz/` ve `/br/` M1 build'i (e1cf67f; gh-pages 0552040)
 - [x] GitHub Pages yayını doğrulandı (gh-pages bb41921, 13:35 success): kök 200 (→ `/gz/` yönlendirme), `/gz/` 200, `/br/` 200; canlı adreste 40/40
 - [x] iPhone ölçümü (5G) değerlendirildi: varsayılan Brotli, tetikleyici (B) tetiklenmedi (2026-10-06)
-- [ ] 1. M2 (bkz. "M2 tanımı", 9 kabul ölçütü; ölçüt 1 = 1a + 1b, 2026-10-06), sürüyor. `Tools/web_harness.js` repoya girer (altın senaryoların kaynağı). Bitince build'i gh-pages `/br/`'ye (varsayılan) ve `/gz/`'ye (yedek) koy, kök → `/br/` yönlendirmesini koru, size-log'a yaz, PM'e raporla
-- [ ] 2. Şimdi (M2'yi beklemeden): main'de varsayılan sıkıştırmayı Brotli yap (gzip build'i yedek için üretilebilir kalsın) ve gh-pages'te kök yönlendirmesini `/br/`'ye çevir, sorgu parametreleri korunsun. Kabul: canlı kök adres `/br/`'ye gider, `/gz/` 200 döner
-- [ ] 6. Süre panelindeki "tarayıcı yerel açtı mı" satırını yalnızca Unity dosyalarına baktır (≤ ~30 dk, M2'yi bekletmez)
+- [x] M2: 322 test, 1a 40/40 web'le birebir, 1b 40/40 kazandı (main a578d4b, d9a11ef; gh-pages 92bcba5) — kapandı 2026-10-06
+- [x] Varsayılan Brotli + kök → `/br/` (main bc053ab, gh-pages fb5ca44, canlıda doğrulandı) — kapandı 2026-10-06
+- [x] Panel "yerel açtı mı" satırı düzeltildi (bc053ab) — kapandı 2026-10-06
+- [ ] 1. M3 (bkz. "M3 tanımı", 8 kabul ölçütü), başladı. Bitince ekran görüntüleri, size-log farkı ve test sayılarıyla PM'e raporla
+- [ ] 3. M3'te: `BootLevelCheck` ve süre panelini `?debug=1` arkasına al (silme; karar 2026-10-06)
 - [ ] 5. Pages yayın olaylarını kayda geçir (tarih, süre, düzeltme yolu); Netlify tetikleyicisi (A) bu kayıtla sayılır
-- [ ] 3. M3'te: geçici `BootLevelCheck` ve süre panelini kaldır
+- [ ] 7. M5 başında: `plays` tablosuna `level_id` sütunu için SQL hazırla, Zeyd'e ver (karar 2026-10-06)
 - [ ] 4. Zeyd eski re-run'ı iptal edemeden o çalışırsa ve kök eski iki bağlantılı sayfaya dönerse: boş commit ile gh-pages'i yeniden yayınla
 
 ### Zeyd
@@ -178,14 +214,16 @@ Kabul ölçütleri:
 - [x] iPhone'da "40 seviye okundu, 40 çözülebilir" (M1 ölçüt 8) — karşılandı 2026-10-06
 - [x] gzip/Brotli iPhone karşılaştırması — 5G'de yapıldı, karar verildi 2026-10-06
 - [x] Ana ekran modunda alt şerit kontrolü — sorun yok, kapandı 2026-10-06
-- [ ] Mühendislik kökü `/br/`'ye çevirince: iPhone'da kök adresi bir kez aç, adres çubuğunda `/br/`'ye gittiğini ve 40/40 yazdığını kontrol et
+- [ ] Şimdi (M3'ü engellemez): iPhone'da kök adresi (`https://zeydusht.github.io/reverse-solver-unity/`) yeni özel sekmede bir kez aç; adres çubuğunda `/br/`'ye gittiğini ve panelde "40 seviye okundu, 40 çözülebilir; oturum 40/40 web'le aynı (37 kazandı, 3 bomba)" yazdığını kontrol et (M2 ölçüt 9'un iPhone kısmı). Getir: evet/hayır + panel satırı (ekran görüntüsü yeterli)
+- [ ] M3 bitince: iPhone'da M3 ölçüt 4 (FPS, `?debug=1`) ve ölçüt 8 (L01–L05, L11, L21, L31 oynanışı)
 - [ ] Playtest öncesi 4G teyidi (M2'yi engellemez): Ayarlar → Hücresel → Hücresel Veri Seçenekleri → Ses ve Veri → LTE; Wi-Fi kapalı; kök adres, her açılış yeni özel sekme, 3 kez; panel değerleri (toplam, JS açma) + başta ve sonda fast.com
 - [ ] Yerel sunucu artık gerekmiyor: güvenlik duvarında Python'un "Ortak" ağ iznini kaldır
 
 ## Backlog
 
 - Netlify'a geçiş (yedek plan, karar 2026-10-06): yalnızca tetikleyici (A) veya (B) gerçekleşirse. Gerekirse: Zeyd Netlify hesabı + repo bağlantısı, `_headers` ile `Content-Encoding`, decompression fallback kapatma, aynı 4G protokolüyle ölçüm
-- Faz 4 girdisi: M2 1b'de akıllı oynayıcının kazanamadığı seviyeler (sonuç gelince buraya yazılır). Yeniden tasarım kuralı: her seviye 0 patlama/0 donma/0 supapla çözülebilir
+- Faz 4 girdisi: M2 1b'de akıllı oynayıcı 40/40 kazandı, kazanılamayan seviye yok. Yeniden tasarım kuralı kalır: her seviye 0 patlama/0 donma/0 supapla çözülebilir
+- Faz 2: akıllı oynayıcının kısıtlı aramasını (bomba konisi + 1 dolgu) genel çözücüye genişletmek (yeni seviyelerde gerekebilir)
 - Unity içinde seviye editörü
 - Supabase telemetrisinin Unity'ye taşınması (Faz 2)
 - Eski Input Manager'a geçiş (yalnızca 4G teyidi 10 sn'yi aşarsa yeniden değerlendirilir; iPhone 5G medyanı 1,83 sn)

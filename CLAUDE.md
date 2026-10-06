@@ -33,6 +33,9 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 
 - `python Tools/extract_levels.py` — `../web-reference/index.html`'deki seviyeleri `levels.json`'a çıkarır. Yalnızca seviyeler hâlâ web'deki haliyken anlamlı; yeniden tasarım başladıktan sonra `levels.json` doğrudan düzenlenir.
 - `node Tools/make_travel_golden.js` — web kural kodunu Node'da çalıştırıp altın değerleri üretir.
+- `Tools/web_harness.js` — web oyununun tüm betiğini sahte DOM ile Node'da çalıştırır (oturum kuralları, booster'lar, saat); `Math.random` tohumlu Mulberry32'dir (C# `Mulberry32` ile aynı). Web davranışı hakkında bir soru varsa tahmin etmek yerine bununla ölç.
+- `node Tools/make_session_golden.js` — GameSession altın senaryolarını (`Golden/session_golden.json`) ve web build'indeki açılış kontrolünün kompakt kopyasını (`Platform/BootCheck/`) üretir.
+- `SmartPlayer` (Core) — çivilere uyan, bombaya en kısa yoldan giden oynayıcı; README garantisinin (40/40, bomba/donma/supap 0) kontrolü ve Faz 2 çözücüsünün temeli.
 - Managed stripping High: `Assets/_Game/link.xml` Core ve Platform'u tamamen korur. EditMode testleri stripping'siz çalışır, stripping hatasını ancak web build yakalar.
 
 ## Build
