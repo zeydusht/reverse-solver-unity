@@ -34,6 +34,20 @@ namespace ReverseSolver.EditorTools
         [MenuItem("Reverse Solver/Build WebGL (gzip backup)")]
         public static void BuildGzipBackup() => Build("manual gzip", GzipOutputDir, WebGLCompressionFormat.Gzip);
 
+        /* Batch mode entry (CI: game-ci/unity-builder buildMethod). Builds the
+           shipped Brotli build and the gzip backup with the same settings as
+           the menu, then exits non-zero if either failed.
+           Optional: -rsLabel "<text>" for the size log. */
+        public static void BuildFromCommandLine()
+        {
+            var args = Environment.GetCommandLineArgs();
+            string label = "ci";
+            for (int i = 0; i < args.Length - 1; i++) if (args[i] == "-rsLabel") label = args[i + 1];
+            bool ok = Build(label + " Brotli", OutputDir, ShippedCompression)
+                    & Build(label + " gzip", GzipOutputDir, WebGLCompressionFormat.Gzip);
+            if (Application.isBatchMode) EditorApplication.Exit(ok ? 0 : 1);
+        }
+
         /* applySettings: false builds with the project settings as they are, so a
            size experiment can change one thing at a time. */
         public static bool Build(string label, string outputDir, WebGLCompressionFormat compression,

@@ -1,0 +1,60 @@
+# Cloud WebGL build, for when the local machine cannot build (see
+# docs/CLOUD_BUILD.md). Runs only when started by hand from the Actions tab.
+# Produces the shipped Brotli build and the gzip backup as one artifact; it
+# does not publish to gh-pages.
+#
+# Needs repository secrets (never commit them): UNITY_EMAIL, UNITY_PASSWORD
+# and, for a Personal licence, UNITY_LICENSE. Without them the job stops at
+# Unity activation with a licence error.
+name: WebGL build
+
+on:
+  workflow_dispatch:
+    inputs:
+      label:
+        description: "Label for Builds/size-log.csv"
+        required: false
+        default: "ci"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Free disk space (the Unity image is ~8 GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - uses: actions/checkout@v4
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-WebGL-${{ hashFiles('Packages/packages-lock.json', 'ProjectSettings/ProjectVersion.txt') }}
+          restore-keys: Library-WebGL-
+
+      - name: Build (Brotli + gzip)
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
+          unityVersion: auto
+          buildMethod: ReverseSolver.EditorTools.WebBuild.BuildFromCommandLine
+          customParameters: -rsLabel "${{ github.event.inputs.label }}"
+          allowDirtyBuild: true
+
+      - name: Upload builds
+        uses: actions/upload-artifact@v4
+        with:
+          name: webgl-builds
+          path: |
+            Builds/WebGL
+            Builds/WebGL-gz
+            Builds/size-log.csv
+            Builds/*-report.txt
+          if-no-files-found: error
