@@ -2,7 +2,7 @@
 
 Ürün kararlarının tek kaynağı bu dosya. Kararlar, ölçümler ve açık işler burada tutulur; `product-manager` subagent'ı her değerlendirmeden sonra günceller.
 
-Son güncelleme: 2026-10-06 (GitHub Pages yayında, 4G ölçüm protokolü, M2 başlatıldı)
+Son güncelleme: 2026-10-06 (hosting: Pages'te kalınır, Netlify yedek plan ve tetikleyicileri)
 
 ## Hedef
 
@@ -63,6 +63,8 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-06 | 4G karşılaştırması `/gz/` ve `/br/` adresleri **doğrudan** açılarak yapılır (kök değil). Kök ayrıca bir kez açılıp yönlendirmenin iPhone'da çalıştığı kontrol edilir | İki adres aynı sayfa yapısında olsun; kökün yönlendirme adımı yalnızca gzip'e eklenip karşılaştırmayı bozmasın. Kazanan hangisiyse kök ona yönlenecek, yönlendirme maliyeti iki seçenekte de aynı |
 | 2026-10-06 | Süre panelindeki "tarayıcı yerel açtı mı" satırı yok sayılır; karar verisi değildir | Pages CDN'i loader.js gibi metin dosyalarını kendisi gzip'liyor, satır bu yüzden "evet" diyor. Unity dosyaları yine JS ile açılıyor (JS açma satırı bunu gösteriyor). Panel M3'te kalkıyor, düzeltmeye değmez |
 | 2026-10-06 | M2'yi PM başlatır; Zeyd'in ayrıca "devam" demesi gerekmez. Zeyd durdurmak isterse durur | M2 kapsamı ve kabul ölçütleri 2026-10-05 gece onaylandı; açık ürün sorusu yok. Zeyd'in gece talimatı geceye özeldi. Zeyd'in bekleyen işlerinin (4G, iPhone kontrolleri) hiçbiri M2'yi engellemiyor; M2 saf Core işi, sıkıştırma kararından bağımsız. Beklemek playtest yolunu boşuna geciktirir |
+| 2026-10-06 | **Hosting: GitHub Pages'te kalınır, Netlify yedek plan (Zeyd'in kararı).** 2026-10-05 hosting kararını teyit eder; o karardaki "Netlify'a gerek yok" ifadesi "Netlify yedek plan" olarak güncellenir. Netlify'a geçiş yalnızca aşağıdaki tetikleyicilerden biri gerçekleşirse PM'e gelir; kendiliğinden yapılmaz | Pages çalışıyor (ilk 404 GitHub runner kuyruğundandı, yönlendirme commit'iyle yayın başarılı). Netlify'ın artısı: `Content-Encoding` ayarlanabildiği için tarayıcı dosyaları kendisi açar (JS açma ve Brotli açma maliyeti kalkar) ve deploy GitHub runner'ına bağlı değildir. Bu artılar henüz ölçümle gerekli görünmedi; ölçmeden geçiş yok |
+| 2026-10-06 | **Netlify tetikleyicileri (biri yeterli).** (A) Güvenilirlik: 2026-10-06'dan itibaren 30 gün içinde 2 yayın olayı, ya da playtest süresince 1 olay. Olay = push'tan sonra canlı adres 30 dk içinde güncellenmez/404 verir ve "pages build and deployment" yeniden tetiklemesi (boş commit) 30 dk içinde düzeltmez. (B) Performans: 4G ölçümünde kazanan sıkıştırmanın medyan toplam süresi > 10 sn **ve** medyan JS açma çıkarıldığında ≤ 10 sn'ye iniyor; ya da medyan JS açma toplamın ≥ %20'si veya ≥ 1,5 sn. (B) tetiklenirse sıra: önce Netlify denemesi (kod değişikliği yok), boyut işi (Input Manager, backlog boyut adımları) ancak Netlify de 10 sn'yi tutturamazsa açılır. Geçiş, Netlify'da aynı protokolle ölçülen medyan toplam süre Pages'tekinden ≥ 0,5 sn daha iyiyse (B) ya da (A) olayından sonra kesinleşir | Ölçülebilir eşikler; ilk 404 (2026-10-05) olay sayılmaz, nedeni bilinip yöntemi kayda geçti. ≥ 0,5 sn eşiği sıkıştırma kuralıyla aynı gürültü payı. Playtest linki değişirse oyunculara yeni link gerekir; bu yüzden geçiş tercihen playtest başlamadan yapılır |
 
 ## Ölçümler
 
@@ -150,7 +152,8 @@ Kabul ölçütleri:
 - [x] M1: 227 EditMode testi, gh-pages `/gz/` ve `/br/` M1 build'i (e1cf67f; gh-pages 0552040)
 - [x] GitHub Pages yayını doğrulandı (gh-pages bb41921, 13:35 success): kök 200 (→ `/gz/` yönlendirme), `/gz/` 200, `/br/` 200; canlı adreste 40/40
 - [ ] 1. M2 (bkz. "M2 tanımı", 9 kabul ölçütü), 2026-10-06'da başlatıldı. Bitince build'i gh-pages `/gz/`'ye koy (kök yönlendirmesini koru), size-log'a yaz, PM'e raporla
-- [ ] 2. 4G ölçümü gelince karar kuralına göre sıkıştırmayı kesinleştir (Brotli seçilirse main'de varsayılanı değiştir ve kök yönlendirmesini `/br/`'ye çevir)
+- [ ] 2. 4G ölçümü gelince karar kuralına göre sıkıştırmayı kesinleştir (Brotli seçilirse main'de varsayılanı değiştir ve kök yönlendirmesini `/br/`'ye çevir). Aynı veride Netlify tetikleyicisi (B)'yi de hesapla ve PM'e raporla (medyan JS açma, toplamdaki payı)
+- [ ] 5. Pages yayın olaylarını kayda geçir (tarih, süre, düzeltme yolu); Netlify tetikleyicisi (A) bu kayıtla sayılır
 - [ ] 3. M3'te: geçici `BootLevelCheck` ve süre panelini kaldır
 - [ ] 4. Zeyd eski re-run'ı iptal edemeden o çalışırsa ve kök eski iki bağlantılı sayfaya dönerse: boş commit ile gh-pages'i yeniden yayınla
 
@@ -164,6 +167,7 @@ Kabul ölçütleri:
 
 ## Backlog
 
+- Netlify'a geçiş (yedek plan, karar 2026-10-06): yalnızca tetikleyici (A) veya (B) gerçekleşirse. Gerekirse: Zeyd Netlify hesabı + repo bağlantısı, `_headers` ile `Content-Encoding`, decompression fallback kapatma, aynı 4G protokolüyle ölçüm
 - Unity içinde seviye editörü
 - Supabase telemetrisinin Unity'ye taşınması (Faz 2)
 - Eski Input Manager'a geçiş (yalnızca 4G ölçümü 10 sn'yi aşarsa yeniden değerlendirilir)
