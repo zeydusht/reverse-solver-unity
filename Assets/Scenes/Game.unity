@@ -286,6 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ReverseSolver.Platform::ReverseSolver.Platform.BootLevelCheck
   levels: {fileID: 4900000, guid: 7a242d63fa5bff24cb9f1802f7d6094b, type: 3}
+  sessionCheck: {fileID: 4900000, guid: 67c4b9bead811e546875c01132a044f5, type: 3}
 --- !u!4 &1932062865
 Transform:
   m_ObjectHideFlags: 0

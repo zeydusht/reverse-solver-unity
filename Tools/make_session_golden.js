@@ -191,3 +191,17 @@ for (const l of out.levels) { const r = l.steps.length ? l.steps[l.steps.length 
 console.log('levels:', res, '| bombs at', out.levels.filter(l => l.steps.at(-1).after.res === 'bomb').map(l => l.id).join(','));
 console.log('synthetic:', out.synthetic.map(s => `${s.level.id}=${s.steps.at(-1).after.res || 'open'}`).join(' '));
 console.log('wand runs:', out.wand.length, '| size', fs.statSync(dst).size, 'bytes');
+
+// TEMPORARY (M2 boot check, removed with the load panel in M3): the level
+// scenarios in compact form for the web build, which replays them with
+// GameSession at startup and reports whether every result matches the web.
+{
+  const compact = out.levels.map(l => {
+    const last = l.steps.at(-1).after;
+    return { id: l.id, moves: l.steps.map(s => [s.cmd[1], s.cmd[2]]), res: last.res, n: last.moves, stars: last.stars };
+  });
+  const bootDst = path.join(__dirname, '..', 'Assets/_Game/Platform/BootCheck/boot_session_check.json');
+  fs.mkdirSync(path.dirname(bootDst), { recursive: true });
+  fs.writeFileSync(bootDst, JSON.stringify({ seed: 1, levels: compact }));
+  console.log('boot check file:', fs.statSync(bootDst).size, 'bytes');
+}

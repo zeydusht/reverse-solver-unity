@@ -73,6 +73,24 @@ namespace ReverseSolver.Core
                 _stock[(int)b] = table ? (level.Boosters.TryGetValue(b.Id(), out int n) ? n : 0) : fallback[(int)b];
         }
 
+        GameSession(GameSession o)
+        {
+            Level = o.Level; Attempt = o.Attempt; Client = o.Client; _random = o._random;
+            Board = o.Board.Clone();
+            TimeLeft = o.TimeLeft; ElapsedSeconds = o.ElapsedSeconds; Moves = o.Moves; Jams = o.Jams;
+            ValveCount = o.ValveCount; Outcome = o.Outcome; Record = o.Record;
+            _nails = new Dictionary<int, int>(o._nails);
+            _bombs = new SortedDictionary<int, int>(o._bombs);
+            Array.Copy(o._stock, _stock, 4);
+            Array.Copy(o._used, _used, 4);
+            _events.AddRange(o._events);
+            _clockCarry = o._clockCarry;
+        }
+
+        /* A branch for search (solvers, Monte Carlo). Shares the random source,
+           so only branch where no further draws matter, or pass a fresh one. */
+        internal GameSession Clone() => new GameSession(this);
+
         // ---- queries ----------------------------------------------------------------
 
         public int NailAt(int piece) => _nails.TryGetValue(piece, out int n) ? n : 0;
