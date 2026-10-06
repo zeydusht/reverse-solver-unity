@@ -185,6 +185,52 @@ namespace ReverseSolver.Presentation
             if (piece >= 0 && _pieces.TryGetValue(piece, out var pv)) pv.SetGlow(Draw.Hex("#e8674c"), 1);
         }
 
+        // ---- scissors joints ----------------------------------------------------------
+
+        readonly List<(Vector2 at, int x, int y, bool vertical, ShapeView view)> _joints =
+            new List<(Vector2, int, int, bool, ShapeView)>();
+
+        /* Web .joint: amber dots on the cuttable joints, pulsing, size max(14, S*.30). */
+        public void ShowJoints(List<(int x, int y, bool vertical)> joints)
+        {
+            HideJoints();
+            float d = Mathf.Max(14f, Cell * .30f);
+            foreach (var (x, y, v) in joints)
+            {
+                var at = v ? new Vector2(x * Cell, (y + .5f) * Cell) : new Vector2((x + .5f) * Cell, y * Cell);
+                var dot = ShapeView.Create(transform, "joint", new Vector2(d, d), 6, LiftOrder + 50).Radius(d / 2)
+                    .Fill(Draw.Hex("#f0a742")).Stroke(Draw.Rgba(240, 167, 66, .3f), 3);
+                dot.transform.localPosition = Draw.W(at);
+                _joints.Add((at, x, y, v, dot));
+                Pulse(dot);
+            }
+        }
+
+        // @keyframes pulse { 0%,100% scale 1; 50% scale 1.3 } 1.1s
+        void Pulse(ShapeView dot) =>
+            Tweens.Run(dot, 1.1f, t => { if (dot != null) dot.transform.localScale = Vector3.one * (1 + .3f * Mathf.Sin(t * Mathf.PI)); },
+                       () => { if (dot != null) Pulse(dot); });
+
+        public void HideJoints()
+        {
+            foreach (var j in _joints) { Tweens.Kill(j.view); if (j.view != null) Destroy(j.view.gameObject); }
+            _joints.Clear();
+        }
+
+        /* Nearest joint within a 44pt touch target (22pt radius), or null. */
+        public (int x, int y, bool vertical)? JointAt(Vector2 screenPt)
+        {
+            var p = screenPt - Origin;
+            float best = 22f * 22f;
+            (int, int, bool)? hit = null;
+            foreach (var j in _joints)
+            {
+                float d2 = (j.at - p).sqrMagnitude;
+                if (d2 <= best) { best = d2; hit = (j.x, j.y, j.vertical); }
+            }
+            return hit;
+        }
+
         // ---- session events -----------------------------------------------------------
 
         void OnEvent(GameEvent e)
@@ -204,6 +250,11 @@ namespace ReverseSolver.Presentation
                     break;
                 case EventKind.BombsTicked:
                     foreach (var b in _bombs) b.Value.Fuse = Session.FuseAt(b.Key);
+                    break;
+                case EventKind.JointCut:
+                case EventKind.JointsReshuffled:
+                    // tabs moved: every piece's outline may have changed
+                    foreach (var p in _pieces.Values) p.Rebuild(Session.Board);
                     break;
                 case EventKind.Finished:
                     if (e.Outcome == Outcome.Bomb)

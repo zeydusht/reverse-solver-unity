@@ -11,6 +11,7 @@ namespace ReverseSolver.Presentation
         readonly Transform _root;
         readonly TextView _level, _left, _clock;
         public Rect RestartRect { get; }
+        public Rect LevelRect { get; }
 
         public Hud(Transform parent, float screenW, float top, int order)
         {
@@ -27,6 +28,7 @@ namespace ReverseSolver.Presentation
             TextView.Create(_root, "lv", "LV", 9, Draw.Hex("#5a3c06"), order: order + 1).transform.localPosition = Draw.W(ax, cy - 9);
             _level = TextView.Create(_root, "lvnum", "1", 20, Draw.Hex("#3a2704"), order: order + 1);
             _level.transform.localPosition = Draw.W(ax, cy + 6);
+            LevelRect = new Rect(ax - 26, cy - 26, 52, 52);                // web #lvBtn opens the level list
 
             float resetX = screenW - Side - 23;
             float clockW = 118, clockX = resetX - 23 - Gap - clockW / 2;

@@ -33,6 +33,14 @@ namespace ReverseSolver.Presentation.Dev
             yield return null;
 
             var root = FindFirstObjectByType<GameRoot>();
+            if (FindFirstObjectByType<BoardView>() == null)
+            {
+                // the game opens on the menu: start level 1 the way "Oyna" does
+                typeof(GameRoot).GetMethod("StartLevel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    .Invoke(root, new object[] { 0 });
+                yield return null;
+                yield return null;
+            }
             var board = FindFirstObjectByType<BoardView>();
             var s = board.Session;
             float dpr = Host.Current.PixelRatio;
