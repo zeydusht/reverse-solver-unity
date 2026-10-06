@@ -20,12 +20,19 @@ namespace ReverseSolver.EditorTools
        the effect of a size change is measured rather than guessed. */
     public static class WebBuild
     {
-        public const string OutputDir = "Builds/WebGL";
+        public const string OutputDir = "Builds/WebGL";        // shipped: Brotli, served at /br/
+        public const string GzipOutputDir = "Builds/WebGL-gz"; // backup: gzip, served at /gz/
+        /* Brotli was 0.8 s faster to open than gzip on an iPhone (PRODUCT.md,
+           2026-10-06); its smaller download outweighs the slower JS decode. */
+        public const WebGLCompressionFormat ShippedCompression = WebGLCompressionFormat.Brotli;
         const string SizeLog = "Builds/size-log.csv";
         const string StrippedDir = "Library/Bee/artifacts/WebGL/ManagedStripped";
 
         [MenuItem("Reverse Solver/Build WebGL")]
-        public static void Build() => Build("manual", OutputDir, WebGLCompressionFormat.Gzip);
+        public static void Build() => Build("manual", OutputDir, ShippedCompression);
+
+        [MenuItem("Reverse Solver/Build WebGL (gzip backup)")]
+        public static void BuildGzipBackup() => Build("manual gzip", GzipOutputDir, WebGLCompressionFormat.Gzip);
 
         /* applySettings: false builds with the project settings as they are, so a
            size experiment can change one thing at a time. */
@@ -50,8 +57,8 @@ namespace ReverseSolver.EditorTools
                 options = BuildOptions.DetailedBuildReport
             });
 
-            // Ship setting stays gzip; a comparison build must not leave brotli behind.
-            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;
+            // A backup or comparison build must not leave its format behind.
+            PlayerSettings.WebGL.compressionFormat = ShippedCompression;
 
             var s = report.summary;
             if (s.result != BuildResult.Succeeded)
@@ -72,7 +79,7 @@ namespace ReverseSolver.EditorTools
         public static void ApplySettings()
         {
             var webgl = UnityEditor.Build.NamedBuildTarget.WebGL;
-            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;
+            PlayerSettings.WebGL.compressionFormat = ShippedCompression;
             PlayerSettings.WebGL.decompressionFallback = true;
             PlayerSettings.WebGL.template = "PROJECT:ReverseSolver";
             PlayerSettings.WebGL.dataCaching = true;

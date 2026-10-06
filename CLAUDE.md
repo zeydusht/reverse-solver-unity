@@ -37,12 +37,12 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 
 ## Build
 
-- Unity menüsü **Reverse Solver → Build WebGL** → `Builds/WebGL` (git dışında). Web ayarlarını `WebBuild.ApplySettings` uygular: gzip + decompression fallback (GitHub Pages `Content-Encoding` göndermez), özel şablon `Assets/WebGLTemplates/ReverseSolver`, High stripping, IL2CPP Optimize Size.
+- Unity menüsü **Reverse Solver → Build WebGL** → `Builds/WebGL` (Brotli, sevk edilen) ve **Build WebGL (gzip backup)** → `Builds/WebGL-gz` (git dışında). Web ayarlarını `WebBuild.ApplySettings` uygular: Brotli + decompression fallback (GitHub Pages `Content-Encoding` göndermez), özel şablon `Assets/WebGLTemplates/ReverseSolver`, High stripping, IL2CPP Optimize Size, wasm DiskSizeLTO.
 - Her build boyutları `Builds/size-log.csv`'ye ekler ve `Builds/WebGL-report.txt`'ye wasm/data dökümünü yazar. Boyut değişikliklerini bununla ölç.
 - Sayfa arka planı build sırasında `Game` sahnesindeki kameranın rengine eşitlenir (iOS ana ekran modundaki alt şerit için).
 - Bu makinede tam IL2CPP build'i ~5–10 dakika sürer; yalnızca data değişen build'ler saniyeler sürer.
 - Build'i telefonsuz doğrulamak için: `Builds/WebGL`'i `127.0.0.1`'de yayınla, Chrome'u `--headless=new --remote-debugging-port=9222 --use-angle=swiftshader --enable-unsafe-swiftshader` ve geçici `--user-data-dir` ile aç, sayfanın süre panelini CDP üzerinden oku. (`--virtual-time-budget`/`--dump-dom` işe yaramaz: indirmeler bitmeden döner.) iPhone Safari doğrulamasının yerini tutmaz.
-- Yayın: `gh-pages` dalı (`/gz/` gzip, `/br/` Brotli karşılaştırması). Büyük push'ta `git -c http.postBuffer=524288000 push` gerekir.
+- Yayın: `gh-pages` dalı. `/br/` Brotli (varsayılan), `/gz/` gzip (yedek); kök `index.html` `/br/`'ye yönlendirir (playtest linki). Her yeni build ikisine de konur. Büyük push'ta `git -c http.postBuffer=524288000 push` gerekir.
 
 ## Kurallar
 

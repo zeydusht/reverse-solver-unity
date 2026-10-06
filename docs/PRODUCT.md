@@ -2,7 +2,7 @@
 
 Ürün kararlarının tek kaynağı bu dosya. Kararlar, ölçümler ve açık işler burada tutulur; `product-manager` subagent'ı her değerlendirmeden sonra günceller.
 
-Son güncelleme: 2026-10-06 (hosting: Pages'te kalınır, Netlify yedek plan ve tetikleyicileri)
+Son güncelleme: 2026-10-06 (iPhone 5G ölçümü: varsayılan Brotli, M1 ölçüt 8 karşılandı, Netlify tetikleyicisi B düzeltildi)
 
 ## Hedef
 
@@ -22,7 +22,7 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 
 | Faz | İçerik | Durum |
 |---|---|---|
-| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0 ve M1 bitti (M1'in iPhone kontrolü Zeyd'de, engelleyici değil). GitHub Pages yayında (2026-10-06). M2 (GameSession) 2026-10-06'da başlatıldı. 4G ölçümü (Zeyd) gelince sıkıştırma kararı kesinleşir |
+| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0 ve M1 bitti (M1 ölçüt 8 iPhone'da karşılandı, 2026-10-06). GitHub Pages yayında. Sıkıştırma kararı verildi: varsayılan Brotli (2026-10-06, iPhone 5G medyan 1,83 sn). M2 (GameSession) sürüyor. Kalan: playtest öncesi kısa 4G (LTE) teyidi |
 | 2. Ölçüm altyapısı | Telemetri (client, level_version), test modu (rastgele sıra), ekransız çözücü + Monte Carlo | Bekliyor |
 | 3. Deney | Deney seviyeleri, playtest ile veri toplama | Bekliyor |
 | 4. Model ve tasarım | Zorluk tablosu, engel tanıtımı ve 40 seviyenin yeniden tasarımı | Bekliyor |
@@ -65,6 +65,12 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-06 | M2'yi PM başlatır; Zeyd'in ayrıca "devam" demesi gerekmez. Zeyd durdurmak isterse durur | M2 kapsamı ve kabul ölçütleri 2026-10-05 gece onaylandı; açık ürün sorusu yok. Zeyd'in gece talimatı geceye özeldi. Zeyd'in bekleyen işlerinin (4G, iPhone kontrolleri) hiçbiri M2'yi engellemiyor; M2 saf Core işi, sıkıştırma kararından bağımsız. Beklemek playtest yolunu boşuna geciktirir |
 | 2026-10-06 | **Hosting: GitHub Pages'te kalınır, Netlify yedek plan (Zeyd'in kararı).** 2026-10-05 hosting kararını teyit eder; o karardaki "Netlify'a gerek yok" ifadesi "Netlify yedek plan" olarak güncellenir. Netlify'a geçiş yalnızca aşağıdaki tetikleyicilerden biri gerçekleşirse PM'e gelir; kendiliğinden yapılmaz | Pages çalışıyor (ilk 404 GitHub runner kuyruğundandı, yönlendirme commit'iyle yayın başarılı). Netlify'ın artısı: `Content-Encoding` ayarlanabildiği için tarayıcı dosyaları kendisi açar (JS açma ve Brotli açma maliyeti kalkar) ve deploy GitHub runner'ına bağlı değildir. Bu artılar henüz ölçümle gerekli görünmedi; ölçmeden geçiş yok |
 | 2026-10-06 | **Netlify tetikleyicileri (biri yeterli).** (A) Güvenilirlik: 2026-10-06'dan itibaren 30 gün içinde 2 yayın olayı, ya da playtest süresince 1 olay. Olay = push'tan sonra canlı adres 30 dk içinde güncellenmez/404 verir ve "pages build and deployment" yeniden tetiklemesi (boş commit) 30 dk içinde düzeltmez. (B) Performans: 4G ölçümünde kazanan sıkıştırmanın medyan toplam süresi > 10 sn **ve** medyan JS açma çıkarıldığında ≤ 10 sn'ye iniyor; ya da medyan JS açma toplamın ≥ %20'si veya ≥ 1,5 sn. (B) tetiklenirse sıra: önce Netlify denemesi (kod değişikliği yok), boyut işi (Input Manager, backlog boyut adımları) ancak Netlify de 10 sn'yi tutturamazsa açılır. Geçiş, Netlify'da aynı protokolle ölçülen medyan toplam süre Pages'tekinden ≥ 0,5 sn daha iyiyse (B) ya da (A) olayından sonra kesinleşir | Ölçülebilir eşikler; ilk 404 (2026-10-05) olay sayılmaz, nedeni bilinip yöntemi kayda geçti. ≥ 0,5 sn eşiği sıkıştırma kuralıyla aynı gürültü payı. Playtest linki değişirse oyunculara yeni link gerekir; bu yüzden geçiş tercihen playtest başlamadan yapılır |
+| 2026-10-06 | **Varsayılan sıkıştırma Brotli (Zeyd'in kararı).** main'de varsayılan Brotli; kök adres `/br/`'ye yönlendirir (sorgu parametreleri korunur); `/gz/` yedek olarak kalır | iPhone Safari, Pages, önbellek boş, 3+3 ölçüm: medyan toplam Brotli 1,83 sn, gzip 2,64 sn; fark 0,81 sn ≥ 0,5 sn kuralı. Ölçüm 5G'de yapıldı (protokol 4G idi); ancak Brotli'nin avantajı indirmeden gelir ve ağ yavaşladıkça büyür, JS açma maliyeti (iPhone'da ~0,46 sn, PC'deki 1,55 sn tahmininden çok düşük) ağdan bağımsızdır. Yani 4G'de sonucun gzip lehine dönmesi beklenmez; karar 4G'yi beklemeden kesinleşir |
+| 2026-10-06 | **Sıkıştırma için 4G karşılaştırması kapandı; yerine playtest öncesi tek bir 4G teyidi.** Yalnızca kök adres (Brotli), iPhone'da 5G kapalı (LTE), 3 açılış, önbellek boş. Sonuç başarı ölçütünü ("4G ≤ 10 sn") belgelemek içindir; M2–M5'i engellemez, playtest başlamadan önce gelir. Medyan > 10 sn çıkarsa 2026-10-05 gece kuralındaki boyut işi ve Netlify tetikleyicisi (B) yeniden değerlendirilir | Başarı ölçütü 4G'de tanımlı ve 5G onu kanıtlamaz; ama karşılaştırma (iki adres, dönüşümlü) artık gereksiz, tek adres yeterli. 6,4 MB'ın 10 sn'yi aşması için ağın ~6 Mbit/s altına düşmesi gerekir; risk düşük, teyit ucuz |
+| 2026-10-06 | M1 ölçüt 8 karşılandı: iPhone'da her açılışta "40 seviye okundu, 40 çözülebilir". Ana ekran modundaki alt şerit sorunu kapandı (Zeyd doğruladı) | Zeyd'in iPhone kontrolü |
+| 2026-10-06 | Boyut işi kapalı kalır: Input Manager'a geçiş, ek boyut adımları ve PhysX denemesi yapılmaz (4G teyidi > 10 sn çıkmadıkça) | Medyan toplam 1,83 sn, hedefin çok altında. Ölçmeden optimizasyon yok |
+| 2026-10-06 | **Netlify tetikleyicisi (B) düzeltildi; bu ölçümde tetiklenmedi.** Yeni tanım: (B) yalnızca kazanan sıkıştırmanın medyan toplam süresi ≥ 7 sn iken değerlendirilir; o durumda tetiklenir: medyan JS açma toplamın ≥ %20'si veya ≥ 1,5 sn, ya da toplam > 10 sn ve JS açma çıkarıldığında ≤ 10 sn'ye iniyor. Toplam < 7 sn ise (B) yoktur. Ölçüm kaynağı: playtest öncesi 4G teyidi (yoksa en son iPhone ölçümü) | Eski tanımın yüzde koşulu, toplam süre çok kısayken anlamsız biçimde tutuyordu (0,46 / 1,83 ≈ %25). Netlify'ın en fazla kazandırabileceği JS açma süresidir (0,46 sn); geçiş kuralı ≥ 0,5 sn iyileşme ister, yani bu veride Netlify denemesi kural gereği geçişi zaten haklı çıkaramazdı. Tetikleyicinin amacı 10 sn hedefini korumak; 7 sn eşiği hedefe ~3 sn pay bırakır |
+| 2026-10-06 | Süre panelindeki "tarayıcı yerel açtı mı" satırı mühendislikçe düzeltilebilir (yalnızca Unity dosyalarına bakacak şekilde); en fazla ~30 dk, M2'yi bekletmez. Önceki "yok sayılır" kararı karar verisi açısından geçerli kalır | 4G teyidi hâlâ bu paneli kullanacak; yanıltıcı satır Zeyd'in okumasını karıştırmasın. Panel M3'te kalkıyor, bundan fazla emek değmez |
 
 ## Ölçümler
 
@@ -82,10 +88,12 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-05 | M1, Brotli (gh-pages `/br/`) | 6,84 MB | — | Aynı kod; 4G karşılaştırması için |
 | 2026-10-06 | M1, gzip, canlı GitHub Pages (kök → `/gz/`) | wasm 6.663.005 B (Content-Encoding yok, beklendiği gibi) | 4,85 sn (PC, başsız Chrome, internet, tek ölçüm, yazılımsal grafik; 4G DEĞİL) | İndirme 1,69 · JS açma 1,63 (iş süresi) · motor 1,47. "40 seviye okundu, 40 çözülebilir". Yalnızca yayının çalıştığının kanıtı; karar verisi değil |
 | 2026-10-06 | M1, Brotli, canlı GitHub Pages (`/br/`) | — | 7,55 sn (aynı koşullar, tek ölçüm; 4G DEĞİL) | İndirme 3,07 · JS açma 3,27. 40/40. Karar verisi değil |
+| 2026-10-06 | M1, gzip, Pages `/gz/` doğrudan, **iPhone Safari, 5G (4G DEĞİL)**, fast.com 540 Mbps, her açılış yeni özel sekme | 8,2 MB | **medyan 2,64 sn** (2,41 / 2,66 / 2,64) | JS açma ~0,26 sn. Her açılışta 40/40. Sıkıştırma kararı verisi |
+| 2026-10-06 | M1, Brotli, Pages `/br/` doğrudan, aynı koşullar (5G) | 6,4 MB | **medyan 1,83 sn** (2,19 / 1,66 / 1,83) | JS açma ~0,46 sn (toplamın ~%25'i; PC tahmini 1,55 sn'den çok düşük). Her açılışta 40/40. gzip'ten 0,81 sn hızlı → Brotli varsayılan |
 
 ## M1 tanımı (seviye verisi ve kural motoru) — KAPANDI 2026-10-05
 
-Sonuç: kabul 1–7 karşılandı, 8 Zeyd'de (Pages açılınca). 227 EditMode testi; travelLimit 10.612 web altın değerinde birebir; açgözlü çözücü 40/40 web'le aynı sonuç ve sıra; LevelStats 40/40; README bölüm planı doğrulandı (çivi 5, zincir 11, bomba 21, mühür 31; tüm zincirler uzak). Geçici `BootLevelCheck` ve süre paneli M3'te kalkacak.
+Sonuç: kabul 1–8 karşılandı (8: iPhone'da 2026-10-06). 227 EditMode testi; travelLimit 10.612 web altın değerinde birebir; açgözlü çözücü 40/40 web'le aynı sonuç ve sıra; LevelStats 40/40; README bölüm planı doğrulandı (çivi 5, zincir 11, bomba 21, mühür 31; tüm zincirler uzak). Geçici `BootLevelCheck` ve süre paneli M3'te kalkacak.
 
 Kapsam:
 - `levels.json`: web'deki 40 seviye birebir; her seviyede `id` ve `version: 1`; dosyanın üstünde format sürümü.
@@ -151,8 +159,10 @@ Kabul ölçütleri:
 - [x] UI Toolkit zaman kutusu: çıkarılamaz (Input System bağımlılığı), kapandı
 - [x] M1: 227 EditMode testi, gh-pages `/gz/` ve `/br/` M1 build'i (e1cf67f; gh-pages 0552040)
 - [x] GitHub Pages yayını doğrulandı (gh-pages bb41921, 13:35 success): kök 200 (→ `/gz/` yönlendirme), `/gz/` 200, `/br/` 200; canlı adreste 40/40
-- [ ] 1. M2 (bkz. "M2 tanımı", 9 kabul ölçütü), 2026-10-06'da başlatıldı. Bitince build'i gh-pages `/gz/`'ye koy (kök yönlendirmesini koru), size-log'a yaz, PM'e raporla
-- [ ] 2. 4G ölçümü gelince karar kuralına göre sıkıştırmayı kesinleştir (Brotli seçilirse main'de varsayılanı değiştir ve kök yönlendirmesini `/br/`'ye çevir). Aynı veride Netlify tetikleyicisi (B)'yi de hesapla ve PM'e raporla (medyan JS açma, toplamdaki payı)
+- [x] iPhone ölçümü (5G) değerlendirildi: varsayılan Brotli, tetikleyici (B) tetiklenmedi (2026-10-06)
+- [ ] 1. M2 (bkz. "M2 tanımı", 9 kabul ölçütü), sürüyor. Bitince build'i gh-pages `/br/`'ye (varsayılan) ve `/gz/`'ye (yedek) koy, kök → `/br/` yönlendirmesini koru, size-log'a yaz, PM'e raporla
+- [ ] 2. Şimdi (M2'yi beklemeden): main'de varsayılan sıkıştırmayı Brotli yap (gzip build'i yedek için üretilebilir kalsın) ve gh-pages'te kök yönlendirmesini `/br/`'ye çevir, sorgu parametreleri korunsun. Kabul: canlı kök adres `/br/`'ye gider, `/gz/` 200 döner
+- [ ] 6. Süre panelindeki "tarayıcı yerel açtı mı" satırını yalnızca Unity dosyalarına baktır (≤ ~30 dk, M2'yi bekletmez)
 - [ ] 5. Pages yayın olaylarını kayda geçir (tarih, süre, düzeltme yolu); Netlify tetikleyicisi (A) bu kayıtla sayılır
 - [ ] 3. M3'te: geçici `BootLevelCheck` ve süre panelini kaldır
 - [ ] 4. Zeyd eski re-run'ı iptal edemeden o çalışırsa ve kök eski iki bağlantılı sayfaya dönerse: boş commit ile gh-pages'i yeniden yayınla
@@ -160,9 +170,11 @@ Kabul ölçütleri:
 ### Zeyd
 - [x] GitHub Pages'i aç (gh-pages, / (root)) — açıldı; ilk 404 GitHub runner kuyruğundandı, çözüldü
 - [ ] Actions'ta kuyrukta bekleyen eski re-run'ı (commit 0552040) iptal et
-- [ ] iPhone'da kök adresi aç: `/gz/`'ye gittiğini ve süre panelinde "40 seviye okundu, 40 çözülebilir" yazdığını kontrol et (M1 ölçüt 8), ekran görüntüsü getir
-- [ ] 4G ölçümü: `/gz/` ve `/br/` doğrudan, sırayla dönüşümlü, her açılıştan önce önbellek temizliği, her adres 3 kez; panel değerleri + başta ve sonda hız testi (protokol PM çıktısında)
-- [ ] Ana ekran modunda (Paylaş → Ana Ekrana Ekle) alt şeritte farklı renk kalmadığını kontrol et, ekran görüntüsü getir
+- [x] iPhone'da "40 seviye okundu, 40 çözülebilir" (M1 ölçüt 8) — karşılandı 2026-10-06
+- [x] gzip/Brotli iPhone karşılaştırması — 5G'de yapıldı, karar verildi 2026-10-06
+- [x] Ana ekran modunda alt şerit kontrolü — sorun yok, kapandı 2026-10-06
+- [ ] Mühendislik kökü `/br/`'ye çevirince: iPhone'da kök adresi bir kez aç, adres çubuğunda `/br/`'ye gittiğini ve 40/40 yazdığını kontrol et
+- [ ] Playtest öncesi 4G teyidi (M2'yi engellemez): Ayarlar → Hücresel → Hücresel Veri Seçenekleri → Ses ve Veri → LTE; Wi-Fi kapalı; kök adres, her açılış yeni özel sekme, 3 kez; panel değerleri (toplam, JS açma) + başta ve sonda fast.com
 - [ ] Yerel sunucu artık gerekmiyor: güvenlik duvarında Python'un "Ortak" ağ iznini kaldır
 
 ## Backlog
@@ -170,7 +182,7 @@ Kabul ölçütleri:
 - Netlify'a geçiş (yedek plan, karar 2026-10-06): yalnızca tetikleyici (A) veya (B) gerçekleşirse. Gerekirse: Zeyd Netlify hesabı + repo bağlantısı, `_headers` ile `Content-Encoding`, decompression fallback kapatma, aynı 4G protokolüyle ölçüm
 - Unity içinde seviye editörü
 - Supabase telemetrisinin Unity'ye taşınması (Faz 2)
-- Eski Input Manager'a geçiş (yalnızca 4G ölçümü 10 sn'yi aşarsa yeniden değerlendirilir)
-- Ek boyut adımları (mscorlib/URP küçültme vb.): 4G ölçümü hedefi tutarsa yapılmaz
+- Eski Input Manager'a geçiş (yalnızca 4G teyidi 10 sn'yi aşarsa yeniden değerlendirilir; iPhone 5G medyanı 1,83 sn)
+- Ek boyut adımları (mscorlib/URP küçültme vb.): 4G teyidi hedefi tutarsa yapılmaz
 - UI Toolkit'i çıkarmak için URP/uGUI fork'u: reddedildi, yalnızca kayıt için
-- 3D fizik modülü (PhysX, URP/uGUI bağımlılığıyla geri geldi) çıkarılabilir mi: ölçülmedi; 4G ölçümüyle birlikte değerlendirilir
+- 3D fizik modülü (PhysX, URP/uGUI bağımlılığıyla geri geldi) çıkarılabilir mi: ölçülmedi; yalnızca 4G teyidi 10 sn'yi aşarsa
