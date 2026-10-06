@@ -3,19 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reverse Solver (Unity) test builds</title>
-<style>
-  body{margin:0;padding:24px 16px;background:#0e2a2e;color:#eaf3f2;
-    font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:520px}
-  h1{font-size:20px;margin:0 0 6px} p{color:#8fb2b3;font-size:14px;line-height:1.5}
-  a{display:block;margin:12px 0;padding:14px 16px;border-radius:12px;background:#f0a742;
-    color:#33220a;font-weight:700;text-decoration:none}
-</style>
+<title>Reverse Solver</title>
+<!-- Playtest link. Points at the shipped build; switch the target (gz/ or br/)
+     after the 4G comparison. Query string is kept, e.g. ?timing=0. -->
+<meta http-equiv="refresh" content="0; url=gz/">
+<script>location.replace('gz/' + location.search + location.hash);</script>
+<style>body{margin:0;padding:24px 16px;background:#0e2a2e;color:#eaf3f2;font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}a{color:#f0a742}</style>
 </head>
 <body>
-<h1>Reverse Solver — boyut testi</h1>
-<p>Aynı build, iki sıkıştırma. Her ikisi de decompression fallback ile açılır; süre paneli yükleme bitince görünür.</p>
-<a href="gz/">gzip — 8,7 MB (M1: seviyeler + kural motoru)</a>
-<a href="br/">Brotli — 6,8 MB (M1: seviyeler + kural motoru)</a>
+<p>Yönlendiriliyor… Açılmazsa <a href="gz/">buraya dokun</a>.</p>
 </body>
 </html>
