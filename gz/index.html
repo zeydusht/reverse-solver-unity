@@ -123,7 +123,10 @@ function ltReport() {
   out.push('<b>İndirme</b>');
   res.forEach(function (e) {
     var bytes = e.encodedBodySize || e.transferSize || 0;
-    if (e.decodedBodySize && e.encodedBodySize && e.decodedBodySize > e.encodedBodySize * 1.2) nativeGz = true;
+    // Only the Unity files count: hosts like GitHub Pages gzip loader.js on
+    // their own, which says nothing about how the .unityweb files arrive.
+    if (/\.unityweb/.test(e.name) && e.decodedBodySize && e.encodedBodySize &&
+        e.decodedBodySize > e.encodedBodySize * 1.2) nativeGz = true;
     if (!/loader/.test(e.name)) { dlStart = Math.min(dlStart, e.startTime); dlEnd = Math.max(dlEnd, e.responseEnd); dlBytes += bytes; }
     out.push('  ' + pad(kind(e.name), 10) + pad(bytes ? mb(bytes) : '?', 9) + s(e.startTime) + ' → ' + s(e.responseEnd) +
              '  (' + s(e.responseEnd - e.startTime) + ')');
@@ -131,7 +134,7 @@ function ltReport() {
   if (dlEnd) out.push('  toplam    ' + pad(mb(dlBytes), 9) + s(dlStart) + ' → ' + s(dlEnd) + '  (' + s(dlEnd - dlStart) + ')');
 
   out.push('');
-  out.push('<b>JS ile gzip açma</b> (tek worker, sırayla)');
+  out.push('<b>JS ile açma</b> (gzip/Brotli, tek worker, sırayla)');
   var decEnd = 0, decSum = 0;
   LT.dec.forEach(function (d) {
     decEnd = Math.max(decEnd, d.end); decSum += d.end - d.start;
@@ -139,7 +142,7 @@ function ltReport() {
   });
   out.push(LT.dec.length ? '  toplam iş süresi ' + s(decSum)
                          : '  yok: tarayıcı açtı (Content-Encoding) ya da sıkıştırma kapalı');
-  out.push('  tarayıcı yerel açtı mı: ' + (nativeGz ? 'evet' : 'hayır'));
+  out.push('  Unity dosyalarını tarayıcı mı açtı: ' + (nativeGz ? 'evet (Content-Encoding)' : 'hayır, JS açtı'));
 
   out.push('');
   out.push('<b>Wasm derleme + başlatma</b>');
@@ -197,14 +200,14 @@ window.ltBoot = function (msg) {
 <div id="timing"></div>
 
 
-<script src="Build/fd867b1a8008329d1012dfe82d1b0450.loader.js"></script>
+<script src="Build/306b66d4e0f53a963b5641f4933a8d59.loader.js"></script>
 <script>
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/fe57abc76ef59b9b84972985fd873cde.data.unityweb",
-    frameworkUrl: "Build/dc400367d677900852243017406f351e.framework.js.unityweb",
-    codeUrl: "Build/902d7d87a742458ab8c1adace6448595.wasm.unityweb",
+    dataUrl: "Build/d30769af16dbe7a9f99e8366db513cdb.data.unityweb",
+    frameworkUrl: "Build/f4a256c84aa9df9cec6a603d699dbd1b.framework.js.unityweb",
+    codeUrl: "Build/c05fbfb99f5d354233ccacbf08af1c65.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
