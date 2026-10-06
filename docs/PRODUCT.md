@@ -2,7 +2,7 @@
 
 Ürün kararlarının tek kaynağı bu dosya. Kararlar, ölçümler ve açık işler burada tutulur; `product-manager` subagent'ı her değerlendirmeden sonra günceller.
 
-Son güncelleme: 2026-10-06 (iPhone 5G ölçümü: varsayılan Brotli, M1 ölçüt 8 karşılandı, Netlify tetikleyicisi B düzeltildi)
+Son güncelleme: 2026-10-06 (M2 ölçüt 1 ikiye ayrıldı: 1a web'le birebir, 1b akıllı oynayıcı raporu)
 
 ## Hedef
 
@@ -70,6 +70,9 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-06 | M1 ölçüt 8 karşılandı: iPhone'da her açılışta "40 seviye okundu, 40 çözülebilir". Ana ekran modundaki alt şerit sorunu kapandı (Zeyd doğruladı) | Zeyd'in iPhone kontrolü |
 | 2026-10-06 | Boyut işi kapalı kalır: Input Manager'a geçiş, ek boyut adımları ve PhysX denemesi yapılmaz (4G teyidi > 10 sn çıkmadıkça) | Medyan toplam 1,83 sn, hedefin çok altında. Ölçmeden optimizasyon yok |
 | 2026-10-06 | **Netlify tetikleyicisi (B) düzeltildi; bu ölçümde tetiklenmedi.** Yeni tanım: (B) yalnızca kazanan sıkıştırmanın medyan toplam süresi ≥ 7 sn iken değerlendirilir; o durumda tetiklenir: medyan JS açma toplamın ≥ %20'si veya ≥ 1,5 sn, ya da toplam > 10 sn ve JS açma çıkarıldığında ≤ 10 sn'ye iniyor. Toplam < 7 sn ise (B) yoktur. Ölçüm kaynağı: playtest öncesi 4G teyidi (yoksa en son iPhone ölçümü) | Eski tanımın yüzde koşulu, toplam süre çok kısayken anlamsız biçimde tutuyordu (0,46 / 1,83 ≈ %25). Netlify'ın en fazla kazandırabileceği JS açma süresidir (0,46 sn); geçiş kuralı ≥ 0,5 sn iyileşme ister, yani bu veride Netlify denemesi kural gereği geçişi zaten haklı çıkaramazdı. Tetikleyicinin amacı 10 sn hedefini korumak; 7 sn eşiği hedefe ~3 sn pay bırakır |
+| 2026-10-06 | **M2 ölçüt 1 ikiye ayrıldı (1a bağlayıcı, 1b rapor).** 1a: çivilere uyan basit oynayıcının web harness'taki hamle listesi altın senaryo; GameSession gerçek komut yoluyla 40/40 web'le birebir aynı sonucu verir (patlamalar dahil). Testlere çivi kontrolünü atlayan yol eklenmez. 1b: akıllı oynayıcı (çivi uyumlu, bombaya sınırlı aramayla) README garantisini ölçer; hedef 40/40, tutmayan seviye rapor verisi. Ölçüt 9'daki açılış kontrolü "40/40 web'le aynı" olarak değişir | Bulgu: kayıtlı çözüm üretecin soyma sırası; çivili parçaları oynatıyor (oyunda imkânsız) ve web kodunda 8 seviyede (L22, L24, L25, L28, L29, L30, L35, L38) bomba patlatıyor. Eski ölçüt web'in kendisinin de geçemeyeceği bir şeyi istiyordu. Taşıma doğruluğunun kanıtı "web'le aynı davranış"tır, "kazandı" değil. Gerçek komut yolu testin oyuncunun yapabileceği şeyi sınamasını sağlar. Akıllı oynayıcı Faz 2 çözücü/Monte Carlo'nun temeli |
+| 2026-10-06 | **1b'de tutmayan seviye: M2'yi engellemez; rapora ve Faz 4 tasarım girdisine yazılır.** Arama sınırına takılan ("doğrulanamadı") ile gerçekten kaybettiren (aramada hiçbir yol yok) ayrı raporlanır. İkincisi seviye verisi sorunudur: seviyeler zaten Faz 4'te yeniden tasarlanacak ve playtest Faz 3'teki deney seviyeleriyle yapılacağından şimdi düzeltilmez. Yeniden tasarımda kural: her seviye akıllı oynayıcıyla 0 patlama/0 donma/0 supapla çözülebilir olmalı | Taşıma fazında seviye değiştirmek web verisiyle karşılaştırmayı bozar (2026-10-05 kararı). M1'deki açgözlü çözücü kararıyla aynı mantık |
+| 2026-10-06 | README'deki "patlayan bomba 0, donma 0, supap 0" garantisi kayıtlı çözüm için doğru değil; garanti 1b sonucu gelene kadar "doğrulanmamış" sayılır. Kayıtlı çözüm yalnızca M1 ölçüt 1 (engelsiz çıkış geçerliliği) için kanıt olarak kalır | Web harness bulgusu; case study'de veri kalitesi notu olarak kullanılabilir |
 | 2026-10-06 | Süre panelindeki "tarayıcı yerel açtı mı" satırı mühendislikçe düzeltilebilir (yalnızca Unity dosyalarına bakacak şekilde); en fazla ~30 dk, M2'yi bekletmez. Önceki "yok sayılır" kararı karar verisi açısından geçerli kalır | 4G teyidi hâlâ bu paneli kullanacak; yanıltıcı satır Zeyd'in okumasını karıştırmasın. Panel M3'te kalkıyor, bundan fazla emek değmez |
 
 ## Ölçümler
@@ -121,11 +124,13 @@ Kapsam:
 - Sonuçlar: kazandı / süre doldu / bomba patladı / bıraktı. Bittikten sonra hiçbir hamle ve booster kabul edilmez.
 - Olaylar: Presentation'ın dinleyeceği olaylar (parça çıktı, sayaç değişti, supap, booster, süre, sonuç). Oturum durumu dışarıdan yalnızca komutlarla değişir.
 - Deneme kaydı modeli (gönderim değil): `level_id`, `level_version`, `client`, deneme no, süre, sonuç, kalan süre, takılma sayısı, booster başına kullanım, yıldız. Tanımlar karar kaydında (2026-10-05 gece). Deneme sayısı ve yıldız oturuma dışarıdan verilir/oturumdan okunur; kalıcı saklama M5.
-- Açılış kontrolünün genişletilmesi: web build'inde 40 seviyenin kayıtlı çözümü GameSession ile oynatılır, süre panelinde sonuç yazar (stripping'in oturum kodunu bozmadığının dinamik kanıtı). M3'te panelle birlikte kalkar.
+- Açılış kontrolünün genişletilmesi: web build'inde 40 seviyenin altın senaryosu (ölçüt 1a) GameSession ile oynatılır, süre panelinde sonuç yazar (stripping'in oturum kodunu bozmadığının dinamik kanıtı). M3'te panelle birlikte kalkar.
 - Kapsam dışı: görsel, girdi, Supabase/PlayerPrefs (M3–M5), Monte Carlo (Faz 2), yeni seviye/süre tasarımı (Faz 4).
 
 Kabul ölçütleri:
-1. EditMode, README garantileri: 40/40 seviyenin kayıtlı çözümü GameSession'da çivi/zincir/bomba/mühürle oynanır ve **kazandı** ile biter; patlayan bomba 0, donma 0, emniyet supabı 0 kez.
+1. (2026-10-06'da ikiye ayrıldı; eski hali kayıtlı çözümün çivi/bomba farkında olmaması nedeniyle geçersiz, bkz. karar kaydı.)
+   - **1a. Web'le birebir oturum (bağlayıcı).** 40 seviyenin her biri için, çivilere uyan basit oynayıcının (serbest + çivisiz parçalar arasından: bomba serbestse onu, değilse bombayı tıkayanı, yoksa ilkini) web kodunda (`Tools/web_harness.js`) ürettiği hamle listesi altın senaryodur. GameSession aynı listeyi **gerçek komut yolundan** oynar (teste özel çivi atlama yolu yok) ve web'le birebir aynı sonucu verir: her adımda sonuç/sayaçlar/supap/fitil ve son sonuç (L24, L29, L38'deki bomba patlaması dahil). 40/40 eşleşme şart.
+   - **1b. README garantisi (rapor, engelleyici değil).** Core'da "akıllı oynayıcı": çivilere uyar, bombaya sınırlı aramayla en kısa yoldan gider. Hedef 40/40 kazandı, patlayan bomba 0, donma 0, supap 0. Tutmayan her seviye test hatası değil, rapor verisidir: seviye, neden (bomba/donma/supap), arama sınırı. Zaman kutusu: ~yarım gün; arama sınırına takılan seviye "doğrulanamadı" olarak raporlanır.
 2. EditMode, işlem sırası: sınır durumları için senaryo testleri: aynı hamlede çivinin serbest kalması, bombanın 0'a inmesi, bombalı parçanın kendisinin çıkarılması, son parçanın çıkarıldığı hamlede fitilin 0'a inmesi. Beklenen sonuç web koduyla belirlenir: mümkünse M1'deki gibi web kodu Node'da çalıştırılarak altın senaryo üretilir; mümkün değilse her beklenti web kodunda ilgili satıra referansla yazılır ve bu yöntem rapora yazılır.
 3. EditMode, emniyet supabı: tetiklendiği yapay bir tahtada en uzun bekleyen çiviyi söker; web'le aynı seçim.
 4. EditMode, booster'lar: her biri için etki, stok düşümü ve reddedildiği durumlar. Değnek deterministik `IRandom` ile: aynı tohum aynı tahta; farklı tohumlar farklı tahta; web'in değiştirmediği kenarlara (düz/tahta kenarı vb.) dokunmaz. Saat süreye tam 20 sn ekler.
@@ -133,7 +138,7 @@ Kabul ölçütleri:
 6. EditMode, deneme kaydı: alanlar doğru doluyor (yukarıdaki tanımlarla); deneme no artıyor; bırakma kaydı üretiliyor; yıldız web formülüyle aynı.
 7. EditMode, determinizm: aynı seviye + tohum + komut/Tick dizisi → birebir aynı olay listesi ve kayıt (tekrar oynatma ve Monte Carlo için).
 8. Rapor (engelleyici değil): 40 seviyede değnek sonrası açgözlü çözücünün çözebildiği oran (ör. seviye başına birkaç tohum).
-9. `CoreIsolationTests` ve mevcut testler geçer. Web build size-log'a yazılır (10 MB bütçesi); genişletilmiş açılış kontrolü web build'inde 40/40 kazandı gösterir.
+9. `CoreIsolationTests` ve mevcut testler geçer. Web build size-log'a yazılır (10 MB bütçesi); genişletilmiş açılış kontrolü web build'inde 1a altın senaryolarını oynar ve "40/40 web'le aynı" gösterir (2026-10-06 değişikliği; eski "40/40 kazandı" ifadesi kayıtlı çözüme dayanıyordu).
 
 ## Zorluk deneyi ilkeleri (Faz 2–4)
 
@@ -160,7 +165,7 @@ Kabul ölçütleri:
 - [x] M1: 227 EditMode testi, gh-pages `/gz/` ve `/br/` M1 build'i (e1cf67f; gh-pages 0552040)
 - [x] GitHub Pages yayını doğrulandı (gh-pages bb41921, 13:35 success): kök 200 (→ `/gz/` yönlendirme), `/gz/` 200, `/br/` 200; canlı adreste 40/40
 - [x] iPhone ölçümü (5G) değerlendirildi: varsayılan Brotli, tetikleyici (B) tetiklenmedi (2026-10-06)
-- [ ] 1. M2 (bkz. "M2 tanımı", 9 kabul ölçütü), sürüyor. Bitince build'i gh-pages `/br/`'ye (varsayılan) ve `/gz/`'ye (yedek) koy, kök → `/br/` yönlendirmesini koru, size-log'a yaz, PM'e raporla
+- [ ] 1. M2 (bkz. "M2 tanımı", 9 kabul ölçütü; ölçüt 1 = 1a + 1b, 2026-10-06), sürüyor. `Tools/web_harness.js` repoya girer (altın senaryoların kaynağı). Bitince build'i gh-pages `/br/`'ye (varsayılan) ve `/gz/`'ye (yedek) koy, kök → `/br/` yönlendirmesini koru, size-log'a yaz, PM'e raporla
 - [ ] 2. Şimdi (M2'yi beklemeden): main'de varsayılan sıkıştırmayı Brotli yap (gzip build'i yedek için üretilebilir kalsın) ve gh-pages'te kök yönlendirmesini `/br/`'ye çevir, sorgu parametreleri korunsun. Kabul: canlı kök adres `/br/`'ye gider, `/gz/` 200 döner
 - [ ] 6. Süre panelindeki "tarayıcı yerel açtı mı" satırını yalnızca Unity dosyalarına baktır (≤ ~30 dk, M2'yi bekletmez)
 - [ ] 5. Pages yayın olaylarını kayda geçir (tarih, süre, düzeltme yolu); Netlify tetikleyicisi (A) bu kayıtla sayılır
@@ -180,6 +185,7 @@ Kabul ölçütleri:
 ## Backlog
 
 - Netlify'a geçiş (yedek plan, karar 2026-10-06): yalnızca tetikleyici (A) veya (B) gerçekleşirse. Gerekirse: Zeyd Netlify hesabı + repo bağlantısı, `_headers` ile `Content-Encoding`, decompression fallback kapatma, aynı 4G protokolüyle ölçüm
+- Faz 4 girdisi: M2 1b'de akıllı oynayıcının kazanamadığı seviyeler (sonuç gelince buraya yazılır). Yeniden tasarım kuralı: her seviye 0 patlama/0 donma/0 supapla çözülebilir
 - Unity içinde seviye editörü
 - Supabase telemetrisinin Unity'ye taşınması (Faz 2)
 - Eski Input Manager'a geçiş (yalnızca 4G teyidi 10 sn'yi aşarsa yeniden değerlendirilir; iPhone 5G medyanı 1,83 sn)
