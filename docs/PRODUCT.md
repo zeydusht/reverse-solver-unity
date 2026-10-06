@@ -2,7 +2,7 @@
 
 Ürün kararlarının tek kaynağı bu dosya. Kararlar, ölçümler ve açık işler burada tutulur; `product-manager` subagent'ı her değerlendirmeden sonra günceller.
 
-Son güncelleme: 2026-10-06 (M2 kapandı, M3 tanımı onaylandı; kök → `/br/` ve panel düzeltmesi kapandı)
+Son güncelleme: 2026-10-06 (M2 iPhone kontrolü kapandı; M3 görsel yön kararı, iPhone SE ölçütü eklendi)
 
 ## Hedef
 
@@ -22,7 +22,7 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 
 | Faz | İçerik | Durum |
 |---|---|---|
-| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0, M1, M2 bitti (M2 2026-10-06; iPhone'da oturum kontrolü Zeyd'de, engelleyici değil). GitHub Pages yayında, kök → `/br/` (Brotli varsayılan). M3 (tahta görseli + sürükleme) başladı. Kalan: M3–M6, playtest öncesi kısa 4G (LTE) teyidi |
+| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0, M1, M2 bitti (M2 2026-10-06; iPhone kontrolü dahil). GitHub Pages yayında, kök → `/br/` (Brotli varsayılan). M3 (tahta görseli + sürükleme) başladı. Kalan: M3–M6, playtest öncesi kısa 4G (LTE) teyidi |
 | 2. Ölçüm altyapısı | Telemetri (client, level_version), test modu (rastgele sıra), ekransız çözücü + Monte Carlo | Bekliyor |
 | 3. Deney | Deney seviyeleri, playtest ile veri toplama | Bekliyor |
 | 4. Model ve tasarım | Zorluk tablosu, engel tanıtımı ve 40 seviyenin yeniden tasarımı | Bekliyor |
@@ -81,6 +81,12 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-06 | **Supabase `level_id` sütunu M5'te eklenir** (şimdi değil). M5'in ilk adımı: mühendislik SQL'i hazırlar (boş bırakılabilir metin sütun; web oyunu etkilenmez), Zeyd çalıştırır, sonra gönderim kodu yazılır. M5 kabulüne eklenir: Unity satırlarında `level_id` + `level_version` + `client` dolu | Şu an gönderim yok; sütunu erken eklemek bir şey kazandırmaz, Zeyd'e şimdi iş çıkarır. Karar (level_id + version eşleşmesi) değişmedi, yalnızca zamanlaması M5 |
 | 2026-10-06 | **M3 = tahta görseli + sürükleme** (bkz. "M3 tanımı"). Menüler, booster arayüzü ve HUD cilası M4'te. Seviye seçimi M3'te yalnızca `?lv=N` sorgu parametresi ve bitişte basit "tekrar / sonraki" ile | Playtest yolundaki sıradaki darboğaz: oyuncunun tahtayı görüp parmakla oynayabilmesi. Sürükleme hissi ve takılma kuralı telemetri verisini doğrudan etkiler, menülerden önce doğrulanmalı |
 | 2026-10-06 | **Süre paneli ve açılış kontrolü M3'te silinmez; yalnızca `?debug=1` ile görünür, varsayılan kapalı** (2026-10-05 "M3'te kalkar" kararını değiştirir). Debug modunda ayrıca FPS / kare süresi gösterilir | 4G teyidi ve M3 performans ölçümü bu panele dayanıyor; oyuncu görmez, ölçüm kaybolmaz. Boyut maliyeti ihmal edilebilir |
+| 2026-10-06 | M2 ölçüt 9'un iPhone kısmı karşılandı: kök adres `/br/`'ye gidiyor, panelde "oturum ... web'le aynı" (Zeyd). M1 ve M2'nin iPhone ölçütleri tamamen kapandı; kök yönlendirmesi iPhone'da doğrulandı | Zeyd'in iPhone kontrolü |
+| 2026-10-06 | **M3 görsel yön (Zeyd'in kararı): web görünümü birebir.** Renk paleti, parça şekilleri ve engel ikonları web sürümüyle aynı. Yeni görsel kimlik ayrı bir iş, sonraya (backlog). 2026-10-05 görsel yön kararını daraltır | Taşıma fazında görünüm değişmesin; web verisiyle karşılaştırma ve playtest öncesi risk azalır |
+| 2026-10-06 | **M3 okunabilirlik (Zeyd'in kararı):** engeller iPhone SE genişliğinde ayırt edilir; dokunma alanı ≥ 44 pt (görsel küçükse dokunma alanı görselden büyük olabilir); sürüklerken sayfa kaymaz ve yakınlaşmaz | Telefonda doğru görünüm; yanlış dokunma telemetriyi (takılma, deneme) bozar |
+| 2026-10-06 | **M3 efektleri minimum (Zeyd'in kararı):** parça parmağı gecikmesiz izler (sürükleme sırasında yumuşatma/lerp yok, aynı karede parmak konumu); bırakınca kısa oturma animasyonu; bomba ve kazanma için basit geri bildirim. Diğer efektler (çıkış, çivi sökülmesi, supap partikülleri vb.) M6 cilalama adımına. M3 tanımındaki "kısa tween/partikül" maddesi buna göre daraltıldı | Playtest yolunu tıkamayan kozmetik iş sonraya; sürükleme hissi veri kalitesini etkiler, efekt etkilemez |
+| 2026-10-06 | **M3 ekran görüntüsü ölçütüne iPhone SE eklendi: 375×667 pt (SE 2./3. nesil), bağlayıcı.** 320 pt (SE 1. nesil) eklenmez | Güncel iOS'u çalıştıran en dar ve en kısa iPhone 375×667; hem genişlik (engel okunabilirliği) hem yükseklik (tahta + HUD sığması) için en kötü durum. 320 pt'lik cihazlar güncel iOS almıyor, playtest kitlesinde beklenmez; eklemek ölçeği gereksiz küçültür |
+| 2026-10-06 | **"Cilalama adımı" = M6 (ses ve cila), playtest öncesi.** "Yeni görsel kimlik" Faz 3 veri toplama bitene kadar yapılmaz; en erken Faz 4 yeniden tasarımıyla birlikte (backlog) | Deney sırasında görünüm değişirse oyuncu verisi iki görsel koşula bölünür; zorluk modeli karışır |
 
 ## Ölçümler
 
@@ -126,7 +132,7 @@ Kabul ölçütleri:
 
 ## M2 tanımı (GameSession: oyun oturumu) — KAPANDI 2026-10-06
 
-Sonuç: 1a, 2–8 karşılandı; 9 iPhone hariç karşılandı. 322 EditMode testi; 40/40 seviyede her adım web'le birebir (37 kazandı, L24/L29/L38 bomba); akıllı oynayıcı 40/40 kazandı (0 patlama/donma/supap); değnek 175/175 uygulandı ve sonrası çözülebilir. Altın senaryo kaynağı `Tools/web_harness.js` + `Tools/make_session_golden.js`. Commit'ler: main a578d4b, d9a11ef; gh-pages 92bcba5.
+Sonuç: 1a ve 2–9 karşılandı (9'un iPhone kısmı 2026-10-06, Zeyd). 322 EditMode testi; 40/40 seviyede her adım web'le birebir (37 kazandı, L24/L29/L38 bomba); akıllı oynayıcı 40/40 kazandı (0 patlama/donma/supap); değnek 175/175 uygulandı ve sonrası çözülebilir. Altın senaryo kaynağı `Tools/web_harness.js` + `Tools/make_session_golden.js`. Commit'ler: main a578d4b, d9a11ef; gh-pages 92bcba5.
 
 Kapsam:
 - Core'da saf C# `GameSession`: bir seviyenin tek denemesi. Zaman `Tick(dt)` ile, rastgelelik `IRandom` ile dışarıdan verilir; motor saati/`UnityEngine.Random` yok.
@@ -155,24 +161,26 @@ Kabul ölçütleri:
 ## M3 tanımı (tahta görseli + sürükleme)
 
 Kapsam:
-- Presentation'da seviyeyi GameSession'dan kuran tahta: parçalar, eklemler (açık/kapalı), çivi + sayaç, zincirli çift, bomba + fitil, mühürlü kenar. Görsel yön kararına uygun: düz renk, Unlit, ışık/post-processing yok; renk ve biçim web sürümünden.
+- Presentation'da seviyeyi GameSession'dan kuran tahta: parçalar, eklemler (açık/kapalı), çivi + sayaç, zincirli çift, bomba + fitil, mühürlü kenar. Görsel yön kararına uygun: düz renk, Unlit, ışık/post-processing yok; renk paleti, parça şekilleri ve engel ikonları web sürümüyle birebir (karar 2026-10-06).
 - Dokunmatik sürükleme (Input System): parça baskın eksende parmağı izler, durma noktasında (M1 `travelLimit`) durur; çıkış eşiği geçilince `TryExit`, geçilmezse yerine döner. Eşikler ve yön kilidi web kodundan alınır; farklılaşırsa rapora yazılır.
 - Takılma kuralı (karar 2026-10-06): çivili parçaya basma ve durma noktasının ötesine itme; sürükleme ve yön başına bir kez. Girdi → komut mantığı Unity'siz test edilebilir bir sınıfta.
-- Çıkış, çivi sökülmesi, supap, bomba patlaması, kazanma/kaybetme için kısa tween/partikül geri bildirimi (sade; cila M6).
+- Parça parmağı gecikmesiz izler (sürüklemede yumuşatma yok). Efektler minimum: bırakınca kısa oturma animasyonu, bomba patlaması ve kazanma için basit geri bildirim; sonuç HUD'da yazılı. Diğer efektler M6 cilalama adımında.
+- Dokunma alanı ≥ 44 pt (görsel küçükse dokunma alanı genişletilir); sürüklerken sayfa kaymaz/yakınlaşmaz.
 - Geçici HUD: kalan süre, hamle; bitişte sonuç + "tekrar / sonraki". Seviye `?lv=N` ile seçilir (varsayılan 1). Booster'lar M3'te arayüzde yok (M4).
-- Ekran: dikey, safe area içinde; ana ekran modundaki alt şerit bölgesine arayüz konmaz (2026-10-05 kararı). 40 seviyenin en büyük tahtası 390×844 ve 430×932 noktada kırpılmadan sığar.
+- Ekran: dikey, safe area içinde; ana ekran modundaki alt şerit bölgesine arayüz konmaz (2026-10-05 kararı). 40 seviyenin en büyük tahtası 375×667 (iPhone SE), 390×844 ve 430×932 noktada kırpılmadan sığar.
 - Süre paneli + açılış kontrolü yalnızca `?debug=1` ile; debug'da FPS/kare süresi.
 - Kapsam dışı: menüler, seviye haritası, booster arayüzü, yıldız ekranı (M4); Supabase/PlayerPrefs (M5); ses ve cila (M6).
 
 Kabul ölçütleri:
-1. Görsel: Presentation oyun durumunu yalnızca GameSession komut/olaylarıyla değiştirir/izler (kod incelemesi + mümkünse test). Editörde 390×844 ve 430×932'de L01, L05, L11, L21, L31 ve en büyük tahtalı seviyenin ekran görüntüsü rapora eklenir; kırpılma yok, engellerin hepsi ayırt edilebilir.
+1. Görsel: Presentation oyun durumunu yalnızca GameSession komut/olaylarıyla değiştirir/izler (kod incelemesi + mümkünse test). Editörde 375×667, 390×844 ve 430×932'de L01, L05, L11, L21, L31 ve en büyük tahtalı seviyenin ekran görüntüsü rapora eklenir; kırpılma yok, engellerin hepsi ayırt edilebilir (375×667 bağlayıcı). Rapora en büyük tahtada 375×667'deki en küçük parça boyutu ve dokunma alanı (pt) yazılır; dokunma alanı ≥ 44 pt.
+1b. Girdi: sürüklemede parça aynı karede parmak konumunda (yumuşatma yok); sayfa `touch-action`/viewport ile kaydırma ve yakınlaştırmaya kapalı (kod incelemesi; iPhone'da ölçüt 8).
 2. EditMode: girdi denetleyicisi (Unity'siz): baskın eksen seçimi, durma noktasında kenetlenme, çıkış eşiği → `TryExit`, eşik altı → geri dönüş; takılma sayımı kurala göre (aynı sürüklemede aynı yöne ikinci itme sayılmaz, yön değişirse sayılır, çivili parçaya basma sayılır).
 3. EditMode/PlayMode: 1a altın senaryolarından en az 5 seviye (L24 dahil) girdi denetleyicisi üzerinden simüle sürüklemelerle oynatılır ve GameSession sonucu altınla aynı çıkar (girdi katmanının hamle kaybetmediğinin kanıtı).
 4. Performans: iPhone'da `?debug=1` ile en büyük tahtalı seviyede sürükleme sırasında medyan FPS ≥ 55 (Zeyd okur). Altındaysa PM'e rapor, engelleyici kararı PM verir.
 5. Boyut: size-log'a yazılır; toplam indirme 10 MB bütçesinde. Brotli build M2'ye göre +1 MB'ı geçerse (font, doku) PM'e raporlanır.
 6. Açılış: debug kapalıyken oyun doğrudan tahtaya açılır; `?debug=1` ile panel 40/40 + oturum 40/40 yazar.
 7. Yayın: gh-pages `/br/` ve `/gz/`, kök → `/br/` korunur.
-8. iPhone (Zeyd, kök adres): L01–L05 ve L11, L21, L31 oynanır; her biri sonuçlanır (kazanma veya kayıp), yanlış yöne giden/kaybolan sürükleme yok, sayfa kaydırma/yakınlaştırma oyunu bozmuyor, engeller okunuyor.
+8. iPhone (Zeyd, kök adres): L01–L05 ve L11, L21, L31 oynanır; her biri sonuçlanır (kazanma veya kayıp), yanlış yöne giden/kaybolan sürükleme yok, parça parmağın gerisinde kalmıyor, sürüklerken sayfa kaymıyor/yakınlaşmıyor, engeller okunuyor.
 
 ## Zorluk deneyi ilkeleri (Faz 2–4)
 
@@ -214,16 +222,19 @@ Kabul ölçütleri:
 - [x] iPhone'da "40 seviye okundu, 40 çözülebilir" (M1 ölçüt 8) — karşılandı 2026-10-06
 - [x] gzip/Brotli iPhone karşılaştırması — 5G'de yapıldı, karar verildi 2026-10-06
 - [x] Ana ekran modunda alt şerit kontrolü — sorun yok, kapandı 2026-10-06
-- [ ] Şimdi (M3'ü engellemez): iPhone'da kök adresi (`https://zeydusht.github.io/reverse-solver-unity/`) yeni özel sekmede bir kez aç; adres çubuğunda `/br/`'ye gittiğini ve panelde "40 seviye okundu, 40 çözülebilir; oturum 40/40 web'le aynı (37 kazandı, 3 bomba)" yazdığını kontrol et (M2 ölçüt 9'un iPhone kısmı). Getir: evet/hayır + panel satırı (ekran görüntüsü yeterli)
+- [x] iPhone'da kök → `/br/` ve panelde "oturum ... web'le aynı" (M2 ölçüt 9) — karşılandı 2026-10-06
+- [x] M3 görsel yön kararı (web birebir, okunabilirlik, minimum efekt) — verildi 2026-10-06
 - [ ] M3 bitince: iPhone'da M3 ölçüt 4 (FPS, `?debug=1`) ve ölçüt 8 (L01–L05, L11, L21, L31 oynanışı)
 - [ ] Playtest öncesi 4G teyidi (M2'yi engellemez): Ayarlar → Hücresel → Hücresel Veri Seçenekleri → Ses ve Veri → LTE; Wi-Fi kapalı; kök adres, her açılış yeni özel sekme, 3 kez; panel değerleri (toplam, JS açma) + başta ve sonda fast.com
-- [ ] Yerel sunucu artık gerekmiyor: güvenlik duvarında Python'un "Ortak" ağ iznini kaldır
+- [x] Güvenlik duvarında Python'un "Ortak" ağ izni kaldırıldı — 2026-10-06
 
 ## Backlog
 
 - Netlify'a geçiş (yedek plan, karar 2026-10-06): yalnızca tetikleyici (A) veya (B) gerçekleşirse. Gerekirse: Zeyd Netlify hesabı + repo bağlantısı, `_headers` ile `Content-Encoding`, decompression fallback kapatma, aynı 4G protokolüyle ölçüm
 - Faz 4 girdisi: M2 1b'de akıllı oynayıcı 40/40 kazandı, kazanılamayan seviye yok. Yeniden tasarım kuralı kalır: her seviye 0 patlama/0 donma/0 supapla çözülebilir
 - Faz 2: akıllı oynayıcının kısıtlı aramasını (bomba konisi + 1 dolgu) genel çözücüye genişletmek (yeni seviyelerde gerekebilir)
+- M6 cilalama (playtest öncesi): çıkış, çivi sökülmesi, supap partikül/tween'leri, ses, genel his. M3'te yalnızca minimum efekt (karar 2026-10-06)
+- Yeni görsel kimlik (Zeyd'in kararı: ayrı iş): Faz 3 veri toplama bitene kadar yapılmaz; en erken Faz 4 yeniden tasarımıyla. Case study görselleri için de değerlendirilebilir
 - Unity içinde seviye editörü
 - Supabase telemetrisinin Unity'ye taşınması (Faz 2)
 - Eski Input Manager'a geçiş (yalnızca 4G teyidi 10 sn'yi aşarsa yeniden değerlendirilir; iPhone 5G medyanı 1,83 sn)
