@@ -2,7 +2,7 @@
 
 Ürün kararlarının tek kaynağı bu dosya. Kararlar, ölçümler ve açık işler burada tutulur; `product-manager` subagent'ı her değerlendirmeden sonra günceller.
 
-Son güncelleme: 2026-10-05 (gece, M1 kapanışı)
+Son güncelleme: 2026-10-06 (GitHub Pages yayında, 4G ölçüm protokolü, M2 başlatıldı)
 
 ## Hedef
 
@@ -22,7 +22,7 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 
 | Faz | İçerik | Durum |
 |---|---|---|
-| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0 ve M1 bitti (M1'in iPhone kontrolü Zeyd'de, engelleyici değil). M2 (GameSession) başladı. 4G ölçümü (Zeyd) gelince sıkıştırma kararı kesinleşir |
+| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0 ve M1 bitti (M1'in iPhone kontrolü Zeyd'de, engelleyici değil). GitHub Pages yayında (2026-10-06). M2 (GameSession) 2026-10-06'da başlatıldı. 4G ölçümü (Zeyd) gelince sıkıştırma kararı kesinleşir |
 | 2. Ölçüm altyapısı | Telemetri (client, level_version), test modu (rastgele sıra), ekransız çözücü + Monte Carlo | Bekliyor |
 | 3. Deney | Deney seviyeleri, playtest ile veri toplama | Bekliyor |
 | 4. Model ve tasarım | Zorluk tablosu, engel tanıtımı ve 40 seviyenin yeniden tasarımı | Bekliyor |
@@ -58,6 +58,11 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-05 (gece) | İnsan metriklerinin tanımı M2'de sabitlenir: **deneme** = bir seviyenin her başlatılışı (yeniden başlat dahil); **bıraktı (quit)** = sonuçsuz biten deneme (yeniden başlat, menüye dönüş; sayfa kapanışı M5'te); **süre** = oturumun saydığı aktif oyun süresi; **takılma** web'deki tanımla aynı, kodda belgelenir. Her deneme tam olarak bir kayıt üretir | "İnsan metrikleri veri toplanmadan önce tanımlanır" ilkesi; web'deki telemetri hataları (deneme sayacı, eksik quit satırı) bu tanımlarla düzeltilir |
 | 2026-10-05 (gece) | Booster davranışı (stok, etki, kullanılamayacağı durumlar) web'le aynı taşınır; değnek sonrası tahtanın çözülebilir kalıp kalmadığı yalnızca ölçülüp raporlanır, davranış değiştirilmez | Taşıma fazında oynanışı değiştirmek web verisiyle karşılaştırmayı bozar; sorun çıkarsa Faz 4 tasarım kararı |
 | 2026-10-05 (gece) | 3D fizik modülü (PhysX) boyut fırsatı backlog'a; 4G ölçümüyle birlikte değerlendirilir | Ölçülmedi; boyut işi yalnızca 4G > 10 sn ise yeniden açılır (karar kuralı) |
+| 2026-10-06 | Playtest linki kök adres: `https://zeydusht.github.io/reverse-solver-unity/`. Kök şimdilik `/gz/`'ye yönlendirir (sorgu parametreleri korunur); 4G kararından sonra kazanan sıkıştırmaya çevrilir. `/gz/` ve `/br/` alt adresleri kalır (Zeyd'in kararı) | Oyuncuya tek, değişmeyen bir link; sıkıştırma değişse de link aynı kalır |
+| 2026-10-06 | İlk Pages 404'ü bizim dosyalarımızdan değil, GitHub'ın "deploy" işine runner atamamasından (15 dk kuyruk, iptal). Kod/ayar değişikliği gerekmez. Yayın bozulursa önce Actions'taki son "pages build and deployment" çalıştırmasına bakılır; gerekirse boş commit ile yeniden tetiklenir | Kanıt GitHub API'de: build 6 sn'de başarılı, deploy hiç başlamadı. `.nojekyll` ilk günden vardı |
+| 2026-10-06 | 4G karşılaştırması `/gz/` ve `/br/` adresleri **doğrudan** açılarak yapılır (kök değil). Kök ayrıca bir kez açılıp yönlendirmenin iPhone'da çalıştığı kontrol edilir | İki adres aynı sayfa yapısında olsun; kökün yönlendirme adımı yalnızca gzip'e eklenip karşılaştırmayı bozmasın. Kazanan hangisiyse kök ona yönlenecek, yönlendirme maliyeti iki seçenekte de aynı |
+| 2026-10-06 | Süre panelindeki "tarayıcı yerel açtı mı" satırı yok sayılır; karar verisi değildir | Pages CDN'i loader.js gibi metin dosyalarını kendisi gzip'liyor, satır bu yüzden "evet" diyor. Unity dosyaları yine JS ile açılıyor (JS açma satırı bunu gösteriyor). Panel M3'te kalkıyor, düzeltmeye değmez |
+| 2026-10-06 | M2'yi PM başlatır; Zeyd'in ayrıca "devam" demesi gerekmez. Zeyd durdurmak isterse durur | M2 kapsamı ve kabul ölçütleri 2026-10-05 gece onaylandı; açık ürün sorusu yok. Zeyd'in gece talimatı geceye özeldi. Zeyd'in bekleyen işlerinin (4G, iPhone kontrolleri) hiçbiri M2'yi engellemiyor; M2 saf Core işi, sıkıştırma kararından bağımsız. Beklemek playtest yolunu boşuna geciktirir |
 
 ## Ölçümler
 
@@ -73,6 +78,8 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-05 | Boyut G: F + Brotli (fallback açık) | 6,81 MB (−1,83 vs F) | JS açma 1,55 sn (bilgisayar, 7 tekrar medyan) | wasm 5,16 · data 1,47 · loader 118,6 KB · açma: wasm 1161 ms, data 347 ms. Aynı yöntemle F: 0,27 sn (wasm 200, data 62). Başa baş ≈ 1,4 MB/s (≈ 11 Mbit/s). iPhone'da ölçülmedi |
 | 2026-10-05 | M1, gzip (gh-pages `/gz/`) | 8,67 MB (+26 KB vs F) | Açılış kontrolü 51 ms (Chrome/Windows, başsız) | wasm +10 KB · data +16 KB. "40 seviye okundu, 40 çözülebilir". 10 MB bütçesinde |
 | 2026-10-05 | M1, Brotli (gh-pages `/br/`) | 6,84 MB | — | Aynı kod; 4G karşılaştırması için |
+| 2026-10-06 | M1, gzip, canlı GitHub Pages (kök → `/gz/`) | wasm 6.663.005 B (Content-Encoding yok, beklendiği gibi) | 4,85 sn (PC, başsız Chrome, internet, tek ölçüm, yazılımsal grafik; 4G DEĞİL) | İndirme 1,69 · JS açma 1,63 (iş süresi) · motor 1,47. "40 seviye okundu, 40 çözülebilir". Yalnızca yayının çalıştığının kanıtı; karar verisi değil |
+| 2026-10-06 | M1, Brotli, canlı GitHub Pages (`/br/`) | — | 7,55 sn (aynı koşullar, tek ölçüm; 4G DEĞİL) | İndirme 3,07 · JS açma 3,27. 40/40. Karar verisi değil |
 
 ## M1 tanımı (seviye verisi ve kural motoru) — KAPANDI 2026-10-05
 
@@ -141,14 +148,17 @@ Kabul ölçütleri:
 - [x] gh-pages dalı: `/gz/` (F), `/br/` (G), kök sayfa, .nojekyll (Pages repoda açılınca yayında)
 - [x] UI Toolkit zaman kutusu: çıkarılamaz (Input System bağımlılığı), kapandı
 - [x] M1: 227 EditMode testi, gh-pages `/gz/` ve `/br/` M1 build'i (e1cf67f; gh-pages 0552040)
-- [ ] 1. M2 (bkz. "M2 tanımı", 9 kabul ölçütü). Bitince build'i gh-pages `/gz/`'ye koy, size-log'a yaz, PM'e raporla
-- [ ] 2. 4G ölçümü gelince karar kuralına göre sıkıştırmayı kesinleştir (Brotli seçilirse main'de varsayılanı değiştir)
+- [x] GitHub Pages yayını doğrulandı (gh-pages bb41921, 13:35 success): kök 200 (→ `/gz/` yönlendirme), `/gz/` 200, `/br/` 200; canlı adreste 40/40
+- [ ] 1. M2 (bkz. "M2 tanımı", 9 kabul ölçütü), 2026-10-06'da başlatıldı. Bitince build'i gh-pages `/gz/`'ye koy (kök yönlendirmesini koru), size-log'a yaz, PM'e raporla
+- [ ] 2. 4G ölçümü gelince karar kuralına göre sıkıştırmayı kesinleştir (Brotli seçilirse main'de varsayılanı değiştir ve kök yönlendirmesini `/br/`'ye çevir)
 - [ ] 3. M3'te: geçici `BootLevelCheck` ve süre panelini kaldır
+- [ ] 4. Zeyd eski re-run'ı iptal edemeden o çalışırsa ve kök eski iki bağlantılı sayfaya dönerse: boş commit ile gh-pages'i yeniden yayınla
 
 ### Zeyd
-- [ ] GitHub Pages'i aç (Settings → Pages → Deploy from a branch → gh-pages, / (root))
-- [ ] Pages açılınca iPhone'da `/gz/` adresinde süre panelinde "40 seviye okundu, 40 çözülebilir" yazdığını kontrol et (M1 ölçüt 8), ekran görüntüsü getir
-- [ ] Pages açılınca iPhone'da 4G ile (Wi-Fi kapalı, 5G kapalı) iki adresi (`/gz/`, `/br/`) ölç: her biri için önbelleği temizle, 3 kez aç, süre paneli değerlerini + bir hız testi sonucunu getir
+- [x] GitHub Pages'i aç (gh-pages, / (root)) — açıldı; ilk 404 GitHub runner kuyruğundandı, çözüldü
+- [ ] Actions'ta kuyrukta bekleyen eski re-run'ı (commit 0552040) iptal et
+- [ ] iPhone'da kök adresi aç: `/gz/`'ye gittiğini ve süre panelinde "40 seviye okundu, 40 çözülebilir" yazdığını kontrol et (M1 ölçüt 8), ekran görüntüsü getir
+- [ ] 4G ölçümü: `/gz/` ve `/br/` doğrudan, sırayla dönüşümlü, her açılıştan önce önbellek temizliği, her adres 3 kez; panel değerleri + başta ve sonda hız testi (protokol PM çıktısında)
 - [ ] Ana ekran modunda (Paylaş → Ana Ekrana Ekle) alt şeritte farklı renk kalmadığını kontrol et, ekran görüntüsü getir
 - [ ] Yerel sunucu artık gerekmiyor: güvenlik duvarında Python'un "Ortak" ağ iznini kaldır
 
