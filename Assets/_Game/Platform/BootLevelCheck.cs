@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace ReverseSolver.Platform
 {
-    /* TEMPORARY (M1/M2): proves, in the shipped web build where managed
+    /* Debug check (?debug=1): proves, in the shipped web build where managed
        stripping is High and EditMode tests cannot reach, that
          - the level file parses and every level is solvable (M1), and
          - GameSession plays the web game's reference scenarios with the same
            result on every level (M2; Tools/make_session_golden.js).
-       Shows the result on the load-time panel. Remove with the panel in M3. */
+       Shows the result on the load-time panel. */
     public sealed class BootLevelCheck : MonoBehaviour
     {
         [SerializeField] TextAsset levels;
@@ -19,6 +19,7 @@ namespace ReverseSolver.Platform
 
         void Start()
         {
+            if (!ReverseSolver.Presentation.Host.Debug) return;   // ?debug=1 only: it costs ~0.3 s at startup
             if (levels == null)
             {
                 WebBridge.BootReport("Seviye dosyası bağlı değil");

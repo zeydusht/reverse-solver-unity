@@ -119,6 +119,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &506585441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 506585443}
+  - component: {fileID: 506585442}
+  m_Layer: 0
+  m_Name: GameRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &506585442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506585441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8248ee1385ec0c7418c43996c9372484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ReverseSolver.Presentation::ReverseSolver.Presentation.GameRoot
+  levels: {fileID: 4900000, guid: 7a242d63fa5bff24cb9f1802f7d6094b, type: 3}
+  pieceMaterial: {fileID: 2100000, guid: b4b7b3ebdb634894aa395f8927626cb0, type: 2}
+  shapeMaterial: {fileID: 2100000, guid: 3a6e2c1c0c72b4b468650e2d604a4cd1, type: 2}
+  solidMaterial: {fileID: 2100000, guid: 9cb4b819f0c043d40a999528d72ae881, type: 2}
+  backgroundMaterial: {fileID: 2100000, guid: cc5d8ad2d44e0594887fa050808e1de0, type: 2}
+--- !u!4 &506585443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506585441}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +249,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.023529412, g: 0.09019608, b: 0.101960786, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -308,3 +357,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1932062865}
+  - {fileID: 506585443}

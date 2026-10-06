@@ -93,6 +93,9 @@ namespace ReverseSolver.EditorTools
             EditorUserBuildSettings.SetPlatformSettings("WebGL", "CodeOptimization", "DiskSizeLTO");
             PlayerSettings.stripEngineCode = true;
             PlayerSettings.runInBackground = false;
+            // The look is the web game's CSS, which blends translucent colours in
+            // sRGB. Linear blending made every translucent layer lighter.
+            PlayerSettings.colorSpace = ColorSpace.Gamma;
             SyncPageBackground();
         }
 
