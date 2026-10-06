@@ -26,13 +26,25 @@
 - `?lv=N` ile seviye seçimi; `?debug=1` ile süre paneli, açılış kontrolü ve sürüklerken medyan FPS satırı. iOS'ta iki parmakla ve çift dokunarak yakınlaştırma engellendi.
 - Testler: 334 EditMode testi geçiyor.
 
+### M4 — kod tamam, build/yayın bekliyor
+- **Ana menü** (Oyna · Bölüm N, Bölümler), **bölüm listesi** (40 bölüm; önceki bölüm kazanılınca sonraki açılır, `?debug=1` hepsini açar), **booster çubuğu** web'deki gibi (sayı rozeti, seçili amber, kilitli gri + "N. BÖLÜM", yeni booster nabız), **makas hedefleme** (eklemlerde amber noktalar), **çekiç**, **değnek ve saat onay kartı**, **tanıtım kartları** (engel / yeni booster; açıkken süre durur), bitiş kartına **Menü** düğmesi.
+- Booster mantığı Core'da (Unity'siz) ve test edildi: her booster için dokunma → oyun komutu → olay; yeniden başlatma ve menüye dönüş "bıraktı" kaydı yazıyor.
+- Görüntüler: `docs/screens/m4/` (booster'lı tahta, makas, menü, değnek sorusu); üç boyutun hepsi `Builds/screens/m4/`.
+- Dokunma alanları: booster 60 pt, kart düğmeleri 46 pt, bölüm hücreleri ≈49 pt, makas noktaları 44 pt. Alt şerit bölgesinde arayüz yok.
+- Yok (öneri): L01'deki öğretici el → M6; oyuncu adı ekranı → M5.
+
+### Bulut build (yedek yol) hazır
+- `.github/workflows/webgl-build.yml`: yalnızca elle başlar (Actions → *WebGL build* → *Run workflow*), Brotli + gzip build'lerini artifact olarak verir, yayınlamaz. Unity 6000.6.4f1 WebGL imajı game-ci'de mevcut.
+- Kurulum: `docs/CLOUD_BUILD.md`. Secret'ları (UNITY_EMAIL, UNITY_PASSWORD, UNITY_LICENSE) senin eklemen gerekiyor. **Belirsizlik:** bu bilgisayarda klasik lisans dosyası yok (Unity'nin yeni lisans sistemi); game-ci'nin Personal lisansı hangi yolla kabul ettiğini onların sayfasından doğrulaman lazım. Çalışacağı garanti değil.
+- Doğrulanmadı: workflow'u başlatamadım (GitHub kimliği gerekiyor).
+
 ## PM kararları (ayrıntı `docs/PRODUCT.md`)
 - M3 kapanmadı: "kod tamam, build/yayın bekliyor". İlk build'de M3 + M4 birlikte yayınlanacak, iPhone testleri tek seferde.
 - Bu gece: M4 kodu ve M5'in Supabase'e dokunmayan ön işleri (PlayerPrefs, kayıt kuyruğu, `level_id` SQL taslağı). Canlı gönderim yok.
 - Bulut build (GitHub Actions) bu gece ~1 saatlik zaman kutusuyla hazırlanacak; yalnızca elle tetiklenir, secret repoya girmez.
 
 ## Testlerin durumu
-334/334 EditMode (editörde). Web build'i yok, iPhone testi yok.
+346/346 EditMode (editörde) + sanal fare sürükleme testi (0,00 pt takip hatası). Web build'i yok, iPhone testi yok.
 
 ## Önceki gece — 2026-10-05
 

@@ -2,7 +2,7 @@
 
 Ürün kararlarının tek kaynağı bu dosya. Kararlar, ölçümler ve açık işler burada tutulur; `product-manager` subagent'ı her değerlendirmeden sonra günceller.
 
-Son güncelleme: 2026-10-06 gece (WebGL build Windows Akıllı Uygulama Denetimi'nce engellendi; M3 "kod tamam, build/yayın bekliyor"; M4 kodlamasına geçiş; bulut build hazırlığı)
+Son güncelleme: 2026-10-06 gece, ikinci değerlendirme (M4 "kod tamam, build/yayın bekliyor"; bulut build workflow'u hazır, doğrulanmadı; M5-ön kapsamı Zeyd'in talimatıyla: gönderim kodu yazılır, canlıda kapalı)
 
 ## Hedef
 
@@ -22,7 +22,7 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 
 | Faz | İçerik | Durum |
 |---|---|---|
-| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0, M1, M2 bitti (M2 2026-10-06; iPhone kontrolü dahil). GitHub Pages yayında, kök → `/br/` (Brotli varsayılan). M3 (tahta görseli + sürükleme) kod tamam, build/yayın bekliyor (2026-10-06 gece: WebGL build Windows Akıllı Uygulama Denetimi'nce engelli). M4 kodlaması editörde başlıyor. Kalan: M3 build/iPhone, M4–M6, playtest öncesi kısa 4G (LTE) teyidi |
+| 1. Taşıma | M0–M6: oyun Unity'de çalışır, iPhone'da oynanır | M0, M1, M2 bitti (M2 2026-10-06; iPhone kontrolü dahil). GitHub Pages yayında, kök → `/br/` (Brotli varsayılan). M3 (tahta görseli + sürükleme) ve M4 (menüler, booster arayüzü, kartlar) kod tamam, build/yayın bekliyor (WebGL build Windows Akıllı Uygulama Denetimi'nce engelli; 346 test). Sırada M5-ön (Supabase'e dokunmayan kısım + kapalı gönderim kodu). Kalan: M3+M4 build/iPhone, M5 canlıya açılış, M6, playtest öncesi kısa 4G (LTE) teyidi |
 | 2. Ölçüm altyapısı | Telemetri (client, level_version), test modu (rastgele sıra), ekransız çözücü + Monte Carlo | Bekliyor |
 | 3. Deney | Deney seviyeleri, playtest ile veri toplama | Bekliyor |
 | 4. Model ve tasarım | Zorluk tablosu, engel tanıtımı ve 40 seviyenin yeniden tasarımı | Bekliyor |
@@ -91,6 +91,12 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-06 gece | **M4 kodlamasına geçilir (editörde derlenip test edilerek); M5'ten bu gece yalnızca Supabase'e dokunmayan kısımlar** (PlayerPrefs ilerleme, deneme kayıt kuyruğu/serileştirme, `level_id` SQL taslağı). Supabase'e gerçek gönderim kodu SQL çalıştırılıp bir web build alınana kadar yazılmaz/denenmez. Build'siz birikim sınırı: M3 + M4. Build hâlâ alınamıyorsa M4'ten sonra yeni kapsam açılmaz; PM'e gelinir. İlk build alındığında M3 + M4 birlikte yayınlanır ve iPhone testleri tek seferde yapılır | Playtest yolunu beklemek boşa zaman; M4 Presentation işi, build engelinden bağımsız. Ama yayınlanmamış kod biriktikçe stripping/Safari hatasının kaynağını bulmak zorlaşır; sınır bunu tutar. Editörden canlı `plays` tablosuna gönderim, sütun yokken veri kirletir |
 | 2026-10-06 gece | **Mühendislik bu gece C'yi hazırlar** (zaman kutusu ~1 saat): GitHub Actions workflow'u (yalnızca `workflow_dispatch`, gh-pages'e otomatik yayın yok; çıktı artifact olarak indirilir) + Zeyd için secret talimatı. Önce game-ci'de 6000.6.4f1 (WebGL) imajı olup olmadığına bakılır; yoksa durur ve raporlar, sürüm değiştirilmez. Repoya secret/lisans dosyası girmez. CI build'i gh-pages'e ancak yerel build'le aynı ayarları (gzip/Brotli, şablon, High stripping, size-log) ürettiği doğrulanınca bağlanır | Secret'sız çalışmaz ama hazır durması sabah Zeyd'in tek adımla denemesini sağlar; B tutmazsa A'ya gitmeden alternatif olur. Otomatik yayın, doğrulanmamış build'i playtest linkine koyabilir |
 | 2026-10-06 | **"Cilalama adımı" = M6 (ses ve cila), playtest öncesi.** "Yeni görsel kimlik" Faz 3 veri toplama bitene kadar yapılmaz; en erken Faz 4 yeniden tasarımıyla birlikte (backlog) | Deney sırasında görünüm değişirse oyuncu verisi iki görsel koşula bölünür; zorluk modeli karışır |
+| 2026-10-06 gece | **M4 kapanmaz: durum "kod tamam, build/yayın bekliyor"** (M3 ile aynı). Editörde 1, 2, 3 karşılandı (BoosterControls + 12 test; bıraktı kaydı testi; 9 ekran × 3 boyut, kırpılma yok, booster 60 pt, kart düğmeleri 46 pt, bölüm hücresi 375'te ≈49 pt, makas noktası dokunma hedefi 44 pt, alt şeritte arayüz yok). 4 açık: size-log, yayın, iPhone. Taslak ölçütler bu haliyle kesinleşti; iPhone'a M4 kontrolleri eklendi (bkz. M4 tanımı) | Gerekçe M3 kararıyla aynı: stripping ve Safari dokunma davranışı yalnızca web build'de görülür |
+| 2026-10-06 gece | **Bölüm kilidi onaylandı:** önceki bölüm kazanılınca sonraki açılır; ilk bölüm hep açık; `?debug=1` hepsini açar. Kalıcılık M5. Faz 3 test modunda (rastgele sıra) kilit kuralı yeniden ele alınır | Web'in "her bölüme atlanabilir" davranışı playtest için yapılmıştı; normal oyunda sıralı ilerleme bölüm sırasıyla tanıtılan engellerin öğretimini korur. Debug açığı test ihtiyacını karşılar |
+| 2026-10-06 gece | **M4'te mühendisliğin verdiği arayüz kararları onaylandı:** ana menü (logo, başlık, alt başlık, "Oyna · Bölüm N", "Bölümler"; `?lv=N` menüyü atlar); tanıtım kartı yalnızca bölümün ilk başlatılışında, açıkken süre işlemez (web'le aynı); bitiş kartına "Menü" düğmesi (web'den fark, taslak istiyordu); booster adları sabit büyük harf (WebGL kültür verisi riski). L01 öğretici eli → M6 (playtest öncesi zorunlu, L01 ilk deneyimi ve takılma verisini etkiler); oyuncu adı ekranı → M5-ön | Hepsi oynanışı değiştirmiyor; "Menü" düğmesi bırakma kaydını üretir, telemetri tanımına uygun. Öğretici el ilk açılış deneyiminin parçası, playtest'ten önce şart ama build engelini çözmez |
+| 2026-10-06 gece | **Zeyd'in kararı: M5'in Zeyd'e bağlı olmayan kısmı şimdi yapılır; Supabase gönderim kodu yazılır ve sahte HTTP ile test edilir; SQL Zeyd tarafından çalıştırılana kadar canlıda gönderim kapalı kalır.** Bu, 2026-10-06 gece "gerçek gönderim kodu SQL + web build'den önce yazılmaz/denenmez" kararının gönderim kısmını ve "M4'ten sonra yeni kapsam açılmaz" sınırını değiştirir. PM notu: sınırın amacı (yayınlanmamış kod birikince stripping/Safari hatasının kaynağını bulmanın zorlaşması) geçerli; bu yüzden M5-ön'den sonra build alınmadan yeni kapsam açılmaz (M6 dahil), PM'e gelinir | Zeyd'in açık talimatı. Riski azaltan koşullar: gönderim varsayılan kapalı, editör ve testler canlıya hiç istek atmaz, canlıya açılış ayrı bir adım (SQL → bayrak → build → tek test satırı doğrulaması). Canlı tablo kirlenmez |
+| 2026-10-06 gece | **Gönderimi canlıya açma kuralı:** (1) Zeyd SQL dosyasını Supabase'de çalıştırır ve doğrulama sorgusunun çıktısını getirir; (2) mühendislik bayrağı açar ve build alır; (3) Zeyd bir bölüm oynar, Supabase'de satırı kontrol eder (`client`='unity', `level_id`, `level_version` dolu, deneme no ve süre mantıklı); (4) PM onayı. Bayrak build'e gömülüdür; URL parametresiyle açılamaz. `?debug=1` oturumları hiçbir zaman gönderilmez. Kapalıyken üretilen kayıtlar sonradan gönderilmez | URL ile açılabilen gönderim, sütun yokken 400 hatası ve kirli veri riski taşır. Kapalı dönemdeki kayıtlar geliştirme/test oyunlarıdır; playtest verisine karışmamalı |
+| 2026-10-06 gece | **Kayıt tekrarı olmayacak:** ağ hatasında yeniden deneme aynı denemeyi iki satır yapmamalı. Mühendislik her kayda istemcide benzersiz kimlik verir; gerekiyorsa SQL dosyası bu kimlik için ek sütun + tekil kısıt içerir (Zeyd tek seferde çalıştırır) | Deneme sayısı zorluk modelinin ana metriği; çift satır modeli doğrudan bozar |
 
 ## Ölçümler
 
@@ -113,6 +119,8 @@ Reverse Solver'ı Unity'de iPhone'da (Safari, dikey) oynanır hale getirmek, oyu
 | 2026-10-06 | M2, Brotli (gh-pages 92bcba5, `/br/`, kök) | 6,86 MB (+15 KB vs M1 Brotli) | — (PC başsız Chrome; iPhone'da ölçülmedi) | "40 seviye okundu, 40 çözülebilir; oturum 40/40 web'le aynı (37 kazandı, 3 bomba)". Stripped Core'da GameSession, SmartPlayer, AttemptRecord, Mulberry32 var |
 | 2026-10-06 | M2, gzip (`/gz/`) | 8,69 MB | — | Aynı kontrol, aynı sonuç. 10 MB bütçesinde |
 | 2026-10-06 | M2 testleri ve raporlar | — | — | 322 EditMode testi (227 + 95). 1a: 40/40 her adım web'le birebir. 1b: akıllı oynayıcı 40/40 kazandı, 0 patlama/donma/supap. Ölçüt 8: değnek 35 seviye × 5 tohum = 175/175 uygulandı, sonrası 175/175 açgözlü çözücüyle çözülebilir |
+| 2026-10-06 gece | M3 editör, sanal fare (Input System) | — | — | Takip hatası 0,00 pt; kısa sürükleme geri dönüyor, tam sürükleme çıkarıyor (31742aa). iPhone ölçütlerinin yerine geçmez |
+| 2026-10-06 gece | M4 editör (ee11e3d) | — (build yok) | — | 346 EditMode testi. 375×667'de: booster düğmesi 60 pt, kart düğmeleri 46 pt, bölüm listesi hücresi ≈49 pt, makas eklem noktası dokunma hedefi 44 pt. 9 ekran × 3 boyut kırpılmasız. Sanal fare sürükleme yeni akışta da geçti |
 
 ## M1 tanımı (seviye verisi ve kural motoru) — KAPANDI 2026-10-05
 
@@ -188,15 +196,43 @@ Kabul ölçütleri:
 7. Yayın: gh-pages `/br/` ve `/gz/`, kök → `/br/` korunur.
 8. iPhone (Zeyd, kök adres): L01–L05 ve L11, L21, L31 oynanır; her biri sonuçlanır (kazanma veya kayıp), yanlış yöne giden/kaybolan sürükleme yok, parça parmağın gerisinde kalmıyor, sürüklerken sayfa kaymıyor/yakınlaşmıyor, engeller okunuyor.
 
-## M4 tanımı (menüler, booster arayüzü, HUD) — taslak, 2026-10-06 gece
+## M4 tanımı (menüler, booster arayüzü, HUD) — KOD TAMAM, BUILD/YAYIN BEKLİYOR (2026-10-06 gece)
+
+Durum: editörde 1, 2, 3 karşılandı (346 test; ekranlar `docs/screens/m4/`, tamamı `Builds/screens/m4/`; main ee11e3d). Açık: 4 (size-log, yayın) ve 5 (iPhone) — M3 ile tek build'de.
 
 Kapsam: ana menü ve seviye listesi (40 seviye, kilit/yıldız gösterimi; kalıcılık M5'te, şimdilik oturum içi), booster arayüzü (makas, değnek, çekiç, saat; stok ve reddedilen durumlar GameSession'dan), bitiş ekranı (sonuç, yıldız, tekrar/sonraki/menü), HUD'un web görünümüne getirilmesi. Görsel yön web birebir; efektler minimum (M6'ya). `?lv=N` ve `?debug=1` korunur.
 
-Kabul ölçütleri (taslak; build alınınca kesinleşir):
-1. Presentation booster'ları yalnızca GameSession komutlarıyla kullanır; her booster için arayüz → komut → olay yolu EditMode testinde (Unity'siz denetleyici).
-2. Menüye dönüş ve yeniden başlatma "bıraktı" kaydı üretir (M2 tanımı); test.
-3. 375×667, 390×844, 430×932 ekran görüntüleri: menü, seviye listesi, booster'lı HUD, bitiş ekranı; kırpılma yok, dokunma alanları ≥ 44 pt, alt şerit bölgesinde arayüz yok.
-4. Mevcut testler geçer; size-log, yayın ve iPhone ölçütleri M3 ile birlikte (M3 ölçüt 5–8 ile aynı biçimde).
+Kabul ölçütleri (2026-10-06 gece kesinleşti):
+1. Presentation booster'ları yalnızca GameSession komutlarıyla kullanır; her booster için arayüz → komut → olay yolu EditMode testinde (Unity'siz denetleyici). — KARŞILANDI
+2. Menüye dönüş ve yeniden başlatma "bıraktı" kaydı üretir (M2 tanımı); test. — KARŞILANDI
+3. 375×667, 390×844, 430×932 ekran görüntüleri: menü, seviye listesi, booster'lı HUD, bitiş ekranı; kırpılma yok, dokunma alanları ≥ 44 pt, alt şerit bölgesinde arayüz yok. — KARŞILANDI (editör)
+4. Mevcut testler geçer; size-log, yayın M3 ile birlikte (M3 ölçüt 5–7 ile aynı biçimde). — testler geçiyor; build bekliyor
+5. iPhone (Zeyd, M3 ölçüt 8 ile aynı oturumda): kök adres menüye açılır; "Oyna" L01'i açar; L01 kazanılınca L02 açılır; bölüm listesinde kilitli bölüme dokunulamaz; L12'de dört booster da kullanılır (makas eklem noktasına dokunma, değnek onay kartı, çekiç, saat +20 sn); tanıtım kartı L03'te görünür, okunur, kapatılır; bitiş kartındaki Tekrar / Sonraki / Menü çalışır; hiçbir yazı/düğme kırpılmıyor, Türkçe karakterler doğru.
+
+## M5-ön tanımı (kalıcılık, oyuncu adı, kapalı gönderim) — 2026-10-06 gece, Zeyd'in kararıyla
+
+Amaç: Zeyd SQL'i çalıştırıp build alınınca gönderimin tek bayrakla açılabilmesi. Canlı Supabase'e hiçbir istek atılmaz.
+
+Kapsam:
+- Kalıcılık (PlayerPrefs, Platform'da; Core'da depolama arayüzü): `level_id` bazında deneme sayacı, en iyi yıldız, kazanılmış/açık bölümler, oyuncu adı. Anahtar şeması sürümlü. Bölüm sırası değişse de veri `level_id`'ye bağlı kalır.
+- Oyuncu adı ekranı (web'in name gate'i): ilk açılışta bir kez, web'deki kurallarla (uzunluk/boşluk); menüden değiştirilebilirse web'deki gibi.
+- Kayıt kuyruğu: her deneme kaydı kalıcı kuyruğa yazılır (sayfa yeniden yüklenince kaybolmaz), her kayda istemcide benzersiz kimlik; üst sınır (ör. 200 kayıt, en eskisi düşer).
+- Sayfa kapanışı = bıraktı (M2 tanımında M5'e bırakılan): `pagehide`/`visibilitychange` ile açık deneme bir kez "bıraktı" kaydı olarak kuyruğa yazılır (jslib).
+- Gönderim: Supabase REST insert, yalnızca anon anahtar; HTTP arayüz arkasında. Yeniden deneme: ağ/5xx hatasında artan bekleme ile; kalıcı hata (4xx) kuyruğu tıkamaz, kayıt ayrılır ve sayılır. Gönderim bayrağı build'e gömülü, varsayılan KAPALI; kapalıyken HTTP nesnesi hiç çağrılmaz ve kuyruk gönderilmez. `?debug=1` oturumları ve editör asla gönderilmez. Debug panelinde: kuyrukta / gönderildi / reddedildi sayıları, bayrak durumu.
+- SQL dosyası (`docs/sql/` altında): `plays` tablosuna `level_id` (boş bırakılabilir metin) ve gerekiyorsa kayıt kimliği sütunu + tekil kısıt; tekrar çalıştırılabilir (`if not exists`); web oyununu etkilemez; sonunda Zeyd için bir doğrulama sorgusu ve dosyanın başında adım adım çalıştırma talimatı.
+- Kapsam dışı: bayrağı açmak, canlıya istek, Supabase'de herhangi bir değişiklik (Zeyd'in işi), öğretici el ve cila (M6).
+
+Kabul ölçütleri:
+1. EditMode (sahte depolama): deneme sayacı, en iyi yıldız (yalnızca artar), kilit ve oyuncu adı "yeniden açılış" sonrası korunur; bozuk/eksik/eski sürüm veri çökertmez, varsayılana döner; anahtarlar `level_id`'ye bağlı.
+2. EditMode: deneme no kalıcı sayaçtan gelir; yeniden açılışta kaldığı yerden artar (web'deki deneme sayacı hatası tekrar etmez).
+3. EditMode (sahte HTTP): başarı → kuyruktan düşer; ağ/5xx → kuyrukta kalır, yeniden denenir; 4xx → ayrılır, sonraki kayıtlar gönderilir; aynı kayıt iki kez gönderilse bile aynı benzersiz kimliği taşır; kuyruk sınırı çalışır.
+4. EditMode: gönderilen JSON, `plays` tablosunun sütunlarıyla birebir (altın JSON testi): `client`='unity', `level_id`, `level_version`, deneme no, süre, sonuç, kalan süre, takılma, booster kullanımları, yıldız, oyuncu adı; web'in sütun adları ve tipleri.
+5. EditMode: bayrak kapalıyken ve `?debug=1`'de hiçbir yoldan HTTP çağrısı yok (sahte HTTP çağrı sayısı 0).
+6. Repoda yalnızca anon/publishable anahtar; `service_role` yok (push öncesi tarama).
+7. SQL dosyası hazır ve mühendislikçe gözden geçirilmiş (sütun adları web'in `plays` şemasıyla tutarlı); Zeyd'e adım adım talimat.
+8. Build'e bağlı (açık kalır, M3+M4 build'iyle birlikte): stripped build'de kalıcılık sayfa yenilemede korunur, sayfa kapanışı bıraktı kaydı kuyruğa düşer (debug panelinde görülür), gönderim kapalı (ağ sekmesinde Supabase isteği yok).
+
+Bu işten sonra build alınmadan yeni kapsam açılmaz (M6 dahil); PM'e gelinir.
 
 ## Zorluk deneyi ilkeleri (Faz 2–4)
 
@@ -226,12 +262,14 @@ Kabul ölçütleri (taslak; build alınınca kesinleşir):
 - [x] M2: 322 test, 1a 40/40 web'le birebir, 1b 40/40 kazandı (main a578d4b, d9a11ef; gh-pages 92bcba5) — kapandı 2026-10-06
 - [x] Varsayılan Brotli + kök → `/br/` (main bc053ab, gh-pages fb5ca44, canlıda doğrulandı) — kapandı 2026-10-06
 - [x] Panel "yerel açtı mı" satırı düzeltildi (bc053ab) — kapandı 2026-10-06
-- [ ] 1. M3: kod tamam (5f8cf75). Build engeli kalkınca: M3+M4 tek build, size-log farkı (M2 Brotli 6,86 MB'a göre), `?debug=1` panelinde 40/40 + oturum 40/40, gh-pages `/br/` + `/gz/`, kök → `/br/`; sonra PM'e rapor
-- [ ] 2. (bu gece) C hazırlığı, ~1 saat: game-ci'de 6000.6.4f1 WebGL imajı var mı kontrol; varsa `workflow_dispatch` workflow'u (artifact, otomatik yayın yok) + Zeyd için secret talimatı; yoksa raporla. Secret/lisans repoya girmez
-- [ ] 6. (bu gece) M4 kodu (bkz. "M4 tanımı" taslağı), editörde test; M5'ten yalnızca PlayerPrefs, kayıt kuyruğu, `level_id` SQL taslağı. Build'siz M4'ten öteye geçme, PM'e gel
+- [x] C hazırlığı: workflow (`workflow_dispatch`, game-ci, imaj `unityci/editor:ubuntu-6000.6.4f1-webgl-3`), `WebBuild.BuildFromCommandLine`, `docs/CLOUD_BUILD.md` (55b861a). Doğrulanmadı: Zeyd'in secret'ları ve ilk çalıştırma gerekiyor; Unity'nin yeni lisans sistemi nedeniyle Personal lisans adımı belirsiz
+- [x] M4 kodu (ee11e3d): 346 test, ölçüt 1–3 editörde karşılandı
+- [ ] 1. M3+M4 (+M5-ön) build: engel kalkınca tek build, size-log farkı (M2 Brotli 6,86 MB'a göre; +1 MB'ı geçerse PM'e), `?debug=1` panelinde 40/40 + oturum 40/40, gh-pages `/br/` + `/gz/`, kök → `/br/`; gönderim kapalı doğrulaması (ağda Supabase isteği yok); sonra PM'e rapor. CI build'i kullanılırsa: yerel ayarlarla aynı çıktı (şablon, sıkıştırma, High stripping, size-log) kontrol edilmeden gh-pages'e konmaz
+- [ ] 6. (sıradaki) M5-ön (bkz. "M5-ön tanımı"): kalıcılık, oyuncu adı ekranı, kalıcı kayıt kuyruğu, sayfa kapanışı = bıraktı, kapalı bayraklı gönderim + sahte HTTP testleri, `docs/sql/` SQL dosyası + Zeyd talimatı. Bitince PM'e rapor; build alınmadan yeni kapsam yok
 - [ ] 3. M3'te: `BootLevelCheck` ve süre panelini `?debug=1` arkasına al (silme; karar 2026-10-06) — M3 build'inde web'de doğrulanacak
 - [ ] 5. Pages yayın olaylarını kayda geçir (tarih, süre, düzeltme yolu); Netlify tetikleyicisi (A) bu kayıtla sayılır
-- [ ] 7. M5 başında: `plays` tablosuna `level_id` sütunu için SQL hazırla, Zeyd'e ver (karar 2026-10-06)
+- [ ] 8. Gönderimi canlıya açma (Zeyd SQL'i çalıştırdıktan sonra): bayrak aç → build → Zeyd'in test satırı doğrulaması → PM onayı (karar 2026-10-06 gece)
+- [ ] 9. M6 (build sonrası): L01 öğretici eli (playtest öncesi zorunlu) + cila
 - [ ] 4. Zeyd eski re-run'ı iptal edemeden o çalışırsa ve kök eski iki bağlantılı sayfaya dönerse: boş commit ile gh-pages'i yeniden yayınla
 
 ### Zeyd
@@ -243,7 +281,8 @@ Kabul ölçütleri (taslak; build alınınca kesinleşir):
 - [x] iPhone'da kök → `/br/` ve panelde "oturum ... web'le aynı" (M2 ölçüt 9) — karşılandı 2026-10-06
 - [x] M3 görsel yön kararı (web birebir, okunabilirlik, minimum efekt) — verildi 2026-10-06
 - [ ] **(ACİL, engelleyici) WebGL build engeli.** Sırayla, biri tutunca dur: (0) bilgisayarı yeniden başlat, Unity'de Reverse Solver → Build WebGL bir kez dene. (B) Unity Hub → Installs → 6000.6.4f1 → Uninstall; sonra aynı sürümü WebGL Build Support modülüyle yeniden kur; build'i dene. (C) Mühendislik workflow'u hazırladıysa: repo → Settings → Secrets and variables → Actions → talimattaki Unity secret'larını ekle → Actions'tan workflow'u elle çalıştır. (D) başka bir bilgisayar varsa orada build. (A) Akıllı Uygulama Denetimi'ni kapatmak — GERİ DÖNÜŞSÜZ (Windows sıfırlanmadan geri açılamaz); yalnızca senin açık kararınla, önce PM'e sor. Getir: hangi adım denendi, build geçti mi, geçmediyse hata metni
-- [ ] M3+M4 build'i yayınlanınca: iPhone'da M3 ölçüt 4 (FPS, `?debug=1`) ve ölçüt 8 (L01–L05, L11, L21, L31 oynanışı) + M4 ekranları
+- [ ] M3+M4 build'i yayınlanınca: iPhone'da M3 ölçüt 4 (FPS, `?debug=1`) ve ölçüt 8 (L01–L05, L11, L21, L31 oynanışı) + M4 ölçüt 5 (menü, kilit, L12'de dört booster, L03 tanıtım kartı, bitiş kartı düğmeleri)
+- [ ] M5-ön bitince: `docs/sql/` altındaki SQL dosyasını Supabase → SQL Editor'da çalıştır, doğrulama sorgusunun çıktısını getir. O zamana kadar gönderim kapalı kalır (Zeyd'in kararı)
 - [ ] Playtest öncesi 4G teyidi (M2'yi engellemez): Ayarlar → Hücresel → Hücresel Veri Seçenekleri → Ses ve Veri → LTE; Wi-Fi kapalı; kök adres, her açılış yeni özel sekme, 3 kez; panel değerleri (toplam, JS açma) + başta ve sonda fast.com
 - [x] Güvenlik duvarında Python'un "Ortak" ağ izni kaldırıldı — 2026-10-06
 
