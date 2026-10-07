@@ -25,11 +25,11 @@
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   /* Same colour as the camera clear colour (synced by WebBuild), so the strip
      iOS leaves below the canvas at the home indicator is invisible. */
-  html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:#314D79}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:#06171A}
   body{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;
     font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;color:#eaf3f2}
   .full{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%}
-  #unity-canvas{display:block;outline:none;background:#314D79}
+  #unity-canvas{display:block;outline:none;background:#06171A;touch-action:none}
 
   #loader{display:flex;flex-direction:column;align-items:center;
     justify-content:center;gap:18px;background:linear-gradient(178deg,#1c565c 0%,#123c42 46%,#0a2226 100%);
@@ -56,18 +56,17 @@
 
 <script>
 /* ===========================================================================
-   TEMPORARY: load-time breakdown. Remove this block and #timing once startup
-   is tuned. Must run before the Unity loader so it can wrap what the loader
+   Load-time breakdown, shown with ?debug=1 (with the game's boot check and
+   FPS line). Must run before the Unity loader so it can wrap what the loader
    uses:
      - download: Resource Timing entries for Build/*
-     - JS gzip decompression: the loader inflates in a blob: Web Worker, so
+     - JS decompression (gzip/Brotli): the loader inflates in a blob: Web Worker, so
        wrapping Worker times each postMessage -> reply
      - wasm: wrapping WebAssembly.instantiate/compile (+Streaming)
      - engine init: from the later of wasm ready / last decompression until
        createUnityInstance resolves
-   Add ?timing=0 to the URL to hide the panel.
    =========================================================================== */
-var LT = { dec: [], wasm: [], end: 0, shown: !/[?&]timing=0/.test(location.search) };
+var LT = { dec: [], wasm: [], end: 0, shown: /[?&]debug=1/.test(location.search) };
 (function () {
   var NativeWorker = window.Worker;
   if (NativeWorker) {
@@ -200,14 +199,26 @@ window.ltBoot = function (msg) {
 <div id="timing"></div>
 
 
-<script src="Build/306b66d4e0f53a963b5641f4933a8d59.loader.js"></script>
+<script>
+  /* No page scroll, rubber-banding or zoom while dragging pieces. iOS Safari
+     ignores user-scalable=no, so pinch (gesturestart) and multi-finger moves
+     are cancelled here; touch-action:none covers single-finger panning. */
+  document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
+  document.addEventListener('touchmove', function (e) { if (e.touches.length > 1 || e.target === document.getElementById('unity-canvas')) e.preventDefault(); }, { passive: false });
+  var lastTouchEnd = 0;
+  document.addEventListener('touchend', function (e) {   // double-tap zoom
+    var now = Date.now(); if (now - lastTouchEnd < 350) e.preventDefault(); lastTouchEnd = now;
+  }, { passive: false });
+</script>
+
+<script src="Build/1d7fc5e154ebd644aec935a64b59575c.loader.js"></script>
 <script>
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/d30769af16dbe7a9f99e8366db513cdb.data.unityweb",
-    frameworkUrl: "Build/f4a256c84aa9df9cec6a603d699dbd1b.framework.js.unityweb",
-    codeUrl: "Build/c05fbfb99f5d354233ccacbf08af1c65.wasm.unityweb",
+    dataUrl: "Build/921a26ce08d61b266e604bc134fd2764.data.unityweb",
+    frameworkUrl: "Build/1473d8997c5ea138052f945d42c2207e.framework.js.unityweb",
+    codeUrl: "Build/348e0989f1fd1c23eb0eec9a9ff9236f.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
