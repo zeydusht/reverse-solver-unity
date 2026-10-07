@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using ReverseSolver.Core.Json;
+using ReverseSolver.Core;
 
-namespace ReverseSolver.Core.Editing
+namespace ReverseSolver.Editing
 {
     /* The design set, Assets/_Game/Levels/designs.json: levels.json's format
        plus `nextId`, so a deleted design's id is never handed out again.

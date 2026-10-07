@@ -1,0 +1,22 @@
+{
+    "name": "ReverseSolver.LevelEditor",
+    "rootNamespace": "ReverseSolver.LevelEditor",
+    "references": [
+        "ReverseSolver.Core",
+        "ReverseSolver.Editing",
+        "ReverseSolver.Presentation",
+        "Unity.InputSystem",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

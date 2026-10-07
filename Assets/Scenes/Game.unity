@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ReverseSolver.Presentation::ReverseSolver.Presentation.GameRoot
   levels: {fileID: 4900000, guid: 7a242d63fa5bff24cb9f1802f7d6094b, type: 3}
+  designs: {fileID: 4900000, guid: da8a552a00797bb4d978ea7ed081aca7, type: 3}
   pieceMaterial: {fileID: 2100000, guid: b4b7b3ebdb634894aa395f8927626cb0, type: 2}
   shapeMaterial: {fileID: 2100000, guid: 3a6e2c1c0c72b4b468650e2d604a4cd1, type: 2}
   solidMaterial: {fileID: 2100000, guid: 9cb4b819f0c043d40a999528d72ae881, type: 2}

@@ -17,7 +17,10 @@ namespace ReverseSolver.Presentation
        Nothing is drawn below the safe bottom inset (iOS home indicator).
 
        URL: ?lv=N opens level N directly; ?debug=1 shows the load panel, the FPS
-       line and unlocks every level. */
+       line and unlocks every level. ?debug=1&set=designs plays the level
+       editor's designs instead (designs.json), and lv may then be an id
+       (?debug=1&set=designs&lv=D03). Without debug the set parameter is
+       ignored; debug sessions never send telemetry. */
     public sealed class GameRoot : MonoBehaviour
     {
         public const string Client = "unity-web";
@@ -25,6 +28,7 @@ namespace ReverseSolver.Presentation
         const int HudOrder = 3000, BarOrder = 3200, CardOrder = 5000, FlashOrder = 4500, DebugOrder = 6000;
 
         [SerializeField] TextAsset levels;
+        [SerializeField] TextAsset designs;          // level editor output; only with ?debug=1&set=designs
         [SerializeField] Material pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial;
 
         enum Mode { Menu, Playing }
@@ -69,7 +73,7 @@ namespace ReverseSolver.Presentation
         {
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
             _cam = Camera.main;
-            _set = LevelParser.Parse(levels.text);
+            _set = PlayOverride.Active ? PlayOverride.Set : ChooseSet();
 
             // saved counters and the send queue (M5-pre). Sending is off in the
             // editor, with ?debug=1, and in builds until the switch is turned on.
@@ -85,8 +89,10 @@ namespace ReverseSolver.Presentation
             _telemetry.Flush();                               // rows left from an earlier visit
 
             _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug };
-            if (int.TryParse(host.Query("lv"), out int n))
-                StartLevel(Mathf.Clamp(n, 1, _set.Levels.Count) - 1);
+            if (PlayOverride.Active)
+                StartLevel(PlayOverride.Index);
+            else if (TryLevelIndex(host.Query("lv"), out int index))
+                StartLevel(index);
             else
                 ShowMenu();
 
@@ -96,6 +102,27 @@ namespace ReverseSolver.Presentation
                 _awaitingName = true;
                 host.AskName(name => { _save.SetPlayer(name); _awaitingName = false; });
             }
+        }
+
+        LevelSet ChooseSet()
+        {
+            if (Host.Debug && Host.Current.Query("set") == "designs" && designs != null)
+            {
+                var root = Core.Json.JsonReader.Parse(designs.text);
+                if (root.TryGet("levels", out var list) && list.Count > 0) return LevelParser.Parse(designs.text);
+            }
+            return LevelParser.Parse(levels.text);
+        }
+
+        /* lv as a number (1-based position) or as a level id. */
+        bool TryLevelIndex(string lv, out int index)
+        {
+            index = 0;
+            if (string.IsNullOrEmpty(lv)) return false;
+            if (int.TryParse(lv, out int n)) { index = Mathf.Clamp(n, 1, _set.Levels.Count) - 1; return true; }
+            for (int i = 0; i < _set.Levels.Count; i++)
+                if (_set.Levels[i].Id == lv) { index = i; return true; }
+            return false;
         }
 
         void OnVisibility(bool visible)
@@ -121,6 +148,7 @@ namespace ReverseSolver.Presentation
         {
             LeaveLevel();
             _session = null;
+            if (PlayOverride.Exit != null) { PlayOverride.Exit(); return; }   // back to the level editor
             _mode = Mode.Menu;
             Layout();
         }
@@ -284,6 +312,11 @@ namespace ReverseSolver.Presentation
                 Layout();
             }
 
+            if (PlayOverride.Exit != null && Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                ShowMenu();
+                return;
+            }
             if (!_awaitingName) HandlePointer();
             if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); }
 

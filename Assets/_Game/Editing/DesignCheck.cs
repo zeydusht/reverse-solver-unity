@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using ReverseSolver.Core;
 
-namespace ReverseSolver.Core.Editing
+namespace ReverseSolver.Editing
 {
     public enum DesignVerdict
     {
@@ -37,20 +38,41 @@ namespace ReverseSolver.Core.Editing
             (int)Math.Floor(Math.Min(Math.Min((screenW - 38f) / width, (screenH - 262f) / height), MaxCell));
     }
 
-    /* The editor's solvability check. It is exactly SmartPlayer (the player the
-       40/40 guarantee is checked with) on a GameSession, so the editor and the
-       game cannot disagree about a level. */
+    /* The editor's solvability check, in two steps:
+         1. the web game's own solvable() (GreedySolver): if the pieces cannot
+            all leave in any order, the board is frozen whatever the nails and
+            bombs do, and the stuck pieces are the answer;
+         2. SmartPlayer (the player the 40/40 guarantee is checked with) on a
+            GameSession for nails, bombs and the safety valve.
+       So the editor and the game cannot disagree about a level.
+
+       The bomb search costs ~16k nodes a second here. The web levels need at
+       most 213 nodes, so the live panel uses QuickBudget (well under a second);
+       when that runs out the verdict is Unverified and a deep check with the
+       full budget can settle it. */
     public static class DesignCheck
     {
+        public const int QuickBudget = 10_000;
+
         public static DesignReport Run(LevelData level, int nodeBudget = SmartPlayer.DefaultNodeBudget)
         {
-            var r = SmartPlayer.Play(level, nodeBudget);
             var report = new DesignReport
             {
-                Nodes = r.Nodes,
                 Stats = LevelStats.Of(level),
                 CellSize = Layout.CellSize(level.Width, level.Height)
             };
+
+            var greedy = GreedySolver.Solve(level);
+            if (!greedy.Solved)
+            {
+                report.Verdict = DesignVerdict.Frozen;
+                report.Pieces.AddRange(greedy.Stuck);
+                report.Message = $"Çözülemez: {greedy.Stuck.Count} parça hiçbir sırayla çıkamıyor (kilitli kenarlar ya da duvarlar).";
+                return report;
+            }
+
+            var r = SmartPlayer.Play(level, nodeBudget);
+            report.Nodes = r.Nodes;
 
             // Replay the moves to see where it ended and which nails the valve popped.
             var s = new GameSession(level, 1, "editor", new Mulberry32(1));

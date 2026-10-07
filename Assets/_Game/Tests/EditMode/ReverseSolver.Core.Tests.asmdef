@@ -3,6 +3,7 @@
     "rootNamespace": "ReverseSolver.Core.Tests",
     "references": [
         "ReverseSolver.Core",
+        "ReverseSolver.Editing",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

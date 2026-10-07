@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using ReverseSolver.Core.Editing;
+using ReverseSolver.Editing;
 using ReverseSolver.Core.Json;
 
 namespace ReverseSolver.Core.Tests
@@ -107,8 +107,8 @@ namespace ReverseSolver.Core.Tests
             foreach (var l in TestData.Levels.Levels)
             {
                 var check = DesignCheck.Run(l);
-                var smart = SmartPlayer.Play(l);
-                Assert.That(check.Verdict, Is.EqualTo(Expected(smart)), l.Id);
+                Assert.That(check.Verdict, Is.EqualTo(Expected(l)), l.Id);
+                Assert.That(DesignCheck.Run(l, DesignCheck.QuickBudget).Verdict, Is.EqualTo(check.Verdict), l.Id + " quick budget");
                 Assert.That(check.FollowsRule, Is.True, l.Id + ": " + check.Message);   // README: 40/40 by the rule
             }
         }
@@ -119,7 +119,7 @@ namespace ReverseSolver.Core.Tests
             var designs = SampleDesigns();
             var verdicts = designs.Select(d => DesignCheck.Run(d.ToLevelData()).Verdict).ToList();
             for (int i = 0; i < designs.Count; i++)
-                Assert.That(verdicts[i], Is.EqualTo(Expected(SmartPlayer.Play(designs[i].ToLevelData()))), designs[i].Art);
+                Assert.That(verdicts[i], Is.EqualTo(Expected(designs[i].ToLevelData())), designs[i].Art);
             Assert.That(verdicts, Is.EqualTo(new[] { DesignVerdict.Solvable, DesignVerdict.Frozen, DesignVerdict.Bomb, DesignVerdict.Solvable }));
         }
 
@@ -146,6 +146,30 @@ namespace ReverseSolver.Core.Tests
         }
 
         [Test]
+        public void FrozenStructureIsReportedAsFrozenEvenWithABomb()
+        {
+            var d = LevelDraft.New(3, 3);
+            foreach (var side in DirExt.All) for (int lane = 0; lane < 3; lane++) d.SetSealed(side, lane, true);
+            d.SetBomb(new Cell(1, 1), 3);
+            var r = DesignCheck.Run(d.ToLevelData());
+            Assert.That(r.Verdict, Is.EqualTo(DesignVerdict.Frozen));
+            Assert.That(r.Pieces.Count, Is.EqualTo(9));
+        }
+
+        /* Criterion 8: the live panel updates within a second on the largest board. */
+        [Test]
+        public void QuickCheckIsFastOnTheLargestWebLevel()
+        {
+            var l = TestData.Levels["L40"];
+            DesignCheck.Run(l, DesignCheck.QuickBudget);
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            for (int i = 0; i < 5; i++) DesignCheck.Run(LevelDraft.FromLevel(l).ToLevelData(), DesignCheck.QuickBudget);
+            double ms = sw.Elapsed.TotalMilliseconds / 5;
+            TestContext.WriteLine($"L40 draft -> level -> check: {ms:0.0} ms");
+            Assert.That(ms, Is.LessThan(1000));
+        }
+
+        [Test]
         public void BombReportNamesTheBombPiece()
         {
             var d = SampleDesigns()[2];
@@ -153,6 +177,10 @@ namespace ReverseSolver.Core.Tests
             var r = DesignCheck.Run(l);
             Assert.That(r.Pieces, Is.EqualTo(new[] { l.Bombs.Keys.Single() }));
         }
+
+        /* GameSession + SmartPlayer, after the web game's own solvable() for a frozen structure. */
+        static DesignVerdict Expected(LevelData l) =>
+            !GreedySolver.Solve(l).Solved ? DesignVerdict.Frozen : Expected(SmartPlayer.Play(l));
 
         static DesignVerdict Expected(SmartPlayResult r) => r.Verdict switch
         {
@@ -366,6 +394,19 @@ namespace ReverseSolver.Core.Tests
             Assert.That(DesignCheck.Run(LevelDraft.New(5, 6).ToLevelData()).Fits, Is.True);
         }
 
+        // ---- criterion 6: editor code stays out of the web build ---------------------
+
+        [Test]
+        public void EditingModelIsEditorOnly()
+        {
+            var asmdef = JsonReader.Parse(System.IO.File.ReadAllText("Assets/_Game/Editing/ReverseSolver.Editing.asmdef"));
+            var platforms = asmdef.Get("includePlatforms").Items.Select(n => n.AsString).ToArray();
+            Assert.That(platforms, Is.EqualTo(new[] { "Editor" }));
+            Assert.That(asmdef.Get("noEngineReferences").AsBool, Is.True);
+            foreach (var runtime in new[] { "Core/ReverseSolver.Core.asmdef", "Presentation/ReverseSolver.Presentation.asmdef" })
+                Assert.That(System.IO.File.ReadAllText("Assets/_Game/" + runtime), Does.Not.Contain("ReverseSolver.Editing"), runtime);
+        }
+
         // ---- criterion 5: version rule ----------------------------------------------
 
         [Test]
@@ -383,6 +424,7 @@ namespace ReverseSolver.Core.Tests
                 ("timer", d => d.SetTimer(75)),
                 ("booster stock", d => d.SetBooster("hammer", 2)),
                 ("booster unlock", d => d.Unlock["clock"] = 1),
+                ("level number (unlocks)", d => d.Number = 12),
             };
             foreach (var (what, edit) in edits)
             {

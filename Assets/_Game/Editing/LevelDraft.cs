@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ReverseSolver.Core.Json;
+using ReverseSolver.Core;
 
-namespace ReverseSolver.Core.Editing
+namespace ReverseSolver.Editing
 {
     /* How one side of one cell looks to the player. */
     public enum Side { Socket = -1, Flat = 0, Tab = 1 }
@@ -431,12 +432,13 @@ namespace ReverseSolver.Core.Editing
         }
 
         /* Everything that changes how the level plays. Two drafts with the same
-           key play the same; the version only goes up when it changes. Colours,
+           key play the same; the version only goes up when it changes. `lv` is in
+           it because it decides which boosters are unlocked. Colours,
            palette, art, intro cards and the stored solution are not in it. */
         public string GameplayKey()
         {
             var sb = new StringBuilder();
-            sb.Append(Width).Append('x').Append(Height).Append(" t").Append(Timer).Append(" v");
+            sb.Append(Width).Append('x').Append(Height).Append(" t").Append(Timer).Append(" lv").Append(Number).Append(" v");
             for (int y = 0; y < Height; y++) for (int x = 1; x < Width; x++) sb.Append(_v[y, x] + 1);
             sb.Append(" h");
             for (int y = 1; y < Height; y++) for (int x = 0; x < Width; x++) sb.Append(_h[y, x] + 1);
