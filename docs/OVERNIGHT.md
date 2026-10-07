@@ -3,10 +3,10 @@
 Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
 
 ## Kaldığım yer
-- **Son tamamlanan adım:** 3/E1 (2681b91): Core'da `Editing/` — `LevelDraft` (düzenlenebilir model, her işlem tahtayı geçerli tutar), `DesignStore` (designs.json, D01… id'leri tekrar kullanılmaz, version kuralı), `DesignCheck` (SmartPlayer = oyunla aynı karar). 391/391 EditMode testi. levels.json ve Golden değişmedi.
+- **Son tamamlanan adım:** E2+E3+E4 kodu (978cd27): editör sahnesi, araçlar, canlı panel, geri al, kaydet, Oyna; 394 test. Önce: E1 (2681b91): Core'da `Editing/` — `LevelDraft` (düzenlenebilir model, her işlem tahtayı geçerli tutar), `DesignStore` (designs.json, D01… id'leri tekrar kullanılmaz, version kuralı), `DesignCheck` (SmartPlayer = oyunla aynı karar). 391/391 EditMode testi. levels.json ve Golden değişmedi.
 - **2. adım durdu:** otomatik mod gönderim bayrağını açmayı reddetti; bayrak kapalı kaldı. Zamanlanan build domain reload'da düştü, hiç çalışmadı; `Builds/publish` hâlâ yayındaki gönderimi kapalı build. Canlı: fdab901, gönderim kapalı.
 - **Yarım kalan iş:** yok.
-- **Sıradaki somut adım:** E2 — editör sahnesi (`Assets/_Game/Editor` + sahne), menü "Reverse Solver → Seviye Editörü", BoardView ile çizim, araç seç + hücreye tıkla yerleştirme.
+- **Sıradaki somut adım:** uçtan uca akış (ölçüt 1) ekran görüntüleriyle → `docs/screens/editor/`; sonra E5 build + yayın, E7 kılavuz.
 - **Commit'lenmemiş değişiklik:** yok.
 - **PM'e bildirilecek:** zincir uzak hücreleri bağlayabiliyor (web verisi böyle; PM ölçüt 4'teki "yalnızca komşu hücreler" yanlış). Editör kuralları web verisinden: çivi+bomba aynı parçada yok, zincirde çivi yok, zincirde bomba olabilir.
 
