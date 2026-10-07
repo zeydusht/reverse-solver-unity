@@ -288,7 +288,8 @@ namespace ReverseSolver.Presentation
         }
 
         void ShowResult() =>
-            OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder));
+            OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
+                PlayOverride.Active ? "Editöre dön" : $"Tebrikler, {_set.Levels.Count} bölüm bitti"));
 
         void RefreshPlaying()
         {

@@ -143,7 +143,9 @@ namespace ReverseSolver.Presentation
 
         // ---- result (web #veil / finish()) --------------------------------------------
 
-        public static Card Result(Transform parent, Vector2 screen, GameSession s, bool isLast, int order)
+        /* lastLabel: the primary button after winning the last level of the set. */
+        public static Card Result(Transform parent, Vector2 screen, GameSession s, bool isLast, int order,
+                                  string lastLabel = "Tebrikler, 40 bölüm bitti")
         {
             bool won = s.Outcome == Outcome.Win;
             int stars = s.Stars;
@@ -151,7 +153,7 @@ namespace ReverseSolver.Presentation
             string sub = won ? $"{s.TimeLeft} saniye kaldı, {s.Jams} kez takıldın."
                 : s.Outcome == Outcome.Bomb ? "Fitil bitmeden bombanın yolunu açman gerekiyordu. Çekiç onu tek hamlede söker."
                 : $"{s.Board.PresentCount} gövde kaldı. Saat booster'ı 20 saniye ekler.";
-            string primary = won ? (isLast ? "Tebrikler, 40 bölüm bitti" : "Sonraki bölüm") : "Tekrar dene";
+            string primary = won ? (isLast ? lastLabel : "Sonraki bölüm") : "Tekrar dene";
             string primaryId = won ? (isLast ? "menu" : "next") : "retry";
 
             return new Card(parent, screen, order, "Result")
