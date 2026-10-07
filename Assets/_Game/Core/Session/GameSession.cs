@@ -334,11 +334,23 @@ namespace ReverseSolver.Core
 
         bool IsPiece(int piece) => piece >= 0 && piece < Level.Pieces.Count && Board.IsPresent(piece);
 
+        /* The row this attempt would produce if it were quit right now, without
+           ending it: saved when the page is hidden, so an attempt cut short by
+           closing the tab still leaves its quit row (and is dropped again if
+           the player comes back). */
+        public AttemptRecord PreviewQuit() => IsOver ? Record : BuildRecord(Outcome.Quit);
+
         void Finish(Outcome outcome)
         {
             if (IsOver) return;
             Outcome = outcome;
-            Record = new AttemptRecord
+            Record = BuildRecord(outcome);
+            Raise(GameEvent.End(outcome));
+        }
+
+        AttemptRecord BuildRecord(Outcome outcome)
+        {
+            return new AttemptRecord
             {
                 LevelId = Level.Id,
                 LevelVersion = Level.Version,
@@ -357,7 +369,6 @@ namespace ReverseSolver.Core
                 Hammer = _used[(int)Booster.Hammer],
                 Clock = _used[(int)Booster.Clock]
             };
-            Raise(GameEvent.End(outcome));
         }
 
         void Raise(GameEvent e)

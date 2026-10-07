@@ -64,5 +64,15 @@ namespace ReverseSolver.Core
 
         public int AttemptsOf(string levelId) => _attempts.TryGetValue(levelId, out int n) ? n : 0;
         public int BestStars(string levelId) => _best.TryGetValue(levelId, out int s) ? s : 0;
+
+        public IReadOnlyDictionary<string, int> AttemptCounts => _attempts;
+        public IReadOnlyDictionary<string, int> BestStarsByLevel => _best;
+
+        /* Continues counters saved from an earlier visit (SaveData). */
+        public void Restore(IReadOnlyDictionary<string, int> attempts, IReadOnlyDictionary<string, int> best)
+        {
+            foreach (var kv in attempts) _attempts[kv.Key] = kv.Value;
+            foreach (var kv in best) _best[kv.Key] = kv.Value;
+        }
     }
 }

@@ -30,7 +30,12 @@ namespace ReverseSolver.Presentation
         enum Mode { Menu, Playing }
 
         LevelSet _set;
-        readonly AttemptLog _log = new AttemptLog();
+        AttemptLog _log;
+        SaveData _save;
+        TelemetryLog _telemetry;
+        string _rowId;                 // row_id of the attempt in play
+        bool _awaitingName;
+        float _nextFlush;
         Progress _progress;
         Mode _mode = Mode.Menu;
         int _index;
@@ -65,11 +70,42 @@ namespace ReverseSolver.Presentation
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
             _cam = Camera.main;
             _set = LevelParser.Parse(levels.text);
+
+            // saved counters and the send queue (M5-pre). Sending is off in the
+            // editor, with ?debug=1, and in builds until the switch is turned on.
+            System.Func<string> newId = () => System.Guid.NewGuid().ToString("N");
+            var host = Host.Current;
+            _save = new SaveData(host.Store, newId);
+            _log = _save.Restore();
+            var queue = new TelemetryQueue(host.Store);
+            bool send = host.SendEnabled && !Host.Debug && !Application.isEditor;
+            var sender = new TelemetrySender(queue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send);
+            _telemetry = new TelemetryLog(_save, queue, sender, newId);
+            host.VisibilityChanged += OnVisibility;
+            _telemetry.Flush();                               // rows left from an earlier visit
+
             _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug };
-            if (int.TryParse(Host.Current.Query("lv"), out int n))
+            if (int.TryParse(host.Query("lv"), out int n))
                 StartLevel(Mathf.Clamp(n, 1, _set.Levels.Count) - 1);
             else
                 ShowMenu();
+
+            // web name gate: once per browser; the HTML input sits over the canvas
+            if (string.IsNullOrEmpty(_save.Player) && !Host.Debug)
+            {
+                _awaitingName = true;
+                host.AskName(name => { _save.SetPlayer(name); _awaitingName = false; });
+            }
+        }
+
+        void OnVisibility(bool visible)
+        {
+            if (visible) _telemetry.PageVisible(_mode == Mode.Playing ? _session : null, _rowId);
+            else
+            {
+                _telemetry.PageHidden(_mode == Mode.Playing ? _session : null, _rowId);
+                _save.Store(_log);
+            }
         }
 
         // ---- flow -------------------------------------------------------------------------
@@ -95,6 +131,8 @@ namespace ReverseSolver.Presentation
             _index = Mathf.Clamp(index, 0, _set.Levels.Count - 1);
             var level = _set.Levels[_index];
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
+            _rowId = _telemetry.NewRowId();
+            _save.Store(_log);                                 // the attempt counter, before anything can go wrong
             _session.EventRaised += OnEvent;
             _boosters = new BoosterControls(_session);
             _mode = Mode.Playing;
@@ -108,6 +146,8 @@ namespace ReverseSolver.Presentation
         {
             if (e.Kind != EventKind.Finished) return;
             _log.Add(_session.Record);
+            _save.Store(_log);
+            _telemetry.Finished(_session.Record, _rowId);
             if (Host.Debug) Debug.Log("[attempt] " + _session.Record);
             _drag?.Cancel();
             _boosters?.Disarm();
@@ -162,7 +202,7 @@ namespace ReverseSolver.Presentation
             {
                 _debug = TextView.Create(_world, "debug", "", 11, Draw.Hex("#8fb2b3"), false,
                                          TMPro.TextAlignmentOptions.Left, DebugOrder);
-                _debug.transform.localPosition = Draw.W(Hud.Side + 5, _screen.y - _safe.w - 6);
+                _debug.transform.localPosition = Draw.W(Hud.Side + 5, _screen.y - _safe.w - 14);
             }
         }
 
@@ -242,7 +282,8 @@ namespace ReverseSolver.Presentation
                 Layout();
             }
 
-            HandlePointer();
+            if (!_awaitingName) HandlePointer();
+            if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); }
 
             if (_mode == Mode.Playing)
             {
@@ -374,7 +415,10 @@ namespace ReverseSolver.Presentation
                 median = $"{sorted[sorted.Count / 2]:0} (n={sorted.Count})";
             }
             string where = _mode == Mode.Playing ? $"{_session.Level.Id}  hücre {_board.Cell:0} pt" : "menü";
-            _debug.Text = $"{where}  FPS {_fpsShown:0}  sürüklerken medyan {median}";
+            var q = _telemetry.Queue;
+            string net = _telemetry.Enabled ? "açık" : "kapalı";
+            _debug.Text = $"{where}  FPS {_fpsShown:0}  sürüklerken medyan {median}\n" +
+                          $"gönderim {net}  kuyruk {q.Rows.Count}  gönderilen {_telemetry.Sender.Sent}  ayrılan {q.Parked}";
         }
 
         // ---- editor screenshots -------------------------------------------------------------
