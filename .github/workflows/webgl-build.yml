@@ -52,9 +52,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: webgl-builds
+          # Builds/publish holds a copy of each finished build: Unity's incremental
+          # build deletes the previous build's files when the next one goes to
+          # another folder (WebBuild.Snapshot).
           path: |
-            Builds/WebGL
-            Builds/WebGL-gz
+            Builds/publish
             Builds/size-log.csv
             Builds/*-report.txt
           if-no-files-found: error

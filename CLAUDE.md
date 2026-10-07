@@ -45,6 +45,8 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 - Sayfa arka planı build sırasında `Game` sahnesindeki kameranın rengine eşitlenir (iOS ana ekran modundaki alt şerit için).
 - Bu makinede tam IL2CPP build'i ~5–10 dakika sürer; yalnızca data değişen build'ler saniyeler sürer.
 - Build'i telefonsuz doğrulamak için: `Builds/WebGL`'i `127.0.0.1`'de yayınla, Chrome'u `--headless=new --remote-debugging-port=9222 --use-angle=swiftshader --enable-unsafe-swiftshader` ve geçici `--user-data-dir` ile aç, sayfanın süre panelini CDP üzerinden oku. (`--virtual-time-budget`/`--dump-dom` işe yaramaz: indirmeler bitmeden döner.) iPhone Safari doğrulamasının yerini tutmaz.
+- **gh-pages'e `Builds/publish/br` ve `Builds/publish/gz`'den yayınla**, `Builds/WebGL*`'den değil: Unity'nin artımlı build'i sonraki build başka klasöre gidince öncekinin `Build/` dosyalarını siliyor; `WebBuild` her başarılı build'i `Builds/publish`'e kopyalıyor.
+- Gerçek editör günlüğü `Logs/Editor.log` (proje içinde); `%LOCALAPPDATA%` altındaki Editor.log bu kurulumda güncellenmiyor.
 - Yayın: `gh-pages` dalı. `/br/` Brotli (varsayılan), `/gz/` gzip (yedek); kök `index.html` `/br/`'ye yönlendirir (playtest linki). Her yeni build ikisine de konur. Büyük push'ta `git -c http.postBuffer=524288000 push` gerekir.
 
 ## Kurallar

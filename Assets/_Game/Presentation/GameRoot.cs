@@ -202,7 +202,9 @@ namespace ReverseSolver.Presentation
             {
                 _debug = TextView.Create(_world, "debug", "", 11, Draw.Hex("#8fb2b3"), false,
                                          TMPro.TextAlignmentOptions.Left, DebugOrder);
-                _debug.transform.localPosition = Draw.W(Hud.Side + 5, _screen.y - _safe.w - 14);
+                // in the gap between the strip and the tray, clear of the booster bar
+                float dy = _safe.y + BodyPad + Hud.TopPad + Hud.Height + 14;
+                _debug.transform.localPosition = Draw.W(Hud.Side + 5, dy);
             }
         }
 

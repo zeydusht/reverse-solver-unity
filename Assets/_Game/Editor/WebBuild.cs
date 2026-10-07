@@ -84,6 +84,7 @@ namespace ReverseSolver.EditorTools
             var files = OutputSizes(outputDir);
             LogSizes(label, compression, files, s.totalTime);
             WriteReport(outputDir, label, files, report);
+            Snapshot(outputDir, compression);
             Debug.Log($"WebBuild [{label}]: {Path.GetFullPath(outputDir)} " +
                       $"({files.Values.Sum() / 1048576f:0.00} MB, {s.totalTime.TotalSeconds:0}s)");
             return true;
@@ -131,6 +132,28 @@ namespace ReverseSolver.EditorTools
             }
             float F(int i) => float.Parse(m.Groups[i].Value, System.Globalization.CultureInfo.InvariantCulture);
             PlayerSettings.SplashScreen.backgroundColor = new Color(F(1), F(2), F(3), 1f);
+        }
+
+        /* Unity's incremental build deletes the previous build's outputs when
+           the next build goes to another folder (Bee: "Delete artifact files
+           that are no longer in use"), so building Brotli then gzip leaves the
+           first folder without its Build/. Each finished build is therefore
+           copied to Builds/publish/br or Builds/publish/gz, which Bee does not
+           track; gh-pages is filled from there. */
+        public const string PublishDir = "Builds/publish";
+
+        static void Snapshot(string outputDir, WebGLCompressionFormat compression)
+        {
+            string dst = Path.Combine(PublishDir, compression == WebGLCompressionFormat.Brotli ? "br" : "gz");
+            if (Directory.Exists(dst)) Directory.Delete(dst, true);
+            CopyDir(outputDir, dst);
+        }
+
+        static void CopyDir(string src, string dst)
+        {
+            Directory.CreateDirectory(dst);
+            foreach (var f in Directory.GetFiles(src)) File.Copy(f, Path.Combine(dst, Path.GetFileName(f)), true);
+            foreach (var d in Directory.GetDirectories(src)) CopyDir(d, Path.Combine(dst, Path.GetFileName(d)));
         }
 
         // ---- measurement -------------------------------------------------------

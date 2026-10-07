@@ -15,7 +15,7 @@ Kullanılan imaj: `unityci/editor:ubuntu-6000.6.4f1-webgl-3` (game-ci; projedeki
 
 1. Repo → Actions → *WebGL build* → *Run workflow* (isteğe bağlı bir etiket yaz) → *Run workflow*.
 2. İlk çalıştırma ~20–40 dk sürebilir (imaj indirme + IL2CPP); sonrakiler `Library` önbelleğiyle daha kısa.
-3. Bitince çalıştırmanın sayfasında *Artifacts → webgl-builds* indir. İçinde `Builds/WebGL` (Brotli, `/br/`), `Builds/WebGL-gz` (gzip, `/gz/`), size-log ve raporlar var.
+3. Bitince çalıştırmanın sayfasında *Artifacts → webgl-builds* indir. İçinde `Builds/publish/br` (Brotli, `/br/`), `Builds/publish/gz` (gzip, `/gz/`), size-log ve raporlar var.
 4. Yayını mühendislik (Claude) yapar: artifact'i indirip gh-pages'e koyar. İstersen bana "artifact hazır" demen yeterli.
 
 ## Secret'lar yokken
