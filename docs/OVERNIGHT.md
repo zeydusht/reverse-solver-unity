@@ -3,9 +3,9 @@
 Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
 
 ## Kaldığım yer
-- **Son tamamlanan adım:** 0 (hazırlık): kalp atışı ve bu bölüm. İzin listesi eklenemedi (aşağıda).
+- **Son tamamlanan adım:** 1 — PM: M3 ve M4 kapandı, M5-ön 1–7 kabul, gönderimi açma + TEST_GECE doğrulaması onaylandı, seviye editörü tanımı (kademe 1: E1–E5, E7) PRODUCT.md'de. SQL salt-okuma ile doğrulandı (sütunlar var, level_id dolu, HTTP 200).
 - **Yarım kalan iş:** yok.
-- **Sıradaki somut adım:** 1 — PM'e durumu ver, M3/M4 kapanış kararı, seviye editörünü sıraya al.
+- **Sıradaki somut adım:** 2 — TelemetrySettings.SendEnabled=true → Brotli+gzip build → yayın → TEST_GECE doğrulaması (geçme koşulları PRODUCT.md karar 5). Başarısızsa bayrağı kapat, yeniden yayınla.
 - **Commit'lenmemiş değişiklik:** yok.
 
 ## Sabah listesi (Zeyd)
@@ -26,6 +26,7 @@ Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git
    3. Tutmazsa bulut build (GitHub Actions; hazırlık durumu aşağıda, secret'ları senin eklemen gerekiyor).
    4. Başka bir bilgisayar varsa orada dene.
    5. **Smart App Control'ü kapatmak yalnızca son çare: geri dönüşsüz** — kapatınca Windows sıfırlanmadan tekrar açılamaz. Önce PM'e sor.
+      - *Düzeltme (2026-10-07):* Bu not eskidi. Nisan 2026 güncellemesinden (KB5083769) beri SAC kapatıldıktan sonra tekrar açılabiliyor. Zeyd SAC'ı kapattı; build artık engellenmiyor.
    - Getireceğin: hangi adımı denedin, build geçti mi, geçmediyse hata metni.
 2. Build yayınlanınca iPhone'da: `?debug=1` ile en büyük tahtada (ör. `?lv=40&debug=1`) sürüklerken FPS; L01–L05, L11, L21, L31'i oyna (sürükleme parmağı takip ediyor mu, sayfa kayıyor/yakınlaşıyor mu, engeller okunuyor mu).
 3. Actions'ta kuyrukta bekleyen eski re-run'ı (0552040) iptal et.
