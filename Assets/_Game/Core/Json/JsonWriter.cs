@@ -19,6 +19,7 @@ namespace ReverseSolver.Core.Json
 
         public JsonWriter Value(string v) { Sep(); if (v == null) _sb.Append("null"); else Str(v); _first = false; return this; }
         public JsonWriter Value(int v) { Sep(); _sb.Append(v.ToString(CultureInfo.InvariantCulture)); _first = false; return this; }
+        public JsonWriter Null() { Sep(); _sb.Append("null"); _first = false; return this; }
         public JsonWriter Value(bool v) { Sep(); _sb.Append(v ? "true" : "false"); _first = false; return this; }
         /* Already-serialized JSON, inserted as is. */
         public JsonWriter Raw(string json) { Sep(); _sb.Append(json); _first = false; return this; }

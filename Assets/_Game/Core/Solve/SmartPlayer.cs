@@ -19,6 +19,8 @@ namespace ReverseSolver.Core
         public readonly List<Move> Moves = new List<Move>();
         public int Valves;
         public int Nodes;           // search nodes used
+        public int Piece = -1;      // the bomb piece behind LosesBomb / Unverified
+        public int Fuse;            // its fuse at that point
         public string Note;
 
         public override string ToString() =>
@@ -58,6 +60,8 @@ namespace ReverseSolver.Core
                     {
                         r.Verdict = exhausted ? SmartVerdict.Unverified : SmartVerdict.LosesBomb;
                         r.Note = $"bomb on piece {target}, fuse {s.FuseAt(target)}";
+                        r.Piece = target;
+                        r.Fuse = s.FuseAt(target);
                         Finish(s, r);
                         return r;
                     }
