@@ -1,3 +1,18 @@
+# Gece — 2026-10-07 → 2026-10-08
+
+Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
+
+## Kaldığım yer
+- **Son tamamlanan adım:** 0 (hazırlık): kalp atışı ve bu bölüm. İzin listesi eklenemedi (aşağıda).
+- **Yarım kalan iş:** yok.
+- **Sıradaki somut adım:** 1 — PM'e durumu ver, M3/M4 kapanış kararı, seviye editörünü sıraya al.
+- **Commit'lenmemiş değişiklik:** yok.
+
+## Sabah listesi (Zeyd)
+- `.claude/settings.local.json`'a gece izinlerini ekleme isteği Claude Code'un otomatik modunda "kendi izinlerini değiştirme" diye reddedildi; dosya değişmedi. Oturum otomatik modda sürdüğü için gece akışı buna takılmadı. İstersen izin listesini kendin ekle (plan 0.1'deki liste).
+
+---
+
 # Gece raporu — 2026-10-06
 
 **Sabah ilk iş: web build'i alınamıyor.** Windows'un Akıllı Uygulama Denetimi (Smart App Control) Unity'nin kendi dosyasını engelliyor:
