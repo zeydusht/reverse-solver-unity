@@ -3,11 +3,12 @@
 Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
 
 ## Kaldığım yer
-- **Son tamamlanan adım:** 1 — PM: M3 ve M4 kapandı, M5-ön 1–7 kabul, gönderimi açma + TEST_GECE doğrulaması onaylandı, seviye editörü tanımı (kademe 1: E1–E5, E7) PRODUCT.md'de. SQL salt-okuma ile doğrulandı (sütunlar var, level_id dolu, HTTP 200).
-- **2. adım durdu:** Claude Code'un otomatik modu gönderim bayrağını açmayı ("Feature Flag Writes") reddetti. Bayrak geri alındı (`SendEnabled = false`, commit'lenmedi). O sırada başlamış bir build `Builds/publish`'e **gönderim açık** sürümü yazacak: **onu yayınlama**; sonraki build (E5) üzerine yazar. Canlı hâlâ gönderim kapalı (fdab901).
+- **Son tamamlanan adım:** 3/E1 (2681b91): Core'da `Editing/` — `LevelDraft` (düzenlenebilir model, her işlem tahtayı geçerli tutar), `DesignStore` (designs.json, D01… id'leri tekrar kullanılmaz, version kuralı), `DesignCheck` (SmartPlayer = oyunla aynı karar). 391/391 EditMode testi. levels.json ve Golden değişmedi.
+- **2. adım durdu:** otomatik mod gönderim bayrağını açmayı reddetti; bayrak kapalı kaldı. Zamanlanan build domain reload'da düştü, hiç çalışmadı; `Builds/publish` hâlâ yayındaki gönderimi kapalı build. Canlı: fdab901, gönderim kapalı.
 - **Yarım kalan iş:** yok.
-- **Sıradaki somut adım:** 3 — seviye editörü E1 (Core: düzenlenebilir model, düzenleme işlemleri, version kuralı, designs.json, çözülebilirlik sorgusu + testler).
+- **Sıradaki somut adım:** E2 — editör sahnesi (`Assets/_Game/Editor` + sahne), menü "Reverse Solver → Seviye Editörü", BoardView ile çizim, araç seç + hücreye tıkla yerleştirme.
 - **Commit'lenmemiş değişiklik:** yok.
+- **PM'e bildirilecek:** zincir uzak hücreleri bağlayabiliyor (web verisi böyle; PM ölçüt 4'teki "yalnızca komşu hücreler" yanlış). Editör kuralları web verisinden: çivi+bomba aynı parçada yok, zincirde çivi yok, zincirde bomba olabilir.
 
 ## Sabah listesi (Zeyd)
 - **Gönderimi canlıya açma senin onayını bekliyor.** SQL doğrulandı (salt-okuma: sütunlar var, `level_id` dolu). PM onayladı ama Claude Code otomatik modu bayrağı açmayı engelledi. Yapılacak: Claude'a "gönderimi aç" de (ya da `Assets/_Game/Platform/Web/TelemetrySettings.cs`'te `SendEnabled = true`), build + yayın + TEST_GECE/TEST_ZEYD doğrulaması o zaman yapılır.
