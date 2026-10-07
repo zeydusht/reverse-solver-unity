@@ -3,10 +3,10 @@
 Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
 
 ## Kaldığım yer
-- **Son tamamlanan adım:** editör kademe 1'in E1–E4 ve E7'si: model (2681b91), editör (978cd27), uçtan uca akış + ekran görüntüleri (8f9d088), kılavuz `docs/LEVEL_EDITOR.md` (659c560). 394/394 test. D01 (yeni tasarım) ve D02 (L11 kopyası) designs.json'da.
-- **Yarım kalan iş:** E5 build'i (Brotli + gzip, gönderim KAPALI) Unity'de çalışıyor; bitince `Builds/publish`'ten gh-pages'e yayın ve başsız Chrome ile `?debug=1&set=designs&lv=D01` doğrulaması.
-- **Sıradaki somut adım:** E5 yayını + doğrulama → PM'e editör raporu (ölçüt 1–9) → kademe 2 (E6 CSV).
-- **Commit'lenmemiş değişiklik:** CLAUDE.md (mimari tablosu) — bu commit'le gidiyor.
+- **Son tamamlanan adım:** editör kademe 1 tamam (E1–E5, E7) + kademe 2'nin E6'sı (CSV, 6f8e517). E5 yayında: gh-pages e3af361, `?debug=1&set=designs&lv=D01` canlıda doğrulandı (Supabase 0). Brotli 7.154.649 B (+7,2 KB). 395/395 test.
+- **Yarım kalan iş:** yok.
+- **Sıradaki somut adım:** PM'e editör raporu (ölçüt 1–9 kanıtı) → PM'in sırasıyla kademe 2'nin kalanı ya da M6.
+- **Commit'lenmemiş değişiklik:** yok.
 - **2. adım (gönderim):** otomatik mod bayrak değişikliğini reddetti; canlıda gönderim kapalı. Sabah listesinde.
 
 ## Sabah listesi (Zeyd)
