@@ -407,6 +407,34 @@ namespace ReverseSolver.Core.Tests
                 Assert.That(System.IO.File.ReadAllText("Assets/_Game/" + runtime), Does.Not.Contain("ReverseSolver.Editing"), runtime);
         }
 
+        // ---- criterion 10: CSV for a Turkish Excel -----------------------------------
+
+        [Test]
+        public void CsvIsReadyForTurkishExcel()
+        {
+            var rows = TestData.Levels.Levels.Select(l => ("web", l)).ToList();
+            var store = new DesignStore();
+            foreach (var d in SampleDesigns()) store.Save(d);
+            rows.AddRange(store.Designs.Select(d => ("tasarim", d.ToLevelData())));
+            string csv = LevelCsv.Build(rows);
+            var bytes = LevelCsv.ToBytes(csv);
+            Assert.That(bytes.Take(3), Is.EqualTo(new byte[] { 0xEF, 0xBB, 0xBF }), "UTF-8 BOM");
+
+            var lines = csv.Split(new[] { "\r\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+            Assert.That(lines[0], Is.EqualTo(string.Join(";", LevelCsv.Columns)));
+            Assert.That(lines.Length, Is.EqualTo(1 + 40 + 4));
+            int open = System.Array.IndexOf(LevelCsv.Columns, "acik_kenar_orani");
+            foreach (var line in lines.Skip(1))
+            {
+                var f = line.Split(';');
+                Assert.That(f.Length, Is.EqualTo(LevelCsv.Columns.Length), line);
+                Assert.That(f[open], Does.Match(@"^\d,\d\d$"), "decimal comma: " + line);
+            }
+            Assert.That(lines[1], Does.StartWith("web;L01;1;1;4;5;20;0;0;0;0;0;0;0;"));
+            Assert.That(lines.Skip(1).Take(40).All(l => l.Contains(";cozulebilir;")), "every web level follows the rule");
+            Assert.That(lines.Last(), Does.StartWith("tasarim;D04;"));
+        }
+
         // ---- criterion 5: version rule ----------------------------------------------
 
         [Test]

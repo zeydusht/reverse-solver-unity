@@ -370,6 +370,11 @@ namespace ReverseSolver.LevelEditor
             if (GUILayout.Button("Boyutu değiştir")) S.Edit(x => x.Resize(_newW, _newH), $"Boyut {_newW}×{_newH} oldu.");
             GUILayout.EndHorizontal();
             if (GUILayout.Button("Seviye aç… (web seviyesi kopya olarak, ya da tasarım)")) _openList = true;
+            if (GUILayout.Button("Tüm seviyeleri CSV'ye aktar (Excel)"))
+            {
+                string path = S.ExportCsv();
+                if (!LevelEditorSession.Unattended) EditorUtility.RevealInFinder(path);
+            }
             if (d.Id != null && S.Store.Find(d.Id) != null && GUILayout.Button($"{d.Id} tasarımını sil") && ConfirmDelete(d.Id)) S.Delete();
             GUILayout.Label($"Tasarımlar: {LevelEditorSession.DesignsPath} ({S.Store.Designs.Count}). Telefonda: ?debug=1&set=designs&lv=D01", _small);
         }
