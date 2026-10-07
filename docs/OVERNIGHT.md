@@ -4,11 +4,13 @@ Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git
 
 ## Kaldığım yer
 - **Son tamamlanan adım:** 1 — PM: M3 ve M4 kapandı, M5-ön 1–7 kabul, gönderimi açma + TEST_GECE doğrulaması onaylandı, seviye editörü tanımı (kademe 1: E1–E5, E7) PRODUCT.md'de. SQL salt-okuma ile doğrulandı (sütunlar var, level_id dolu, HTTP 200).
+- **2. adım durdu:** Claude Code'un otomatik modu gönderim bayrağını açmayı ("Feature Flag Writes") reddetti. Bayrak geri alındı (`SendEnabled = false`, commit'lenmedi). O sırada başlamış bir build `Builds/publish`'e **gönderim açık** sürümü yazacak: **onu yayınlama**; sonraki build (E5) üzerine yazar. Canlı hâlâ gönderim kapalı (fdab901).
 - **Yarım kalan iş:** yok.
-- **Sıradaki somut adım:** 2 — TelemetrySettings.SendEnabled=true → Brotli+gzip build → yayın → TEST_GECE doğrulaması (geçme koşulları PRODUCT.md karar 5). Başarısızsa bayrağı kapat, yeniden yayınla.
+- **Sıradaki somut adım:** 3 — seviye editörü E1 (Core: düzenlenebilir model, düzenleme işlemleri, version kuralı, designs.json, çözülebilirlik sorgusu + testler).
 - **Commit'lenmemiş değişiklik:** yok.
 
 ## Sabah listesi (Zeyd)
+- **Gönderimi canlıya açma senin onayını bekliyor.** SQL doğrulandı (salt-okuma: sütunlar var, `level_id` dolu). PM onayladı ama Claude Code otomatik modu bayrağı açmayı engelledi. Yapılacak: Claude'a "gönderimi aç" de (ya da `Assets/_Game/Platform/Web/TelemetrySettings.cs`'te `SendEnabled = true`), build + yayın + TEST_GECE/TEST_ZEYD doğrulaması o zaman yapılır.
 - `.claude/settings.local.json`'a gece izinlerini ekleme isteği Claude Code'un otomatik modunda "kendi izinlerini değiştirme" diye reddedildi; dosya değişmedi. Oturum otomatik modda sürdüğü için gece akışı buna takılmadı. İstersen izin listesini kendin ekle (plan 0.1'deki liste).
 
 ---
