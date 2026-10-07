@@ -24,9 +24,13 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 | `ReverseSolver.Presentation` | `Assets/_Game/Presentation` | Görsel katman ve girdi (Input System, uGUI + TextMeshPro). Oyun durumunu yalnızca Core'un olaylarıyla izler, doğrudan değiştirmez. |
 | `ReverseSolver.Platform` | `Assets/_Game/Platform` | Web'e özgü: Supabase gönderimi, PlayerPrefs, jslib köprüleri. |
 | `ReverseSolver.Editor` | `Assets/_Game/Editor` | Build ve editör araçları. |
+| `ReverseSolver.Editing` | `Assets/_Game/Editing` | Seviye editörünün modeli (`LevelDraft`, `DesignStore`, `DesignCheck`). Saf C#, yalnızca editörde derlenir; Core `link.xml` ile tamamen korunduğu için bu kod Core'a konmaz (build'e girerdi). |
+| `ReverseSolver.LevelEditor` | `Assets/_Game/LevelEditor` | Seviye editörü (menü **Reverse Solver → Seviye Editörü**, `docs/LEVEL_EDITOR.md`). Yalnızca editör. Play modunda Game sahnesinde çalışır: GameRoot kapatılır, tahta oyunun `BoardView`'iyle çizilir; "Oyna" `PlayOverride` ile gerçek oyunu açar. Editör assembly'sindeki MonoBehaviour sahneye eklenemediği için görünüm `Presentation/Dev/EditorHook`'a (`#if UNITY_EDITOR`) bağlanır. |
 | `ReverseSolver.Core.Tests` | `Assets/_Game/Tests/EditMode` | EditMode testleri. `CoreIsolationTests` Core'un Unity'ye bağlanmadığını korur. |
 
 - Seviye verisi `Assets/_Game/Levels/levels.json` (`format` 1). Her seviyede kalıcı `id` (yeniden kullanılmaz, sıra değişince değişmez) ve `version` var; oynanışı etkileyen her değişiklikte `version` artar. Engel sayıları `LevelStats` ile seviyeden hesaplanır, dosyada tutulmaz.
+- Tasarımlar `Assets/_Game/Levels/designs.json` (D01, D02 …; `nextId` ile silinen id tekrar verilmez). Web build'ine girer ama yalnızca `?debug=1&set=designs[&lv=D01]` ile açılır.
+- Proje "Enter Play Mode Options"ta domain reload kapalı: statik alanlar Play oturumları arasında kalır, Play bitince elle sıfırlanmalı (bkz. `LevelEditorLauncher`).
 - Kural motoru (`TravelRule`, `GreedySolver`) web oyununun kodunun birebir portu. Değiştirirsen `Tools/make_travel_golden.js` ile web kodundan üretilen altın değer testleri (`Golden/travel_golden.json`) bunu yakalar; web kuralı bilinçli olarak değişmedikçe altın dosyayı yeniden üretme.
 
 ## Araçlar (`Tools/`, Unity dışında)

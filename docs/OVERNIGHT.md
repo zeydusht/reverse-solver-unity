@@ -3,12 +3,11 @@
 Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
 
 ## Kaldığım yer
-- **Son tamamlanan adım:** E2+E3+E4 kodu (978cd27): editör sahnesi, araçlar, canlı panel, geri al, kaydet, Oyna; 394 test. Önce: E1 (2681b91): Core'da `Editing/` — `LevelDraft` (düzenlenebilir model, her işlem tahtayı geçerli tutar), `DesignStore` (designs.json, D01… id'leri tekrar kullanılmaz, version kuralı), `DesignCheck` (SmartPlayer = oyunla aynı karar). 391/391 EditMode testi. levels.json ve Golden değişmedi.
-- **2. adım durdu:** otomatik mod gönderim bayrağını açmayı reddetti; bayrak kapalı kaldı. Zamanlanan build domain reload'da düştü, hiç çalışmadı; `Builds/publish` hâlâ yayındaki gönderimi kapalı build. Canlı: fdab901, gönderim kapalı.
-- **Yarım kalan iş:** yok.
-- **Sıradaki somut adım:** uçtan uca akış (ölçüt 1) ekran görüntüleriyle → `docs/screens/editor/`; sonra E5 build + yayın, E7 kılavuz.
-- **Commit'lenmemiş değişiklik:** yok.
-- **PM'e bildirilecek:** zincir uzak hücreleri bağlayabiliyor (web verisi böyle; PM ölçüt 4'teki "yalnızca komşu hücreler" yanlış). Editör kuralları web verisinden: çivi+bomba aynı parçada yok, zincirde çivi yok, zincirde bomba olabilir.
+- **Son tamamlanan adım:** editör kademe 1'in E1–E4 ve E7'si: model (2681b91), editör (978cd27), uçtan uca akış + ekran görüntüleri (8f9d088), kılavuz `docs/LEVEL_EDITOR.md` (659c560). 394/394 test. D01 (yeni tasarım) ve D02 (L11 kopyası) designs.json'da.
+- **Yarım kalan iş:** E5 build'i (Brotli + gzip, gönderim KAPALI) Unity'de çalışıyor; bitince `Builds/publish`'ten gh-pages'e yayın ve başsız Chrome ile `?debug=1&set=designs&lv=D01` doğrulaması.
+- **Sıradaki somut adım:** E5 yayını + doğrulama → PM'e editör raporu (ölçüt 1–9) → kademe 2 (E6 CSV).
+- **Commit'lenmemiş değişiklik:** CLAUDE.md (mimari tablosu) — bu commit'le gidiyor.
+- **2. adım (gönderim):** otomatik mod bayrak değişikliğini reddetti; canlıda gönderim kapalı. Sabah listesinde.
 
 ## Sabah listesi (Zeyd)
 - **Gönderimi canlıya açma senin onayını bekliyor.** SQL doğrulandı (salt-okuma: sütunlar var, `level_id` dolu). PM onayladı ama Claude Code otomatik modu bayrağı açmayı engelledi. Yapılacak: Claude'a "gönderimi aç" de (ya da `Assets/_Game/Platform/Web/TelemetrySettings.cs`'te `SendEnabled = true`), build + yayın + TEST_GECE/TEST_ZEYD doğrulaması o zaman yapılır.
