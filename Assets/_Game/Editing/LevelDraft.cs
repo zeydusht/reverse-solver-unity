@@ -380,6 +380,84 @@ namespace ReverseSolver.Editing
             return EditResult.Done;
         }
 
+        /* The level number a booster unlocks at (gameplay: it decides whether the button works). */
+        public EditResult SetUnlock(string id, int level)
+        {
+            if (Array.IndexOf(BoosterIds, id) < 0) return EditResult.No("Böyle bir güçlendirici yok.");
+            Unlock[id] = Clamp(level, 1, MaxCount);
+            return EditResult.Done;
+        }
+
+        public EditResult SetNumber(int lv)
+        {
+            Number = Clamp(lv, 1, MaxCount);
+            return EditResult.Done;
+        }
+
+        // ---- palette (look only) ------------------------------------------------------
+
+        public const int MaxPalette = 8;
+
+        public static bool IsHexColour(string s)
+        {
+            if (s == null || s.Length != 7 || s[0] != '#') return false;
+            for (int i = 1; i < 7; i++) if (Uri.IsHexDigit(s[i]) == false) return false;
+            return true;
+        }
+
+        public EditResult SetPaletteColour(int index, string hex)
+        {
+            if (index < 0 || index >= Palette.Count) return EditResult.No("Palette böyle bir renk yok.");
+            if (!IsHexColour(hex)) return EditResult.No("Renk #RRGGBB biçiminde olmalı (ör. #ef5342).");
+            Palette[index] = hex.ToLowerInvariant();
+            return EditResult.Done;
+        }
+
+        public EditResult AddPaletteColour(string hex)
+        {
+            if (Palette.Count >= MaxPalette) return EditResult.No($"Palet en fazla {MaxPalette} renk.");
+            if (!IsHexColour(hex)) return EditResult.No("Renk #RRGGBB biçiminde olmalı (ör. #ef5342).");
+            Palette.Add(hex.ToLowerInvariant());
+            return EditResult.Done;
+        }
+
+        /* Cells of the removed colour take the first colour; later colours shift down. */
+        public EditResult RemovePaletteColour(int index)
+        {
+            if (Palette.Count <= 1) return EditResult.No("Palette en az bir renk kalmalı.");
+            if (index < 0 || index >= Palette.Count) return EditResult.No("Palette böyle bir renk yok.");
+            Palette.RemoveAt(index);
+            for (int i = 0; i < _colors.Length; i++)
+            {
+                if (_colors[i] == index) _colors[i] = 0;
+                else if (_colors[i] > index) _colors[i]--;
+            }
+            return EditResult.Done;
+        }
+
+        // ---- intro card and art name (look only) -----------------------------------------
+
+        public static readonly string[] IntroIcons = { "chain", "bomb", "hammer", "wall", "scissors", "wand", "clock" };
+
+        /* The card shown the first time the level opens; empty title and body remove it. */
+        public EditResult SetIntro(string title, string body, string tip, string icon)
+        {
+            title = title?.Trim(); body = body?.Trim(); tip = tip?.Trim();
+            if (string.IsNullOrEmpty(title) && string.IsNullOrEmpty(body)) { Intro = null; return EditResult.Done; }
+            if (string.IsNullOrEmpty(title)) return EditResult.No("Tanıtım kartının başlığı olmalı.");
+            if (icon != null && Array.IndexOf(IntroIcons, icon) < 0) return EditResult.No("Böyle bir simge yok.");
+            Intro = new LevelIntro { Title = title, Body = body, Tip = string.IsNullOrEmpty(tip) ? null : tip, Icon = icon ?? Intro?.Icon ?? "chain" };
+            return EditResult.Done;
+        }
+
+        public EditResult SetArt(string art)
+        {
+            art = art?.Trim();
+            if (string.IsNullOrEmpty(art)) return EditResult.No("Resim adı boş olamaz.");
+            Art = art;
+            return EditResult.Done;
+        }
+
         /* Keeps what still fits: joints, colours, walls, and chains and obstacles
            whose cells are all on the new board. */
         public EditResult Resize(int width, int height)

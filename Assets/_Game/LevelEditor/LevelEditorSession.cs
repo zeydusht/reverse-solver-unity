@@ -102,8 +102,12 @@ namespace ReverseSolver.LevelEditor
             Say($"{id} v{d.Version} açıldı.");
         }
 
+        /* Counts designs opened, so the panel knows when to reload its text fields. */
+        public int Opened { get; private set; }
+
         void Replace(LevelDraft d)
         {
+            Opened++;
             Draft = d;
             _undo.Clear();
             _redo.Clear();
@@ -167,8 +171,25 @@ namespace ReverseSolver.LevelEditor
             Changed();
         }
 
+        // ---- solution playback (tier 2) ---------------------------------------------------
+
+        /* -1: off; otherwise how many moves of the found solution are played on the board. */
+        public int Step { get; private set; } = -1;
+
+        public void StepTo(int k)
+        {
+            int n = Report.Solution.Count;
+            if (n == 0) { Say("Gösterilecek çözüm yok: tahta şu an çözülemiyor.", true); Step = -1; Revision++; return; }
+            Step = System.Math.Max(0, System.Math.Min(n, k));
+            Say(Step < n ? $"Hamle {Step + 1} / {n}: işaretli parçayı oku doğru sürükle." : $"Çözüm bitti: {n} hamle.");
+            Revision++;
+        }
+
+        public void StopPlayback() { Step = -1; Revision++; }
+
         void Changed()
         {
+            Step = -1;                                   // any edit leaves playback
             if (Selected is Cell s && !Draft.OnBoard(s)) Selected = null;
             if (ChainStart is Cell c && !Draft.OnBoard(c)) ChainStart = null;
             Check();

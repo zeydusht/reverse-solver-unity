@@ -479,6 +479,63 @@ namespace ReverseSolver.Core.Tests
             Assert.Throws<LevelFormatException>(() => LevelParser.Parse(Level("\"\"")));
         }
 
+        // ---- tier 2: level settings ---------------------------------------------------
+
+        [Test]
+        public void PaletteEditsKeepEveryCellOnAColour()
+        {
+            var d = LevelDraft.New(3, 3);
+            Assert.That(d.AddPaletteColour("#12AB34").Ok, Is.True);
+            Assert.That(d.Palette[2], Is.EqualTo("#12ab34"));
+            d.SetColor(new Cell(0, 0), 2);
+            d.SetColor(new Cell(1, 0), 1);
+            Assert.That(d.RemovePaletteColour(1).Ok, Is.True);
+            Assert.That(d.ColorAt(new Cell(1, 0)), Is.EqualTo(0), "cells of the removed colour take the first");
+            Assert.That(d.ColorAt(new Cell(0, 0)), Is.EqualTo(1), "later colours shift down");
+            Assert.That(d.Problems(), Is.Empty);
+            Assert.That(d.SetPaletteColour(0, "red").Ok, Is.False);
+            Assert.That(d.SetPaletteColour(0, "#00ff0").Ok, Is.False);
+            d.RemovePaletteColour(1);
+            Assert.That(d.RemovePaletteColour(0).Ok, Is.False, "at least one colour stays");
+            for (int i = 0; i < LevelDraft.MaxPalette; i++) d.AddPaletteColour("#000000");
+            Assert.That(d.Palette.Count, Is.EqualTo(LevelDraft.MaxPalette));
+        }
+
+        [Test]
+        public void IntroCardAndArtRoundTrip()
+        {
+            var store = new DesignStore();
+            var d = LevelDraft.New(4, 4);
+            store.Save(d);
+            Assert.That(d.SetIntro("Zincirli çift", "İki parça birlikte hareket eder.", "Zinciri takip et.", "chain").Ok, Is.True);
+            Assert.That(d.SetArt("Kalp").Ok, Is.True);
+            store.Save(d);
+            Assert.That(d.Version, Is.EqualTo(1), "card text and art are look only");
+            var l = DesignStore.Parse(store.ToJson()).Find(d.Id).ToLevelData();
+            Assert.That((l.Intro.Title, l.Intro.Body, l.Intro.Tip, l.Intro.Icon), Is.EqualTo(("Zincirli çift", "İki parça birlikte hareket eder.", "Zinciri takip et.", "chain")));
+            Assert.That(l.Art, Is.EqualTo("Kalp"));
+            Assert.That(d.SetIntro("", "", "", null).Ok, Is.True);
+            Assert.That(d.Intro, Is.Null, "empty card removes it");
+            Assert.That(d.SetIntro("", "metin", null, "chain").Ok, Is.False, "a card needs a title");
+            Assert.That(d.SetIntro("Başlık", "metin", null, "nope").Ok, Is.False);
+            Assert.That(d.SetArt("  ").Ok, Is.False);
+        }
+
+        [Test]
+        public void BoosterSettingsAreGameplay()
+        {
+            var store = new DesignStore();
+            var d = LevelDraft.New(4, 4);
+            store.Save(d);
+            Assert.That(d.SetUnlock("wand", 2).Ok, Is.True);
+            store.Save(d);
+            Assert.That(d.Version, Is.EqualTo(2));
+            Assert.That(d.SetUnlock("nope", 2).Ok, Is.False);
+            Assert.That(d.SetBooster("hammer", 3).Ok, Is.True);
+            var s = new GameSession(d.ToLevelData(), 1, "test", new Mulberry32(1));
+            Assert.That(s.Stock(Booster.Hammer), Is.EqualTo(3));
+        }
+
         // ---- criterion 5: version rule ----------------------------------------------
 
         [Test]

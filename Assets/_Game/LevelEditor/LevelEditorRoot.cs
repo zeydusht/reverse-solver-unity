@@ -112,8 +112,17 @@ namespace ReverseSolver.LevelEditor
             _cell = Mathf.Max(_cell, 16f);
             _origin = new Vector2(area.x + (area.width - level.Width * _cell) / 2, area.y + (area.height - level.Height * _cell) / 2);
             var session = new GameSession(level, 1, "editor", new Mulberry32(1));
+            if (S.Step > 0)                              // solution playback: the first Step moves made
+                for (int k = 0; k < S.Step && k < S.Report.Solution.Count; k++)
+                    session.TryExit(S.Report.Solution[k].Piece, S.Report.Solution[k].Dir);
             _board = BoardView.Create(_world, session, _cell, _origin);
             if (S.ImageTexture != null) _board.SetImage(S.ImageTexture);
+            if (S.Step >= 0 && S.Step < S.Report.Solution.Count)
+            {
+                var next = S.Report.Solution[S.Step];
+                TutorialHand.Show(_board, _board.PieceViewOf(next.Piece), next, OverlayOrder + 20,
+                                  new Rect(-_origin, new Vector2(area.width, area.height)));
+            }
 
             // problem pieces from the live check: red
             foreach (int p in S.Report.Pieces)
@@ -361,6 +370,8 @@ namespace ReverseSolver.LevelEditor
             if (lv != d.Number && lv >= 1) S.Edit(x => { x.Number = lv; return EditResult.Done; });
             GUILayout.Label("Bölüm no, güçlendiricilerin açılışını belirler (makas 3, değnek 6, çekiç 9, saat 12).", _small);
             ImageSection();
+            _moreSettings = GUILayout.Toggle(_moreSettings, _moreSettings ? "▾ Diğer ayarlar" : "▸ Diğer ayarlar (güçlendiriciler, tanıtım kartı, resim adı, palet)", _h2);
+            if (_moreSettings) MoreSettings();
 
             GUILayout.Label("Dosya", _h2);
             GUILayout.BeginHorizontal();
@@ -382,6 +393,73 @@ namespace ReverseSolver.LevelEditor
         }
 
         int _newW = 5, _newH = 6;
+
+        bool _moreSettings;
+        string _introTitle, _introBody, _introTip, _introIcon, _art, _newColour = "#ffffff";
+        string[] _paletteEdit;
+        int _settingsOpened = -1;
+        static readonly (string id, string name)[] BoosterNames = { ("scissors", "Makas"), ("wand", "Değnek"), ("hammer", "Çekiç"), ("clock", "Saat") };
+
+        /* Tier 2: the rest of the level settings. Text fields edit a buffer and
+           go in with "Uygula", so a word is one undo step, not one per letter. */
+        void MoreSettings()
+        {
+            var d = S.Draft;
+            if (_settingsOpened != S.Opened || _paletteEdit == null || _paletteEdit.Length != d.Palette.Count)
+            {
+                _introTitle = d.Intro?.Title ?? ""; _introBody = d.Intro?.Body ?? ""; _introTip = d.Intro?.Tip ?? "";
+                _introIcon = d.Intro?.Icon ?? "chain"; _art = d.Art ?? "";
+                _paletteEdit = d.Palette.ToArray();
+            }
+            _settingsOpened = S.Opened;
+
+            GUILayout.Label("Güçlendiriciler (stok · açıldığı bölüm)", _text);
+            foreach (var (id, name) in BoosterNames)
+            {
+                GUILayout.BeginHorizontal();
+                int stock = d.Boosters.TryGetValue(id, out int s0) ? s0 : 0;
+                int unlock = d.Unlock.TryGetValue(id, out int u0) ? u0 : 1;
+                int s1 = Stepper(name, stock, 1, 0, LevelDraft.MaxCount);
+                int u1 = Stepper("açılış", unlock, 1, 1, LevelDraft.MaxCount);
+                GUILayout.EndHorizontal();
+                if (s1 != stock) S.Edit(x => x.SetBooster(id, s1));
+                if (u1 != unlock) S.Edit(x => x.SetUnlock(id, u1));
+            }
+            GUILayout.Label("Güçlendirici, bölüm no açılıştan küçükse kilitli görünür.", _small);
+
+            GUILayout.Label("Tanıtım kartı (bölüm ilk açıldığında; başlık ve metin boşsa kart yok)", _text);
+            _introTitle = GUILayout.TextField(_introTitle);
+            _introBody = GUILayout.TextArea(_introBody, GUILayout.MinHeight(48));
+            _introTip = GUILayout.TextField(_introTip);
+            int icon = System.Array.IndexOf(LevelDraft.IntroIcons, _introIcon);
+            int iconPick = GUILayout.SelectionGrid(System.Math.Max(0, icon), LevelDraft.IntroIcons, 4);
+            _introIcon = LevelDraft.IntroIcons[iconPick];
+            if (GUILayout.Button("Kartı uygula")) S.Edit(x => x.SetIntro(_introTitle, _introBody, _introTip, _introIcon), "Tanıtım kartı güncellendi.");
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Resim adı", _text, GUILayout.Width(80));
+            _art = GUILayout.TextField(_art);
+            if (GUILayout.Button("Uygula", GUILayout.Width(70))) S.Edit(x => x.SetArt(_art), "Resim adı güncellendi.");
+            GUILayout.EndHorizontal();
+
+            GUILayout.Label("Palet (#RRGGBB; renk yalnızca görünüştür)", _text);
+            for (int i = 0; i < d.Palette.Count; i++)
+            {
+                int k = i;
+                GUILayout.BeginHorizontal();
+                ColorUtility.TryParseHtmlString(d.Palette[i], out var col);
+                var rect = GUILayoutUtility.GetRect(28, 20, GUILayout.Width(28));
+                var old = GUI.color; GUI.color = col; GUI.DrawTexture(rect, Texture2D.whiteTexture); GUI.color = old;
+                _paletteEdit[i] = GUILayout.TextField(_paletteEdit[i], GUILayout.Width(90));
+                if (GUILayout.Button("Uygula", GUILayout.Width(64))) S.Edit(x => x.SetPaletteColour(k, _paletteEdit[k]));
+                if (GUILayout.Button("Sil", GUILayout.Width(40))) S.Edit(x => x.RemovePaletteColour(k), "Renk silindi; o renkteki hücreler ilk renge geçti.");
+                GUILayout.EndHorizontal();
+            }
+            GUILayout.BeginHorizontal();
+            _newColour = GUILayout.TextField(_newColour, GUILayout.Width(90));
+            if (GUILayout.Button("Renk ekle")) S.Edit(x => x.AddPaletteColour(_newColour), "Renk eklendi.");
+            GUILayout.EndHorizontal();
+        }
 
         /* G1: the level's picture. */
         void ImageSection()
@@ -427,6 +505,24 @@ namespace ReverseSolver.LevelEditor
             GUILayout.Label($"Tahta {st.Width}×{st.Height} · parça {st.Pieces} · zincir {st.Chains} · çivi {st.Nails} · bomba {st.Bombs} · duvar {st.SealedLanes} · açık kenar %{st.OpenPercent}", _small);
             GUILayout.Label($"Çözüm {r.Solution.Count} hamle · kontrol {S.CheckMs:0} ms", _small);
             if (r.Verdict == DesignVerdict.Unverified && GUILayout.Button("Derin kontrol (birkaç saniye sürebilir)")) S.DeepCheck();
+            if (r.Solution.Count > 0)
+            {
+                if (S.Step < 0)
+                {
+                    if (GUILayout.Button("Çözümü adım adım göster")) S.StepTo(0);
+                }
+                else
+                {
+                    GUILayout.BeginHorizontal();
+                    if (GUILayout.Button("⏮", GUILayout.Width(36))) S.StepTo(0);
+                    if (GUILayout.Button("◀", GUILayout.Width(36))) S.StepTo(S.Step - 1);
+                    GUILayout.Label($"{S.Step} / {r.Solution.Count}", _num, GUILayout.Width(60));
+                    if (GUILayout.Button("▶", GUILayout.Width(36))) S.StepTo(S.Step + 1);
+                    if (GUILayout.Button("⏭", GUILayout.Width(36))) S.StepTo(r.Solution.Count);
+                    if (GUILayout.Button("Kapat")) S.StopPlayback();
+                    GUILayout.EndHorizontal();
+                }
+            }
             GUILayout.Label(r.Fits
                 ? $"Telefonda (375×667) hücre {r.CellSize} pt."
                 : $"<b>Uyarı:</b> telefonda (375×667) hücre {r.CellSize} pt, 44 pt'nin altında: parmakla zor oynanır.", _small);

@@ -129,10 +129,23 @@ Debug oturumları hiçbir zaman Supabase'e gönderilmez, yani denemelerin veriyi
 - `Assets/_Game/Levels/levels.json`: web'den gelen 40 seviye. Editör bu dosyaya hiç yazmaz.
 - Editörün kodu yalnızca Unity editöründe derlenir; oyunun web build'ine girmez.
 
-## Henüz olmayanlar (sıradaki kademe)
+## Çözümü adım adım görmek
 
-- CSV dışa aktarma (zorluk tablosu için)
-- Çözümü tahtada adım adım oynatma
+Kontrol kutusunda **Çözümü adım adım göster**'e bas. Tahtada sıradaki hamlenin parçası L01'deki el ve okla gösterilir; ▶ bir hamle ileri, ◀ bir hamle geri, ⏮ başa, ⏭ sona gider. **Kapat** ya da herhangi bir düzenleme gösterimi kapatır. Gösterilen çözüm, panelin "çözülebilir" dediği çözümün kendisidir.
+
+## Diğer ayarlar
+
+**Seviye** bölümündeki **▸ Diğer ayarlar**'ı aç:
+- **Güçlendiriciler:** her biri için stok ve açıldığı bölüm. Bölüm no açılıştan küçükse düğme kilitli görünür. Bunlar oynanışı değiştirir, kaydedince sürüm artar.
+- **Tanıtım kartı:** başlık, metin, ipucu ve simge; bölüm ilk açıldığında gösterilir. **Kartı uygula** ile tahtaya geçer. Başlık ve metin boşsa kart yoktur.
+- **Resim adı:** listede ve verilerde görünen ad.
+- **Palet:** renkleri #RRGGBB biçiminde değiştir, ekle (en fazla 8) ya da sil. Silinen renkteki hücreler ilk renge geçer.
+
+Kart, resim adı ve palet yalnızca görünüştür; sürümü değiştirmez.
+
+## Henüz olmayanlar
+
+- CSV'yi doğrudan Excel'de açma (dosya `Builds/seviyeler.csv`'ye yazılıyor, sen açıyorsun)
 - "Parçaları ayır" görünümü
-- Güçlendirici stokları, tanıtım kartı, resim adı ve palet düzenleme.
-- Resmi kaydırarak ya da yakınlaştırarak kırpma ayarı (şimdilik hep ortadan kırpılır). Şimdilik kopyalanan seviyeninkiler kalır; yeni tahtada güçlendirici stoğu 0'dır.
+- Resmi kaydırarak ya da yakınlaştırarak kırpma ayarı (şimdilik hep ortadan kırpılır)
+- Paletten tahtaya gerçek sürükle-bırak (şimdilik araç seç + tıkla/sürükle)
