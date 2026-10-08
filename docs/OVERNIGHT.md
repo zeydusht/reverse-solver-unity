@@ -2,13 +2,13 @@
 
 Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
 
-## Kaldığım yer (2026-10-08 akşam, görev: docs/GOREV_KENAR_GORSEL.md)
-- **Unity 21:44'ten beri MCP'ye yanıt vermiyor** (play modundan çıkarken takıldı; muhtemelen açık bir diyalog). Unity'siz yol kuruldu: scratchpad/headless/compile.sh (tüm assembly'ler Unity DLL'lerine karşı derlenir) ve run.sh (EditMode testleri Mono'da; CoreIsolation ve SolverReport hariç). Bu yolla doğrulanıp commit'lendi:
-  - 1647699 L01 öğretici el (398 test)
-  - 79bb93d K1 kenar parçaları (411 test)
-  - 517f269 G1 kısım 1: image alanı, yükleme, editör içe alma (414 test)
-- **Commit'lenmemiş:** Piece.shader (resmi çizen kısım) — Unity'de derlenip görülmeden commit'lenmeyecek.
-- **Sıradaki somut adım (Unity açılınca):** shader'ı derle ve bak → test görselleri (Builds/test-images, kodla üretildi) D01–D03'e → ekran görüntüleri (K1: L01 + 6×7, 3 boyut; G1: editör + 390×844 oyun) → shader commit → kılavuza görüntüler → TelemetrySettings.SendEnabled=true (Zeyd onayladı) → Brotli+gzip build → yayın → başsız Chrome + TEST_GECE satırı doğrulaması → PM raporu → Zeyd'e telefon listesi.
+## Kaldığım yer (2026-10-08 22:35, görev: docs/GOREV_KENAR_GORSEL.md)
+- **Engel:** Unity süreci çalışıyor (Responding) ve MCP sunucusuna (127.0.0.1:8080) bağlı, ama komut kuyruğu 21:44'teki play modu çıkışından beri takılı: ping yanıtsız. Çözüm: Zeyd Unity penceresine tıklar (odak → refresh → derleme → domain reload). Programla öne getirmek işe yaramadı. Unity programla kapatılmaz (PM).
+- **Unity'siz doğrulama yolu:** scratchpad/headless/compile.sh (tüm assembly'ler Unity DLL'lerine karşı Roslyn ile) + run.sh (EditMode testleri Mono'da; TestContext → Console). Ara kanıt; bağlayıcı olan Unity Test Runner (PM).
+- **Commit'lenenler (main):** 1647699 L01 el · 79bb93d K1 · 517f269 G1 kısım 1 · 7c60a33/ca62772 kademe 2 · bba9b60 M6 efektleri · 26e59cf G1 kontrol hazırlığı · 592dd8c M5 bayrak AÇIK (Zeyd onayı) · 89667e9 supap metni "söküldü" · 197479b docs/TELEFON_TESTI.md · 2bb3208 Monte Carlo · 2be3951 analiz SQL taslakları. Son: 423 test geçti.
+- **Commit'lenmemiş:** Piece.shader (G1 resim çizimi) — Unity'de görülüp PM onayından sonra.
+- **PM kuralı:** build'e kadar build'e giren yeni oyun kodu yok (Core/Presentation/Platform); yalnızca editör-only, test, docs.
+- **Unity dönünce:** Unity'de tüm testler → "Reverse Solver → Test görsellerini D01–D03'e koy" → shader görüntüleri (editör + 390×844, RenderShot "D01") PM'e → onayla shader commit (45 dk sınır; tutmazsa build eski shader'la) → K1 görüntüleri (L01 + L40, 375/390/430) → efektler ve kademe 2 ekranda → Brotli+gzip build → gh-pages → başsız Chrome + scratchpad/m5-verify.js (başarısızsa bayrak kapat, yeniden yayınla) → PM → Zeyd'e docs/TELEFON_TESTI.md.
 
 ## Sabah listesi (Zeyd)
 - **Gönderimi canlıya açma senin onayını bekliyor.** SQL doğrulandı (salt-okuma: sütunlar var, `level_id` dolu). PM onayladı ama Claude Code otomatik modu bayrağı açmayı engelledi. Yapılacak: Claude'a "gönderimi aç" de (ya da `Assets/_Game/Platform/Web/TelemetrySettings.cs`'te `SendEnabled = true`), build + yayın + TEST_GECE/TEST_ZEYD doğrulaması o zaman yapılır.
