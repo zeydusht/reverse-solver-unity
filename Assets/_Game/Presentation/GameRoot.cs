@@ -13,7 +13,8 @@ namespace ReverseSolver.Presentation
        Screen layout (points, y down), the web game's flex column:
          safe top + 4 | strip (10 + 46 + 6) | stage: tray centred |
          prompt 17 + booster bar 97 | 4 + safe bottom
-       Cell size is the web game's sizeCell: min((W - 38) / w, (H - 262) / h, 78).
+       Cell size: Core BoardLayout (the web's sizeCell with a wider side gap,
+       PRODUCT.md K1).
        Nothing is drawn below the safe bottom inset (iOS home indicator).
 
        URL: ?lv=N opens level N directly; ?debug=1 shows the load panel, the FPS
@@ -255,7 +256,7 @@ namespace ReverseSolver.Presentation
         public static Vector2 BoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell)
         {
             float innerH = screen.y - safe.y - safe.w;
-            cell = Mathf.Floor(Mathf.Min((screen.x - 38f) / l.Width, (innerH - 262f) / l.Height, MaxCell));
+            cell = BoardLayout.CellSize(screen.x, innerH, l.Width, l.Height);
             var size = new Vector2(l.Width * cell, l.Height * cell);
             float stageTop = safe.y + BodyPad + Hud.TopPad + Hud.Height + StripBottom;
             float stageBottom = screen.y - safe.w - BodyPad - BottomReserve;
@@ -344,12 +345,14 @@ namespace ReverseSolver.Presentation
             if (_debug != null) UpdateDebug();
         }
 
+        /* Focus lost mid-drag: the piece leaves if it was already past the exit
+           point, otherwise it springs back (PRODUCT.md K1). */
         void OnApplicationFocus(bool focus)
         {
             if (focus || _drag == null || !_drag.Active) return;
-            int piece = _drag.Piece;
-            _drag.Cancel();
-            _board?.EndDrag(piece, DragRelease.SnappedBack, Dir.U, 0);
+            var lim = _drag.Limit;
+            var result = _drag.Abort(out int piece, out var dir);
+            _board?.EndDrag(piece, result, dir, lim.Cells);
         }
 
         void HandlePointer()
@@ -362,13 +365,18 @@ namespace ReverseSolver.Presentation
             if (p.press.wasPressedThisFrame) Press(pt);
             else if (p.press.isPressed && _drag != null && _drag.Active)
             {
-                _drag.Move(pt.x, pt.y);
+                _drag.Move(pt.x, pt.y, Time.unscaledTimeAsDouble);
                 _board.ShowDrag(_drag);
             }
             if (p.press.wasReleasedThisFrame && _drag != null && _drag.Active)
             {
                 var lim = _drag.Limit;
-                var result = _drag.Release(out int piece, out var dir);
+                // a touch the system took away (edge swipe, notification) ends as a cancel, not a release
+                var touch = Touchscreen.current;
+                bool cancelled = touch != null && p == touch &&
+                                 touch.primaryTouch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Canceled;
+                int piece; Dir dir;
+                var result = cancelled ? _drag.Abort(out piece, out dir) : _drag.Release(out piece, out dir);
                 _board.EndDrag(piece, result, dir, lim.Cells);
             }
         }
@@ -437,7 +445,9 @@ namespace ReverseSolver.Presentation
                 return;
             }
             if (_boosters.BlocksDrag) return;
-            if (piece >= 0 && _drag.Press(piece, pt.x, pt.y)) _board.ShowDrag(_drag);
+            // a press just outside the board takes the nearest edge piece (PRODUCT.md K1)
+            piece = _board.GrabAt(pt, out bool outside);
+            if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) _board.ShowDrag(_drag);
         }
 
         void OpenList()
@@ -466,8 +476,10 @@ namespace ReverseSolver.Presentation
             string where = _mode == Mode.Playing ? $"{_session.Level.Id}  hücre {_board.Cell:0} pt" : "menü";
             var q = _telemetry.Queue;
             string net = _telemetry.Enabled ? "açık" : "kapalı";
+            string last = _drag?.Last != null ? _drag.Last.ToString() : "-";
             _debug.Text = $"{where}  FPS {_fpsShown:0}  sürüklerken medyan {median}\n" +
-                          $"gönderim {net}  kuyruk {q.Rows.Count}  gönderilen {_telemetry.Sender.Sent}  ayrılan {q.Parked}";
+                          $"gönderim {net}  kuyruk {q.Rows.Count}  gönderilen {_telemetry.Sender.Sent}  ayrılan {q.Parked}\n" +
+                          $"son sürükleme: {last}";
         }
 
         // ---- editor screenshots -------------------------------------------------------------

@@ -387,8 +387,8 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void FitWarning()
         {
-            Assert.That(Layout.CellSize(6, 7), Is.EqualTo(56));        // L40 on a 375x667 phone (M3 screenshot)
-            Assert.That(Layout.CellSize(4, 5), Is.EqualTo(78));
+            Assert.That(Layout.CellSize(6, 7), Is.EqualTo(51));        // L40 on a 375x667 phone with the K1 side gap
+            Assert.That(Layout.CellSize(4, 5), Is.EqualTo(76));
             var big = LevelDraft.New(8, 10);
             Assert.That(DesignCheck.Run(big.ToLevelData()).Fits, Is.False);
             Assert.That(DesignCheck.Run(LevelDraft.New(5, 6).ToLevelData()).Fits, Is.True);

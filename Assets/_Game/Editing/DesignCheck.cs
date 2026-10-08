@@ -28,14 +28,13 @@ namespace ReverseSolver.Editing
         public bool FollowsRule => Verdict == DesignVerdict.Solvable;
     }
 
-    /* The web game's board size rule (sizeCell) and the touch-size floor. */
+    /* The phone check: the game's own board size rule (Core BoardLayout). */
     public static class Layout
     {
-        public const int MinTouchCell = 44;
-        public const int MaxCell = 78;
+        public const int MinTouchCell = (int)BoardLayout.MinCell;
 
         public static int CellSize(int width, int height, float screenW = 375, float screenH = 667) =>
-            (int)Math.Floor(Math.Min(Math.Min((screenW - 38f) / width, (screenH - 262f) / height), MaxCell));
+            (int)BoardLayout.CellSize(screenW, screenH, width, height);
     }
 
     /* The editor's solvability check, in two steps:

@@ -28,6 +28,24 @@ namespace ReverseSolver.Core
 
     public enum DragRelease { None, Exited, SnappedBack }
 
+    /* How the last drag ended, for the ?debug=1 line (PRODUCT.md K1: is it a
+       cancel, too short a pull, or a press that missed the piece?). */
+    public sealed class DragReport
+    {
+        public DragRelease Result;
+        public Dir? Direction;
+        public float Offset;          // points travelled along Direction
+        public float Needed;          // points needed to leave by the 42% rule (0: cannot leave that way)
+        public float Speed;           // finger speed along Direction at release, pt/s
+        public bool Flick;            // left by the flick rule
+        public bool Cancelled;        // ended by the system (touch cancel, focus loss)
+        public bool PressedOutside;   // grabbed from the margin outside the board
+
+        public override string ToString() =>
+            $"{(Cancelled ? "Cancel→" : "")}{Result}{(Flick ? " (fiske)" : "")} " +
+            $"{Offset:0}/{Needed:0} pt {Speed:0} pt/s {(PressedOutside ? "dışarıdan" : "içeriden")}";
+    }
+
     /* The web game's drag (index.html: pointerdown / pointermove / endDrag),
        without the DOM. Distances are in the same units as CellSize (points).
 
@@ -41,7 +59,17 @@ namespace ReverseSolver.Core
          - Pulling more than 4 points past that limit counts one jam, once per
            drag and direction.
          - On release, a piece that can leave and has travelled 42% of the exit
-           distance leaves; anything else springs back. */
+           distance leaves; anything else springs back.
+
+       Deliberate differences from the web (PRODUCT.md K1, from Zeyd's iPhone:
+       pieces in the outer columns were hard to pull out past the screen edge):
+         - Flick: a piece that can leave also leaves when the finger moves at
+           FlickSpeed or more in that direction at release and the piece has
+           travelled FlickFraction of the exit distance.
+         - A drag the system cancels (edge gesture, focus loss) leaves if the
+           42% rule holds at that moment, otherwise springs back (Abort).
+       Neither counts a jam. Time comes in from outside (Move/Release take a
+       timestamp in seconds); without one the flick never applies. */
     public sealed class DragModel
     {
         public const float MinSwipe = 7f;
@@ -50,6 +78,9 @@ namespace ReverseSolver.Core
         public const float ExitOvershoot = 1.15f;
         public const float ExitFraction = .42f;
         public const float JamSlack = 4f;
+        public const float FlickSpeed = 900f;        // pt/s along the exit direction
+        public const float FlickFraction = .20f;
+        public const double SpeedWindow = .10;       // s of movement the release speed is measured over
 
         readonly IDragTarget _target;
 
@@ -62,9 +93,14 @@ namespace ReverseSolver.Core
         public float Offset { get; private set; }
         /* The piece currently stopping the drag, -1 if none (for highlighting). */
         public int Blocker { get; private set; } = -1;
+        /* How the previous drag ended; null before the first one. */
+        public DragReport Last { get; private set; }
 
         float _sx, _sy;
-        bool _axisChosen, _horizontal, _jammed;
+        bool _axisChosen, _horizontal, _jammed, _outside;
+        readonly float[] _px = new float[16], _py = new float[16];
+        readonly double[] _pt = new double[16];
+        int _samples;
 
         public DragModel(IDragTarget target, float cellSize)
         {
@@ -73,7 +109,10 @@ namespace ReverseSolver.Core
         }
 
         /* Returns false if no drag starts (nothing there, game over, or nailed). */
-        public bool Press(int piece, float x, float y)
+        public bool Press(int piece, float x, float y) => Press(piece, x, y, -1, false);
+
+        /* time: seconds (any origin), -1 if unknown. outside: grabbed from the margin. */
+        public bool Press(int piece, float x, float y, double time, bool outside)
         {
             if (Active) Cancel();
             if (_target.IsOver || !_target.IsPresent(piece)) return false;
@@ -89,12 +128,18 @@ namespace ReverseSolver.Core
             Direction = null;
             Offset = 0;
             Blocker = -1;
+            _outside = outside;
+            _samples = 0;
+            Sample(x, y, time);
             return true;
         }
 
-        public void Move(float x, float y)
+        public void Move(float x, float y) => Move(x, y, -1);
+
+        public void Move(float x, float y, double time)
         {
             if (!Active) return;
+            Sample(x, y, time);
             float dx = x - _sx, dy = y - _sy;
             if (!_axisChosen)
             {
@@ -123,26 +168,72 @@ namespace ReverseSolver.Core
             }
         }
 
-        public DragRelease Release(out int piece, out Dir dir)
+        public DragRelease Release(out int piece, out Dir dir) => End(out piece, out dir, flickAllowed: true, cancelled: false);
+
+        /* The system ended the touch (touchcancel, focus loss): the piece leaves
+           if the 42% rule holds right now, otherwise it springs back. No flick. */
+        public DragRelease Abort(out int piece, out Dir dir) => End(out piece, out dir, flickAllowed: false, cancelled: true);
+
+        DragRelease End(out int piece, out Dir dir, bool flickAllowed, bool cancelled)
         {
             piece = Piece;
             dir = Direction ?? Dir.U;
             if (!Active) return DragRelease.None;
-            bool leaves = Direction.HasValue && Limit.Exit &&
-                          Offset >= (Limit.Cells + ExitOvershoot) * CellSize * ExitFraction;
+            float exitDistance = (Limit.Cells + ExitOvershoot) * CellSize;
+            bool canLeave = Direction.HasValue && Limit.Exit;
+            float speed = Speed();
+            bool byRule = canLeave && Offset >= exitDistance * ExitFraction;
+            bool byFlick = flickAllowed && canLeave && !byRule &&
+                           speed >= FlickSpeed && Offset >= exitDistance * FlickFraction;
             Piece = -1;
             Blocker = -1;
-            if (leaves && _target.Exit(piece, dir) == CommandResult.Ok) return DragRelease.Exited;
-            return DragRelease.SnappedBack;
+            var result = (byRule || byFlick) && _target.Exit(piece, dir) == CommandResult.Ok
+                ? DragRelease.Exited : DragRelease.SnappedBack;
+            Last = new DragReport
+            {
+                Result = result, Direction = Direction, Offset = Offset,
+                Needed = canLeave ? exitDistance * ExitFraction : 0, Speed = speed,
+                Flick = byFlick && result == DragRelease.Exited, Cancelled = cancelled, PressedOutside = _outside
+            };
+            return result;
         }
 
-        /* Pointer lost (cancel, blur): springs back without acting. */
+        /* Drag dropped for the game's own reasons (level ends, layout changes):
+           springs back without acting. */
         public void Cancel()
         {
             Piece = -1;
             Blocker = -1;
             Offset = 0;
             Direction = null;
+        }
+
+        void Sample(float x, float y, double time)
+        {
+            if (time < 0) return;
+            if (_samples == _pt.Length)
+            {
+                System.Array.Copy(_px, 1, _px, 0, _px.Length - 1);
+                System.Array.Copy(_py, 1, _py, 0, _py.Length - 1);
+                System.Array.Copy(_pt, 1, _pt, 0, _pt.Length - 1);
+                _samples--;
+            }
+            _px[_samples] = x; _py[_samples] = y; _pt[_samples] = time;
+            _samples++;
+        }
+
+        /* Finger speed along Direction over the last SpeedWindow, pt/s (0 without timestamps). */
+        float Speed()
+        {
+            if (!Direction.HasValue || _samples < 2) return 0;
+            int last = _samples - 1, first = last;
+            while (first > 0 && _pt[last] - _pt[first - 1] <= SpeedWindow) first--;
+            if (first == last) first = last - 1;
+            double dt = _pt[last] - _pt[first];
+            if (dt <= 1e-4) return 0;
+            var d = Direction.Value;
+            float along = d.Dx() * (_px[last] - _px[first]) + d.Dy() * (_py[last] - _py[first]);
+            return (float)(along / dt);
         }
 
         float MaxOffset()

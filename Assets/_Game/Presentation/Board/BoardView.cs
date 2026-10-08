@@ -106,6 +106,14 @@ namespace ReverseSolver.Presentation
             }
         }
 
+        /* PieceAt plus the margin around the board: a press up to EdgeGrab.Reach
+           outside takes the nearest edge piece. */
+        public int GrabAt(Vector2 screenPt, out bool outside)
+        {
+            var p = screenPt - Origin;
+            return EdgeGrab.PieceAt(Session.Board, p.x, p.y, Cell, out outside);
+        }
+
         public PieceView PieceViewOf(int piece) => _pieces.TryGetValue(piece, out var p) ? p : null;
 
         Vector2 Center(Cell c) => new Vector2((c.X + .5f) * Cell, (c.Y + .5f) * Cell);
