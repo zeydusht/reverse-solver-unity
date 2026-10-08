@@ -19,6 +19,8 @@ namespace ReverseSolver.LevelEditor
     public sealed class LevelEditorRoot
     {
         const int OverlayOrder = 2000;
+        /* "Parçaları ayır": gap between cells, as a fraction of a cell. */
+        const float SeparateGap = .22f;
         const float PanelW = 400, PanelH = 360;     // logical GUI units
 
         static LevelEditorSession S => LevelEditorSession.Current;
@@ -28,6 +30,7 @@ namespace ReverseSolver.LevelEditor
         BoardView _board;
         ShapeView _hover;
         int _builtRevision = -1;
+        bool _separated, _builtSeparated;
         Tool _builtTool;
         Vector2Int _builtScreen;
         float _cell;
@@ -85,7 +88,8 @@ namespace ReverseSolver.LevelEditor
         void Update()
         {
             if (S == null) return;
-            if (S.Revision != _builtRevision || S.Tool != _builtTool || Screen.width != _builtScreen.x || Screen.height != _builtScreen.y)
+            if (S.Revision != _builtRevision || S.Tool != _builtTool || _separated != _builtSeparated ||
+                Screen.width != _builtScreen.x || Screen.height != _builtScreen.y)
                 Rebuild();
             HandleMouse();
         }
@@ -96,6 +100,7 @@ namespace ReverseSolver.LevelEditor
         {
             _builtRevision = S.Revision;
             _builtTool = S.Tool;
+            _builtSeparated = _separated;
             _builtScreen = new Vector2Int(Screen.width, Screen.height);
             if (_world != null) Object.Destroy(_world.gameObject);
             _world = new GameObject("EditorWorld").transform;
@@ -108,16 +113,19 @@ namespace ReverseSolver.LevelEditor
 
             var level = S.Draft.ToLevelData();
             var area = BoardArea;
-            _cell = Mathf.Floor(Mathf.Min((area.width - 110) / level.Width, (area.height - 110) / level.Height, 78f));
+            float g = _separated ? SeparateGap : 0;
+            float spanW = level.Width + g * (level.Width - 1), spanH = level.Height + g * (level.Height - 1);
+            _cell = Mathf.Floor(Mathf.Min((area.width - 110) / spanW, (area.height - 110) / spanH, 78f));
             _cell = Mathf.Max(_cell, 16f);
-            _origin = new Vector2(area.x + (area.width - level.Width * _cell) / 2, area.y + (area.height - level.Height * _cell) / 2);
+            _origin = new Vector2(area.x + (area.width - spanW * _cell) / 2, area.y + (area.height - spanH * _cell) / 2);
             var session = new GameSession(level, 1, "editor", new Mulberry32(1));
             if (S.Step > 0)                              // solution playback: the first Step moves made
                 for (int k = 0; k < S.Step && k < S.Report.Solution.Count; k++)
                     session.TryExit(S.Report.Solution[k].Piece, S.Report.Solution[k].Dir);
             _board = BoardView.Create(_world, session, _cell, _origin);
             if (S.ImageTexture != null) _board.SetImage(S.ImageTexture);
-            if (S.Step >= 0 && S.Step < S.Report.Solution.Count)
+            if (_separated) Separate(level);
+            if (S.Step >= 0 && S.Step < S.Report.Solution.Count && !_separated)
             {
                 var next = S.Report.Solution[S.Step];
                 TutorialHand.Show(_board, _board.PieceViewOf(next.Piece), next, OverlayOrder + 20,
@@ -131,14 +139,14 @@ namespace ReverseSolver.LevelEditor
             if (S.Selected is Cell sel) Mark(sel, Draw.Rgba(240, 167, 66, .12f), Draw.Hex("#f0a742"), 3);
             if (S.ChainStart is Cell cs) Mark(cs, Draw.Rgba(90, 200, 250, .25f), Draw.Hex("#5ac8fa"), 4);
 
-            if (S.Tool == Tool.Edge)
+            if (S.Tool == Tool.Edge && !_separated)
             {
                 var joints = new List<(int x, int y, bool vertical)>();
                 for (int y = 0; y < level.Height; y++) for (int x = 1; x < level.Width; x++) joints.Add((x, y, true));
                 for (int y = 1; y < level.Height; y++) for (int x = 0; x < level.Width; x++) joints.Add((x, y, false));
                 _board.ShowJoints(joints);
             }
-            if (S.Tool == Tool.Wall)
+            if (S.Tool == Tool.Wall && !_separated)
                 foreach (var side in DirExt.All)
                     for (int lane = 0; lane < S.Draft.LaneCount(side); lane++)
                         if (!S.Draft.IsSealed(side, lane))
@@ -157,7 +165,26 @@ namespace ReverseSolver.LevelEditor
         void Mark(Cell c, Vector4 fill, Vector4 stroke, float width)
         {
             var m = ShapeView.Create(_world, "mark", new Vector2(_cell, _cell), 4, OverlayOrder + 5).Radius(6).Fill(fill).Stroke(stroke, width);
-            m.transform.localPosition = Draw.W(_origin + new Vector2((c.X + .5f) * _cell, (c.Y + .5f) * _cell));
+            m.transform.localPosition = Draw.W(CellCenter(c));
+        }
+
+        /* "Parçaları ayır": every piece moved apart on a wider grid so each
+           one's tabs and sockets can be seen on their own. The tray, slots
+           and walls belong to the closed board and are hidden. A chained pair
+           is one piece, so it moves by the middle of its two cells' places. */
+        void Separate(LevelData level)
+        {
+            float step = SeparateGap * _cell;
+            foreach (Transform child in _board.transform)
+                if (child.name == "Tray" || child.name == "Slot" || child.name == "Wall") child.gameObject.SetActive(false);
+            for (int p = 0; p < level.Pieces.Count; p++)
+            {
+                var pv = _board.PieceViewOf(p);
+                if (pv == null) continue;
+                var off = Vector2.zero;
+                foreach (var c in level.Pieces[p]) off += new Vector2(c.X, c.Y) * step;
+                pv.SetOffset(off / level.Pieces[p].Length);
+            }
         }
 
         /* The strip outside the board where a wall segment goes (BoardView's wall rect, a bit larger to click). */
@@ -200,6 +227,16 @@ namespace ReverseSolver.LevelEditor
             cell = default; joint = default; lane = default;
             var d = S.Draft;
             float fx = (pt.x - _origin.x) / _cell, fy = (pt.y - _origin.y) / _cell;
+            if (_separated)
+            {
+                // cells sit on a (1 + gap) grid; the gaps between them hit nothing
+                float pitch = 1 + SeparateGap;
+                int ix = Mathf.FloorToInt(fx / pitch), iy = Mathf.FloorToInt(fy / pitch);
+                if (ix < 0 || iy < 0 || ix >= d.Width || iy >= d.Height || fx - ix * pitch > 1 || fy - iy * pitch > 1) return HitKind.None;
+                if (S.Tool == Tool.Edge || S.Tool == Tool.Wall) return HitKind.None;
+                cell = new Cell(ix, iy);
+                return HitKind.Cell;
+            }
             bool inside = fx >= 0 && fx < d.Width && fy >= 0 && fy < d.Height;
 
             if (S.Tool == Tool.Wall && !inside)
@@ -233,7 +270,11 @@ namespace ReverseSolver.LevelEditor
             }
         }
 
-        public Vector2 CellCenter(Cell c) => _origin + new Vector2((c.X + .5f) * _cell, (c.Y + .5f) * _cell);
+        public Vector2 CellCenter(Cell c)
+        {
+            float pitch = _separated ? 1 + SeparateGap : 1;
+            return _origin + new Vector2((c.X * pitch + .5f) * _cell, (c.Y * pitch + .5f) * _cell);
+        }
 
         bool Brush => S.Tool == Tool.Template || S.Tool == Tool.Paint || S.Tool == Tool.Erase;
 
@@ -353,6 +394,9 @@ namespace ReverseSolver.LevelEditor
 
             Status();
             Check();
+            _separated = GUILayout.Toggle(_separated, " Parçaları ayır (her parçanın şekli tek tek görünür)");
+            if (_separated && (S.Tool == Tool.Edge || S.Tool == Tool.Wall))
+                GUILayout.Label("Kenar ve mühür araçları ayrık görünümde çalışmaz; düzenlemek için ayrık görünümü kapat.", _small);
 
             GUILayout.Label("Araç", _h2);
             int toolIndex = System.Array.FindIndex(Tools, t => t.tool == S.Tool);

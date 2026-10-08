@@ -133,6 +133,10 @@ Debug oturumları hiçbir zaman Supabase'e gönderilmez, yani denemelerin veriyi
 
 Kontrol kutusunda **Çözümü adım adım göster**'e bas. Tahtada sıradaki hamlenin parçası L01'deki el ve okla gösterilir; ▶ bir hamle ileri, ◀ bir hamle geri, ⏮ başa, ⏭ sona gider. **Kapat** ya da herhangi bir düzenleme gösterimi kapatır. Gösterilen çözüm, panelin "çözülebilir" dediği çözümün kendisidir.
 
+## Parçaları ayır
+
+Kontrol kutusunun altındaki **Parçaları ayır** kutusunu işaretle: parçalar aralıklı dizilir, her birinin çıkıntı ve girintileri tek tek görünür. Bu görünümde hücre seçebilir, parça, çivi, bomba, boya ve silgi araçlarını kullanabilirsin; kenar ve mühür araçları için ayrık görünümü kapat. Zincirli çift tek parça olduğu için iki hücresinin ortasına göre kayar.
+
 ## Diğer ayarlar
 
 **Seviye** bölümündeki **▸ Diğer ayarlar**'ı aç:
@@ -146,6 +150,5 @@ Kart, resim adı ve palet yalnızca görünüştür; sürümü değiştirmez.
 ## Henüz olmayanlar
 
 - CSV'yi doğrudan Excel'de açma (dosya `Builds/seviyeler.csv`'ye yazılıyor, sen açıyorsun)
-- "Parçaları ayır" görünümü
 - Resmi kaydırarak ya da yakınlaştırarak kırpma ayarı (şimdilik hep ortadan kırpılır)
 - Paletten tahtaya gerçek sürükle-bırak (şimdilik araç seç + tıkla/sürükle)
