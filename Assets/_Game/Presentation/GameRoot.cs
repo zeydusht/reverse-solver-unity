@@ -25,7 +25,7 @@ namespace ReverseSolver.Presentation
     {
         public const string Client = "unity-web";
         const float BodyPad = 4f, StripBottom = 6f, BottomReserve = BoosterBar.PromptH + BoosterBar.Height, MaxCell = 78f;
-        const int HudOrder = 3000, BarOrder = 3200, CardOrder = 5000, FlashOrder = 4500, DebugOrder = 6000;
+        const int HandOrder = 1400, HudOrder = 3000, BarOrder = 3200, CardOrder = 5000, FlashOrder = 4500, DebugOrder = 6000;
 
         [SerializeField] TextAsset levels;
         [SerializeField] TextAsset designs;          // level editor output; only with ?debug=1&set=designs
@@ -47,6 +47,9 @@ namespace ReverseSolver.Presentation
         DragModel _drag;
         BoosterControls _boosters;
         bool _introOpen;
+        bool _designSet;              // playing designs.json (?debug=1&set=designs)
+        bool _tutorialDone;           // web tutDone: first removal anywhere ends the hand for this visit
+        TutorialHand _hand;
         readonly HashSet<string> _introSeen = new HashSet<string>();
 
         Camera _cam;
@@ -109,7 +112,7 @@ namespace ReverseSolver.Presentation
             if (Host.Debug && Host.Current.Query("set") == "designs" && designs != null)
             {
                 var root = Core.Json.JsonReader.Parse(designs.text);
-                if (root.TryGet("levels", out var list) && list.Count > 0) return LevelParser.Parse(designs.text);
+                if (root.TryGet("levels", out var list) && list.Count > 0) { _designSet = true; return LevelParser.Parse(designs.text); }
             }
             return LevelParser.Parse(levels.text);
         }
@@ -172,6 +175,11 @@ namespace ReverseSolver.Presentation
 
         void OnEvent(GameEvent e)
         {
+            if (e.Kind == EventKind.PieceRemoved)
+            {
+                _tutorialDone = true;                          // web clearTutorial() in flyOut and the hammer
+                if (_hand != null) { _hand.Remove(); _hand = null; }
+            }
             if (e.Kind != EventKind.Finished) return;
             _log.Add(_session.Record);
             _save.Store(_log);
@@ -219,6 +227,11 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_session.Level.Number);
                 var origin = BoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin);
+                _hand = null;
+                bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active;
+                if (Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
+                    _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
+                                              new Rect(-origin, _screen));
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder);
                 if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder));

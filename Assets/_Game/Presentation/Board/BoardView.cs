@@ -106,6 +106,8 @@ namespace ReverseSolver.Presentation
             }
         }
 
+        public PieceView PieceViewOf(int piece) => _pieces.TryGetValue(piece, out var p) ? p : null;
+
         Vector2 Center(Cell c) => new Vector2((c.X + .5f) * Cell, (c.Y + .5f) * Cell);
 
         // ---- hit testing ------------------------------------------------------------
