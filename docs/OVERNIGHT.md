@@ -3,13 +3,12 @@
 Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
 
 ## Kaldığım yer (2026-10-08 akşam, görev: docs/GOREV_KENAR_GORSEL.md)
-- **Son tamamlanan adım:** PM K1 ve G1'i ekledi, sırayı onayladı (951fa5b). Zeyd canlı gönderimi bu oturumda açıkça onayladı.
-- **Yarım kalan iş (commit'lenmedi, derlenmedi):**
-  - L01 öğretici el: Tutorial.cs, TutorialHand.cs, TutorialTests.cs, BoardView/GameRoot; 401/401 bir önceki derlemede yeşildi, ok ekran içine alındıktan sonraki son hali derlendi ve ekran görüntüleri alındı (Builds/screens/m6), testler son haliyle koşulmadı.
-  - K1: DragModel (fiske, Abort, DragReport), Core/Input/BoardLayout.cs (yan boşluk + EdgeGrab), GameRoot/BoardView bağlantısı, debug satırı, EdgeDragTests.cs. Hiç derlenmedi.
-- **Engel:** Unity ~21:44'ten beri MCP ping'ine yanıt vermiyor (play modundan çıkarken; büyük olasılıkla ekranda modal diyalog). Zeyd'in Unity'ye bakması gerekiyor.
-- **Sıradaki somut adım:** Unity açılınca derle → tüm testler → L01 el commit → K1 commit (ekran görüntüleri) → G1 → bayrak aç + build + yayın + TEST_ doğrulaması.
-- **designs.json:** Zeyd'in D03'ü (10:54) korunuyor, henüz commit'lenmedi.
+- **Unity 21:44'ten beri MCP'ye yanıt vermiyor** (play modundan çıkarken takıldı; muhtemelen açık bir diyalog). Unity'siz yol kuruldu: scratchpad/headless/compile.sh (tüm assembly'ler Unity DLL'lerine karşı derlenir) ve run.sh (EditMode testleri Mono'da; CoreIsolation ve SolverReport hariç). Bu yolla doğrulanıp commit'lendi:
+  - 1647699 L01 öğretici el (398 test)
+  - 79bb93d K1 kenar parçaları (411 test)
+  - 517f269 G1 kısım 1: image alanı, yükleme, editör içe alma (414 test)
+- **Commit'lenmemiş:** Piece.shader (resmi çizen kısım) — Unity'de derlenip görülmeden commit'lenmeyecek.
+- **Sıradaki somut adım (Unity açılınca):** shader'ı derle ve bak → test görselleri (Builds/test-images, kodla üretildi) D01–D03'e → ekran görüntüleri (K1: L01 + 6×7, 3 boyut; G1: editör + 390×844 oyun) → shader commit → kılavuza görüntüler → TelemetrySettings.SendEnabled=true (Zeyd onayladı) → Brotli+gzip build → yayın → başsız Chrome + TEST_GECE satırı doğrulaması → PM raporu → Zeyd'e telefon listesi.
 
 ## Sabah listesi (Zeyd)
 - **Gönderimi canlıya açma senin onayını bekliyor.** SQL doğrulandı (salt-okuma: sütunlar var, `level_id` dolu). PM onayladı ama Claude Code otomatik modu bayrağı açmayı engelledi. Yapılacak: Claude'a "gönderimi aç" de (ya da `Assets/_Game/Platform/Web/TelemetrySettings.cs`'te `SendEnabled = true`), build + yayın + TEST_GECE/TEST_ZEYD doğrulaması o zaman yapılır.

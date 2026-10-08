@@ -51,6 +51,25 @@ Sağ tık o hücredeki engeli siler. Bir engel tahtayı bozarsa panel hemen söy
 
 ---
 
+## Görsel ekle
+
+Bir tasarıma resim koyabilirsin; parçalar o resmin parçaları gibi görünür. Her tasarımın kendi resmi olur. Şimdilik yalnızca tasarımlarda (D01, D02 …) var; web'den gelen 40 seviyeye resim konmaz.
+
+1. **Seviye** bölümünde **Görsel seç…**'e bas, bilgisayarından bir png ya da jpg seç. Kaydedilmemiş bir tasarım önce kendiliğinden kaydedilir, çünkü dosyalar tasarımın numarasıyla adlandırılır.
+2. Resim tahtanın oranına göre ortadan kırpılır ve tahtada hemen görünür; panelde küçük bir önizlemesi çıkar.
+3. **Kaydet**'e bas. Tasarıma `"image": "D01.jpg"` yazılır.
+4. Resmi kaldırmak için **Görseli kaldır**. Parçalar renklerine döner; kullanılmayan dosyalar bir sonraki kayıtta silinir.
+
+Bilmen gerekenler:
+- Resim yalnızca görünüştür, **sürümü değiştirmez**.
+- Seçtiğin dosyaya dokunulmaz. Editör ondan iki kopya çıkarır:
+  - en uzun kenarı en fazla 2048 px olan bir kaynak kopyası (`Assets/_Game/Levels/ImageSources/`, oyuna girmez);
+  - oyunun indireceği tahta resmi (`Assets/StreamingAssets/LevelImages/<numara>.jpg`, hücre başına yaklaşık 150 px, en uzun kenar en fazla 1024 px).
+- Tahtanın boyutunu değiştirirsen resim kaynak kopyadan yeniden kırpılır.
+- Resim oyunun ilk indirmesine girmez; bölüm açılınca ayrıca indirilir. Gelene kadar, ya da hiç gelmezse, bölüm renkleriyle oynanır.
+- Çıkıntı ve girintilerin her resimde seçilebilmesi için beyaz dikiş kalır ve resmin kontrastı biraz yumuşatılır. Çok karışık ya da tek renk resimlerde parçaları ayırt etmek zorlaşabilir; telefonda deneyip bak.
+- Kendi resimlerini kullan; başkasının telifli resmini koyma.
+
 ## Araçlar
 
 | Araç | Ne yapar | Sağ tık |
@@ -115,4 +134,5 @@ Debug oturumları hiçbir zaman Supabase'e gönderilmez, yani denemelerin veriyi
 - CSV dışa aktarma (zorluk tablosu için)
 - Çözümü tahtada adım adım oynatma
 - "Parçaları ayır" görünümü
-- Güçlendirici stokları, tanıtım kartı, resim adı ve palet düzenleme. Şimdilik kopyalanan seviyeninkiler kalır; yeni tahtada güçlendirici stoğu 0'dır.
+- Güçlendirici stokları, tanıtım kartı, resim adı ve palet düzenleme.
+- Resmi kaydırarak ya da yakınlaştırarak kırpma ayarı (şimdilik hep ortadan kırpılır). Şimdilik kopyalanan seviyeninkiler kalır; yeni tahtada güçlendirici stoğu 0'dır.
