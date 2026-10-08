@@ -2,12 +2,14 @@
 
 Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
 
-## Kaldığım yer
-- **Son tamamlanan adım:** editör kademe 1 tamam (E1–E5, E7) + kademe 2'nin E6'sı (CSV, 6f8e517). E5 yayında: gh-pages e3af361, `?debug=1&set=designs&lv=D01` canlıda doğrulandı (Supabase 0). Brotli 7.154.649 B (+7,2 KB). 395/395 test.
-- **Yarım kalan iş:** yok.
-- **Sıradaki somut adım:** PM'e editör raporu (ölçüt 1–9 kanıtı) → PM'in sırasıyla kademe 2'nin kalanı ya da M6.
-- **Commit'lenmemiş değişiklik:** yok.
-- **2. adım (gönderim):** otomatik mod bayrak değişikliğini reddetti; canlıda gönderim kapalı. Sabah listesinde.
+## Kaldığım yer (2026-10-08 akşam, görev: docs/GOREV_KENAR_GORSEL.md)
+- **Son tamamlanan adım:** PM K1 ve G1'i ekledi, sırayı onayladı (951fa5b). Zeyd canlı gönderimi bu oturumda açıkça onayladı.
+- **Yarım kalan iş (commit'lenmedi, derlenmedi):**
+  - L01 öğretici el: Tutorial.cs, TutorialHand.cs, TutorialTests.cs, BoardView/GameRoot; 401/401 bir önceki derlemede yeşildi, ok ekran içine alındıktan sonraki son hali derlendi ve ekran görüntüleri alındı (Builds/screens/m6), testler son haliyle koşulmadı.
+  - K1: DragModel (fiske, Abort, DragReport), Core/Input/BoardLayout.cs (yan boşluk + EdgeGrab), GameRoot/BoardView bağlantısı, debug satırı, EdgeDragTests.cs. Hiç derlenmedi.
+- **Engel:** Unity ~21:44'ten beri MCP ping'ine yanıt vermiyor (play modundan çıkarken; büyük olasılıkla ekranda modal diyalog). Zeyd'in Unity'ye bakması gerekiyor.
+- **Sıradaki somut adım:** Unity açılınca derle → tüm testler → L01 el commit → K1 commit (ekran görüntüleri) → G1 → bayrak aç + build + yayın + TEST_ doğrulaması.
+- **designs.json:** Zeyd'in D03'ü (10:54) korunuyor, henüz commit'lenmedi.
 
 ## Sabah listesi (Zeyd)
 - **Gönderimi canlıya açma senin onayını bekliyor.** SQL doğrulandı (salt-okuma: sütunlar var, `level_id` dolu). PM onayladı ama Claude Code otomatik modu bayrağı açmayı engelledi. Yapılacak: Claude'a "gönderimi aç" de (ya da `Assets/_Game/Platform/Web/TelemetrySettings.cs`'te `SendEnabled = true`), build + yayın + TEST_GECE/TEST_ZEYD doğrulaması o zaman yapılır.
