@@ -436,6 +436,16 @@ namespace ReverseSolver.Core.Tests
             Assert.That(lines.Last(), Does.StartWith("tasarim;D04;"));
         }
 
+        [Test]
+        public void CsvCanCarryMonteCarloColumns()
+        {
+            var rows = TestData.Levels.Levels.Take(3).Select(l => ("web", l)).ToList();
+            var lines = LevelCsv.Build(rows, monteCarloRuns: 20).Split(new[] { "\r\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+            Assert.That(lines[0], Does.EndWith(";" + string.Join(";", LevelCsv.MonteCarloColumns)));
+            Assert.That(lines[1].Split(';').Length, Is.EqualTo(LevelCsv.Columns.Length + LevelCsv.MonteCarloColumns.Length));
+            Assert.That(lines[1], Does.Contain(";1,000;0,000;20,0;"), "L01: every random game won in 20 moves");
+        }
+
         // ---- G1: the image field -------------------------------------------------------
 
         [Test]

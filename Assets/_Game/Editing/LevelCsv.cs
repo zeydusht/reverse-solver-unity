@@ -18,12 +18,21 @@ namespace ReverseSolver.Editing
             "cozum_hamle", "karar", "telefon_hucre_pt"
         };
 
+        /* Faz 2 structural difficulty, added when monteCarloRuns > 0 (MonteCarlo). */
+        public static readonly string[] MonteCarloColumns =
+        {
+            "rastgele_kazanma", "rastgele_patlama", "rastgele_ort_hamle", "rastgele_ort_dallanma"
+        };
+
         static readonly CultureInfo Tr = CultureInfo.GetCultureInfo("tr-TR");
 
-        public static string Build(IEnumerable<(string set, LevelData level)> rows, int nodeBudget = DesignCheck.QuickBudget)
+        public static string Build(IEnumerable<(string set, LevelData level)> rows, int nodeBudget = DesignCheck.QuickBudget,
+                                   int monteCarloRuns = 0)
         {
             var sb = new StringBuilder();
-            sb.Append(string.Join(";", Columns)).Append("\r\n");
+            sb.Append(string.Join(";", Columns));
+            if (monteCarloRuns > 0) sb.Append(';').Append(string.Join(";", MonteCarloColumns));
+            sb.Append("\r\n");
             foreach (var (set, l) in rows)
             {
                 var st = LevelStats.Of(l);
@@ -43,6 +52,12 @@ namespace ReverseSolver.Editing
                 {
                     if (i > 0) sb.Append(';');
                     sb.Append(Field(cells[i]));
+                }
+                if (monteCarloRuns > 0)
+                {
+                    var mc = MonteCarlo.Run(l, monteCarloRuns);
+                    sb.Append(';').Append(mc.WinRate.ToString("0.000", Tr)).Append(';').Append(mc.BombRate.ToString("0.000", Tr))
+                      .Append(';').Append(mc.MeanMoves.ToString("0.0", Tr)).Append(';').Append(mc.MeanBranching.ToString("0.00", Tr));
                 }
                 sb.Append("\r\n");
             }

@@ -406,8 +406,8 @@ namespace ReverseSolver.LevelEditor
             foreach (var l in WebLevels.Levels) rows.Add(("web", l));
             foreach (var d in Store.Designs) rows.Add(("tasarim", d.ToLevelData()));
             Directory.CreateDirectory(Path.GetDirectoryName(CsvPath));
-            File.WriteAllBytes(CsvPath, LevelCsv.ToBytes(LevelCsv.Build(rows)));
-            Say($"CSV yazıldı: {Path.GetFullPath(CsvPath)} ({rows.Count} seviye).");
+            File.WriteAllBytes(CsvPath, LevelCsv.ToBytes(LevelCsv.Build(rows, monteCarloRuns: MonteCarlo.DefaultRuns)));
+            Say($"CSV yazıldı: {Path.GetFullPath(CsvPath)} ({rows.Count} seviye, rastgele oyuncuyla {MonteCarlo.DefaultRuns}'er oyun).");
             return Path.GetFullPath(CsvPath);
         }
 
