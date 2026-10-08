@@ -15,7 +15,8 @@ namespace ReverseSolver.Presentation
         static readonly int LiftId = Shader.PropertyToID("_Lift"), GrayId = Shader.PropertyToID("_Gray"),
             GlowId = Shader.PropertyToID("_Glow"), GlowColorId = Shader.PropertyToID("_GlowColor"),
             FlashId = Shader.PropertyToID("_Flash"), AlphaId = Shader.PropertyToID("_Alpha"),
-            PtId = Shader.PropertyToID("_PtToUnit");
+            PtId = Shader.PropertyToID("_PtToUnit"), ImageId = Shader.PropertyToID("_Image"),
+            BoardCellsId = Shader.PropertyToID("_BoardCells"), ImageMixId = Shader.PropertyToID("_ImageMix");
 
         public int Index { get; private set; }
         public Cell[] Cells { get; private set; }
@@ -38,6 +39,7 @@ namespace ReverseSolver.Presentation
             v._b = new MaterialPropertyBlock();
             v._b.SetFloat(PtId, 100f / cell);
             v._b.SetFloat(AlphaId, 1f);
+            v._b.SetVector(BoardCellsId, new Vector4(board.Level.Width, board.Level.Height, 0, 0));
             v.Rebuild(board);
             return v;
         }
@@ -50,6 +52,7 @@ namespace ReverseSolver.Presentation
             var uv = new List<Vector2>();
             var edges = new List<Vector4>();
             var colors = new List<Color>();
+            var cells = new List<Vector2>();
             var tris = new List<int>();
             foreach (var c in Cells)
             {
@@ -64,6 +67,7 @@ namespace ReverseSolver.Presentation
                     uv.Add(new Vector2(u, w));
                     edges.Add(e);
                     colors.Add(col);
+                    cells.Add(new Vector2(c.X, c.Y));
                 }
                 tris.AddRange(new[] { b, b + 1, b + 2, b, b + 2, b + 3 });
             }
@@ -72,6 +76,7 @@ namespace ReverseSolver.Presentation
             _mesh.SetVertices(verts);
             _mesh.SetUVs(0, uv);
             _mesh.SetUVs(1, edges);
+            _mesh.SetUVs(2, cells);
             _mesh.SetColors(colors);
             _mesh.SetTriangles(tris, 0);
             _mesh.RecalculateBounds();
@@ -99,6 +104,14 @@ namespace ReverseSolver.Presentation
         public void SetPinned(bool on) { _b.SetFloat(GrayId, on ? 1 : 0); Apply(); }
         public void SetGlow(Vector4 color, float amount) { _b.SetVector(GlowColorId, color); _b.SetFloat(GlowId, amount); Apply(); }
         public void SetFlash(float t) { _b.SetFloat(FlashId, t); Apply(); }
+
+        /* G1: the level's picture, mix 0 (colours) .. 1 (picture). */
+        public void SetImage(Texture image, float mix)
+        {
+            if (image != null) _b.SetTexture(ImageId, image);
+            _b.SetFloat(ImageMixId, image != null ? mix : 0);
+            Apply();
+        }
         public void SetAlpha(float a)
         {
             _b.SetFloat(AlphaId, a); Apply();

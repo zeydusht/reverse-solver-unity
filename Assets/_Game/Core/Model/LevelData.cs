@@ -40,6 +40,10 @@ namespace ReverseSolver.Core
         public int[] Colors { get; internal set; }        // per cell, y * W + x -> palette index
         public string[] Palette { get; internal set; }
         public string Art { get; internal set; }
+        /* Picture the pieces are cut from (PRODUCT.md G1), a file name under
+           StreamingAssets/LevelImages, or null for the plain colours. Look
+           only: it never changes the version. */
+        public string Image { get; internal set; }
         public LevelIntro Intro { get; internal set; }    // obstacle introduction, may be null
         public LevelIntro BoosterIntro { get; internal set; }
         public IReadOnlyDictionary<string, int> Boosters { get; internal set; }

@@ -113,6 +113,7 @@ namespace ReverseSolver.LevelEditor
             _origin = new Vector2(area.x + (area.width - level.Width * _cell) / 2, area.y + (area.height - level.Height * _cell) / 2);
             var session = new GameSession(level, 1, "editor", new Mulberry32(1));
             _board = BoardView.Create(_world, session, _cell, _origin);
+            if (S.ImageTexture != null) _board.SetImage(S.ImageTexture);
 
             // problem pieces from the live check: red
             foreach (int p in S.Report.Pieces)
@@ -359,6 +360,7 @@ namespace ReverseSolver.LevelEditor
             int lv = Stepper("Bölüm no", d.Number, 1);
             if (lv != d.Number && lv >= 1) S.Edit(x => { x.Number = lv; return EditResult.Done; });
             GUILayout.Label("Bölüm no, güçlendiricilerin açılışını belirler (makas 3, değnek 6, çekiç 9, saat 12).", _small);
+            ImageSection();
 
             GUILayout.Label("Dosya", _h2);
             GUILayout.BeginHorizontal();
@@ -380,6 +382,29 @@ namespace ReverseSolver.LevelEditor
         }
 
         int _newW = 5, _newH = 6;
+
+        /* G1: the level's picture. */
+        void ImageSection()
+        {
+            var d = S.Draft;
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button(d.Image == null ? "Görsel seç…" : "Görseli değiştir…"))
+            {
+                string picked = EditorUtility.OpenFilePanelWithFilters("Seviye görseli", "", new[] { "Görsel", "png,jpg,jpeg" });
+                if (!string.IsNullOrEmpty(picked)) S.ChooseImage(picked);
+            }
+            GUI.enabled = d.Image != null;
+            if (GUILayout.Button("Görseli kaldır")) S.RemoveImage();
+            GUI.enabled = true;
+            GUILayout.EndHorizontal();
+            if (S.ImageTexture != null)
+            {
+                var rect = GUILayoutUtility.GetRect(160, 120, GUILayout.ExpandWidth(false));
+                GUI.DrawTexture(rect, S.ImageTexture, ScaleMode.ScaleToFit);
+                GUILayout.Label($"{d.Image} · {S.ImageTexture.width}×{S.ImageTexture.height} px. Görsel yalnızca görünüştür, sürümü değiştirmez.", _small);
+            }
+            else GUILayout.Label("Görsel yok: parçalar seviyenin renkleriyle görünür.", _small);
+        }
 
         void Status()
         {

@@ -114,6 +114,18 @@ namespace ReverseSolver.Presentation
             return EdgeGrab.PieceAt(Session.Board, p.x, p.y, Cell, out outside);
         }
 
+        /* G1: show the level's picture on every piece; fades in over `fade` seconds. */
+        public void SetImage(Texture image, float fade = 0)
+        {
+            _image = image;
+            if (fade <= 0 || image == null) { foreach (var p in _pieces.Values) if (p != null) p.SetImage(image, 1); _imageMix = 1; return; }
+            Tweens.Run(this, fade, t => { _imageMix = t; foreach (var p in _pieces.Values) if (p != null) p.SetImage(_image, t); }, null);
+        }
+
+        Texture _image;
+        float _imageMix;
+        public bool HasImage => _image != null;
+
         public PieceView PieceViewOf(int piece) => _pieces.TryGetValue(piece, out var p) ? p : null;
 
         Vector2 Center(Cell c) => new Vector2((c.X + .5f) * Cell, (c.Y + .5f) * Cell);

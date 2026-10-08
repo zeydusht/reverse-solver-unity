@@ -37,6 +37,7 @@ namespace ReverseSolver.Core.Tests
             Assert.That(b.Colors, Is.EqualTo(a.Colors), at);
             Assert.That(b.Palette, Is.EqualTo(a.Palette), at);
             Assert.That(b.Art, Is.EqualTo(a.Art), at);
+            Assert.That(b.Image, Is.EqualTo(a.Image), at);
             Assert.That(Intro(b.Intro), Is.EqualTo(Intro(a.Intro)), at);
             Assert.That(Intro(b.BoosterIntro), Is.EqualTo(Intro(a.BoosterIntro)), at);
             Assert.That(b.Boosters, Is.EquivalentTo(a.Boosters), at);
@@ -435,6 +436,49 @@ namespace ReverseSolver.Core.Tests
             Assert.That(lines.Last(), Does.StartWith("tasarim;D04;"));
         }
 
+        // ---- G1: the image field -------------------------------------------------------
+
+        [Test]
+        public void ImageFieldRoundTripsAndKeepsTheVersion()
+        {
+            var store = new DesignStore();
+            var d = LevelDraft.New(5, 6);
+            store.Save(d);
+            d.Image = d.Id + ".jpg";
+            store.Save(d);
+            Assert.That(d.Version, Is.EqualTo(1), "an image is look only");
+            var again = DesignStore.Parse(store.ToJson());
+            Assert.That(again.Find(d.Id).Image, Is.EqualTo("D01.jpg"));
+            Assert.That(again.Find(d.Id).ToLevelData().Image, Is.EqualTo("D01.jpg"));
+            StringAssert.Contains("\"image\":\"D01.jpg\"", store.ToJson());
+            d.Image = null;
+            store.Save(d);
+            StringAssert.DoesNotContain("\"image\"", store.ToJson(), "no field when there is no image");
+        }
+
+        [Test]
+        public void WebLevelsHaveNoImage()
+        {
+            foreach (var l in TestData.Levels.Levels) Assert.That(l.Image, Is.Null, l.Id);
+            foreach (var l in TestData.Levels.Levels)
+            {
+                var w = new JsonWriter();
+                LevelDraft.FromLevel(l).WriteJson(w);
+                StringAssert.DoesNotContain("\"image\"", w.ToString(), l.Id);
+            }
+        }
+
+        [Test]
+        public void ImageMustBeAPlainFileName()
+        {
+            string Level(string image) => "{\"format\":1,\"levels\":[{\"id\":\"X\",\"version\":1,\"w\":1,\"h\":1," +
+                "\"pieces\":[[[0,0]]],\"vEdge\":[[null,null]],\"hEdge\":[[null],[null]],\"image\":" + image + "}]}";
+            Assert.That(LevelParser.Parse(Level("\"D01.jpg\"")).Levels[0].Image, Is.EqualTo("D01.jpg"));
+            Assert.That(LevelParser.Parse(Level("null")).Levels[0].Image, Is.Null);
+            Assert.Throws<LevelFormatException>(() => LevelParser.Parse(Level("\"../x.jpg\"")));
+            Assert.Throws<LevelFormatException>(() => LevelParser.Parse(Level("\"\"")));
+        }
+
         // ---- criterion 5: version rule ----------------------------------------------
 
         [Test]
@@ -478,6 +522,7 @@ namespace ReverseSolver.Core.Tests
                 ("art", d => d.Art = "Yeni resim"),
                 ("intro", d => d.Intro = new LevelIntro { Title = "Başlık", Body = "Metin", Tip = "İpucu", Icon = "chain" }),
                 ("solution", d => d.Solution = new List<Move> { new Move(0, Dir.U) }),
+                ("image", d => d.Image = "D01.jpg"),
             };
             foreach (var (what, edit) in edits)
             {

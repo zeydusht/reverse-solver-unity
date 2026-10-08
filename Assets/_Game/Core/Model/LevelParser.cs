@@ -74,6 +74,9 @@ namespace ReverseSolver.Core
                 throw Fail(at + ".colors", $"has {l.Colors.Length} entries, board has {l.CellCount} cells");
             l.Palette = OptStringArray(n, "palette", at);
             l.Art = OptString(n, "art");
+            l.Image = OptString(n, "image");
+            if (l.Image != null && (l.Image.Length == 0 || l.Image.IndexOfAny(new[] { '/', '\\', ':' }) >= 0))
+                throw Fail(at + ".image", "must be a plain file name");
             l.Intro = ParseIntro(n, "intro", at);
             l.BoosterIntro = ParseIntro(n, "bintro", at);
             l.Boosters = ParseNamedInts(n, "boosters", at);

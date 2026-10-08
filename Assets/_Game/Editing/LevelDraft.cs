@@ -92,6 +92,8 @@ namespace ReverseSolver.Editing
 
         public List<string> Palette = new List<string>(DefaultPalette);
         public string Art = "Tasarım";
+        /* G1: picture file under StreamingAssets/LevelImages, or null. Look only. */
+        public string Image;
         public LevelIntro Intro, BoosterIntro;
         public Dictionary<string, int> Boosters = new Dictionary<string, int>();
         public Dictionary<string, int> Unlock = new Dictionary<string, int>();
@@ -136,7 +138,7 @@ namespace ReverseSolver.Editing
                 Width = l.Width, Height = l.Height, Timer = l.TimerSeconds,
                 _v = (int[,])l.V.Clone(), _h = (int[,])l.H.Clone(),
                 Palette = new List<string>(l.Palette.Length > 0 ? l.Palette : DefaultPalette),
-                Art = l.Art, Intro = Copy(l.Intro), BoosterIntro = Copy(l.BoosterIntro),
+                Art = l.Art, Image = l.Image, Intro = Copy(l.Intro), BoosterIntro = Copy(l.BoosterIntro),
                 Boosters = new Dictionary<string, int>(), Unlock = new Dictionary<string, int>(),
                 Load = l.Load
             };
@@ -168,7 +170,7 @@ namespace ReverseSolver.Editing
             {
                 Id = Id, Version = Version, Number = Number, Width = Width, Height = Height, Timer = Timer,
                 _v = (int[,])_v.Clone(), _h = (int[,])_h.Clone(), _colors = (int[])_colors.Clone(),
-                Palette = new List<string>(Palette), Art = Art,
+                Palette = new List<string>(Palette), Art = Art, Image = Image,
                 Intro = Copy(Intro), BoosterIntro = Copy(BoosterIntro),
                 Boosters = new Dictionary<string, int>(Boosters), Unlock = new Dictionary<string, int>(Unlock),
                 Load = Load,
@@ -433,7 +435,7 @@ namespace ReverseSolver.Editing
 
         /* Everything that changes how the level plays. Two drafts with the same
            key play the same; the version only goes up when it changes. `lv` is in
-           it because it decides which boosters are unlocked. Colours,
+           it because it decides which boosters are unlocked. Colours, the image,
            palette, art, intro cards and the stored solution are not in it. */
         public string GameplayKey()
         {
@@ -470,7 +472,7 @@ namespace ReverseSolver.Editing
                 Pieces = pieces,
                 V = (int[,])_v.Clone(), H = (int[,])_h.Clone(),
                 Colors = (int[])_colors.Clone(), Palette = Palette.ToArray(),
-                Art = Art, Intro = Copy(Intro), BoosterIntro = Copy(BoosterIntro),
+                Art = Art, Image = Image, Intro = Copy(Intro), BoosterIntro = Copy(BoosterIntro),
                 Boosters = new Dictionary<string, int>(Boosters), Unlock = new Dictionary<string, int>(Unlock),
                 Load = Load, Solution = new List<Move>(Solution)
             };
@@ -545,6 +547,7 @@ namespace ReverseSolver.Editing
             foreach (var m in Solution) w.BeginObject().Field("piece", m.Piece).Field("dir", m.Dir.ToString()).EndObject();
             w.EndArray();
             w.Field("load", Load).Field("open", l.Open).Field("art", Art);
+            if (Image != null) w.Field("image", Image);          // only when set: level files without one stay as they were
             WriteIntro(w, "intro", Intro);
             w.EndObject();
         }

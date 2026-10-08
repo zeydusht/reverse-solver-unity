@@ -51,6 +51,7 @@ namespace ReverseSolver.Presentation
         bool _designSet;              // playing designs.json (?debug=1&set=designs)
         bool _tutorialDone;           // web tutDone: first removal anywhere ends the hand for this visit
         TutorialHand _hand;
+        LevelImages _images;          // G1: level pictures, fetched when a level opens
         readonly HashSet<string> _introSeen = new HashSet<string>();
 
         Camera _cam;
@@ -76,6 +77,7 @@ namespace ReverseSolver.Presentation
         void Start()
         {
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
+            _images = LevelImages.Create();
             _cam = Camera.main;
             _set = PlayOverride.Active ? PlayOverride.Set : ChooseSet();
 
@@ -162,6 +164,10 @@ namespace ReverseSolver.Presentation
             LeaveLevel();
             _index = Mathf.Clamp(index, 0, _set.Levels.Count - 1);
             var level = _set.Levels[_index];
+            // G1: this level's picture and the next one's; let go of the rest
+            string nextImage = _index + 1 < _set.Levels.Count ? _set.Levels[_index + 1].Image : null;
+            _images.KeepOnly(level.Image, nextImage);
+            _images.Get(nextImage);
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
             _rowId = _telemetry.NewRowId();
             _save.Store(_log);                                 // the attempt counter, before anything can go wrong
@@ -228,6 +234,12 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_session.Level.Number);
                 var origin = BoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin);
+                if (_session.Level.Image != null)
+                {
+                    var board = _board;
+                    var ready = _images.Get(_session.Level.Image, t => { if (board != null && _board == board) board.SetImage(t, .25f); });
+                    if (ready != null) _board.SetImage(ready);
+                }
                 _hand = null;
                 bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active;
                 if (Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))

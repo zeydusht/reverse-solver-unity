@@ -172,7 +172,83 @@ namespace ReverseSolver.LevelEditor
             if (Selected is Cell s && !Draft.OnBoard(s)) Selected = null;
             if (ChainStart is Cell c && !Draft.OnBoard(c)) ChainStart = null;
             Check();
+            SyncImage();
             Revision++;
+        }
+
+        // ---- level image (G1) ----------------------------------------------------------------
+
+        /* The draft's board image as a texture, for the board and the preview; null without one. */
+        public UnityEngine.Texture2D ImageTexture { get; private set; }
+        string _imageLoadedFor;
+
+        /* Picks a picture from disk. An unsaved design is saved first: the files are named by its id. */
+        public bool ChooseImage(string picked)
+        {
+            if (string.IsNullOrEmpty(picked) || !File.Exists(picked)) return false;
+            if (Draft.Id == null && Save() == null) return false;
+            string id = Draft.Id;
+            string source = LevelImageImport.StoreSource(picked, id);
+            if (source == null) { Say("Görsel okunamadı (png ya da jpg olmalı).", true); return false; }
+            string image = id + ".jpg";
+            long bytes = LevelImageImport.WriteBoardImage(source, image, Draft.Width, Draft.Height);
+            _imageLoadedFor = null;
+            AssetDatabase.Refresh();
+            Edit(d => { d.Image = image; return EditResult.Done; });
+            Say($"Görsel eklendi: {image} ({bytes / 1024} KB). Kaydedince tasarıma yazılır.");
+            Revision++;
+            return true;
+        }
+
+        public void RemoveImage()
+        {
+            if (Draft.Image == null) { Say("Bu tasarımda görsel yok."); return; }
+            Edit(d => { d.Image = null; return EditResult.Done; }, "Görsel kaldırıldı; parçalar renkleriyle görünür. Dosyalar kaydedince silinir.");
+        }
+
+        /* Keeps the board image in step with the board's shape (re-cut from the
+           source copy after a resize, undo or redo) and loaded for display. */
+        void SyncImage()
+        {
+            if (Draft.Image == null) { ImageTexture = null; _imageLoadedFor = null; return; }
+            string path = LevelImageImport.ImagePath(Draft.Image);
+            string key = $"{Draft.Image} {Draft.Width}x{Draft.Height} {(File.Exists(path) ? File.GetLastWriteTimeUtc(path).Ticks : 0)}";
+            if (key == _imageLoadedFor && ImageTexture != null) return;
+            var tex = File.Exists(path) ? LevelImageImport.Load(path) : null;
+            bool shapeMatches = tex != null && System.Math.Abs((float)tex.width / tex.height - (float)Draft.Width / Draft.Height) < .03f;
+            string source = LevelImageImport.SourceOf(System.IO.Path.GetFileNameWithoutExtension(Draft.Image));
+            if (!shapeMatches && source != null)
+            {
+                if (tex != null) UnityEngine.Object.DestroyImmediate(tex);
+                LevelImageImport.WriteBoardImage(source, Draft.Image, Draft.Width, Draft.Height);
+                tex = LevelImageImport.Load(path);
+                key = $"{Draft.Image} {Draft.Width}x{Draft.Height} {File.GetLastWriteTimeUtc(path).Ticks}";
+            }
+            if (ImageTexture != null && ImageTexture != tex) UnityEngine.Object.DestroyImmediate(ImageTexture);
+            ImageTexture = tex;
+            _imageLoadedFor = key;
+        }
+
+        /* After a save or delete: board images and source copies no saved design uses go. */
+        void CleanupImages()
+        {
+            var used = new HashSet<string>();
+            foreach (var d in Store.Designs) if (d.Image != null) used.Add(System.IO.Path.GetFileNameWithoutExtension(d.Image));
+            if (Draft.Image != null) used.Add(System.IO.Path.GetFileNameWithoutExtension(Draft.Image));
+            bool any = false;
+            foreach (var dir in new[] { LevelImageImport.ImageDir, LevelImageImport.SourceDir })
+            {
+                if (!Directory.Exists(dir)) continue;
+                foreach (var f in Directory.GetFiles(dir))
+                {
+                    if (f.EndsWith(".meta")) continue;
+                    if (used.Contains(System.IO.Path.GetFileNameWithoutExtension(f))) continue;
+                    File.Delete(f);
+                    if (File.Exists(f + ".meta")) File.Delete(f + ".meta");
+                    any = true;
+                }
+            }
+            if (any) AssetDatabase.Refresh();
         }
 
         /* Live check after every edit: quick budget, stays under a second. */
@@ -281,6 +357,7 @@ namespace ReverseSolver.LevelEditor
             File.WriteAllText(DesignsPath, Store.ToJson());
             AssetDatabase.ImportAsset(DesignsPath);
             _savedJson = Json(Draft);
+            CleanupImages();
             Say($"{saved.Id} v{saved.Version} kaydedildi" + (Report.FollowsRule ? "." : " (kural dışı!)."), !Report.FollowsRule);
             Revision++;
             return saved;
@@ -294,6 +371,7 @@ namespace ReverseSolver.LevelEditor
             File.WriteAllText(DesignsPath, Store.ToJson());
             AssetDatabase.ImportAsset(DesignsPath);
             NewBoard(Draft.Width, Draft.Height);
+            CleanupImages();
             Say($"{id} silindi. Bu id bir daha verilmez.");
             return true;
         }
