@@ -183,7 +183,7 @@ namespace ReverseSolver.Presentation
 
         void OnEvent(GameEvent e)
         {
-            if (e.Kind == EventKind.ValveReleased) _bar?.Notice("Çivi kendiliğinden söktü", 1.6f);
+            if (e.Kind == EventKind.ValveReleased) _bar?.Notice("Çivi kendiliğinden söküldü", 1.6f);   // web says "söktü"; PM: grammar fix
             if (e.Kind == EventKind.PieceRemoved)
             {
                 _tutorialDone = true;                          // web clearTutorial() in flyOut and the hammer

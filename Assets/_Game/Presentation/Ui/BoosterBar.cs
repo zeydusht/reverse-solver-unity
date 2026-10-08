@@ -82,7 +82,7 @@ namespace ReverseSolver.Presentation
         float _noticeUntil;
 
         /* A passing message on the prompt line (web: the valve's "Çivi kendiliğinden
-           söktü" for 1.6 s); a booster's own hint takes precedence. */
+           söküldü" for 1.6 s; the web says "söktü"); a booster's own hint takes precedence. */
         public void Notice(string text, float seconds)
         {
             _notice = text;
