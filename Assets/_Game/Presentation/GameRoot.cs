@@ -507,6 +507,13 @@ namespace ReverseSolver.Presentation
         {
             int idx = -1;
             for (int i = 0; i < _set.Levels.Count; i++) if (_set.Levels[i].Id == levelId) idx = i;
+            if (idx < 0 && designs != null && levelId.StartsWith("D"))      // a level-editor design
+            {
+                _set = LevelParser.Parse(designs.text);
+                _designSet = true;
+                _progress = new Progress(_log, _set.Levels) { UnlockAll = true };
+                for (int i = 0; i < _set.Levels.Count; i++) if (_set.Levels[i].Id == levelId) idx = i;
+            }
             if (idx < 0) return "no level " + levelId;
 
             var rt = new RenderTexture(widthPt * scale, heightPt * scale, 24);
@@ -532,6 +539,15 @@ namespace ReverseSolver.Presentation
             _safe = Vector4.zero;
             Build(immediate: true);
             if (_session.IsOver && _card == null) ShowResult();
+            // G1: the picture straight from disk, since a shot cannot wait for the download
+            var image = _session.Level.Image;
+            if (image != null && _board != null && System.IO.File.Exists($"{Application.streamingAssetsPath}/{LevelImages.Folder}/{image}"))
+            {
+                var pic = new Texture2D(2, 2);
+                pic.LoadImage(System.IO.File.ReadAllBytes($"{Application.streamingAssetsPath}/{LevelImages.Folder}/{image}"));
+                pic.wrapMode = TextureWrapMode.Clamp;
+                _board.SetImage(pic);
+            }
             if (state == "levels") OpenList();
             if (state == "ask")
             {
