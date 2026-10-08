@@ -178,10 +178,12 @@ namespace ReverseSolver.Presentation
             // web loadLevel(i): the intro shows on a level's first start, not on retries
             _introOpen = Screens.HasIntro(level) && _introSeen.Add(level.Id);
             Layout();
+            _board?.Deal();                                    // web render(true): pieces deal in on a fresh start
         }
 
         void OnEvent(GameEvent e)
         {
+            if (e.Kind == EventKind.ValveReleased) _bar?.Notice("Çivi kendiliğinden söktü", 1.6f);
             if (e.Kind == EventKind.PieceRemoved)
             {
                 _tutorialDone = true;                          // web clearTutorial() in flyOut and the hammer
@@ -459,6 +461,7 @@ namespace ReverseSolver.Presentation
             if (_boosters.BlocksDrag) return;
             // a press just outside the board takes the nearest edge piece (PRODUCT.md K1)
             piece = _board.GrabAt(pt, out bool outside);
+            if (piece >= 0 && _session.NailAt(piece) > 0) _board.Clang(piece);     // web: pinned, refuse and say so
             if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) _board.ShowDrag(_drag);
         }
 

@@ -72,5 +72,8 @@ namespace ReverseSolver.Presentation
 
         public static float Settle(float x) => Bezier(.34f, 1.4f, .5f, 1f, x);   // .pc.snap .22s
         public static float FlyOut(float x) => Bezier(.3f, 0f, .6f, 1f, x);      // .pc.fly .3s
+        public static float Deal(float x) => Bezier(.2f, .9f, .3f, 1.15f, x);    // .pc.deal .34s
+        public static float Tick(float x) => Bezier(.3f, 1.5f, .5f, 1f, x);      // .nail.tick / .bomb.tick .32s
+        public static float Ease(float x) => Bezier(.25f, .1f, .25f, 1f, x);     // CSS ease
     }
 }

@@ -128,6 +128,55 @@ namespace ReverseSolver.Presentation
 
         public PieceView PieceViewOf(int piece) => _pieces.TryGetValue(piece, out var p) ? p : null;
 
+        // ---- web effects (M6) ----------------------------------------------------------
+
+        /* .pc.deal on a level's first draw: from scale .72, 8 pt up and transparent,
+           .34s cubic-bezier(.2,.9,.3,1.15), each piece (x + y) * 22 ms later. */
+        public void Deal()
+        {
+            foreach (var pv in _pieces.Values)
+            {
+                var p = pv;
+                var c = p.Cells[0];
+                float delay = (c.X + c.Y) * .022f, total = delay + .34f;
+                p.SetDeal(.72f, -8f);
+                p.SetAlpha(0);
+                Tweens.Run((p, "deal"), total, t =>
+                {
+                    if (p == null) return;
+                    float k = Mathf.Clamp01((t * total - delay) / .34f);
+                    float e = Tweens.Deal(k);
+                    p.SetDeal(Mathf.LerpUnclamped(.72f, 1f, e), Mathf.LerpUnclamped(-8f, 0f, e));
+                    p.SetAlpha(Mathf.Clamp01(e));
+                }, () => { if (p != null) { p.SetDeal(1, 0); p.SetAlpha(1); } });
+            }
+        }
+
+        /* .pc.clang: a pinned piece pressed shakes -3, +3 pt over .3s. */
+        public void Clang(int piece)
+        {
+            if (!_pieces.TryGetValue(piece, out var pv)) return;
+            Tweens.Run((pv, "clang"), .3f, t =>
+            {
+                float x = t < .25f ? -3f * (t / .25f) : t < .6f ? Mathf.Lerp(-3f, 3f, (t - .25f) / .35f) : Mathf.Lerp(3f, 0f, (t - .6f) / .4f);
+                if (pv != null) pv.SetOffset(new Vector2(x, 0));
+            }, () => { if (pv != null) pv.SetOffset(Vector2.zero); });
+        }
+
+        /* .pc.popped: a freed piece flashes bright with an amber glow, .5s ease. */
+        void Popped(int piece)
+        {
+            if (!_pieces.TryGetValue(piece, out var pv)) return;
+            var amber = Draw.Hex("#f0a742");
+            Tweens.Run((pv, "pop"), .5f, t =>
+            {
+                if (pv == null) return;
+                float k = 1 - Tweens.Ease(t);
+                pv.SetFlash(.55f * k);
+                pv.SetGlow(amber, k);
+            }, () => { if (pv != null) { pv.SetFlash(0); pv.SetGlow(Vector4.zero, 0); } });
+        }
+
         Vector2 Center(Cell c) => new Vector2((c.X + .5f) * Cell, (c.Y + .5f) * Cell);
 
         // ---- hit testing ------------------------------------------------------------
@@ -266,12 +315,16 @@ namespace ReverseSolver.Presentation
                     _bombs.Remove(e.Piece);
                     break;
                 case EventKind.NailsTicked:
+                    RefreshNails();
+                    foreach (var n in _nails.Values) n.Tick();
+                    break;
                 case EventKind.NailFreed:
                 case EventKind.ValveReleased:
                     RefreshNails();
+                    Popped(e.Piece);
                     break;
                 case EventKind.BombsTicked:
-                    foreach (var b in _bombs) b.Value.Fuse = Session.FuseAt(b.Key);
+                    foreach (var b in _bombs) { b.Value.Fuse = Session.FuseAt(b.Key); b.Value.Tick(); }
                     break;
                 case EventKind.JointCut:
                 case EventKind.JointsReshuffled:

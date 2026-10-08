@@ -25,6 +25,9 @@ namespace ReverseSolver.Presentation
         }
 
         public int Count { set => _n.Text = value.ToString(); }
+
+        /* .nail.tick: scale 1.45 -> 1 over .32s cubic-bezier(.3,1.5,.5,1) on every count. */
+        public void Tick() => Tweens.Run(this, .32f, t => { if (Root != null) Root.localScale = Vector3.one * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
     }
 
     public sealed class BombBadge
@@ -76,6 +79,9 @@ namespace ReverseSolver.Presentation
             Tweens.Run(this, .7f, t => _body.localScale = Vector3.one * (1f + .16f * Mathf.Sin(t * Mathf.PI)),
                        () => { if (_hot && _body != null) Pulse(); });
         }
+
+        /* .bomb.tick: the same pop as the nail on every fuse step (on the root, so the hot pulse keeps its own scale). */
+        public void Tick() => Tweens.Run(Root, .32f, t => { if (Root != null) Root.localScale = Vector3.one * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
 
         /* Bomb feedback: a quick swell before the result card. */
         public void Explode()

@@ -98,6 +98,13 @@ namespace ReverseSolver.Presentation
         public Vector2 FirstCellCenter => new Vector2((Cells[0].X + .5f) * _cell, (Cells[0].Y + .5f) * _cell);
 
         public void SetOffset(Vector2 offset) => transform.localPosition = Draw.W(offset);
+
+        /* .pc.deal frame: scale about the first cell's centre, lifted dy points. */
+        public void SetDeal(float scale, float dy)
+        {
+            transform.localScale = new Vector3(scale, scale, 1);
+            transform.localPosition = Draw.W(FirstCellCenter * (1 - scale) + new Vector2(0, dy));
+        }
         public Vector2 Offset => new Vector2(transform.localPosition.x, -transform.localPosition.y);
 
         public void SetLift(float t) { Lifted = t; _b.SetFloat(LiftId, t); Apply(); }
