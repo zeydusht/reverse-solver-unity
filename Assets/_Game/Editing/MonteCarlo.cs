@@ -25,6 +25,8 @@ namespace ReverseSolver.Editing
             public string LevelId;
             public int Version, Runs, Wins, Bombs, Frozen, RunsWithValve;
             public double MeanMoves, MeanBranching, MeanValves;
+            /* Exact path measures (StructureMetrics), next to the sampled ones. */
+            public StructureMetrics Structure;
 
             public double WinRate => Runs == 0 ? 0 : (double)Wins / Runs;
             public double BombRate => Runs == 0 ? 0 : (double)Bombs / Runs;
@@ -39,7 +41,7 @@ namespace ReverseSolver.Editing
         /* Seeds firstSeed .. firstSeed + runs - 1. */
         public static Result Run(LevelData level, int runs = DefaultRuns, uint firstSeed = 1)
         {
-            var r = new Result { LevelId = level.Id, Version = level.Version, Runs = runs };
+            var r = new Result { LevelId = level.Id, Version = level.Version, Runs = runs, Structure = StructureMetrics.Of(level) };
             long moves = 0, valves = 0;
             double branchSum = 0;
             long branchSteps = 0;
@@ -76,7 +78,19 @@ namespace ReverseSolver.Editing
         public static readonly string[] Columns =
         {
             "set", "id", "version", "tohum", "kazanma_orani", "patlama_orani", "donma_orani",
-            "supap_orani", "ort_supap", "ort_hamle", "ort_dallanma"
+            "supap_orani", "ort_supap", "ort_hamle", "ort_dallanma",
+            "kor_deneme_toplam", "kor_deneme_ort", "serbestlik_ilk", "serbestlik_ort",
+            "darbogaz_adim", "en_az_secenek", "civili_oran", "fitil_payi"
+        };
+
+        /* The structural columns as text, shared with LevelCsv. */
+        public static string[] StructureCells(StructureMetrics m, CultureInfo tr) => new[]
+        {
+            m.BlindTriesTotal.ToString("0.00", tr), m.BlindTriesPerExit.ToString("0.000", tr),
+            m.FreedomStart.ToString("0.000", tr), m.FreedomMean.ToString("0.000", tr),
+            m.BottleneckSteps.ToString(CultureInfo.InvariantCulture), m.FewestChoices.ToString(CultureInfo.InvariantCulture),
+            m.NailedShare.ToString("0.000", tr),
+            double.IsNaN(m.FuseMargin) ? "" : (m.FuseMarginExact ? "" : ">=") + m.FuseMargin.ToString("0", tr)
         };
 
         /* Same Turkish-Excel shape as LevelCsv: ';', decimal comma; write with LevelCsv.ToBytes for the BOM. */
@@ -88,7 +102,8 @@ namespace ReverseSolver.Editing
                 sb.Append(string.Join(";", set, r.LevelId, r.Version.ToString(CultureInfo.InvariantCulture),
                     r.Runs.ToString(CultureInfo.InvariantCulture), r.WinRate.ToString("0.000", tr), r.BombRate.ToString("0.000", tr),
                     r.FrozenRate.ToString("0.000", tr), r.ValveRate.ToString("0.000", tr), r.MeanValves.ToString("0.00", tr),
-                    r.MeanMoves.ToString("0.0", tr), r.MeanBranching.ToString("0.00", tr))).Append("\r\n");
+                    r.MeanMoves.ToString("0.0", tr), r.MeanBranching.ToString("0.00", tr)))
+                  .Append(';').Append(string.Join(";", StructureCells(r.Structure, tr))).Append("\r\n");
             return sb.ToString();
         }
     }

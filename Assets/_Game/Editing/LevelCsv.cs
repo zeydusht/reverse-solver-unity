@@ -21,7 +21,9 @@ namespace ReverseSolver.Editing
         /* Faz 2 structural difficulty, added when monteCarloRuns > 0 (MonteCarlo). */
         public static readonly string[] MonteCarloColumns =
         {
-            "rastgele_kazanma", "rastgele_patlama", "rastgele_ort_hamle", "rastgele_ort_dallanma"
+            "rastgele_kazanma", "rastgele_patlama", "rastgele_ort_hamle", "rastgele_ort_dallanma",
+            "kor_deneme_toplam", "kor_deneme_ort", "serbestlik_ilk", "serbestlik_ort",
+            "darbogaz_adim", "en_az_secenek", "civili_oran", "fitil_payi"
         };
 
         static readonly CultureInfo Tr = CultureInfo.GetCultureInfo("tr-TR");
@@ -57,7 +59,8 @@ namespace ReverseSolver.Editing
                 {
                     var mc = MonteCarlo.Run(l, monteCarloRuns);
                     sb.Append(';').Append(mc.WinRate.ToString("0.000", Tr)).Append(';').Append(mc.BombRate.ToString("0.000", Tr))
-                      .Append(';').Append(mc.MeanMoves.ToString("0.0", Tr)).Append(';').Append(mc.MeanBranching.ToString("0.00", Tr));
+                      .Append(';').Append(mc.MeanMoves.ToString("0.0", Tr)).Append(';').Append(mc.MeanBranching.ToString("0.00", Tr))
+                      .Append(';').Append(string.Join(";", MonteCarlo.StructureCells(mc.Structure, Tr)));
                 }
                 sb.Append("\r\n");
             }
