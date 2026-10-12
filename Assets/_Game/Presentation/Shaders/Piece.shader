@@ -9,8 +9,15 @@
 // units outside an edge, sockets the same circles 8 units inside.
 //
 // Per vertex:  uv0 = cell-unit position, uv1 = edge profile (U, R, D, L) with
-//              +1 tab, -1 socket, 0 flat; color = base colour (sRGB).
+//              +1 tab, -1 socket, 0 flat; uv2 = the cell's (x, y) on the board;
+//              color = base colour (sRGB).
 // Per piece (MaterialPropertyBlock): see Properties.
+//
+// Level image (PRODUCT.md G1): with _ImageMix > 0 the fill and the dark rim
+// come from _Image at the point's place on the whole board, so tabs carry on
+// the neighbour's picture like a real jigsaw. The white rim stays, the
+// gradient and highlight are kept but softer, and contrast is eased a little,
+// so tabs and sockets still read on any picture.
 Shader "ReverseSolver/Piece"
 {
     Properties
@@ -22,6 +29,9 @@ Shader "ReverseSolver/Piece"
         _Glow ("Glow amount (0..1)", Float) = 0
         _Flash ("Brightness flash (0..1)", Float) = 0
         _Alpha ("Opacity", Float) = 1
+        _Image ("Board image (sRGB)", 2D) = "white" {}
+        _BoardCells ("Board size in cells (w, h)", Vector) = (1, 1, 0, 0)
+        _ImageMix ("Image amount (0..1)", Float) = 0
     }
     SubShader
     {
@@ -50,18 +60,20 @@ Shader "ReverseSolver/Piece"
             }
 
             CBUFFER_START(UnityPerMaterial)
-                float _PtToUnit, _Lift, _Gray, _Glow, _Flash, _Alpha;
-                float4 _GlowColor;
+                float _PtToUnit, _Lift, _Gray, _Glow, _Flash, _Alpha, _ImageMix;
+                float4 _GlowColor, _BoardCells, _Image_ST;
             CBUFFER_END
+            TEXTURE2D(_Image);
+            SAMPLER(sampler_Image);
 
-            struct A { float4 pos : POSITION; float2 uv : TEXCOORD0; float4 edges : TEXCOORD1; float4 color : COLOR; };
-            struct V { float4 pos : SV_POSITION; float2 p : TEXCOORD0; nointerpolation float4 edges : TEXCOORD1; nointerpolation float4 color : TEXCOORD2; };
+            struct A { float4 pos : POSITION; float2 uv : TEXCOORD0; float4 edges : TEXCOORD1; float2 cell : TEXCOORD2; float4 color : COLOR; };
+            struct V { float4 pos : SV_POSITION; float2 p : TEXCOORD0; nointerpolation float4 edges : TEXCOORD1; nointerpolation float4 color : TEXCOORD2; nointerpolation float2 cell : TEXCOORD3; };
 
             V vert(A i)
             {
                 V o;
                 o.pos = TransformObjectToHClip(i.pos.xyz);
-                o.p = i.uv; o.edges = i.edges; o.color = i.color;
+                o.p = i.uv; o.edges = i.edges; o.color = i.color; o.cell = i.cell;
                 return o;
             }
 
@@ -116,6 +128,22 @@ Shader "ReverseSolver/Piece"
                 float hr = length(q - float2(-32.0 + 0.30 * 164.0, -32.0 + 0.18 * 164.0)) / (0.56 * 164.0);
                 float hA = hr < 0.55 ? lerp(0.46, 0.05, hr / 0.55) : lerp(0.05, 0.0, saturate((hr - 0.55) / 0.45));
                 fill = fill + (1.0 - fill) * hA;
+                float3 darkC = shade(baseC, -0.5);
+
+                // level image: this point's place on the whole board (y up in the texture)
+                float imageAmt = saturate(_ImageMix);
+                if (imageAmt > 0.001)
+                {
+                    float2 bp = (i.cell * 100.0 + p) / (max(_BoardCells.xy, 1.0) * 100.0);
+                    float3 img = SAMPLE_TEXTURE2D(_Image, sampler_Image, saturate(float2(bp.x, 1.0 - bp.y))).rgb;
+                    float il = dot(img, float3(0.299, 0.587, 0.114));
+                    img = lerp(img, float3(il, il, il), 0.55 * pinned) * lerp(1.0, 0.82, pinned);
+                    img = lerp(img, float3(0.5, 0.5, 0.5), 0.12);                                   // ease contrast so the cut reads
+                    float3 imgFill = lerp(shade(img, 0.12), shade(img, -0.10), t);    // the gradient, softer
+                    imgFill = imgFill + (1.0 - imgFill) * hA * 0.55;                  // the highlight, softer
+                    fill = lerp(fill, imgFill, imageAmt);
+                    darkC = lerp(darkC, shade(img, -0.55), imageAmt);
+                }
                 fill = fill + (1.0 - fill) * saturate(_Flash) * 0.9;
 
                 float cWhite = saturate(0.5 - dWhite / aa);
@@ -123,7 +151,7 @@ Shader "ReverseSolver/Piece"
                 float cFill  = saturate(0.5 - dFill / aa);
 
                 float4 col = float4(1, 1, 1, 1) * (0.84 * cWhite);
-                col = over(float4(shade(baseC, -0.5), 1) * cDark, col);
+                col = over(float4(darkC, 1) * cDark, col);
                 col = over(float4(fill, 1) * cFill, col);
 
                 // drop shadow: 0 2px 4px .42 at rest, 0 12px 18px .55 when lifted (CSS px = points)
