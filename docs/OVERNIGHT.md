@@ -1,3 +1,112 @@
+# Sabah raporu — 13 Ekim 2026 (Kanal A)
+
+**Kısaca:** Build 2 yayında. Telefonda denenmeyi bekliyor. Gece planındaki A0–A11'in hepsi yapıldı. İçlerinde **Zorluk paneli** de var; yalnızca editörde çalışıyor, build'e girmiyor. Bağımsız inceleme build'e giren kodda veri kalitesi hatası bulmadı. Kanal B gece boyunca hiç görünmedi.
+
+## Yayında olan
+- **Oyun:** https://zeydusht.github.io/reverse-solver-unity/ adresinde, gh-pages `47328ff` (Build 2c, 02:06).
+  - Brotli 7.178.477 B, gzip 9.076.885 B. Build 1'e göre fark yok denecek kadar az (+24 KB, resim çizimi).
+- **Kod:** main `c65406b`.
+- **Build 2'de:**
+  - L01 öğretici eli
+  - K1 kenar parçaları
+  - G1 görselli tasarımlar (yalnızca D01 ve D02; canlı 40 bölümde görsel yok)
+  - "Resmi tamamladın" kartı
+  - M6 efektleri
+  - Bağlantıyla açılan bölüm isim kapısının arkasında bekliyor
+  - Canlı veri gönderimi açık
+
+## Gece yapılanlar
+| Adım | Sonuç |
+|---|---|
+| A1 derleme hatası | `1d7ed02`. Görseller `UnityWebRequest` + `LoadImage` ile yükleniyor, manifest'e modül eklenmedi. Hemen push edildi. |
+| A2 testler | Unity'de tamamı geçti. Gecenin son koşusu **455/455**. |
+| A3 resim çizimi | `939f8a0`. Shader PM onayıyla commit'lendi. Okunabilirlik puanları: D01 0,567, D02 0,379; uyarı eşiği 0,30. |
+| A4–A5 | K1 ve G1 ekran görüntüleri `docs/screens/k1`, `docs/screens/g1` altında. Efektler ve kademe 2 ekranda görüldü. |
+| A6 Build 1 | Yayınlandı ve doğrulandı. m5-verify geçti: TEST_GECE satırları doğru, yenilemede isim ve ilerleme kalıyor, debug oturumu 0 satır gönderiyor. |
+| A6b | Bağlantıyla açılan bölüm (`?lv=2`) isim yazılmadan başlamıyor. Canlı ölçüm: kapıda 22 sn beklendi, L02 tam süreyle başladı; satırdaki süre 43 sn, gerçek süre 44 sn. |
+| A7 G1 editör | Kırpma (yakınlaştırma ve kaydırma), dikiş okunabilirliği uyarısı, klasörden toplu atama, "Resmi tamamladın" kartı, kılavuz ve telif notu. |
+| A8 Zorluk paneli | `8577211`, `c65406b`. Ayrıntısı aşağıda. |
+| A9 Build 2 | `47328ff`. m5-verify yeniden geçti. |
+| A10 bağımsız inceleme | Build'e giren kodda hata yok. Editörde 2 hata bulundu ve düzeltildi, 1 test boşluğu kapatıldı. Kalan maddeler aşağıda. |
+
+### Zorluk paneli (A8)
+Seviye editöründe **Zorluk** bölümü: tür seçilir, **Hesapla**'ya basılır. Ne yaptığı:
+- Ölçüleri türün hedef aralığıyla karşılaştırır: yeşil aralıkta, turuncu aralık dışında.
+- Süre, fitil ve çivi önerir. Öneriyi uygulamak için **Uygula** düğmesi var; **Geri al** ile geri alınır ve kaydedince sürüm 1 artar.
+- Kılavuz: `docs/LEVEL_EDITOR.md` → "Zorluk paneli".
+
+Ölçülenler ve teyitler:
+- L40 için yapı ölçümü + 200 rastgele oyun + model **120 ms** sürdü (hedef ≤ 1 sn). Çok zor türünde önerilen süre 65 sn, s = 1,35.
+- **Teyit (a):** Tam arama bütçeyi aşınca çözücünün kazma yolu kullanılıyor. Bu durumda fitil önerisi "(yaklaşık)", bomba payı "≥" diye gösteriliyor. L26, L30 ve L34 böyle; L30 için ayrıca test var.
+- **Teyit (b):** Panel s'nin kaynağını yazıyor (yapıdan, bombalı ya da oyunun ilk bölümü).
+- Tür bir etikettir, sürümü değiştirmez; `designs.json`'a `"genre"` olarak yazılır.
+- **CSV artık 36 sütun.** Yeni sütunlar: `tur`, `onerilen_sure`, `onerilen_fitil`, `onerilen_civi`, `medyan_yildiz`.
+  - `darbogaz_adim` kaldırıldı. Yerine tek bir `darbogaz` sütunu geldi: PRODUCT tanımıyla, 10+ parça kalmışken yalnızca bir parçanın çıkabildiği hamleler. 40 bölümde 0 ile 6 arasında, medyanı 0.
+- **Yazılmayanlar:** "Zirve anı" ve "dikkatsiz oyuncunun patlama oranı". Planda tanımları yok; PM backlog'a aldı.
+
+### Bağımsız inceleme (A10)
+- **Düzeltildi:**
+  - Kırpmadan vazgeçince, başka tasarıma geçip dönünce ya da Unity'yi yeniden açınca diskteki görsel artık kaydedilen kırpmayla yeniden kesiliyor.
+  - "Klasörden görselleri ata" kaydedilmemiş düzenlemeleri artık kaydedilmiş gibi göstermiyor.
+  - "Süre bitti" kartının testi gerçekten görselli bir bölümle yapılıyor.
+- **Sabaha kaldı:**
+  - LaunchPlanTests'teki bir test boş, çünkü düzeltme olmasa da geçiyor. Gerçek teste çevrilecek; açılış koduna dokunan bir sonraki build'den önce zorunlu.
+  - "Resmi tamamladın" kartında resmin çerçevesi başlığa değiyor. Yaklaşık 8 pt boşluk eklenecek, Build 3'e girecek. PM, telefon listesinin hedefi değişmesin diye bu gece build alınmamasına karar verdi.
+- **Backlog:** kırpma kaydırıcıları Geri al'dan sonra eski değerde kalıyor; resim geç gelirse kart döndürmede başlık değiştiriyor; debug satırında bellek ölçümü yok.
+- **Doğrulandı:**
+  - `levels.json` ve Golden değişmedi.
+  - D03 bayt bayt aynı.
+  - Repoda gizli anahtar yok, yalnızca publishable anahtar var.
+  - Core, Presentation ve Platform editör koduna bağlanmıyor.
+  - Debug ve tasarım oturumları veri göndermiyor.
+
+### Yapılamayanlar ve nedeni
+- **Editör ekran görüntüleri:** Unity MCP bütün gece bağlanmadı; eklenti sunucuyu yalnızca arayüzdeki düğmeyle başlatıyor. Bu yüzden Zorluk paneli, kırpma paneli ve "Resmi tamamladın" kartının 375×667 görüntüsü yok. Unity gece 01:06'da kurala uyarak kapatıldı (30 dk MCP yanıtı yoktu; kaydedilmemiş iş ve açık diyalog olmadığı kontrol edildi), işler batchmode ile yapıldı. Unity şu an kapalı.
+- **Kanal B:** `gece-b` dalı origin'de hiç oluşmadı. PM kararı:
+  - Tek DifficultyModel olacak, o da A8'inki.
+  - B ileride çalışırsa yalnızca B1–B2 (web verisi ve sabitlerin ayarı) alınacak.
+
+## Zeyd'in yapacakları (sırayla)
+1. Bu raporu oku.
+2. **Telefon oturumu, yaklaşık 25 dk:** `docs/TELEFON_TESTI.md`'deki 7 bölüm. Kök adresi kullan, ad `TEST_ZEYD`.
+   - Ek olarak bak:
+     - `?debug=1` ile görselli en büyük tahtada sürüklerken FPS.
+     - D01 kazanılınca "Resmi tamamladın" kartı geliyor mu.
+     - D02'de girinti ve çıkıntılar seçiliyor mu.
+   - Getir:
+     - her madde için geçti/kaldı,
+     - FPS sayısı,
+     - K1 için 10 çekişten kaçının tek seferde çıktığı,
+     - kalan maddelerin ekran görüntüleri.
+3. **MCP, 1 dk:** Unity'yi aç, MCP sunucusunu arayüzdeki düğmeyle başlat, Claude'a "MCP açık" yaz.
+4. **Zorluk paneli turu:** `LEVEL_EDITOR.md` → "Zorluk paneli". Bir tasarıma tür seç, Hesapla'ya bas, bir öneriyi Uygula ile uygula, sonra geri al.
+   - Getir: anlaşılmayan terimler, yanlış görünen öneriler, eksik bulduğun şeyler.
+5. **Seviye editörü kabulü:** "İlk seviyeni kur" turunu gerçek fareyle yap; Ctrl+Z, Ctrl+Y ve Ctrl+S'yi de dene. Sonra tasarımı iPhone'da `…/br/?debug=1&set=designs&lv=D0X` adresinden oyna.
+   - Getir: süre, takıldığın yer, eksikler, palet→tahta sürükle-bırak isteyip istemediğin.
+6. **Gerçek görseller:** kendi fotoğraflarını ya da kullanım hakkın olan görselleri `D01.jpg` gibi adlarla bir klasöre koy, toplu atamayla ekle.
+   - Getir: okunabilirlik uyarısı çıktı mı, telefonda dikişler seçiliyor mu.
+7. **CSV:** `Builds/seviyeler.csv`'yi Türkçe Excel'de aç.
+   - Bak: 36 sütun ayrı ayrı mı, Türkçe karakterler doğru mu, L01'de `acik_kenar_orani` 0,42 mi.
+   - Getir: geçti/kaldı.
+8. **Karar:** Unity'yi yeniden başlatma ve batchmode izni yalnızca bu gece için miydi, kalıcı mı? Getir: "gece" ya da "kalıcı".
+9. **Kanal B:** B oturumunu başlattın mı? Getir: "açılmadı" ya da çıktısının yeri.
+10. **İzin listesi:** `.claude/settings.local.json`'a ekleme yapmak senin kararın.
+11. Desktop'taki saatlik gece görevini duraklat.
+12. Actions'ta kuyrukta bekleyen eski re-run'ı (commit `0552040`) iptal et.
+13. **Playtest öncesi (şimdi değil):** son build ile 4G (LTE) teyidi, 3 açılış.
+
+## Açık işler
+- **Sabah, mühendislik (0c):**
+  - LaunchPlanTests'teki boş testi gerçek teste çevir ve mutasyon kontrolüyle doğrula.
+  - MCP açılınca: "Resmi tamamladın" kartının 375×667 görüntüsü ve editör görüntüleri (G1 editör ve Zorluk paneli) `LEVEL_EDITOR.md`'ye.
+  - Kart çerçevesine 8 pt boşluk ekle. Build 3'e girecek.
+- **Build 3:** Zeyd'in telefon sonuçlarıyla birlikte alınacak. Veri kalitesini etkileyen bir hata çıkarsa her şeyin önüne geçer.
+- **Kanal B:** B1–B2, B4, B5–B6. Ne zaman yapılacaklarına PM, Zeyd'in cevabından sonra karar verecek.
+- **Faz 1'in kalanı:** M6 ölçüt 7, K1 ölçüt 5 (iPhone'da 10 çekişte 9), 4G teyidi.
+- **Sonra:** M6 ses, Faz 2 test modu.
+
+---
+
 # Gece — 2026-10-12 → 13 (Kanal A, oturum 1, main)
 
 Plan: `docs/GECE_2026-10-13.md` (+ `docs/GOREV_KENAR_GORSEL.md`). Kanal B `gece-b` dalında, raporu `docs/analiz/GECE_B.md`. Kalp atışı: `Logs/overnight-heartbeat.txt`.
@@ -7,7 +116,7 @@ Plan: `docs/GECE_2026-10-13.md` (+ `docs/GOREV_KENAR_GORSEL.md`). Kanal B `gece-
 - **Önceki:** A0–A6 (Build 1 69241ed), A7 editör kısmı (6d9a724: kırpma, uyarı 0,30, toplu atama), G1-b (4bf4cc2), A6b (d9a08e8), rapor düzeltmesi (d813ba6).
 - **Unity:** kapalı; batchmode ile çalışılıyor. MCP bu oturumda geri gelmedi (eklenti sunucuyu yalnızca arayüzden başlatıyor) → editör ekran görüntüleri sabah listesinde.
 - **Yarım kalan iş:** yok.
-- **Sıradaki somut adım:** A8 — gece-b dalı "B3 BİTTİ" olunca birleştir, Zorluk paneli. Sonra A10 bağımsız inceleme, A11 sabah raporu.
+- **Sıradaki somut adım:** gece bitti (A8 `8577211`, CSV `c65406b`, A10 işlendi, A11 sabah raporu yukarıda). Sabah: 0c işleri.
 - **Commit'lenmemiş değişiklik:** yok.
 
 ## Sabah listesi (Zeyd)
