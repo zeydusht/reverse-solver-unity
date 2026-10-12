@@ -53,22 +53,48 @@ Sağ tık o hücredeki engeli siler. Bir engel tahtayı bozarsa panel hemen söy
 
 ## Görsel ekle
 
-Bir tasarıma resim koyabilirsin; parçalar o resmin parçaları gibi görünür. Her tasarımın kendi resmi olur. Şimdilik yalnızca tasarımlarda (D01, D02 …) var; web'den gelen 40 seviyeye resim konmaz.
+Bir tasarıma resim koyabilirsin; parçalar o resmin parçaları gibi görünür ve çıkıntılar komşu parçanın resmini sürdürür. Her tasarımın kendi resmi olur. Resimler yalnızca tasarımlarda (D01, D02 …) var; canlıdaki 40 seviyeye resim konmaz (Zeyd'in kararı: Faz 3 veri toplama bitene kadar canlı set renkli kalır).
 
+Oyunda görselli tasarım (D01, test resmi) ve görsel gelmediğinde renkli hali:
+
+![D01 görselli](screens/g1/G1_D01_390x844.png)
+![D02 görselli](screens/g1/G1_D02_390x844.png)
+![Görsel gelmeyince renkler](screens/g1/G1_D01_blocked_390x844.png)
+
+<!-- editör paneli ekran görüntüsü: Unity arayüzü açıkken eklenecek (sabah listesi) -->
+
+**Tek tasarıma resim koymak**
 1. **Seviye** bölümünde **Görsel seç…**'e bas, bilgisayarından bir png ya da jpg seç. Kaydedilmemiş bir tasarım önce kendiliğinden kaydedilir, çünkü dosyalar tasarımın numarasıyla adlandırılır.
 2. Resim tahtanın oranına göre ortadan kırpılır ve tahtada hemen görünür; panelde küçük bir önizlemesi çıkar.
 3. **Kaydet**'e bas. Tasarıma `"image": "D01.jpg"` yazılır.
-4. Resmi kaldırmak için **Görseli kaldır**. Parçalar renklerine döner; kullanılmayan dosyalar bir sonraki kayıtta silinir.
 
-Bilmen gerekenler:
+**Kırpmayı ayarlamak**
+- Önizlemenin altındaki **Yakınlaştır**, **Sağa-sola** ve **Yukarı-aşağı** kaydırıcılarıyla resmin hangi bölümünün tahtada görüneceğini seç, sonra **Kırpmayı uygula**'ya bas. Tahta resmi kaynak kopyadan yeniden kesilir.
+- **Ortala** varsayılan kırpmaya (ortadan, yakınlaştırmasız) döner.
+- Kırpma tasarıma `"imageCrop"` olarak yazılır. Görünüştür, sürümü değiştirmez; **Geri al** ile geri alınır.
+
+**Birçok tasarıma birden**
+- Resimleri bir klasöre tasarım numarasıyla adlandırarak koy: `D01.jpg`, `D02.png`, `d03.jpeg` …
+- **Klasörden görselleri ata…**'ya bas ve klasörü seç. Adı bir tasarıma uyan her resim o tasarıma konur ve tasarımlar kaydedilir. Uymayan dosyalar atlanır. Panel neyin atandığını yazar.
+
+**Okunabilirlik uyarısı**
+- Parçaların kenarları resmin üstüne beyaz bir dikişle çizilir. Dikişlerin çevresi çok açık renkliyse (beyaz gökyüzü, kar, açık duvar) beyaz dikiş kaybolur ve çıkıntılar zor seçilir.
+- Böyle bir resimde panelde **"Görsel dikişleri zor okutabilir"** uyarısı çıkar. Daha koyu bir bölgeyi kırpmayla seç ya da başka bir resim dene, sonra telefonda bak.
+
+**Resmi kaldırmak**
+- **Görseli kaldır**: parçalar renklerine döner; kullanılmayan dosyalar bir sonraki kayıtta silinir.
+
+**Oyunda**
+- Resim oyunun ilk indirmesine girmez; bölüm açılınca ayrıca indirilir. Gelene kadar, ya da hiç gelmezse, bölüm renkleriyle oynanır.
+- Resimli bir tasarımı kazanınca bitiş kartında resmin tamamı çıkar: **"Resmi tamamladın"**. Resim gelmemişse kart her zamanki gibidir.
+
+**Bilmen gerekenler**
 - Resim yalnızca görünüştür, **sürümü değiştirmez**.
 - Seçtiğin dosyaya dokunulmaz. Editör ondan iki kopya çıkarır:
   - en uzun kenarı en fazla 2048 px olan bir kaynak kopyası (`Assets/_Game/Levels/ImageSources/`, oyuna girmez);
-  - oyunun indireceği tahta resmi (`Assets/StreamingAssets/LevelImages/<numara>.jpg`, hücre başına yaklaşık 150 px, en uzun kenar en fazla 1024 px).
+  - oyunun indireceği tahta resmi (`Assets/StreamingAssets/LevelImages/<numara>.jpg`, hücre başına yaklaşık 150 px, en uzun kenar en fazla 1024 px, JPG kalite 80; genelde 20–60 KB).
 - Tahtanın boyutunu değiştirirsen resim kaynak kopyadan yeniden kırpılır.
-- Resim oyunun ilk indirmesine girmez; bölüm açılınca ayrıca indirilir. Gelene kadar, ya da hiç gelmezse, bölüm renkleriyle oynanır.
-- Çıkıntı ve girintilerin her resimde seçilebilmesi için beyaz dikiş kalır ve resmin kontrastı biraz yumuşatılır. Çok karışık ya da tek renk resimlerde parçaları ayırt etmek zorlaşabilir; telefonda deneyip bak.
-- Kendi resimlerini kullan; başkasının telifli resmini koyma.
+- **Telif:** yalnızca kendi çektiğin fotoğrafları ya da kullanım hakkın olan görselleri koy. İnternetten bulunan bir resim, izni yoksa oyuna konmaz.
 
 ## Araçlar
 
@@ -150,5 +176,4 @@ Kart, resim adı ve palet yalnızca görünüştür; sürümü değiştirmez.
 ## Henüz olmayanlar
 
 - CSV'yi doğrudan Excel'de açma (dosya `Builds/seviyeler.csv`'ye yazılıyor, sen açıyorsun)
-- Resmi kaydırarak ya da yakınlaştırarak kırpma ayarı (şimdilik hep ortadan kırpılır)
 - Paletten tahtaya gerçek sürükle-bırak (şimdilik araç seç + tıkla/sürükle)
