@@ -3,14 +3,15 @@
 Plan: `docs/GECE_2026-10-13.md` (+ `docs/GOREV_KENAR_GORSEL.md`). Kanal B `gece-b` dalında, raporu `docs/analiz/GECE_B.md`. Kalp atışı: `Logs/overnight-heartbeat.txt`.
 
 ## Kaldığım yer
-- **Son tamamlanan adım:** A1 (1d7ed02, push'landı): LevelImages artık UnityWebRequest + ImageConversion.LoadImage ile yükleniyor; yeni modül yok, boyut değişmez. Ayrıca geçen oturumdan kalan StructureMetrics işi bitirildi (ff04e80; 430 test, Unity'siz koşucu).
-- **A0 durumu:** commit'lenmemiş tek dosya `Piece.shader` (G1 resim çizimi; A3'te Unity'de görülüp PM onayıyla commit'lenecek).
-- **Yarım kalan iş:** yok.
-- **Sıradaki somut adım:** Unity'nin Güvenli Mod'dan çıkıp MCP'nin bağlanması; bağlanmazsa 30 dk sonra kurala göre Unity'yi kapatıp batchmode (testler + build). Ardından A2.
-- **Commit'lenmemiş değişiklik:** Piece.shader.
+- **Son tamamlanan adım:** A6 — Build 1 canlıda (gh-pages 69241ed, 01:23): Brotli 7.178.621 B (+24 KB), gzip 9.073.982 B; D01.jpg 22 KB, D02.jpg 58 KB. Canlı başsız Chrome: K1 (3 boyut, L01 + L40), D01/D02 görselli, görsel engellenince renkler, /gz/ açılıyor; istisna 0. m5-verify GEÇTİ (TEST_GECE L01 win satırı doğru, yenilemede ad/ilerleme korunuyor, L02 gizlemede tek quit satırı, debug 0 satır, row_id benzersiz). TELEFON_TESTI.md bu build'e göre güncel.
+- **Önceki:** A0, A1 (1d7ed02), A2 (batchmode 433/433), A3 (shader PM onaylı, 939f8a0; eşik 0,30 onaylı).
+- **Unity:** 01:06'da kurala göre kapatıldı (30 dk MCP yok, kirli sahne/diyalog yok); batchmode kullanılıyor. MCP için GUI yeniden açılacak (A7 editör görüntüleri).
+- **Yarım kalan iş:** A7 yamaları hazır (scratchpad/a7: kırpma, okunabilirlik uyarısı, toplu atama, G1-b kartı) — henüz uygulanmadı.
+- **Sıradaki somut adım:** PM'e A6 raporu → A4/A5 (ekran kontrolleri) → A7 yamalarını uygula, test, Build 2.
+- **Commit'lenmemiş değişiklik:** docs (bu dosya, TELEFON_TESTI, ekran görüntüleri) — bu commit'le gidiyor.
 
 ## Sabah listesi (Zeyd)
-- (gece ilerledikçe dolacak)
+- docs/TELEFON_TESTI.md ile telefon oturumu (Build 1 canlıda).
 
 ---
 
