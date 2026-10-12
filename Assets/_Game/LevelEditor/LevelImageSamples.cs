@@ -15,6 +15,9 @@ namespace ReverseSolver.LevelEditor
         /* D01 and D02 only: D03 is Zeyd's own design (PRODUCT.md 2026-10-13). */
         static readonly string[] Pictures = { "test_gun_batimi.png", "test_halkalar.png" };
 
+        /* Batch mode entry: Unity.exe -batchmode -quit -executeMethod ReverseSolver.LevelEditor.LevelImageSamples.ApplyBatch */
+        public static void ApplyBatch() => Debug.Log("[images] batch: " + Apply());
+
         [MenuItem("Reverse Solver/Test görsellerini D01–D02'ye koy")]
         public static string Apply()
         {
