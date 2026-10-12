@@ -144,20 +144,41 @@ namespace ReverseSolver.Presentation
         // ---- result (web #veil / finish()) --------------------------------------------
 
         /* lastLabel: the primary button after winning the last level of the set. */
+        /* G1-b: the result card shows the whole picture only for a won level
+           whose picture really arrived; otherwise the card is as before. */
+        public static bool ShowsPicture(GameSession s, Texture picture) =>
+            s.Outcome == Outcome.Win && !string.IsNullOrEmpty(s.Level.Image) && picture != null;
+
+        public const float PictureMaxHeight = 190f;
+
         public static Card Result(Transform parent, Vector2 screen, GameSession s, bool isLast, int order,
-                                  string lastLabel = "Tebrikler, 40 bölüm bitti")
+                                  string lastLabel = "Tebrikler, 40 bölüm bitti", Texture picture = null)
         {
             bool won = s.Outcome == Outcome.Win;
             int stars = s.Stars;
-            string title = won ? "Tahta boşaldı" : s.Outcome == Outcome.Bomb ? "Bomba patladı" : "Süre doldu";
+            bool withPicture = ShowsPicture(s, picture);
+            string title = withPicture ? "Resmi tamamladın"
+                : won ? "Tahta boşaldı" : s.Outcome == Outcome.Bomb ? "Bomba patladı" : "Süre doldu";
             string sub = won ? $"{s.TimeLeft} saniye kaldı, {s.Jams} kez takıldın."
                 : s.Outcome == Outcome.Bomb ? "Fitil bitmeden bombanın yolunu açman gerekiyordu. Çekiç onu tek hamlede söker."
                 : $"{s.Board.PresentCount} gövde kaldı. Saat booster'ı 20 saniye ekler.";
             string primary = won ? (isLast ? lastLabel : "Sonraki bölüm") : "Tekrar dene";
             string primaryId = won ? (isLast ? "menu" : "next") : "retry";
 
-            return new Card(parent, screen, order, "Result")
-                .Title(title)
+            var card = new Card(parent, screen, order, "Result").Title(title);
+            if (withPicture)
+            {
+                // the whole picture, as wide as the card allows and never taller than PictureMaxHeight
+                float aspect = (float)picture.width / Mathf.Max(1, picture.height);
+                float pw = card.InnerWidth, ph = pw / aspect;
+                if (ph > PictureMaxHeight) { ph = PictureMaxHeight; pw = ph * aspect; }
+                card.Custom(ph + 14, (root, y, w, o) =>
+                {
+                    var p = PicturePiece.Create(root, picture, new Vector2(pw, ph), o);
+                    p.transform.localPosition = Draw.W(0, y + ph / 2);
+                });
+            }
+            return card
                 .Custom(32 + 16, (root, y, w, o) =>
                 {
                     // .stars: 32px, gap 9; .off at .2 opacity

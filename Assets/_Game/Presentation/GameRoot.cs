@@ -317,7 +317,8 @@ namespace ReverseSolver.Presentation
 
         void ShowResult() =>
             OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
-                PlayOverride.Active ? "Editöre dön" : $"Tebrikler, {_set.Levels.Count} bölüm bitti"));
+                PlayOverride.Active ? "Editöre dön" : $"Tebrikler, {_set.Levels.Count} bölüm bitti",
+                _images.Get(_session.Level.Image)));        // G1-b: only a picture that really arrived
 
         void RefreshPlaying()
         {
