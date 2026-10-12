@@ -1,3 +1,19 @@
+# Gece — 2026-10-12 → 13 (Kanal A, oturum 1, main)
+
+Plan: `docs/GECE_2026-10-13.md` (+ `docs/GOREV_KENAR_GORSEL.md`). Kanal B `gece-b` dalında, raporu `docs/analiz/GECE_B.md`. Kalp atışı: `Logs/overnight-heartbeat.txt`.
+
+## Kaldığım yer
+- **Son tamamlanan adım:** A1 (1d7ed02, push'landı): LevelImages artık UnityWebRequest + ImageConversion.LoadImage ile yükleniyor; yeni modül yok, boyut değişmez. Ayrıca geçen oturumdan kalan StructureMetrics işi bitirildi (ff04e80; 430 test, Unity'siz koşucu).
+- **A0 durumu:** commit'lenmemiş tek dosya `Piece.shader` (G1 resim çizimi; A3'te Unity'de görülüp PM onayıyla commit'lenecek).
+- **Yarım kalan iş:** yok.
+- **Sıradaki somut adım:** Unity'nin Güvenli Mod'dan çıkıp MCP'nin bağlanması; bağlanmazsa 30 dk sonra kurala göre Unity'yi kapatıp batchmode (testler + build). Ardından A2.
+- **Commit'lenmemiş değişiklik:** Piece.shader.
+
+## Sabah listesi (Zeyd)
+- (gece ilerledikçe dolacak)
+
+---
+
 # Gece — 2026-10-07 → 2026-10-08
 
 Görev: `docs/GECE_PLANI.md`. Kalp atışı: `Logs/overnight-heartbeat.txt` (git dışı).
