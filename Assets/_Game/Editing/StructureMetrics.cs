@@ -17,8 +17,8 @@ namespace ReverseSolver.Editing
                        piece, direction that leaves.
          freedom       leavable un-nailed pieces / pieces left: at the start,
                        and averaged over the path.
-         bottleneck    steps where exactly one piece could leave; the fewest
-                       leavable pieces seen on the path.
+         bottleneck    steps with 10+ pieces left where exactly one could leave
+                       (Bottlenecks10); the fewest leavable pieces seen on the path.
          nailed share  nailed pieces / pieces at the start.
          fuse margin   for each bomb: its fuse minus the fewest moves that take
                        its piece out from the start (search over the pieces
@@ -34,7 +34,7 @@ namespace ReverseSolver.Editing
         public int Steps;
         public double BlindTriesTotal, BlindTriesPerExit;
         public double FreedomStart, FreedomMean;
-        public int BottleneckSteps, FewestChoices;
+        public int FewestChoices;
         public double NailedShare;
         public double FuseMargin = double.NaN;
         public bool FuseMarginExact = true;
@@ -81,7 +81,6 @@ namespace ReverseSolver.Editing
                 m.ReadingLoad += (left + 1.0) / (validPieces + 1.0);
                 if (left >= 10 && validPieces == 1) m.Bottlenecks10++;
                 freedomSum += freedom;
-                if (validPieces == 1) m.BottleneckSteps++;
                 m.FewestChoices = Math.Min(m.FewestChoices, validPieces);
                 m.Steps++;
                 s.TryExit(move.Piece, move.Dir);

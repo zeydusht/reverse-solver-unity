@@ -22,7 +22,7 @@ namespace ReverseSolver.Core.Tests
             Assert.That(m.BlindTriesPerExit, Is.EqualTo((1 + .5 + 1.0 / 3) / 4).Within(1e-9));
             Assert.That(m.FreedomStart, Is.EqualTo(1.0));
             Assert.That(m.FreedomMean, Is.EqualTo(1.0));
-            Assert.That(m.BottleneckSteps, Is.EqualTo(1), "only the last piece is a single choice");
+            Assert.That(m.Bottlenecks10, Is.EqualTo(0), "fewer than 10 pieces: never a bottleneck");
             Assert.That(m.FewestChoices, Is.EqualTo(1));
             Assert.That(m.NailedShare, Is.EqualTo(0));
             Assert.That(double.IsNaN(m.FuseMargin), Is.True, "no bomb");
@@ -43,7 +43,7 @@ namespace ReverseSolver.Core.Tests
             Assert.That(m.FreedomStart, Is.EqualTo(.75));
             Assert.That(m.BlindTriesTotal, Is.EqualTo(16.0 / 6 - 1 + 12.0 / 5 - 1).Within(1e-9));
             Assert.That(m.FreedomMean, Is.EqualTo((.75 + 2.0 / 3 + 1 + 1) / 4).Within(1e-9));
-            Assert.That(m.BottleneckSteps, Is.EqualTo(1));
+            Assert.That(m.Bottlenecks10, Is.EqualTo(0));
         }
 
         /* 3x3 flat, bomb fuse 5 in the middle: one neighbour out, then the bomb: 2 moves, margin 3. */
@@ -69,8 +69,8 @@ namespace ReverseSolver.Core.Tests
                 var a = StructureMetrics.Of(l);
                 var b = StructureMetrics.Of(l);
                 Assert.That(a.Steps, Is.EqualTo(l.Pieces.Count), l.Id + ": the solver clears every web level");
-                Assert.That((a.BlindTriesTotal, a.FreedomMean, a.BottleneckSteps, a.FuseMargin),
-                            Is.EqualTo((b.BlindTriesTotal, b.FreedomMean, b.BottleneckSteps, b.FuseMargin)), l.Id);
+                Assert.That((a.BlindTriesTotal, a.FreedomMean, a.Bottlenecks10, a.FuseMargin),
+                            Is.EqualTo((b.BlindTriesTotal, b.FreedomMean, b.Bottlenecks10, b.FuseMargin)), l.Id);
                 Assert.That(l.Bombs.Count == 0 ? double.IsNaN(a.FuseMargin) : a.FuseMargin >= 0, Is.True, l.Id + " fuse margin");
                 if (l.Bombs.Count == 0) Assert.That(a.FuseMarginExact, Is.True, l.Id);
             }
@@ -98,11 +98,11 @@ namespace ReverseSolver.Core.Tests
             TestContext.WriteLine(Span("blind tries per exit", m => m.BlindTriesPerExit));
             TestContext.WriteLine(Span("freedom at start", m => m.FreedomStart));
             TestContext.WriteLine(Span("freedom mean", m => m.FreedomMean));
-            TestContext.WriteLine(Span("bottleneck steps", m => m.BottleneckSteps));
+            TestContext.WriteLine(Span("bottleneck steps", m => m.Bottlenecks10));
             TestContext.WriteLine(Span("fewest choices", m => m.FewestChoices));
             TestContext.WriteLine(Span("nailed share", m => m.NailedShare));
             foreach (var m in ms)
-                TestContext.WriteLine($"  {m.LevelId} blind {m.BlindTriesTotal:0.0} ({m.BlindTriesPerExit:0.00}/exit) freedom {m.FreedomStart:0.00}/{m.FreedomMean:0.00} bottleneck {m.BottleneckSteps} fewest {m.FewestChoices} nailed {m.NailedShare:0.00}");
+                TestContext.WriteLine($"  {m.LevelId} blind {m.BlindTriesTotal:0.0} ({m.BlindTriesPerExit:0.00}/exit) freedom {m.FreedomStart:0.00}/{m.FreedomMean:0.00} bottleneck {m.Bottlenecks10} fewest {m.FewestChoices} nailed {m.NailedShare:0.00}");
             Assert.That(ms.Count, Is.EqualTo(24), "L01-L20, L31, L32, L33, L36");
         }
     }

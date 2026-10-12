@@ -80,7 +80,7 @@ namespace ReverseSolver.Editing
             "set", "id", "version", "tohum", "kazanma_orani", "patlama_orani", "donma_orani",
             "supap_orani", "ort_supap", "ort_hamle", "ort_dallanma",
             "kor_deneme_toplam", "kor_deneme_ort", "serbestlik_ilk", "serbestlik_ort",
-            "darbogaz_adim", "en_az_secenek", "civili_oran", "fitil_payi"
+            "darbogaz", "en_az_secenek", "civili_oran", "fitil_payi"
         };
 
         /* The structural columns as text, shared with LevelCsv. */
@@ -88,7 +88,7 @@ namespace ReverseSolver.Editing
         {
             m.BlindTriesTotal.ToString("0.00", tr), m.BlindTriesPerExit.ToString("0.000", tr),
             m.FreedomStart.ToString("0.000", tr), m.FreedomMean.ToString("0.000", tr),
-            m.BottleneckSteps.ToString(CultureInfo.InvariantCulture), m.FewestChoices.ToString(CultureInfo.InvariantCulture),
+            m.Bottlenecks10.ToString(CultureInfo.InvariantCulture), m.FewestChoices.ToString(CultureInfo.InvariantCulture),
             m.NailedShare.ToString("0.000", tr),
             double.IsNaN(m.FuseMargin) ? "" : (m.FuseMarginExact ? "" : ">=") + m.FuseMargin.ToString("0", tr)
         };

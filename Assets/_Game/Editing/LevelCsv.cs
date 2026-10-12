@@ -23,7 +23,7 @@ namespace ReverseSolver.Editing
         {
             "rastgele_kazanma", "rastgele_patlama", "rastgele_ort_hamle", "rastgele_ort_dallanma",
             "kor_deneme_toplam", "kor_deneme_ort", "serbestlik_ilk", "serbestlik_ort",
-            "darbogaz_adim", "en_az_secenek", "civili_oran", "fitil_payi",
+            "darbogaz", "en_az_secenek", "civili_oran", "fitil_payi",
             "tur", "onerilen_sure", "onerilen_fitil", "onerilen_civi", "medyan_yildiz"
         };
 
