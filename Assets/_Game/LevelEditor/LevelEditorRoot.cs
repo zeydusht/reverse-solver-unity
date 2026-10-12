@@ -505,6 +505,10 @@ namespace ReverseSolver.LevelEditor
             GUILayout.EndHorizontal();
         }
 
+        ImageCrop _crop = ImageCrop.None;
+        int _cropFor = -1;
+        string _cropImage;
+
         /* G1: the level's picture. */
         void ImageSection()
         {
@@ -524,8 +528,36 @@ namespace ReverseSolver.LevelEditor
                 var rect = GUILayoutUtility.GetRect(160, 120, GUILayout.ExpandWidth(false));
                 GUI.DrawTexture(rect, S.ImageTexture, ScaleMode.ScaleToFit);
                 GUILayout.Label($"{d.Image} · {S.ImageTexture.width}×{S.ImageTexture.height} px. Görsel yalnızca görünüştür, sürümü değiştirmez.", _small);
+                if (!float.IsNaN(S.ImageReadability) && S.ImageReadability < LevelEditorSession.ReadabilityWarnBelow)
+                    GUILayout.Label($"<b>Uyarı:</b> görsel dikişleri zor okutabilir (dikiş çevresi çok açık; puan {S.ImageReadability:0.00}). Daha koyu bir bölgeyi seç ya da başka görsel dene.", _small);
+                // crop: zoom and pan, applied with one button so a drag is one undo step
+                if (_cropFor != S.Opened || _cropImage != d.Image) { _crop = d.Crop; _cropFor = S.Opened; _cropImage = d.Image; }
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Yakınlaştır", _text, GUILayout.Width(80));
+                float z = GUILayout.HorizontalSlider(_crop.Zoom, 1f, ImageCrop.MaxZoom);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Sağa-sola", _text, GUILayout.Width(80));
+                float x = GUILayout.HorizontalSlider(_crop.PanX, -1f, 1f);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Yukarı-aşağı", _text, GUILayout.Width(80));
+                float y = GUILayout.HorizontalSlider(_crop.PanY, -1f, 1f);
+                GUILayout.EndHorizontal();
+                _crop = new ImageCrop(z, x, y);
+                GUILayout.BeginHorizontal();
+                GUI.enabled = !_crop.Equals(d.Crop);
+                if (GUILayout.Button("Kırpmayı uygula")) S.SetCrop(_crop);
+                GUI.enabled = true;
+                if (GUILayout.Button("Ortala")) { _crop = ImageCrop.None; S.SetCrop(_crop); }
+                GUILayout.EndHorizontal();
             }
             else GUILayout.Label("Görsel yok: parçalar seviyenin renkleriyle görünür.", _small);
+            if (GUILayout.Button("Klasörden görselleri ata… (D01.jpg, D02.png gibi adlar)"))
+            {
+                string folder = EditorUtility.OpenFolderPanel("Tasarım görselleri klasörü", "", "");
+                if (!string.IsNullOrEmpty(folder)) S.AssignFolder(folder);
+            }
         }
 
         void Status()

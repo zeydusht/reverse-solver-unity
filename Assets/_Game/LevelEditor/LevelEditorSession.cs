@@ -201,7 +201,12 @@ namespace ReverseSolver.LevelEditor
 
         /* The draft's board image as a texture, for the board and the preview; null without one. */
         public UnityEngine.Texture2D ImageTexture { get; private set; }
+        /* SeamReadability score of the board image; NaN without one. */
+        public float ImageReadability { get; private set; } = float.NaN;
+        /* Below this the panel warns that seams may be hard to read (PM approves the value). */
+        public const float ReadabilityWarnBelow = .30f;     // PM 2026-10-13: test pictures 0.38+ read, light sky 0.16 / snow 0.10 do not
         string _imageLoadedFor;
+        string _imageCutFor;   // "<image>|<crop>" the board image file was last cut for (this session)
 
         /* Picks a picture from disk. An unsaved design is saved first: the files are named by its id. */
         public bool ChooseImage(string picked)
@@ -215,10 +220,49 @@ namespace ReverseSolver.LevelEditor
             long bytes = LevelImageImport.WriteBoardImage(source, image, Draft.Width, Draft.Height);
             _imageLoadedFor = null;
             AssetDatabase.Refresh();
-            Edit(d => { d.Image = image; return EditResult.Done; });
+            Edit(d => { d.Image = image; d.Crop = ImageCrop.None; return EditResult.Done; });
             Say($"Görsel eklendi: {image} ({bytes / 1024} KB). Kaydedince tasarıma yazılır.");
             Revision++;
             return true;
+        }
+
+        /* Zoom and pan of the picture; the board image is cut again from the source copy. */
+        public void SetCrop(ImageCrop crop)
+        {
+            if (Draft.Image == null) { Say("Önce bir görsel seç.", true); return; }
+            Edit(d => { d.Crop = crop; return EditResult.Done; }, "Görselin kırpması değişti.");
+        }
+
+        /* Every file named like a design (D01.jpg, d02.PNG ...) in a folder goes
+           onto that design and the designs are saved. Returns what was done. */
+        public string AssignFolder(string folder)
+        {
+            if (!Directory.Exists(folder)) return "Klasör bulunamadı.";
+            var done = new List<string>();
+            foreach (var file in Directory.GetFiles(folder))
+            {
+                string ext = Path.GetExtension(file).ToLowerInvariant();
+                if (ext != ".jpg" && ext != ".jpeg" && ext != ".png") continue;
+                string id = Path.GetFileNameWithoutExtension(file).ToUpperInvariant();
+                var stored = Store.Find(id);
+                if (stored == null) continue;
+                string source = LevelImageImport.StoreSource(file, id);
+                if (source == null) { done.Add($"{id}: okunamadı"); continue; }
+                var d = stored.Clone();
+                d.Image = id + ".jpg";
+                d.Crop = ImageCrop.None;
+                long bytes = LevelImageImport.WriteBoardImage(source, d.Image, d.Width, d.Height);
+                Store.Save(d);
+                if (Draft.Id == id) { Draft.Image = d.Image; Draft.Crop = d.Crop; _savedJson = Json(Draft); }
+                done.Add($"{id} ({bytes / 1024} KB)");
+            }
+            File.WriteAllText(DesignsPath, Store.ToJson());
+            AssetDatabase.Refresh();
+            _imageLoadedFor = null;
+            Changed();
+            string msg = done.Count == 0 ? "Klasörde tasarım adlı (D01.jpg gibi) görsel bulunamadı." : "Görseller atandı: " + string.Join(", ", done);
+            Say(msg, done.Count == 0);
+            return msg;
         }
 
         public void RemoveImage()
@@ -231,23 +275,28 @@ namespace ReverseSolver.LevelEditor
            source copy after a resize, undo or redo) and loaded for display. */
         void SyncImage()
         {
-            if (Draft.Image == null) { ImageTexture = null; _imageLoadedFor = null; return; }
+            if (Draft.Image == null) { ImageTexture = null; _imageLoadedFor = null; ImageReadability = float.NaN; return; }
             string path = LevelImageImport.ImagePath(Draft.Image);
-            string key = $"{Draft.Image} {Draft.Width}x{Draft.Height} {(File.Exists(path) ? File.GetLastWriteTimeUtc(path).Ticks : 0)}";
+            string cropKey = $"{Draft.Crop.Zoom:0.###}/{Draft.Crop.PanX:0.###}/{Draft.Crop.PanY:0.###}";
+            string key = $"{Draft.Image} {Draft.Width}x{Draft.Height} {cropKey} {(File.Exists(path) ? File.GetLastWriteTimeUtc(path).Ticks : 0)}";
             if (key == _imageLoadedFor && ImageTexture != null) return;
             var tex = File.Exists(path) ? LevelImageImport.Load(path) : null;
-            bool shapeMatches = tex != null && System.Math.Abs((float)tex.width / tex.height - (float)Draft.Width / Draft.Height) < .03f;
+            bool shapeMatches = tex != null && System.Math.Abs((float)tex.width / tex.height - (float)Draft.Width / Draft.Height) < .03f
+                                && (_imageCutFor == null || !_imageCutFor.StartsWith(Draft.Image + "|") || _imageCutFor == Draft.Image + "|" + cropKey);
             string source = LevelImageImport.SourceOf(System.IO.Path.GetFileNameWithoutExtension(Draft.Image));
             if (!shapeMatches && source != null)
             {
                 if (tex != null) UnityEngine.Object.DestroyImmediate(tex);
-                LevelImageImport.WriteBoardImage(source, Draft.Image, Draft.Width, Draft.Height);
+                LevelImageImport.WriteBoardImage(source, Draft.Image, Draft.Width, Draft.Height, Draft.Crop);
                 tex = LevelImageImport.Load(path);
-                key = $"{Draft.Image} {Draft.Width}x{Draft.Height} {File.GetLastWriteTimeUtc(path).Ticks}";
+                key = $"{Draft.Image} {Draft.Width}x{Draft.Height} {cropKey} {File.GetLastWriteTimeUtc(path).Ticks}";
             }
             if (ImageTexture != null && ImageTexture != tex) UnityEngine.Object.DestroyImmediate(ImageTexture);
             ImageTexture = tex;
             _imageLoadedFor = key;
+            _imageCutFor = Draft.Image + "|" + cropKey;          // the file on disk is cut for this crop
+            ImageReadability = tex == null ? float.NaN
+                : SeamReadability.Score(LevelImageImport.Lightness(tex), tex.width, tex.height, Draft.Width, Draft.Height);
         }
 
         /* After a save or delete: board images and source copies no saved design uses go. */

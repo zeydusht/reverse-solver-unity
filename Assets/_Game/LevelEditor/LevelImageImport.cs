@@ -55,14 +55,15 @@ namespace ReverseSolver.LevelEditor
         }
 
         /* Cuts the board image for a w x h board from the source copy; returns its size in bytes. */
-        public static long WriteBoardImage(string source, string image, int width, int height)
+        public static long WriteBoardImage(string source, string image, int width, int height) =>
+            WriteBoardImage(source, image, width, height, ReverseSolver.Editing.ImageCrop.None);
+
+        public static long WriteBoardImage(string source, string image, int width, int height, ReverseSolver.Editing.ImageCrop crop)
         {
             var src = Load(source);
             if (src == null) return -1;
-            float srcAspect = (float)src.width / src.height, aspect = (float)width / height;
-            var uv = srcAspect > aspect
-                ? new Rect((1 - aspect / srcAspect) / 2, 0, aspect / srcAspect, 1)      // wider: trim the sides
-                : new Rect(0, (1 - srcAspect / aspect) / 2, 1, srcAspect / aspect);    // taller: trim top and bottom
+            var win = crop.Window(src.width, src.height, width, height);
+            var uv = new Rect(win.x, win.y, win.w, win.h);
             float w = width * PixelsPerCell, h = height * PixelsPerCell;
             float k = Mathf.Min(1f, BoardMax / Mathf.Max(w, h));
             var cut = Resample(src, uv, Mathf.RoundToInt(w * k), Mathf.RoundToInt(h * k));
@@ -72,6 +73,20 @@ namespace ReverseSolver.LevelEditor
             Object.DestroyImmediate(src);
             Object.DestroyImmediate(cut);
             return bytes.Length;
+        }
+
+        /* Lightness 0..1 per pixel, row 0 at the top, for SeamReadability. */
+        public static float[] Lightness(Texture2D t)
+        {
+            var px = t.GetPixels32();
+            var lum = new float[px.Length];
+            for (int y = 0; y < t.height; y++)
+                for (int x = 0; x < t.width; x++)
+                {
+                    var c = px[(t.height - 1 - y) * t.width + x];
+                    lum[y * t.width + x] = (.299f * c.r + .587f * c.g + .114f * c.b) / 255f;
+                }
+            return lum;
         }
 
         /* Scales the uv rectangle of src to w x h through the GPU (mipmapped, so large reductions stay smooth). */

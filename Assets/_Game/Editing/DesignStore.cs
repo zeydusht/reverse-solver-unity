@@ -32,10 +32,23 @@ namespace ReverseSolver.Editing
             catch (JsonException e) { throw new LevelFormatException(e.Message); }
             if (root.TryGet("nextId", out var n) && n.Kind == JsonKind.Number) store.NextId = (int)n.AsNumber;
             if (root.TryGet("levels", out var list) && list.Kind == JsonKind.Array && list.Count > 0)
-                foreach (var l in LevelParser.Parse(json).Levels) store._designs.Add(LevelDraft.FromLevel(l));
+            {
+                var parsed = LevelParser.Parse(json).Levels;
+                for (int i = 0; i < parsed.Count; i++)
+                {
+                    var d = LevelDraft.FromLevel(parsed[i]);
+                    // look-only fields the game does not read
+                    if (list[i].TryGet("imageCrop", out var c) && c.Kind == JsonKind.Object)
+                        d.Crop = new ImageCrop(Num(c, "zoom", 1), Num(c, "x", 0), Num(c, "y", 0));
+                    store._designs.Add(d);
+                }
+            }
             foreach (var d in store._designs) store.NextId = Math.Max(store.NextId, IdNumber(d.Id) + 1);
             return store;
         }
+
+        static float Num(JsonNode o, string key, float fallback) =>
+            o.TryGet(key, out var v) && v.Kind == JsonKind.Number ? (float)v.AsNumber : fallback;
 
         public LevelDraft Find(string id)
         {
