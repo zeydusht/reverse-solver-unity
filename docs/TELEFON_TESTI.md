@@ -1,13 +1,13 @@
-# Telefon testi — Build 1 (13 Ekim 2026 gecesi)
+# Telefon testi — Build 2 (13 Ekim 2026 gecesi)
 
-**Bu build'de:** L01 öğretici el · K1 kenar parçaları (yan boşluk, kenardan tutma, fiske) · G1 görselli tasarımlar (D01, D02) · M6 efektleri · **canlı veri gönderimi açık**. Yayın: gh-pages `69241ed`, 13 Ekim 01:23.
+**Bu build'de:** L01 öğretici el · K1 kenar parçaları (yan boşluk, kenardan tutma, fiske) · G1 görselli tasarımlar (D01, D02) ve **"Resmi tamamladın" kartı** · M6 efektleri · bağlantıyla açılan bölüm isim kapısının arkasında bekler · **canlı veri gönderimi açık**. Yayın: gh-pages `47328ff`, 13 Ekim 02:06.
 
 **Adres:** https://zeydusht.github.io/reverse-solver-unity/
 **Oyuncu adın:** her zaman `TEST_ZEYD`. Bu ad analizden çıkarılır.
 **Süre:** yaklaşık 30 dakika.
 **Getireceklerin:** her madde için geçti/kaldı, kalanların ekran görüntüsü, K1 için 10 denemenin kaçının tek seferde çıktığı, FPS sayıları, iPhone modelin.
 
-> Gece başsız Chrome'da (bilgisayarda) hepsi denendi: el görünüyor, K1 yerleşimi doğru, D01/D02 görselli açılıyor, görsel gelmezse renkler çıkıyor, `TEST_GECE` satırı Supabase'e doğru düştü. Telefonda sen bakmadıkça bunlar iPhone için doğrulanmış sayılmaz.
+> Gece başsız Chrome'da (bilgisayarda) hepsi denendi: el görünüyor, K1 yerleşimi doğru, D01/D02 görselli açılıyor, görsel gelmezse renkler çıkıyor, D01 kazanılınca "Resmi tamamladın" çıkıyor, `?lv=2` ile açılınca isim kapısında beklenen süre sayılmıyor, `TEST_GECE` satırları Supabase'e doğru düştü. Telefonda sen bakmadıkça bunlar iPhone için doğrulanmış sayılmaz.
 
 ---
 
@@ -55,8 +55,12 @@
    - [ ] Çivili parça gri, bomba ve zincir okunuyor; bir parçayı sürükleyince engelleyen parça kırmızı parlıyor.
 2. `lv=D02` aç (renkli halkalar; önce tanıtım kartını kapat).
    - [ ] **D02'de girinti ve çıkıntılar seçiliyor mu?** Desen karışık; gözünü yoruyor mu? (PM'in izleme notu)
-3. **FPS:** `br/?debug=1&set=designs&lv=D02` açıkken 10–15 saniye sürekli parça sürükle, debug satırındaki "sürüklerken medyan" FPS'i oku. Hedef 60 (en az 55).
-4. **Getir:** D01 ve D02 için okunabilirlik notun (iyi / zor / çok zor), FPS sayısı, ekran görüntüleri.
+3. **Resmi tamamladın:** D01'i bitir (60 sn; ilk denemede yetişmezse **Tekrar oyna**).
+   - [ ] Bitiş kartının başlığı "Resmi tamamladın", kartta resmin tamamı çerçeveli görünüyor.
+   - [ ] Kart ekrana sığıyor, yazı ya da düğme kırpılmıyor; düğmeler çalışıyor.
+   - [ ] Görselsiz bir bölümde (ör. L01) bitiş kartı eskisi gibi "Tahta boşaldı".
+4. **FPS:** `br/?debug=1&set=designs&lv=D02` açıkken 10–15 saniye sürekli parça sürükle, debug satırındaki "sürüklerken medyan" FPS'i oku. Hedef 60 (en az 55).
+5. **Getir:** D01 ve D02 için okunabilirlik notun (iyi / zor / çok zor), FPS sayısı, ekran görüntüleri.
 
 ## 5. Kısa kontrol listesi (debug yok, `TEST_ZEYD` ile)
 
@@ -83,6 +87,7 @@
 
 ---
 
-## Bu build'de olmayanlar (sonraki build'e)
+## Ek kontrol: bağlantıyla açılan bölüm (A6b)
 
-- "Resmi tamamladın" bitiş kartı (G1-b) — Build 2 yayınlanırsa bu listeye eklenecek.
+- [ ] Yeni bir özel sekmede `br/?lv=2` aç. İsim kapısının arkasında **menü** görünmeli (bölüm değil).
+- [ ] 20 saniye bekle, sonra adını yaz: L02 **tam süreyle** başlamalı.
