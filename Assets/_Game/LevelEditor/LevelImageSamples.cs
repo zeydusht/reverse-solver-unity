@@ -12,17 +12,20 @@ namespace ReverseSolver.LevelEditor
     public static class LevelImageSamples
     {
         public const string Folder = "Builds/test-images";
-        static readonly string[] Pictures = { "test_gun_batimi.png", "test_halkalar.png", "test_yildiz.png" };
+        /* D01 and D02 only: D03 is Zeyd's own design (PRODUCT.md 2026-10-13). */
+        static readonly string[] Pictures = { "test_gun_batimi.png", "test_halkalar.png" };
 
-        [MenuItem("Reverse Solver/Test görsellerini D01–D03'e koy")]
+        [MenuItem("Reverse Solver/Test görsellerini D01–D02'ye koy")]
         public static string Apply()
         {
             if (EditorApplication.isPlaying) return "Play modunda çalışmaz.";
             var store = DesignStore.Parse(File.Exists(LevelEditorSession.DesignsPath) ? File.ReadAllText(LevelEditorSession.DesignsPath) : "");
             var log = new System.Text.StringBuilder();
-            for (int i = 0; i < Pictures.Length && i < store.Designs.Count; i++)
+            for (int i = 0; i < Pictures.Length; i++)
             {
-                var d = store.Designs[i].Clone();
+                var found = store.Find($"D{i + 1:00}");
+                if (found == null) { log.AppendLine($"D{i + 1:00} yok"); continue; }
+                var d = found.Clone();
                 string picked = Path.Combine(Folder, Pictures[i]);
                 if (!File.Exists(picked)) { log.AppendLine($"{picked} yok"); continue; }
                 string source = LevelImageImport.StoreSource(picked, d.Id);
