@@ -157,6 +157,37 @@ namespace ReverseSolver.Core.Tests
             StringAssert.Contains("SnappedBack", r.ToString());
         }
 
+        /* The last piece out ends the level and the game cancels the drag inside Exit;
+           the report must still show the pull that took it out (Build 2 check). */
+        sealed class CancelOnExit : IDragTarget
+        {
+            readonly SessionDragTarget _inner;
+            public DragModel Drag;
+            public CancelOnExit(GameSession s) { _inner = new SessionDragTarget(s); }
+            public bool IsOver => _inner.IsOver;
+            public bool IsPresent(int p) => _inner.IsPresent(p);
+            public bool IsPinned(int p) => _inner.IsPinned(p);
+            public TravelLimit Probe(int p, Dir d) => _inner.Probe(p, d);
+            public CommandResult Exit(int p, Dir d) { var r = _inner.Exit(p, d); Drag.Cancel(); return r; }
+            public void Jam(int p) => _inner.Jam(p);
+        }
+
+        [Test]
+        public void TheReportKeepsThePullWhenTheExitEndsTheDrag()
+        {
+            var s = Session("L01");
+            var (p, d, lim) = FreeMove(s);
+            var target = new CancelOnExit(s);
+            var drag = new DragModel(target, S);
+            target.Drag = drag;
+            drag.Press(p, 0, 0, 0, false);
+            float dist = ExitDistance(lim) * .6f;
+            drag.Move(d.Dx() * dist, d.Dy() * dist, .5);
+            Assert.That(drag.Release(out _, out _), Is.EqualTo(DragRelease.Exited));
+            Assert.That(drag.Last.Offset, Is.EqualTo(dist).Within(1e-3));
+            Assert.That(drag.Last.Direction, Is.EqualTo(d));
+        }
+
         // ---- grabbing from the margin -----------------------------------------------
 
         [Test]

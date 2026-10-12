@@ -185,13 +185,17 @@ namespace ReverseSolver.Core
             bool byRule = canLeave && Offset >= exitDistance * ExitFraction;
             bool byFlick = flickAllowed && canLeave && !byRule &&
                            speed >= FlickSpeed && Offset >= exitDistance * FlickFraction;
+            // what the report says is taken now: the exit can end the level, and the
+            // game then cancels the drag (Offset 0) before Exit returns
+            var direction = Direction;
+            float offset = Offset;
             Piece = -1;
             Blocker = -1;
             var result = (byRule || byFlick) && _target.Exit(piece, dir) == CommandResult.Ok
                 ? DragRelease.Exited : DragRelease.SnappedBack;
             Last = new DragReport
             {
-                Result = result, Direction = Direction, Offset = Offset,
+                Result = result, Direction = direction, Offset = offset,
                 Needed = canLeave ? exitDistance * ExitFraction : 0, Speed = speed,
                 Flick = byFlick && result == DragRelease.Exited, Cancelled = cancelled, PressedOutside = _outside
             };
