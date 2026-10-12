@@ -36,8 +36,11 @@ namespace ReverseSolver.Core.Tests
             {
                 Assert.That(Screens.ShowsPicture(Won("D01.jpg"), null), Is.False, "picture did not arrive (404, offline)");
                 Assert.That(Screens.ShowsPicture(Won(null), pic), Is.False, "level without a picture");
-                var lost = new GameSession(LevelDraft.New(3, 3).ToLevelData(), 1, "test", new Mulberry32(1));
+                var lostDraft = LevelDraft.New(3, 3);
+                lostDraft.Image = "D01.jpg";
+                var lost = new GameSession(lostDraft.ToLevelData(), 1, "test", new Mulberry32(1));
                 lost.Tick(999);
+                Assert.That(lost.Outcome, Is.EqualTo(Outcome.Time));
                 Assert.That(Screens.ShowsPicture(lost, pic), Is.False, "time ran out");
                 foreach (var l in TestData.Levels.Levels) Assert.That(l.Image, Is.Null, l.Id + ": live levels have no picture");
             }

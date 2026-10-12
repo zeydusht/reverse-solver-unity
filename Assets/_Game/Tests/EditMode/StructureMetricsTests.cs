@@ -56,7 +56,7 @@ namespace ReverseSolver.Core.Tests
             d.SetBomb(new Cell(1, 1), 2);
             Assert.That(StructureMetrics.Of(d.ToLevelData()).FuseMargin, Is.EqualTo(0), "exactly enough");
             d.SetBomb(new Cell(1, 1), 1);
-            Assert.That(double.IsNaN(StructureMetrics.Of(d.ToLevelData()).FuseMargin), Is.True, "cannot be reached in time");
+            Assert.That(StructureMetrics.Of(d.ToLevelData()).FuseMargin, Is.EqualTo(-1), "one move short: the dig is found with a long fuse");
             d.SetBomb(new Cell(1, 1), 5);
             Assert.That(StructureMetrics.Of(d.ToLevelData()).FuseMarginExact, Is.True, "small board: the exact search finishes");
         }

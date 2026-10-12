@@ -96,6 +96,8 @@ namespace ReverseSolver.Editing
         public string Image;
         /* G1: which part of the source picture the board shows. Look only. */
         public ImageCrop Crop = ImageCrop.None;
+        /* Difficulty kind the designer aims for (Zorluk paneli); null = not chosen. Look only. */
+        public Genre? Genre;
         public LevelIntro Intro, BoosterIntro;
         public Dictionary<string, int> Boosters = new Dictionary<string, int>();
         public Dictionary<string, int> Unlock = new Dictionary<string, int>();
@@ -172,7 +174,7 @@ namespace ReverseSolver.Editing
             {
                 Id = Id, Version = Version, Number = Number, Width = Width, Height = Height, Timer = Timer,
                 _v = (int[,])_v.Clone(), _h = (int[,])_h.Clone(), _colors = (int[])_colors.Clone(),
-                Palette = new List<string>(Palette), Art = Art, Image = Image, Crop = Crop,
+                Palette = new List<string>(Palette), Art = Art, Image = Image, Crop = Crop, Genre = Genre,
                 Intro = Copy(Intro), BoosterIntro = Copy(BoosterIntro),
                 Boosters = new Dictionary<string, int>(Boosters), Unlock = new Dictionary<string, int>(Unlock),
                 Load = Load,
@@ -628,6 +630,7 @@ namespace ReverseSolver.Editing
             w.EndArray();
             w.Field("load", Load).Field("open", l.Open).Field("art", Art);
             if (Image != null) w.Field("image", Image);          // only when set: level files without one stay as they were
+            if (Genre.HasValue) w.Field("genre", Genre.Value.Id());
             if (!Crop.IsNone)
                 w.Key("imageCrop").Raw(string.Format(System.Globalization.CultureInfo.InvariantCulture,
                     "{{\"zoom\":{0:0.###},\"x\":{1:0.###},\"y\":{2:0.###}}}", Crop.Zoom, Crop.PanX, Crop.PanY));

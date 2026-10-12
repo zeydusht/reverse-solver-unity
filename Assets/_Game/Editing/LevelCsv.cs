@@ -23,13 +23,14 @@ namespace ReverseSolver.Editing
         {
             "rastgele_kazanma", "rastgele_patlama", "rastgele_ort_hamle", "rastgele_ort_dallanma",
             "kor_deneme_toplam", "kor_deneme_ort", "serbestlik_ilk", "serbestlik_ort",
-            "darbogaz_adim", "en_az_secenek", "civili_oran", "fitil_payi"
+            "darbogaz_adim", "en_az_secenek", "civili_oran", "fitil_payi",
+            "tur", "onerilen_sure", "onerilen_fitil", "onerilen_civi", "medyan_yildiz"
         };
 
         static readonly CultureInfo Tr = CultureInfo.GetCultureInfo("tr-TR");
 
         public static string Build(IEnumerable<(string set, LevelData level)> rows, int nodeBudget = DesignCheck.QuickBudget,
-                                   int monteCarloRuns = 0)
+                                   int monteCarloRuns = 0, System.Func<string, Genre?> genreOf = null)
         {
             var sb = new StringBuilder();
             sb.Append(string.Join(";", Columns));
@@ -61,6 +62,16 @@ namespace ReverseSolver.Editing
                     sb.Append(';').Append(mc.WinRate.ToString("0.000", Tr)).Append(';').Append(mc.BombRate.ToString("0.000", Tr))
                       .Append(';').Append(mc.MeanMoves.ToString("0.0", Tr)).Append(';').Append(mc.MeanBranching.ToString("0.00", Tr))
                       .Append(';').Append(string.Join(";", MonteCarlo.StructureCells(mc.Structure, Tr)));
+                    var genre = genreOf?.Invoke(l.Id);
+                    if (genre.HasValue)
+                    {
+                        var d = DifficultyModel.Analyze(l, genre.Value, mc.Structure, mc.WinRate);
+                        string fuses = string.Join("/", d.Fuses.ConvertAll(f => f.suggested.ToString(CultureInfo.InvariantCulture)));
+                        string nails = string.Join("/", d.Nails.ConvertAll(n => n.suggested.ToString(CultureInfo.InvariantCulture)));
+                        sb.Append(';').Append(genre.Value.Label()).Append(';').Append(I(d.SuggestedTime))
+                          .Append(';').Append(fuses).Append(';').Append(nails).Append(';').Append(I(d.StarsSuggested));
+                    }
+                    else sb.Append(";;;;;");
                 }
                 sb.Append("\r\n");
             }

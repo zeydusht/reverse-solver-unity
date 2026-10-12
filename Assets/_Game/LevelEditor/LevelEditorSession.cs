@@ -171,6 +171,56 @@ namespace ReverseSolver.LevelEditor
             Changed();
         }
 
+        // ---- difficulty panel (A8) -------------------------------------------------------------
+
+        public DifficultyModel.Report Difficulty { get; private set; }
+        public double DifficultyMs { get; private set; }
+        string _difficultyFor;
+
+        /* The panel's numbers belong to the board they were computed for. */
+        public bool DifficultyCurrent => Difficulty != null && _difficultyFor == DifficultyKey();
+        string DifficultyKey() => Draft.GameplayKey() + "|" + (Draft.Genre?.Id() ?? "-");
+
+        public void SetGenre(Genre g) =>
+            Edit(d => { d.Genre = g; return EditResult.Done; }, $"Tür: {g.Label()} (görünüş; sürümü değiştirmez).");
+
+        /* Structure along the solver's path + 200 random games (L40: well under a second). */
+        public void ComputeDifficulty()
+        {
+            if (!Draft.Genre.HasValue) { Say("Önce bir tür seç.", true); return; }
+            var sw = Stopwatch.StartNew();
+            var level = Draft.ToLevelData();
+            var mc = MonteCarlo.Run(level, MonteCarlo.DefaultRuns);
+            Difficulty = DifficultyModel.Analyze(level, Draft.Genre.Value, mc.Structure, mc.WinRate);
+            DifficultyMs = sw.Elapsed.TotalMilliseconds;
+            _difficultyFor = DifficultyKey();
+            Say($"Zorluk hesaplandı ({DifficultyMs:0} ms).");
+            Revision++;
+        }
+
+        public void ApplySuggestedTime()
+        {
+            if (Difficulty == null) return;
+            int t = Difficulty.SuggestedTime;
+            Edit(d => d.SetTimer(t), $"Süre {t} sn oldu (öneri).");
+        }
+
+        public void ApplySuggestedFuse(int piece, int fuse)
+        {
+            var level = Draft.ToLevelData();
+            if (piece < 0 || piece >= level.Pieces.Count) return;
+            var cell = level.Pieces[piece][0];
+            Edit(d => d.SetBomb(cell, fuse), $"Fitil {fuse} oldu (öneri).");
+        }
+
+        public void ApplySuggestedNail(int piece, int counter)
+        {
+            var level = Draft.ToLevelData();
+            if (piece < 0 || piece >= level.Pieces.Count) return;
+            var cell = level.Pieces[piece][0];
+            Edit(d => d.SetNail(cell, counter), $"Çivi sayacı {counter} oldu (öneri).");
+        }
+
         // ---- solution playback (tier 2) ---------------------------------------------------
 
         /* -1: off; otherwise how many moves of the found solution are played on the board. */
@@ -253,7 +303,7 @@ namespace ReverseSolver.LevelEditor
                 d.Crop = ImageCrop.None;
                 long bytes = LevelImageImport.WriteBoardImage(source, d.Image, d.Width, d.Height);
                 Store.Save(d);
-                if (Draft.Id == id) { Draft.Image = d.Image; Draft.Crop = d.Crop; _savedJson = Json(Draft); }
+                if (Draft.Id == id) { Draft.Image = d.Image; Draft.Crop = d.Crop; _savedJson = Json(d); }   // unsaved edits stay unsaved
                 done.Add($"{id} ({bytes / 1024} KB)");
             }
             File.WriteAllText(DesignsPath, Store.ToJson());
@@ -282,7 +332,7 @@ namespace ReverseSolver.LevelEditor
             if (key == _imageLoadedFor && ImageTexture != null) return;
             var tex = File.Exists(path) ? LevelImageImport.Load(path) : null;
             bool shapeMatches = tex != null && System.Math.Abs((float)tex.width / tex.height - (float)Draft.Width / Draft.Height) < .03f
-                                && (_imageCutFor == null || !_imageCutFor.StartsWith(Draft.Image + "|") || _imageCutFor == Draft.Image + "|" + cropKey);
+                                && _imageCutFor == Draft.Image + "|" + cropKey;   // unknown cut (new session, other design, discarded crop): re-cut
             string source = LevelImageImport.SourceOf(System.IO.Path.GetFileNameWithoutExtension(Draft.Image));
             if (!shapeMatches && source != null)
             {
@@ -455,7 +505,10 @@ namespace ReverseSolver.LevelEditor
             foreach (var l in WebLevels.Levels) rows.Add(("web", l));
             foreach (var d in Store.Designs) rows.Add(("tasarim", d.ToLevelData()));
             Directory.CreateDirectory(Path.GetDirectoryName(CsvPath));
-            File.WriteAllBytes(CsvPath, LevelCsv.ToBytes(LevelCsv.Build(rows, monteCarloRuns: MonteCarlo.DefaultRuns)));
+            var genres = new Dictionary<string, Genre?>();
+            foreach (var d in Store.Designs) genres[d.Id] = d.Genre;
+            File.WriteAllBytes(CsvPath, LevelCsv.ToBytes(LevelCsv.Build(rows, monteCarloRuns: MonteCarlo.DefaultRuns,
+                genreOf: id => genres.TryGetValue(id, out var g) ? g : null)));
             Say($"CSV yazıldı: {Path.GetFullPath(CsvPath)} ({rows.Count} seviye, rastgele oyuncuyla {MonteCarlo.DefaultRuns}'er oyun).");
             return Path.GetFullPath(CsvPath);
         }

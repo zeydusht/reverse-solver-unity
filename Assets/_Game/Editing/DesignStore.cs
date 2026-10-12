@@ -38,6 +38,8 @@ namespace ReverseSolver.Editing
                 {
                     var d = LevelDraft.FromLevel(parsed[i]);
                     // look-only fields the game does not read
+                    if (list[i].TryGet("genre", out var gn) && gn.Kind == JsonKind.String && GenreExt.TryParse(gn.AsString, out var genre))
+                        d.Genre = genre;
                     if (list[i].TryGet("imageCrop", out var c) && c.Kind == JsonKind.Object)
                         d.Crop = new ImageCrop(Num(c, "zoom", 1), Num(c, "x", 0), Num(c, "y", 0));
                     store._designs.Add(d);

@@ -39,6 +39,17 @@ namespace ReverseSolver.Editing
         public double FuseMargin = double.NaN;
         public bool FuseMarginExact = true;
 
+        /* Difficulty model inputs (PRODUCT.md "Zorluk modeli"), along the same path:
+             FreeAtStart   k0, pieces that can leave on the first move
+             ReadingLoad   sum over moves of (n + 1) / (k + 1), n pieces left, k of them leavable
+             ReadingPerMove ReadingLoad / pieces ("hamle başına okuma")
+             Bottlenecks10 moves with 10 or more pieces left and only one that can leave
+             BombDigs      per bomb piece: fewest moves that take it out (exact, or SmartPlayer's dig) */
+        public int FreeAtStart;
+        public double ReadingLoad, ReadingPerMove;
+        public int Bottlenecks10;
+        public readonly Dictionary<int, (int dig, bool exact)> BombDigs = new Dictionary<int, (int, bool)>();
+
         public const int FuseSearchBudget = 20_000;
 
         public static StructureMetrics Of(LevelData level)
@@ -47,7 +58,11 @@ namespace ReverseSolver.Editing
             var path = SmartPlayer.Play(level).Moves;
             var s = new GameSession(level, 1, "structure", new Mulberry32(1));
             m.NailedShare = level.Pieces.Count == 0 ? 0 : (double)level.Nails.Count / level.Pieces.Count;
-            m.FuseMargin = FuseMarginOf(s, out m.FuseMarginExact);
+            // the dig is searched with every fuse long, so it is found even when the level's fuse is too short
+            var longFuses = LevelDraft.FromLevel(level);
+            foreach (var b in level.Bombs) longFuses.SetBomb(level.Pieces[b.Key][0], LevelDraft.MaxCount);
+            var digStart = new GameSession(longFuses.ToLevelData(), 1, "structure", new Mulberry32(1));
+            m.FuseMargin = FuseMarginOf(digStart, level.Bombs, m.BombDigs, out m.FuseMarginExact);
 
             double freedomSum = 0;
             foreach (var move in path)
@@ -62,7 +77,9 @@ namespace ReverseSolver.Editing
                 }
                 if (validPairs > 0) m.BlindTriesTotal += 4.0 * left / validPairs - 1;
                 double freedom = left == 0 ? 0 : (double)validPieces / left;
-                if (m.Steps == 0) m.FreedomStart = freedom;
+                if (m.Steps == 0) { m.FreedomStart = freedom; m.FreeAtStart = validPieces; }
+                m.ReadingLoad += (left + 1.0) / (validPieces + 1.0);
+                if (left >= 10 && validPieces == 1) m.Bottlenecks10++;
                 freedomSum += freedom;
                 if (validPieces == 1) m.BottleneckSteps++;
                 m.FewestChoices = Math.Min(m.FewestChoices, validPieces);
@@ -75,23 +92,27 @@ namespace ReverseSolver.Editing
                 m.FreedomMean = freedomSum / m.Steps;
             }
             if (m.FewestChoices == int.MaxValue) m.FewestChoices = 0;
+            m.ReadingPerMove = level.Pieces.Count == 0 ? 0 : m.ReadingLoad / level.Pieces.Count;
             return m;
         }
 
-        static double FuseMarginOf(GameSession start, out bool exact)
+        /* start: the level with every fuse long; fuses: the level's own fuses. */
+        static double FuseMarginOf(GameSession start, IReadOnlyDictionary<int, int> fuses, Dictionary<int, (int, bool)> digs, out bool exact)
         {
             double best = double.NaN;
             exact = true;
-            foreach (var b in start.Bombs)
+            foreach (var b in fuses)
             {
                 int budget = FuseSearchBudget;
-                int moves = FewestMovesToRemove(start, b.Key, b.Value, ref budget);
+                bool thisExact = true;
+                int moves = FewestMovesToRemove(start, b.Key, start.Board.PresentCount, ref budget);
                 if (moves < 0 && budget <= 0)
                 {
                     moves = DirectDig(start, b.Key);
-                    if (moves >= 0) exact = false;
+                    if (moves >= 0) { exact = false; thisExact = false; }
                 }
                 if (moves < 0) continue;
+                digs[b.Key] = (moves, thisExact);
                 double margin = b.Value - moves;
                 if (double.IsNaN(best) || margin < best) best = margin;
             }

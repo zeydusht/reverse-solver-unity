@@ -414,6 +414,7 @@ namespace ReverseSolver.LevelEditor
             if (lv != d.Number && lv >= 1) S.Edit(x => { x.Number = lv; return EditResult.Done; });
             GUILayout.Label("Bölüm no, güçlendiricilerin açılışını belirler (makas 3, değnek 6, çekiç 9, saat 12).", _small);
             ImageSection();
+            DifficultySection();
             _moreSettings = GUILayout.Toggle(_moreSettings, _moreSettings ? "▾ Diğer ayarlar" : "▸ Diğer ayarlar (güçlendiriciler, tanıtım kartı, resim adı, palet)", _h2);
             if (_moreSettings) MoreSettings();
 
@@ -508,6 +509,61 @@ namespace ReverseSolver.LevelEditor
         ImageCrop _crop = ImageCrop.None;
         int _cropFor = -1;
         string _cropImage;
+
+        bool _difficultyOpen = true;
+
+        /* A8: the difficulty panel (PRODUCT.md "Zorluk modeli"). */
+        void DifficultySection()
+        {
+            var d = S.Draft;
+            _difficultyOpen = GUILayout.Toggle(_difficultyOpen, _difficultyOpen ? "▾ Zorluk" : "▸ Zorluk", _h2);
+            if (!_difficultyOpen) return;
+            GUILayout.Label("Tür (görünüş; sürümü değiştirmez)", _small);
+            int now = d.Genre.HasValue ? System.Array.IndexOf(GenreExt.All, d.Genre.Value) : -1;
+            int pick = GUILayout.SelectionGrid(now, System.Array.ConvertAll(GenreExt.All, g => g.Label()), 3);
+            if (pick != now && pick >= 0) S.SetGenre(GenreExt.All[pick]);
+            GUI.enabled = d.Genre.HasValue;
+            if (GUILayout.Button(S.DifficultyCurrent ? "Yeniden hesapla" : "Hesapla (rastgele oyuncuyla 200 oyun)")) S.ComputeDifficulty();
+            GUI.enabled = true;
+            var r = S.Difficulty;
+            if (r == null) return;
+            if (!S.DifficultyCurrent) GUILayout.Label("<b>Tahta değişti:</b> sayılar eski, yeniden hesapla.", _small);
+            GUILayout.Label($"{r.Genre.Label()} · hesap {S.DifficultyMs:0} ms · s = {r.S:0.00} sn/parça ({r.SSource})", _small);
+            foreach (var m in r.Measures)
+            {
+                string colour = !m.HasBand ? "#cfe3e3" : m.InBand ? "#7fd99a" : "#f0a742";
+                var c = new GUIContent($"<color={colour}>{m.Name}: <b>{m.Value}</b></color>  hedef {m.BandText}", m.Hint);
+                GUILayout.Label(c, _small);
+            }
+            GUILayout.Label("Öneriler", _h2);
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"Süre: {d.Timer} → <b>{r.SuggestedTime}</b> sn (medyan oyuncu: %{r.MedianLeftSuggested * 100:0} kalır, {r.StarsSuggested} yıldız; şu an %{r.MedianLeftNow * 100:0}, {r.StarsNow} yıldız)", _small);
+            GUI.enabled = S.DifficultyCurrent && d.Timer != r.SuggestedTime;
+            if (GUILayout.Button("Uygula", GUILayout.Width(64))) S.ApplySuggestedTime();
+            GUI.enabled = true;
+            GUILayout.EndHorizontal();
+            foreach (var f in r.Fuses)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label($"Fitil (parça {f.piece}): {f.fuse} → <b>{f.suggested}</b>{(f.exact ? "" : " (yaklaşık)")} = en kısa kazma + {DifficultyModel.Of(r.Genre).BombMargin}", _small);
+                GUI.enabled = S.DifficultyCurrent && f.fuse != f.suggested;
+                if (GUILayout.Button("Uygula", GUILayout.Width(64))) S.ApplySuggestedFuse(f.piece, f.suggested);
+                GUI.enabled = true;
+                GUILayout.EndHorizontal();
+            }
+            foreach (var n in r.Nails)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label($"Çivi (parça {n.piece}): {n.counter} → <b>{n.suggested}</b>", _small);
+                GUI.enabled = S.DifficultyCurrent && n.counter != n.suggested;
+                if (GUILayout.Button("Uygula", GUILayout.Width(64))) S.ApplySuggestedNail(n.piece, n.suggested);
+                GUI.enabled = true;
+                GUILayout.EndHorizontal();
+            }
+            foreach (var w in r.Warnings) GUILayout.Label($"<color=#f0a742><b>Uyarı:</b> {w}</color>", _small);
+            if (!string.IsNullOrEmpty(GUI.tooltip)) GUILayout.Label(GUI.tooltip, _small);
+            GUILayout.Label("\"Uygula\" normal düzenlemedir: geri alınabilir ve oynanışı değiştirdiği için kaydedince sürüm 1 artar.", _small);
+        }
 
         /* G1: the level's picture. */
         void ImageSection()

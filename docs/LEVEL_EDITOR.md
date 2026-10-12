@@ -96,6 +96,28 @@ Oyunda görselli tasarım (D01, test resmi) ve görsel gelmediğinde renkli hali
 - Tahtanın boyutunu değiştirirsen resim kaynak kopyadan yeniden kırpılır.
 - **Telif:** yalnızca kendi çektiğin fotoğrafları ya da kullanım hakkın olan görselleri koy. İnternetten bulunan bir resim, izni yoksa oyuna konmaz.
 
+## Zorluk paneli
+
+Sağ paneldeki **Zorluk** bölümü, seviyenin hedeflediğin türe uyup uymadığını gösterir ve süre, fitil ve çivi için öneri verir. Sayılar `docs/PRODUCT.md` "Zorluk modeli (başlangıç değerleri)" bölümündendir; telefon ölçümleri geldikçe değişecek.
+
+1. **Tür** seç: Tanıtım, Nefes, Kolay, Orta, Zor veya Çok zor. Tür yalnızca bir etikettir; sürümü değiştirmez, `designs.json`'a `"genre"` olarak yazılır.
+2. **Hesapla**'ya bas. Çözücünün yolu boyunca yapı ölçülür ve rastgele oyuncuyla 200 oyun oynanır (L40'ta yaklaşık 0,1 sn).
+3. Ölçüler türün hedef aralığıyla karşılaştırılır: **yeşil** aralıkta, **turuncu** dışında. Fareyi bir ölçünün üstünde tutunca ne anlama geldiği yazar.
+   - Gövde (parça sayısı), açık dikiş %, ilk hamlede serbest parça, hamle başına okuma, darboğaz (10+ parça kalmışken tek seçenek), bomba payı, süre payı, medyan oyuncunun kalan süresi, rastgele oyuncunun kazanma oranı.
+   - Bomba payının başında "≥" varsa tam arama bütçeyi aştı, çözücünün kazma yolu kullanıldı (gerçek pay en az bu kadar).
+4. **Öneriler:**
+   - Süre: `parça × s × P`, 5'e yukarı yuvarlanır, en fazla 75 sn. `s` yapıdan gelir (yanında kaynağı yazar), `P` türden.
+   - Fitil: bombaya en kısa kazma yolu + türün payı.
+   - Çivi sayacı: parça sayısının türe göre payı, hiçbir zaman %40'ın üstünde değil.
+   - Medyan oyuncunun ne kadar süreyle ve kaç yıldızla bitireceği, şimdiki ve önerilen süre için.
+5. **Uygula** düğmesi öneriyi tahtaya yazar. Bu normal bir düzenlemedir: **Geri al** ile geri alınır, oynanışı değiştirdiği için kaydedince sürüm 1 artar.
+6. Tahtayı değiştirince sayılar eskir ("Tahta değişti" yazar), Uygula düğmeleri kapanır; yeniden hesapla.
+7. **Uyarılar:** süre 75 sn'nin üstünde, bir çivi parçaların %40'ından fazlasını istiyor, kolay türde bomba var.
+
+CSV (Araçlar → CSV) türü seçilmiş tasarımlar için `tur`, `onerilen_sure`, `onerilen_fitil`, `onerilen_civi`, `medyan_yildiz` sütunlarını doldurur.
+
+<!-- Editör ekran görüntüsü: MCP olmadığı için gece alınamadı; sabah eklenecek. -->
+
 ## Araçlar
 
 | Araç | Ne yapar | Sağ tık |
