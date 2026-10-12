@@ -3,15 +3,16 @@
 Plan: `docs/GECE_2026-10-13.md` (+ `docs/GOREV_KENAR_GORSEL.md`). Kanal B `gece-b` dalında, raporu `docs/analiz/GECE_B.md`. Kalp atışı: `Logs/overnight-heartbeat.txt`.
 
 ## Kaldığım yer
-- **Son tamamlanan adım:** A6 — Build 1 canlıda (gh-pages 69241ed, 01:23): Brotli 7.178.621 B (+24 KB), gzip 9.073.982 B; D01.jpg 22 KB, D02.jpg 58 KB. Canlı başsız Chrome: K1 (3 boyut, L01 + L40), D01/D02 görselli, görsel engellenince renkler, /gz/ açılıyor; istisna 0. m5-verify GEÇTİ (TEST_GECE L01 win satırı doğru, yenilemede ad/ilerleme korunuyor, L02 gizlemede tek quit satırı, debug 0 satır, row_id benzersiz). TELEFON_TESTI.md bu build'e göre güncel.
-- **Önceki:** A0, A1 (1d7ed02), A2 (batchmode 433/433), A3 (shader PM onaylı, 939f8a0; eşik 0,30 onaylı).
-- **Unity:** 01:06'da kurala göre kapatıldı (30 dk MCP yok, kirli sahne/diyalog yok); batchmode kullanılıyor. MCP için GUI yeniden açılacak (A7 editör görüntüleri).
-- **Yarım kalan iş:** A7 yamaları hazır (scratchpad/a7: kırpma, okunabilirlik uyarısı, toplu atama, G1-b kartı) — henüz uygulanmadı.
-- **Sıradaki somut adım:** PM'e A6 raporu → A4/A5 (ekran kontrolleri) → A7 yamalarını uygula, test, Build 2.
-- **Commit'lenmemiş değişiklik:** docs (bu dosya, TELEFON_TESTI, ekran görüntüleri) — bu commit'le gidiyor.
+- **Son tamamlanan adım:** A9 — Build 2 canlıda (gh-pages 47328ff, 02:06): G1-b "Resmi tamamladın" kartı, A6b (bağlantılı bölüm isim kapısının arkasında bekler), K1 debug raporu düzeltmesi. Brotli 7.178.477 B, gzip 9.076.885 B. Unity batch 445/445. Canlı: A6b (kapıda 22 sn → L02 tam süre, satır dur 43 = gerçek 44 sn), m5-verify yeniden geçti, D01 kartı ve L01 kartı (değişmemiş) yerelde Build 2'de görüldü. TELEFON_TESTI Build 2'ye göre güncel.
+- **Önceki:** A0–A6 (Build 1 69241ed), A7 editör kısmı (6d9a724: kırpma, uyarı 0,30, toplu atama), G1-b (4bf4cc2), A6b (d9a08e8), rapor düzeltmesi (d813ba6).
+- **Unity:** kapalı; batchmode ile çalışılıyor. MCP bu oturumda geri gelmedi (eklenti sunucuyu yalnızca arayüzden başlatıyor) → editör ekran görüntüleri sabah listesinde.
+- **Yarım kalan iş:** yok.
+- **Sıradaki somut adım:** A8 — gece-b dalı "B3 BİTTİ" olunca birleştir, Zorluk paneli. Sonra A10 bağımsız inceleme, A11 sabah raporu.
+- **Commit'lenmemiş değişiklik:** yok.
 
 ## Sabah listesi (Zeyd)
-- docs/TELEFON_TESTI.md ile telefon oturumu (Build 1 canlıda).
+- docs/TELEFON_TESTI.md ile telefon oturumu (Build 2 canlıda).
+- Editör ekran görüntüleri (Görsel ekle paneli, kırpma, uyarı, adım adım oynatma, Parçaları ayır, Zorluk paneli): bu gece MCP yoktu; Unity'yi açıp kılavuzdaki turu yaparken bakılacak.
 
 ---
 
