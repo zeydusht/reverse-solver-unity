@@ -11,7 +11,11 @@ namespace ReverseSolver.Presentation
        picture arrives, and if it never does (offline, 404), the level plays
        with its colours; nothing is shown about the failure. The next level's
        picture is fetched in the background; pictures of other levels are let
-       go to keep memory down on a phone. */
+       go to keep memory down on a phone.
+
+       Plain UnityWebRequest + ImageConversion.LoadImage, not
+       UnityWebRequestTexture: that module was taken out in the size work
+       (Packages/manifest.json) and LoadImage's module is already in. */
     public sealed class LevelImages : MonoBehaviour
     {
         public const string Folder = "LevelImages";
@@ -51,7 +55,7 @@ namespace ReverseSolver.Presentation
 
         IEnumerator Fetch(string image)
         {
-            using (var req = UnityWebRequestTexture.GetTexture(Url(image), true))
+            using (var req = UnityWebRequest.Get(Url(image)))
             {
                 yield return req.SendWebRequest();
                 var callbacks = _waiting[image];
@@ -62,7 +66,14 @@ namespace ReverseSolver.Presentation
                     if (Host.Debug) Debug.Log($"[image] {image}: {req.error}");
                     yield break;
                 }
-                var tex = DownloadHandlerTexture.GetContent(req);
+                var tex = new Texture2D(2, 2, TextureFormat.RGB24, false);
+                if (!tex.LoadImage(req.downloadHandler.data, true))           // true: no CPU copy kept
+                {
+                    Destroy(tex);
+                    _failed.Add(image);
+                    if (Host.Debug) Debug.Log($"[image] {image}: not a picture");
+                    yield break;
+                }
                 tex.wrapMode = TextureWrapMode.Clamp;
                 tex.name = image;
                 _ready[image] = tex;
