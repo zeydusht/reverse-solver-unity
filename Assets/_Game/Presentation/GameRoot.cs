@@ -95,18 +95,22 @@ namespace ReverseSolver.Presentation
             _telemetry.Flush();                               // rows left from an earlier visit
 
             _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug };
-            if (PlayOverride.Active)
-                StartLevel(PlayOverride.Index);
-            else if (TryLevelIndex(host.Query("lv"), out int index))
-                StartLevel(index);
-            else
-                ShowMenu();
-
             // web name gate: once per browser; the HTML input sits over the canvas
-            if (string.IsNullOrEmpty(_save.Player) && !Host.Debug)
+            bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug;
+            int requested = PlayOverride.Active ? PlayOverride.Index
+                          : TryLevelIndex(host.Query("lv"), out int index) ? index : -1;
+            var plan = LaunchPlan.For(requested, askName);
+            if (plan.StartNow) StartLevel(plan.Level); else ShowMenu();
+
+            if (askName)
             {
                 _awaitingName = true;
-                host.AskName(name => { _save.SetPlayer(name); _awaitingName = false; });
+                host.AskName(name =>
+                {
+                    _save.SetPlayer(name);
+                    _awaitingName = false;
+                    if (plan.AfterName >= 0) StartLevel(plan.AfterName);   // the level from the link, at full time
+                });
             }
         }
 
