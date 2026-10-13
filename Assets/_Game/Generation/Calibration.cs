@@ -51,6 +51,44 @@ namespace ReverseSolver.Generation
         public const double MinTimeShare = 1.1, IntroTimeShare = 2.0;
         /* A fuse of 5 or less can go off within the first five moves (PM, option 5). */
         public const int MinFuse = 6;
+        /* Çok zor in the factory: bomb margin 3-5 (PM 2026-10-14 gece (2), A5; the model table keeps 1-3). */
+        public const int CokZorMarginMin = 3, CokZorMarginMax = 5;
+        /* Nefes: a bomb is fine but not one that leaves on the first move (shortest dig >= 2). */
+        public const int NefesMinDig = 2;
+        /* "Çivi önemli": the nailed piece leaves at most 3 moves after its counter ran out, in the
+           recorded order (PM 2026-10-14 gece (2), the designer's definition). */
+        public const int NailSlackMax = 3;
+
+        /* Moves between a nail's counter running out and its piece leaving, in the level's solution. */
+        public static List<(int piece, int counter, int slack)> NailSlack(LevelData level)
+        {
+            var list = new List<(int, int, int)>();
+            var sol = level.Solution;
+            foreach (var n in level.Nails)
+            {
+                int step = -1;
+                for (int i = 0; i < sol.Count; i++) if (sol[i].Piece == n.Key) { step = i; break; }
+                if (step >= 0) list.Add((n.Key, n.Value, step - n.Value));
+            }
+            return list;
+        }
+
+        /* Easy slots with nails (other than 3 and 4, where it is a condition): search penalty per idle nail. */
+        public static double NailPenalty(Assessment a)
+        {
+            var spec = a.Candidate.Spec;
+            bool easy = spec.Genre == Genre.Tanitim || spec.Genre == Genre.Nefes || spec.Genre == Genre.Kolay;
+            if (!easy || spec.Slot == 3 || spec.Slot == 4) return 0;
+            return NailSlack(a.Candidate.Level).Count(x => x.slack > NailSlackMax) * .5;
+        }
+
+        static int MarginFor(Candidate c) =>
+            c.Spec.Genre == Genre.CokZor ? Math.Min(CokZorMarginMax, Math.Max(CokZorMarginMin, c.Params?.BombMargin ?? 0))
+                                          : DifficultyModel.Of(c.Spec.Genre).BombMargin;
+        /* Checkpoint 4: Orta, Zor and Çok zor get their timer from the fun estimate
+           (first-try win nearest the band's middle) with the time share floor 1.0. */
+        public const double SearchedTimeShareFloor = 1.0;
+        public static bool TimeSearched(Genre g) => g == Genre.Orta || g == Genre.Zor || g == Genre.CokZor;
         public const int IntroBombDigMin = 2, IntroBombDigMax = 3;
 
         public static Assessment Assess(Candidate c)
@@ -71,7 +109,9 @@ namespace ReverseSolver.Generation
                 if (!m.BombDigs.TryGetValue(b.Key, out var dig)) { a.Unfair.Add("bomba hiç kazılamıyor"); continue; }
                 if (spec.Genre == Genre.Tanitim && spec.NewThing == SlotSpec.Bomb && (dig.dig < IntroBombDigMin || dig.dig > IntroBombDigMax))
                     a.Unfair.Add($"bomba tanıtımında bomba {dig.dig} hamle uzakta (2–3 olmalı)");
-                d.SetBomb(level.Pieces[b.Key][0], DifficultyModel.Fuse(dig.dig, spec.Genre));
+                if (spec.Genre == Genre.Nefes && dig.dig < NefesMinDig)
+                    a.Unfair.Add($"nefeste bomba ilk hamlede çıkıyor (kazma {dig.dig}, en az {NefesMinDig})");
+                d.SetBomb(level.Pieces[b.Key][0], dig.dig + MarginFor(c));
             }
 
             // timer
@@ -93,7 +133,13 @@ namespace ReverseSolver.Generation
             m = StructureMetrics.Of(level);
             a.Structure = m;
             a.Report = DifficultyModel.Analyze(level, spec.Genre, m, double.NaN, first);
-            a.OutOfBand.AddRange(Filter(a.Report));
+            a.OutOfBand.AddRange(Filter(a.Report, spec.Genre));
+            if (spec.Genre == Genre.CokZor && level.Bombs.Count > 0 && !double.IsNaN(m.FuseMargin)
+                && (m.FuseMargin < CokZorMarginMin || m.FuseMargin > CokZorMarginMax))
+                a.OutOfBand.Add($"Bomba payı {m.FuseMargin:0} (fabrika hedefi {CokZorMarginMin}–{CokZorMarginMax})");
+            if (spec.Slot == 3 || spec.Slot == 4)
+                foreach (var n in NailSlack(level).Where(x => x.slack > NailSlackMax))
+                    a.Unfair.Add($"çivi süs: sayaç parçanın sırasından {n.slack} hamle önce bitiyor (en fazla {NailSlackMax})");
             if (CurveMatters(spec.Genre)) a.Curve = Curve.Of(level, CurveRuns);
 
             a.Unfair.AddRange(UnfairReasons(level, spec, m, a.FormulaTime, s));
@@ -106,9 +152,53 @@ namespace ReverseSolver.Generation
         public static readonly string[] InfoOnly = { "Süre payı", "Medyan oyuncunun kalan süresi" };
 
         /* Band rows a candidate is outside of, as text; empty when inside every band. */
-        public static List<string> Filter(DifficultyModel.Report report) =>
-            report.Measures.Where(r => r.HasBand && !r.InBand && !InfoOnly.Contains(r.Name))
+        public static List<string> Filter(DifficultyModel.Report report, Genre? genre = null) =>
+            report.Measures.Where(r => r.HasBand && !r.InBand && !InfoOnly.Contains(r.Name)
+                                       && !(genre == Genre.CokZor && r.Name == "Bomba payı"))   // the factory's 3-5, checked apart
                            .Select(r => $"{r.Name} {r.Value} (hedef {r.BandText})").ToList();
+
+        /* Checkpoint 4: the timer (5 s steps, from P = 1.0 up to 75 s) whose estimated first-try
+           win is nearest the band's middle among the ones whose early time-outs stay under the
+           cap. First-try win only grows with the timer, so a bisection finds the band's middle.
+           Returns null when no timer keeps early time-outs under the cap. */
+        public static FunSim.Result FitTimer(Assessment a, List<FunSim.Player> players, FunThresholds t, FunSim.Options options)
+        {
+            var d = a.Candidate.Draft;
+            var l = a.Candidate.Level;
+            double gs = l.Pieces.Count * DifficultyModel.SecondsPerPiece(a.Structure.ReadingPerMove, l.Bombs.Count > 0, a.Candidate.Spec.Slot == 1);
+            int lo = DifficultyModel.Ceil5(SearchedTimeShareFloor * gs), hi = DifficultyModel.MaxTime;
+            if (lo > hi) return null;
+            double target = ((t.FirstWin.Min ?? 0) + (t.FirstWin.Max ?? 1)) / 2;
+            var tried = new Dictionary<int, FunSim.Result>();
+            FunSim.Result At(int seconds)
+            {
+                if (tried.TryGetValue(seconds, out var r)) return r;
+                d.SetTimer(seconds);
+                return tried[seconds] = FunSim.Run(d.ToLevelData(), a.Candidate.Spec.Genre, players, options: options);
+            }
+            int a5 = lo / 5, b5 = hi / 5;
+            while (a5 < b5)                                              // smallest timer reaching the target
+            {
+                int m = (a5 + b5) / 2;
+                if (At(m * 5).FirstWinRate >= target) b5 = m; else a5 = m + 1;
+            }
+            int best = -1;
+            double bestOff = double.MaxValue;
+            foreach (int sec in new[] { a5 * 5 - 5, a5 * 5 }.Where(x => x >= lo && x <= hi))
+            {
+                var r = At(sec);
+                if (r.EarlyTimeoutRate > t.MaxEarlyTimeout + 1e-9) continue;
+                double off = Math.Abs(r.FirstWinRate - target);
+                if (off < bestOff) { bestOff = off; best = sec; }
+            }
+            if (best < 0)                                                // longer timers until early time-outs fit
+                for (int sec = a5 * 5 + 5; sec <= hi && best < 0; sec += 5)
+                    if (At(sec).EarlyTimeoutRate <= t.MaxEarlyTimeout + 1e-9) best = sec;
+            if (best < 0) { d.SetTimer(a.Candidate.Level.TimerSeconds); return null; }
+            d.SetTimer(best);
+            a.Candidate.Level = d.ToLevelData();
+            return tried[best];
+        }
 
         // ---- G3: the curve as a finalist condition ----------------------------------------------
 
@@ -130,7 +220,8 @@ namespace ReverseSolver.Generation
             foreach (var b in level.Bombs)
                 if (b.Value < MinFuse) u.Add($"fitil {b.Value} ({MinFuse}'dan kısa: ilk 5 hamlede patlayabilir)");
             double share = level.TimerSeconds / (level.Pieces.Count * s);
-            if (share < MinTimeShare) u.Add($"süre payı {share:0.00} (1,1'in altı)");
+            double floor = TimeSearched(spec.Genre) ? SearchedTimeShareFloor : MinTimeShare;
+            if (share < floor - 1e-9) u.Add($"süre payı {share:0.00} ({floor:0.0#}'in altı)");
             if (formulaTime > DifficultyModel.MaxTime || level.TimerSeconds > DifficultyModel.MaxTime) u.Add($"süre {formulaTime} sn (75'ten uzun)");
             int cell = Layout.CellSize(level.Width, level.Height);
             if (cell < Layout.MinTouchCell) u.Add($"hücre {cell} pt (44'ün altı)");

@@ -25,6 +25,8 @@ namespace ReverseSolver.Generation
            moves and the last 30 %, and by (1 + Knot) in between, so the opening and
            the final open up and the middle stays tight (G3's three acts). */
         public double Knot = 0.0, Ease = 0.0;
+        /* Çok zor in the factory: bomb margin 3-5 (PM A5); 0 = the genre's margin. */
+        public int BombMargin = 0;
         /* Relock (after the peel): lock flat seams again while the recorded order
            still solves the board, until at most OpenTarget of the inner seams are
            open and at most FreeMax pieces can leave on the first move. NaN / -1: off. */
@@ -526,10 +528,33 @@ namespace ReverseSolver.Generation
                 }
                 if (l.BoosterIntro?.Id != null && !c._intros.ContainsKey(l.BoosterIntro.Id)) c._intros[l.BoosterIntro.Id] = l.BoosterIntro;
             }
+            foreach (var kv in RedesignTexts)
+                if (c._intros.TryGetValue(kv.Key, out var i))
+                    c._intros[kv.Key] = new LevelIntro { Id = i.Id, Icon = i.Icon, Title = kv.Value.title, Body = kv.Value.body, Tip = kv.Value.tip };
             return c;
         }
 
         public LevelIntro IntroFor(string thing) => _intros.TryGetValue(thing, out var i)
             ? new LevelIntro { Id = i.Id, Icon = i.Icon, Title = i.Title, Body = i.Body, Tip = i.Tip } : null;
+
+        /* The redesigned set's cards (PM 2026-10-14 gece (2)): the web cards' meaning with Turkish
+           letters, and the references to other levels moved to the redesign calendar (hammer at 23).
+           Only the redesign set uses these; the live 40 keep their own cards. Overrides the web text
+           field by field (title, body, tip; null tip = no tip). */
+        public static readonly IReadOnlyDictionary<string, (string title, string body, string tip)> RedesignTexts =
+            new Dictionary<string, (string, string, string)>
+            {
+                [SlotSpec.Scissors] = ("Makas", "Makas iki parça arasındaki birleşimi keser ve o kenar dümdüz olur. Kesilen yerde artık hiçbir şey takılmaz, sıkışmış parça serbest kalır.",
+                                       "Makasa bas, sonra kesmek istediğin turuncu noktaya dokun."),
+                [SlotSpec.Wand] = ("Değnek", "Değnek resmi bozmadan tokmakların hangi tarafta olduğunu yeniden karıştırır. Tahta aynı kalır ama hangi parçanın kilitli olduğu tamamen değişir.",
+                                   "Tıkandığında yeni çıkış yönleri açar."),
+                [SlotSpec.Hammer] = ("Çekiç", "Çekiç seçtiğin parçayı kilitlerine bakmadan söküp atar. Çivili parçayı da bombalı parçayı da tek hamlede kaldırır.",
+                                     "Çekice bas, sonra kırmak istediğin parçaya dokun."),
+                [SlotSpec.Clock] = ("Saat", "Saat geri sayıma 20 saniye ekler.", "Süre daralınca en hızlı çözüm budur."),
+                [SlotSpec.Nail] = ("Çivili parça", "Üzerinde sayı olan parça çakılı ve sürüklenmez. Her hamlende sayı bir azalır. Sıfıra indiğinde çivi söker ve parça serbest kalır.",
+                                   "Şimdilik beklemekten başka çaren yok. 23. bölümde çekiç açılınca anında sökebileceksin."),
+                [SlotSpec.Bomb] = ("Bombalı parça", "Bombanın üzerindeki sayı bir fitildir ve her hamlende azalır. Sıfıra inerse bölüm biter. Artık boşta duran parçayı değil, bombanın yolunu açan parçayı aramalısın.",
+                                   null),
+            };
     }
 }

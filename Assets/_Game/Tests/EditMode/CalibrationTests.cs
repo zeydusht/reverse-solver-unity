@@ -60,9 +60,9 @@ namespace ReverseSolver.Core.Tests
         {
             var d = LevelDraft.New(4, 5);
             d.SetTimer(20);                              // 20 pieces x 1 s: share 1.0
-            Assert.That(Unfair(d, SlotSpec.For(10, Genre.Zor)), Has.Some.Contains("süre payı 1,00").Or.Some.Contains("süre payı 1.00"));
+            Assert.That(Unfair(d, SlotSpec.For(2, Genre.Kolay)), Has.Some.Contains("süre payı 1,00").Or.Some.Contains("süre payı 1.00"));
             d.SetTimer(25);
-            Assert.That(Unfair(d, SlotSpec.For(10, Genre.Zor)), Has.None.Contains("1,1'in altı"));
+            Assert.That(Unfair(d, SlotSpec.For(2, Genre.Kolay)), Has.None.Contains("1,1'in altı"));
         }
 
         [Test]

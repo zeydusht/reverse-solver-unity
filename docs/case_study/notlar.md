@@ -53,6 +53,58 @@ Kaynak: `docs/analiz/40_seviye_raporu.md`.
 - **Tek komutla build doğrulaması:** `Tools/verify_build.js` açılış kontrolünü, K1 çekişlerini, FPS'i ve kart yerleşimini sınıyor. Gerçek oyuncu tablosuna yalnızca açık bir bayrak ve `TEST_` adıyla yazıyor. Canlı Build 2'de kart kontrolü, başlık ile resim çerçevesi arasındaki 3,5 pt boşluğu yakaladı; düzeltme `a80868f`. Kaynak: `29e3ff0`, `f11b215`.
 - **Başsız Chrome'da GPU farkı:** Yazılımla çizim saniyede yaklaşık 3 kare verdi; bu hızla ne bölüm kazanılabiliyor ne de FPS ölçülebiliyor. Gerçek GPU'yla saniyede 60 kare. Kaynak: `2cc3836`.
 
+## 7. Faz 4: seviye fabrikası (13–14 Ekim 2026)
+
+Sayılar modelin çıktısıdır. **Keyif tahmini** 1000 sanal oyuncunun sonucudur ve gerçek oyuncunun yerini tutmaz; playtest'teki 👍/👎 bunu sınayacak.
+
+### Üretim
+- **"Dolu tahtayı soy":** Bütün dikişler kilitli başlar. Tahtadan parçalar çıkarılırken yalnızca gerçekten takılan dikişler düzlenir.
+  - Düzlemek hiçbir hamleyi geçersiz kılmaz, bu yüzden çıkış sırası seviyenin çözümü olur.
+  - 1000 adayın 1000'i oyunun kendi kurallarıyla çözüldü.
+  - Kaynak: `b4df3d6`.
+- **İlk sürüm açılışta zirve yapıyordu:**
+  - Kenardaki parçalar dışarı çıkarken kenar boyunca dikişleri açıyor ve ilk hamlede çok parça serbest kalıyordu.
+  - "Boşalan hücrelerden kaymayı" tercih eden ve oyunun ortasını sıkı tutan düğmeler eklendi (Sweep, Knot/Ease). Örneğin slot 14'te eğri uyumu 0,50'den 0,73'e çıktı.
+  - Kaynak: `1cddd9b`, `884e130`.
+
+### Keyif simülasyonu web verisiyle
+- Simülasyonun ilk denemede kazanma oranı ile gerçek web kazanma oranı arasında Spearman 0,73 çıktı (24 seviye). Ortalamalar 0,79 (sim) ve 0,82 (web).
+- Sim bombalı seviyelerde sert.
+- Kaynak: `2217bc3`, PRODUCT karar 2026-10-13 ~23:10.
+
+### Fabrikanın kendi çelişkileri (ve nasıl çözüldü)
+1. **Süre formülü ile ilk deneme bandı.**
+   - Bandı geçen Zor adaylar sim'de ilk denemede %73–85 kazanılıyordu, oysa hedef bant %35–65.
+   - Karar: band korundu; Orta/Zor/Çok zor'da süre her aday için simülasyonla seçiliyor (P ≥ 1,0).
+   - Kaynak: kontrol noktası 4, `b234794`.
+2. **Bant ile erken süre bitmesi.**
+   - Sim'de kaybeden oyuncu neredeyse hep "çok parça kalmışken süre bitti" diye kaybediyor. Zor bant ve %10 erken süre tavanı aynı anda tutmadı.
+   - Tavan Zor için %25'e, Çok zor için %35'e çıktı.
+   - Kaynak: kontrol noktası 4-b, `544d51f`.
+3. **Çok zor bombaları.**
+   - Bomba payı 2 olunca sim oyuncularının çoğu patlattı (ilk denemede %0–4 kazanma).
+   - Fabrikada Çok zor için bomba payı 3–5 yapıldı ve bomba zorunlu olmaktan çıktı.
+   - Kaynak: `544d51f`.
+4. **Sim ile web arasındaki fark (M-K4).**
+   - Zor seviyelerde fark (d) −18 puan çıktı: sim, web'den kötümser.
+   - Bu fark yorumlanamadı:
+     - web satırlarının yaklaşık yarısında booster kullanılmış, sim ise booster'sız oynuyor;
+     - Zor'da her seviyede 3–5 satır var.
+   - Bant kaydırılmadı. Kalibrasyon playtest'e kaldı ve booster'sız satırlarla yapılacak.
+
+### Ajanların bulduğu ama kodun bulamadığı
+- **Tasarımcı ajan:**
+  - Kart metinlerinde redesign takvimiyle çelişen atıflar buldu: çivi kartı "9. bölümde çekiç" diyordu, oysa çekiç 23'te.
+  - Booster kartlarında Türkçe karakter yoktu.
+  - Nefes slotlarındaki bombaların hepsi ilk hamlede çıkıyordu; beş slot aynı fikri işliyordu.
+  - Bazı finalistlerde çivi süstü: sayaç, parçanın sırası gelmeden çok önce bitiyordu.
+  - Hepsi kurala çevrildi: Nefes'te kazma ≥ 2, slot 3–4'te "çivi önemli", kartlar düzeltildi.
+  - Kaynak: `544d51f`, PRODUCT karar 2026-10-14 gece (2).
+- **Psikolog ajan:**
+  - Near-miss'i kendi talimatına göre eleme saydı ve 60 finalistten 3'ünü reddetti.
+  - PRODUCT'ta near-miss yalnızca sıralama ölçütü. PM bu çelişkiyi çözdü: o üç finalist sıralamanın sonunda kaldı.
+  - Anlatılacak nokta: ajanın kararı ürün kuralıyla çeliştiğinde ürün kuralı kazanır.
+
 ## 6. Henüz eksik olanlar
 
 Case study yazılmadan önce gerekenler:

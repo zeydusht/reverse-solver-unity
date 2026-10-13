@@ -18,6 +18,10 @@ namespace ReverseSolver.Generation
         public readonly List<Assessment> Passed = new List<Assessment>();
         public int Evaluated, Generated, LookAlikes;
         public int BandPassed;                                 // inside the bands and fair (curve aside)
+        /* Checkpoint 4: everything passed but the curve (fit 0.40 to 0.6); the slot's curve exception comes from here. */
+        public readonly List<Assessment> CurveNear = new List<Assessment>();
+        /* Orta only: fine with the early time-out cap relaxed to 10 % (used when the slot is short of two). */
+        public readonly List<Assessment> EarlyNear = new List<Assessment>();
         public double BestDistance = double.MaxValue;
         public Assessment Best;
         public double Ms;
@@ -98,6 +102,7 @@ namespace ReverseSolver.Generation
                 NailLate = r.NextDouble(),
                 Knot = r.NextDouble() * 3,
                 Ease = r.NextDouble(),
+                BombMargin = g == Genre.CokZor ? 3 + (int)(r.NextDouble() * 3) : 0,
             };
         }
 
@@ -111,6 +116,7 @@ namespace ReverseSolver.Generation
             q.NailLate = Math.Min(1, Math.Max(0, q.NailLate + N() * .2));
             q.Knot = Math.Max(0, q.Knot + N() * .5);
             q.Ease = Math.Min(1, Math.Max(0, q.Ease + N() * .2));
+            if (q.BombMargin > 0) q.BombMargin = Math.Min(5, Math.Max(3, q.BombMargin + (int)Math.Round(N())));
             return q;
         }
 
@@ -138,15 +144,32 @@ namespace ReverseSolver.Generation
                 if (c == null) continue;
                 res.Generated++;
                 var a = Calibration.Assess(c);
-                double d = BandDistance(a);
+                double d = BandDistance(a) + Calibration.NailPenalty(a);
                 bool firstOk = true;
-                if (players != null && a.Finalist)
+                bool nearCurve = a.Passed && !a.CurveOk && a.Curve != null && a.Curve.Fit >= .40;
+                if (players != null && (a.Finalist || nearCurve))
                 {
-                    var f = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: funOptions);
+                    FunSim.Result f;
+                    if (Calibration.TimeSearched(spec.Genre))
+                    {
+                        f = Calibration.FitTimer(a, players, t, funOptions);
+                        if (spec.Genre == Genre.Orta && a.Finalist && (f == null || !t.FirstWin.Contains(f.FirstWinRate)))
+                        {
+                            var relaxed = t.Relaxed();
+                            var g2 = Calibration.FitTimer(a, players, relaxed, funOptions);
+                            if (g2 != null && relaxed.FirstWin.Contains(g2.FirstWinRate) && g2.UnfairRate <= t.MaxUnfair
+                                && !res.EarlyNear.Any(k => Similarity.IsDuplicate(k.Candidate.Level, a.Candidate.Level)))
+                                res.EarlyNear.Add(a);
+                            if (f != null) Calibration.FitTimer(a, players, t, funOptions);       // back to the strict timer
+                        }
+                        if (f == null) { d += 10; elite.Add((d, p)); continue; }   // no timer keeps early time-outs under the cap
+                    }
+                    else f = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: funOptions);
                     double fw = f.FirstWinRate, lo = t.FirstWin.Min ?? 0, hi = t.FirstWin.Max ?? 1;
                     double off = fw < lo ? lo - fw : fw > hi ? fw - hi : 0;
                     d += off / .1 + (f.UnfairRate > t.MaxUnfair ? (f.UnfairRate - t.MaxUnfair) / .05 : 0);
                     firstOk = off == 0 && f.UnfairRate <= t.MaxUnfair;
+                    if (nearCurve && firstOk && !res.CurveNear.Any(k => Similarity.IsDuplicate(k.Candidate.Level, a.Candidate.Level))) res.CurveNear.Add(a);
                 }
                 if (d < res.BestDistance) { res.BestDistance = d; res.Best = a; }
                 elite.Add((d, p));
