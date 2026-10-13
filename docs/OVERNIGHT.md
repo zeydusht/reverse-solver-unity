@@ -1,3 +1,25 @@
+# Faz 4 gecesi — 13 → 14 Ekim 2026 (seviye fabrikası)
+
+Talimat (Zeyd): sabaha / ertesi güne kadar kendi başına; önce `docs/FAZ4_SEVIYE_FABRIKASI.md`, sonra Zeyd'e bağlı olmayan açık işler; Zeyd'e bağlı her şey aşağıdaki listede; bitince en üste "GECE BİTTİ".
+
+## Kaldığım yer
+- **Bitenler (main):** G1 üretici `b4df3d6` · plan `f8d6ecd`, `2369b2c` · G2 `1cddd9b` · G3 `884e130` · G3-ek · G4 `2217bc3` · G5 ajanlar `2217bc3` · G4-ek `23067ef` · G6 koşucu `bd1c5ff`. Unity 503/503.
+- **Şu an:** 40 slot "Derin" koşusu (`derin-20261013`, 7 paralel parça, 19:59'da başladı) → bitince birleştirme → ajan döngüsü (tasarımcı + psikolog) → PM kontrol noktası 4/5.
+- **Sıradaki:** G7 onay kuyruğu (editör "Onay" sekmesi) koşu sürerken yazılıyor; sonra G8 (`faz4-g8` dalında, bayraklar kapalı), bağımsız inceleme, RAPOR; sonra P1 playtest taslağı, P2 B6 Excel, P3 case study notları.
+- **Commit'lenmemiş:** yok.
+
+## Onay kuyruğu
+Henüz yok (40 slot koşusu sürüyor).
+
+## Zeyd'in yapacakları (hiçbiri bu geceyi bekletmez)
+1. Sabah ilk iş bu bölümü oku; "GECE BİTTİ" varsa önce onu.
+2. Build 2 telefon oturumu (`docs/TELEFON_TESTI.md`, ~25 dk). Build 3'ün tek engeli bu.
+3. Onay kuyruğu hazır olunca: editörde oyna, Onayla / Reddet + not (talimat burada yazılacak).
+4. Sabah: Zorluk paneli turu, seviye editörü kabulü, CSV'yi Excel'de açma, MCP düğmesi, gerçek görseller, izin listesi kararı, saatlik görevi kapatma.
+5. Gelecek: `docs/sql/004_keyif.sql` kararı ve "yeni seti canlıya al" komutu yalnızca sende; Actions'taki eski re-run'ı iptal et; playtest öncesi 4G teyidi.
+
+---
+
 # Sabah ek çalışması — 13 Ekim 2026, 07:00–08:45 (Kanal A)
 
 Zeyd "2–3 saat daha çalışın" dedi. İşleri PM sıraladı (S1–S6, T1–T3, U1–U2, V1–V3); hepsi bitti ve main'e push edildi. **Yayın değişmedi:** gh-pages hâlâ Build 2 (`47328ff`). Bu işlerden oyuna girenler (S1, S5) Build 3'te yayına çıkacak.
