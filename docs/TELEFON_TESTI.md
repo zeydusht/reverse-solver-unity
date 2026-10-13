@@ -46,6 +46,8 @@
    - Ardından ofset/gereken (pt), hız (pt/s) ve basışın içeriden mi dışarıdan mı olduğu.
 6. **Getir:** 10 denemeden kaçı **tek seferde** çıktı (hedef 9 ve üstü). Çıkmayanlarda o satır ne yazıyordu.
 
+> Bilgisayarda (başsız Chrome, dokunma olaylarıyla) 12 çekişin 12'si tek seferde çıktı. Asıl ölçüt iPhone sonucu; sayıyı sen ölç.
+
 ## 4. Görselli tasarımlar (G1)
 
 1. `br/?debug=1&set=designs&lv=D01` aç (gün batımı test resmi).
