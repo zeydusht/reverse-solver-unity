@@ -140,7 +140,7 @@ namespace ReverseSolver.Generation
         {
             public LevelDraft Draft;
             public int Slot;
-            public string Candidate, Status = Finalist, Genre, Aha, Psych, Params;
+            public string Candidate, Status = Finalist, Genre, Aha, Psych, Params, Curve;
             public uint Seed;
             public readonly Dictionary<string, double> Scores = new Dictionary<string, double>();
             public readonly List<string> Notes = new List<string>();
@@ -164,6 +164,7 @@ namespace ReverseSolver.Generation
                 };
                 e.Draft.Id = f.Candidate.Id;
                 e.Draft.Genre = o.Spec.Genre;
+                e.Curve = f.Assessment.Curve != null && f.Assessment.Curve.Defined ? f.Assessment.Curve.Spark() : null;
                 Score(e, f);
                 Entries.Add(e);
             }
@@ -217,7 +218,7 @@ namespace ReverseSolver.Generation
                 string level = w.ToString();
                 var f = new JsonWriter();
                 f.BeginObject().Field("slot", e.Slot).Field("candidate", e.Candidate).Field("seed", unchecked((int)e.Seed))
-                 .Field("status", e.Status).Field("genre", e.Genre).Field("params", e.Params).Field("aha", e.Aha).Field("psych", e.Psych);
+                 .Field("status", e.Status).Field("genre", e.Genre).Field("params", e.Params).Field("aha", e.Aha).Field("psych", e.Psych).Field("curve", e.Curve);
                 f.Key("scores").BeginObject();
                 foreach (var kv in e.Scores) f.Key(kv.Key).Raw(kv.Value.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 f.EndObject();
@@ -245,7 +246,7 @@ namespace ReverseSolver.Generation
                 {
                     e.Slot = Int(f, "slot"); e.Candidate = Str(f, "candidate"); e.Seed = unchecked((uint)Int(f, "seed"));
                     e.Status = Str(f, "status") ?? Finalist; e.Genre = Str(f, "genre"); e.Params = Str(f, "params");
-                    e.Aha = Str(f, "aha"); e.Psych = Str(f, "psych");
+                    e.Aha = Str(f, "aha"); e.Psych = Str(f, "psych"); e.Curve = Str(f, "curve");
                     if (f.TryGet("scores", out var sc)) foreach (var kv in sc.Members) e.Scores[kv.Key] = kv.Value.AsNumber;
                     if (f.TryGet("notes", out var notes)) foreach (var n in notes.Items) e.Notes.Add(n.AsString);
                 }
