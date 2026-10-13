@@ -18,6 +18,8 @@ namespace ReverseSolver.Generation
         public readonly List<Assessment> Passed = new List<Assessment>();
         public int Evaluated, Generated, LookAlikes;
         public int BandPassed;                                 // inside the bands and fair (curve aside)
+        /* Checkpoint 4: everything passed but the curve (fit 0.40 to 0.6); the slot's curve exception comes from here. */
+        public readonly List<Assessment> CurveNear = new List<Assessment>();
         public double BestDistance = double.MaxValue;
         public Assessment Best;
         public double Ms;
@@ -140,13 +142,21 @@ namespace ReverseSolver.Generation
                 var a = Calibration.Assess(c);
                 double d = BandDistance(a);
                 bool firstOk = true;
-                if (players != null && a.Finalist)
+                bool nearCurve = a.Passed && !a.CurveOk && a.Curve != null && a.Curve.Fit >= .40;
+                if (players != null && (a.Finalist || nearCurve))
                 {
-                    var f = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: funOptions);
+                    FunSim.Result f;
+                    if (Calibration.TimeSearched(spec.Genre))
+                    {
+                        f = Calibration.FitTimer(a, players, t, funOptions);
+                        if (f == null) { d += 10; elite.Add((d, p)); continue; }   // no timer keeps early time-outs under the cap
+                    }
+                    else f = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: funOptions);
                     double fw = f.FirstWinRate, lo = t.FirstWin.Min ?? 0, hi = t.FirstWin.Max ?? 1;
                     double off = fw < lo ? lo - fw : fw > hi ? fw - hi : 0;
                     d += off / .1 + (f.UnfairRate > t.MaxUnfair ? (f.UnfairRate - t.MaxUnfair) / .05 : 0);
                     firstOk = off == 0 && f.UnfairRate <= t.MaxUnfair;
+                    if (nearCurve && firstOk && !res.CurveNear.Any(k => Similarity.IsDuplicate(k.Candidate.Level, a.Candidate.Level))) res.CurveNear.Add(a);
                 }
                 if (d < res.BestDistance) { res.BestDistance = d; res.Best = a; }
                 elite.Add((d, p));

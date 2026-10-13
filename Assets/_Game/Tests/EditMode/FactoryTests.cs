@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using ReverseSolver.Core;
@@ -14,22 +15,62 @@ namespace ReverseSolver.Core.Tests
 
         static FactoryOptions Quick => new FactoryOptions { BudgetEasy = 40, BandWant = 4, Players = 200, Finalists = 3 };
 
+        /* Checkpoint 4 thresholds (PRODUCT.md "Keyif eşikleri (kontrol noktası 4)"). */
         [Test]
         public void ThresholdsNameWhatFails()
         {
-            var t = FunThresholds.For(Genre.Zor);
-            // Zor: keyif >= 85, total frustration <= 15, unfair <= 5, first try 35-65
-            var ok = new FunSim.Result { Players = 100, Enjoyed = 86, Frustrated = 14, HardFrustrated = 14, WinFirst = 50, WinBy3 = 86, NearMiss = 10 };
-            Assert.That(t.Check(ok), Is.Empty, "14 % frustration passes on Zor; near-miss never filters");
-            var bad = new FunSim.Result { Players = 100, Enjoyed = 80, Frustrated = 16, HardFrustrated = 16, WinFirst = 76, WinBy3 = 84, NearMiss = 10 };
+            var t = FunThresholds.For(Genre.Zor);                 // keyif >= 70, total <= 30, unfair <= 5, early time-out <= 10, first try 35-65
+            var ok = new FunSim.Result { Players = 100, Enjoyed = 70, Frustrated = 30, HardFrustrated = 30, WinFirst = 50, WinBy3 = 70, NearMiss = 10, EarlyTimeout = 10 };
+            Assert.That(t.Check(ok), Is.Empty, "Zor: 30 % frustration and 10 % early time-outs pass; near-miss never filters");
+            var bad = new FunSim.Result { Players = 100, Enjoyed = 69, Frustrated = 31, HardFrustrated = 31, WinFirst = 76, WinBy3 = 69, NearMiss = 10, EarlyTimeout = 11 };
             var why = t.Check(bad);
-            Assert.That(why, Has.Some.StartsWith("keyif %80"));
-            Assert.That(why, Has.Some.StartsWith("hayal kırıklığı %16"));
+            Assert.That(why, Has.Some.StartsWith("keyif %69"));
+            Assert.That(why, Has.Some.StartsWith("hayal kırıklığı %31"));
             Assert.That(why, Has.Some.StartsWith("ilk deneme %76"));
+            Assert.That(why, Has.Some.StartsWith("erken süre bitmesi %11"));
             foreach (var g in GenreExt.All)
             {
                 var unfair = new FunSim.Result { Players = 100, Enjoyed = 94, Frustrated = 6, UnfairFrustrated = 6, WinFirst = 97, WinBy3 = 98 };
                 Assert.That(FunThresholds.For(g).Check(unfair), Has.Some.StartsWith("haksız hayal kırıklığı %6"), g.ToString());
+            }
+            Assert.That(FunThresholds.For(Genre.Kolay).MaxEarlyTimeout, Is.EqualTo(1), "T/N/K unchanged: no early time-out cap");
+        }
+
+        /* Checkpoint 4: a searched timer may go down to P = 1.0 (T/N/K keep 1.1). */
+        [Test]
+        public void SearchedTimerFloorIsOne()
+        {
+            var d = LevelDraft.New(5, 5);                        // 25 pieces
+            d.SetTimer(49);
+            List<string> U(LevelDraft draft, Genre g)
+            {
+                var l = draft.ToLevelData();
+                return Calibration.UnfairReasons(l, SlotSpec.For(g == Genre.Zor ? 14 : 2, g), StructureMetrics.Of(l), l.TimerSeconds, 2.0);
+            }
+            // s = 2.0 s/piece: 49 s → P 0.98, 50 s → P 1.00
+            Assert.That(U(d, Genre.Zor), Has.Some.Contains("süre payı 0,98").Or.Some.Contains("süre payı 0.98"));
+            d.SetTimer(50);
+            Assert.That(U(d, Genre.Zor), Has.None.Contains("süre payı"));
+            Assert.That(U(d, Genre.Kolay), Has.Some.Contains("süre payı"), "Kolay keeps the 1.1 floor");
+        }
+
+        /* Checkpoint 4: at most one curve exception, only where the slot is short of two finalists. */
+        [Test]
+        public void CurveExceptionOnlyWhenShortAndAtMostOne()
+        {
+            var o = Factory.RunSlot(FactoryPlan.Slot(14), new FactoryOptions { BudgetZor = 120, BandWant = 3, Players = 200, SearchPlayers = 100, MemoryTable = false }, Catalog);
+            var accepted = o.Checked.Where(f => f.Accepted).ToList();
+            int exceptions = accepted.Count(f => f.CurveException);
+            TestContext.WriteLine($"{o.Search} → {accepted.Count} kabul, {exceptions} eğri istisnası; erken bakılan {o.Search.CurveNear.Count}");
+            Assert.That(exceptions, Is.LessThanOrEqualTo(1));
+            if (exceptions == 1) Assert.That(accepted.Count(f => !f.CurveException), Is.LessThan(2));
+            foreach (var f in accepted.Where(f => f.CurveException)) Assert.That(f.Assessment.Curve.Fit, Is.GreaterThanOrEqualTo(.40));
+            foreach (var f in o.Checked)
+            {
+                var l = f.Candidate.Level;
+                double gs = l.Pieces.Count * DifficultyModel.SecondsPerPiece(f.Assessment.Structure.ReadingPerMove, l.Bombs.Count > 0, false);
+                Assert.That(l.TimerSeconds / gs, Is.GreaterThanOrEqualTo(1.0 - 1e-9), f.Candidate.Id + ": P >= 1.0");
+                Assert.That(l.TimerSeconds, Is.LessThanOrEqualTo(75));
             }
         }
 

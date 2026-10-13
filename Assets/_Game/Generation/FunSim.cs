@@ -97,6 +97,9 @@ namespace ReverseSolver.Generation
             public bool Learning;
             public double Memory;
             public int UnfairFrustrated, HardFrustrated, FrustratedAfterNearMiss;
+            /* Players whose clock ran out with >= 25 % of the pieces left in some attempt. */
+            public int EarlyTimeout;
+            public double EarlyTimeoutRate => (double)EarlyTimeout / Players;
             public double UnfairRate => (double)UnfairFrustrated / Players;
             public double HardRate => (double)HardFrustrated / Players;
             public readonly Dictionary<string, int> FrustrationWhy = new Dictionary<string, int>();
@@ -170,6 +173,7 @@ namespace ReverseSolver.Generation
                 if (aha) res.AhaPlayers++;
                 stars.Add(won ? winStars : 0);
 
+                if (why.Contains("çok parça kala süre bitti")) res.EarlyTimeout++;
                 if (why.Count > 0)
                 {
                     res.Frustrated++;

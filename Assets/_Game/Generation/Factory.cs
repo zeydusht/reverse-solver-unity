@@ -35,6 +35,8 @@ namespace ReverseSolver.Generation
     public sealed class FunThresholds
     {
         public double MinEnjoy = .90, MaxFrustration = .05, MaxUnfair = .05;
+        /* Checkpoint 4: players whose clock ran out with >= 25 % of the pieces left (O/Z/ÇZ); 1 = no cap. */
+        public double MaxEarlyTimeout = 1;
         public Band FirstWin, NearMiss;
 
         public static FunThresholds For(Genre g)
@@ -45,9 +47,10 @@ namespace ReverseSolver.Generation
                 case Genre.Tanitim: t.FirstWin = new Band(.95, null); t.NearMiss = new Band(0, .05); break;
                 case Genre.Nefes: t.FirstWin = new Band(.90, null); t.NearMiss = new Band(0, .05); break;
                 case Genre.Kolay: t.FirstWin = new Band(.80, 1.0); t.NearMiss = new Band(0, .05); break;
-                case Genre.Orta: t.FirstWin = new Band(.60, .90); t.NearMiss = new Band(.05, .15); break;
-                case Genre.Zor: t.MinEnjoy = .85; t.MaxFrustration = .15; t.FirstWin = new Band(.35, .65); t.NearMiss = new Band(.15, .30); break;
-                default: t.MinEnjoy = .75; t.MaxFrustration = .25; t.FirstWin = new Band(.15, .40); t.NearMiss = new Band(.30, .50); break;
+                // checkpoint 4 (PRODUCT.md "Keyif eşikleri (kontrol noktası 4)", 2026-10-14)
+                case Genre.Orta: t.MinEnjoy = .85; t.MaxFrustration = .10; t.MaxEarlyTimeout = .05; t.FirstWin = new Band(.60, .90); t.NearMiss = new Band(.05, .15); break;
+                case Genre.Zor: t.MinEnjoy = .70; t.MaxFrustration = .30; t.MaxEarlyTimeout = .10; t.FirstWin = new Band(.35, .65); t.NearMiss = new Band(.15, .30); break;
+                default: t.MinEnjoy = .60; t.MaxFrustration = .40; t.MaxEarlyTimeout = .15; t.FirstWin = new Band(.15, .40); t.NearMiss = new Band(.30, .50); break;
             }
             return t;
         }
@@ -59,6 +62,7 @@ namespace ReverseSolver.Generation
             if (f.FrustrationRate > MaxFrustration) u.Add($"hayal kırıklığı %{f.FrustrationRate * 100:0.0} (≤ %{MaxFrustration * 100:0})");
             if (f.UnfairRate > MaxUnfair) u.Add($"haksız hayal kırıklığı %{f.UnfairRate * 100:0.0} (≤ %{MaxUnfair * 100:0})");
             if (!FirstWin.Contains(f.FirstWinRate)) u.Add($"ilk deneme %{f.FirstWinRate * 100:0} (hedef {Pct(FirstWin)})");
+            if (f.EarlyTimeoutRate > MaxEarlyTimeout + 1e-9) u.Add($"erken süre bitmesi %{f.EarlyTimeoutRate * 100:0.0} (≤ %{MaxEarlyTimeout * 100:0})");
             return u;
         }
 
@@ -84,6 +88,8 @@ namespace ReverseSolver.Generation
         public Candidate Candidate => Assessment.Candidate;
         public FunThresholds Thresholds;
         public FunSim.Result[] ByMemory;              // m = 0 / 0.5 / 1.0 (the report shows them side by side)
+        /* Checkpoint 4: let in although the curve fit is under 0.6 (>= 0.40), one per slot with < 2 finalists. */
+        public bool CurveException;
 
         /* PM's order: first-try win close to the band's middle, then fun, then near-miss close to its band. */
         public (double, double, double) RankKey =>
@@ -120,6 +126,15 @@ namespace ReverseSolver.Generation
                     f.ByMemory = new[] { 0, .5, 1.0 }.Select(m => m == .5 ? f.Fun : FunSim.Run(a.Candidate.Level, spec.Genre, players, options: fun.With(m))).ToArray();
                 outc.Checked.Add(f);
             }
+            // curve exception: a slot short of two finalists may take its best near-curve candidate (one)
+            if (outc.Chosen.Count < 2)
+                foreach (var a in outc.Search.CurveNear.OrderByDescending(x => x.Curve.Fit))
+                {
+                    var f = new Finalist { Assessment = a, Thresholds = t, CurveException = true, Fun = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: fun) };
+                    f.Psych.AddRange(t.Check(f.Fun));
+                    outc.Checked.Add(f);
+                    if (f.Accepted) break;
+                }
             outc.Ms = sw.Elapsed.TotalMilliseconds;
             return outc;
         }
@@ -164,6 +179,7 @@ namespace ReverseSolver.Generation
                 };
                 e.Draft.Id = f.Candidate.Id;
                 e.Draft.Genre = o.Spec.Genre;
+                if (f.CurveException) e.Notes.Add("eğri istisnası: uyum " + f.Assessment.Curve.Fit.ToString("0.00") + " (< 0,6)");
                 e.Curve = f.Assessment.Curve != null && f.Assessment.Curve.Defined ? f.Assessment.Curve.Spark() : null;
                 Score(e, f);
                 Entries.Add(e);
@@ -189,6 +205,9 @@ namespace ReverseSolver.Generation
             e.Scores["darbogaz"] = m.Bottlenecks10;
             e.Scores["govde"] = l.Pieces.Count;
             e.Scores["sure"] = l.TimerSeconds;
+            e.Scores["erkenSure"] = Math.Round(f.Fun.EarlyTimeoutRate, 3);
+            e.Scores["p"] = Math.Round(l.TimerSeconds / (l.Pieces.Count * DifficultyModel.SecondsPerPiece(m.ReadingPerMove, l.Bombs.Count > 0, e.Slot == 1)), 2);
+            if (f.CurveException) e.Scores["egriIstisnasi"] = 1;
             if (a.Curve != null && a.Curve.Defined) { e.Scores["uyum"] = Math.Round(a.Curve.Fit, 2); e.Scores["zirve"] = Math.Round(a.Curve.PeakAt, 2); }
         }
 

@@ -51,6 +51,10 @@ namespace ReverseSolver.Generation
         public const double MinTimeShare = 1.1, IntroTimeShare = 2.0;
         /* A fuse of 5 or less can go off within the first five moves (PM, option 5). */
         public const int MinFuse = 6;
+        /* Checkpoint 4: Orta, Zor and Çok zor get their timer from the fun estimate
+           (first-try win nearest the band's middle) with the time share floor 1.0. */
+        public const double SearchedTimeShareFloor = 1.0;
+        public static bool TimeSearched(Genre g) => g == Genre.Orta || g == Genre.Zor || g == Genre.CokZor;
         public const int IntroBombDigMin = 2, IntroBombDigMax = 3;
 
         public static Assessment Assess(Candidate c)
@@ -110,6 +114,49 @@ namespace ReverseSolver.Generation
             report.Measures.Where(r => r.HasBand && !r.InBand && !InfoOnly.Contains(r.Name))
                            .Select(r => $"{r.Name} {r.Value} (hedef {r.BandText})").ToList();
 
+        /* Checkpoint 4: the timer (5 s steps, from P = 1.0 up to 75 s) whose estimated first-try
+           win is nearest the band's middle among the ones whose early time-outs stay under the
+           cap. First-try win only grows with the timer, so a bisection finds the band's middle.
+           Returns null when no timer keeps early time-outs under the cap. */
+        public static FunSim.Result FitTimer(Assessment a, List<FunSim.Player> players, FunThresholds t, FunSim.Options options)
+        {
+            var d = a.Candidate.Draft;
+            var l = a.Candidate.Level;
+            double gs = l.Pieces.Count * DifficultyModel.SecondsPerPiece(a.Structure.ReadingPerMove, l.Bombs.Count > 0, a.Candidate.Spec.Slot == 1);
+            int lo = DifficultyModel.Ceil5(SearchedTimeShareFloor * gs), hi = DifficultyModel.MaxTime;
+            if (lo > hi) return null;
+            double target = ((t.FirstWin.Min ?? 0) + (t.FirstWin.Max ?? 1)) / 2;
+            var tried = new Dictionary<int, FunSim.Result>();
+            FunSim.Result At(int seconds)
+            {
+                if (tried.TryGetValue(seconds, out var r)) return r;
+                d.SetTimer(seconds);
+                return tried[seconds] = FunSim.Run(d.ToLevelData(), a.Candidate.Spec.Genre, players, options: options);
+            }
+            int a5 = lo / 5, b5 = hi / 5;
+            while (a5 < b5)                                              // smallest timer reaching the target
+            {
+                int m = (a5 + b5) / 2;
+                if (At(m * 5).FirstWinRate >= target) b5 = m; else a5 = m + 1;
+            }
+            int best = -1;
+            double bestOff = double.MaxValue;
+            foreach (int sec in new[] { a5 * 5 - 5, a5 * 5 }.Where(x => x >= lo && x <= hi))
+            {
+                var r = At(sec);
+                if (r.EarlyTimeoutRate > t.MaxEarlyTimeout + 1e-9) continue;
+                double off = Math.Abs(r.FirstWinRate - target);
+                if (off < bestOff) { bestOff = off; best = sec; }
+            }
+            if (best < 0)                                                // longer timers until early time-outs fit
+                for (int sec = a5 * 5 + 5; sec <= hi && best < 0; sec += 5)
+                    if (At(sec).EarlyTimeoutRate <= t.MaxEarlyTimeout + 1e-9) best = sec;
+            if (best < 0) { d.SetTimer(a.Candidate.Level.TimerSeconds); return null; }
+            d.SetTimer(best);
+            a.Candidate.Level = d.ToLevelData();
+            return tried[best];
+        }
+
         // ---- G3: the curve as a finalist condition ----------------------------------------------
 
         public const double MinCurveFit = .6;
@@ -130,7 +177,8 @@ namespace ReverseSolver.Generation
             foreach (var b in level.Bombs)
                 if (b.Value < MinFuse) u.Add($"fitil {b.Value} ({MinFuse}'dan kısa: ilk 5 hamlede patlayabilir)");
             double share = level.TimerSeconds / (level.Pieces.Count * s);
-            if (share < MinTimeShare) u.Add($"süre payı {share:0.00} (1,1'in altı)");
+            double floor = TimeSearched(spec.Genre) ? SearchedTimeShareFloor : MinTimeShare;
+            if (share < floor - 1e-9) u.Add($"süre payı {share:0.00} ({floor:0.0#}'in altı)");
             if (formulaTime > DifficultyModel.MaxTime || level.TimerSeconds > DifficultyModel.MaxTime) u.Add($"süre {formulaTime} sn (75'ten uzun)");
             int cell = Layout.CellSize(level.Width, level.Height);
             if (cell < Layout.MinTouchCell) u.Add($"hücre {cell} pt (44'ün altı)");
