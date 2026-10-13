@@ -3,9 +3,8 @@
 Talimat (Zeyd): sabaha / ertesi güne kadar kendi başına; önce `docs/FAZ4_SEVIYE_FABRIKASI.md`, sonra Zeyd'e bağlı olmayan açık işler; Zeyd'e bağlı her şey aşağıdaki listede; bitince en üste "GECE BİTTİ".
 
 ## Kaldığım yer
-- **Bitenler (main):** G1 üretici `b4df3d6` · plan `f8d6ecd`, `2369b2c` · G2 `1cddd9b` · G3 `884e130` · G3-ek · G4 `2217bc3` · G5 ajanlar `2217bc3` · G4-ek `23067ef` · G6 koşucu `bd1c5ff`. Unity 503/503.
-- **Şu an:** 40 slot "Derin" koşusu (`derin-20261013`, 7 paralel parça, 19:59'da başladı) → bitince birleştirme → ajan döngüsü (tasarımcı + psikolog) → PM kontrol noktası 4/5.
-- **Sıradaki:** G7 onay kuyruğu (editör "Onay" sekmesi) koşu sürerken yazılıyor; sonra G8 (`faz4-g8` dalında, bayraklar kapalı), bağımsız inceleme, RAPOR; sonra P1 playtest taslağı, P2 B6 Excel, P3 case study notları.
+- **Bitenler (main):** G1 `b4df3d6` · plan `f8d6ecd`, `2369b2c` · G2 `1cddd9b` · G3 `884e130` · G4 `2217bc3` · G5 ajanlar · G4-ek `23067ef` · G6 `bd1c5ff` · G7 onay sekmesi `95eeb35` · kontrol noktası 4 `b234794` · 4-b `544d51f` · T/N/K ilk koşu `74869e6` · P1 playtest taslağı `0e8216a` · P2 Excel `97f2ea5` · P3 case study `6b26340`. G8 `faz4-g8` dalında `55ecbe4` (bayraklar kapalı; Unity koşusu bekliyor).
+- **Şu an:** T/N/K yeniden (`kolay2-20261014`) ve O/Z/ÇZ 20 slot "Derin" (`ozc2-20261014`, 8 paralel parça) koşuları sürüyor (20:51'de başladı, en fazla 8 sa). Bitince: birleştirme → ajanlar (tasarımcı + psikolog) → PM kontrol noktası 5 → bağımsız inceleme → RAPOR → onay talimatı.
 - **Commit'lenmemiş:** yok.
 
 ## Onay kuyruğu
