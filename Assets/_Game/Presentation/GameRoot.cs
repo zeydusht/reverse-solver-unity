@@ -174,6 +174,7 @@ namespace ReverseSolver.Presentation
             _images.Get(nextImage);
             SendPendingFun();                                  // G8: a won row never waits past the next level
             _funAnswered = false;
+            _askFun = false;
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
             _rowId = _telemetry.NewRowId();
             _save.Store(_log);                                 // the attempt counter, before anything can go wrong
@@ -198,8 +199,13 @@ namespace ReverseSolver.Presentation
             if (e.Kind != EventKind.Finished) return;
             _log.Add(_session.Record);
             _save.Store(_log);
-            // G8: a won level waits for the 👍/👎 answer (or the card closing) before its row goes
-            if (SetFlags.AskFun && e.Outcome == Outcome.Win) _pendingFun = (_session.Record, _rowId);
+            // G8: the attempt that gets the 👍/👎 question waits for the answer (or the card closing)
+            // before its row goes; asked once per level, on the win or after the third loss
+            string levelId = _session.Level.Id;
+            bool ask = SetFlags.AskFun && FunAsk.ShouldAsk(e.Outcome, _save.LossesOf(levelId), _save.WasFunAsked(levelId));
+            if (SetFlags.AskFun && (e.Outcome == Outcome.Time || e.Outcome == Outcome.Bomb)) _save.RecordLoss(levelId);
+            _askFun = ask;
+            if (ask) { _save.MarkFunAsked(levelId); _pendingFun = (_session.Record, _rowId); }
             else _telemetry.Finished(_session.Record, _rowId);
             if (Host.Debug) Debug.Log("[attempt] " + _session.Record);
             _drag?.Cancel();
@@ -327,12 +333,12 @@ namespace ReverseSolver.Presentation
             OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
                 PlayOverride.Active ? "Editöre dön" : $"Tebrikler, {_set.Levels.Count} bölüm bitti",
                 _images.Get(_session.Level.Image),          // G1-b: only a picture that really arrived
-                SetFlags.AskFun, _funAnswered));
+                _askFun, _funAnswered));
 
         // ---- G8: the 👍/👎 answer (SetFlags.AskFun) -------------------------------------------
 
         (AttemptRecord record, string rowId)? _pendingFun;
-        bool _funAnswered;
+        bool _funAnswered, _askFun;
 
         /* The held row goes out, with the answer when there is one. */
         void SendPendingFun(int? answer = null)

@@ -46,6 +46,9 @@ namespace ReverseSolver.Core
         public string Install { get; private set; }
         public Dictionary<string, int> Attempts { get; } = new Dictionary<string, int>();
         public Dictionary<string, int> Best { get; } = new Dictionary<string, int>();
+        /* Faz 4 G8 (👍/👎, SetFlags.AskFun): lost attempts per level and whether the question was asked. */
+        public Dictionary<string, int> Losses { get; } = new Dictionary<string, int>();
+        public Dictionary<string, int> FunAsked { get; } = new Dictionary<string, int>();
 
         public SaveData(IKeyValueStore store, Func<string> newId)
         {
@@ -60,6 +63,25 @@ namespace ReverseSolver.Core
             }
             ReadCounts("attempts", Attempts);
             ReadCounts("best", Best);
+            ReadCounts("losses", Losses);
+            ReadCounts("fun_asked", FunAsked);
+        }
+
+        public int LossesOf(string levelId) => Losses.TryGetValue(levelId, out int n) ? n : 0;
+        public bool WasFunAsked(string levelId) => FunAsked.ContainsKey(levelId);
+
+        public void RecordLoss(string levelId)
+        {
+            Losses[levelId] = LossesOf(levelId) + 1;
+            _store.Set(Key("losses"), Write(Losses));
+            _store.Save();
+        }
+
+        public void MarkFunAsked(string levelId)
+        {
+            FunAsked[levelId] = 1;
+            _store.Set(Key("fun_asked"), Write(FunAsked));
+            _store.Save();
         }
 
         void ReadCounts(string name, Dictionary<string, int> into)
