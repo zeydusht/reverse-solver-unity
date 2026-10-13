@@ -1,6 +1,6 @@
-# Sabah ek çalışması — 13 Ekim 2026, 07:00–08:00 (Kanal A)
+# Sabah ek çalışması — 13 Ekim 2026, 07:00–08:30 (Kanal A)
 
-Zeyd "2–3 saat daha çalışın" dedi. İşleri PM sıraladı (S1–S6, T1–T3); hepsi bitti ve main'e push edildi. **Yayın değişmedi:** gh-pages hâlâ Build 2 (`47328ff`). Bu işlerden oyuna girenler (S1, S5) Build 3'te yayına çıkacak.
+Zeyd "2–3 saat daha çalışın" dedi. İşleri PM sıraladı (S1–S6, T1–T3, U1–U2); hepsi bitti ve main'e push edildi. **Yayın değişmedi:** gh-pages hâlâ Build 2 (`47328ff`). Bu işlerden oyuna girenler (S1, S5) Build 3'te yayına çıkacak.
 
 | İş | Commit | Sonuç |
 |---|---|---|
@@ -11,7 +11,9 @@ Zeyd "2–3 saat daha çalışın" dedi. İşleri PM sıraladı (S1–S6, T1–T
 | S5 kart boşluğu | `a80868f` | Resmin üstüne 8 pt boşluk eklendi; Build 3'te yayına çıkacak. |
 | S6 editör | `e8c384c` | Kırpma kaydırıcıları Geri al'dan sonra doğru değere dönüyor; klasörden görsel atama geri alınabiliyor. Bunun için otomatik test yok, senin editör turunda kontrol edilecek. |
 | T1 model | `9978688` | Tanıtım ve Nefes türlerinde artık bombaya izin var (bomba payı 8 ve üstü). L21'in hedef dışı ölçü sayısı 6'dan 5'e indi. Unity'siz testler 454/454. |
-| T2 K1 ve FPS (PC) | bu commit | Canlı Build 2'de, bilgisayarda gerçek GPU ile, 375×667, dokunma olaylarıyla: **12 kenar çekişinin 12'si tek seferde çıktı.** L01'de 5, L40'ta 7 çekiş; üçü tahtanın dışından tutularak, üçü fiskeyle. 10 sn sürekli sürüklemede L40 ve D02'de saniyede ortalama 59,9 kare, en düşük 58,5. Bu ölçüm iPhone ölçütünün yerini tutmaz. `docs/screens/k1/K1_pulls_pc_375x667.png` |
+| T2 K1 ve FPS (PC) | `71f57ba` | Canlı Build 2'de, bilgisayarda gerçek GPU ile, 375×667, dokunma olaylarıyla: **12 kenar çekişinin 12'si tek seferde çıktı.** L01'de 5, L40'ta 7 çekiş; üçü tahtanın dışından tutularak, üçü fiskeyle. 10 sn sürekli sürüklemede L40 ve D02'de saniyede ortalama 59,9 kare, en düşük 58,5. Bu ölçüm iPhone ölçütünün yerini tutmaz. `docs/screens/k1/K1_pulls_pc_375x667.png` |
+| U1 telefon listesi | `390f107` | `TELEFON_TESTI.md`'nin K1 bölümüne bir not eklendi: bilgisayarda 12/12 çıktı, asıl ölçüt iPhone. Adımlar değişmedi. |
+| U2 doğrulama betiği | `29e3ff0` | `node Tools/verify_build.js <adres>` tek komutla açılış kontrolünü (40/40), K1'deki 12 kenar çekişini, PC FPS'ini ve D01 kartının yerleşimini sınıyor. Bayraksız Supabase'e hiçbir şey yazmaz. A6b ve M5 kontrolleri yalnızca `--send --player TEST_…` ile çalışır; bu oturumda canlı veriye yazılmadı. **Canlı Build 2'de 3/4 geçti:** açılış, K1 12/12 ve FPS. Kart kontrolü bilerek kaldı: başlık ile resim çerçevesi arası 3,5 pt, eşik 8 pt. Bu S5 ile Build 3'te düzelecek. |
 
 **Yöntem notu:** Normal ayarlı başsız Chrome yazılımla çizim yaptığı için saniyede yaklaşık 3 kare veriyordu; o hızla bölüm kazanılamıyor, FPS de ölçülemiyor. Chrome'u ayrı bir portta gerçek GPU ile açınca saniyede 60 kare oluyor. Bu yöntem `CLAUDE.md`'ye yazıldı.
 
