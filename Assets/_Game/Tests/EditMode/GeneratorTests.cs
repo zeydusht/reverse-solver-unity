@@ -161,6 +161,38 @@ namespace ReverseSolver.Core.Tests
             return d.ToLevelData();
         }
 
+        /* The approved plan file is the default order and follows the order rules. */
+        [Test]
+        public void PlanFileFollowsTheOrderRules()
+        {
+            var file = File.ReadAllText(FactoryPlan.PlanPath).Replace("\r\n", "\n");
+            Assert.That(file, Is.EqualTo(FactoryPlan.ToJson(FactoryPlan.Default())), "fabrika_plan.json = the PM's table");
+            var plan = FactoryPlan.Parse(file);
+            Assert.That(FactoryPlan.ToJson(plan), Is.EqualTo(file), "parse / write round trip");
+            Assert.That(FactoryPlan.Problems(plan), Is.Empty);
+            int[] bySlot = plan.Select(s => FactoryPlan.Rank(s.Genre)).ToArray();
+            TestContext.WriteLine("plan ranks: " + string.Join(" ", bySlot));
+        }
+
+        [Test]
+        public void OrderRulesCatchABadPlan()
+        {
+            var plan = FactoryPlan.Default();
+            (plan[9], plan[10]) = (plan[10], plan[9]);                     // a Zor next to … and a chapter end that is no peak
+            (plan[9].Slot, plan[10].Slot) = (10, 11);
+            var p = FactoryPlan.Problems(plan);
+            Assert.That(p, Has.Some.Contains("bölüm sonu zirve değil"));
+            plan = FactoryPlan.Default();
+            plan[30] = SlotSpec.For(31, Genre.Orta);                       // after Çok zor 30 comes Orta, not Nefes
+            Assert.That(FactoryPlan.Problems(plan), Has.Some.Contains("çok zordan sonra nefes"));
+            plan = FactoryPlan.Default();
+            plan[12] = SlotSpec.For(13, Genre.Zor);                        // 13 Zor after 12 Tanıtım, before 14 Zor
+            Assert.That(FactoryPlan.Problems(plan), Has.Some.Contains("iki zor seviye arka arkaya"));
+            plan = FactoryPlan.Default();
+            plan[1].MaxNails = 1;                                          // a nail before slot 3
+            Assert.That(FactoryPlan.Problems(plan), Has.Some.Contains("çivi slot 3'ten önce"));
+        }
+
         [Test]
         public void GenerationIsEditorOnly()
         {
