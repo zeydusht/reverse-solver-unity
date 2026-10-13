@@ -1,3 +1,5 @@
+using System;
+
 namespace ReverseSolver.Presentation
 {
     /* What the game opens with (PRODUCT.md A6b, 2026-10-13). A level asked for
@@ -18,6 +20,22 @@ namespace ReverseSolver.Presentation
         {
             if (requested < 0) return new LaunchPlan(false, -1, -1);
             return askName ? new LaunchPlan(false, -1, requested) : new LaunchPlan(true, requested, -1);
+        }
+
+        /* The opening sequence GameRoot runs: the level or the menu now, then the
+           gate; when the name arrives, nameGiven and then the linked level. */
+        public static LaunchPlan Run(int requested, bool askName, Action<int> startLevel, Action showMenu,
+                                     Action<Action<string>> askForName, Action<string> nameGiven)
+        {
+            var plan = For(requested, askName);
+            if (plan.StartNow) startLevel(plan.Level); else showMenu();
+            if (askName)
+                askForName(name =>
+                {
+                    nameGiven(name);
+                    if (plan.AfterName >= 0) startLevel(plan.AfterName);   // the level from the link, at full time
+                });
+            return plan;
         }
     }
 }

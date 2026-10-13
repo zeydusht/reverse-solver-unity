@@ -99,19 +99,9 @@ namespace ReverseSolver.Presentation
             bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug;
             int requested = PlayOverride.Active ? PlayOverride.Index
                           : TryLevelIndex(host.Query("lv"), out int index) ? index : -1;
-            var plan = LaunchPlan.For(requested, askName);
-            if (plan.StartNow) StartLevel(plan.Level); else ShowMenu();
-
-            if (askName)
-            {
-                _awaitingName = true;
-                host.AskName(name =>
-                {
-                    _save.SetPlayer(name);
-                    _awaitingName = false;
-                    if (plan.AfterName >= 0) StartLevel(plan.AfterName);   // the level from the link, at full time
-                });
-            }
+            _awaitingName = askName;
+            LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName,
+                           name => { _save.SetPlayer(name); _awaitingName = false; });
         }
 
         LevelSet ChooseSet()
