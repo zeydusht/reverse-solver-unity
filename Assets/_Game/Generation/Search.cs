@@ -17,13 +17,15 @@ namespace ReverseSolver.Generation
         public SlotSpec Spec;
         public readonly List<Assessment> Passed = new List<Assessment>();
         public int Evaluated, Generated, LookAlikes;
+        public int BandPassed;                                 // inside the bands and fair (curve aside)
         public double BestDistance = double.MaxValue;
         public Assessment Best;
         public double Ms;
 
-        public double PassRate => Generated == 0 ? 0 : (double)(Passed.Count + LookAlikes) / Generated;
+        /* Share of the generated candidates inside every band and fair (G2's rate). */
+        public double PassRate => Generated == 0 ? 0 : (double)BandPassed / Generated;
         public override string ToString() =>
-            $"slot {Spec.Slot} {Spec.Genre.Label()}: {Passed.Count} geçen ({LookAlikes} benzer atıldı), {Generated}/{Evaluated} üretildi, " +
+            $"slot {Spec.Slot} {Spec.Genre.Label()}: {Passed.Count} finalist ({BandPassed} bantta, {LookAlikes} benzer atıldı), {Generated}/{Evaluated} üretildi, " +
             $"en yakın {BestDistance:0.00}, {Ms / 1000:0.0} sn";
     }
 
@@ -39,9 +41,10 @@ namespace ReverseSolver.Generation
         public static double BandDistance(Assessment a)
         {
             double d = 10 * a.Unfair.Count;
+            d += Calibration.CurveTerm(a.Candidate.Spec.Genre, a.Curve);
             foreach (var m in a.Report.Measures)
             {
-                if (!m.HasBand || m.InBand) continue;
+                if (!m.HasBand || m.InBand || Calibration.InfoOnly.Contains(m.Name)) continue;
                 double v = ValueOf(a, m.Name);
                 var band = BandOf(a.Candidate.Spec.Genre, m.Name);
                 double off = band.Min.HasValue && v < band.Min.Value ? band.Min.Value - v : band.Max.HasValue && v > band.Max.Value ? v - band.Max.Value : 0;
@@ -134,7 +137,8 @@ namespace ReverseSolver.Generation
                 elite.Add((d, p));
                 elite.Sort((x, y) => x.d.CompareTo(y.d));
                 if (elite.Count > 8) elite.RemoveAt(elite.Count - 1);
-                if (!a.Passed) continue;
+                if (a.Passed) res.BandPassed++;
+                if (!a.Finalist) continue;
                 if (res.Passed.Any(k => Similarity.IsDuplicate(k.Candidate.Level, a.Candidate.Level))) { res.LookAlikes++; continue; }
                 res.Passed.Add(a);
             }

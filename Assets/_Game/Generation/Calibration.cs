@@ -16,6 +16,10 @@ namespace ReverseSolver.Generation
         public readonly List<string> OutOfBand = new List<string>();
         public readonly List<string> Unfair = new List<string>();
         public bool Passed => OutOfBand.Count == 0 && Unfair.Count == 0;
+        /* G3 curve (Orta, Zor, Çok zor only; null elsewhere) and whether it meets the finalist bar. */
+        public LevelCurve Curve;
+        public bool CurveOk => !Calibration.CurveMatters(Candidate.Spec.Genre) || Curve == null || !Curve.Defined || Curve.Fit >= Calibration.MinCurveFit;
+        public bool Finalist => Passed && CurveOk;
 
         public override string ToString() =>
             $"{Candidate.Id}: {(Passed ? "geçti" : "elendi")}" +
@@ -87,12 +91,34 @@ namespace ReverseSolver.Generation
             m = StructureMetrics.Of(level);
             a.Structure = m;
             a.Report = DifficultyModel.Analyze(level, spec.Genre, m, double.NaN, first);
-            foreach (var r in a.Report.Measures)
-                if (r.HasBand && !r.InBand) a.OutOfBand.Add($"{r.Name} {r.Value} (hedef {r.BandText})");
+            a.OutOfBand.AddRange(Filter(a.Report));
+            if (CurveMatters(spec.Genre)) a.Curve = Curve.Of(level, CurveRuns);
 
             a.Unfair.AddRange(UnfairReasons(level, spec, m, a.FormulaTime, s));
             return a;
         }
+
+        /* Rows that follow from the timer the factory itself sets (T from P): on a factory
+           candidate they measure the rounding to 5 s, not the board, so they are shown
+           but never filter (PM 2026-10-13 ~21:00, A1). The unfair list keeps 1.1 / 75 s / 2. */
+        public static readonly string[] InfoOnly = { "Süre payı", "Medyan oyuncunun kalan süresi" };
+
+        /* Band rows a candidate is outside of, as text; empty when inside every band. */
+        public static List<string> Filter(DifficultyModel.Report report) =>
+            report.Measures.Where(r => r.HasBand && !r.InBand && !InfoOnly.Contains(r.Name))
+                           .Select(r => $"{r.Name} {r.Value} (hedef {r.BandText})").ToList();
+
+        // ---- G3: the curve as a finalist condition ----------------------------------------------
+
+        public const double MinCurveFit = .6;
+        public const int CurveRuns = 60;
+
+        public static bool CurveMatters(Genre g) => g == Genre.Orta || g == Genre.Zor || g == Genre.CokZor;
+
+        /* What the curve adds to the search's band distance: max(0, 0.6 - fit) / 0.2 for
+           Orta, Zor, Çok zor; nothing for the easy kinds or an undefined curve. */
+        public static double CurveTerm(Genre g, LevelCurve c) =>
+            !CurveMatters(g) || c == null || !c.Defined ? 0 : Math.Max(0, MinCurveFit - c.Fit) / .2;
 
         /* The "haksız zorluk" list on a calibrated level; empty when clean. */
         public static List<string> UnfairReasons(LevelData level, SlotSpec spec, StructureMetrics m, int formulaTime, double s)

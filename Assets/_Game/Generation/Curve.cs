@@ -28,8 +28,11 @@ namespace ReverseSolver.Generation
         public readonly int[] Moves = new int[Bins];
         public double Opening, Knot, Final, PeakAt, Fit;
         public double PeakScore, OpeningScore, FinalScore;
+        /* No knot to compare with (no move in 30–70 %, or a knot of 0): "eğri yok", never filters. */
+        public bool Defined = true;
 
         public override string ToString() =>
+            !Defined ? "eğri yok" :
             $"eğri {string.Join(" ", Reading.Select(r => double.IsNaN(r) ? "–" : r.ToString("0.0")))} · zirve %{PeakAt * 100:0} · uyum {Fit:0.00}";
 
         /* A tiny text chart for reports: one column per bin, eight levels high. */
@@ -94,11 +97,12 @@ namespace ReverseSolver.Generation
             int peak = -1;
             for (int b = 0; b < LevelCurve.Bins; b++)
                 if (!double.IsNaN(c.Reading[b]) && (peak < 0 || c.Reading[b] > c.Reading[peak])) peak = b;
-            if (peak < 0) return;
+            if (peak < 0) { c.Defined = false; return; }
             c.PeakAt = (peak + .5) / LevelCurve.Bins;
             c.Opening = MeanOf(c, 0, 1);
             c.Knot = Enumerable.Range(3, 4).Select(b => c.Reading[b]).Where(r => !double.IsNaN(r)).DefaultIfEmpty(double.NaN).Max();
             c.Final = MeanOf(c, 7, 9);
+            if (double.IsNaN(c.Knot) || c.Knot <= 0) { c.Defined = false; return; }
             int outside = peak < 3 ? 3 - peak : peak > 6 ? peak - 6 : 0;
             c.PeakScore = Math.Max(0, 1 - outside / 3.0);
             c.OpeningScore = double.IsNaN(c.Knot) || double.IsNaN(c.Opening) ? 0 : Clamp01((c.Knot - c.Opening) / c.Knot / OpeningEase);

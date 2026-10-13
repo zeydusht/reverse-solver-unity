@@ -181,7 +181,7 @@ namespace ReverseSolver.Core.Tests
             foreach (var spec in FactoryPlan.All())
             {
                 var r = Search.Run(spec, 1, 25, int.MaxValue, Catalog);
-                int ok = r.Passed.Count + r.LookAlikes;
+                int ok = r.BandPassed;
                 total += r.Generated; passed += ok;
                 TestContext.WriteLine($"slot {spec.Slot,2} {spec.Genre.Label(),-8} {ok,2}/{r.Generated} geçti ({r.PassRate * 100:0} %){(r.PassRate < .2 ? "  ← zor slot adayı" : "")}" +
                                       (ok == 0 && r.Best != null ? "  en yakın: " + string.Join(", ", r.Best.OutOfBand.Concat(r.Best.Unfair)) : ""));
@@ -191,10 +191,36 @@ namespace ReverseSolver.Core.Tests
             Assert.That(total, Is.GreaterThan(900));
         }
 
+        /* A1: the time-share and median rows never filter a factory candidate. */
+        [Test]
+        public void RoundingRowsAreInformationOnly()
+        {
+            var r = new DifficultyModel.Report();
+            r.Measures.Add(new DifficultyModel.Measure { Name = "Süre payı", Value = "1,23", BandText = "1,1–1,2", HasBand = true, InBand = false });
+            r.Measures.Add(new DifficultyModel.Measure { Name = "Medyan oyuncunun kalan süresi", Value = "%18", BandText = "%9–17", HasBand = true, InBand = false });
+            r.Measures.Add(new DifficultyModel.Measure { Name = "Hamle başına okuma", Value = "4,2", BandText = "4,0+", HasBand = true, InBand = true });
+            Assert.That(Calibration.Filter(r), Is.Empty, "a Çok zor candidate outside only on the rounding rows passes");
+            r.Measures.Add(new DifficultyModel.Measure { Name = "Darboğaz", Value = "2", BandText = "3+", HasBand = true, InBand = false });
+            Assert.That(Calibration.Filter(r), Has.Count.EqualTo(1).And.Some.StartsWith("Darboğaz"));
+        }
+
+        static LevelCurve CurveWithFit(double fit) => new LevelCurve { Fit = fit, Defined = true };
+
+        [Test]
+        public void CurveAddsToTheDistanceOnlyForHarderKinds()
+        {
+            Assert.That(Calibration.CurveTerm(Genre.Zor, CurveWithFit(.5)), Is.EqualTo(.5).Within(1e-9), "(0.6 - 0.5) / 0.2");
+            Assert.That(Calibration.CurveTerm(Genre.Zor, CurveWithFit(.7)), Is.EqualTo(0));
+            Assert.That(Calibration.CurveTerm(Genre.CokZor, CurveWithFit(.2)), Is.EqualTo(2).Within(1e-9));
+            foreach (var g in new[] { Genre.Tanitim, Genre.Nefes, Genre.Kolay })
+                Assert.That(Calibration.CurveTerm(g, CurveWithFit(0)), Is.EqualTo(0), g.ToString());
+            Assert.That(Calibration.CurveTerm(Genre.Zor, new LevelCurve { Defined = false }), Is.EqualTo(0), "eğri yok: no penalty");
+        }
+
         [Test]
         public void SearchIsDeterministicAndKeepsOnlyPassingDistinctBoards()
         {
-            var spec = FactoryPlan.Slot(6);
+            var spec = FactoryPlan.Slot(8);
             var a = Search.Run(spec, 3, 60, 4, Catalog);
             var b = Search.Run(spec, 3, 60, 4, Catalog);
             Assert.That(b.Passed.Select(x => x.Candidate.Id), Is.EqualTo(a.Passed.Select(x => x.Candidate.Id)));
