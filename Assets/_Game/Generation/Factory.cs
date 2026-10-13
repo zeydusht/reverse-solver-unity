@@ -49,11 +49,25 @@ namespace ReverseSolver.Generation
                 case Genre.Kolay: t.FirstWin = new Band(.80, 1.0); t.NearMiss = new Band(0, .05); break;
                 // checkpoint 4 (PRODUCT.md "Keyif eşikleri (kontrol noktası 4)", 2026-10-14)
                 case Genre.Orta: t.MinEnjoy = .85; t.MaxFrustration = .10; t.MaxEarlyTimeout = .05; t.FirstWin = new Band(.60, .90); t.NearMiss = new Band(.05, .15); break;
-                case Genre.Zor: t.MinEnjoy = .70; t.MaxFrustration = .30; t.MaxEarlyTimeout = .10; t.FirstWin = new Band(.35, .65); t.NearMiss = new Band(.15, .30); break;
-                default: t.MinEnjoy = .60; t.MaxFrustration = .40; t.MaxEarlyTimeout = .15; t.FirstWin = new Band(.15, .40); t.NearMiss = new Band(.30, .50); break;
+                // early time-out caps Z 25 %, ÇZ 35 % (PM 2026-10-14 gece (2), A); Orta 5 %, relaxed to 10 % only when short
+                case Genre.Zor: t.MinEnjoy = .70; t.MaxFrustration = .30; t.MaxEarlyTimeout = .25; t.FirstWin = new Band(.35, .65); t.NearMiss = new Band(.15, .30); break;
+                default: t.MinEnjoy = .60; t.MaxFrustration = .40; t.MaxEarlyTimeout = .35; t.FirstWin = new Band(.15, .40); t.NearMiss = new Band(.30, .50); break;
             }
             return t;
         }
+
+        public const double OrtaRelaxedEarlyTimeout = .10;
+
+        /* Orta's relaxed copy: early time-out cap 10 % (label "erken süre gevşetildi"). */
+        public FunThresholds Relaxed()
+        {
+            var r = (FunThresholds)MemberwiseClone();
+            r.MaxEarlyTimeout = OrtaRelaxedEarlyTimeout;
+            return r;
+        }
+
+        /* The relaxed cap applies only to an Orta slot left with fewer than two finalists. */
+        public static bool RelaxAllowed(Genre g, int finalists) => g == Genre.Orta && finalists < 2;
 
         public List<string> Check(FunSim.Result f)
         {
@@ -90,6 +104,8 @@ namespace ReverseSolver.Generation
         public FunSim.Result[] ByMemory;              // m = 0 / 0.5 / 1.0 (the report shows them side by side)
         /* Checkpoint 4: let in although the curve fit is under 0.6 (>= 0.40), one per slot with < 2 finalists. */
         public bool CurveException;
+        /* Orta only: accepted with the early time-out cap relaxed to 10 % (slot short of two). */
+        public bool EarlyRelaxed;
 
         /* PM's order: first-try win close to the band's middle, then fun, then near-miss close to its band. */
         public (double, double, double) RankKey =>
@@ -135,6 +151,19 @@ namespace ReverseSolver.Generation
                     outc.Checked.Add(f);
                     if (f.Accepted) break;
                 }
+            // Orta short of two: candidates that pass with the early time-out cap at 10 %, labelled
+            if (FunThresholds.RelaxAllowed(spec.Genre, outc.Chosen.Count))
+            {
+                var relaxed = t.Relaxed();
+                foreach (var a in outc.Search.EarlyNear)
+                {
+                    if (!FunThresholds.RelaxAllowed(spec.Genre, outc.Chosen.Count)) break;
+                    Calibration.FitTimer(a, FunSim.Population(o.SearchPlayers), relaxed, fun);
+                    var f = new Finalist { Assessment = a, Thresholds = relaxed, EarlyRelaxed = true, Fun = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: fun) };
+                    f.Psych.AddRange(relaxed.Check(f.Fun));
+                    outc.Checked.Add(f);
+                }
+            }
             outc.Ms = sw.Elapsed.TotalMilliseconds;
             return outc;
         }
@@ -180,6 +209,7 @@ namespace ReverseSolver.Generation
                 e.Draft.Id = f.Candidate.Id;
                 e.Draft.Genre = o.Spec.Genre;
                 if (f.CurveException) e.Notes.Add("eğri istisnası: uyum " + f.Assessment.Curve.Fit.ToString("0.00") + " (< 0,6)");
+                if (f.EarlyRelaxed) e.Notes.Add("erken süre gevşetildi: tavan %10 (Orta, slotta 2'den az finalist)");
                 e.Curve = f.Assessment.Curve != null && f.Assessment.Curve.Defined ? f.Assessment.Curve.Spark() : null;
                 Score(e, f);
                 Entries.Add(e);
@@ -208,6 +238,9 @@ namespace ReverseSolver.Generation
             e.Scores["erkenSure"] = Math.Round(f.Fun.EarlyTimeoutRate, 3);
             e.Scores["p"] = Math.Round(l.TimerSeconds / (l.Pieces.Count * DifficultyModel.SecondsPerPiece(m.ReadingPerMove, l.Bombs.Count > 0, e.Slot == 1)), 2);
             if (f.CurveException) e.Scores["egriIstisnasi"] = 1;
+            if (f.EarlyRelaxed) e.Scores["erkenGevsetildi"] = 1;
+            var slack = Calibration.NailSlack(l);
+            if (slack.Count > 0) e.Scores["civiOnemli"] = slack.Count(x => x.slack <= Calibration.NailSlackMax) / (double)slack.Count;
             if (a.Curve != null && a.Curve.Defined) { e.Scores["uyum"] = Math.Round(a.Curve.Fit, 2); e.Scores["zirve"] = Math.Round(a.Curve.PeakAt, 2); }
         }
 

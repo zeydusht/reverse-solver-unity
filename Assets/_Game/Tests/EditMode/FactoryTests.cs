@@ -19,15 +19,15 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void ThresholdsNameWhatFails()
         {
-            var t = FunThresholds.For(Genre.Zor);                 // keyif >= 70, total <= 30, unfair <= 5, early time-out <= 10, first try 35-65
-            var ok = new FunSim.Result { Players = 100, Enjoyed = 70, Frustrated = 30, HardFrustrated = 30, WinFirst = 50, WinBy3 = 70, NearMiss = 10, EarlyTimeout = 10 };
-            Assert.That(t.Check(ok), Is.Empty, "Zor: 30 % frustration and 10 % early time-outs pass; near-miss never filters");
-            var bad = new FunSim.Result { Players = 100, Enjoyed = 69, Frustrated = 31, HardFrustrated = 31, WinFirst = 76, WinBy3 = 69, NearMiss = 10, EarlyTimeout = 11 };
+            var t = FunThresholds.For(Genre.Zor);                 // keyif >= 70, total <= 30, unfair <= 5, early time-out <= 25, first try 35-65
+            var ok = new FunSim.Result { Players = 100, Enjoyed = 70, Frustrated = 30, HardFrustrated = 30, WinFirst = 50, WinBy3 = 70, NearMiss = 10, EarlyTimeout = 25 };
+            Assert.That(t.Check(ok), Is.Empty, "Zor: 30 % frustration and 25 % early time-outs pass; near-miss never filters");
+            var bad = new FunSim.Result { Players = 100, Enjoyed = 69, Frustrated = 31, HardFrustrated = 31, WinFirst = 76, WinBy3 = 69, NearMiss = 10, EarlyTimeout = 26 };
             var why = t.Check(bad);
             Assert.That(why, Has.Some.StartsWith("keyif %69"));
             Assert.That(why, Has.Some.StartsWith("hayal kırıklığı %31"));
             Assert.That(why, Has.Some.StartsWith("ilk deneme %76"));
-            Assert.That(why, Has.Some.StartsWith("erken süre bitmesi %11"));
+            Assert.That(why, Has.Some.StartsWith("erken süre bitmesi %26"));
             foreach (var g in GenreExt.All)
             {
                 var unfair = new FunSim.Result { Players = 100, Enjoyed = 94, Frustrated = 6, UnfairFrustrated = 6, WinFirst = 97, WinBy3 = 98 };

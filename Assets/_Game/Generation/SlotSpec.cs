@@ -79,9 +79,13 @@ namespace ReverseSolver.Generation
             }
             if (s.Allows(Bomb) && genre != Genre.Kolay)
             {
-                s.MinBombs = genre == Genre.Zor || genre == Genre.CokZor ? 1 : 0;
+                // Çok zor: the bomb is optional (PM 2026-10-14 gece (2), A5)
+                s.MinBombs = genre == Genre.Zor ? 1 : 0;
                 s.MaxBombs = genre == Genre.CokZor ? 2 : 1;
             }
+
+            // slot 4 practises the nail right after its introduction (PM 2026-10-14 gece (2))
+            if (slot == 4) s.MinNails = s.MaxNails = 1;
 
             // An introduction shows its obstacle exactly once and nothing else new to read.
             if (genre == Genre.Tanitim && newThing != null)

@@ -5,7 +5,7 @@
     {"slot":1,"genre":"tanitim","new":null,"boards":[[4,5]],"bodies":[20,30],"nails":[0,0],"walls":[0,0],"chains":[0,0],"remoteChains":[0,0],"bombs":[0,0]},
     {"slot":2,"genre":"kolay","new":null,"boards":[[4,5]],"bodies":[20,30],"nails":[0,0],"walls":[0,0],"chains":[0,0],"remoteChains":[0,0],"bombs":[0,0]},
     {"slot":3,"genre":"tanitim","new":"nail","boards":[[4,5],[5,5],[5,6]],"bodies":[20,30],"nails":[1,1],"walls":[0,0],"chains":[0,0],"remoteChains":[0,0],"bombs":[0,0]},
-    {"slot":4,"genre":"kolay","new":null,"boards":[[4,5],[5,5],[5,6]],"bodies":[20,30],"nails":[0,1],"walls":[0,0],"chains":[0,0],"remoteChains":[0,0],"bombs":[0,0]},
+    {"slot":4,"genre":"kolay","new":null,"boards":[[4,5],[5,5],[5,6]],"bodies":[20,30],"nails":[1,1],"walls":[0,0],"chains":[0,0],"remoteChains":[0,0],"bombs":[0,0]},
     {"slot":5,"genre":"tanitim","new":"scissors","boards":[[4,5],[5,5],[5,6]],"bodies":[20,30],"nails":[0,0],"walls":[0,0],"chains":[0,0],"remoteChains":[0,0],"bombs":[0,0]},
     {"slot":6,"genre":"orta","new":null,"boards":[[5,6],[6,6]],"bodies":[29,36],"nails":[1,2],"walls":[0,0],"chains":[0,0],"remoteChains":[0,0],"bombs":[0,0]},
     {"slot":7,"genre":"tanitim","new":"seal","boards":[[4,5],[5,5],[5,6]],"bodies":[20,30],"nails":[0,0],"walls":[1,1],"chains":[0,0],"remoteChains":[0,0],"bombs":[0,0]},
@@ -31,16 +31,16 @@
     {"slot":27,"genre":"orta","new":null,"boards":[[5,6],[6,6]],"bodies":[29,36],"nails":[1,2],"walls":[0,2],"chains":[0,2],"remoteChains":[0,1],"bombs":[0,1]},
     {"slot":28,"genre":"zor","new":null,"boards":[[6,6]],"bodies":[33,36],"nails":[1,2],"walls":[1,2],"chains":[1,3],"remoteChains":[1,2],"bombs":[1,1]},
     {"slot":29,"genre":"nefes","new":null,"boards":[[4,5],[5,5],[5,6]],"bodies":[20,30],"nails":[0,1],"walls":[0,1],"chains":[0,1],"remoteChains":[0,0],"bombs":[0,1]},
-    {"slot":30,"genre":"cokzor","new":null,"boards":[[6,6],[6,7]],"bodies":[33,40],"nails":[1,2],"walls":[1,3],"chains":[2,4],"remoteChains":[2,3],"bombs":[1,2]},
+    {"slot":30,"genre":"cokzor","new":null,"boards":[[6,6],[6,7]],"bodies":[33,40],"nails":[1,2],"walls":[1,3],"chains":[2,4],"remoteChains":[2,3],"bombs":[0,2]},
     {"slot":31,"genre":"nefes","new":null,"boards":[[4,5],[5,5],[5,6]],"bodies":[20,30],"nails":[0,1],"walls":[0,1],"chains":[0,1],"remoteChains":[0,0],"bombs":[0,1]},
     {"slot":32,"genre":"zor","new":null,"boards":[[6,6]],"bodies":[33,36],"nails":[1,2],"walls":[1,2],"chains":[1,3],"remoteChains":[1,2],"bombs":[1,1]},
     {"slot":33,"genre":"orta","new":null,"boards":[[5,6],[6,6]],"bodies":[29,36],"nails":[1,2],"walls":[0,2],"chains":[0,2],"remoteChains":[0,1],"bombs":[0,1]},
-    {"slot":34,"genre":"cokzor","new":null,"boards":[[6,6],[6,7]],"bodies":[33,40],"nails":[1,2],"walls":[1,3],"chains":[2,4],"remoteChains":[2,3],"bombs":[1,2]},
+    {"slot":34,"genre":"cokzor","new":null,"boards":[[6,6],[6,7]],"bodies":[33,40],"nails":[1,2],"walls":[1,3],"chains":[2,4],"remoteChains":[2,3],"bombs":[0,2]},
     {"slot":35,"genre":"nefes","new":null,"boards":[[4,5],[5,5],[5,6]],"bodies":[20,30],"nails":[0,1],"walls":[0,1],"chains":[0,1],"remoteChains":[0,0],"bombs":[0,1]},
     {"slot":36,"genre":"zor","new":null,"boards":[[6,6]],"bodies":[33,36],"nails":[1,2],"walls":[1,2],"chains":[1,3],"remoteChains":[1,2],"bombs":[1,1]},
     {"slot":37,"genre":"orta","new":null,"boards":[[5,6],[6,6]],"bodies":[29,36],"nails":[1,2],"walls":[0,2],"chains":[0,2],"remoteChains":[0,1],"bombs":[0,1]},
     {"slot":38,"genre":"zor","new":null,"boards":[[6,6]],"bodies":[33,36],"nails":[1,2],"walls":[1,2],"chains":[1,3],"remoteChains":[1,2],"bombs":[1,1]},
     {"slot":39,"genre":"nefes","new":null,"boards":[[4,5],[5,5],[5,6]],"bodies":[20,30],"nails":[0,1],"walls":[0,1],"chains":[0,1],"remoteChains":[0,0],"bombs":[0,1]},
-    {"slot":40,"genre":"cokzor","new":null,"boards":[[6,6],[6,7]],"bodies":[33,40],"nails":[1,2],"walls":[1,3],"chains":[2,4],"remoteChains":[2,3],"bombs":[1,2]}
+    {"slot":40,"genre":"cokzor","new":null,"boards":[[6,6],[6,7]],"bodies":[33,40],"nails":[1,2],"walls":[1,3],"chains":[2,4],"remoteChains":[2,3],"bombs":[0,2]}
   ]
 }
