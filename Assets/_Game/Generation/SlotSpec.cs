@@ -19,6 +19,12 @@ namespace ReverseSolver.Generation
             [Nail] = 3, [Scissors] = 5, [Seal] = 7, [Wand] = 9, [Chain] = 12, [Clock] = 15, [Bomb] = 20, [Hammer] = 23
         };
 
+        public static string Label(string id) => id switch
+        {
+            Nail => "çivi", Scissors => "makas", Seal => "mühür", Wand => "değnek", Chain => "zincir",
+            Clock => "saat", Bomb => "bomba", Hammer => "çekiç", null => "", _ => id
+        };
+
         public static bool IsObstacle(string id) => id == Nail || id == Seal || id == Chain || id == Bomb;
 
         public int Slot;
