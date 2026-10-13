@@ -1,4 +1,31 @@
-# Playtest taslağı (Faz 3, yeni setle) — PM'e öneri
+# Playtest planı (Faz 3, yeni setle)
+
+Hazırlayan: mühendislik. PM kararları: 2026-10-14 gece (3), PRODUCT.md "P1 karar 1–6". Aşağıdaki "Kararlar" bölümü bağlayıcıdır. Altındaki taslak, gerekçeleriyle birlikte kayıt için duruyor.
+
+## Kararlar (PM, P1 karar 1–6)
+
+1. **Sıralı set (A).** Oyuncular R01'den R40'a sırayla oynar. Test modu yazılmaz, atlama yolu da yok.
+2. **Link** Zeyd'in kararı (KARAR BEKLİYOR).
+   - PM önerisi (a): Build 4'te kök adres yeni seti açar. Bunun için Zeyd "yeni seti canlıya al" komutunu verir.
+   - (b): kök adres eski 40'ta kalır, playtest linki `?set=redesign` olur. Bu yol yeni kod gerektirir; Zeyd (b) demedikçe yazılmaz.
+   - İki yolda da ilerleme ve kilit set başına ayrı tutulur (testli: `RedesignProgressTests`).
+3. **≥ 20 tamamlanmış oyun seviye başına sayılır.**
+   - Tamamlanmış oyun = oyuncunun o seviyedeki `attempt = 1` satırı. Bırakmalar ayrı sayılır.
+   - Hedef 40+ oyuncu, süre 1 hafta.
+   - Hafta sonunda n ≥ 20 olan seviye 25'ten azsa süre bir hafta uzar.
+   - Birincil analiz n ≥ 20 olan seviyelerle yapılır, 10–19 ikincil, 10'un altı analiz dışı.
+4. **👍/👎 sorusu** oyuncu ve seviye başına bir kez sorulur: kazandığı denemede ya da o seviyedeki 3. kaybından sonra, hangisi önce gelirse.
+   - Kayıp kartında da çıkar ama Tekrar düğmesi yerinde kalır.
+   - Bayrak (`SetFlags.AskFun`) kapalı. Kod `faz4-g8` dalında hazır ve testli.
+5. **Oyuncu:** hedef 40+ ve süre PM'in kararı. Davet kanalı ve ödül Zeyd'in (KARAR BEKLİYOR). PM önerisi: ödül yok ya da herkese aynı küçük teşekkür; başarıya bağlı ödül olmasın.
+6. **Analiz veriden önce donduruldu:**
+   - Zorluk yalnızca booster'sız ilk deneme satırlarıyla ölçülür. Başarı ölçütü Spearman ρ ≥ 0,70; ikincil ölçüt |d| ≤ 10 puan.
+   - Keyif için eşik yok, yalnızca raporlanır.
+   - Sorgular: `docs/sql/005_playtest.sql` (taslak, çalıştırılmadı).
+
+---
+
+## Taslak (karar öncesi öneri metni)
 
 Hazırlayan: mühendislik, 14 Ekim 2026 gecesi.
 
