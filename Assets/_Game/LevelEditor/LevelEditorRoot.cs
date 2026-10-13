@@ -509,6 +509,7 @@ namespace ReverseSolver.LevelEditor
         ImageCrop _crop = ImageCrop.None;
         int _cropFor = -1;
         string _cropImage;
+        ImageCrop _cropSeen = ImageCrop.None;   // the draft's crop last frame: Geri al / Yinele resync the sliders
 
         bool _difficultyOpen = true;
 
@@ -587,7 +588,8 @@ namespace ReverseSolver.LevelEditor
                 if (!float.IsNaN(S.ImageReadability) && S.ImageReadability < LevelEditorSession.ReadabilityWarnBelow)
                     GUILayout.Label($"<b>Uyarı:</b> görsel dikişleri zor okutabilir (dikiş çevresi çok açık; puan {S.ImageReadability:0.00}). Daha koyu bir bölgeyi seç ya da başka görsel dene.", _small);
                 // crop: zoom and pan, applied with one button so a drag is one undo step
-                if (_cropFor != S.Opened || _cropImage != d.Image) { _crop = d.Crop; _cropFor = S.Opened; _cropImage = d.Image; }
+                if (_cropFor != S.Opened || _cropImage != d.Image || !_cropSeen.Equals(d.Crop))
+                { _crop = d.Crop; _cropSeen = d.Crop; _cropFor = S.Opened; _cropImage = d.Image; }
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Yakınlaştır", _text, GUILayout.Width(80));
                 float z = GUILayout.HorizontalSlider(_crop.Zoom, 1f, ImageCrop.MaxZoom);

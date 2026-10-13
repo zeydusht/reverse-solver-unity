@@ -303,7 +303,13 @@ namespace ReverseSolver.LevelEditor
                 d.Crop = ImageCrop.None;
                 long bytes = LevelImageImport.WriteBoardImage(source, d.Image, d.Width, d.Height);
                 Store.Save(d);
-                if (Draft.Id == id) { Draft.Image = d.Image; Draft.Crop = d.Crop; _savedJson = Json(d); }   // unsaved edits stay unsaved
+                if (Draft.Id == id)
+                {
+                    // on the open board as an edit (Geri al works); unsaved edits stay unsaved
+                    string image = d.Image;
+                    Edit(x => { x.Image = image; x.Crop = ImageCrop.None; return EditResult.Done; });
+                    _savedJson = Json(d);
+                }
                 done.Add($"{id} ({bytes / 1024} KB)");
             }
             File.WriteAllText(DesignsPath, Store.ToJson());
