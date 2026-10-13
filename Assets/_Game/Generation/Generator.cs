@@ -16,9 +16,20 @@ namespace ReverseSolver.Generation
         public double Interlock = 1.0;
         public double EdgeFirst = 0.0;
         public double NailLate = 0.5;
+        /* Preference for slides through cells already emptied (travel inside the
+           board) over pieces stepping straight off: a slide along a row only opens
+           seams across it, so fewer pieces end up free on the first move. */
+        public double Sweep = 0.0;
+        /* Relock (after the peel): lock flat seams again while the recorded order
+           still solves the board, until at most OpenTarget of the inner seams are
+           open and at most FreeMax pieces can leave on the first move. NaN / -1: off. */
+        public double OpenTarget = double.NaN;
+        public int FreeMax = -1;
 
         public GenParams Clone() => (GenParams)MemberwiseClone();
-        public override string ToString() => $"interlock {Interlock:0.00} edge {EdgeFirst:0.00} nailLate {NailLate:0.00}";
+        public override string ToString() =>
+            $"interlock {Interlock:0.00} edge {EdgeFirst:0.00} sweep {Sweep:0.00} nailLate {NailLate:0.00}" +
+            (double.IsNaN(OpenTarget) ? "" : $" open≤{OpenTarget:0.00}") + (FreeMax < 0 ? "" : $" k0≤{FreeMax}");
     }
 
     public sealed class Candidate
@@ -69,6 +80,7 @@ namespace ReverseSolver.Generation
             var b = new Build(spec, p, rng);
             if (!b.Pieces(out why)) return null;
             if (!b.Peel(out why)) return null;
+            b.Relock();
             var c = b.ToCandidate(seed, catalog, out why);
             return c;
         }
@@ -238,6 +250,7 @@ namespace ReverseSolver.Generation
                             if (!Plan(p, d, flat)) continue;
                             double w = Math.Exp(-_p.Interlock * flat.Count);
                             if (_p.EdgeFirst != 0 && TouchesEdge(p)) w *= Math.Exp(_p.EdgeFirst);
+                            if (_p.Sweep != 0) w *= Math.Exp(_p.Sweep * Math.Min(3, Travel(p, d)));
                             options.Add((p, d, flat, w));
                         }
                     }
@@ -250,6 +263,97 @@ namespace ReverseSolver.Generation
                     _order.Add((pick.piece, pick.dir));
                 }
                 return true;
+            }
+
+            /* The recorded order still leaves every piece without flattening anything. */
+            bool OrderHolds()
+            {
+                var was = (bool[])_present.Clone();
+                for (int i = 0; i < _present.Length; i++) _present[i] = true;
+                bool ok = true;
+                var flat = new HashSet<(bool, int, int)>();
+                foreach (var (piece, dir) in _order)
+                {
+                    flat.Clear();
+                    if (!Plan(piece, dir, flat) || flat.Count > 0) { ok = false; break; }
+                    _present[piece] = false;
+                }
+                Array.Copy(was, _present, was.Length);
+                return ok;
+            }
+
+            /* Pieces that can leave on the first move (no nails yet: those come later). */
+            int FreeAtStart()
+            {
+                var was = (bool[])_present.Clone();
+                for (int i = 0; i < _present.Length; i++) _present[i] = true;
+                int n = 0;
+                var flat = new HashSet<(bool, int, int)>();
+                for (int p = 0; p < _pieces.Count; p++)
+                    foreach (var d in DirExt.All)
+                    {
+                        flat.Clear();
+                        if (Plan(p, d, flat) && flat.Count == 0) { n++; break; }
+                    }
+                Array.Copy(was, _present, was.Length);
+                return n;
+            }
+
+            List<(bool v, int x, int y)> InnerSeams()
+            {
+                var seams = new List<(bool, int, int)>();
+                for (int y = 0; y < _h; y++) for (int x = 1; x < _w; x++) seams.Add((true, x, y));
+                for (int y = 1; y < _h; y++) for (int x = 0; x < _w; x++) seams.Add((false, x, y));
+                // a chain's own seam stays flat
+                seams.RemoveAll(j => { var a = new Cell(j.Item2 - (j.Item1 ? 1 : 0), j.Item3 - (j.Item1 ? 0 : 1)); var b = new Cell(j.Item2, j.Item3); return Owner(a) == Owner(b); });
+                return seams;
+            }
+
+            /* Lock flat seams again (either owner) where the recorded order allows it.
+               Seams of pieces that are free at the start go first while k0 is over its
+               maximum, so the board asks for more reading. */
+            public void Relock()
+            {
+                if (double.IsNaN(_p.OpenTarget) && _p.FreeMax < 0) return;
+                var seams = InnerSeams();
+                int total = seams.Count;
+                var flat = seams.Where(j => Get(j) == 0).ToList();
+                for (int i = flat.Count - 1; i > 0; i--) { int k = Next(0, i); (flat[i], flat[k]) = (flat[k], flat[i]); }
+                double OpenShare() => seams.Count(j => Get(j) == 0) / (double)total;
+                bool Done() => (double.IsNaN(_p.OpenTarget) || OpenShare() <= _p.OpenTarget) && (_p.FreeMax < 0 || FreeAtStart() <= _p.FreeMax);
+                if (_p.FreeMax >= 0)
+                {
+                    // seams around the pieces that can leave first, in front
+                    var freeCells = new HashSet<Cell>();
+                    var flatSet = new HashSet<(bool, int, int)>();
+                    for (int p = 0; p < _pieces.Count; p++)
+                        foreach (var d in DirExt.All) { flatSet.Clear(); if (Plan(p, d, flatSet) && flatSet.Count == 0) { foreach (var c in _pieces[p]) freeCells.Add(c); break; } }
+                    flat = flat.OrderBy(j => freeCells.Contains(new Cell(j.x, j.y)) || freeCells.Contains(new Cell(j.x - (j.v ? 1 : 0), j.y - (j.v ? 0 : 1))) ? 0 : 1).ToList();
+                }
+                foreach (var j in flat)
+                {
+                    if (Done()) break;
+                    int first = _rng.NextDouble() < .5 ? 1 : -1;
+                    foreach (int o in new[] { first, -first })
+                    {
+                        Set(j, o);
+                        if (OrderHolds()) break;
+                        Set(j, 0);
+                    }
+                }
+            }
+
+            /* Cells the piece crosses inside the board before it is off (its longest cell). */
+            int Travel(int piece, Dir dir)
+            {
+                int best = 0;
+                foreach (var c in _pieces[piece])
+                {
+                    int k = 0;
+                    for (var n = c.Step(dir); On(n); n = n.Step(dir)) k++;
+                    best = Math.Max(best, k);
+                }
+                return best;
             }
 
             bool TouchesEdge(int p) => _pieces[p].Any(c => c.X == 0 || c.Y == 0 || c.X == _w - 1 || c.Y == _h - 1);
@@ -333,26 +437,22 @@ namespace ReverseSolver.Generation
                 return s.Outcome == Outcome.Win && s.ValveCount == 0;
             }
 
-            /* Two-colour picture (the web levels' style) and the slot's intro cards. */
+            /* Two-colour picture (the web levels' style) and the slot's intro cards. The
+               palette x pattern is drawn among the ones whose seams stay readable
+               (Calibration.MinReadability, PM 2026-10-13 ~19:10). */
             void ApplyLook(LevelDraft d, Catalog catalog)
             {
-                var pal = Catalog.Palettes[Next(0, Catalog.Palettes.Length - 1)];
+                var combos = new List<(int pal, int pattern)>();
+                for (int pi = 0; pi < Catalog.Palettes.Length; pi++)
+                    for (int pt = 0; pt < Catalog.Patterns; pt++)
+                        if (Calibration.Readability(_w, _h, Catalog.Paint(_w, _h, pt), Catalog.PaletteOf(pi)) >= Calibration.MinReadability)
+                            combos.Add((pi, pt));
+                var (palIndex, pattern) = combos.Count > 0 ? combos[Next(0, combos.Count - 1)] : (0, 0);
+                var pal = Catalog.Palettes[palIndex];
                 d.SetPaletteColour(0, pal.a);
                 d.SetPaletteColour(1, pal.b);
-                int pattern = Next(0, 3);
-                for (int y = 0; y < _h; y++)
-                    for (int x = 0; x < _w; x++)
-                    {
-                        int mx = Math.Min(x, _w - 1 - x), my = Math.Min(y, _h - 1 - y);
-                        int ink = pattern switch
-                        {
-                            0 => (mx + my) % 2,                               // rings
-                            1 => Math.Abs(x - (_w - 1) / 2.0) + Math.Abs(y - (_h - 1) / 2.0) <= Math.Min(_w, _h) / 2.0 ? 1 : 0,   // diamond
-                            2 => y < _h / 2 ? 0 : 1,                           // horizon
-                            _ => (x + y) % 3 == 0 ? 1 : 0,                     // stripes
-                        };
-                        d.SetColor(new Cell(x, y), ink);
-                    }
+                var colors = Catalog.Paint(_w, _h, pattern);
+                for (int y = 0; y < _h; y++) for (int x = 0; x < _w; x++) d.SetColor(new Cell(x, y), colors[y * _w + x]);
                 d.Art = "Fabrika";
                 foreach (var id in LevelDraft.BoosterIds)
                 {
@@ -379,6 +479,30 @@ namespace ReverseSolver.Generation
         {
             ["scissors"] = 5, ["wand"] = 3, ["hammer"] = 7, ["clock"] = 10
         };
+
+        public const int Patterns = 4;
+        public static readonly string[] PatternNames = { "halka", "elmas", "ufuk", "şerit" };
+
+        public static string[] PaletteOf(int i) => new[] { Palettes[i].a, Palettes[i].b };
+
+        /* Palette index per cell for a pattern: rings, diamond, horizon, stripes. */
+        public static int[] Paint(int w, int h, int pattern)
+        {
+            var c = new int[w * h];
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                {
+                    int mx = Math.Min(x, w - 1 - x), my = Math.Min(y, h - 1 - y);
+                    c[y * w + x] = pattern switch
+                    {
+                        0 => Math.Min(mx, my) % 2,
+                        1 => Math.Abs(x - (w - 1) / 2.0) + Math.Abs(y - (h - 1) / 2.0) <= Math.Min(w, h) / 2.0 ? 1 : 0,
+                        2 => y < h / 2 ? 0 : 1,
+                        _ => (x + y) % 3 == 0 ? 1 : 0,
+                    };
+                }
+            return c;
+        }
 
         readonly Dictionary<string, LevelIntro> _intros = new Dictionary<string, LevelIntro>();
 
