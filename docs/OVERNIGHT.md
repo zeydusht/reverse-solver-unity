@@ -1,3 +1,35 @@
+# Sabah ek çalışması — 13 Ekim 2026, 07:00–08:00 (Kanal A)
+
+Zeyd "2–3 saat daha çalışın" dedi. İşleri PM sıraladı (S1–S6, T1–T3); hepsi bitti ve main'e push edildi. **Yayın değişmedi:** gh-pages hâlâ Build 2 (`47328ff`). Bu işlerden oyuna girenler (S1, S5) Build 3'te yayına çıkacak.
+
+| İş | Commit | Sonuç |
+|---|---|---|
+| S1 açılış testi | `4e64340` | Boş test, gerçek bir testle değiştirildi. Test, isim kapısı açıkken 20 sn geçtiğinde oturum ve deneme başlamadığını, isim girilince L02'nin tam süreyle açıldığını sınıyor. Kapıyı devre dışı bırakan sahte bir hata eklenince 2 test kırıldı, yani testler hatayı yakalıyor. **Unity Test Runner'da henüz koşmadı** (Unity açık); Build 3'ten önce zorunlu. |
+| S2 web verisi | `7be3682` | Web oyununun eski verisi az çıktı: 10'dan fazla oyun oynanmış yalnızca 1 seviye var (L01), PM'in eşiği 10 seviye. Sonuçlar yalnızca yön gösteriyor; modeldeki sabitler değişmedi. 6 Eylül'e kadarki 50 satır eski, daha uzun sürelerle oynanmış; analizden kalıcı olarak çıkarıldı. Modelin parça başına süresi ortalamada tutuyor (0,98×). Yapı ölçüleri hangi seviyenin zor olduğunu doğru yönde gösteriyor (kazanma oranıyla ρ −0,67). `docs/analiz/web_verisi_2026-10-13.md` |
+| S3 40 seviye raporu | `7be3682`, `9978688` | `docs/analiz/40_seviye_raporu.md`. 19 seviyede önerilen süre mevcuttan en az %20 farklı. İlk 10 seviyenin süresi formülün yaklaşık 2 katı. Canlı 40 seviyeye dokunulmadı; bu bulgu Faz 4'e alındı. |
+| S4 kart görüntüsü | `8b4653e` | Canlı Build 2'de 375×667'de "Resmi tamamladın" kartı: kart ekrana sığıyor, düğmeler 46 pt. Resmin çerçevesi başlığa değiyordu. |
+| S5 kart boşluğu | `a80868f` | Resmin üstüne 8 pt boşluk eklendi; Build 3'te yayına çıkacak. |
+| S6 editör | `e8c384c` | Kırpma kaydırıcıları Geri al'dan sonra doğru değere dönüyor; klasörden görsel atama geri alınabiliyor. Bunun için otomatik test yok, senin editör turunda kontrol edilecek. |
+| T1 model | `9978688` | Tanıtım ve Nefes türlerinde artık bombaya izin var (bomba payı 8 ve üstü). L21'in hedef dışı ölçü sayısı 6'dan 5'e indi. Unity'siz testler 454/454. |
+| T2 K1 ve FPS (PC) | bu commit | Canlı Build 2'de, bilgisayarda gerçek GPU ile, 375×667, dokunma olaylarıyla: **12 kenar çekişinin 12'si tek seferde çıktı.** L01'de 5, L40'ta 7 çekiş; üçü tahtanın dışından tutularak, üçü fiskeyle. 10 sn sürekli sürüklemede L40 ve D02'de saniyede ortalama 59,9 kare, en düşük 58,5. Bu ölçüm iPhone ölçütünün yerini tutmaz. `docs/screens/k1/K1_pulls_pc_375x667.png` |
+
+**Yöntem notu:** Normal ayarlı başsız Chrome yazılımla çizim yaptığı için saniyede yaklaşık 3 kare veriyordu; o hızla bölüm kazanılamıyor, FPS de ölçülemiyor. Chrome'u ayrı bir portta gerçek GPU ile açınca saniyede 60 kare oluyor. Bu yöntem `CLAUDE.md`'ye yazıldı.
+
+## Zeyd'in sırası
+1. **Telefon oturumu:** `docs/TELEFON_TESTI.md` (Build 2). Bilgisayarda K1 12/12 ve 60 FPS çıktı; asıl ölçüt iPhone'daki sonuç.
+2. **Unity:** Unity'yi sen açtın, kapatmadım. İşin bitince ikisinden birini yap:
+   - Kaydet, Unity'yi kapat ve bana "Unity kapalı" yaz; testleri ben koşarım.
+   - Ya da Window → General → Test Runner → EditMode → Run All, sonra sonucu getir.
+
+   Bu adım Build 3'ün ön koşulu.
+3. **Editör turu:** `LEVEL_EDITOR.md`. Yeni maddeler:
+   - Kırpma kaydırıcısını oynat, Ctrl+Z'ye bas; kaydırıcı eski değere dönmeli.
+   - "Klasörden görselleri ata"dan sonra Ctrl+Z; atama geri alınmalı.
+   - Zorluk paneli: Tanıtım türünde bombalı bir tasarım artık uyarı vermemeli.
+4. Bundan sonrası aşağıdaki sabah raporunun "Zeyd'in yapacakları" listesi.
+
+---
+
 # Sabah raporu — 13 Ekim 2026 (Kanal A)
 
 **Kısaca:** Build 2 yayında. Telefonda denenmeyi bekliyor. Gece planındaki A0–A11'in hepsi yapıldı. İçlerinde **Zorluk paneli** de var; yalnızca editörde çalışıyor, build'e girmiyor. Bağımsız inceleme build'e giren kodda veri kalitesi hatası bulmadı. Kanal B gece boyunca hiç görünmedi.
