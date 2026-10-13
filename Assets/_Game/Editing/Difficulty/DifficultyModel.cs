@@ -138,9 +138,12 @@ namespace ReverseSolver.Editing
                         Reading = new Band(4.0, null), Bottleneck = new Band(3, null), BombMargin = new Band(1, 3),
                         TimeShare = new Band(1.1, 1.2), MedianLeft = new Band(.09, .17) };
                 default:                                    // Kolay; Tanıtım and Nefes use the easy bands
+                    // Tanıtım and Nefes may carry a bomb (the level that teaches it), with a wide margin (PM 2026-10-13 07:45)
+                    bool bombs = g == Genre.Tanitim || g == Genre.Nefes;
                     return new Bands { Pieces = new Band(20, 30), OpenPercent = new Band(58, 68), FreeAtStart = new Band(8, null),
-                        Reading = new Band(null, 2.7), Bottleneck = new Band(0, 0), BombMargin = new Band(null, null),
-                        TimeShare = new Band(2.0, null), MedianLeft = new Band(.50, null), BombsAllowed = false };
+                        Reading = new Band(null, 2.7), Bottleneck = new Band(0, 0),
+                        BombMargin = bombs ? new Band(8, null) : new Band(null, null),
+                        TimeShare = new Band(2.0, null), MedianLeft = new Band(.50, null), BombsAllowed = bombs };
             }
         }
 

@@ -31,7 +31,7 @@ Rastgele oyuncu sayıları 200 oyunluk Monte Carlo'dan geliyor. Web sütunu `web
   | Çok zor | 5 | 14 | %50 |
 
 - **En sık bant dışı ölçüler:** "ilk hamlede serbest (k₀)", "açık dikiş %" ve "süre payı". Web seviyeleri modelin bantlarına göre yapılmadığı için bu beklenen bir sonuç. Bant dışı sayısı bir yeniden tasarım listesi değil, tablodaki son sütun.
-- **Bomba:** L21 bir tanıtım seviyesi ve bomba içeriyor; model tanıtım türünde bombaya izin vermediği için "Bomba payı" orada bant dışı. Bomba tanıtımı için bu bilerek yapılmış bir seçim. Model bunu ayırt etmiyor (bulgu, aşağıda).
+- **Bomba:** L21 bombayı tanıtan seviye. İlk sürümde model tanıtım türünde bombaya izin vermiyordu ve L21'de 6 ölçü bant dışıydı. PM kararıyla (07:45) Tanıtım ve Nefes artık bombaya izin veriyor, bomba payı bandı 8+. L21'in bomba payı bu bandın içindeyse yeşil görünür; L21 şimdi 5 ölçüde bant dışı.
 
 ## Önerilen süreyle mevcut süre arasında %20 ya da daha fazla fark olanlar
 
@@ -87,7 +87,7 @@ Sütunlar:
 | L18 | 5×6 | 29 | 1/1/0 | 2,92 | 0 | — | Orta | 45 | **50** | 1,07 | 2 / %100 / 29 / 1,00 | 4 |
 | L19 | 6×6 | 34 | 2/2/0 | 3,15 | 0 | — | Orta | 50 | **65** | 1,10 | 2 / %100 / 33,5 / 0,99 | 4 |
 | L20 | 6×7 | 40 | 2/2/0 | 3,23 | 0 | — | Orta | 55 | **75** | 1,12 | 4 / %50 / 49 / 1,23 | 4 |
-| L21 | 5×6 | 30 | 0/0/1 | 2,89 | 0 | 14 | Tanıtım | 45 | **75** (75 sınırı) | 1,16 | 4 / %50 / 31,5 / 1,05 | 6 |
+| L21 | 5×6 | 30 | 0/0/1 | 2,89 | 0 | 14 | Tanıtım | 45 | **75** (75 sınırı) | 1,16 | 4 / %50 / 31,5 / 1,05 | 5 |
 | L22 | 6×6 | 36 | 0/0/1 | 3,66 | 0 | 8 | Zor | 55 | **65** | 1,28 | 3 / %67 / 33,5 / 0,93 | 5 |
 | L23 | 6×6 | 35 | 1/1/1 | 3,03 | 0 | 12 | Orta | 50 | **70** | 1,19 | 2 / %100 / 32,5 / 0,93 | 3 |
 | L24 | 6×6 | 34 | 2/2/1 | 3,71 | 2 | 10 | Zor | 55 | **60** | 1,29 | 5 / %20 / 33 / 0,97 | 3 |
@@ -110,6 +110,6 @@ Sütunlar:
 
 ## Modelle ilgili bulgular (PM'e)
 
-1. **Tanıtım türü, öğretilen engeli tanımıyor.** Tanıtım türü bombaya izin vermiyor, oysa L21 bombanın tanıtıldığı seviye. "Tanıtım" ya engelin türünü bilmeli ya da tanıtılan engel bant dışı sayılmamalı.
+1. **Tanıtım türü ve bomba: düzeltildi.** Tanıtım ve Nefes artık bombaya izin veriyor (bomba payı 8+). "Kolay türde bomba" uyarısı yalnızca Kolay'da kalıyor.
 2. **Tanıtımın süre önerisi web oyuncu verisinden uzun.** P = 2,2 L11/L21/L31'de 70–75 sn öneriyor. Web'de 45 sn ile kazananlar sürenin %20–53'ünü bırakıyor.
 3. **İlk 10 seviyenin süresi formülün iki katı.** Yeniden tasarımda bu, süreleri kısaltma ya da tahtayı büyütme kararıdır. Web verisi süre baskısı olmadığını doğruluyor (kazananlar %62–76 süre bırakıyor).

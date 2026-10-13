@@ -85,6 +85,40 @@ namespace ReverseSolver.Core.Tests
             Assert.That(r.S, Is.EqualTo(.6 + .16 * m.ReadingPerMove).Within(1e-9));
         }
 
+        /* 4x4, bomb on a corner piece: the shortest dig is 1 (the corner leaves first). */
+        static (LevelData level, StructureMetrics m) CornerBomb(int fuse)
+        {
+            var d = LevelDraft.New(4, 4);
+            d.SetBomb(new Cell(0, 0), fuse);
+            var l = d.ToLevelData();
+            return (l, StructureMetrics.Of(l));
+        }
+
+        [Test]
+        public void IntroAndBreatherKindsMayCarryABomb()
+        {
+            var (l, m) = CornerBomb(10);
+            int dig = m.BombDigs.Values.Single().dig;
+            var intro = DifficultyModel.Analyze(l, Genre.Tanitim, m, 1);
+            Assert.That(intro.Fuses.Single().suggested, Is.EqualTo(dig + 10));
+            Assert.That(intro.Warnings.Any(w => w.Contains("bomba")), Is.False, "a bomb is fine in an intro level");
+            var breather = DifficultyModel.Analyze(l, Genre.Nefes, m, 1);
+            Assert.That(breather.Fuses.Single().suggested, Is.EqualTo(dig + 8));
+            Assert.That(breather.Warnings.Any(w => w.Contains("bomba")), Is.False);
+            var easy = DifficultyModel.Analyze(l, Genre.Kolay, m, 1);
+            Assert.That(easy.Warnings.Any(w => w.Contains("Kolay türünde bomba")), Is.True, "still warned in Kolay");
+        }
+
+        [Test]
+        public void IntroBombMarginBandIsEightOrMore()
+        {
+            var (l9, m9) = CornerBomb(1 + 9);
+            var (l5, m5) = CornerBomb(1 + 5);
+            Assert.That(m9.BombDigs.Values.Single().dig, Is.EqualTo(1));
+            Assert.That(DifficultyModel.Analyze(l9, Genre.Tanitim, m9, 1).Measures.Single(x => x.Name == "Bomba payı").InBand, Is.True, "margin 9: green");
+            Assert.That(DifficultyModel.Analyze(l5, Genre.Tanitim, m5, 1).Measures.Single(x => x.Name == "Bomba payı").InBand, Is.False, "margin 5: amber");
+        }
+
         [Test]
         public void WarningsForLongTimeAndHeavyNails()
         {

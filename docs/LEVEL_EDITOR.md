@@ -112,7 +112,7 @@ Sağ paneldeki **Zorluk** bölümü, seviyenin hedeflediğin türe uyup uymadı�
    - Medyan oyuncunun ne kadar süreyle ve kaç yıldızla bitireceği, şimdiki ve önerilen süre için.
 5. **Uygula** düğmesi öneriyi tahtaya yazar. Bu normal bir düzenlemedir: **Geri al** ile geri alınır, oynanışı değiştirdiği için kaydedince sürüm 1 artar.
 6. Tahtayı değiştirince sayılar eskir ("Tahta değişti" yazar), Uygula düğmeleri kapanır; yeniden hesapla.
-7. **Uyarılar:** süre 75 sn'nin üstünde, bir çivi parçaların %40'ından fazlasını istiyor, kolay türde bomba var.
+7. **Uyarılar:** süre 75 sn'nin üstünde, bir çivi parçaların %40'ından fazlasını istiyor, Kolay türde bomba var (Tanıtım ve Nefes bombaya izin verir; bomba payı 8 ve üstü).
 
 CSV (Araçlar → CSV) türü seçilmiş tasarımlar için `tur`, `onerilen_sure`, `onerilen_fitil`, `onerilen_civi`, `medyan_yildiz` sütunlarını doldurur.
 
