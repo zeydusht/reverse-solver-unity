@@ -150,6 +150,8 @@ namespace ReverseSolver.Presentation
             s.Outcome == Outcome.Win && !string.IsNullOrEmpty(s.Level.Image) && picture != null;
 
         public const float PictureMaxHeight = 190f;
+        /* the white rim reaches about 6 pt past the picture: room above it so it never touches the title */
+        public const float PictureTopGap = 8f;
 
         public static Card Result(Transform parent, Vector2 screen, GameSession s, bool isLast, int order,
                                   string lastLabel = "Tebrikler, 40 bölüm bitti", Texture picture = null)
@@ -172,10 +174,10 @@ namespace ReverseSolver.Presentation
                 float aspect = (float)picture.width / Mathf.Max(1, picture.height);
                 float pw = card.InnerWidth, ph = pw / aspect;
                 if (ph > PictureMaxHeight) { ph = PictureMaxHeight; pw = ph * aspect; }
-                card.Custom(ph + 14, (root, y, w, o) =>
+                card.Custom(PictureTopGap + ph + 14, (root, y, w, o) =>
                 {
                     var p = PicturePiece.Create(root, picture, new Vector2(pw, ph), o);
-                    p.transform.localPosition = Draw.W(0, y + ph / 2);
+                    p.transform.localPosition = Draw.W(0, y + PictureTopGap + ph / 2);
                 });
             }
             return card
