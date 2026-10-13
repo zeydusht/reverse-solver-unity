@@ -153,8 +153,11 @@ namespace ReverseSolver.Presentation
         /* the white rim reaches about 6 pt past the picture: room above it so it never touches the title */
         public const float PictureTopGap = 8f;
 
+        /* askFun (Faz 4 G8, SetFlags.AskFun): a won level asks "Bu bölümü beğendin mi?" with
+           two buttons (fun_up / fun_down) above the usual ones; thanked: the answer was given. */
         public static Card Result(Transform parent, Vector2 screen, GameSession s, bool isLast, int order,
-                                  string lastLabel = "Tebrikler, 40 bölüm bitti", Texture picture = null)
+                                  string lastLabel = "Tebrikler, 40 bölüm bitti", Texture picture = null,
+                                  bool askFun = false, bool thanked = false)
         {
             bool won = s.Outcome == Outcome.Win;
             int stars = s.Stars;
@@ -180,7 +183,7 @@ namespace ReverseSolver.Presentation
                     p.transform.localPosition = Draw.W(0, y + PictureTopGap + ph / 2);
                 });
             }
-            return card
+            card = card
                 .Custom(32 + 16, (root, y, w, o) =>
                 {
                     // .stars: 32px, gap 9; .off at .2 opacity
@@ -191,7 +194,13 @@ namespace ReverseSolver.Presentation
                         star.transform.localPosition = Draw.W((i - 1) * 41, y + 16);
                     }
                 })
-                .Body(sub)
+                .Body(sub);
+            if (won && askFun && !thanked)
+                card.Body("Bu bölümü beğendin mi?", sizePt: 13, gapAfter: 8)
+                    .Button("fun_up", "Beğendim", false)
+                    .Button("fun_down", "Beğenmedim", false);
+            if (won && askFun && thanked) card.Body("Teşekkürler!", sizePt: 13, gapAfter: 8);
+            return card
                 .Button(primaryId, primary, true)
                 .Button("retry", "Tekrar oyna", false)
                 .Button("menu", "Menü", false)

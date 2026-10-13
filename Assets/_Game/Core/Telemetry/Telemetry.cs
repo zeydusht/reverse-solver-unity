@@ -9,8 +9,9 @@ namespace ReverseSolver.Core
        Supabase/001), level_id and row_id (docs/sql/002) are the Unity additions. */
     public static class PlayRow
     {
-        public static string Json(AttemptRecord r, string player, string session, string rowId) =>
-            new JsonWriter().BeginObject()
+        public static string Json(AttemptRecord r, string player, string session, string rowId)
+        {
+            var w = new JsonWriter().BeginObject()
                 .Field("player", player)
                 .Field("session", session)
                 .Field("lv", r.LevelNumber)
@@ -29,8 +30,10 @@ namespace ReverseSolver.Core
                 .Field("client", r.Client)
                 .Field("level_version", r.LevelVersion)
                 .Field("level_id", r.LevelId)
-                .Field("row_id", rowId)
-                .EndObject().ToString();
+                .Field("row_id", rowId);
+            if (r.Fun.HasValue) w.Field("keyif", r.Fun.Value);     // docs/sql/004_keyif.sql; absent while AskFun is off
+            return w.EndObject().ToString();
+        }
     }
 
     /* Rows waiting to be sent, kept in the store so a reload or a dropped

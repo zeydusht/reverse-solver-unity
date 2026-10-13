@@ -30,6 +30,7 @@ namespace ReverseSolver.Presentation
 
         [SerializeField] TextAsset levels;
         [SerializeField] TextAsset designs;          // level editor output; only with ?debug=1&set=designs
+        [SerializeField] TextAsset redesign;         // Faz 4 set (R..); ?debug=1&set=redesign, default only with SetFlags.RedesignDefault
         [SerializeField] Material pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial;
 
         enum Mode { Menu, Playing }
@@ -106,12 +107,19 @@ namespace ReverseSolver.Presentation
 
         LevelSet ChooseSet()
         {
-            if (Host.Debug && Host.Current.Query("set") == "designs" && designs != null)
+            switch (SetChoice.For(Host.Debug, Host.Current.Query("set"), HasLevels(designs), HasLevels(redesign), SetFlags.RedesignDefault))
             {
-                var root = Core.Json.JsonReader.Parse(designs.text);
-                if (root.TryGet("levels", out var list) && list.Count > 0) { _designSet = true; return LevelParser.Parse(designs.text); }
+                case SetChoice.Kind.Designs: _designSet = true; return LevelParser.Parse(designs.text);
+                case SetChoice.Kind.Redesign: return LevelParser.Parse(redesign.text);
+                default: return LevelParser.Parse(levels.text);
             }
-            return LevelParser.Parse(levels.text);
+        }
+
+        static bool HasLevels(TextAsset file)
+        {
+            if (file == null) return false;
+            var root = Core.Json.JsonReader.Parse(file.text);
+            return root.TryGet("levels", out var list) && list.Count > 0;
         }
 
         /* lv as a number (1-based position) or as a level id. */
@@ -130,6 +138,7 @@ namespace ReverseSolver.Presentation
             if (visible) _telemetry.PageVisible(_mode == Mode.Playing ? _session : null, _rowId);
             else
             {
+                SendPendingFun();                                 // a closing tab must not lose the won row
                 _telemetry.PageHidden(_mode == Mode.Playing ? _session : null, _rowId);
                 _save.Store(_log);
             }
@@ -146,6 +155,7 @@ namespace ReverseSolver.Presentation
 
         void ShowMenu()
         {
+            SendPendingFun();
             LeaveLevel();
             _session = null;
             if (PlayOverride.Exit != null) { PlayOverride.Exit(); return; }   // back to the level editor
@@ -162,6 +172,8 @@ namespace ReverseSolver.Presentation
             string nextImage = _index + 1 < _set.Levels.Count ? _set.Levels[_index + 1].Image : null;
             _images.KeepOnly(level.Image, nextImage);
             _images.Get(nextImage);
+            SendPendingFun();                                  // G8: a won row never waits past the next level
+            _funAnswered = false;
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
             _rowId = _telemetry.NewRowId();
             _save.Store(_log);                                 // the attempt counter, before anything can go wrong
@@ -186,7 +198,9 @@ namespace ReverseSolver.Presentation
             if (e.Kind != EventKind.Finished) return;
             _log.Add(_session.Record);
             _save.Store(_log);
-            _telemetry.Finished(_session.Record, _rowId);
+            // G8: a won level waits for the 👍/👎 answer (or the card closing) before its row goes
+            if (SetFlags.AskFun && e.Outcome == Outcome.Win) _pendingFun = (_session.Record, _rowId);
+            else _telemetry.Finished(_session.Record, _rowId);
             if (Host.Debug) Debug.Log("[attempt] " + _session.Record);
             _drag?.Cancel();
             _boosters?.Disarm();
@@ -312,7 +326,23 @@ namespace ReverseSolver.Presentation
         void ShowResult() =>
             OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
                 PlayOverride.Active ? "Editöre dön" : $"Tebrikler, {_set.Levels.Count} bölüm bitti",
-                _images.Get(_session.Level.Image)));        // G1-b: only a picture that really arrived
+                _images.Get(_session.Level.Image),          // G1-b: only a picture that really arrived
+                SetFlags.AskFun, _funAnswered));
+
+        // ---- G8: the 👍/👎 answer (SetFlags.AskFun) -------------------------------------------
+
+        (AttemptRecord record, string rowId)? _pendingFun;
+        bool _funAnswered;
+
+        /* The held row goes out, with the answer when there is one. */
+        void SendPendingFun(int? answer = null)
+        {
+            if (_pendingFun == null) return;
+            var (record, rowId) = _pendingFun.Value;
+            _pendingFun = null;
+            record.Fun = answer;
+            _telemetry.Finished(record, rowId);
+        }
 
         void RefreshPlaying()
         {
@@ -420,6 +450,14 @@ namespace ReverseSolver.Presentation
                         CloseCard();
                         break;
                     case "result":
+                        if (id == "fun_up" || id == "fun_down")
+                        {
+                            SendPendingFun(id == "fun_up" ? 1 : -1);
+                            _funAnswered = true;
+                            ShowResult();
+                            break;
+                        }
+                        SendPendingFun();
                         if (id == "next") StartLevel(_index + 1);
                         else if (id == "retry") StartLevel(_index);
                         else ShowMenu();
