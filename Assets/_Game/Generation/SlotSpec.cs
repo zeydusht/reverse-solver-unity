@@ -29,15 +29,15 @@ namespace ReverseSolver.Generation
         public int MinBodies, MaxBodies;                 // "gövde": pieces after chaining
         public int MinNails, MaxNails;
         public int MinSeals, MaxSeals;                   // wall segments (side, lane)
-        public int MinChains, MaxChains;
-        public bool RemoteChains;                        // chains between cells that do not touch
+        public int MinChains, MaxChains;                 // all two-cell pieces
+        public int MinRemote, MaxRemote;                 // of those, chains between cells that do not touch
         public int MinBombs, MaxBombs;
 
         public bool Allows(string thing) => IntroducedAt.TryGetValue(thing, out int at) && Slot >= at;
 
         public override string ToString() =>
             $"slot {Slot} {Genre.Label()}{(NewThing != null ? " +" + NewThing : "")} bodies {MinBodies}-{MaxBodies} " +
-            $"nails {MinNails}-{MaxNails} seals {MinSeals}-{MaxSeals} chains {MinChains}-{MaxChains} bombs {MinBombs}-{MaxBombs}";
+            $"nails {MinNails}-{MaxNails} seals {MinSeals}-{MaxSeals} chains {MinChains}-{MaxChains} (remote {MinRemote}-{MaxRemote}) bombs {MinBombs}-{MaxBombs}";
 
         /* Default limits from the genre's bands (DifficultyModel.BandsOf) and the
            introduction calendar: nothing appears before its slot, an introduction
@@ -64,7 +64,13 @@ namespace ReverseSolver.Generation
 
             if (s.Allows(Nail)) { s.MinNails = easy ? 0 : 1; s.MaxNails = Upto(1, 2, 2, 2); }
             if (s.Allows(Seal)) { s.MinSeals = genre == Genre.Zor || genre == Genre.CokZor ? 1 : 0; s.MaxSeals = Upto(1, 2, 2, 3); }
-            if (s.Allows(Chain)) { s.MinChains = genre == Genre.Zor || genre == Genre.CokZor ? 1 : 0; s.MaxChains = Upto(1, 2, 2, 3); s.RemoteChains = true; }
+            // chains: the band's "uzak zincir" row (Kolay 0, Orta 0-1, Zor 1-2, Çok zor 2-3); all chains at
+            // least that many, easy kinds one adjacent pair at most (PM 2026-10-13 ~19:10)
+            if (s.Allows(Chain))
+            {
+                (s.MinRemote, s.MaxRemote) = easy ? (0, 0) : genre == Genre.Orta ? (0, 1) : genre == Genre.Zor ? (1, 2) : (2, 3);
+                (s.MinChains, s.MaxChains) = easy ? (0, 1) : genre == Genre.Orta ? (0, 2) : genre == Genre.Zor ? (1, 3) : (2, 4);
+            }
             if (s.Allows(Bomb) && genre != Genre.Kolay)
             {
                 s.MinBombs = genre == Genre.Zor || genre == Genre.CokZor ? 1 : 0;
@@ -76,7 +82,10 @@ namespace ReverseSolver.Generation
             {
                 s.MinNails = s.MaxNails = newThing == Nail ? 1 : 0;
                 s.MinSeals = s.MaxSeals = newThing == Seal ? 1 : 0;
-                s.MinChains = s.MaxChains = newThing == Chain ? 1 : 0;
+                // the chain introduction shows both kinds: one adjacent pair and one remote pair (the only
+                // intro with two pieces of its obstacle; PM 2026-10-13 ~19:10)
+                s.MinChains = s.MaxChains = newThing == Chain ? 2 : 0;
+                s.MinRemote = s.MaxRemote = newThing == Chain ? 1 : 0;
                 s.MinBombs = s.MaxBombs = newThing == Bomb ? 1 : 0;
             }
             else if (newThing != null && IsObstacle(newThing))

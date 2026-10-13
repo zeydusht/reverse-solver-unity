@@ -100,6 +100,8 @@ namespace ReverseSolver.Generation
             {
                 why = null;
                 int chains = Next(_spec.MinChains, _spec.MaxChains);
+                int remotes = Math.Min(chains, Next(_spec.MinRemote, _spec.MaxRemote));
+                if (remotes < _spec.MinRemote) { why = "chains fewer than the remote minimum"; return false; }
                 var boards = _spec.Boards.Where(bd => bd.w * bd.h - chains >= _spec.MinBodies && bd.w * bd.h - chains <= _spec.MaxBodies).ToArray();
                 if (boards.Length == 0) { why = "no board fits the body range"; return false; }
                 (_w, _h) = boards[Next(0, boards.Length - 1)];
@@ -113,7 +115,7 @@ namespace ReverseSolver.Generation
                 for (int y = 0; y < _h; y++) for (int x = 0; x < _w; x++) cells.Add(new Cell(x, y));
                 for (int i = 0; i < chains; i++)
                 {
-                    bool remote = _spec.RemoteChains && _rng.NextDouble() < .5;
+                    bool remote = i < remotes;
                     Cell a = default, bc = default; bool ok = false;
                     for (int t = 0; t < 50 && !ok; t++)
                     {

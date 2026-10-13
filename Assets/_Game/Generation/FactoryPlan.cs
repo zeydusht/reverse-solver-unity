@@ -69,7 +69,7 @@ namespace ReverseSolver.Generation
                 Range(w, "nails", s.MinNails, s.MaxNails);
                 Range(w, "walls", s.MinSeals, s.MaxSeals);
                 Range(w, "chains", s.MinChains, s.MaxChains);
-                w.Key("remoteChains").Value(s.RemoteChains);
+                Range(w, "remoteChains", s.MinRemote, s.MaxRemote);
                 Range(w, "bombs", s.MinBombs, s.MaxBombs);
                 w.EndObject();
                 lines.Add("    " + w);
@@ -95,7 +95,7 @@ namespace ReverseSolver.Generation
                 (s.MinNails, s.MaxNails) = Pair(n, "nails");
                 (s.MinSeals, s.MaxSeals) = Pair(n, "walls");
                 (s.MinChains, s.MaxChains) = Pair(n, "chains");
-                s.RemoteChains = n.TryGet("remoteChains", out var rc) && rc.Kind == JsonKind.Bool && rc.AsBool;
+                (s.MinRemote, s.MaxRemote) = Pair(n, "remoteChains");
                 (s.MinBombs, s.MaxBombs) = Pair(n, "bombs");
                 list.Add(s);
             }
@@ -127,6 +127,11 @@ namespace ReverseSolver.Generation
                 if (s.Slot != i + 1) p.Add($"{i + 1}. sırada slot {s.Slot}");
                 if (i > 0 && Hard(s.Genre) && Hard(plan[i - 1].Genre)) p.Add($"slot {s.Slot}: iki zor seviye arka arkaya");
                 if (i > 0 && plan[i - 1].Genre == Genre.CokZor && s.Genre != Genre.Nefes) p.Add($"slot {s.Slot}: çok zordan sonra nefes gelmeli");
+                // after an obstacle introduction (and the first level) the player practises, so no hard slot;
+                // booster introductions do not change the board and are exempt (PM 2026-10-13 ~19:10)
+                if (i > 0 && Hard(s.Genre) && plan[i - 1].Genre == Genre.Tanitim
+                    && (plan[i - 1].NewThing == null || SlotSpec.IsObstacle(plan[i - 1].NewThing)))
+                    p.Add($"slot {s.Slot}: engel tanıtımından sonra zor seviye");
                 if (s.NewThing != null)
                 {
                     if (!SlotSpec.IntroducedAt.TryGetValue(s.NewThing, out int at) || at != s.Slot) p.Add($"slot {s.Slot}: {s.NewThing} takvimde slot {at}");
@@ -137,6 +142,7 @@ namespace ReverseSolver.Generation
                 if (s.MaxNails > 0 && !s.Allows(SlotSpec.Nail)) p.Add($"slot {s.Slot}: çivi slot 3'ten önce");
                 if (s.MaxSeals > 0 && !s.Allows(SlotSpec.Seal)) p.Add($"slot {s.Slot}: mühür slot 7'den önce");
                 if (s.MaxChains > 0 && !s.Allows(SlotSpec.Chain)) p.Add($"slot {s.Slot}: zincir slot 12'den önce");
+                if (s.MinChains < s.MinRemote || s.MaxRemote > s.MaxChains) p.Add($"slot {s.Slot}: uzak zincir aralığı zincir aralığının dışında");
                 if (s.MaxBombs > 0 && !s.Allows(SlotSpec.Bomb)) p.Add($"slot {s.Slot}: bomba slot 20'den önce");
                 if (s.Genre == Genre.Tanitim && s.NewThing != null && SlotSpec.IsObstacle(s.NewThing))
                 {

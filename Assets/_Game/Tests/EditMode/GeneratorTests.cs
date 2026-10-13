@@ -58,6 +58,7 @@ namespace ReverseSolver.Core.Tests
                 Assert.That(st.Nails, Is.InRange(spec.MinNails, spec.MaxNails), c + " nails");
                 Assert.That(st.Bombs, Is.InRange(spec.MinBombs, spec.MaxBombs), c + " bombs");
                 Assert.That(st.Chains, Is.InRange(spec.MinChains, spec.MaxChains), c + " chains");
+                Assert.That(RemoteChains(l), Is.InRange(spec.MinRemote, spec.MaxRemote), c + " remote chains");
                 Assert.That(st.SealedLanes, Is.InRange(spec.MinSeals, spec.MaxSeals), c + " walls");
                 if (spec.Slot < 12) Assert.That(st.Chains, Is.Zero, c + ": single-cell pieces before slot 12");
                 if (spec.Slot < 20) Assert.That(st.Bombs, Is.Zero, c + ": no bomb before slot 20");
@@ -78,6 +79,33 @@ namespace ReverseSolver.Core.Tests
             foreach (var kv in perKind)
                 TestContext.WriteLine($"  {kv.Key.Label(),-8} {kv.Value.n,4} tries  {1000.0 * kv.Value.n / kv.Value.ms:0.0} candidates/s");
             Assert.That(missing, Is.LessThanOrEqualTo(10), "the generator should almost always find a board");
+        }
+
+        static int RemoteChains(LevelData l) =>
+            l.Pieces.Count(p => p.Length == 2 && System.Math.Abs(p[0].X - p[1].X) + System.Math.Abs(p[0].Y - p[1].Y) > 1);
+
+        /* How often one seed gives a board straight away (no retries), by slot; the
+           PM's check for the Çok zor remote-chain band (>= 50 % of 25 seeds). */
+        [Test]
+        public void FirstTrySuccessBySlot()
+        {
+            var low = new List<string>();
+            foreach (int slot in new[] { 12, 22, 30, 34, 40 })
+            {
+                var spec = FactoryPlan.Slot(slot);
+                int ok = 0;
+                for (uint s = 1; s <= 25; s++) if (Generator.TryMake(spec, new GenParams(), s, Catalog, out _) != null) ok++;
+                TestContext.WriteLine($"slot {slot} {spec.Genre.Label()}: {ok}/25 first try");
+                if (ok < 13) low.Add($"slot {slot}: {ok}/25");
+            }
+            Assert.That(low, Is.Empty, "under 50 % on the first try: bring the band to the PM");
+        }
+
+        [Test]
+        public void ChainIntroductionShowsBothKinds()
+        {
+            var c = Generator.Make(FactoryPlan.Slot(12), new GenParams(), 3, 20, Catalog).Level;
+            Assert.That((LevelStats.Of(c).Chains, RemoteChains(c)), Is.EqualTo((2, 1)), "one adjacent pair and one remote pair");
         }
 
         [Test]
@@ -188,6 +216,11 @@ namespace ReverseSolver.Core.Tests
             plan = FactoryPlan.Default();
             plan[12] = SlotSpec.For(13, Genre.Zor);                        // 13 Zor after 12 Tanıtım, before 14 Zor
             Assert.That(FactoryPlan.Problems(plan), Has.Some.Contains("iki zor seviye arka arkaya"));
+            plan = FactoryPlan.Default();
+            plan[3] = SlotSpec.For(4, Genre.Zor);                          // Zor right after the nail introduction (3)
+            Assert.That(FactoryPlan.Problems(plan), Has.Some.Contains("engel tanıtımından sonra zor seviye"));
+            Assert.That(FactoryPlan.Problems(FactoryPlan.Default()), Has.None.Contains("tanıtımından sonra"),
+                        "10 Zor after 9 (wand) is fine: a booster does not change the board");
             plan = FactoryPlan.Default();
             plan[1].MaxNails = 1;                                          // a nail before slot 3
             Assert.That(FactoryPlan.Problems(plan), Has.Some.Contains("çivi slot 3'ten önce"));
