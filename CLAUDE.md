@@ -39,6 +39,7 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 - `node Tools/make_travel_golden.js` — web kural kodunu Node'da çalıştırıp altın değerleri üretir.
 - `Tools/web_harness.js` — web oyununun tüm betiğini sahte DOM ile Node'da çalıştırır (oturum kuralları, booster'lar, saat); `Math.random` tohumlu Mulberry32'dir (C# `Mulberry32` ile aynı). Web davranışı hakkında bir soru varsa tahmin etmek yerine bununla ölç.
 - `node Tools/make_session_golden.js` — GameSession altın senaryolarını (`Golden/session_golden.json`) ve web build'indeki açılış kontrolünün kompakt kopyasını (`Platform/BootCheck/`) üretir.
+- `node Tools/verify_build.js <build adresi>` — telefonsuz build doğrulaması (açılış 40/40, K1 12 kenar çekişi, PC FPS, D01 kartı 375×667); gerçek GPU'lu başsız Chrome'u kendisi açar. Bayraksız Supabase'e yazmaz; `--send --player TEST_…` ile A6b ve M5 kontrollerini de yapar (canlı tabloya satır yazar).
 - `SmartPlayer` (Core) — çivilere uyan, bombaya en kısa yoldan giden oynayıcı; README garantisinin (40/40, bomba/donma/supap 0) kontrolü ve Faz 2 çözücüsünün temeli.
 - Managed stripping High: `Assets/_Game/link.xml` Core ve Platform'u tamamen korur. EditMode testleri stripping'siz çalışır, stripping hatasını ancak web build yakalar.
 
