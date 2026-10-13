@@ -20,6 +20,11 @@ namespace ReverseSolver.Generation
            board) over pieces stepping straight off: a slide along a row only opens
            seams across it, so fewer pieces end up free on the first move. */
         public double Sweep = 0.0;
+        /* Shape of the peel over the play order (the removal order is the solution):
+           the interlock preference is scaled by (1 - Ease) in the first 20 % of the
+           moves and the last 30 %, and by (1 + Knot) in between, so the opening and
+           the final open up and the middle stays tight (G3's three acts). */
+        public double Knot = 0.0, Ease = 0.0;
         /* Relock (after the peel): lock flat seams again while the recorded order
            still solves the board, until at most OpenTarget of the inner seams are
            open and at most FreeMax pieces can leave on the first move. NaN / -1: off. */
@@ -28,7 +33,7 @@ namespace ReverseSolver.Generation
 
         public GenParams Clone() => (GenParams)MemberwiseClone();
         public override string ToString() =>
-            $"interlock {Interlock:0.00} edge {EdgeFirst:0.00} sweep {Sweep:0.00} nailLate {NailLate:0.00}" +
+            $"interlock {Interlock:0.00} edge {EdgeFirst:0.00} sweep {Sweep:0.00} knot {Knot:0.00} ease {Ease:0.00} nailLate {NailLate:0.00}" +
             (double.IsNaN(OpenTarget) ? "" : $" open≤{OpenTarget:0.00}") + (FreeMax < 0 ? "" : $" k0≤{FreeMax}");
     }
 
@@ -248,7 +253,9 @@ namespace ReverseSolver.Generation
                         {
                             var flat = new HashSet<(bool, int, int)>();
                             if (!Plan(p, d, flat)) continue;
-                            double w = Math.Exp(-_p.Interlock * flat.Count);
+                            double progress = (_pieces.Count - left) / (double)_pieces.Count;
+                            double shape = progress < .2 || progress >= .7 ? 1 - _p.Ease : 1 + _p.Knot;
+                            double w = Math.Exp(-_p.Interlock * Math.Max(0, shape) * flat.Count);
                             if (_p.EdgeFirst != 0 && TouchesEdge(p)) w *= Math.Exp(_p.EdgeFirst);
                             if (_p.Sweep != 0) w *= Math.Exp(_p.Sweep * Math.Min(3, Travel(p, d)));
                             options.Add((p, d, flat, w));

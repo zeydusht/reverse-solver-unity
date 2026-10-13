@@ -93,6 +93,8 @@ namespace ReverseSolver.Generation
                 Sweep = r.NextDouble() * (rank <= 1 ? 1 : 2),
                 EdgeFirst = r.NextDouble() * 2 - 1,
                 NailLate = r.NextDouble(),
+                Knot = r.NextDouble() * 3,
+                Ease = r.NextDouble(),
             };
         }
 
@@ -104,6 +106,8 @@ namespace ReverseSolver.Generation
             q.Sweep = Math.Max(0, q.Sweep + N() * .4);
             q.EdgeFirst += N() * .4;
             q.NailLate = Math.Min(1, Math.Max(0, q.NailLate + N() * .2));
+            q.Knot = Math.Max(0, q.Knot + N() * .5);
+            q.Ease = Math.Min(1, Math.Max(0, q.Ease + N() * .2));
             return q;
         }
 
