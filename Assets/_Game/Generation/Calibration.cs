@@ -49,6 +49,8 @@ namespace ReverseSolver.Generation
     public static class Calibration
     {
         public const double MinTimeShare = 1.1, IntroTimeShare = 2.0;
+        /* A fuse of 5 or less can go off within the first five moves (PM, option 5). */
+        public const int MinFuse = 6;
         public const int IntroBombDigMin = 2, IntroBombDigMax = 3;
 
         public static Assessment Assess(Candidate c)
@@ -125,6 +127,8 @@ namespace ReverseSolver.Generation
         {
             var u = new List<string>();
             if (level.Bombs.Count > 0 && !double.IsNaN(m.FuseMargin) && m.FuseMargin <= 0) u.Add($"bomba payı {m.FuseMargin:0} (0 ya da altı)");
+            foreach (var b in level.Bombs)
+                if (b.Value < MinFuse) u.Add($"fitil {b.Value} ({MinFuse}'dan kısa: ilk 5 hamlede patlayabilir)");
             double share = level.TimerSeconds / (level.Pieces.Count * s);
             if (share < MinTimeShare) u.Add($"süre payı {share:0.00} (1,1'in altı)");
             if (formulaTime > DifficultyModel.MaxTime || level.TimerSeconds > DifficultyModel.MaxTime) u.Add($"süre {formulaTime} sn (75'ten uzun)");

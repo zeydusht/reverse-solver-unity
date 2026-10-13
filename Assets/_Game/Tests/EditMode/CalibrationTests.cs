@@ -43,6 +43,18 @@ namespace ReverseSolver.Core.Tests
             Assert.That(Unfair(d, SlotSpec.For(25, Genre.Zor)), Has.None.Contains("bomba payı"));
         }
 
+        /* PM option 5: a fuse of 5 can go off within the first five moves; 6 cannot. */
+        [Test]
+        public void UnfairFuseOfFiveOrLess()
+        {
+            var d = LevelDraft.New(5, 6);
+            d.SetTimer(75);
+            d.SetBomb(new Cell(0, 0), 5);
+            Assert.That(Unfair(d, SlotSpec.For(30, Genre.CokZor)), Has.Some.StartsWith("fitil 5"));
+            d.SetBomb(new Cell(0, 0), 6);
+            Assert.That(Unfair(d, SlotSpec.For(30, Genre.CokZor)), Has.None.StartsWith("fitil"));
+        }
+
         [Test]
         public void UnfairTimeShareUnderOnePointOne()
         {

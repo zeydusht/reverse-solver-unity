@@ -115,9 +115,15 @@ namespace ReverseSolver.Generation
         }
 
         /* Up to `budget` candidates; stops early once `want` distinct boards passed. */
-        public static SearchResult Run(SlotSpec spec, uint seed, int budget = 120, int want = 6, Catalog catalog = null)
+        /* funPlayers > 0: band finalists also get a quick fun estimate, and their first-try
+           win outside the genre's band (FunThresholds) adds (distance / 0.1) and keeps them
+           out of the finalists. 0 leaves the fun estimate to the factory. */
+        public static SearchResult Run(SlotSpec spec, uint seed, int budget = 120, int want = 6, Catalog catalog = null, int funPlayers = 0)
         {
             var res = new SearchResult { Spec = spec };
+            var players = funPlayers > 0 ? FunSim.Population(funPlayers) : null;
+            var t = FunThresholds.For(spec.Genre);
+            var funOptions = FunSim.OptionsFor(spec);
             var sw = System.Diagnostics.Stopwatch.StartNew();
             var rng = new Mulberry32(seed * 2654435761u + (uint)spec.Slot);
             var elite = new List<(double d, GenParams p)>();
@@ -133,12 +139,21 @@ namespace ReverseSolver.Generation
                 res.Generated++;
                 var a = Calibration.Assess(c);
                 double d = BandDistance(a);
+                bool firstOk = true;
+                if (players != null && a.Finalist)
+                {
+                    var f = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: funOptions);
+                    double fw = f.FirstWinRate, lo = t.FirstWin.Min ?? 0, hi = t.FirstWin.Max ?? 1;
+                    double off = fw < lo ? lo - fw : fw > hi ? fw - hi : 0;
+                    d += off / .1 + (f.UnfairRate > t.MaxUnfair ? (f.UnfairRate - t.MaxUnfair) / .05 : 0);
+                    firstOk = off == 0 && f.UnfairRate <= t.MaxUnfair;
+                }
                 if (d < res.BestDistance) { res.BestDistance = d; res.Best = a; }
                 elite.Add((d, p));
                 elite.Sort((x, y) => x.d.CompareTo(y.d));
                 if (elite.Count > 8) elite.RemoveAt(elite.Count - 1);
                 if (a.Passed) res.BandPassed++;
-                if (!a.Finalist) continue;
+                if (!a.Finalist || !firstOk) continue;
                 if (res.Passed.Any(k => Similarity.IsDuplicate(k.Candidate.Level, a.Candidate.Level))) { res.LookAlikes++; continue; }
                 res.Passed.Add(a);
             }
