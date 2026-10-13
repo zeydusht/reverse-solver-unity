@@ -1,6 +1,6 @@
-# Sabah ek çalışması — 13 Ekim 2026, 07:00–08:30 (Kanal A)
+# Sabah ek çalışması — 13 Ekim 2026, 07:00–08:45 (Kanal A)
 
-Zeyd "2–3 saat daha çalışın" dedi. İşleri PM sıraladı (S1–S6, T1–T3, U1–U2); hepsi bitti ve main'e push edildi. **Yayın değişmedi:** gh-pages hâlâ Build 2 (`47328ff`). Bu işlerden oyuna girenler (S1, S5) Build 3'te yayına çıkacak.
+Zeyd "2–3 saat daha çalışın" dedi. İşleri PM sıraladı (S1–S6, T1–T3, U1–U2, V1–V3); hepsi bitti ve main'e push edildi. **Yayın değişmedi:** gh-pages hâlâ Build 2 (`47328ff`). Bu işlerden oyuna girenler (S1, S5) Build 3'te yayına çıkacak.
 
 | İş | Commit | Sonuç |
 |---|---|---|
@@ -14,6 +14,9 @@ Zeyd "2–3 saat daha çalışın" dedi. İşleri PM sıraladı (S1–S6, T1–T
 | T2 K1 ve FPS (PC) | `71f57ba` | Canlı Build 2'de, bilgisayarda gerçek GPU ile, 375×667, dokunma olaylarıyla: **12 kenar çekişinin 12'si tek seferde çıktı.** L01'de 5, L40'ta 7 çekiş; üçü tahtanın dışından tutularak, üçü fiskeyle. 10 sn sürekli sürüklemede L40 ve D02'de saniyede ortalama 59,9 kare, en düşük 58,5. Bu ölçüm iPhone ölçütünün yerini tutmaz. `docs/screens/k1/K1_pulls_pc_375x667.png` |
 | U1 telefon listesi | `390f107` | `TELEFON_TESTI.md`'nin K1 bölümüne bir not eklendi: bilgisayarda 12/12 çıktı, asıl ölçüt iPhone. Adımlar değişmedi. |
 | U2 doğrulama betiği | `29e3ff0` | `node Tools/verify_build.js <adres>` tek komutla açılış kontrolünü (40/40), K1'deki 12 kenar çekişini, PC FPS'ini ve D01 kartının yerleşimini sınıyor. Bayraksız Supabase'e hiçbir şey yazmaz. A6b ve M5 kontrolleri yalnızca `--send --player TEST_…` ile çalışır; bu oturumda canlı veriye yazılmadı. **Canlı Build 2'de 3/4 geçti:** açılış, K1 12/12 ve FPS. Kart kontrolü bilerek kaldı: başlık ile resim çerçevesi arası 3,5 pt, eşik 8 pt. Bu S5 ile Build 3'te düzelecek. |
+| V1 analiz filtresi | `1f8bdb6` | `docs/sql/003`'e ortak veri kalitesi filtresi eklendi: F1–F5, her biri karar tarihiyle. F1 `TEST_` adları, F2 6 Eylül 14:00 UTC öncesi eski süreli web satırları, F3 saat güçlendiricili süreler, F4 Build 2 öncesi Unity satırları, F5 web'in deneme ve bırakma alanları. Aynı filtre anon REST'le denendi: 133 satır, 5 oyuncu. SQL Supabase'de çalıştırılmadı. |
+| V2 yerel doğrulama | `f11b215` | `verify_build.js --local Builds/publish/br`: build klasörünün kopyasını GitHub Pages'teki gibi sunuyor (`Content-Encoding` göndermeden), koşu bitince kopyayı ve Chrome profilini siliyor. Build 2 kopyasında sonuç canlıdaki gibi 3/4. Yayın sırası `CLAUDE.md`'ye yazıldı. |
+| V3 case study notları | bu commit | `docs/case_study/notlar.md`: veri kalitesi, girdi düzeltmesi, zorluk modeli, 40 seviye ve yöntem başlıklarında bulgular, her biri kaynağıyla. Yeni analiz yok. |
 
 **Yöntem notu:** Normal ayarlı başsız Chrome yazılımla çizim yaptığı için saniyede yaklaşık 3 kare veriyordu; o hızla bölüm kazanılamıyor, FPS de ölçülemiyor. Chrome'u ayrı bir portta gerçek GPU ile açınca saniyede 60 kare oluyor. Bu yöntem `CLAUDE.md`'ye yazıldı.
 
