@@ -1,0 +1,19 @@
+{
+    "name": "ReverseSolver.Generation",
+    "rootNamespace": "ReverseSolver.Generation",
+    "references": [
+        "ReverseSolver.Core",
+        "ReverseSolver.Editing"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

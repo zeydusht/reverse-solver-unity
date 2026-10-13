@@ -4,6 +4,7 @@
     "references": [
         "ReverseSolver.Core",
         "ReverseSolver.Editing",
+        "ReverseSolver.Generation",
         "ReverseSolver.Presentation",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
