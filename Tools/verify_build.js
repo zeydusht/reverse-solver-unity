@@ -19,7 +19,7 @@
 //          row_id unique
 // Rows are read back with the publishable (anon) key, the same one the game ships with.
 //
-// usage: node Tools/verify_build.js <base url of the build, e.g. https://…/br or http://127.0.0.1:8000>
+// usage: node Tools/verify_build.js <base url of the build, e.g. https://…/br>  |  --local <build folder, e.g. Builds/publish/br>
 //                                   [--out dir] [--only boot,k1,fps,card] [--send --player TEST_NAME]
 //                                   [--chrome path] [--port 9333]
 // Exit code 0 when every check passed. Screenshots go to --out (default: a temp folder).
@@ -29,13 +29,15 @@ const { readPng } = require('./lib/png.js');
 const args = process.argv.slice(2);
 const flag = n => args.includes('--' + n);
 const opt = (n, d) => { const i = args.indexOf('--' + n); return i >= 0 ? args[i + 1] : d; };
-const base = (args[0] || '').replace(/\/+$/, '');
-if (!/^https?:\/\//.test(base)) { console.error('usage: node Tools/verify_build.js <base url> [--send --player TEST_NAME]'); process.exit(2); }
+const local = opt('local', null);
+let base = local ? '' : (args[0] || '').replace(/\/+$/, '');
+if (!local && !/^https?:\/\//.test(base)) { console.error('usage: node Tools/verify_build.js <base url> | --local <build folder>  [--send --player TEST_NAME]'); process.exit(2); }
+if (local && !fs.existsSync(path.join(local, 'index.html'))) { console.error(`--local: no index.html in ${local}`); process.exit(2); }
 const send = flag('send'), player = opt('player', '');
 if (send && !/^TEST_[A-Z0-9_]+$/.test(player)) { console.error('--send needs --player TEST_NAME (TEST_ names are left out of the analysis)'); process.exit(2); }
 if (!send && player) { console.error('--player only makes sense with --send'); process.exit(2); }
 const only = opt('only', 'boot,k1,fps,card' + (send ? ',a6b,m5' : '')).split(',');
-const out = opt('out', fs.mkdtempSync(path.join(os.tmpdir(), 'rs-verify-')));
+const out = opt('out', null) || fs.mkdtempSync(path.join(os.tmpdir(), 'rs-verify-'));
 fs.mkdirSync(out, { recursive: true });
 const PORT = +opt('port', 9333);
 const CHROME = opt('chrome', ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
@@ -69,7 +71,7 @@ async function startChrome() {
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'rs-chrome-'));
   const proc = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${PORT}`, '--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist',
     `--user-data-dir=${profile}`, '--no-first-run', 'about:blank'], { stdio: 'ignore' });
-  for (let i = 0; i < 40; i++) { await sleep(250); try { await (await fetch(`http://127.0.0.1:${PORT}/json/version`)).json(); return proc; } catch { } }
+  for (let i = 0; i < 40; i++) { await sleep(250); try { await (await fetch(`http://127.0.0.1:${PORT}/json/version`)).json(); proc.profile = profile; return proc; } catch { } }
   throw new Error('Chrome did not start');
 }
 
@@ -126,6 +128,28 @@ async function newPage() {
   };
   page.name = async n => { await page.ev(`(function(){ var i=document.getElementById('rs-name-in'); i.value='${n}'; document.getElementById('rs-name-go').click(); return true; })()`); await sleep(1200); };
   return page;
+}
+
+/* --local: the folder is copied to a temp dir (serving the original would lock it, and WebBuild
+   copies each new build into Builds/publish) and served on 127.0.0.1 like GitHub Pages: .br/.gz
+   files go out as plain bytes, without Content-Encoding (the build decompresses them itself). */
+async function serveCopy(src) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rs-build-'));
+  fs.cpSync(src, dir, { recursive: true });
+  const types = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript', '.css': 'text/css', '.json': 'application/json',
+    '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.ico': 'image/x-icon', '.wasm': 'application/wasm' };
+  const server = require('http').createServer((req, res) => {
+    let f = path.join(dir, decodeURIComponent(new URL(req.url, 'http://x').pathname));
+    if (!f.startsWith(dir)) { res.writeHead(403); return res.end(); }
+    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, 'index.html');
+    if (!fs.existsSync(f)) { res.writeHead(404); return res.end(); }
+    const ext = path.extname(f).toLowerCase();
+    res.writeHead(200, { 'Content-Type': ext === '.br' || ext === '.gz' ? 'application/octet-stream' : types[ext] || 'application/octet-stream' });
+    fs.createReadStream(f).pipe(res);
+  });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  return { dir, base: `http://127.0.0.1:${server.address().port}`,
+           close: () => { server.close(); fs.rmSync(dir, { recursive: true, force: true }); } };
 }
 
 const dbg = url => url + (url.includes('?') ? '&' : '?') + 'debug=1';
@@ -259,7 +283,9 @@ async function m5(p) {
 }
 
 (async () => {
-  console.log(`Build doğrulama: ${base}  (${send ? 'GÖNDERİM AÇIK, oyuncu ' + player : 'gönderim yok'})  görüntüler: ${out}`);
+  console.log(`Build doğrulama: ${local ? "yerel " + local : base}  (${send ? 'GÖNDERİM AÇIK, oyuncu ' + player : 'gönderim yok'})  görüntüler: ${out}`);
+  const server = local ? await serveCopy(local) : null;
+  if (server) { base = server.base; console.log(`yerel kopya ${server.dir} → ${base}`); }
   const chrome = await startChrome();
   try {
     if (only.includes('boot')) await boot();
@@ -268,7 +294,10 @@ async function m5(p) {
     if (only.includes('card')) await card();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
-  finally { chrome.kill(); }
+  finally {
+    chrome.kill(); if (server) server.close();
+    await sleep(1500); try { fs.rmSync(chrome.profile, { recursive: true, force: true }); } catch { }   // throwaway profile
+  }
   const failed = report.filter(r => !r.pass);
   console.log(`\nÖzet: ${report.length - failed.length}/${report.length} geçti${failed.length ? ' — kalan: ' + failed.map(f => f.name).join(', ') : ''}`);
   fs.writeFileSync(path.join(out, 'report.json'), JSON.stringify({ base, send, player: send ? player : null, at: new Date().toISOString(), report }, null, 1));

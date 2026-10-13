@@ -39,7 +39,7 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 - `node Tools/make_travel_golden.js` — web kural kodunu Node'da çalıştırıp altın değerleri üretir.
 - `Tools/web_harness.js` — web oyununun tüm betiğini sahte DOM ile Node'da çalıştırır (oturum kuralları, booster'lar, saat); `Math.random` tohumlu Mulberry32'dir (C# `Mulberry32` ile aynı). Web davranışı hakkında bir soru varsa tahmin etmek yerine bununla ölç.
 - `node Tools/make_session_golden.js` — GameSession altın senaryolarını (`Golden/session_golden.json`) ve web build'indeki açılış kontrolünün kompakt kopyasını (`Platform/BootCheck/`) üretir.
-- `node Tools/verify_build.js <build adresi>` — telefonsuz build doğrulaması (açılış 40/40, K1 12 kenar çekişi, PC FPS, D01 kartı 375×667); gerçek GPU'lu başsız Chrome'u kendisi açar. Bayraksız Supabase'e yazmaz; `--send --player TEST_…` ile A6b ve M5 kontrollerini de yapar (canlı tabloya satır yazar).
+- `node Tools/verify_build.js <build adresi>` ya da `--local Builds/publish/br` — telefonsuz build doğrulaması (açılış 40/40, K1 12 kenar çekişi, PC FPS, D01 kartı 375×667); gerçek GPU'lu başsız Chrome'u kendisi açar. Bayraksız Supabase'e yazmaz; `--send --player TEST_…` ile A6b ve M5 kontrollerini de yapar (canlı tabloya satır yazar).
 - `SmartPlayer` (Core) — çivilere uyan, bombaya en kısa yoldan giden oynayıcı; README garantisinin (40/40, bomba/donma/supap 0) kontrolü ve Faz 2 çözücüsünün temeli.
 - Managed stripping High: `Assets/_Game/link.xml` Core ve Platform'u tamamen korur. EditMode testleri stripping'siz çalışır, stripping hatasını ancak web build yakalar.
 
@@ -52,6 +52,7 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 - Build'i telefonsuz doğrulamak için: `Builds/WebGL`'i `127.0.0.1`'de yayınla, Chrome'u `--headless=new --remote-debugging-port=9222 --use-angle=swiftshader --enable-unsafe-swiftshader` ve geçici `--user-data-dir` ile aç, sayfanın süre panelini CDP üzerinden oku. (`--virtual-time-budget`/`--dump-dom` işe yaramaz: indirmeler bitmeden döner.) iPhone Safari doğrulamasının yerini tutmaz. Swiftshader ~3 FPS verir; bir bölümü sürükleyerek kazanmak ya da FPS ölçmek için ayrı portta `--use-angle=d3d11 --enable-gpu --ignore-gpu-blocklist` ile aç (gerçek GPU, 60 FPS).
 - **gh-pages'e `Builds/publish/br` ve `Builds/publish/gz`'den yayınla**, `Builds/WebGL*`'den değil: Unity'nin artımlı build'i sonraki build başka klasöre gidince öncekinin `Build/` dosyalarını siliyor; `WebBuild` her başarılı build'i `Builds/publish`'e kopyalıyor.
 - Gerçek editör günlüğü `Logs/Editor.log` (proje içinde); `%LOCALAPPDATA%` altındaki Editor.log bu kurulumda güncellenmiyor.
+- **Yayın sırası (PM 2026-10-13):** Unity'de tüm EditMode testleri yeşil → build → `verify_build.js --local Builds/publish/br` (4/4) → `--send --player TEST_…` ile A6b ve M5 → gh-pages → canlı adreste bayraksız koşu (4/4). Yerel koşulardan biri KALDI ise yayın yok, PM'e git.
 - Yayın: `gh-pages` dalı. `/br/` Brotli (varsayılan), `/gz/` gzip (yedek); kök `index.html` `/br/`'ye yönlendirir (playtest linki). Her yeni build ikisine de konur. Büyük push'ta `git -c http.postBuffer=524288000 push` gerekir.
 
 ## Kurallar
