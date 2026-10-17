@@ -57,5 +57,7 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 
 ## Kurallar
 
+- **Komut çıktısını kısa tut (token):** build, test, fabrika ve doğrulama komutlarında yalnızca özet satırlarını ve hataları ekrana al; uzun günlük dosyaya gider. Unity batchmode için `bash Tools/unity_batch.sh tests [filtre]` ya da `bash Tools/unity_batch.sh method <Sınıf.Metot> [argümanlar]` (tam günlük `Logs/batch/`, ekranda sayılar, başarısız testler, `error CS`, istisnalar ve `[etiket]` satırları). Diğer uzun komutlarda `> <dosya> 2>&1; tail -n 20 <dosya>` ya da `grep` ile özet. Günlüğün tamamını okumak gerekirse önce `grep`, sonra yalnızca ilgili satır aralığı.
+- **Belgeleri bölüm bölüm oku:** `docs/PRODUCT.md` ve uzun belgelerde önce `grep -n '^##'` ile başlığı bul, yalnızca o bölümü oku. Kapanmış milestone'lar, 2026-10-14 öncesi kararlar, ölçümler ve eski gece raporları `docs/arsiv/` altında; yalnızca gerekirse aç. `OVERNIGHT.md`'de yalnızca son gecenin raporu durur, yenisi yazılınca eskisi `docs/arsiv/OVERNIGHT_ARSIV.md`'nin başına taşınır.
 - Supabase'in yalnızca publishable/anon anahtarı repoya girebilir; `service_role` ya da başka gizli anahtar asla. Push'tan önce kontrol et.
 - Commit mesajları İngilizce.
