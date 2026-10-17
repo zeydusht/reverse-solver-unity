@@ -83,6 +83,25 @@ namespace ReverseSolver.Core.Tests
             });
         }
 
+        /* PM 2026-10-17: a save written by Build 2 (no "losses" / "fun_asked" keys) loads in Build 3. */
+        [Test]
+        public void Build2SaveLoadsInBuild3()
+        {
+            var store = new MemoryStore();
+            store.Set("rs.v1.player", "Zeyd");
+            store.Set("rs.v1.install", "inst-b2");
+            store.Set("rs.v1.attempts", "{\"L01\":4,\"L02\":1}");
+            store.Set("rs.v1.best", "{\"L01\":3}");
+            var save = new SaveData(store, NewId);
+            Assert.That(save.Player, Is.EqualTo("Zeyd"));
+            Assert.That(save.Install, Is.EqualTo("inst-b2"));
+            Assert.That(save.Losses, Is.Empty);
+            Assert.That(save.WasFunAsked("L01"), Is.False);
+            var log = save.Restore();
+            Assert.That(log.BestStars("L01"), Is.EqualTo(3));
+            Assert.That(log.Start(TestData.Levels["L01"], "unity-web", new Mulberry32(1)).Attempt, Is.EqualTo(5));
+        }
+
         // ---- 4: the row is the plays table, column for column ------------------------
 
         [Test]

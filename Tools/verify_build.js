@@ -21,7 +21,8 @@
 // Without --send nothing reaches Supabase: every page runs with ?debug=1 (debug never sends)
 // and supabase.co is blocked as well. With --send --player TEST_xxx it also runs, as that player:
 //   a6b    new profile, ?lv=2: name gate, 20 s wait, name, win L02: one row, attempt 1,
-//          dur close to the time after the name (the gate is not counted)
+//          dur close to the time after the name (the gate is not counted), no keyif value
+//          (a row Supabase refused, e.g. for an unknown column, shows up as 0 new rows)
 //   m5     reload keeps the name; a hidden page sends one quit row; a debug win sends nothing;
 //          row_id unique
 // Rows are read back with the publishable (anon) key, the same one the game ships with.
@@ -307,8 +308,9 @@ async function a6b() {
   await sleep(17000);                                  // a flush runs every 15 s
   const fresh = (await rows()).filter(r => !before.some(b => b.row_id === r.row_id));
   const r = fresh.find(v => v.level_id === 'L02');
-  const ok = gate && fresh.length === 1 && r && r.result === 'win' && r.attempt === 1 && Math.abs(r.dur - wall) <= 4;
-  check('a6b', ok, `kapı ${gate}, yeni satır ${fresh.length}` + (r ? `, L02 ${r.result} deneme ${r.attempt}, dur ${r.dur} sn / isimden sonra ${wall.toFixed(0)} sn (kapıdaki 20 sn sayılmamalı)` : ''));
+  const fun = r && r.keyif != null;                    // AskFun is off: no 👍/👎 value in the row
+  const ok = gate && fresh.length === 1 && r && r.result === 'win' && r.attempt === 1 && Math.abs(r.dur - wall) <= 4 && !fun;
+  check('a6b', ok, `kapı ${gate}, yeni satır ${fresh.length}` + (r ? `, L02 ${r.result} deneme ${r.attempt}, dur ${r.dur} sn / isimden sonra ${wall.toFixed(0)} sn (kapıdaki 20 sn sayılmamalı), keyif ${fun ? r.keyif : 'yok'}` : ''));
   return p;                                             // m5 continues in the same profile
 }
 
