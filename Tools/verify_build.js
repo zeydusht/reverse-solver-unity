@@ -8,6 +8,10 @@
 //          flick): each must leave on the first try (Exited in the debug line; >= 9 of 10 passes)
 //   fps    10 s of continuous dragging on L40 (colours) and D02 (picture): median / p95 / worst,
 //          from requestAnimationFrame intervals (recorded; under 55 median is flagged)
+//   namekeys  the name gate with real key events (Input.dispatchKeyEvent): the typed name lands in
+//          the input and Enter starts the game. (The other checks set the input's value directly,
+//          which is how a keyboard capture bug once slipped through.) Nothing is sent: supabase.co
+//          is blocked and the profile is thrown away.
 //   card   D01 won at 375x667: card bottom <= 667 pt, primary button >= 44 pt,
 //          gap between the title and the picture's frame >= 8 pt
 //
@@ -36,7 +40,7 @@ if (local && !fs.existsSync(path.join(local, 'index.html'))) { console.error(`--
 const send = flag('send'), player = opt('player', '');
 if (send && !/^TEST_[A-Z0-9_]+$/.test(player)) { console.error('--send needs --player TEST_NAME (TEST_ names are left out of the analysis)'); process.exit(2); }
 if (!send && player) { console.error('--player only makes sense with --send'); process.exit(2); }
-const only = opt('only', 'boot,k1,fps,card' + (send ? ',a6b,m5' : '')).split(',');
+const only = opt('only', 'boot,namekeys,k1,fps,card' + (send ? ',a6b,m5' : '')).split(',');
 const out = opt('out', null) || fs.mkdtempSync(path.join(os.tmpdir(), 'rs-verify-'));
 fs.mkdirSync(out, { recursive: true });
 const PORT = +opt('port', 9333);
@@ -154,6 +158,36 @@ async function serveCopy(src) {
 
 const dbg = url => url + (url.includes('?') ? '&' : '?') + 'debug=1';
 const rows = async () => (await (await fetch(`${SUPA}/rest/v1/plays?player=eq.${player}&select=*&order=created_at`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json());
+
+/* Types into the name gate the way a computer keyboard does. */
+async function nameKeys() {
+  const p = await newPage();
+  if (send) await p.cdp('Network.setBlockedURLs', { urls: ['*supabase.co*'] });   // this check never sends
+  await p.cdp('Emulation.setDeviceMetricsOverride', { width: 1280, height: 800, deviceScaleFactor: 1, mobile: false });
+  await p.cdp('Emulation.setTouchEmulationEnabled', { enabled: false });
+  await p.open(`${base}/`, { gate: true });
+  const gate = await p.ev(`!!document.getElementById('rs-name')`);
+  if (!gate) { check('namekeys', false, 'isim kapısı açılmadı'); p.close(); return; }
+  await sleep(1500);                                       // the gate focuses its input after a moment; Unity is running
+  const r = await p.ev(`(function(){var b=document.getElementById('rs-name-in').getBoundingClientRect();return {x:b.x+b.width/2,y:b.y+b.height/2};})()`);
+  await p.mouse('mousePressed', r.x, r.y); await p.mouse('mouseReleased', r.x, r.y); await sleep(200);
+  const name = 'TEST_KEYS';
+  for (const ch of name) {
+    const code = ch === '_' ? 'Minus' : 'Key' + ch.toUpperCase();
+    const vk = ch === '_' ? 189 : ch.toUpperCase().charCodeAt(0);
+    await p.cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: ch, code, text: ch, unmodifiedText: ch, windowsVirtualKeyCode: vk });
+    await p.cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: ch, code, windowsVirtualKeyCode: vk });
+    await sleep(40);
+  }
+  const typed = await p.ev(`(document.getElementById('rs-name-in')||{}).value`);
+  await p.cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Enter', code: 'Enter', text: String.fromCharCode(13), windowsVirtualKeyCode: 13 });
+  await p.cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
+  await sleep(1500);
+  const gone = !(await p.ev(`!!document.getElementById('rs-name')`));
+  check('namekeys', typed === name && gone && p.exceptions.length === 0,
+        `klavyeyle yazılan "${typed ?? ''}" (beklenen "${name}"), Enter'dan sonra kapı ${gone ? 'kapandı' : 'açık kaldı'}, istisna ${p.exceptions.length}`);
+  p.close();
+}
 
 async function boot() {
   const p = await newPage();
@@ -289,6 +323,7 @@ async function m5(p) {
   const chrome = await startChrome();
   try {
     if (only.includes('boot')) await boot();
+    if (only.includes('namekeys')) await nameKeys();
     if (only.includes('k1')) await k1();
     if (only.includes('fps')) await fps();
     if (only.includes('card')) await card();

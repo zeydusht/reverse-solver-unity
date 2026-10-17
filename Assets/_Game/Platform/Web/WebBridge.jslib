@@ -52,7 +52,12 @@ mergeInto(LibraryManager.library, {
       SendMessage(obj, method, v);
     };
     document.getElementById('rs-name-go').onclick = go;
-    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); });
+    // Typing belongs to the input: keep the key events away from the Unity canvas's listeners
+    // (with captureAllKeyboardInput on, Unity swallows them and nothing can be typed).
+    var own = function (e) { e.stopPropagation(); };
+    input.addEventListener('keydown', function (e) { e.stopPropagation(); if (e.key === 'Enter') go(); });
+    input.addEventListener('keypress', own);
+    input.addEventListener('keyup', own);
     setTimeout(function () { input.focus(); }, 50);
   },
 

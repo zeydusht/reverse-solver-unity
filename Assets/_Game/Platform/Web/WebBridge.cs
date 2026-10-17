@@ -54,15 +54,27 @@ namespace ReverseSolver.Platform
         public string AnonKey => TelemetrySettings.AnonKey;
         public bool SendEnabled => TelemetrySettings.SendEnabled;
 
+        /* Unity's WebGL player takes every key on the page by default (captureAllKeyboardInput),
+           so a computer keyboard could not type into the name gate. Off while the gate is open,
+           back on when the name arrives. The iPhone keyboard is the browser's own and unaffected. */
         public void AskName(Action<string> done)
         {
             _nameDone = done;
+#if UNITY_WEBGL && !UNITY_EDITOR
+            WebGLInput.captureAllKeyboardInput = false;
+#endif
             WebBridge.AskName(Receiver.Name, nameof(Receiver.OnPlayerName));
         }
 
         public event Action<bool> VisibilityChanged;
 
-        internal void NameAnswered(string name) { var d = _nameDone; _nameDone = null; d?.Invoke(name); }
+        internal void NameAnswered(string name)
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            WebGLInput.captureAllKeyboardInput = true;
+#endif
+            var d = _nameDone; _nameDone = null; d?.Invoke(name);
+        }
         internal void Visibility(bool visible) => VisibilityChanged?.Invoke(visible);
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
