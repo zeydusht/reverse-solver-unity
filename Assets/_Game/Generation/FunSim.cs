@@ -60,6 +60,7 @@ namespace ReverseSolver.Generation
                clock from the level's own stock and unlock (GameSession's rule) when stuck. Off:
                the run is the same as before V5, draw for draw. */
             public bool Boosters;
+            public bool StallHammer = true, BombHammer = true, ClockUse = true;   // V5's three rules, for diagnosis
 
             public static Options Legacy => new Options { Memory = 0, AttentionAfterBomb = 0, BombIntro = false, KolayKnotLooks = KnotLooks };
             public Options With(double memory) { var o = (Options)MemberwiseClone(); o.Memory = memory; return o; }
@@ -122,6 +123,8 @@ namespace ReverseSolver.Generation
             public double HardRate => (double)HardFrustrated / Players;
             public readonly Dictionary<string, int> FrustrationWhy = new Dictionary<string, int>();
             public readonly Dictionary<string, int> EnjoyedHow = new Dictionary<string, int>();
+            /* How attempts ended (Win, Bomb, Time, Quit = frozen), with a "+booster" suffix when one was used. */
+            public readonly Dictionary<string, int> Attempts = new Dictionary<string, int>();
 
             public double EnjoyRate => (double)Enjoyed / Players;
             public double FrustrationRate => (double)Frustrated / Players;
@@ -166,7 +169,9 @@ namespace ReverseSolver.Generation
                 bool hammered = false, clocked = false;
                 for (int a = 1; a <= Attempts && !won; a++)
                 {
-                    var at = Play(level, p, a > 1 && learning ? Learning : 1.0, cache, rng, attention, a > 1 ? options.Memory : 0, remembered, knotLooks, recall, reach);
+                    var at = Play(level, p, a > 1 && learning ? Learning : 1.0, cache, rng, attention, a > 1 ? options.Memory : 0, remembered, knotLooks, recall, reach, options);
+                    string end = at.Outcome + (at.Hammers + at.Clocks > 0 ? "+booster" : "");
+                    res.Attempts.TryGetValue(end, out int ends); res.Attempts[end] = ends + 1;
                     hammered |= at.Hammers > 0;
                     res.MostHammers = Math.Max(res.MostHammers, at.Hammers);
                     res.MostClocks = Math.Max(res.MostClocks, at.Clocks);
@@ -239,7 +244,7 @@ namespace ReverseSolver.Generation
            a piece already taken out in an earlier attempt is found at once; reach: V5's draws,
            null when the player never uses a booster. */
         static Attempt Play(LevelData level, Player p, double learn, Cache cache, IRandom rng,
-                            double attention, double memory, List<int> remembered, int knotLooks, IRandom recall, IRandom reach)
+                            double attention, double memory, List<int> remembered, int knotLooks, IRandom recall, IRandom reach, Options opt)
         {
             var s = new GameSession(level, 1, "funsim", new Mulberry32(1));
             var at = new Attempt();
@@ -261,7 +266,7 @@ namespace ReverseSolver.Generation
                 if (reach != null)
                 {
                     // V5 clock: the time left will not cover the pieces left at this attempt's pace
-                    if (moveTimes.Count > 0 && Usable(s, Booster.Clock) && s.TimeLeft <= ClockTimeShare * level.TimerSeconds
+                    if (opt.ClockUse && moveTimes.Count > 0 && Usable(s, Booster.Clock) && s.TimeLeft <= ClockTimeShare * level.TimerSeconds
                         && n * (moveSum / moveTimes.Count) > s.TimeLeft)
                     {
                         s.UseClock();
@@ -269,7 +274,7 @@ namespace ReverseSolver.Generation
                     }
                     // V5 hammer (a): a bomb about to go off whose piece cannot leave, if the player sees it
                     int lit = Target(s);
-                    if (lit >= 0 && s.FuseAt(lit) <= HammerFuse && !isFree[lit] && Usable(s, Booster.Hammer)
+                    if (opt.BombHammer && lit >= 0 && s.FuseAt(lit) <= HammerFuse && !isFree[lit] && Usable(s, Booster.Hammer)
                         && reach.NextDouble() < attention)
                     {
                         at.BombHammers++;
@@ -297,7 +302,7 @@ namespace ReverseSolver.Generation
                 }
                 if (recalled >= 0) looks = 1;
                 // V5 hammer (b): stuck for min(8, patience − 1) looks, they break a piece that cannot leave
-                int breakable = reach != null && looks >= Math.Min(HammerMaxLooks, p.Patience - 1) && Usable(s, Booster.Hammer) ? HammerTarget(s, cache, isFree) : -1;
+                int breakable = reach != null && opt.StallHammer && looks >= Math.Min(HammerMaxLooks, p.Patience - 1) && Usable(s, Booster.Hammer) ? HammerTarget(s, cache, isFree) : -1;
                 if (breakable >= 0)
                 {
                     int stuckLooks = Math.Max(1, (int)Math.Ceiling(Math.Min(HammerMaxLooks, p.Patience - 1)));
@@ -357,14 +362,32 @@ namespace ReverseSolver.Generation
         }
 
         /* The stuck player's hammer target among the pieces that cannot leave: one on the
-           most urgent bomb's way out, else a nailed piece still counting, else any; within
-           each, the one whose removal frees the most pieces (then the lowest index). */
+           most urgent bomb's way out, nearest the bomb first (its own blockers, then theirs:
+           the whole chain would send the hammer to its far end, away from the bomb), else a
+           nailed piece still counting, else any; within a tier, the one whose removal frees
+           the most pieces (then the lowest index). */
         static int HammerTarget(GameSession s, Cache cache, bool[] isFree)
         {
             var stuck = s.Board.PresentPieces().Where(x => !isFree[x]).ToList();
             int bomb = Target(s);
-            var tier = bomb >= 0 ? cache.Cone(s.Board, cache.Mask(s.Board), bomb).Where(stuck.Contains).ToList() : new List<int>();
-            if (bomb >= 0 && stuck.Contains(bomb)) tier.Add(bomb);
+            var tier = new List<int>();
+            if (bomb >= 0)
+            {
+                var depth = new Dictionary<int, int> { [bomb] = 0 };
+                var q = new Queue<int>();
+                q.Enqueue(bomb);
+                while (q.Count > 0)
+                {
+                    int x = q.Dequeue();
+                    foreach (var d in DirExt.All)
+                    {
+                        int bl = TravelRule.Limit(s.Board, x, d).Blocker;
+                        if (bl >= 0 && !depth.ContainsKey(bl)) { depth[bl] = depth[x] + 1; q.Enqueue(bl); }
+                    }
+                }
+                var way = stuck.Where(x => x != bomb && depth.ContainsKey(x)).ToList();
+                if (way.Count > 0) { int near = way.Min(x => depth[x]); tier = way.Where(x => depth[x] == near).ToList(); }
+            }
             if (tier.Count == 0) tier = stuck.Where(x => s.NailAt(x) > 0).ToList();
             if (tier.Count == 0) tier = stuck;
             int best = -1, most = -1;
