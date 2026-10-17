@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ReverseSolver.Core;
+using ReverseSolver.Editing;
 
 namespace ReverseSolver.Generation
 {
@@ -80,6 +81,128 @@ namespace ReverseSolver.Generation
             return store;
         }
 
+        /* The set's fun average (PRODUCT.md "Keyif eşikleri (Zeyd hedefleri)"): each slot's approved
+           level or first finalist (the report's pick); slots without one are left out. */
+        public static (double average, int slots) SetFun(RedesignStore store)
+        {
+            var picks = Enumerable.Range(1, FactoryPlan.Slots).Select(s => FactoryReport.Pick(store, s)).Where(e => e != null && e.Scores.ContainsKey("keyif")).ToList();
+            return (picks.Count == 0 ? 0 : picks.Average(e => e.Scores["keyif"]), picks.Count);
+        }
+
+        /* V5 re-scoring of the saved pool (redesign.json): every unapproved finalist gets the
+           redesign stock (1 of each once open), the runs without and with boosters, and the
+           current thresholds (relaxed only where it was let in relaxed). Those that fail leave
+           the pool; the log lists them and the per-slot counts before and after. */
+        public static string Rescore(string runName, int players = 1000)
+        {
+            var plan = FactoryPlan.All();
+            var pop = FunSim.Population(players);
+            var store = RedesignStore.LoadOrNew();
+            string dir = Path.Combine(RunsDir, runName);
+            Directory.CreateDirectory(dir);
+            var before = Enumerable.Range(1, FactoryPlan.Slots).ToDictionary(s => s, s => store.ForSlot(s).Count(e => e.Status == RedesignStore.Finalist));
+            var sb = new StringBuilder();
+            sb.AppendLine($"V5 yeniden puanlama {runName}: {store.Entries.Count(e => e.Status == RedesignStore.Finalist)} finalist");
+            sb.AppendLine();
+            sb.AppendLine("| Slot | Tür | Aday | Keyif booster'sız → booster'lı | Hk booster'sız → booster'lı | İlk | Erken | Çekiç | Saat | Sonuç |");
+            sb.AppendLine("|---|---|---|---|---|---|---|---|---|---|");
+            var gone = new List<RedesignStore.Entry>();
+            foreach (var e in store.Entries.Where(e => e.Status == RedesignStore.Finalist).ToList())
+            {
+                var spec = plan[e.Slot - 1];
+                foreach (var id in LevelDraft.BoosterIds)
+                    e.Draft.SetBooster(id, e.Slot >= SlotSpec.IntroducedAt[id] ? Catalog.Stock[id] : 0);
+                var level = e.Draft.ToLevelData();
+                var plain = FunSim.Run(level, spec.Genre, pop, options: FunSim.OptionsFor(spec));
+                var boosted = FunSim.Run(level, spec.Genre, pop, options: FunSim.OptionsFor(spec, boosters: true));
+                var t = FunThresholds.For(spec.Genre);
+                if (e.Scores.ContainsKey("erkenGevsetildi") || e.Scores.ContainsKey("bantGevsetildi")) t = t.Relaxed();
+                var why = t.Check(plain, boosted);
+                RedesignStore.FunScores(e, plain, boosted);
+                e.Notes.RemoveAll(n => n.StartsWith("booster'a dayalı"));
+                if (e.Scores.ContainsKey("boosteraDayali")) e.Notes.Add($"booster'a dayalı: booster'lı keyif booster'sızdan {(boosted.EnjoyRate - plain.EnjoyRate) * 100:0} puan yüksek");
+                if (why.Count > 0) gone.Add(e);
+                sb.AppendLine($"| {e.Slot} | {spec.Genre.Label()} | {e.Candidate} | %{plain.EnjoyRate * 100:0.0} → %{boosted.EnjoyRate * 100:0.0} | %{plain.FrustrationRate * 100:0.0} → %{boosted.FrustrationRate * 100:0.0} | " +
+                              $"%{plain.FirstWinRate * 100:0} | %{plain.EarlyTimeoutRate * 100:0.0} | %{boosted.HammerRate * 100:0} | %{boosted.ClockRate * 100:0} | {(why.Count == 0 ? "kalır" : "çıkar: " + string.Join(", ", why))} |");
+            }
+            store.Entries.RemoveAll(gone.Contains);
+            store.Save();
+            sb.AppendLine();
+            sb.AppendLine("Slot başına finalist (önce → sonra): " + string.Join(" · ", Enumerable.Range(1, FactoryPlan.Slots)
+                .Select(s => $"{s}: {before[s]}→{store.ForSlot(s).Count(e => e.Status == RedesignStore.Finalist)}")));
+            var (avg, n) = SetFun(store);
+            sb.AppendLine($"Set ortalaması keyif (booster'lı, {n} slot): %{avg * 100:0.0}");
+            File.WriteAllText(Path.Combine(dir, "rescore.md"), sb.ToString(), new UTF8Encoding(false));
+            WriteReport(store, plan, runName);
+            return sb.ToString();
+        }
+
+        /* Slots with fewer than two finalists or approved levels. */
+        public static List<int> ShortSlots(RedesignStore store) =>
+            Enumerable.Range(1, FactoryPlan.Slots).Where(s => Kept(store, s) < 2).ToList();
+
+        static int Kept(RedesignStore store, int slot) => store.ForSlot(slot).Count(e => e.Status != RedesignStore.Rejected);
+
+        /* Rounds for short slots (PRODUCT.md "2026-10-17 SIRASI"): up to `rounds` searches with new
+           seeds (firstSeed, firstSeed + 1, …) while a slot has fewer than two finalists, the slots of a
+           round in parallel; the finalists found fill the slot (earlier ones stay). Then, with relax,
+           one more round with the relaxed thresholds for the slots still short. Fun first on Zor /
+           Çok zor when the set's fun average is under 90 %. */
+        public static string RunRounds(IEnumerable<int> slots, FactoryOptions o, string runName, int rounds, uint firstSeed, bool relax,
+                                       Action<string> log = null, string levelsJson = "Assets/_Game/Levels/levels.json")
+        {
+            var plan = FactoryPlan.All();
+            var catalog = Catalog.From(LevelParser.Parse(File.ReadAllText(levelsJson)));
+            var players = FunSim.Population(o.Players);
+            string dir = Path.Combine(RunsDir, runName);
+            Directory.CreateDirectory(dir);
+            var store = RedesignStore.LoadOrNew();
+            var (avg, _) = SetFun(store);
+            bool funFirst = avg < .90;
+            var todo = slots.ToList();
+            var sb = new StringBuilder();
+            sb.AppendLine($"koşu {runName}: slotlar {string.Join(",", todo)}, {rounds} tur + {(relax ? "gevşetme turu" : "gevşetme yok")}, set keyif %{avg * 100:0.0} → keyif önce: {(funFirst ? "evet (Z/ÇZ)" : "hayır")}");
+            log?.Invoke(sb.ToString().TrimEnd());
+            for (int r = 0; r < rounds + (relax ? 1 : 0); r++)
+            {
+                bool relaxRound = r == rounds;
+                var shortNow = r == 0 ? todo : todo.Where(s => Kept(store, s) < 2).ToList();   // the first round runs every slot asked for
+                if (shortNow.Count == 0) break;
+                var opt = Clone(o);
+                opt.Seed = firstSeed + (uint)r;
+                opt.Relax = relaxRound;
+                opt.FunFirst = funFirst;
+                var sw = System.Diagnostics.Stopwatch.StartNew();
+                var outcomes = new System.Collections.Concurrent.ConcurrentDictionary<int, SlotOutcome>();
+                System.Threading.Tasks.Parallel.ForEach(shortNow, new System.Threading.Tasks.ParallelOptions { MaxDegreeOfParallelism = Math.Max(1, Environment.ProcessorCount - 1) },
+                    s => outcomes[s] = Factory.RunSlot(plan[s - 1], opt, catalog, players));
+                foreach (var s in shortNow)
+                {
+                    var outc = outcomes[s];
+                    int had = store.ForSlot(s).Count(e => e.Status == RedesignStore.Finalist);
+                    store.PutFinalists(outc, o.Finalists, keep: true);
+                    int now = store.ForSlot(s).Count(e => e.Status == RedesignStore.Finalist);
+                    File.WriteAllText(Path.Combine(dir, $"slot_{s:00}_tur{r + 1}.txt"), SlotLog(outc), new UTF8Encoding(false));
+                    string line = $"tur {r + 1}{(relaxRound ? " (gevşetme)" : "")} tohum {opt.Seed}: {outc.Search} → {outc.Chosen.Count} kabul, slot {had}→{now} finalist";
+                    sb.AppendLine(line);
+                    log?.Invoke(line);
+                }
+                store.Save();
+                log?.Invoke($"tur {r + 1} bitti: {shortNow.Count} slot, {sw.Elapsed.TotalMinutes:0} dk");
+            }
+            var left = todo.Where(s => Kept(store, s) < 2).ToList();
+            sb.AppendLine("2'den az finalistle kalan: " + (left.Count == 0 ? "yok" : string.Join(", ", left)));
+            File.WriteAllText(Path.Combine(dir, "turlar.md"), sb.ToString(), new UTF8Encoding(false));
+            WriteReport(store, plan, runName);
+            return sb.ToString();
+        }
+
+        static FactoryOptions Clone(FactoryOptions o) => new FactoryOptions
+        {
+            BudgetEasy = o.BudgetEasy, BudgetOrta = o.BudgetOrta, BudgetZor = o.BudgetZor, BudgetCokZor = o.BudgetCokZor, BandWant = o.BandWant,
+            Finalists = o.Finalists, Players = o.Players, SearchPlayers = o.SearchPlayers, MemoryTable = o.MemoryTable, Seed = o.Seed, Relax = o.Relax, FunFirst = o.FunFirst
+        };
+
         /* Every candidate the fun estimate saw, for the agents and later analysis. */
         static string SlotLog(SlotOutcome o)
         {
@@ -91,6 +214,7 @@ namespace ReverseSolver.Generation
             {
                 sb.AppendLine($"{f.Candidate.Id} {(f.Accepted ? "KABUL" : "RET")} {f.Candidate.Params} t{f.Candidate.Level.TimerSeconds} {f.Candidate.Level.Width}x{f.Candidate.Level.Height}");
                 sb.AppendLine($"  {f.Fun}");
+                if (f.Boosted != null) sb.AppendLine($"  V5: {f.Boosted}");
                 if (f.Assessment.Curve != null) sb.AppendLine($"  {f.Assessment.Curve.Spark()} {f.Assessment.Curve}");
                 if (!f.Accepted) sb.AppendLine("  eşik: " + string.Join(", ", f.Psych));
                 if (f.ByMemory != null) sb.AppendLine("  m 0 / 0,5 / 1,0: " + string.Join(" | ", f.ByMemory.Select(r => r.ToString())));

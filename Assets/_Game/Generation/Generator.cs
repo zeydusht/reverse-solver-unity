@@ -483,10 +483,10 @@ namespace ReverseSolver.Generation
         {
             ("#ef5342", "#4a93c4"), ("#4fd0b0", "#4a5f8a"), ("#f0c04a", "#7d6bc0"), ("#e34a3c", "#42607a"), ("#e05a3f", "#33566b")
         };
-        /* The web game's stock once a booster is open (late web levels). */
+        /* The redesign's stock once a booster is open: one of each per attempt (PM 2026-10-17, "V5 çıkış kapısı"). */
         public static readonly IReadOnlyDictionary<string, int> Stock = new Dictionary<string, int>
         {
-            ["scissors"] = 5, ["wand"] = 3, ["hammer"] = 7, ["clock"] = 10
+            ["scissors"] = 1, ["wand"] = 1, ["hammer"] = 1, ["clock"] = 1
         };
 
         public const int Patterns = 4;

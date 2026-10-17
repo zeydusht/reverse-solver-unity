@@ -34,16 +34,16 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void OrtaRelaxesOnlyWhenShortAndLabelled()
         {
-            Assert.That(FunThresholds.RelaxAllowed(Genre.Orta, 1), Is.True);
-            Assert.That(FunThresholds.RelaxAllowed(Genre.Orta, 2), Is.False);
-            Assert.That(FunThresholds.RelaxAllowed(Genre.Zor, 0), Is.False);
+            Assert.That(FunThresholds.RelaxAllowed(Genre.Orta, 1, true), Is.True);
+            Assert.That(FunThresholds.RelaxAllowed(Genre.Orta, 1, false), Is.False, "only after three rounds");
+            Assert.That(FunThresholds.RelaxAllowed(Genre.Orta, 2, true), Is.False);
             var t = FunThresholds.For(Genre.Orta);
             var r = Early(8); r.WinFirst = 75; r.Enjoyed = 90; r.Frustrated = 8; r.HardFrustrated = 8;
             Assert.That(t.Check(r), Has.Some.StartsWith("erken süre bitmesi %8"), "strict Orta cap is 5 %");
             Assert.That(t.Relaxed().Check(r), Has.None.StartsWith("erken süre"), "relaxed cap 10 %");
             Assert.That(t.MaxEarlyTimeout, Is.EqualTo(.05), "the relaxed copy leaves the original alone");
 
-            var o = Factory.RunSlot(FactoryPlan.Slot(6), new FactoryOptions { BudgetOrta = 80, BandWant = 3, Players = 200, SearchPlayers = 100, MemoryTable = false }, Catalog);
+            var o = Factory.RunSlot(FactoryPlan.Slot(6), new FactoryOptions { BudgetOrta = 80, BandWant = 3, Players = 200, SearchPlayers = 100, MemoryTable = false, Relax = true }, Catalog);
             var strict = o.Checked.Count(f => f.Accepted && !f.EarlyRelaxed);
             foreach (var f in o.Checked.Where(f => f.EarlyRelaxed))
             {

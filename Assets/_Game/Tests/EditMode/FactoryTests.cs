@@ -15,17 +15,17 @@ namespace ReverseSolver.Core.Tests
 
         static FactoryOptions Quick => new FactoryOptions { BudgetEasy = 40, BandWant = 4, Players = 200, Finalists = 3 };
 
-        /* Checkpoint 4 thresholds (PRODUCT.md "Keyif eşikleri (kontrol noktası 4)"). */
+        /* Zeyd's targets over checkpoint 4 (PRODUCT.md "Keyif eşikleri (Zeyd hedefleri, 2026-10-17)"). */
         [Test]
         public void ThresholdsNameWhatFails()
         {
-            var t = FunThresholds.For(Genre.Zor);                 // keyif >= 70, total <= 30, unfair <= 5, early time-out <= 25, first try 35-65
-            var ok = new FunSim.Result { Players = 100, Enjoyed = 70, Frustrated = 30, HardFrustrated = 30, WinFirst = 50, WinBy3 = 70, NearMiss = 10, EarlyTimeout = 25 };
-            Assert.That(t.Check(ok), Is.Empty, "Zor: 30 % frustration and 25 % early time-outs pass; near-miss never filters");
-            var bad = new FunSim.Result { Players = 100, Enjoyed = 69, Frustrated = 31, HardFrustrated = 31, WinFirst = 76, WinBy3 = 69, NearMiss = 10, EarlyTimeout = 26 };
+            var t = FunThresholds.For(Genre.Zor);                 // keyif >= 80, total <= 20, unfair <= 5, early time-out <= 25, first try 35-65
+            var ok = new FunSim.Result { Players = 100, Enjoyed = 80, Frustrated = 20, HardFrustrated = 20, WinFirst = 50, WinBy3 = 80, NearMiss = 10, EarlyTimeout = 25 };
+            Assert.That(t.Check(ok), Is.Empty, "Zor: 20 % frustration and 25 % early time-outs pass; near-miss never filters");
+            var bad = new FunSim.Result { Players = 100, Enjoyed = 79, Frustrated = 21, HardFrustrated = 21, WinFirst = 76, WinBy3 = 79, NearMiss = 10, EarlyTimeout = 26 };
             var why = t.Check(bad);
-            Assert.That(why, Has.Some.StartsWith("keyif %69"));
-            Assert.That(why, Has.Some.StartsWith("hayal kırıklığı %31"));
+            Assert.That(why, Has.Some.StartsWith("keyif %79"));
+            Assert.That(why, Has.Some.StartsWith("hayal kırıklığı %21"));
             Assert.That(why, Has.Some.StartsWith("ilk deneme %76"));
             Assert.That(why, Has.Some.StartsWith("erken süre bitmesi %26"));
             foreach (var g in GenreExt.All)

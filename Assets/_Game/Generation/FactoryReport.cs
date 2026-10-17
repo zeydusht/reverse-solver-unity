@@ -74,15 +74,27 @@ namespace ReverseSolver.Generation
             sb.AppendLine();
             sb.AppendLine("Her slotun onaylı seviyesi ya da en iyi finalisti. Okuma: hamle başına okuma; ilk: tahmini ilk denemede kazanma.");
             sb.AppendLine();
-            sb.AppendLine("| Slot | Tür | Yeni | Seviye | Durum | Okuma | İlk | Keyif | Hayal k. | Sıkıcı | Uyum | Süre |");
-            sb.AppendLine("|---|---|---|---|---|---|---|---|---|---|---|---|");
+            sb.AppendLine("Keyif ve hayal k. V5'le (sanal oyuncu stoktaki çekici ve saati takılınca kullanır); ilk deneme ve booster'sız keyif booster'sız koşudan.");
+            sb.AppendLine();
+            sb.AppendLine("| Slot | Tür | Yeni | Seviye | Durum | Okuma | İlk | Keyif | Booster'sız keyif | Hayal k. | Sıkıcı | Uyum | Süre |");
+            sb.AppendLine("|---|---|---|---|---|---|---|---|---|---|---|---|---|");
             foreach (var s in plan)
             {
                 var e = Pick(store, s.Slot);
-                if (e == null) { sb.AppendLine($"| {s.Slot} | {s.Genre.Label()} | {SlotSpec.Label(s.NewThing)} | — | aday yok | | | | | | | |"); continue; }
-                sb.AppendLine($"| {s.Slot} | {s.Genre.Label()} | {SlotSpec.Label(s.NewThing)} | {e.Draft.Id} | {e.Status} | {N(S(e, "okuma"))} | {P(S(e, "ilkDeneme"))} | {P(S(e, "keyif"))} | {P(S(e, "hayalKirikligi"))} | {P(S(e, "sikici"))} | {(double.IsNaN(S(e, "uyum")) ? "—" : N(S(e, "uyum")))} | {S(e, "sure")} |");
+                if (e == null) { sb.AppendLine($"| {s.Slot} | {s.Genre.Label()} | {SlotSpec.Label(s.NewThing)} | — | aday yok | | | | | | | | |"); continue; }
+                sb.AppendLine($"| {s.Slot} | {s.Genre.Label()} | {SlotSpec.Label(s.NewThing)} | {e.Draft.Id} | {e.Status} | {N(S(e, "okuma"))} | {P(S(e, "ilkDeneme"))} | {P(S(e, "keyif"))} | {(double.IsNaN(S(e, "keyifSiz")) ? "—" : P(S(e, "keyifSiz")))} | {P(S(e, "hayalKirikligi"))} | {P(S(e, "sikici"))} | {(double.IsNaN(S(e, "uyum")) ? "—" : N(S(e, "uyum")))} | {S(e, "sure")} |");
             }
             sb.AppendLine();
+            var picks = plan.Select(s => Pick(store, s.Slot)).Where(e => e != null && !double.IsNaN(S(e, "keyif"))).ToList();
+            if (picks.Count > 0)
+            {
+                var first10 = picks.Where(e => e.Slot <= 10).ToList();
+                sb.AppendLine($"Set ortalaması (her slotun seçilen seviyesi, {picks.Count} slot): keyif {P(picks.Average(e => S(e, "keyif")))} (hedef ≥ %90), " +
+                              $"1–10 ilk deneme {(first10.Count == 0 ? "—" : P(first10.Average(e => S(e, "ilkDeneme"))))} (hedef ≥ %85), " +
+                              $"40 ilk deneme {P(picks.Average(e => S(e, "ilkDeneme")))} (bilgi), booster'a dayalı {picks.Count(e => S(e, "boosteraDayali") == 1)}, " +
+                              $"gevşetilmiş {picks.Count(e => S(e, "bantGevsetildi") == 1 || S(e, "erkenGevsetildi") == 1)}.");
+                sb.AppendLine();
+            }
             sb.AppendLine("```");
             sb.AppendLine("okuma  " + Bar(plan.Select(s => Pick(store, s.Slot)).Select(e => e == null ? double.NaN : S(e, "okuma"))));
             sb.AppendLine("ilk    " + Bar(plan.Select(s => Pick(store, s.Slot)).Select(e => e == null ? double.NaN : S(e, "ilkDeneme"))));

@@ -124,11 +124,13 @@ namespace ReverseSolver.Generation
         /* funPlayers > 0: band finalists also get a quick fun estimate, and their first-try
            win outside the genre's band (FunThresholds) adds (distance / 0.1) and keeps them
            out of the finalists. 0 leaves the fun estimate to the factory. */
-        public static SearchResult Run(SlotSpec spec, uint seed, int budget = 120, int want = 6, Catalog catalog = null, int funPlayers = 0)
+        /* relax: after three rounds; Zor / Çok zor search the relaxed first-try band (top 70 / 45 %). */
+        public static SearchResult Run(SlotSpec spec, uint seed, int budget = 120, int want = 6, Catalog catalog = null, int funPlayers = 0, bool relax = false)
         {
             var res = new SearchResult { Spec = spec };
             var players = funPlayers > 0 ? FunSim.Population(funPlayers) : null;
             var t = FunThresholds.For(spec.Genre);
+            if (relax && (spec.Genre == Genre.Zor || spec.Genre == Genre.CokZor)) t = t.Relaxed();
             var funOptions = FunSim.OptionsFor(spec);
             var sw = System.Diagnostics.Stopwatch.StartNew();
             var rng = new Mulberry32(seed * 2654435761u + (uint)spec.Slot);

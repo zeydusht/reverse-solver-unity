@@ -24,16 +24,24 @@ namespace ReverseSolver.Generation
         public int SearchPlayers = 200;            // fun estimate inside the search (first-try target); finalists get Players
         public bool MemoryTable = true;            // m = 0 / 0.5 / 1.0 side by side for the report
         public uint Seed = 1;
+        /* Only after three rounds (PRODUCT.md "Keyif eşikleri (Zeyd hedefleri)"): a slot short of two
+           finalists may take Orta's early time-out cap at 10 % or Zor / Çok zor's first-try band top
+           at 70 / 45 %, labelled. */
+        public bool Relax;
+        /* The set's fun average is under 90 %: Zor / Çok zor rank fun first. */
+        public bool FunFirst;
 
         public int BudgetFor(Genre g) => g == Genre.Orta ? BudgetOrta : g == Genre.Zor ? BudgetZor : g == Genre.CokZor ? BudgetCokZor : BudgetEasy;
     }
 
-    /* The psychologist's numbers (PRODUCT.md "Keyif eşikleri (kontrol noktası 3)",
-       2026-10-13 ~23:10): fun, total and unfair frustration, and the first-try band
-       (the genre's band ± 5 points; Tanıtım / Nefes floors without tolerance).
+    /* The psychologist's numbers (PRODUCT.md "Keyif eşikleri (Zeyd hedefleri, 2026-10-17)"
+       over checkpoints 3 and 4): fun, total and unfair frustration from the V5 run (with
+       boosters); the first-try band (the genre's band ± 5 points; Tanıtım / Nefes floors
+       without tolerance) and the early time-out cap from the run without boosters.
        Near-miss never filters; it only ranks. */
     public sealed class FunThresholds
     {
+        public Genre Genre;
         public double MinEnjoy = .90, MaxFrustration = .05, MaxUnfair = .05;
         /* Checkpoint 4: players whose clock ran out with >= 25 % of the pieces left (O/Z/ÇZ); 1 = no cap. */
         public double MaxEarlyTimeout = 1;
@@ -41,42 +49,51 @@ namespace ReverseSolver.Generation
 
         public static FunThresholds For(Genre g)
         {
-            var t = new FunThresholds();
+            var t = new FunThresholds { Genre = g };
             switch (g)
             {
                 case Genre.Tanitim: t.FirstWin = new Band(.95, null); t.NearMiss = new Band(0, .05); break;
                 case Genre.Nefes: t.FirstWin = new Band(.90, null); t.NearMiss = new Band(0, .05); break;
                 case Genre.Kolay: t.FirstWin = new Band(.80, 1.0); t.NearMiss = new Band(0, .05); break;
-                // checkpoint 4 (PRODUCT.md "Keyif eşikleri (kontrol noktası 4)", 2026-10-14)
-                case Genre.Orta: t.MinEnjoy = .85; t.MaxFrustration = .10; t.MaxEarlyTimeout = .05; t.FirstWin = new Band(.60, .90); t.NearMiss = new Band(.05, .15); break;
-                // early time-out caps Z 25 %, ÇZ 35 % (PM 2026-10-14 gece (2), A); Orta 5 %, relaxed to 10 % only when short
-                case Genre.Zor: t.MinEnjoy = .70; t.MaxFrustration = .30; t.MaxEarlyTimeout = .25; t.FirstWin = new Band(.35, .65); t.NearMiss = new Band(.15, .30); break;
-                default: t.MinEnjoy = .60; t.MaxFrustration = .40; t.MaxEarlyTimeout = .35; t.FirstWin = new Band(.15, .40); t.NearMiss = new Band(.30, .50); break;
+                // fun Zeyd 2026-10-17 (O 90, Z 80, ÇZ 70), frustration PM (O 10, Z 20, ÇZ 30); early time-out
+                // caps O 5 %, Z 25 %, ÇZ 35 % and the first-try bands as at checkpoint 4
+                case Genre.Orta: t.MinEnjoy = .90; t.MaxFrustration = .10; t.MaxEarlyTimeout = .05; t.FirstWin = new Band(.60, .90); t.NearMiss = new Band(.05, .15); break;
+                case Genre.Zor: t.MinEnjoy = .80; t.MaxFrustration = .20; t.MaxEarlyTimeout = .25; t.FirstWin = new Band(.35, .65); t.NearMiss = new Band(.15, .30); break;
+                default: t.MinEnjoy = .70; t.MaxFrustration = .30; t.MaxEarlyTimeout = .35; t.FirstWin = new Band(.15, .40); t.NearMiss = new Band(.30, .50); break;
             }
             return t;
         }
 
-        public const double OrtaRelaxedEarlyTimeout = .10;
+        public const double OrtaRelaxedEarlyTimeout = .10, ZorRelaxedTop = .70, CokZorRelaxedTop = .45;
+        public const string EarlyRelaxedNote = "erken süre gevşetildi: tavan %10 (Orta, 3 turdan sonra slotta 2'den az finalist)";
+        public const string BandRelaxedNote = "bant gevşetildi: ilk deneme üst sınırı {0} (3 turdan sonra slotta 2'den az finalist)";
 
-        /* Orta's relaxed copy: early time-out cap 10 % (label "erken süre gevşetildi"). */
+        /* The relaxed copy: Orta's early time-out cap 10 % ("erken süre gevşetildi"), Zor's and
+           Çok zor's first-try band top 70 / 45 % ("bant gevşetildi"); other genres unchanged. */
         public FunThresholds Relaxed()
         {
             var r = (FunThresholds)MemberwiseClone();
-            r.MaxEarlyTimeout = OrtaRelaxedEarlyTimeout;
+            if (Genre == Genre.Orta) r.MaxEarlyTimeout = OrtaRelaxedEarlyTimeout;
+            if (Genre == Genre.Zor) r.FirstWin = new Band(FirstWin.Min, ZorRelaxedTop);
+            if (Genre == Genre.CokZor) r.FirstWin = new Band(FirstWin.Min, CokZorRelaxedTop);
             return r;
         }
 
-        /* The relaxed cap applies only to an Orta slot left with fewer than two finalists. */
-        public static bool RelaxAllowed(Genre g, int finalists) => g == Genre.Orta && finalists < 2;
+        /* Relaxing applies only after three rounds, to an Orta / Zor / Çok zor slot left with fewer than two finalists. */
+        public static bool RelaxAllowed(Genre g, int finalists, bool afterThreeRounds) =>
+            afterThreeRounds && (g == Genre.Orta || g == Genre.Zor || g == Genre.CokZor) && finalists < 2;
 
-        public List<string> Check(FunSim.Result f)
+        /* plain: the run without boosters (first try, early time-out); boosted: the V5 run (fun,
+           frustration); null takes plain for both (the search and the old tables). */
+        public List<string> Check(FunSim.Result plain, FunSim.Result boosted = null)
         {
+            var f = boosted ?? plain;
             var u = new List<string>();
-            if (f.EnjoyRate < MinEnjoy) u.Add($"keyif %{f.EnjoyRate * 100:0.0} (≥ %{MinEnjoy * 100:0})");
-            if (f.FrustrationRate > MaxFrustration) u.Add($"hayal kırıklığı %{f.FrustrationRate * 100:0.0} (≤ %{MaxFrustration * 100:0})");
-            if (f.UnfairRate > MaxUnfair) u.Add($"haksız hayal kırıklığı %{f.UnfairRate * 100:0.0} (≤ %{MaxUnfair * 100:0})");
-            if (!FirstWin.Contains(f.FirstWinRate)) u.Add($"ilk deneme %{f.FirstWinRate * 100:0} (hedef {Pct(FirstWin)})");
-            if (f.EarlyTimeoutRate > MaxEarlyTimeout + 1e-9) u.Add($"erken süre bitmesi %{f.EarlyTimeoutRate * 100:0.0} (≤ %{MaxEarlyTimeout * 100:0})");
+            if (f.EnjoyRate < MinEnjoy - 1e-9) u.Add($"keyif %{f.EnjoyRate * 100:0.0} (≥ %{MinEnjoy * 100:0})");
+            if (f.FrustrationRate > MaxFrustration + 1e-9) u.Add($"hayal kırıklığı %{f.FrustrationRate * 100:0.0} (≤ %{MaxFrustration * 100:0})");
+            if (f.UnfairRate > MaxUnfair + 1e-9) u.Add($"haksız hayal kırıklığı %{f.UnfairRate * 100:0.0} (≤ %{MaxUnfair * 100:0})");
+            if (!FirstWin.Contains(plain.FirstWinRate)) u.Add($"ilk deneme %{plain.FirstWinRate * 100:0} (hedef {Pct(FirstWin)})");
+            if (plain.EarlyTimeoutRate > MaxEarlyTimeout + 1e-9) u.Add($"erken süre bitmesi %{plain.EarlyTimeoutRate * 100:0.0} (≤ %{MaxEarlyTimeout * 100:0})");
             return u;
         }
 
@@ -96,7 +113,9 @@ namespace ReverseSolver.Generation
     public sealed class Finalist
     {
         public Assessment Assessment;
-        public FunSim.Result Fun;
+        /* Fun: without boosters (first try, early time-out, near-miss); Boosted: V5 (fun, frustration). */
+        public FunSim.Result Fun, Boosted;
+        public FunSim.Result Feel => Boosted ?? Fun;
         public readonly List<string> Psych = new List<string>();
         public bool Accepted => Psych.Count == 0;
         public Candidate Candidate => Assessment.Candidate;
@@ -106,10 +125,18 @@ namespace ReverseSolver.Generation
         public bool CurveException;
         /* Orta only: accepted with the early time-out cap relaxed to 10 % (slot short of two). */
         public bool EarlyRelaxed;
+        /* Zor / Çok zor only: accepted with the first-try band top relaxed to 70 / 45 %. */
+        public bool BandRelaxed;
+        /* The set's fun average is under 90 %: on Zor / Çok zor fun ranks first. */
+        public bool FunFirst;
+        /* V5 lifted fun by more than this over the run without boosters: "booster'a dayalı" (information). */
+        public const double BoosterLeaning = .15;
+        public bool LeansOnBoosters => Boosted != null && Boosted.EnjoyRate - Fun.EnjoyRate > BoosterLeaning + 1e-9;
 
         /* PM's order: first-try win close to the band's middle, then fun, then near-miss close to its band. */
-        public (double, double, double) RankKey =>
-            (Thresholds.FirstWinOffCentre(Fun.FirstWinRate), -Fun.EnjoyRate, Thresholds.NearMissOff(Fun.NearMissRate));
+        public (double, double, double) RankKey => FunFirst
+            ? (-Feel.EnjoyRate, Thresholds.FirstWinOffCentre(Fun.FirstWinRate), Thresholds.NearMissOff(Fun.NearMissRate))
+            : (Thresholds.FirstWinOffCentre(Fun.FirstWinRate), -Feel.EnjoyRate, Thresholds.NearMissOff(Fun.NearMissRate));
         public double Score => -RankKey.Item1 * 10 + RankKey.Item2 * -1 - RankKey.Item3;
     }
 
@@ -133,36 +160,57 @@ namespace ReverseSolver.Generation
             t ??= FunThresholds.For(spec.Genre);
             var outc = new SlotOutcome { Spec = spec };
             var fun = FunSim.OptionsFor(spec);
-            outc.Search = Search.Run(spec, o.Seed, o.BudgetFor(spec.Genre), o.BandWant, catalog, o.SearchPlayers);
+            var boosted = FunSim.OptionsFor(spec, boosters: true);
+            bool funFirst = o.FunFirst && (spec.Genre == Genre.Zor || spec.Genre == Genre.CokZor);
+            Finalist Estimate(Assessment a, FunThresholds th)
+            {
+                var f = new Finalist
+                {
+                    Assessment = a, Thresholds = th, FunFirst = funFirst,
+                    Fun = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: fun),
+                    Boosted = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: boosted)
+                };
+                f.Psych.AddRange(th.Check(f.Fun, f.Boosted));
+                return f;
+            }
+            outc.Search = Search.Run(spec, o.Seed, o.BudgetFor(spec.Genre), o.BandWant, catalog, o.SearchPlayers, o.Relax);
             foreach (var a in outc.Search.Passed)
             {
-                var f = new Finalist { Assessment = a, Thresholds = t, Fun = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: fun) };
-                f.Psych.AddRange(t.Check(f.Fun));
+                var f = Estimate(a, t);
                 if (o.MemoryTable)
-                    f.ByMemory = new[] { 0, .5, 1.0 }.Select(m => m == .5 ? f.Fun : FunSim.Run(a.Candidate.Level, spec.Genre, players, options: fun.With(m))).ToArray();
+                    f.ByMemory = new[] { 0, .5, 1.0 }.Select(m => m == .5 ? f.Boosted : FunSim.Run(a.Candidate.Level, spec.Genre, players, options: boosted.With(m))).ToArray();
                 outc.Checked.Add(f);
             }
             // curve exception: a slot short of two finalists may take its best near-curve candidate (one)
             if (outc.Chosen.Count < 2)
                 foreach (var a in outc.Search.CurveNear.OrderByDescending(x => x.Curve.Fit))
                 {
-                    var f = new Finalist { Assessment = a, Thresholds = t, CurveException = true, Fun = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: fun) };
-                    f.Psych.AddRange(t.Check(f.Fun));
+                    var f = Estimate(a, t);
+                    f.CurveException = true;
                     outc.Checked.Add(f);
                     if (f.Accepted) break;
                 }
-            // Orta short of two: candidates that pass with the early time-out cap at 10 %, labelled
-            if (FunThresholds.RelaxAllowed(spec.Genre, outc.Chosen.Count))
+            // after three rounds, a slot short of two: Orta's early time-out cap 10 %, Zor / Çok zor's band top 70 / 45 %, labelled
+            if (FunThresholds.RelaxAllowed(spec.Genre, outc.Chosen.Count, o.Relax))
             {
                 var relaxed = t.Relaxed();
-                foreach (var a in outc.Search.EarlyNear)
-                {
-                    if (!FunThresholds.RelaxAllowed(spec.Genre, outc.Chosen.Count)) break;
-                    Calibration.FitTimer(a, FunSim.Population(o.SearchPlayers), relaxed, fun);
-                    var f = new Finalist { Assessment = a, Thresholds = relaxed, EarlyRelaxed = true, Fun = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: fun) };
-                    f.Psych.AddRange(relaxed.Check(f.Fun));
-                    outc.Checked.Add(f);
-                }
+                if (spec.Genre == Genre.Orta)
+                    foreach (var a in outc.Search.EarlyNear)
+                    {
+                        if (!FunThresholds.RelaxAllowed(spec.Genre, outc.Chosen.Count, o.Relax)) break;
+                        Calibration.FitTimer(a, FunSim.Population(o.SearchPlayers), relaxed, fun);
+                        var f = Estimate(a, relaxed);
+                        f.EarlyRelaxed = true;
+                        outc.Checked.Add(f);
+                    }
+                else
+                    for (int i = 0; i < outc.Checked.Count && FunThresholds.RelaxAllowed(spec.Genre, outc.Chosen.Count, o.Relax); i++)
+                    {
+                        var f0 = outc.Checked[i];
+                        if (f0.Accepted || f0.CurveException || relaxed.Check(f0.Fun, f0.Boosted).Count > 0) continue;
+                        var f = new Finalist { Assessment = f0.Assessment, Thresholds = relaxed, Fun = f0.Fun, Boosted = f0.Boosted, ByMemory = f0.ByMemory, FunFirst = funFirst, BandRelaxed = true };
+                        outc.Checked[i] = f;
+                    }
             }
             outc.Ms = sw.Elapsed.TotalMilliseconds;
             return outc;
@@ -195,11 +243,13 @@ namespace ReverseSolver.Generation
 
         public IEnumerable<Entry> ForSlot(int slot) => Entries.Where(e => e.Slot == slot);
 
-        /* A run's chosen finalists replace the slot's earlier unapproved finalists. */
-        public void PutFinalists(SlotOutcome o, int count)
+        /* A run's chosen finalists replace the slot's earlier unapproved finalists; keep: they
+           stay and the new ones only fill the slot up to `count` (a later round of a short slot). */
+        public void PutFinalists(SlotOutcome o, int count, bool keep = false)
         {
-            Entries.RemoveAll(e => e.Slot == o.Spec.Slot && e.Status == Finalist);
-            foreach (var f in o.Chosen.Where(f => !Entries.Any(e => e.Candidate == f.Candidate.Id)).Take(count))
+            if (!keep) Entries.RemoveAll(e => e.Slot == o.Spec.Slot && e.Status == Finalist);
+            int room = count - (keep ? Entries.Count(e => e.Slot == o.Spec.Slot && e.Status == Finalist) : 0);
+            foreach (var f in o.Chosen.Where(f => !Entries.Any(e => e.Candidate == f.Candidate.Id)).Take(Math.Max(0, room)))
             {
                 var e = new Entry
                 {
@@ -209,7 +259,9 @@ namespace ReverseSolver.Generation
                 e.Draft.Id = f.Candidate.Id;
                 e.Draft.Genre = o.Spec.Genre;
                 if (f.CurveException) e.Notes.Add("eğri istisnası: uyum " + f.Assessment.Curve.Fit.ToString("0.00") + " (< 0,6)");
-                if (f.EarlyRelaxed) e.Notes.Add("erken süre gevşetildi: tavan %10 (Orta, slotta 2'den az finalist)");
+                if (f.EarlyRelaxed) e.Notes.Add(FunThresholds.EarlyRelaxedNote);
+                if (f.BandRelaxed) e.Notes.Add(string.Format(FunThresholds.BandRelaxedNote, $"%{f.Thresholds.FirstWin.Max * 100:0}"));
+                if (f.LeansOnBoosters) e.Notes.Add($"booster'a dayalı: booster'lı keyif booster'sızdan {(f.Boosted.EnjoyRate - f.Fun.EnjoyRate) * 100:0} puan yüksek");
                 e.Curve = f.Assessment.Curve != null && f.Assessment.Curve.Defined ? f.Assessment.Curve.Spark() : null;
                 Score(e, f);
                 Entries.Add(e);
@@ -222,26 +274,44 @@ namespace ReverseSolver.Generation
             var a = f.Assessment;
             var m = a.Structure;
             var l = f.Candidate.Level;
-            e.Scores["keyif"] = Math.Round(f.Fun.EnjoyRate, 3);
-            e.Scores["hayalKirikligi"] = Math.Round(f.Fun.FrustrationRate, 3);
-            e.Scores["sikici"] = Math.Round(f.Fun.BoredRate, 3);
-            e.Scores["ilkDeneme"] = Math.Round(f.Fun.FirstWinRate, 3);
-            e.Scores["ucDeneme"] = Math.Round(f.Fun.WinBy3Rate, 3);
-            e.Scores["nearMiss"] = Math.Round(f.Fun.NearMissRate, 3);
-            e.Scores["medyanYildiz"] = f.Fun.MedianStars;
+            FunScores(e, f.Fun, f.Boosted);
             e.Scores["okuma"] = Math.Round(m.ReadingPerMove, 2);
             e.Scores["k0"] = m.FreeAtStart;
             e.Scores["acikDikis"] = LevelStats.Of(l).OpenPercent;
             e.Scores["darbogaz"] = m.Bottlenecks10;
             e.Scores["govde"] = l.Pieces.Count;
             e.Scores["sure"] = l.TimerSeconds;
-            e.Scores["erkenSure"] = Math.Round(f.Fun.EarlyTimeoutRate, 3);
             e.Scores["p"] = Math.Round(l.TimerSeconds / (l.Pieces.Count * DifficultyModel.SecondsPerPiece(m.ReadingPerMove, l.Bombs.Count > 0, e.Slot == 1)), 2);
             if (f.CurveException) e.Scores["egriIstisnasi"] = 1;
             if (f.EarlyRelaxed) e.Scores["erkenGevsetildi"] = 1;
+            if (f.BandRelaxed) e.Scores["bantGevsetildi"] = 1;
             var slack = Calibration.NailSlack(l);
             if (slack.Count > 0) e.Scores["civiOnemli"] = slack.Count(x => x.slack <= Calibration.NailSlackMax) / (double)slack.Count;
             if (a.Curve != null && a.Curve.Defined) { e.Scores["uyum"] = Math.Round(a.Curve.Fit, 2); e.Scores["zirve"] = Math.Round(a.Curve.PeakAt, 2); }
+        }
+
+        /* The fun numbers: keyif, frustration, bored and stars from the V5 run (boosted; null = the
+           old run without boosters), first try, 3 tries, near-miss and early time-out without
+           boosters; the boosterless fun and V5's use rates beside them (PRODUCT.md "V5 çıkış kapısı"). */
+        public static void FunScores(Entry e, FunSim.Result plain, FunSim.Result boosted)
+        {
+            var feel = boosted ?? plain;
+            e.Scores["keyif"] = Math.Round(feel.EnjoyRate, 3);
+            e.Scores["hayalKirikligi"] = Math.Round(feel.FrustrationRate, 3);
+            e.Scores["haksiz"] = Math.Round(feel.UnfairRate, 3);
+            e.Scores["sikici"] = Math.Round(feel.BoredRate, 3);
+            e.Scores["medyanYildiz"] = feel.MedianStars;
+            e.Scores["ilkDeneme"] = Math.Round(plain.FirstWinRate, 3);
+            e.Scores["ucDeneme"] = Math.Round(plain.WinBy3Rate, 3);
+            e.Scores["nearMiss"] = Math.Round(plain.NearMissRate, 3);
+            e.Scores["erkenSure"] = Math.Round(plain.EarlyTimeoutRate, 3);
+            if (boosted == null) return;
+            e.Scores["keyifSiz"] = Math.Round(plain.EnjoyRate, 3);
+            e.Scores["hkSiz"] = Math.Round(plain.FrustrationRate, 3);
+            e.Scores["boosterKazanc"] = Math.Round(boosted.BoostedWinShare, 3);
+            e.Scores["cekic"] = Math.Round(boosted.HammerRate, 3);
+            e.Scores["saat"] = Math.Round(boosted.ClockRate, 3);
+            if (boosted.EnjoyRate - plain.EnjoyRate > ReverseSolver.Generation.Finalist.BoosterLeaning + 1e-9) e.Scores["boosteraDayali"] = 1; else e.Scores.Remove("boosteraDayali");
         }
 
         /* Zeyd's approval: the finalist becomes R<nn> (never reused). */
