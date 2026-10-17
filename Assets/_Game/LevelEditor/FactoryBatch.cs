@@ -48,7 +48,8 @@ namespace ReverseSolver.LevelEditor
                 foreach (var s in FactoryRunner.ShortSlots(RedesignStore.LoadOrNew())) if (!slots.Contains(s)) slots.Add(s);
             slots.Sort();
             var o = FactoryWindow.OptionsFor(int.Parse(Arg("-rsDepth", "2")));
-            FactoryRunner.RunRounds(slots, o, RunName("tur-"), int.Parse(Arg("-rsRounds", "3")), uint.Parse(Arg("-rsSeed", "2")), Flag("-rsRelax"), Log);
+            FactoryRunner.RunRounds(slots, o, RunName("tur-"), int.Parse(Arg("-rsRounds", "3")), uint.Parse(Arg("-rsSeed", "2")), Flag("-rsRelax"), Log,
+                roundMinutes: double.Parse(Arg("-rsRoundMin", "45")), totalMinutes: double.Parse(Arg("-rsTotalMin", "240")));
             Log("bitti, rapor " + FactoryReport.Path);
         }
     }

@@ -30,6 +30,8 @@ namespace ReverseSolver.Generation
         public bool Relax;
         /* The set's fun average is under 90 %: Zor / Çok zor rank fun first. */
         public bool FunFirst;
+        /* A search stops drawing candidates at this time (UTC); the slot keeps what it found. */
+        public DateTime? Deadline;
 
         public int BudgetFor(Genre g) => g == Genre.Orta ? BudgetOrta : g == Genre.Zor ? BudgetZor : g == Genre.CokZor ? BudgetCokZor : BudgetEasy;
     }
@@ -173,7 +175,7 @@ namespace ReverseSolver.Generation
                 f.Psych.AddRange(th.Check(f.Fun, f.Boosted));
                 return f;
             }
-            outc.Search = Search.Run(spec, o.Seed, o.BudgetFor(spec.Genre), o.BandWant, catalog, o.SearchPlayers, o.Relax);
+            outc.Search = Search.Run(spec, o.Seed, o.BudgetFor(spec.Genre), o.BandWant, catalog, o.SearchPlayers, o.Relax, o.Deadline);
             foreach (var a in outc.Search.Passed)
             {
                 var f = Estimate(a, t);

@@ -7,12 +7,14 @@
 #   Tools/unity_batch.sh tests "ReverseSolver.Tests.FunSim" one fixture/namespace (-testFilter)
 #   Tools/unity_batch.sh method <Namespace.Class.Method> [extra Unity args...]
 #
+# UNITY_TIMEOUT_MIN (default 300): the run is killed after this many minutes (exit 124).
 # Exit code: 0 when the run and every test passed, 1 otherwise.
 set -u
 UNITY="${UNITY:-/c/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Unity.exe}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/Logs/batch"
 mkdir -p "$OUT"
+LIMIT="${UNITY_TIMEOUT_MIN:-300}m"
 stamp=$(date +%Y%m%d-%H%M%S)
 mode="${1:-}"; shift || true
 
@@ -28,7 +30,7 @@ case "$mode" in
     log="$OUT/tests-$stamp.log"; xml="$OUT/tests-$stamp.xml"
     filter=(); [ $# -gt 0 ] && filter=(-testFilter "$1")
     start=$(date +%s)
-    "$UNITY" -batchmode -nographics -projectPath "$ROOT" -runTests -testPlatform EditMode \
+    timeout "$LIMIT" "$UNITY" -batchmode -nographics -projectPath "$ROOT" -runTests -testPlatform EditMode \
       -testResults "$xml" "${filter[@]}" -logFile "$log" >/dev/null 2>&1
     code=$?
     echo "tests: $(( $(date +%s) - start )) s, Unity exit $code, log $log"
@@ -44,7 +46,7 @@ case "$mode" in
     m="$1"; shift
     log="$OUT/$(echo "$m" | awk -F. '{print $(NF-1)"."$NF}')-$stamp.log"
     start=$(date +%s)
-    "$UNITY" -batchmode -nographics -quit -projectPath "$ROOT" -executeMethod "$m" "$@" \
+    timeout "$LIMIT" "$UNITY" -batchmode -nographics -quit -projectPath "$ROOT" -executeMethod "$m" "$@" \
       -logFile "$log" >/dev/null 2>&1
     code=$?
     echo "$m: $(( $(date +%s) - start )) s, Unity exit $code, log $log"

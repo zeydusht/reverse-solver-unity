@@ -16,6 +16,7 @@ namespace ReverseSolver.Generation
     {
         public SlotSpec Spec;
         public readonly List<Assessment> Passed = new List<Assessment>();
+        public bool TimedOut;                                  // stopped at the run's deadline
         public int Evaluated, Generated, LookAlikes;
         public int BandPassed;                                 // inside the bands and fair (curve aside)
         /* Checkpoint 4: everything passed but the curve (fit 0.40 to 0.6); the slot's curve exception comes from here. */
@@ -125,7 +126,7 @@ namespace ReverseSolver.Generation
            win outside the genre's band (FunThresholds) adds (distance / 0.1) and keeps them
            out of the finalists. 0 leaves the fun estimate to the factory. */
         /* relax: after three rounds; Zor / Çok zor search the relaxed first-try band (top 70 / 45 %). */
-        public static SearchResult Run(SlotSpec spec, uint seed, int budget = 120, int want = 6, Catalog catalog = null, int funPlayers = 0, bool relax = false)
+        public static SearchResult Run(SlotSpec spec, uint seed, int budget = 120, int want = 6, Catalog catalog = null, int funPlayers = 0, bool relax = false, DateTime? deadline = null)
         {
             var res = new SearchResult { Spec = spec };
             var players = funPlayers > 0 ? FunSim.Population(funPlayers) : null;
@@ -139,6 +140,7 @@ namespace ReverseSolver.Generation
 
             for (int i = 0; i < budget && res.Passed.Count < want; i++)
             {
+                if (deadline.HasValue && (i & 15) == 0 && DateTime.UtcNow >= deadline.Value) { res.TimedOut = true; break; }
                 GenParams p = i < randomPhase || elite.Count == 0 ? Draw(rng, spec.Genre) : Nudge(elite[(int)(rng.NextDouble() * Math.Min(4, elite.Count))].p, rng);
                 uint s = (uint)(rng.NextDouble() * uint.MaxValue) | 1u;
                 res.Evaluated++;

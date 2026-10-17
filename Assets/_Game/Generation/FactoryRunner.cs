@@ -148,9 +148,13 @@ namespace ReverseSolver.Generation
            round in parallel; the finalists found fill the slot (earlier ones stay). Then, with relax,
            one more round with the relaxed thresholds for the slots still short. Fun first on Zor /
            Çok zor when the set's fun average is under 90 %. */
+        /* roundMinutes / totalMinutes: time limits (a round's searches stop at its limit and keep what
+           they found; no new round starts after the total); a progress line every 20 minutes. */
         public static string RunRounds(IEnumerable<int> slots, FactoryOptions o, string runName, int rounds, uint firstSeed, bool relax,
-                                       Action<string> log = null, string levelsJson = "Assets/_Game/Levels/levels.json")
+                                       Action<string> log = null, string levelsJson = "Assets/_Game/Levels/levels.json",
+                                       double roundMinutes = 45, double totalMinutes = 240)
         {
+            var started = DateTime.UtcNow;
             var plan = FactoryPlan.All();
             var catalog = Catalog.From(LevelParser.Parse(File.ReadAllText(levelsJson)));
             var players = FunSim.Population(o.Players);
@@ -168,14 +172,19 @@ namespace ReverseSolver.Generation
                 bool relaxRound = r == rounds;
                 var shortNow = r == 0 ? todo : todo.Where(s => Kept(store, s) < 2).ToList();   // the first round runs every slot asked for
                 if (shortNow.Count == 0) break;
+                if ((DateTime.UtcNow - started).TotalMinutes >= totalMinutes) { log?.Invoke($"zaman sınırı {totalMinutes:0} dk: tur {r + 1} başlatılmadı"); break; }
                 var opt = Clone(o);
                 opt.Seed = firstSeed + (uint)r;
                 opt.Relax = relaxRound;
                 opt.FunFirst = funFirst;
+                opt.Deadline = DateTime.UtcNow.AddMinutes(Math.Min(roundMinutes, totalMinutes - (DateTime.UtcNow - started).TotalMinutes));
+                int doneSlots = 0;
+                using var beat = new System.Threading.Timer(_ => log?.Invoke($"ilerleme: tur {r + 1}, {(DateTime.UtcNow - started).TotalMinutes:0} dk, {System.Threading.Volatile.Read(ref doneSlots)}/{shortNow.Count} slot bitti"),
+                                                            null, TimeSpan.FromMinutes(20), TimeSpan.FromMinutes(20));
                 var sw = System.Diagnostics.Stopwatch.StartNew();
                 var outcomes = new System.Collections.Concurrent.ConcurrentDictionary<int, SlotOutcome>();
                 System.Threading.Tasks.Parallel.ForEach(shortNow, new System.Threading.Tasks.ParallelOptions { MaxDegreeOfParallelism = Math.Max(1, Environment.ProcessorCount - 1) },
-                    s => outcomes[s] = Factory.RunSlot(plan[s - 1], opt, catalog, players));
+                    s => { outcomes[s] = Factory.RunSlot(plan[s - 1], opt, catalog, players); System.Threading.Interlocked.Increment(ref doneSlots); });
                 foreach (var s in shortNow)
                 {
                     var outc = outcomes[s];
@@ -183,7 +192,7 @@ namespace ReverseSolver.Generation
                     store.PutFinalists(outc, o.Finalists, keep: true);
                     int now = store.ForSlot(s).Count(e => e.Status == RedesignStore.Finalist);
                     File.WriteAllText(Path.Combine(dir, $"slot_{s:00}_tur{r + 1}.txt"), SlotLog(outc), new UTF8Encoding(false));
-                    string line = $"tur {r + 1}{(relaxRound ? " (gevşetme)" : "")} tohum {opt.Seed}: {outc.Search} → {outc.Chosen.Count} kabul, slot {had}→{now} finalist";
+                    string line = $"tur {r + 1}{(relaxRound ? " (gevşetme)" : "")} tohum {opt.Seed}: {outc.Search} → {outc.Chosen.Count} kabul, slot {had}→{now} finalist" + (outc.Search.TimedOut ? " (zaman sınırı)" : "");
                     sb.AppendLine(line);
                     log?.Invoke(line);
                 }
@@ -200,7 +209,7 @@ namespace ReverseSolver.Generation
         static FactoryOptions Clone(FactoryOptions o) => new FactoryOptions
         {
             BudgetEasy = o.BudgetEasy, BudgetOrta = o.BudgetOrta, BudgetZor = o.BudgetZor, BudgetCokZor = o.BudgetCokZor, BandWant = o.BandWant,
-            Finalists = o.Finalists, Players = o.Players, SearchPlayers = o.SearchPlayers, MemoryTable = o.MemoryTable, Seed = o.Seed, Relax = o.Relax, FunFirst = o.FunFirst
+            Finalists = o.Finalists, Players = o.Players, SearchPlayers = o.SearchPlayers, MemoryTable = o.MemoryTable, Seed = o.Seed, Relax = o.Relax, FunFirst = o.FunFirst, Deadline = o.Deadline
         };
 
         /* Every candidate the fun estimate saw, for the agents and later analysis. */
