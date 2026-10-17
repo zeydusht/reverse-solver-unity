@@ -1,12 +1,12 @@
 # Seviye fabrikası raporu
 
-Koşu: `rescore-20261017`, 2026-10-17 22:06. Sayılar modelin çıktısıdır: **keyif tahmini** 1000 sanal oyuncunun (FunSim) sonucudur, gerçek oyuncunun yerini tutmaz; playtest'teki 👍/👎 bunu sınar.
+Koşu: `tur2-20261018`, 2026-10-18 02:21. Sayılar modelin çıktısıdır: **keyif tahmini** 1000 sanal oyuncunun (FunSim) sonucudur, gerçek oyuncunun yerini tutmaz; playtest'teki 👍/👎 bunu sınar.
 
 ## Özet
 
-- En az 2 finalisti olan slot: **36/40** · onaylı seviye: **0**
-- Zor slotlar (2'den az finalist ya da onaylı): 10, 14, 28, 34
-- 1–10 tahmini ilk deneme ortalaması: %97 (hedef ≥ %85)
+- En az 2 finalisti olan slot: **39/40** · onaylı seviye: **0**
+- Zor slotlar (2'den az finalist ya da onaylı): 10
+- 1–10 tahmini ilk deneme ortalaması: %94 (hedef ≥ %85)
 - Sıra kontrolü: sorun yok
 
 ## 40'lık sıra
@@ -26,11 +26,11 @@ Keyif ve hayal k. V5'le (sanal oyuncu stoktaki çekici ve saati takılınca kull
 | 7 | Tanıtım | mühür | C07-4ef0899b | finalist | 1,70 | %99 | %99 | %99 | %2 | %0 | — | 60 |
 | 8 | Kolay |  | C08-184d7c45 | finalist | 1,71 | %97 | %98 | %98 | %2 | %0 | — | 55 |
 | 9 | Tanıtım | değnek | C09-111692a5 | finalist | 1,80 | %98 | %98 | %98 | %2 | %0 | — | 60 |
-| 10 | Zor |  | — | aday yok | | | | | | | | |
+| 10 | Zor |  | C10-afebfb9d | finalist | 3,42 | %69 | %81 | %81 | %19 | %0 | 0,78 | 55 |
 | 11 | Nefes |  | C11-031194a1 | finalist | 2,17 | %96 | %98 | %98 | %2 | %0 | — | 60 |
 | 12 | Tanıtım | zincir | C12-782c6447 | finalist | 1,66 | %99 | %99 | %99 | %2 | %0 | — | 55 |
 | 13 | Orta |  | C13-51d0b947 | finalist | 2,78 | %89 | %96 | %96 | %5 | %0 | 0,73 | 60 |
-| 14 | Zor |  | — | aday yok | | | | | | | | |
+| 14 | Zor |  | C14-648ee119 | finalist | 3,70 | %67 | %82 | %82 | %18 | %0 | 0,84 | 50 |
 | 15 | Tanıtım | saat | C15-1662c4ef | finalist | 1,75 | %98 | %100 | %98 | %0 | %0 | — | 50 |
 | 16 | Orta |  | C16-866b071d | finalist | 2,78 | %90 | %99 | %95 | %1 | %0 | 0,56 | 60 |
 | 17 | Zor |  | C17-73ba08a9 | finalist | 3,74 | %65 | %94 | %78 | %6 | %0 | 0,75 | 50 |
@@ -44,13 +44,13 @@ Keyif ve hayal k. V5'le (sanal oyuncu stoktaki çekici ve saati takılınca kull
 | 25 | Zor |  | C25-0463bd5d | finalist | 3,97 | %46 | %96 | %76 | %4 | %0 | 1,00 | 55 |
 | 26 | Nefes |  | C26-31e86877 | finalist | 1,79 | %97 | %100 | %99 | %0 | %0 | — | 55 |
 | 27 | Orta |  | C27-71616439 | finalist | 3,01 | %90 | %99 | %95 | %1 | %0 | 1,00 | 55 |
-| 28 | Zor |  | C28-d58077d1 | finalist | 3,82 | %48 | %87 | %77 | %13 | %0 | 0,56 | 50 |
+| 28 | Zor |  | C28-acac0d29 | finalist | 3,48 | %56 | %94 | %74 | %7 | %0 | 0,74 | 45 |
 | 29 | Nefes |  | C29-2d9dcde3 | finalist | 1,63 | %97 | %100 | %98 | %0 | %0 | — | 45 |
 | 30 | Çok zor |  | C30-965fc867 | finalist | 4,89 | %28 | %85 | %62 | %15 | %0 | 0,64 | 75 |
 | 31 | Nefes |  | C31-ee07d843 | finalist | 1,29 | %97 | %100 | %98 | %0 | %0 | — | 35 |
 | 32 | Zor |  | C32-07f0877b | finalist | 3,64 | %37 | %96 | %78 | %4 | %0 | 0,71 | 70 |
 | 33 | Orta |  | C33-18f6ab59 | finalist | 2,76 | %90 | %100 | %96 | %1 | %0 | 0,98 | 60 |
-| 34 | Çok zor |  | — | aday yok | | | | | | | | |
+| 34 | Çok zor |  | C34-ad810381 | finalist | 5,22 | %36 | %87 | %64 | %13 | %0 | 0,44 | 60 |
 | 35 | Nefes |  | C35-829c6b77 | finalist | 1,45 | %96 | %100 | %97 | %0 | %0 | — | 40 |
 | 36 | Zor |  | C36-a0e5098d | finalist | 3,49 | %48 | %95 | %79 | %5 | %0 | 1,00 | 50 |
 | 37 | Orta |  | C37-d882b223 | finalist | 2,99 | %87 | %99 | %94 | %1 | %0 | 0,60 | 65 |
@@ -58,12 +58,12 @@ Keyif ve hayal k. V5'le (sanal oyuncu stoktaki çekici ve saati takılınca kull
 | 39 | Nefes |  | C39-f330ae03 | finalist | 1,90 | %97 | %100 | %98 | %0 | %0 | — | 55 |
 | 40 | Çok zor |  | C40-74e047bf | finalist | 4,33 | %26 | %85 | %61 | %15 | %0 | 0,97 | 55 |
 
-Set ortalaması (her slotun seçilen seviyesi, 37 slot): keyif %97 (hedef ≥ %90), 1–10 ilk deneme %97 (hedef ≥ %85), 40 ilk deneme %82 (bilgi), booster'a dayalı 9, gevşetilmiş 0.
+Set ortalaması (her slotun seçilen seviyesi, 40 slot): keyif %96 (hedef ≥ %90), 1–10 ilk deneme %94 (hedef ≥ %85), 40 ilk deneme %81 (bilgi), booster'a dayalı 11, gevşetilmiş 2.
 
 ```
-okuma  ▃▃▄▄▃▅▃▃▃ ▄▃▅ ▃▅▇▄▇▄▃▇▄▅▇▃▅▇▃█▃▆▅ ▃▆▅▇▄█
-ilk    █████████ ███ ██▆█▅██▅█▇▄██▄█▃█▃█ █▄▇▅█▃
-keyif  █████████ ███ █████████████▇█▇███ █████▇
+okuma  ▃▃▄▃▃▅▃▃▃▆▄▃▅▆▃▅▆▄▆▄▃▆▃▅▇▃▅▆▃█▂▆▅█▃▆▅▇▃▇
+ilk    █████████▆███▆██▆█▅██▅█▇▄██▅█▃█▃█▃█▄▇▅█▃
+keyif  █████████▇███▇███████████████▇███▇█████▇
 tür    TKTKTOTKTZNTOZTOZNZTKZTOZNOZNÇNZOÇNZOZNÇ
 ```
 
@@ -144,7 +144,10 @@ tür    TKTKTOTKTZNTOZTOZNZTKZTOZNOZNÇNZOÇNZOZNÇ
 
 ### Slot 10 — Zor
 
-Finalist yok.
+| Seviye | Durum | Tahta | Gövde | Açık | k₀ | Okuma | Darboğaz | Süre | Keyif | Hayal k. | Sıkıcı | İlk | 3 dn. | Near-miss | Yıldız | Uyum · zirve |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| C10-afebfb9d | finalist | 6×6 | 36 | %48 | 7 | 3,42 | 2 | 55 sn | %81 | %19 | %0 | %69 | %86 | %21 | 2 | 0,78 · %35 |
+- **C10-afebfb9d** — notlar: bant gevşetildi: ilk deneme üst sınırı %70 (3 turdan sonra slotta 2'den az finalist)
 
 ### Slot 11 — Nefes
 
@@ -171,7 +174,12 @@ Finalist yok.
 
 ### Slot 14 — Zor
 
-Finalist yok.
+| Seviye | Durum | Tahta | Gövde | Açık | k₀ | Okuma | Darboğaz | Süre | Keyif | Hayal k. | Sıkıcı | İlk | 3 dn. | Near-miss | Yıldız | Uyum · zirve |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| C14-648ee119 | finalist | 6×6 | 34 | %47 | 7 | 3,70 | 2 | 50 sn | %82 | %18 | %0 | %67 | %86 | %22 | 2 | 0,84 · %35 |
+| C14-e210e6d3 | finalist | 6×6 | 35 | %47 | 7 | 3,56 | 2 | 50 sn | %80 | %20 | %0 | %68 | %86 | %21 | 2 | 0,64 · %25 |
+- **C14-648ee119** — notlar: bant gevşetildi: ilk deneme üst sınırı %70 (3 turdan sonra slotta 2'den az finalist)
+- **C14-e210e6d3** — notlar: bant gevşetildi: ilk deneme üst sınırı %70 (3 turdan sonra slotta 2'den az finalist)
 
 ### Slot 15 — Tanıtım, yeni: saat
 
@@ -287,7 +295,10 @@ Finalist yok.
 
 | Seviye | Durum | Tahta | Gövde | Açık | k₀ | Okuma | Darboğaz | Süre | Keyif | Hayal k. | Sıkıcı | İlk | 3 dn. | Near-miss | Yıldız | Uyum · zirve |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| C28-9651edfd | finalist | 6×6 | 33 | %50 | 6 | 3,89 | 1 | 65 sn | %91 | %9 | %0 | %52 | %86 | %6 | 2 | 0,66 · %25 |
+| C28-acac0d29 | finalist | 6×6 | 34 | %47 | 7 | 3,48 | 1 | 45 sn | %94 | %7 | %0 | %56 | %78 | %25 | 2 | 0,74 · %35 |
 | C28-d58077d1 | finalist | 6×6 | 33 | %50 | 7 | 3,82 | 3 | 50 sn | %87 | %13 | %0 | %48 | %79 | %16 | 2 | 0,56 · %25 |
+- **C28-acac0d29** — notlar: booster'a dayalı: booster'lı keyif booster'sızdan 20 puan yüksek
 - **C28-d58077d1** — notlar: eğri istisnası: uyum 0,56 (< 0,6)
 
 ### Slot 29 — Nefes
@@ -332,7 +343,12 @@ Finalist yok.
 
 ### Slot 34 — Çok zor
 
-Finalist yok.
+| Seviye | Durum | Tahta | Gövde | Açık | k₀ | Okuma | Darboğaz | Süre | Keyif | Hayal k. | Sıkıcı | İlk | 3 dn. | Near-miss | Yıldız | Uyum · zirve |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| C34-1346c69f | finalist | 6×6 | 34 | %47 | 6 | 4,14 | 5 | 50 sn | %78 | %22 | %0 | %35 | %75 | %16 | 2 | 0,44 · %15 |
+| C34-ad810381 | finalist | 6×7 | 38 | %48 | 5 | 5,22 | 3 | 60 sn | %87 | %13 | %0 | %36 | %72 | %18 | 2 | 0,44 · %15 |
+- **C34-1346c69f** — notlar: eğri istisnası: uyum 0,44 (< 0,6)
+- **C34-ad810381** — notlar: eğri istisnası: uyum 0,44 (< 0,6); booster'a dayalı: booster'lı keyif booster'sızdan 23 puan yüksek
 
 ### Slot 35 — Nefes
 
