@@ -185,7 +185,7 @@ namespace ReverseSolver.Core.Tests
         /* Pass rate of the band filter per slot: 25 candidates from the slot's search
            (random knobs, then hill climbing). Under 20 % marks a "zor slot adayı"
            (it does not stop G4). */
-        [Test]
+        [Test, Explicit("report over all 40 slots (tens of minutes); run on demand")]
         public void BandPassRateBySlot()
         {
             var hard = new List<string>();

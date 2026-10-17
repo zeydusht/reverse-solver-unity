@@ -26,7 +26,7 @@ namespace ReverseSolver.Core.Tests
         /* 1000 candidates spread over the 40 slots (25 seeds each). Every one the
            generator returns is solvable with 0 bombs / 0 freezes / 0 valves, keeps
            the slot's limits and survives a levels.json round trip. */
-        [Test]
+        [Test, Timeout(1200000)]   // a report over all 40 slots: minutes on a busy machine
         public void ThousandCandidatesAreAllSolvableAndKeepTheirLimits()
         {
             var made = new List<Candidate>();
