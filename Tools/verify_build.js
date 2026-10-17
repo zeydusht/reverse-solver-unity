@@ -14,6 +14,9 @@
 //          is blocked and the profile is thrown away.
 //   card   D01 won at 375x667: card bottom <= 667 pt, primary button >= 44 pt,
 //          gap between the title and the picture's frame >= 8 pt
+//   redesign  the Faz 4 set (redesign.json) with ?debug=1&set=redesign: its first level opens
+//          and is won with its stored solution (result card shown, no exceptions); skipped
+//          while redesign.json has no levels
 //
 // Without --send nothing reaches Supabase: every page runs with ?debug=1 (debug never sends)
 // and supabase.co is blocked as well. With --send --player TEST_xxx it also runs, as that player:
@@ -40,7 +43,7 @@ if (local && !fs.existsSync(path.join(local, 'index.html'))) { console.error(`--
 const send = flag('send'), player = opt('player', '');
 if (send && !/^TEST_[A-Z0-9_]+$/.test(player)) { console.error('--send needs --player TEST_NAME (TEST_ names are left out of the analysis)'); process.exit(2); }
 if (!send && player) { console.error('--player only makes sense with --send'); process.exit(2); }
-const only = opt('only', 'boot,namekeys,k1,fps,card' + (send ? ',a6b,m5' : '')).split(',');
+const only = opt('only', 'boot,namekeys,k1,fps,card,redesign' + (send ? ',a6b,m5' : '')).split(',');
 const out = opt('out', null) || fs.mkdtempSync(path.join(os.tmpdir(), 'rs-verify-'));
 fs.mkdirSync(out, { recursive: true });
 const PORT = +opt('port', 9333);
@@ -277,6 +280,22 @@ async function card() {
   p.close();
 }
 
+async function redesign() {
+  const file = path.join(ROOT, 'Assets/_Game/Levels/redesign.json');
+  const set = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')).levels : [];
+  if (!set.length) { check('redesign', true, 'redesign.json boş: atlandı'); return; }
+  const l = set[0], p = await newPage();
+  await p.open(dbg(`${base}/?set=redesign&lv=${l.id}`));
+  for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);   // an intro card, if any
+  await p.solve(l);
+  await sleep(2500);
+  const buf = await p.png(); fs.writeFileSync(path.join(out, `redesign_${l.id}.png`), buf);
+  const img = readPng(buf);
+  let orange = 0; for (let y = 0; y < img.h; y++) { const [r, g, b] = img.at(img.w >> 1, y); if (Math.abs(r - 240) < 12 && Math.abs(g - 167) < 12 && Math.abs(b - 66) < 12) orange++; }
+  check('redesign', orange > 60 && p.exceptions.length === 0, `${l.id} (${set.length} seviyeli set) kayıtlı çözümle oynandı: sonuç kartı ${orange > 60 ? 'var' : 'yok'}, istisna ${p.exceptions.length}`);
+  p.close();
+}
+
 async function a6b() {
   const p = await newPage(), l02 = levels[1];
   const before = await rows();
@@ -327,6 +346,7 @@ async function m5(p) {
     if (only.includes('k1')) await k1();
     if (only.includes('fps')) await fps();
     if (only.includes('card')) await card();
+    if (only.includes('redesign')) await redesign();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
   finally {

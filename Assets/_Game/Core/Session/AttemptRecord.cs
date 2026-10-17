@@ -27,6 +27,9 @@ namespace ReverseSolver.Core
         public int Stars;
         public int Load;
         public int Scissors, Wand, Hammer, Clock;
+        /* Faz 4 G8: the player's answer after a won level, +1 (👍) or -1 (👎); null when not
+           asked (SetFlags.AskFun off) or not answered. Only written to the row when set. */
+        public int? Fun;
 
         public override string ToString() =>
             $"{LevelId} v{LevelVersion} #{Attempt} {Result} dur={DurationSeconds} left={LeftSeconds} " +
