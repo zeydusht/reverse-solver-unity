@@ -69,6 +69,31 @@ select count(distinct player)                                                   
                               group by level_id having count(*) >= 20) x)          as levels_with_n20
 from pt;
 
+-- 4. Booster sensitivity of the first-try win (P1 karar 6 eki, 2026-10-17; secondary, frozen). -----
+--    Primary stays booster-free (query 1). Boosters are used when a loss is near (V5), so the
+--    booster-free filter drops rescued attempts and pushes the first-try win up. Two bounds:
+--      lower: attempts that used a booster count as losses;  upper: they count as they ended.
+with pt as (
+  select p.* from plays p
+  where p.player not ilike 'TEST\_%'
+    and p.client = 'unity-web'
+    and p.level_id like 'R%'
+    and p.created_at >= timestamptz '2099-01-01 00:00+03'
+),
+first_try as (
+  select *, (b_scissors + b_wand + b_hammer + b_clock > 0) as boosted
+  from pt where attempt = 1 and result <> 'quit'
+)
+select level_id, level_version,
+       count(*)                                                                    as completed,
+       round(avg(boosted::int) * 100, 1)                                           as boosted_pct,
+       round(avg((result = 'win' and not boosted)::int) * 100, 1)                  as first_win_lower_pct,
+       round(avg((result = 'win')::int) * 100, 1)                                  as first_win_upper_pct,
+       round(avg((result = 'win')::int) filter (where not boosted) * 100, 1)       as first_win_no_booster_pct
+from first_try
+group by level_id, level_version
+order by level_id, level_version;
+
 -- The comparison with the factory's estimates (Spearman ρ, mean difference d, per genre) is done
 -- outside SQL, joining these rows with redesign.json's "fabrika" scores (ilkDeneme, keyif) by id.
 -- Success (frozen): difficulty ρ >= 0.70 on booster-free first tries; secondary |d| <= 10 points.
