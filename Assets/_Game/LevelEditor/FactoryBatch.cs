@@ -95,6 +95,41 @@ namespace ReverseSolver.LevelEditor
             Log(best.Report());
         }
 
+        /* Zeyd's second hard level (HardFive): seeds in parallel until -rsMin minutes, a progress line
+           every 4 minutes; the one holding the most of the five factors saved to designs.json. */
+        public static void HardFiveRun()
+        {
+            double minutes = double.Parse(Arg("-rsMin", "30"));
+            var catalog = Catalog.From(LevelParser.Parse(File.ReadAllText("Assets/_Game/Levels/levels.json")));
+            var start = DateTime.UtcNow; var end = start.AddMinutes(minutes); var beat = start;
+            HardFive.Result best = null; int tried = 0, full = 0;
+            var why = new System.Collections.Generic.Dictionary<string, int>();
+            var gate = new object();
+            System.Threading.Tasks.Parallel.For(1, 10_000_000, new System.Threading.Tasks.ParallelOptions { MaxDegreeOfParallelism = Math.Max(1, Environment.ProcessorCount - 1) }, (i, state) =>
+            {
+                if (DateTime.UtcNow >= end) { state.Stop(); return; }
+                var r = HardFive.Try((uint)i, catalog, out string w);
+                lock (gate)
+                {
+                    tried++;
+                    if (r != null) { if (r.Missed == 0) full++; if (best == null || HardFive.Better(r, best)) best = r; }
+                    else { string k = System.Text.RegularExpressions.Regex.Replace(w ?? "?", @"[0-9,.]+", "#"); why.TryGetValue(k, out int n); why[k] = n + 1; }
+                    if ((DateTime.UtcNow - beat).TotalMinutes >= 4) { beat = DateTime.UtcNow; Log($"ilerleme: {(beat - start).TotalMinutes:0} dk, {tried} aday, {full} hepsini tuttu, en az kaçırılan {(best == null ? "—" : best.Missed.ToString())}"); }
+                }
+            });
+            Log($"bitti: {tried} aday, {full} hepsini tuttu, {(DateTime.UtcNow - start).TotalMinutes:0} dk");
+            foreach (var kv in why.OrderByDescending(k => k.Value).Take(8)) Log($"  elenme: {kv.Key} × {kv.Value}");
+            if (best == null) { Log("adil aday bulunamadı"); return; }
+            const string path = "Assets/_Game/Levels/designs.json";
+            var store = DesignStore.Parse(File.Exists(path) ? File.ReadAllText(path) : "");
+            best.Draft.Id = null;
+            var saved = store.Save(best.Draft);
+            File.WriteAllText(path, store.ToJson(), new System.Text.UTF8Encoding(false));
+            Log($"kaydedildi: {saved.Id} (tohum {best.Seed}, kaçırılan {best.Missed}; {best.Params})");
+            foreach (var row in best.Factors.Rows()) Log($"  {row.name}: {row.value} (hedef {row.target}) {(row.ok ? "✓" : "✗")}");
+            Log($"  yol: {best.Factors.Source}, {best.Factors.Moves} hamle, süre {best.Level.TimerSeconds} sn, {best.Level.Pieces.Count} parça");
+        }
+
         public static void Rounds()
         {
             var slots = FactoryRunner.ParseSlots(Arg("-rsSlots", "10,28,34"));

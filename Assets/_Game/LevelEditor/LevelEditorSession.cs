@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using ReverseSolver.Core;
 using ReverseSolver.Core.Json;
 using ReverseSolver.Editing;
@@ -174,6 +175,8 @@ namespace ReverseSolver.LevelEditor
         // ---- difficulty panel (A8) -------------------------------------------------------------
 
         public DifficultyModel.Report Difficulty { get; private set; }
+        /* Zeyd's five hardness factors (HardFactors), computed with the panel. */
+        public HardFactors Factors { get; private set; }
         public double DifficultyMs { get; private set; }
         string _difficultyFor;
 
@@ -192,6 +195,7 @@ namespace ReverseSolver.LevelEditor
             var level = Draft.ToLevelData();
             var mc = MonteCarlo.Run(level, MonteCarlo.DefaultRuns);
             Difficulty = DifficultyModel.Analyze(level, Draft.Genre.Value, mc.Structure, mc.WinRate);
+            Factors = HardFactors.Of(level);
             DifficultyMs = sw.Elapsed.TotalMilliseconds;
             _difficultyFor = DifficultyKey();
             Say($"Zorluk hesaplandı ({DifficultyMs:0} ms).");
@@ -528,6 +532,25 @@ namespace ReverseSolver.LevelEditor
         /* Without the editor session: the menu item, or batchmode
            (-executeMethod ReverseSolver.LevelEditor.LevelEditorSession.ExportCsvNow). */
         [MenuItem("Reverse Solver/Seviye CSV'sini yaz", priority = 40)]
+        /* Batchmode: the five hardness factors of the web L40 and the designs, side by side
+           (-executeMethod ReverseSolver.LevelEditor.LevelEditorSession.FactorsNow [-rsIds L40,D04]). */
+        public static void FactorsNow()
+        {
+            var args = Environment.GetCommandLineArgs();
+            int i = Array.IndexOf(args, "-rsIds");
+            var ids = (i >= 0 && i + 1 < args.Length ? args[i + 1] : "L40").Split(',');
+            var web = LevelParser.Parse(File.ReadAllText(LevelsPath));
+            var store = DesignStore.Parse(File.Exists(DesignsPath) ? File.ReadAllText(DesignsPath) : "");
+            foreach (var id in ids)
+            {
+                var l = web.Levels.FirstOrDefault(x => x.Id == id) ?? store.Find(id)?.ToLevelData();
+                if (l == null) { UnityEngine.Debug.Log($"[faktor] {id}: yok"); continue; }
+                var f = HardFactors.Of(l);
+                foreach (var r in f.Rows()) UnityEngine.Debug.Log($"[faktor] {id}	{r.name}	{r.value}	{(r.ok ? "✓" : "✗")}");
+                UnityEngine.Debug.Log($"[faktor] {id}	yol	{f.Source}, {f.Moves} hamle, {l.Width}×{l.Height}, {l.Pieces.Count} parça, süre {l.TimerSeconds} sn");
+            }
+        }
+
         public static void ExportCsvNow()
         {
             var web = LevelParser.Parse(File.ReadAllText(LevelsPath));

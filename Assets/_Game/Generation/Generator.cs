@@ -36,6 +36,8 @@ namespace ReverseSolver.Generation
            is left single for the bomb; one chain spans the bomb's row edge to edge and can only slide
            sideways (so it leaves after the bomb), one spans another row the same way (late lock). */
         public bool CrossChains;
+        /* Remote chains with ends in another row and column, >= 4 cells apart (Zeyd 2026-10-18). */
+        public bool DiagonalChains;
 
         public GenParams Clone() => (GenParams)MemberwiseClone();
         public override string ToString() =>
@@ -148,7 +150,14 @@ namespace ReverseSolver.Generation
                     {
                         a = cells[Next(0, cells.Count - 1)];
                         if (used[a.Y * _w + a.X]) continue;
-                        if (remote)
+                        if (remote && _p.DiagonalChains)
+                        {
+                            // Zeyd 2026-10-18: ends in another row and column, >= 4 cells apart
+                            int dx = Next(1, 3) * (_rng.NextDouble() < .5 ? -1 : 1), dy = Next(1, 3) * (_rng.NextDouble() < .5 ? -1 : 1);
+                            if (Math.Abs(dx) + Math.Abs(dy) < 4) dy += Math.Sign(dy);
+                            bc = new Cell(a.X + dx, a.Y + dy);
+                        }
+                        else if (remote)
                         {
                             // same row or column, 2-3 cells apart: the pair slides as one body
                             bool row = _rng.NextDouble() < .5; int gap = Next(2, 3) * (_rng.NextDouble() < .5 ? -1 : 1);

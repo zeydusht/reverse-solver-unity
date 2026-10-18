@@ -290,6 +290,21 @@ namespace ReverseSolver.Generation
             var slack = Calibration.NailSlack(l);
             if (slack.Count > 0) e.Scores["civiOnemli"] = slack.Count(x => x.slack <= Calibration.NailSlackMax) / (double)slack.Count;
             if (a.Curve != null && a.Curve.Defined) { e.Scores["uyum"] = Math.Round(a.Curve.Fit, 2); e.Scores["zirve"] = Math.Round(a.Curve.PeakAt, 2); }
+            HardScores(e, l);
+        }
+
+        /* Zeyd's five hardness factors (HardFactors, 2026-10-18), kept with every finalist. */
+        public static void HardScores(Entry e, LevelData l)
+        {
+            var h = HardFactors.Of(l);
+            if (h.Dig >= 0) { e.Scores["kazma"] = h.Dig; e.Scores["fitilPay"] = h.FuseSlack; }
+            e.Scores["yem"] = Math.Round(h.BaitShare, 2);
+            e.Scores["civiKritik"] = h.NailCritical ? 1 : 0;
+            e.Scores["caprazZincir"] = h.CrossChains;
+            e.Scores["seritSeri"] = h.LaneRun;
+            e.Scores["kendiliginden"] = h.Cascade;
+            e.Scores["darGecit"] = h.NarrowStretch;
+            e.Scores["sahteSerbest"] = h.FakeFree;
         }
 
         /* The fun numbers: keyif, frustration, bored and stars from the V5 run (boosted; null = the

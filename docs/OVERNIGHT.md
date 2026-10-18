@@ -1,29 +1,27 @@
-# Zor bölüm D04 — telefonda dene (18 Ekim 2026)
+# Zor bölüm D05 — beş etken, L40 ile karşılaştırma (18 Ekim 2026)
 
-**Link:** [D04 oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=designs&lv=D04) — `https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=designs&lv=D04`
+**Link:** [D05 oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=designs&lv=D05) — `https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=designs&lv=D05`
+(Build 4c; testler 532/533, yerel 6/6, gönderimli 8/8. Yayın GitHub bağlantısı gelince yapılır; link o zaman çalışır.)
 
-Build 4b yayında (gh-pages `f78bae9`; bayraklar kapalı, kök hâlâ canlı 40). Testler 532/533 (1 atlandı); yerel 6/6, gönderimli 8/8, canlı 6/6.
+Ölçü: en güçlü oyuncunun yolu (kayıtlı çözüm ya da SmartPlayer), `HardFactors` (Zorluk paneline ve fabrika skorlarına eklendi).
 
-**Bütün şartları tutan tahta çıkmadı** (6 tur, ~3,5 sa, 840+ aday). Kaydedilen en yakın aday:
+| Etken | Hedef | L40 | D04 | **D05** |
+|---|---|---|---|---|
+| 1 En kısa kazma yolu | ≥ 8 | 4 | 10 | **14** |
+| 1 Fitil − yol | 1–2 | 11 | 3 | **2** |
+| 1 Yem (ilk hamledeki serbestlerden bomba yolunda olmayan) | ≥ %50 | 2/7 (%29) | 4/9 (%44) | **11/11 (%100)** |
+| 2 Çivi kritik yolda (çivisiz kazma yolu) | yolda ≥ 1, çivisiz kısa | yolda 2, çivisiz 4 (kolaylaşmıyor) | yolda 1, çivisiz 10 | **yolda 2, çivisiz 2** |
+| 3 Çapraz uzak zincir (≥ 4 hücre, ikinci yarıda) | ≥ 1, tercihen kesişen | 2, kesişiyor | 0 | **2, kesişiyor** |
+| 4 Aynı şeritten art arda aynı yöne | ≤ 2 | 3 | 3 | **2** |
+| 4 Bir hamlede kendiliğinden açılan | ≤ 2 | 3 | 2 | **2** |
+| 5 Dar geçit (orta yarıda ≤ 2 serbestle) | ≥ 4 adım | 3 | 6 | **4** |
+| 5 Sahte serbest (yarı yolda takılan, aynı anda en çok) | > 0 | 5 | 1 | **1 (L40'tan geride)** |
+| Tahta, gövde, süre | — | 6×7, 39, 65 sn | 6×7, 40, 65 sn | 6×7, 40, 65 sn |
 
-| Şart | Tarif | D04 |
-|---|---|---|
-| Tahta, gövde | 6×7, 36–40 | 6×7, 40 ✓ |
-| Açık dikiş | %42–46 | %46 ✓ |
-| İlk hamlede serbest | ≤ 4–5 | **9 ✗ (+4)** |
-| Bomba yeri | her kenardan ≥ 3 | (2,4): 3/4/5/3 ✓ |
-| En kısa kazma yolu | ≥ 8 | 10 ✓ |
-| Fitil | yol + 2 | 13 = yol + 3 (PM kararı A) |
-| Uzak zincir, uçlar karşı kenarlarda | ≥ 2 | 2 ✓; bombanın satırındaki her durumda bombadan sonra çıkar, ikincisi yalnız çözüm yolunda (ikisi birden geometrik olarak imkânsız, PM kaydı) |
-| Çivi | 2, her biri ≥ 6 yolu keser, sayaç %30/%40 | 2, 11 ve 11 yol, sayaç 12 / 16 ✓ |
-| Aynı yöne art arda | ≤ 3 | **4 ✗ (+1)** |
-| Süre payı | 1,15 (≥ 1,1) | 65 sn, pay 1,24 (5 sn'ye yukarı yuvarlama) |
-| Adillik | çözülebilir, supap 0, kayıtlı çözüm kazanır, haksız liste temiz | ✓ |
+D05 Zeyd'in dokuz hedefinin hepsini tutuyor; L40'a göre tek eksik "sahte serbest" (1 / 5). Adillik: SmartPlayer çözüyor, supap 0, kayıtlı çözüm kazanıyor, süre payı 1,15 (≥ 1,1), haksız liste temiz.
 
-En güçlü oyuncu ölçüsü: SmartPlayer 40 hamlede çözüyor; hızlı uzman (parça başına 0,5 sn) ~20 sn; en dar anda 1 seçenek; hamle başına okuma 3,81; darboğaz (10 hamlelik pencerede) 0.
-
-**Getir:** kaç saniyede bitti ya da nerede takıldın, kaçıncı denemede kazandın, haksız hissettiren an var mı.
+**Getir:** kaç saniyede bitti ya da nerede takıldın, kaçıncı denemede, haksız an var mı; D04 ile kıyasla.
 
 ---
 
-Eski raporlar (Build 4 telefon linkleri dahil): `docs/arsiv/OVERNIGHT_ARSIV.md`.
+Eski raporlar (D04, Build 4 linkleri): `docs/arsiv/OVERNIGHT_ARSIV.md`.

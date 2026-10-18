@@ -536,6 +536,12 @@ namespace ReverseSolver.LevelEditor
                 var c = new GUIContent($"<color={colour}>{m.Name}: <b>{m.Value}</b></color>  hedef {m.BandText}", m.Hint);
                 GUILayout.Label(c, _small);
             }
+            if (S.Factors != null)
+            {
+                GUILayout.Label($"Zorluk etkenleri (en güçlü oyuncu, {S.Factors.Source})", _h2);
+                foreach (var row in S.Factors.Rows())
+                    GUILayout.Label($"<color={(row.ok ? "#7fd99a" : "#f0a742")}>{row.name}: <b>{row.value}</b></color>  hedef {row.target}", _small);
+            }
             GUILayout.Label("Öneriler", _h2);
             GUILayout.BeginHorizontal();
             GUILayout.Label($"Süre: {d.Timer} → <b>{r.SuggestedTime}</b> sn (medyan oyuncu: %{r.MedianLeftSuggested * 100:0} kalır, {r.StarsSuggested} yıldız; şu an %{r.MedianLeftNow * 100:0}, {r.StarsNow} yıldız)", _small);
