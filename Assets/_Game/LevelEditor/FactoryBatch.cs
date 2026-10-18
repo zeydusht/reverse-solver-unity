@@ -1,5 +1,8 @@
 using System;
+using System.IO;
 using System.Linq;
+using ReverseSolver.Core;
+using ReverseSolver.Editing;
 using ReverseSolver.Generation;
 using UnityEngine;
 
@@ -55,6 +58,41 @@ namespace ReverseSolver.LevelEditor
             }
             store.Save();
             Log($"çözüm dolduruldu: {filled}, başarısız {failed}, toplam {store.Entries.Count}");
+        }
+
+        /* Zeyd's single hard Çok zor level (HardDesign): seeds in parallel until -rsMin minutes,
+           a progress line every 5 minutes, the best one saved to designs.json with a D id. */
+        public static void HardOne()
+        {
+            double minutes = double.Parse(Arg("-rsMin", "20"));
+            var catalog = Catalog.From(LevelParser.Parse(File.ReadAllText("Assets/_Game/Levels/levels.json")));
+            var start = DateTime.UtcNow; var end = start.AddMinutes(minutes); var beat = start;
+            HardDesign.Result best = null; int tried = 0, passed = 0;
+            var why = new System.Collections.Generic.Dictionary<string, int>();
+            var gate = new object();
+            System.Threading.Tasks.Parallel.For(1, 10_000_000, new System.Threading.Tasks.ParallelOptions { MaxDegreeOfParallelism = Math.Max(1, Environment.ProcessorCount - 1) }, (i, state) =>
+            {
+                if (DateTime.UtcNow >= end) { state.Stop(); return; }
+                var r = HardDesign.Try((uint)i, catalog, out string w);
+                lock (gate)
+                {
+                    tried++;
+                    if (r != null) { if (r.Miss == 0) passed++; if (best == null || HardDesign.Better(r, best)) best = r; }
+                    else { if (tried <= 3) Log("  örnek: " + w); string k = (w ?? "?").StartsWith("açık dikiş") || (w ?? "").StartsWith("kazma yolu") || (w ?? "").StartsWith("ilk hamlede") ? w : System.Text.RegularExpressions.Regex.Replace(w ?? "?", @"[0-9,.]+", "#"); why.TryGetValue(k, out int n); why[k] = n + 1; }
+                    if ((DateTime.UtcNow - beat).TotalMinutes >= 4) { beat = DateTime.UtcNow; Log($"ilerleme: {(beat - start).TotalMinutes:0} dk, {tried} aday, {passed} şartları geçti, en iyi puan {(best == null ? "—" : best.Score.ToString("0.0"))}, en az kaçırma {(best == null ? "—" : best.Miss.ToString("0.0"))}"); }
+                }
+            });
+            Log($"bitti: {tried} aday, {passed} şartları geçti, {(DateTime.UtcNow - start).TotalMinutes:0} dk");
+            foreach (var kv in why.OrderByDescending(k => k.Value).Take(20)) Log($"  elenme: {kv.Key} × {kv.Value}");
+            if (best == null) { Log("adil aday bulunamadı"); return; }
+            Log(best.Miss == 0 ? "bütün şartları tutan aday bulundu" : $"bütün şartları tutan yok; en yakın aday (kaçırma {best.Miss:0.0}) kaydediliyor");
+            const string path = "Assets/_Game/Levels/designs.json";
+            var store = DesignStore.Parse(File.Exists(path) ? File.ReadAllText(path) : "");
+            best.Draft.Id = null;
+            var saved = store.Save(best.Draft);
+            File.WriteAllText(path, store.ToJson(), new System.Text.UTF8Encoding(false));
+            Log("kaydedildi: " + saved.Id);
+            Log(best.Report());
         }
 
         public static void Rounds()

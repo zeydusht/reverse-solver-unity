@@ -52,7 +52,8 @@ namespace ReverseSolver.Editing
 
         public const int FuseSearchBudget = 20_000;
 
-        public static StructureMetrics Of(LevelData level)
+        /* fuseBudget: search nodes per bomb for the shortest dig (a deep bomb may need more). */
+        public static StructureMetrics Of(LevelData level, int fuseBudget = FuseSearchBudget)
         {
             var m = new StructureMetrics { LevelId = level.Id, FewestChoices = int.MaxValue };
             var path = SmartPlayer.Play(level).Moves;
@@ -62,7 +63,7 @@ namespace ReverseSolver.Editing
             var longFuses = LevelDraft.FromLevel(level);
             foreach (var b in level.Bombs) longFuses.SetBomb(level.Pieces[b.Key][0], LevelDraft.MaxCount);
             var digStart = new GameSession(longFuses.ToLevelData(), 1, "structure", new Mulberry32(1));
-            m.FuseMargin = FuseMarginOf(digStart, level.Bombs, m.BombDigs, out m.FuseMarginExact);
+            m.FuseMargin = FuseMarginOf(digStart, level.Bombs, m.BombDigs, out m.FuseMarginExact, fuseBudget);
 
             double freedomSum = 0;
             foreach (var move in path)
@@ -96,13 +97,13 @@ namespace ReverseSolver.Editing
         }
 
         /* start: the level with every fuse long; fuses: the level's own fuses. */
-        static double FuseMarginOf(GameSession start, IReadOnlyDictionary<int, int> fuses, Dictionary<int, (int, bool)> digs, out bool exact)
+        static double FuseMarginOf(GameSession start, IReadOnlyDictionary<int, int> fuses, Dictionary<int, (int, bool)> digs, out bool exact, int fuseBudget)
         {
             double best = double.NaN;
             exact = true;
             foreach (var b in fuses)
             {
-                int budget = FuseSearchBudget;
+                int budget = fuseBudget;
                 bool thisExact = true;
                 int moves = FewestMovesToRemove(start, b.Key, start.Board.PresentCount, ref budget);
                 if (moves < 0 && budget <= 0)

@@ -32,6 +32,10 @@ namespace ReverseSolver.Generation
            open and at most FreeMax pieces can leave on the first move. NaN / -1: off. */
         public double OpenTarget = double.NaN;
         public int FreeMax = -1;
+        /* Zeyd's hard recipe (2026-10-18): a core cell (each edge >= 3 cells away, counting the cell)
+           is left single for the bomb; one chain spans the bomb's row edge to edge and can only slide
+           sideways (so it leaves after the bomb), one spans another row the same way (late lock). */
+        public bool CrossChains;
 
         public GenParams Clone() => (GenParams)MemberwiseClone();
         public override string ToString() =>
@@ -49,6 +53,7 @@ namespace ReverseSolver.Generation
         public LevelData Level;
         public int Flattened;          // seams opened by the peel
         public int Locked;             // inner seams still interlocked
+        public Cell? Core;             // CrossChains: the bomb's cell
 
         public override string ToString() => $"{Id} {Level.Width}x{Level.Height} pieces {Level.Pieces.Count} open {Level.Open}%";
     }
@@ -89,6 +94,7 @@ namespace ReverseSolver.Generation
             if (!b.Peel(out why)) return null;
             b.Relock();
             var c = b.ToCandidate(seed, catalog, out why);
+            if (c != null) c.Core = b.Core;
             return c;
         }
 
@@ -107,6 +113,7 @@ namespace ReverseSolver.Generation
             readonly Dictionary<Dir, HashSet<int>> _sealed = new Dictionary<Dir, HashSet<int>>();
             readonly List<(int piece, Dir dir)> _order = new List<(int, Dir)>();
             int _flattened;
+            public Cell? Core;
 
             public Build(SlotSpec spec, GenParams p, IRandom rng) { _spec = spec; _p = p; _rng = rng; }
 
@@ -118,6 +125,7 @@ namespace ReverseSolver.Generation
             public bool Pieces(out string why)
             {
                 why = null;
+                if (_p.CrossChains) return CrossPieces(out why);
                 int chains = Next(_spec.MinChains, _spec.MaxChains);
                 int remotes = Math.Min(chains, Next(_spec.MinRemote, _spec.MaxRemote));
                 if (remotes < _spec.MinRemote) { why = "chains fewer than the remote minimum"; return false; }
@@ -170,6 +178,36 @@ namespace ReverseSolver.Generation
                     if (!_sealed.TryGetValue(side, out var set)) _sealed[side] = set = new HashSet<int>();
                     if (set.Add(lane)) i++;
                 }
+                return true;
+            }
+
+            bool CrossPieces(out string why)
+            {
+                why = null;
+                (_w, _h) = _spec.Boards[Next(0, _spec.Boards.Length - 1)];
+                if (_w < 5 || _h < 5) { why = "board too small for a core"; return false; }
+                _v = new int[_h, _w + 1];
+                _hj = new int[_h + 1, _w];
+                for (int y = 0; y < _h; y++) for (int x = 1; x < _w; x++) _v[y, x] = _rng.NextDouble() < .5 ? 1 : -1;
+                for (int y = 1; y < _h; y++) for (int x = 0; x < _w; x++) _hj[y, x] = _rng.NextDouble() < .5 ? 1 : -1;
+                var core = new Cell(Next(2, _w - 3), Next(2, _h - 3));
+                Core = core;
+                var used = new bool[_w * _h];
+                var rowChain = new[] { new Cell(0, core.Y), new Cell(_w - 1, core.Y) };
+                // the second chain spans another row: crossing chains would wall in the cell where they meet
+                // on the top or bottom row: a chain sliding along an inner row keeps both neighbour rows' seams flat
+                var rows = new List<int> { 0, _h - 1 };
+                int ry = rows[Next(0, rows.Count - 1)];
+                var colChain = new[] { new Cell(0, ry), new Cell(_w - 1, ry) };
+                foreach (var ch in new[] { rowChain, colChain }) { _pieces.Add(ch); foreach (var c in ch) used[c.Y * _w + c.X] = true; }
+                for (int y = 0; y < _h; y++) for (int x = 0; x < _w; x++) if (!used[y * _w + x]) _pieces.Add(new[] { new Cell(x, y) });
+                _pieces.Sort((x, y) => (x[0].Y * _w + x[0].X).CompareTo(y[0].Y * _w + y[0].X));
+                _owner = new int[_w * _h];
+                for (int i = 0; i < _pieces.Count; i++) foreach (var c in _pieces[i]) _owner[c.Y * _w + c.X] = i;
+                _present = Enumerable.Repeat(true, _pieces.Count).ToArray();
+                void Seal(Dir side, int lane) { if (!_sealed.TryGetValue(side, out var set)) _sealed[side] = set = new HashSet<int>(); set.Add(lane); }
+                // a chain moves as one: column 0 sealed up and the last column down keep both chains sideways
+                Seal(Dir.U, 0); Seal(Dir.D, _w - 1);
                 return true;
             }
 
@@ -263,7 +301,12 @@ namespace ReverseSolver.Generation
                             options.Add((p, d, flat, w));
                         }
                     }
-                    if (options.Count == 0) { why = "peel stuck"; return false; }
+                    if (options.Count == 0)
+                    {
+                        why = $"peel stuck {_pieces.Count - left}/{_pieces.Count}, left: " +
+                              string.Join(" ", Enumerable.Range(0, _pieces.Count).Where(q => _present[q]).Take(6).Select(q => string.Join("+", _pieces[q].Select(c => $"{c.X},{c.Y}"))));
+                        return false;
+                    }
                     double total = options.Sum(o => o.weight), r = _rng.NextDouble() * total;
                     var pick = options[options.Count - 1];
                     foreach (var o in options) { r -= o.weight; if (r <= 0) { pick = o; break; } }
