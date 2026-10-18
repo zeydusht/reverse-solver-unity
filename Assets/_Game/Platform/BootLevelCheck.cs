@@ -60,6 +60,7 @@ namespace ReverseSolver.Platform
                 sc.TryGet("stars", out var stars);
 
                 var s = new GameSession(set[id.AsString], 1, "boot", new Mulberry32((uint)seedNode.AsNumber));
+                s.ClockOnFirstMove = false;   // the web game's clock: these scenarios replay the web code
                 bool ok = true;
                 foreach (var m in moves.Items)
                 {

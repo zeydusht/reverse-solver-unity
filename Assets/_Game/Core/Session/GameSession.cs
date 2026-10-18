@@ -36,6 +36,12 @@ namespace ReverseSolver.Core
 
         public int TimeLeft { get; private set; }
         public int ElapsedSeconds { get; private set; }
+
+        /* Zeyd 2026-10-18: the countdown starts with the player's first action (an exit, a jam or a
+           booster), so looking at the board before the first move is free. False keeps the web game's
+           rule (the clock runs from the start): the web golden scenarios and the fun model use it. */
+        public bool ClockOnFirstMove { get; set; } = true;
+        public bool ClockStarted { get; private set; }
         public int Moves { get; private set; }
         public int Jams { get; private set; }
         public int ValveCount { get; private set; }
@@ -78,6 +84,7 @@ namespace ReverseSolver.Core
             Level = o.Level; Attempt = o.Attempt; Client = o.Client; _random = o._random;
             Board = o.Board.Clone();
             TimeLeft = o.TimeLeft; ElapsedSeconds = o.ElapsedSeconds; Moves = o.Moves; Jams = o.Jams;
+            ClockOnFirstMove = o.ClockOnFirstMove; ClockStarted = o.ClockStarted;
             ValveCount = o.ValveCount; Outcome = o.Outcome; Record = o.Record;
             _nails = new Dictionary<int, int>(o._nails);
             _bombs = new SortedDictionary<int, int>(o._bombs);
@@ -134,6 +141,7 @@ namespace ReverseSolver.Core
             if (IsOver) return CommandResult.GameOver;
             if (!IsPiece(piece)) return CommandResult.NoSuchPiece;
             Jams++;
+            ClockStarted = true;
             Raise(GameEvent.Jam(piece));
             return CommandResult.Ok;
         }
@@ -228,6 +236,7 @@ namespace ReverseSolver.Core
         public void Tick(double dt)
         {
             if (IsOver || dt <= 0) return;
+            if (ClockOnFirstMove && !ClockStarted) return;
             _clockCarry += dt;
             while (_clockCarry >= 1 - 1e-9 && !IsOver)
             {
@@ -251,6 +260,7 @@ namespace ReverseSolver.Core
 
         void Remove(int piece, Dir dir, bool byHammer)
         {
+            ClockStarted = true;
             Board.Remove(piece);
             Moves++;
             Raise(GameEvent.Removed(piece, dir, byHammer));
@@ -327,6 +337,7 @@ namespace ReverseSolver.Core
 
         void Spend(Booster b)
         {
+            ClockStarted = true;
             _stock[(int)b]--;
             _used[(int)b]++;
             Raise(GameEvent.Used(b));

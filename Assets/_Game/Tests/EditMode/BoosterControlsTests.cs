@@ -7,7 +7,7 @@ namespace ReverseSolver.Core.Tests
        target) to a GameSession command and its events, without Unity. */
     public class BoosterControlsTests
     {
-        static GameSession Session(string id, uint seed = 1) => new GameSession(TestData.Levels[id], 1, "test", new Mulberry32(seed));
+        static GameSession Session(string id, uint seed = 1) => TestData.WebClock(new GameSession(TestData.Levels[id], 1, "test", new Mulberry32(seed)));
 
         static int Count(GameSession s, EventKind k) => s.Events.Count(e => e.Kind == k);
 
@@ -172,7 +172,8 @@ namespace ReverseSolver.Core.Tests
             b.Quit();                                     // back to the menu
             log.Add(b.Record);
             Assert.That(log.Records.Select(r => (r.Attempt, r.Result)), Is.EqualTo(new[] { (1, "quit"), (2, "quit") }));
-            Assert.That(log.Records[0].DurationSeconds, Is.EqualTo(3));
+            // 2026-10-18: the clock starts with the first move; a restart before any move lasted 0 s
+            Assert.That(log.Records[0].DurationSeconds, Is.EqualTo(0));
         }
     }
 }

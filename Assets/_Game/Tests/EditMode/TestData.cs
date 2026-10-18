@@ -9,6 +9,9 @@ namespace ReverseSolver.Core.Tests
        working directory when the Unity test runner executes. */
     static class TestData
     {
+        /* The web game's clock (runs from the start): tests of the timer mechanics use it. */
+        public static GameSession WebClock(GameSession g) { g.ClockOnFirstMove = false; return g; }
+
         public const string LevelsPath = "Assets/_Game/Levels/levels.json";
         public const string GoldenPath = "Assets/_Game/Tests/EditMode/Golden/travel_golden.json";
 

@@ -548,6 +548,13 @@ namespace ReverseSolver.LevelEditor
                 var f = HardFactors.Of(l);
                 foreach (var r in f.Metrics()) UnityEngine.Debug.Log($"[faktor] {id}	{r.name}	{r.value}	{(r.ok ? "✓" : "✗")}");
                 UnityEngine.Debug.Log($"[faktor] {id}	yol	{f.Source}, {f.Moves} hamle, {l.Width}×{l.Height}, {l.Pieces.Count} parça, süre {l.TimerSeconds} sn");
+                var mc = MonteCarlo.Run(l, 1000);
+                var sp = SmartPlayer.Play(l);
+                var dc = DesignCheck.Run(l);
+                UnityEngine.Debug.Log($"[faktor] {id}	Monte Carlo	1000 rastgele oyun: kazanma %{mc.WinRate * 100:0.0}, bomba kaybı %{mc.BombRate * 100:0.0}, donma {mc.Frozen}, supaplı oyun {mc.RunsWithValve}");
+                UnityEngine.Debug.Log($"[faktor] {id}	En kısa çözüm	{sp.Moves.Count} hamle (SmartPlayer: {sp.Verdict}, supap {sp.Valves}); tasarım kontrolü: {dc.Verdict}");
+                double s = DifficultyModel.SecondsPerPiece(StructureMetrics.Of(l).ReadingPerMove, l.Bombs.Count > 0, false);
+                UnityEngine.Debug.Log($"[faktor] {id}	M10 Süre payı	{l.TimerSeconds / (l.Pieces.Count * s):0.00} (hedef 1,15; süre ilk hamleyle: build'de yok)");
             }
         }
 

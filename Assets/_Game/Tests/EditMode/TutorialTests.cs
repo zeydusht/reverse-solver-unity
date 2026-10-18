@@ -5,7 +5,7 @@ namespace ReverseSolver.Core.Tests
     /* The level-1 hand (PRODUCT.md, M6 criteria 1-3): the web drawTutorial rule. */
     public class TutorialTests
     {
-        static GameSession L01() => new GameSession(TestData.Levels["L01"], 1, "test", new Mulberry32(1));
+        static GameSession L01() => TestData.WebClock(new GameSession(TestData.Levels["L01"], 1, "test", new Mulberry32(1)));
 
         [Test]
         public void PointsAtTheWebMoveAndThatMoveLeaves()
@@ -36,7 +36,7 @@ namespace ReverseSolver.Core.Tests
             var s = L01();
             Assert.That(Tutorial.Hint(s, false, false, out _), Is.False, "not the first level");
             Assert.That(Tutorial.Hint(s, true, true, out _), Is.False, "already done this visit");
-            var l2 = new GameSession(TestData.Levels["L02"], 1, "test", new Mulberry32(1));
+            var l2 = TestData.WebClock(new GameSession(TestData.Levels["L02"], 1, "test", new Mulberry32(1)));
             Assert.That(Tutorial.Hint(l2, true, false, out var m2), Is.True, "the rule is the set's first level, whatever it is");
             Assert.That(l2.Probe(m2.Piece, m2.Dir).Exit, Is.True);
         }

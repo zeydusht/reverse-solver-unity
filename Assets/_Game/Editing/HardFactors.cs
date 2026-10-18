@@ -25,7 +25,8 @@ namespace ReverseSolver.Editing
         public bool DigExact = true;
         public double BaitShare => FreeAtStart == 0 ? 0 : (double)Bait / FreeAtStart;
         public int NailsOnWay;
-        public bool NailCritical => NailsOnWay > 0 && DigWithoutNails >= 0 && Dig > DigWithoutNails;
+        public bool NailShortens; public int NailBombDig = -1;
+        public bool NailCritical => NailsOnWay > 0 && (NailShortens || (DigWithoutNails >= 0 && Dig > DigWithoutNails));
         public readonly List<(int gapRows, int gapCols, double leaveAt)> Chains = new List<(int, int, double)>();
         public int CrossChains => Chains.Count(c => c.gapRows > 0 && c.gapCols > 0 && c.gapRows + c.gapCols >= 4 && c.leaveAt >= .5);
         public bool ChainsCross;
@@ -35,6 +36,7 @@ namespace ReverseSolver.Editing
         public string Source = "";
 
         // ---- docs/ZORLUK_METRIKLERI.md, M1-M9 (Zeyd 2026-10-18: the primary difficulty measure) ----
+        public int MaxFreeAtAll;                 // the most pieces free at once along the whole path
         public int MaxFreeEarly;                 // M2: most pieces free at once in the first 70 % of the moves
         public double Tied3Share;                // M3: share of the pieces held by >= 3 neighbours (locked seams) at the start
         public int MaxSingleTie;                 // M3: most pieces at once held by exactly one neighbour (the "find it" ones)
@@ -66,6 +68,9 @@ namespace ReverseSolver.Editing
                 foreach (var n in level.Nails) d.SetNail(level.Pieces[n.Key][0], 0);
                 var bare = StructureMetrics.Of(d.ToLevelData(), digBudget);
                 f.DigWithoutNails = bare.BombDigs.TryGetValue(deep.Key, out var bd) ? bd.dig : -1;
+                // M6: a nail counts if any bomb's dig gets shorter without the nails
+                foreach (var kv in m.BombDigs)
+                    if (bare.BombDigs.TryGetValue(kv.Key, out var bb) && bb.dig < kv.Value.dig) { f.NailShortens = true; f.DigWithoutNails = bb.dig; f.NailBombDig = kv.Value.dig; }
             }
             var way = new HashSet<int>();
             foreach (var b in level.Bombs.Keys) foreach (var p in Cone(start.Board, b)) way.Add(p);
@@ -119,6 +124,7 @@ namespace ReverseSolver.Editing
             for (int i = 0; i < moves.Count && !s.IsOver; i++)
             {
                 var before = FreeNow(s);
+                f.MaxFreeAtAll = Math.Max(f.MaxFreeAtAll, before.Count);
                 if (i < moves.Count * 7 / 10) f.MaxFreeEarly = Math.Max(f.MaxFreeEarly, before.Count);
                 foreach (var c in chainIds) if (s.Board.IsPresent(c)) foreach (var d in TravelRule.ExitDirs(s.Board, c)) chainDirs[c].Add(d);
                 int single = 0;
@@ -231,7 +237,7 @@ namespace ReverseSolver.Editing
             ("M4 Aynı şeritten art arda", $"{LaneRun}", "≤ 2", LaneRun <= 2),
             ("M5 Bomba kenara uzaklık", BombEdge < 0 ? "bomba yok" : $"{BombEdge}", "≥ 2", BombEdge >= 2),
             ("M5 Kazma yolu / fitil payı", Dig < 0 ? "—" : $"{Dig} / +{FuseSlack}", "≥ 8 / +1", Dig >= 8 && FuseSlack == 1),
-            ("M6 Çivi bomba yolunda", $"yolda {NailsOnWay}, çivisiz yol {(DigWithoutNails < 0 ? "—" : DigWithoutNails.ToString())}", "yolda ≥ 1, çivisiz kısa", NailCritical),
+            ("M6 Çivi bomba yolunda", $"yolda {NailsOnWay}, bombanın yolu çivili {(NailShortens ? NailBombDig : Dig)} / çivisiz {(DigWithoutNails < 0 ? "—" : DigWithoutNails.ToString())}", "yolda ≥ 1, çivisiz kısa", NailCritical),
             ("M6 Çivi boş hamle payı", NailSlack == int.MaxValue ? "—" : $"{NailSlack}", "0", NailSlack == 0),
             ("M7 Zincir yön çatışması", $"{(ChainConflict ? "var" : "yok")}{(ChainEndsApart ? "" : ", uçlar yan yana / aynı şeritte")}", "var, uçlar ayrık", ChainConflict && ChainEndsApart),
             ("M8 Kolay yönü duvarlı parça / şerit", $"{EasyWalled} / {WallLanes}", "≥ 3 / ≥ 3", EasyWalled >= 3 && WallLanes >= 3),

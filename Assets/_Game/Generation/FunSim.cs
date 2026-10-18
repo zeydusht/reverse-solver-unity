@@ -247,6 +247,7 @@ namespace ReverseSolver.Generation
                             double attention, double memory, List<int> remembered, int knotLooks, IRandom recall, IRandom reach, Options opt)
         {
             var s = new GameSession(level, 1, "funsim", new Mulberry32(1));
+            s.ClockOnFirstMove = false;               // the fun model counts the first look too (as fitted)
             var at = new Attempt();
             var moveTimes = new List<double>();
             double moveSum = 0;

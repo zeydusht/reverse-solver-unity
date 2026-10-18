@@ -14,7 +14,7 @@ namespace ReverseSolver.Core.Tests
             var d = LevelDraft.New(3, 3);
             d.Image = image;
             var l = d.ToLevelData();
-            var s = new GameSession(l, 1, "test", new Mulberry32(1));
+            var s = TestData.WebClock(new GameSession(l, 1, "test", new Mulberry32(1)));
             foreach (var m in DesignCheck.Run(l).Solution) s.TryExit(m.Piece, m.Dir);
             Assert.That(s.Outcome, Is.EqualTo(Outcome.Win));
             return s;
@@ -38,7 +38,7 @@ namespace ReverseSolver.Core.Tests
                 Assert.That(Screens.ShowsPicture(Won(null), pic), Is.False, "level without a picture");
                 var lostDraft = LevelDraft.New(3, 3);
                 lostDraft.Image = "D01.jpg";
-                var lost = new GameSession(lostDraft.ToLevelData(), 1, "test", new Mulberry32(1));
+                var lost = TestData.WebClock(new GameSession(lostDraft.ToLevelData(), 1, "test", new Mulberry32(1)));
                 lost.Tick(999);
                 Assert.That(lost.Outcome, Is.EqualTo(Outcome.Time));
                 Assert.That(Screens.ShowsPicture(lost, pic), Is.False, "time ran out");

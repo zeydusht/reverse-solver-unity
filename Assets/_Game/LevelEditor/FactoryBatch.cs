@@ -179,6 +179,42 @@ namespace ReverseSolver.LevelEditor
             Log("kaydedildi: " + saved.Id);
         }
 
+        /* D07 (HardSeven) on D06: seeds in parallel for -rsMin minutes, the best saved as D07. */
+        public static void D07()
+        {
+            const string path = "Assets/_Game/Levels/designs.json";
+            double minutes = double.Parse(Arg("-rsMin", "20"));
+            var store = DesignStore.Parse(File.ReadAllText(path));
+            var d06 = store.Find("D06");
+            var start = DateTime.UtcNow; var end = start.AddMinutes(minutes); var beat = start;
+            HardSeven.Result best = null; int tried = 0, ok = 0;
+            var why = new System.Collections.Generic.Dictionary<string, int>();
+            var gate = new object();
+            System.Threading.Tasks.Parallel.For(1, 10_000_000, new System.Threading.Tasks.ParallelOptions { MaxDegreeOfParallelism = Math.Max(1, Environment.ProcessorCount - 1) }, (i, state) =>
+            {
+                if (DateTime.UtcNow >= end) { state.Stop(); return; }
+                var r = HardSeven.Try(d06, (uint)i, out string w);
+                lock (gate)
+                {
+                    tried++;
+                    if (r != null) { ok++; if (best == null || r.Score > best.Score) best = r; }
+                    else { string k = System.Text.RegularExpressions.Regex.Replace(w ?? "?", @"[0-9]+", "#"); why.TryGetValue(k, out int n); why[k] = n + 1; }
+                    if ((DateTime.UtcNow - beat).TotalMinutes >= 4) { beat = DateTime.UtcNow; Log($"ilerleme: {(beat - start).TotalMinutes:0} dk, {tried} aday, {ok} adil, en iyi açılış {(best == null ? "—" : best.Factors.FreeAtStart.ToString())}"); }
+                }
+            });
+            Log($"bitti: {tried} aday, {ok} adil");
+            foreach (var kv in why.OrderByDescending(k => k.Value).Take(6)) Log($"  elenme: {kv.Key} × {kv.Value}");
+            if (best == null) { Log("D07 çıkmadı"); return; }
+            best.Draft.Id = store.Find("D07") == null ? "D07" : null;
+            var saved = store.Save(best.Draft);
+            File.WriteAllText(path, store.ToJson(), new System.Text.UTF8Encoding(false));
+            var f = best.Factors;
+            Log($"kaydedildi: {saved.Id} (tohum {best.Seed})");
+            Log($"  açılışta serbest {f.FreeAtStart}; oyun boyunca en çok serbest {f.MaxFreeAtAll}; ilk %70'te en çok {f.MaxFreeEarly}; bir hamlede açılan en çok {f.Cascade}");
+            Log($"  bomba {best.Bombs}, fitil payları {string.Join("/", best.FuseSlack.Select(x => "+" + x))}; çivi {best.Nails}; zincir {best.Chains}; duvarlı şerit {best.WallLanes}/{best.Lanes}");
+            Log($"  kazma yolu (en derin) {f.Dig}; çivisiz {f.DigWithoutNails}; süre {best.Draft.Timer} sn");
+        }
+
         public static void Rounds()
         {
             var slots = FactoryRunner.ParseSlots(Arg("-rsSlots", "10,28,34"));

@@ -65,6 +65,7 @@ namespace ReverseSolver.Core.Tests
         static void Replay(LevelData level, IRandom rng, JsonNode steps, string name)
         {
             var s = new GameSession(level, 1, "test", rng);
+            s.ClockOnFirstMove = false;   // the web game's clock: these scenarios replay the web code
             for (int i = 0; i < steps.Count; i++)
             {
                 var step = steps[i];

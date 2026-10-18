@@ -10,7 +10,7 @@ namespace ReverseSolver.Core.Tests
     public class SessionRuleTests
     {
         static LevelData L(string id) => TestData.Levels[id];
-        static GameSession New(string id, uint seed = 1, int attempt = 1) => new GameSession(L(id), attempt, "unity-web", new Mulberry32(seed));
+        static GameSession New(string id, uint seed = 1, int attempt = 1) => TestData.WebClock(new GameSession(L(id), attempt, "unity-web", new Mulberry32(seed)));
 
         static LevelData Row(int n, string extra = "")
         {
@@ -131,7 +131,7 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void TimeRunsOutExactlyAtZeroWithFractionalTicks()
         {
-            var s = new GameSession(Row(2), 1, "t", new Mulberry32(1));
+            var s = TestData.WebClock(new GameSession(Row(2), 1, "t", new Mulberry32(1)));
             for (int i = 0; i < 39; i++) s.Tick(0.25);
             Assert.That(s.IsOver, Is.False, "9.75 s of 10");
             Assert.That(s.TimeLeft, Is.EqualTo(1));
@@ -144,7 +144,7 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void NothingIsAcceptedAfterTheEnd()
         {
-            var s = new GameSession(Row(2, ",\"boosters\":{\"hammer\":1,\"clock\":1,\"scissors\":1,\"wand\":1}"), 1, "t", new Mulberry32(1));
+            var s = TestData.WebClock(new GameSession(Row(2, ",\"boosters\":{\"hammer\":1,\"clock\":1,\"scissors\":1,\"wand\":1}"), 1, "t", new Mulberry32(1)));
             Assert.That(s.Quit(), Is.EqualTo(CommandResult.Ok));
             int events = s.Events.Count;
             Assert.That(s.TryExit(0, Dir.L), Is.EqualTo(CommandResult.GameOver));
@@ -165,7 +165,7 @@ namespace ReverseSolver.Core.Tests
         [TestCase(Outcome.Quit)]
         public void EveryAttemptEndsInExactlyOneRecord(Outcome how)
         {
-            var s = new GameSession(Row(3, ",\"bombs\":{\"2\":1}"), 1, "t", new Mulberry32(1));
+            var s = TestData.WebClock(new GameSession(Row(3, ",\"bombs\":{\"2\":1}"), 1, "t", new Mulberry32(1)));
             switch (how)
             {
                 case Outcome.Win: s.TryExit(2, Dir.R); s.TryExit(0, Dir.L); s.TryExit(1, Dir.U); break;
@@ -185,7 +185,7 @@ namespace ReverseSolver.Core.Tests
         public void RecordFieldsAreFilled()
         {
             var level = L("L12");
-            var s = new GameSession(level, 3, "unity-web", new Mulberry32(1));
+            var s = TestData.WebClock(new GameSession(level, 3, "unity-web", new Mulberry32(1)));
             s.Tick(5);
             s.UseClock();
             int free = TravelRule.FreePieces(s.Board).First(p => s.NailAt(p) <= 0);
