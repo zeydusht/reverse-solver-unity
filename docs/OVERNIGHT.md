@@ -1,43 +1,115 @@
-# GECE BİTTİ — 17 → 18 Ekim 2026 (Faz 4: V5, yeniden koşu, ajan turu 2, kontrol noktası 5)
+# Telefonda finalist turu — Build 4 (18 Ekim 2026)
 
-## Onay kuyruğu talimatı (Zeyd, ~60–90 dk, bilgisayar)
-**Hazır:** 40 slotun hepsinde en az bir finalist var, toplam 103. 37 slotta 2–3 finalist var. Slot 6, 10 ve 34'te tek finalist var; bunlar PM listesinde.
+Build 4 yayında (gh-pages `b5bdbe9`). Normal oyuncu için kök adres hâlâ canlı 40 seviyeyi açar; redesign seti ve 👍/👎 bayrakları kapalı. Doğrulama: yerel 6/6, gönderimli 8/8, canlı 6/6. Testler 532/533 (1 atlandı).
 
-1. Unity'yi normal aç (Hub → ReverseSolver). Menüden **Reverse Solver → Onay kuyruğu**'nu seç.
-2. Slotlar sırayla gelir. Her kartta sayılar, eğri, tasarımcının **fikir** cümlesi ve psikoloğun notu var. Keyif booster'lı, ilk deneme booster'sız sayıdır; ikisi de modelin tahmini.
-3. Her slotta üstteki finalistle başla, **Oyna ▶**'ya bas. Gerçek oyun açılır, bir kez oyna.
-   - Beğendiysen **Onayla**'ya bas. Seviye R kimliği alır ve bu kimlik bir daha verilmez.
-   - Beğenmediysen **Reddet + not**'a bas ve kısa bir neden yaz. Not tasarımcıya gider. Sonra aynı slotun sıradaki finalistini dene.
-   - Bir slotta bir onay yeterli.
-4. Şu etiketlere özellikle bak:
-   - **"booster'a dayalı":** Booster'sız oyna; çok zor geliyorsa not düş.
-   - **"eğri istisnası":** Slot 6, 24, 34 ve 40.
-   - **"bant gevşetildi":** Slot 10 ve 14.
-5. Bitince Claude'a "onayladım" yaz. Onaylar `redesign.json`'a kaydedilir; Claude bunları commit eder ve raporu günceller. Seti canlıya alma komutunu yalnızca sen verirsin; o zamana kadar canlıda eski 40 kalır.
+**Nasıl:** Linke dokun. `?debug=1` olduğu için isim sorulmaz, satır gönderilmez ve bütün bölümler açıktır. Her slotta üstteki finalistle başla. Not al: beğendin mi, zor/kolay, haksız bir an oldu mu. Onayı eve dönünce editörde yaparsın (**Reverse Solver → Onay kuyruğu**, aşağıdaki "Onay kuyruğu talimatı" arşivde, 17 → 18 Ekim raporunda).
 
-## Gece yapılanlar (main, hepsi push'lu)
-- **Token tasarrufu** (`c1face1`): PRODUCT.md 303 KB'tan 71 KB'a indi; arşiv `docs/arsiv/` altında. Ajanlar artık yalnızca ilgili bölümü okuyor ve sonnet modeliyle çalışıyor. `Tools/unity_batch.sh` ekrana yalnızca özet satırları basıyor.
-- **V5 ve senin keyif hedeflerin** (`6653a55`, `379f7eb`): V5 kapalıyken eski sonuçlar birebir aynı çıkıyor.
-  - Çekiç hedefi düzeltildi: önceki hedef seçimi bir seviyede keyfi %88'den %59,5'e düşürüyordu. Yeni yorum "bombaya en yakın engel"; PM onayladı.
-- **Yeniden puanlama ve yeniden koşu:**
-  - Slot 28: 1 → 3 finalist. Slot 34: 0 → 2. Slot 10: 0 → 1, slot 14: 0 → 2; bu ikisinde gevşetme yalnız 3 turdan sonra yapıldı.
-  - Koşulara zaman sınırı ve 20 dakikada bir ilerleme satırı eklendi.
-- **Ajan turu 2:** Bütün finalistlere fikir cümlesi ve psikolog kararı yazıldı.
-- **PM kontrol noktası 5 kararları:**
-  - (a) Eğri istisnası geçerli: slotta en fazla bir aday, uyum ≥ 0,40.
-  - (b) 3 turdan önce yapılmış gevşetmeler geçersiz.
-  - (c) Booster'a dayalı 7 slot (16, 17, 19, 32, 36, 38, 40) tek tur ve 2 saat sınırıyla yeniden üretildi; 16, 17, 19, 32 ve 40 yeni aday aldı.
-  - (d) Çekiç yorumu onaylandı.
-- **Bağımsız inceleme** (rastgele 5 finalist): Veri kalitesi hatası yok. Boş kalan 88 kayıtlı çözüm SmartPlayer'ın kazanan hamle sırasıyla dolduruldu.
-- **Set:** Keyif ortalaması %96 (hedef ≥ %90). 1–10 ilk deneme %94 (hedef ≥ %85). 40'ın ilk deneme ortalaması %81 (bilgi). Seçilen seviyelerden 8'i booster'a dayalı.
-- **Testler:** 532/533 geçti, 1 atlandı, 0 kaldı. Testlere yeni denetim testi eklendi: her finalist temiz çözülüyor, stoğu doğru, kayıtlı çözümü kazanıyor; rastgele 5 finalist skorlarını birebir veriyor.
-- **Not:** Bilgisayar 22:51–01:25 arasında uykuya geçti. Gece işleri boyunca uyku engellendi; bu geçiciydi, kalıcı ayar değişmedi.
+Keyif booster'lı, ilk deneme booster'sız; ikisi de modelin tahmini. Slot içi sıra: önce booster'a dayalı olmayanlar, sonra yüksek keyif.
 
-## Zeyd'in yapacakları
-1. **Onay kuyruğu** (yukarıdaki talimat).
-2. **iPhone, ~25 dk:** Build 3 telefon oturumu, `docs/TELEFON_TESTI.md`. İlk madde isim kapısı: kutuya dokun, yaz, Git'e bas.
-3. **Bekleyen kararlar:** playtest linki (P1 karar 2) ve davet kanalı ile ödül (P1 karar 5).
-4. **Kısa işler:** Excel ve CSV'yi aç · seviye editörü kabul turu · Unity'de MCP düğmesi · Actions'taki eski re-run'ı iptal et · saatlik gece görevini kapat.
-5. **Yalnızca sende:** `004_keyif.sql` kararı, "yeni seti canlıya al" komutu, playtest öncesi 4G teyidi.
+| Slot | Tür | Finalist | Keyif / ilk | Etiket | Link |
+|---|---|---|---|---|---|
+| 1 | Tanıtım | C01-2086a88b | %100 / %100 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C01-2086a88b) |
+|  |  | C01-5e45697d | %100 / %100 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C01-5e45697d) |
+|  |  | C01-a52dd807 | %100 / %100 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C01-a52dd807) |
+| 2 | Kolay | C02-9bca8ba7 | %98 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C02-9bca8ba7) |
+|  |  | C02-a7d73823 | %98 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C02-a7d73823) |
+|  |  | C02-20e5c1ef | %98 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C02-20e5c1ef) |
+| 3 | Tanıtım | C03-40f02903 | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C03-40f02903) |
+|  |  | C03-70357341 | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C03-70357341) |
+|  |  | C03-5be4a237 | %97 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C03-5be4a237) |
+| 4 | Kolay | C04-047aa68d | %98 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C04-047aa68d) |
+|  |  | C04-92e9428b | %98 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C04-92e9428b) |
+|  |  | C04-515e463f | %98 / %94 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C04-515e463f) |
+| 5 | Tanıtım | C05-8fcbc1dd | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C05-8fcbc1dd) |
+|  |  | C05-762a97b1 | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C05-762a97b1) |
+|  |  | C05-9a6db959 | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C05-9a6db959) |
+| 6 | Orta | C06-0f100185 | %95 / %90 | eğri istisnası | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C06-0f100185) |
+| 7 | Tanıtım | C07-4ef0899b | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C07-4ef0899b) |
+|  |  | C07-fe23ac0d | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C07-fe23ac0d) |
+|  |  | C07-19057303 | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C07-19057303) |
+| 8 | Kolay | C08-184d7c45 | %98 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C08-184d7c45) |
+|  |  | C08-89b3b067 | %98 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C08-89b3b067) |
+|  |  | C08-f4ff6c49 | %97 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C08-f4ff6c49) |
+| 9 | Tanıtım | C09-111692a5 | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C09-111692a5) |
+|  |  | C09-7cebcdcf | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C09-7cebcdcf) |
+|  |  | C09-c78731ab | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C09-c78731ab) |
+| 10 | Zor | C10-afebfb9d | %81 / %69 | bant gevşetildi | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C10-afebfb9d) |
+| 11 | Nefes | C11-031194a1 | %98 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C11-031194a1) |
+|  |  | C11-1a93134d | %98 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C11-1a93134d) |
+|  |  | C11-6ed4fbe7 | %98 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C11-6ed4fbe7) |
+| 12 | Tanıtım | C12-782c6447 | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C12-782c6447) |
+|  |  | C12-be16cb13 | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C12-be16cb13) |
+|  |  | C12-125a3f3b | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C12-125a3f3b) |
+| 13 | Orta | C13-51d0b947 | %96 / %89 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C13-51d0b947) |
+|  |  | C13-f948c44f | %94 / %89 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C13-f948c44f) |
+| 14 | Zor | C14-648ee119 | %82 / %67 | bant gevşetildi | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C14-648ee119) |
+|  |  | C14-e210e6d3 | %80 / %68 | bant gevşetildi | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C14-e210e6d3) |
+| 15 | Tanıtım | C15-1662c4ef | %100 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C15-1662c4ef) |
+|  |  | C15-6d50aae9 | %100 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C15-6d50aae9) |
+|  |  | C15-928804c9 | %100 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C15-928804c9) |
+| 16 | Orta | C16-2be0d2c7 | %99 / %89 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C16-2be0d2c7) |
+|  |  | C16-076e1e91 | %98 / %90 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C16-076e1e91) |
+|  |  | C16-ac10bfbb | %98 / %90 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C16-ac10bfbb) |
+| 17 | Zor | C17-6c67ed11 | %94 / %64 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C17-6c67ed11) |
+|  |  | C17-73ba08a9 | %94 / %65 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C17-73ba08a9) |
+|  |  | C17-1f482c95 | %94 / %65 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C17-1f482c95) |
+| 18 | Nefes | C18-1107bea7 | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C18-1107bea7) |
+|  |  | C18-eca1377b | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C18-eca1377b) |
+|  |  | C18-5d5d65ab | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C18-5d5d65ab) |
+| 19 | Zor | C19-e1e3b42b | %95 / %65 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C19-e1e3b42b) |
+|  |  | C19-c2464b1d | %94 / %60 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C19-c2464b1d) |
+| 20 | Tanıtım | C20-45673591 | %98 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C20-45673591) |
+|  |  | C20-43bbb687 | %98 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C20-43bbb687) |
+|  |  | C20-facc0b3b | %98 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C20-facc0b3b) |
+| 21 | Kolay | C21-9992bbfb | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C21-9992bbfb) |
+|  |  | C21-99e8e569 | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C21-99e8e569) |
+|  |  | C21-37f1c6f3 | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C21-37f1c6f3) |
+| 22 | Zor | C22-5614b55b | %86 / %44 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C22-5614b55b) |
+|  |  | C22-0e84cc71 | %84 / %48 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C22-0e84cc71) |
+|  |  | C22-eb8863c3 | %95 / %59 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C22-eb8863c3) |
+| 23 | Tanıtım | C23-010df019 | %100 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C23-010df019) |
+|  |  | C23-7cd79db1 | %100 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C23-7cd79db1) |
+|  |  | C23-8910a601 | %100 / %98 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C23-8910a601) |
+| 24 | Orta | C24-7ceb547b | %99 / %86 | eğri istisnası | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C24-7ceb547b) |
+|  |  | C24-198d2289 | %98 / %90 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C24-198d2289) |
+| 25 | Zor | C25-cd1340e1 | %92 / %49 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C25-cd1340e1) |
+|  |  | C25-24c94cef | %87 / %53 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C25-24c94cef) |
+|  |  | C25-0463bd5d | %96 / %46 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C25-0463bd5d) |
+| 26 | Nefes | C26-31e86877 | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C26-31e86877) |
+|  |  | C26-4b962343 | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C26-4b962343) |
+|  |  | C26-7595350b | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C26-7595350b) |
+| 27 | Orta | C27-71616439 | %99 / %90 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C27-71616439) |
+|  |  | C27-7c7fb003 | %94 / %78 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C27-7c7fb003) |
+| 28 | Zor | C28-9651edfd | %91 / %52 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C28-9651edfd) |
+|  |  | C28-acac0d29 | %94 / %56 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C28-acac0d29) |
+| 29 | Nefes | C29-2d9dcde3 | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C29-2d9dcde3) |
+|  |  | C29-77e37be7 | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C29-77e37be7) |
+|  |  | C29-cd8e2e3f | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C29-cd8e2e3f) |
+| 30 | Çok zor | C30-37066ecb | %80 / %34 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C30-37066ecb) |
+|  |  | C30-965fc867 | %85 / %28 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C30-965fc867) |
+| 31 | Nefes | C31-ee07d843 | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C31-ee07d843) |
+|  |  | C31-ec8f2607 | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C31-ec8f2607) |
+|  |  | C31-3f97bc1b | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C31-3f97bc1b) |
+| 32 | Zor | C32-227c833b | %96 / %46 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C32-227c833b) |
+|  |  | C32-f2e11745 | %93 / %49 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C32-f2e11745) |
+|  |  | C32-89d50505 | %96 / %64 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C32-89d50505) |
+| 33 | Orta | C33-18f6ab59 | %100 / %90 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C33-18f6ab59) |
+|  |  | C33-0b09ac49 | %99 / %90 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C33-0b09ac49) |
+| 34 | Çok zor | C34-ad810381 | %87 / %36 | booster'a dayalı, eğri istisnası | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C34-ad810381) |
+| 35 | Nefes | C35-829c6b77 | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C35-829c6b77) |
+|  |  | C35-9255a195 | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C35-9255a195) |
+|  |  | C35-a0d8ad13 | %100 / %96 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C35-a0d8ad13) |
+| 36 | Zor | C36-9c1b6e61 | %84 / %41 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C36-9c1b6e61) |
+|  |  | C36-a0e5098d | %95 / %48 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C36-a0e5098d) |
+| 37 | Orta | C37-d882b223 | %99 / %87 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C37-d882b223) |
+|  |  | C37-25673ec3 | %98 / %81 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C37-25673ec3) |
+|  |  | C37-49aa3815 | %96 / %82 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C37-49aa3815) |
+| 38 | Zor | C38-0ba7a171 | %91 / %47 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C38-0ba7a171) |
+|  |  | C38-2935bf97 | %89 / %48 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C38-2935bf97) |
+| 39 | Nefes | C39-f330ae03 | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C39-f330ae03) |
+|  |  | C39-f54076df | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C39-f54076df) |
+|  |  | C39-d6b8f51f | %100 / %97 | — | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C39-d6b8f51f) |
+| 40 | Çok zor | C40-6d1009ed | %86 / %37 | eğri istisnası | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C40-6d1009ed) |
+|  |  | C40-74e047bf | %85 / %26 | booster'a dayalı | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=C40-74e047bf) |
 
-Eski gece raporları: `docs/arsiv/OVERNIGHT_ARSIV.md` (17 Ekim akşamı raporu orada en üstte).
+Eski gece raporları: `docs/arsiv/OVERNIGHT_ARSIV.md` (17 → 18 Ekim gece raporu ve onay kuyruğu talimatı en üstte).

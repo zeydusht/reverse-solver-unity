@@ -507,16 +507,33 @@ namespace ReverseSolver.LevelEditor
         /* The feature table of every web level and saved design (Faz 4 input). */
         public string ExportCsv()
         {
+            int n = WriteCsv(WebLevels, Store);
+            Say($"CSV yazıldı: {Path.GetFullPath(CsvPath)} ({n} seviye, rastgele oyuncuyla {MonteCarlo.DefaultRuns}'er oyun).");
+            return Path.GetFullPath(CsvPath);
+        }
+
+        static int WriteCsv(LevelSet web, DesignStore store)
+        {
             var rows = new List<(string, LevelData)>();
-            foreach (var l in WebLevels.Levels) rows.Add(("web", l));
-            foreach (var d in Store.Designs) rows.Add(("tasarim", d.ToLevelData()));
+            foreach (var l in web.Levels) rows.Add(("web", l));
+            foreach (var d in store.Designs) rows.Add(("tasarim", d.ToLevelData()));
             Directory.CreateDirectory(Path.GetDirectoryName(CsvPath));
             var genres = new Dictionary<string, Genre?>();
-            foreach (var d in Store.Designs) genres[d.Id] = d.Genre;
+            foreach (var d in store.Designs) genres[d.Id] = d.Genre;
             File.WriteAllBytes(CsvPath, LevelCsv.ToBytes(LevelCsv.Build(rows, monteCarloRuns: MonteCarlo.DefaultRuns,
                 genreOf: id => genres.TryGetValue(id, out var g) ? g : null)));
-            Say($"CSV yazıldı: {Path.GetFullPath(CsvPath)} ({rows.Count} seviye, rastgele oyuncuyla {MonteCarlo.DefaultRuns}'er oyun).");
-            return Path.GetFullPath(CsvPath);
+            return rows.Count;
+        }
+
+        /* Without the editor session: the menu item, or batchmode
+           (-executeMethod ReverseSolver.LevelEditor.LevelEditorSession.ExportCsvNow). */
+        [MenuItem("Reverse Solver/Seviye CSV'sini yaz", priority = 40)]
+        public static void ExportCsvNow()
+        {
+            var web = LevelParser.Parse(File.ReadAllText(LevelsPath));
+            var store = DesignStore.Parse(File.Exists(DesignsPath) ? File.ReadAllText(DesignsPath) : "");
+            int n = WriteCsv(web, store);
+            UnityEngine.Debug.Log($"[csv] {Path.GetFullPath(CsvPath)}: {n} seviye");
         }
 
         /* The current draft, saved or not, as a one-level set for the game. */
