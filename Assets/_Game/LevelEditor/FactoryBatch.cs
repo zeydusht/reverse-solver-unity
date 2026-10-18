@@ -215,6 +215,41 @@ namespace ReverseSolver.LevelEditor
             Log($"  kazma yolu (en derin) {f.Dig}; çivisiz {f.DigWithoutNails}; süre {best.Draft.Timer} sn");
         }
 
+        /* D07, solution first (HardEight): seeds in parallel for -rsMin minutes; the most M rows held saved as D07. */
+        public static void D07b()
+        {
+            const string path = "Assets/_Game/Levels/designs.json";
+            double minutes = double.Parse(Arg("-rsMin", "20"));
+            var store = DesignStore.Parse(File.ReadAllText(path));
+            var look = store.Find("D06");
+            var start = DateTime.UtcNow; var end = start.AddMinutes(minutes); var beat = start;
+            HardEight.Result best = null; int tried = 0, ok = 0, full = 0;
+            var why = new System.Collections.Generic.Dictionary<string, int>();
+            var gate = new object();
+            System.Threading.Tasks.Parallel.For(1, 10_000_000, new System.Threading.Tasks.ParallelOptions { MaxDegreeOfParallelism = Math.Max(1, Environment.ProcessorCount - 1) }, (i, state) =>
+            {
+                if (DateTime.UtcNow >= end) { state.Stop(); return; }
+                var r = Flag("-rsPeel") ? HardEight.TryPeel(look, (uint)i, out string w) : HardEight.Try(look, (uint)i, out w);
+                lock (gate)
+                {
+                    tried++;
+                    if (r != null) { ok++; if (r.Held == 13) full++; if (best == null || r.Held > best.Held || (r.Held == best.Held && r.Score > best.Score)) best = r; }
+                    else { string k = System.Text.RegularExpressions.Regex.Replace(w ?? "?", @"[0-9]+", "#"); why.TryGetValue(k, out int n); why[k] = n + 1; }
+                    if ((DateTime.UtcNow - beat).TotalMinutes >= 4) { beat = DateTime.UtcNow; Log($"ilerleme: {(beat - start).TotalMinutes:0} dk, {tried} aday, {ok} adil, {full} hepsini tuttu, en çok tutan {(best == null ? "—" : best.Held + "/13")}"); }
+                }
+            });
+            Log($"bitti: {tried} aday, {ok} adil, {full} hepsini tuttu");
+            foreach (var kv in why.OrderByDescending(k => k.Value).Take(6)) Log($"  elenme: {kv.Key} × {kv.Value}");
+            if (best == null) { Log("aday yok"); return; }
+            var old = store.Find("D07");
+            best.Draft.Id = "D07";
+            var saved = store.Save(best.Draft);
+            File.WriteAllText(path, store.ToJson(), new System.Text.UTF8Encoding(false));
+            Log($"kaydedildi: {saved.Id} (tohum {best.Seed}, {best.Held}/13, fitil payları {string.Join("/", best.FuseSlack.Select(x => "+" + x))})");
+            foreach (var row in best.Factors.Metrics()) Log($"  {row.name}: {row.value} (hedef {row.target}) {(row.ok ? "✓" : "✗")}");
+            Log("  tanı: " + best.Diag);
+        }
+
         public static void Rounds()
         {
             var slots = FactoryRunner.ParseSlots(Arg("-rsSlots", "10,28,34"));
