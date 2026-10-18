@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using ReverseSolver.Core;
 using ReverseSolver.Editing;
@@ -539,7 +540,7 @@ namespace ReverseSolver.LevelEditor
             if (S.Factors != null)
             {
                 GUILayout.Label($"Zorluk etkenleri (en güçlü oyuncu, {S.Factors.Source})", _h2);
-                foreach (var row in S.Factors.Rows())
+                foreach (var row in S.Factors.Metrics().Concat(S.Factors.Rows()))
                     GUILayout.Label($"<color={(row.ok ? "#7fd99a" : "#f0a742")}>{row.name}: <b>{row.value}</b></color>  hedef {row.target}", _small);
             }
             GUILayout.Label("Öneriler", _h2);

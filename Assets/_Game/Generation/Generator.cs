@@ -38,6 +38,8 @@ namespace ReverseSolver.Generation
         public bool CrossChains;
         /* Remote chains with ends in another row and column, >= 4 cells apart (Zeyd 2026-10-18). */
         public bool DiagonalChains;
+        /* Remote chains with both cells >= 2 cells from every edge (M9), in another row and column, not touching (M7). */
+        public bool ChainsInside;
 
         public GenParams Clone() => (GenParams)MemberwiseClone();
         public override string ToString() =>
@@ -150,7 +152,16 @@ namespace ReverseSolver.Generation
                     {
                         a = cells[Next(0, cells.Count - 1)];
                         if (used[a.Y * _w + a.X]) continue;
-                        if (remote && _p.DiagonalChains)
+                        if (remote && _p.ChainsInside)
+                        {
+                            // M7 + M9: both cells >= 2 from every edge, another row and column, not touching
+                            var inner = cells.Where(x => x.X >= 2 && x.Y >= 2 && x.X <= _w - 3 && x.Y <= _h - 3 && !used[x.Y * _w + x.X]).ToList();
+                            if (inner.Count < 2) continue;
+                            a = inner[Next(0, inner.Count - 1)];
+                            var others = inner.Where(x => x.X != a.X && x.Y != a.Y && Math.Abs(x.X - a.X) + Math.Abs(x.Y - a.Y) > 1).ToList();
+                            bc = others.Count == 0 ? new Cell(-1, -1) : others[Next(0, others.Count - 1)];
+                        }
+                        else if (remote && _p.DiagonalChains)
                         {
                             // Zeyd 2026-10-18: ends in another row and column, >= 4 cells apart
                             int dx = Next(1, 3) * (_rng.NextDouble() < .5 ? -1 : 1), dy = Next(1, 3) * (_rng.NextDouble() < .5 ? -1 : 1);

@@ -34,6 +34,20 @@ namespace ReverseSolver.Editing
         public int Moves;
         public string Source = "";
 
+        // ---- docs/ZORLUK_METRIKLERI.md, M1-M9 (Zeyd 2026-10-18: the primary difficulty measure) ----
+        public int MaxFreeEarly;                 // M2: most pieces free at once in the first 70 % of the moves
+        public double Tied3Share;                // M3: share of the pieces held by >= 3 neighbours (locked seams) at the start
+        public int MaxSingleTie;                 // M3: most pieces at once held by exactly one neighbour (the "find it" ones)
+        public int FlatSquares;                  // M3: single pieces with no locked seam at the start
+        public int BombEdge = -1;                // M5/M9: cells between the bomb and the nearest edge
+        public int NailSlack = int.MaxValue;     // M6: moves made before the nailed piece leaves minus its counter (0 = no spare move)
+        public int NailEdge = -1;                // M9: cells between the nearest-to-edge nail and the edge
+        public bool ChainConflict;               // M7: two chains whose ways out share no direction
+        public bool ChainEndsApart = true;       // M7: no chain with ends side by side or in one row / column
+        public int ChainEdge = -1;               // M9: cells between the nearest chain cell and the edge
+        public int WallLanes;                    // M8: sealed lanes
+        public int EasyWalled;                   // M8: pieces whose shortest way out is sealed
+
         public static HardFactors Of(LevelData level, int digBudget = 60_000)
         {
             var f = new HardFactors();
@@ -75,6 +89,29 @@ namespace ReverseSolver.Editing
                 for (int j = i + 1; j < chainIds.Count; j++)
                     if (Boxes(level.Pieces[chainIds[i]], level.Pieces[chainIds[j]])) f.ChainsCross = true;
 
+            // M3 at the start, M5-M9 positions, M8 walls
+            int Edge(Cell c) => Math.Min(Math.Min(c.X, level.Width - 1 - c.X), Math.Min(c.Y, level.Height - 1 - c.Y));
+            var ties = Enumerable.Range(0, level.Pieces.Count).Select(p => Ties(level, start.Board, p)).ToList();
+            f.Tied3Share = ties.Count(t => t >= 3) / (double)Math.Max(1, ties.Count);
+            f.FlatSquares = Enumerable.Range(0, level.Pieces.Count).Count(p => level.Pieces[p].Length == 1 && ties[p] == 0);
+            if (level.Bombs.Count > 0) f.BombEdge = level.Bombs.Keys.Min(b => level.Pieces[b].Min(Edge));
+            if (level.Nails.Count > 0) f.NailEdge = level.Nails.Keys.Min(n => level.Pieces[n].Min(Edge));
+            if (chainIds.Count > 0) f.ChainEdge = chainIds.Min(c => level.Pieces[c].Min(Edge));
+            foreach (var c in chainIds)
+            {
+                var a = level.Pieces[c][0]; var b = level.Pieces[c][1];
+                if (a.X == b.X || a.Y == b.Y || Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y) == 1) f.ChainEndsApart = false;
+            }
+            foreach (var kv in level.Sealed) f.WallLanes += kv.Value.Length;
+            for (int p = 0; p < level.Pieces.Count; p++)
+            {
+                var easy = DirExt.All.OrderBy(d => level.Pieces[p].Max(c => Run(level, c, d))).First();
+                if (level.Sealed.TryGetValue(easy, out var lanes) && level.Pieces[p].Any(c => lanes.Contains(easy.IsVertical() ? c.X : c.Y))) f.EasyWalled++;
+            }
+            foreach (var n in level.Nails)
+                if (way.Contains(n.Key) && leaveAt.TryGetValue(n.Key, out int at)) f.NailSlack = Math.Min(f.NailSlack, at - n.Value);
+            var chainDirs = chainIds.ToDictionary(c => c, c => new HashSet<Dir>());
+
             // 4 + 5 along the path
             var s = start.Clone();
             Dir? lastDir = null; int lastLane = -1, run = 0, narrow = 0;
@@ -82,6 +119,11 @@ namespace ReverseSolver.Editing
             for (int i = 0; i < moves.Count && !s.IsOver; i++)
             {
                 var before = FreeNow(s);
+                if (i < moves.Count * 7 / 10) f.MaxFreeEarly = Math.Max(f.MaxFreeEarly, before.Count);
+                foreach (var c in chainIds) if (s.Board.IsPresent(c)) foreach (var d in TravelRule.ExitDirs(s.Board, c)) chainDirs[c].Add(d);
+                int single = 0;
+                foreach (var p in s.Board.PresentPieces()) if (!before.Contains(p) && Ties(level, s.Board, p) == 1) single++;
+                f.MaxSingleTie = Math.Max(f.MaxSingleTie, single);
                 f.FakeFree = Math.Max(f.FakeFree, FakeFreeNow(s));
                 if (i >= lo && i < hi) { narrow = before.Count <= 2 ? narrow + 1 : 0; f.NarrowStretch = Math.Max(f.NarrowStretch, narrow); }
                 var mv = moves[i];
@@ -94,7 +136,34 @@ namespace ReverseSolver.Editing
                 var after = FreeNow(s);
                 f.Cascade = Math.Max(f.Cascade, after.Count(p => !before.Contains(p)));
             }
+            for (int i = 0; i < chainIds.Count; i++)
+                for (int j = i + 1; j < chainIds.Count; j++)
+                    if (chainDirs[chainIds[i]].Count > 0 && chainDirs[chainIds[j]].Count > 0 && !chainDirs[chainIds[i]].Overlaps(chainDirs[chainIds[j]])) f.ChainConflict = true;
             return f;
+        }
+
+        /* Present neighbours that hold piece p through a locked (tabbed) seam. */
+        static int Ties(LevelData l, Board b, int p)
+        {
+            var held = new HashSet<int>();
+            foreach (var c in l.Pieces[p])
+                foreach (var d in DirExt.All)
+                {
+                    var n = c.Step(d);
+                    if (!l.OnBoard(n)) continue;
+                    int q = b.PieceAt(n);
+                    if (q < 0 || q == p || !b.IsPresent(q)) continue;
+                    int j = d == Dir.L ? l.VJoint(c.X, c.Y) : d == Dir.R ? l.VJoint(c.X + 1, c.Y) : d == Dir.U ? l.HJoint(c.X, c.Y) : l.HJoint(c.X, c.Y + 1);
+                    if (j != 0) held.Add(q);
+                }
+            return held.Count;
+        }
+
+        static int Run(LevelData l, Cell c, Dir d)
+        {
+            int k = 0;
+            for (var x = c.Step(d); l.OnBoard(x); x = x.Step(d)) k++;
+            return k;
         }
 
         /* The stored solution when it wins, else SmartPlayer's order. */
@@ -151,7 +220,25 @@ namespace ReverseSolver.Editing
             return ax0 <= bx1 && bx0 <= ax1 && ay0 <= by1 && by0 <= ay1;
         }
 
-        /* Zeyd's targets; each line: name, value, target, held. */
+        /* docs/ZORLUK_METRIKLERI.md M1-M9 with the Çok zor targets; each line: name, value, target, held. */
+        public List<(string name, string value, string target, bool ok)> Metrics() => new List<(string, string, string, bool)>
+        {
+            ("M1 Açılış hamlesi (k₀)", $"{FreeAtStart}", "1–2", FreeAtStart >= 1 && FreeAtStart <= 2),
+            ("M2 Serbest tavanı (ilk %70)", $"{MaxFreeEarly}", "≤ 3", MaxFreeEarly <= 3),
+            ("M3 ≥ 3 komşuya bağlı", $"%{Tied3Share * 100:0}", "çoğu (≥ %50)", Tied3Share >= .5),
+            ("M3 Tek bağlı (aynı anda en çok)", $"{MaxSingleTie}", "≤ 2", MaxSingleTie <= 2),
+            ("M3 Kenarı düz kare", $"{FlatSquares}", "0", FlatSquares == 0),
+            ("M4 Aynı şeritten art arda", $"{LaneRun}", "≤ 2", LaneRun <= 2),
+            ("M5 Bomba kenara uzaklık", BombEdge < 0 ? "bomba yok" : $"{BombEdge}", "≥ 2", BombEdge >= 2),
+            ("M5 Kazma yolu / fitil payı", Dig < 0 ? "—" : $"{Dig} / +{FuseSlack}", "≥ 8 / +1", Dig >= 8 && FuseSlack == 1),
+            ("M6 Çivi bomba yolunda", $"yolda {NailsOnWay}, çivisiz yol {(DigWithoutNails < 0 ? "—" : DigWithoutNails.ToString())}", "yolda ≥ 1, çivisiz kısa", NailCritical),
+            ("M6 Çivi boş hamle payı", NailSlack == int.MaxValue ? "—" : $"{NailSlack}", "0", NailSlack == 0),
+            ("M7 Zincir yön çatışması", $"{(ChainConflict ? "var" : "yok")}{(ChainEndsApart ? "" : ", uçlar yan yana / aynı şeritte")}", "var, uçlar ayrık", ChainConflict && ChainEndsApart),
+            ("M8 Kolay yönü duvarlı parça / şerit", $"{EasyWalled} / {WallLanes}", "≥ 3 / ≥ 3", EasyWalled >= 3 && WallLanes >= 3),
+            ("M9 Kenara uzaklık bomba / çivi / zincir", $"{BombEdge} / {NailEdge} / {ChainEdge}", "hepsi ≥ 2", BombEdge >= 2 && NailEdge >= 2 && ChainEdge >= 2),
+        };
+
+        /* The five factors of 2026-10-18 (D05). */
         public List<(string name, string value, string target, bool ok)> Rows()
         {
             var r = new List<(string, string, string, bool)>

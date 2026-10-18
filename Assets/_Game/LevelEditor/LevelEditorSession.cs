@@ -546,7 +546,7 @@ namespace ReverseSolver.LevelEditor
                 var l = web.Levels.FirstOrDefault(x => x.Id == id) ?? store.Find(id)?.ToLevelData();
                 if (l == null) { UnityEngine.Debug.Log($"[faktor] {id}: yok"); continue; }
                 var f = HardFactors.Of(l);
-                foreach (var r in f.Rows()) UnityEngine.Debug.Log($"[faktor] {id}	{r.name}	{r.value}	{(r.ok ? "✓" : "✗")}");
+                foreach (var r in f.Metrics()) UnityEngine.Debug.Log($"[faktor] {id}	{r.name}	{r.value}	{(r.ok ? "✓" : "✗")}");
                 UnityEngine.Debug.Log($"[faktor] {id}	yol	{f.Source}, {f.Moves} hamle, {l.Width}×{l.Height}, {l.Pieces.Count} parça, süre {l.TimerSeconds} sn");
             }
         }

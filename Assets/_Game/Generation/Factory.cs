@@ -305,6 +305,17 @@ namespace ReverseSolver.Generation
             e.Scores["kendiliginden"] = h.Cascade;
             e.Scores["darGecit"] = h.NarrowStretch;
             e.Scores["sahteSerbest"] = h.FakeFree;
+            e.Scores["m1Acilis"] = h.FreeAtStart;
+            e.Scores["m2Tavan"] = h.MaxFreeEarly;
+            e.Scores["m3Bagli3"] = Math.Round(h.Tied3Share, 2);
+            e.Scores["m3TekBagli"] = h.MaxSingleTie;
+            e.Scores["m3DuzKare"] = h.FlatSquares;
+            e.Scores["m5BombaKenar"] = h.BombEdge;
+            if (h.NailSlack != int.MaxValue) e.Scores["m6CiviPay"] = h.NailSlack;
+            e.Scores["m7Catisma"] = h.ChainConflict && h.ChainEndsApart ? 1 : 0;
+            e.Scores["m8DuvarKolay"] = h.EasyWalled;
+            e.Scores["m9Kenar"] = Math.Min(h.BombEdge, Math.Min(h.NailEdge, h.ChainEdge));
+            e.Scores["mTutan"] = h.Metrics().Count(r => r.ok);
         }
 
         /* The fun numbers: keyif, frustration, bored and stars from the V5 run (boosted; null = the
