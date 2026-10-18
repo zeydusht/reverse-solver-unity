@@ -27,6 +27,10 @@ namespace ReverseSolver.Core.Tests
                 var r = SmartPlayer.Play(l);
                 Assert.That(r.Verdict, Is.EqualTo(SmartVerdict.Won), $"{e.Candidate}: {r}");
                 Assert.That(r.Valves, Is.Zero, $"{e.Candidate}: valve");
+                Assert.That(l.Solution, Is.Not.Empty, $"{e.Candidate}: stored solution");
+                var g = new GameSession(l, 1, "audit", new Mulberry32(1));
+                foreach (var m in l.Solution) g.TryExit(m.Piece, m.Dir);
+                Assert.That(g.Outcome, Is.EqualTo(Outcome.Win), $"{e.Candidate}: stored solution wins");
                 Assert.That(l.Number, Is.EqualTo(e.Slot), e.Candidate);
                 foreach (var id in LevelDraft.BoosterIds)
                 {

@@ -32,3 +32,9 @@ Ajan bir ürün kuralıyla çeliştiğinde PM karar verir; o karar da burada an�
 ## Tur 2 — 2026-10-14, koşular `kolay2-20261014` + `ozc2-20261014` (40 slot)
 
 Bu bölüm ajanların dönüşüyle doldurulur.
+
+### Tur 2 sonuçları (2026-10-18, V5 + Zeyd eşikleri; yazan: ana Claude)
+- **Psikolog:** 4 grup + ek; 9 RET (eğri uyumu < 0,6 olan "eğri istisnası" adayları ve 3 turdan önce gevşetilmiş C16-318dab09). PM kontrol noktası 5 (a): istisna geçerli (slotta < 2 finalist, uyum ≥ 0,40, tek aday) → C06-0f100185, C24-7ceb547b, C34-ad810381, C40-6d1009ed etiketli kabul; diğerleri çıktı. (b): 3 turdan önceki gevşetmeler geçersiz → C06-af9577bb, C16-318dab09 çıktı. Psikolog talimatına istisna eklendi.
+- **Tasarımcı:** bütün finalistlere fikir cümlesi; booster'a dayalı Zor/ÇZ (16, 17, 19, 32, 36, 38, 40) için yeniden üretim önerdi → PM (c): tek tur, ≤ 2 sa (koşu `yeni-20261018`, 111 dk; 32/36/38/40 zaman sınırında). Seçim: önce booster'a dayalı olmayan, sonra küçük fark (Tools/pick_regen.py). 16'ya 3 yeni (fark 4 puan), 32'ye 2, 19'a 2, 17'ye 1, 40'a 1 (istisna) girdi.
+- **Bağımsız inceleme (5 rastgele, tohum 20261018):** veri kalitesi hatası yok. Bulgular: C40-35cef61b fikir cümlesi eğriyle uyumsuzdu (düzeltildi, sonra aday çıktı); 88 finalistte kayıtlı çözüm boştu (stok/süre değişince geçersiz sayılıyor) → SmartPlayer'ın kazanan sırasıyla dolduruldu, denetim testi artık çözümün kazandığını doğruluyor; C10-afebfb9d keyfi %80,9 eşiğe yakın.
+- **Kalan:** slot 6, 10 ve 34 tek finalistle (kontrol noktası 5 listesi).

@@ -41,6 +41,22 @@ namespace ReverseSolver.LevelEditor
             Log($"tablo: {FactoryRunner.RunsDir}/{run}/rescore.md");
         }
 
+        /* Finalists whose stored solution was dropped (a timer or stock change invalidates it) get
+           SmartPlayer's winning order back; a level it cannot win clean is only reported. */
+        public static void FillSolutions()
+        {
+            var store = RedesignStore.LoadOrNew();
+            int filled = 0, failed = 0;
+            foreach (var e in store.Entries.Where(e => e.Draft.Solution.Count == 0))
+            {
+                var r = ReverseSolver.Core.SmartPlayer.Play(e.Draft.ToLevelData());
+                if (r.Verdict == ReverseSolver.Core.SmartVerdict.Won && r.Valves == 0) { e.Draft.Solution = new System.Collections.Generic.List<ReverseSolver.Core.Move>(r.Moves); filled++; }
+                else { failed++; Log($"çözüm yok: {e.Candidate} {r}"); }
+            }
+            store.Save();
+            Log($"çözüm dolduruldu: {filled}, başarısız {failed}, toplam {store.Entries.Count}");
+        }
+
         public static void Rounds()
         {
             var slots = FactoryRunner.ParseSlots(Arg("-rsSlots", "10,28,34"));
@@ -48,6 +64,7 @@ namespace ReverseSolver.LevelEditor
                 foreach (var s in FactoryRunner.ShortSlots(RedesignStore.LoadOrNew())) if (!slots.Contains(s)) slots.Add(s);
             slots.Sort();
             var o = FactoryWindow.OptionsFor(int.Parse(Arg("-rsDepth", "2")));
+            o.Finalists = int.Parse(Arg("-rsFinalists", o.Finalists.ToString()));   // > 3: new finalists sit beside the old ones for a later pick
             FactoryRunner.RunRounds(slots, o, RunName("tur-"), int.Parse(Arg("-rsRounds", "3")), uint.Parse(Arg("-rsSeed", "2")), Flag("-rsRelax"), Log,
                 roundMinutes: double.Parse(Arg("-rsRoundMin", "45")), totalMinutes: double.Parse(Arg("-rsTotalMin", "240")));
             Log("bitti, rapor " + FactoryReport.Path);
