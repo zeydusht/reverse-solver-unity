@@ -80,7 +80,8 @@ namespace ReverseSolver.Generation
                 var m = StructureMetrics.Of(t.ToLevelData(), 20_000);
                 if (m.BombDigs.TryGetValue(i, out var dg) && dg.exact) digs.Add((i, dg.dig));
             }
-            var bombs = digs.OrderByDescending(x => x.dig).Take(3).ToList();
+            // Zeyd 2026-10-19: BombCount bombs spread evenly (the closest pair as far apart as possible), deep digs next
+            var bombs = Spread(digs, l, BombCount, rng);
             if (bombs.Count == 0) { why = "bomba yeri yok"; return null; }
             foreach (var b in bombs) d.SetBomb(l.Pieces[b.piece][0], b.dig + 1);
             var slack = bombs.Select(_ => 1).ToList();
@@ -107,7 +108,7 @@ namespace ReverseSolver.Generation
                     var t = d.Clone(); t.SetNail(lv.Pieces[x][0], leave);
                     if (Clean(t.ToLevelData(), out var sp2)) { d = t; sp = sp2; nailed.Add(x); break; }
                 }
-            for (int extra = 0; extra < 6 && nailed.Count < 3; extra++)
+            for (int extra = 0; extra < 6 && nailed.Count < BombCount; extra++)
             {
                 var lv = d.ToLevelData();
                 var way = bombs.SelectMany(b => Cone(new Board(lv), b.piece)).Distinct().Where(x => lv.Pieces[x].Length == 1 && !lv.Bombs.ContainsKey(x) && !nailed.Contains(x) && Edge(lv.Pieces[x][0]) >= 2 && bombs.Any(b => Critical(d, lv, x, b.piece))).ToList();
@@ -186,6 +187,28 @@ namespace ReverseSolver.Generation
             t.SetNail(lv.Pieces[x][0], 99);
             var pinned = StructureMetrics.Of(t.ToLevelData(), 20_000);
             return !pinned.BombDigs.TryGetValue(bomb, out var b) || b.dig > a.dig;
+        }
+
+        public static int BombCount = 3;
+
+        static List<(int piece, int dig)> Spread(List<(int piece, int dig)> digs, LevelData l, int k, IRandom rng)
+        {
+            var best = new List<(int piece, int dig)>(); double bestKey = double.MinValue;
+            var pool = digs.Where(x => x.dig >= 6).ToList();
+            for (int t = 0; t < 300 && pool.Count >= k; t++)
+            {
+                var pick = pool.OrderBy(_ => rng.NextDouble()).Take(k).ToList();
+                int minDist = int.MaxValue;
+                for (int i = 0; i < pick.Count; i++) for (int j = i + 1; j < pick.Count; j++)
+                {
+                    var a = l.Pieces[pick[i].piece][0]; var b = l.Pieces[pick[j].piece][0];
+                    minDist = Math.Min(minDist, Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y));
+                }
+                double key = minDist * 100 + pick.Sum(x => x.dig);
+                if (key > bestKey) { bestKey = key; best = pick; }
+            }
+            if (best.Count == 0) best = digs.OrderByDescending(x => x.dig).Take(k).ToList();
+            return best;
         }
 
         /* Lock the seams around the pieces that can leave now, while the board stays clean-solvable. */

@@ -186,6 +186,8 @@ namespace ReverseSolver.LevelEditor
             double minutes = double.Parse(Arg("-rsMin", "20"));
             var store = DesignStore.Parse(File.ReadAllText(path));
             var d06 = store.Find("D06");
+            HardSeven.BombCount = int.Parse(Arg("-rsBombs", "3"));
+            string newId = Arg("-rsId", "D07");
             var start = DateTime.UtcNow; var end = start.AddMinutes(minutes); var beat = start;
             HardSeven.Result best = null; int tried = 0, ok = 0;
             var why = new System.Collections.Generic.Dictionary<string, int>();
@@ -197,7 +199,7 @@ namespace ReverseSolver.LevelEditor
                 lock (gate)
                 {
                     tried++;
-                    if (r != null) { ok++; if (best == null || r.Score > best.Score) best = r; }
+                    if (r != null && r.Bombs >= HardSeven.BombCount) { ok++; if (best == null || r.Score > best.Score) best = r; }
                     else { string k = System.Text.RegularExpressions.Regex.Replace(w ?? "?", @"[0-9]+", "#"); why.TryGetValue(k, out int n); why[k] = n + 1; }
                     if ((DateTime.UtcNow - beat).TotalMinutes >= 4) { beat = DateTime.UtcNow; Log($"ilerleme: {(beat - start).TotalMinutes:0} dk, {tried} aday, {ok} adil, en iyi açılış {(best == null ? "—" : best.Factors.FreeAtStart.ToString())}"); }
                 }
@@ -205,7 +207,7 @@ namespace ReverseSolver.LevelEditor
             Log($"bitti: {tried} aday, {ok} adil");
             foreach (var kv in why.OrderByDescending(k => k.Value).Take(6)) Log($"  elenme: {kv.Key} × {kv.Value}");
             if (best == null) { Log("D07 çıkmadı"); return; }
-            best.Draft.Id = store.Find("D07") == null ? "D07" : null;
+            best.Draft.Id = store.Find(newId) == null ? newId : null;
             var saved = store.Save(best.Draft);
             File.WriteAllText(path, store.ToJson(), new System.Text.UTF8Encoding(false));
             var f = best.Factors;
