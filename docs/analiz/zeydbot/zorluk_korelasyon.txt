@@ -1,0 +1,20 @@
+n= 18
+parca                  puan rho=+0.94  ilk-kayýp rho=+0.48  süre-payý rho=+0.51
+en_derin_kazi          puan rho=+0.92  ilk-kayýp rho=+0.45  süre-payý rho=+0.57
+rastgele_kazanma       puan rho=-0.92  ilk-kayýp rho=-0.55  süre-payý rho=-0.54
+baslangic_en_dar_pay   puan rho=-0.92  ilk-kayýp rho=-0.43  süre-payý rho=-0.64
+bomba                  puan rho=+0.90  ilk-kayýp rho=+0.45  süre-payý rho=+0.54
+yol_tek_dogru          puan rho=+0.83  ilk-kayýp rho=+0.42  süre-payý rho=+0.45
+tek_dogru_orani        puan rho=+0.75  ilk-kayýp rho=+0.40  süre-payý rho=+0.40
+yol_ort_secenek        puan rho=-0.69  ilk-kayýp rho=-0.15  süre-payý rho=-0.56
+yol_tuzakli_hamle      puan rho=+0.65  ilk-kayýp rho=+0.28  süre-payý rho=+0.10
+m4                     puan rho=+0.65  ilk-kayýp rho=+0.28  süre-payý rho=+0.31
+m2_en_cok_serbest      puan rho=-0.46  ilk-kayýp rho=-0.14  süre-payý rho=-0.21
+civi                   puan rho=+0.21  ilk-kayýp rho=-0.20  süre-payý rho=+0.43
+Z12 zor time puan 9 dur 125 think ort/med/max 3350 984 24514 touch 11 | tek_dogru 20 tuzakli 0 ort secenek 2.481 pay 1 kazi 23 m2 5 civi 1 sure 125
+Z13 zor bomb puan 9 dur 38 think ort/med/max 1514 650 15132 touch 6 | tek_dogru 12 tuzakli 24 ort secenek 3.741 pay 1 kazi 32 m2 5 civi 0 sure 105
+Z18 zor win puan 9 dur 101 think ort/med/max 1933 648 19634 touch 6 | tek_dogru 10 tuzakli 3 ort secenek 2.074 pay 0 kazi 51 m2 3 civi 4 sure 135
+Z07 zor bomb puan 8 dur 31 think ort/med/max 1773 549 19169 touch 3 | tek_dogru 32 tuzakli 22 ort secenek 3.389 pay 2 kazi 25 m2 7 civi 1 sure 110
+Z08 zor win puan 7 dur 58 think ort/med/max 1380 617 21280 touch 6 | tek_dogru 27 tuzakli 17 ort secenek 2.519 pay 1 kazi 33 m2 5 civi 3 sure 130
+Z16 orta bomb puan 6 dur 21 think ort/med/max 890 532 3716 touch 5 | tek_dogru 4 tuzakli 0 ort secenek 5.564 pay 1 kazi 20 m2 11 civi 2 sure 55
+Z17 orta bomb puan 4 dur 14 think ort/med/max 896 634 3893 touch 1 | tek_dogru 10 tuzakli 0 ort secenek 5.175 pay 2 kazi 18 m2 12 civi 2 sure 60
