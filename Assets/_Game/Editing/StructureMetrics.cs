@@ -119,6 +119,16 @@ namespace ReverseSolver.Editing
             return best;
         }
 
+        /* ZeydBot: fewest moves from this state (its real fuses) that take `bomb` out; SmartPlayer's direct dig
+           when the search runs out of budget; -1 when no dig is found before a bomb goes off. */
+        public static int DigNow(GameSession s, int bomb, int budget = FuseSearchBudget)
+        {
+            if (!s.Board.IsPresent(bomb)) return 0;
+            int b = budget;
+            int moves = FewestMovesToRemove(s, bomb, s.Board.PresentCount, ref b);
+            return moves >= 0 ? moves : DirectDig(s, bomb);
+        }
+
         /* SmartPlayer's direct dig: the bomb piece if it can go, else a movable
            piece that blocks it, else the lowest movable piece. The moves it
            takes to get the bomb piece out, or -1 if a bomb goes off first. */
