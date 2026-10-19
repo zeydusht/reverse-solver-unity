@@ -1,12 +1,14 @@
 # ZeydBot seti — oturum linkleri (19 Ekim 2026)
 
+**Yayındaki build: Build 5z3** (gh-pages `4b89d83`, 2026-10-19 ~20:55). Dokunup bırakma (`touch`, `hold_ms`), arka plana gidip dönme (`pause` / `resume`) ve bölüm sonunda isteğe bağlı **1–10 zorluk** sorusu (`plays.zorluk_puani`) kaydediliyor. Canlı uçtan uca test (TEST_ZEYDBOT, Z03): kazanç, zorluk_puani 1, moves: çıkış 35/35, touch 1 (hold_ms 1349), pause 1, resume 1. Bayraklar kapalı, canlı 40 aynı. **Z03'ü bu build'le oyna** (açtığında eski sürüm gelirse sayfayı yenile).
+
 **Önce (bir kez):** Supabase → SQL Editor → `docs/sql/006_moves.sql`'in tamamını yapıştır → Run → alttaki doğrulama tablosunu getir. (Çalıştırmadan oynarsan hamleler telefonda bekler, sonra gider.)
 
 **Nasıl oynanır:** linkler `?debug=1` OLMADAN: ilk açılışta isim kapısına **TEST_ZEYD** yaz. Her oturumun ilk linkini aç; bölüm bitince "Sonraki" ile oturum sırasında devam et (sıra = Z numarası). Yalnız İLK deneme analize girer; kaybedersen tekrar oynayabilirsin, tekrarlar ayrıca işaretlenir. Süre ilk hamleyle başlar. Tür bilgisi bilerek yazılmadı (kör oynansın).
 
 Build 5z yayında (bayraklar kapalı, canlı 40 aynı). Doğrulama: testler 536/537, yerel 7/7 (Z01 kayıtlı çözümle kazanıyor).
 
-### Oturum 1
+### Oturum 1 — EĞİTİM
 
 | Sıra | Bölüm | Link |
 |---|---|---|
@@ -21,7 +23,7 @@ Build 5z yayında (bayraklar kapalı, canlı 40 aynı). Doğrulama: testler 536/
 | 9 | Z09 | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z09) |
 | 10 | Z10 | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z10) |
 
-### Oturum 2
+### Oturum 2 — EĞİTİM
 
 | Sıra | Bölüm | Link |
 |---|---|---|
@@ -36,7 +38,9 @@ Build 5z yayında (bayraklar kapalı, canlı 40 aynı). Doğrulama: testler 536/
 | 9 | Z19 | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z19) |
 | 10 | Z20 | [oyna](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z20) |
 
-### Oturum 3
+### Oturum 3 — TEST
+
+> ⛔ **TAHMİNLER YAZILMADAN OYNAMA.** Oturum 3 (Z21–Z30) ZeydBot'un test bölümleri. ZeydBot'un Z21–Z30 tahminleri (ilk deneme kazanma, kalan sn) dosyaya yazılıp commit edilmeden bu linkleri açma. Tahmin dosyası hazır olunca burada commit kimliğiyle yazacak.
 
 | Sıra | Bölüm | Link |
 |---|---|---|

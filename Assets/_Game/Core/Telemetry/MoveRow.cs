@@ -9,12 +9,13 @@ namespace ReverseSolver.Core
     public static class MoveRow
     {
         public static string Json(string rowId, string player, string levelId, int levelVersion, int attempt, int moveNo,
-                                  string kind, int piece, string dir, int tMs, int thinkMs, int timeLeft, string fuses)
+                                  string kind, int piece, string dir, int tMs, int thinkMs, int timeLeft, string fuses, int? holdMs = null)
         {
             var w = new JsonWriter().BeginObject()
                 .Field("row_id", rowId).Field("player", player).Field("level_id", levelId).Field("level_version", levelVersion)
                 .Field("attempt", attempt).Field("move_no", moveNo).Field("kind", kind).Field("piece", piece).Field("dir", dir)
                 .Field("t_ms", tMs).Field("think_ms", thinkMs).Field("time_left", timeLeft).Field("fuses", fuses);
+            if (holdMs.HasValue) w.Field("hold_ms", holdMs.Value);     // touch: how long the piece was held (docs/sql/007)
             return w.EndObject().ToString();
         }
     }

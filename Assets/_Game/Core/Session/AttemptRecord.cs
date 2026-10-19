@@ -30,6 +30,8 @@ namespace ReverseSolver.Core
         /* Faz 4 G8: the player's answer after a won level, +1 (👍) or -1 (👎); null when not
            asked (SetFlags.AskFun off) or not answered. Only written to the row when set. */
         public int? Fun;
+        /* ZeydBot (?set=zeydbot): the player's 1-10 difficulty answer after the level, or null (docs/sql/007). */
+        public int? Hardness;
 
         public override string ToString() =>
             $"{LevelId} v{LevelVersion} #{Attempt} {Result} dur={DurationSeconds} left={LeftSeconds} " +

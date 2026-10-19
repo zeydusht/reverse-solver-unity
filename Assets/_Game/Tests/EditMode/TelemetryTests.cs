@@ -124,6 +124,26 @@ namespace ReverseSolver.Core.Tests
 
         // ---- 3: sending -------------------------------------------------------------
 
+        /* ZeydBot 2026-10-19: rows with different keys (a touch row has hold_ms, a pause row not) never share
+           a request, or PostgREST refuses the whole batch. */
+        [Test]
+        public void RowsWithDifferentKeysGoInSeparateRequests()
+        {
+            var store = new MemoryStore();
+            var queue = new TelemetryQueue(store, "moves");
+            var http = new FakeHttp();
+            var sender = new TelemetrySender(queue, http, "https://example.supabase.co", "sb_publishable_test", true, "moves?on_conflict=row_id,move_no");
+            queue.Add("r-1", MoveRow.Json("r", "TEST_X", "Z01", 1, 1, 1, "touch", 3, null, 100, 100, 60, "", 250));
+            queue.Add("r-2", MoveRow.Json("r", "TEST_X", "Z01", 1, 1, 2, "pause", -1, null, 200, 100, 60, ""));
+            queue.Add("r-3", MoveRow.Json("r", "TEST_X", "Z01", 1, 1, 3, "resume", -1, null, 900, 800, 60, ""));
+            sender.Flush();
+            Assert.That(http.Calls.Count, Is.EqualTo(2), "the touch row alone, then pause and resume together");
+            Assert.That(JsonReader.Parse(http.Calls[0].body).Count, Is.EqualTo(1));
+            Assert.That(JsonReader.Parse(http.Calls[1].body).Count, Is.EqualTo(2));
+            Assert.That(queue.Rows, Is.Empty);
+            Assert.That(http.Calls[0].url, Is.EqualTo("https://example.supabase.co/rest/v1/moves?on_conflict=row_id,move_no"));
+        }
+
         [Test]
         public void SuccessEmptiesTheQueueInOneRequestPerBatch()
         {

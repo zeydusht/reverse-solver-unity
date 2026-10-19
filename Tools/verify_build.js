@@ -45,7 +45,7 @@ if (local && !fs.existsSync(path.join(local, 'index.html'))) { console.error(`--
 const send = flag('send'), player = opt('player', '');
 if (send && !/^TEST_[A-Z0-9_]+$/.test(player)) { console.error('--send needs --player TEST_NAME (TEST_ names are left out of the analysis)'); process.exit(2); }
 if (!send && player) { console.error('--player only makes sense with --send'); process.exit(2); }
-const only = opt('only', 'boot,namekeys,k1,fps,card,redesign,zeydbot' + (send ? ',a6b,m5' : '')).split(',');
+const only = opt('only', 'boot,namekeys,k1,fps,card,redesign,zeydbot' + (send ? ',a6b,m5,zeydsend' : '')).split(',');
 const out = opt('out', null) || fs.mkdtempSync(path.join(os.tmpdir(), 'rs-verify-'));
 fs.mkdirSync(out, { recursive: true });
 const PORT = +opt('port', 9333);
@@ -314,6 +314,44 @@ async function redesign() {
   p.close();
 }
 
+/* --send only: a ZeydBot attempt end to end on Z03 (no debug, sends as the TEST player): one touch that
+   snaps back, a pause / resume, the stored solution, the first 1-10 button; then moves must hold a touch
+   row with hold_ms and pause + resume rows, and the plays row a zorluk_puani. */
+async function zeydsend() {
+  const file = path.join(ROOT, 'Assets/_Game/Levels/zeydbot.json');
+  const set = JSON.parse(fs.readFileSync(file, 'utf8')).levels;
+  const l = set.find(x => x.id === 'Z03'), p = await newPage();
+  const before = await rows();
+  await p.open(`${base}/?set=zeydbot&lv=Z03`, { gate: true });
+  await p.name(player);
+  await sleep(1500);
+  const pl = placement(l), m = l.solution[0], c = l.pieces[m.piece][0], [ux, uy] = DIR[m.dir];
+  await p.drag(pl.x + (c[0] + .5) * pl.cell, pl.y + (c[1] + .5) * pl.cell, ux * pl.cell * .2, uy * pl.cell * .2, 300);   // a touch
+  const vis = h => p.ev(`(function(){ Object.defineProperty(document,'hidden',{configurable:true,get:()=>${h}}); Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'${h ? 'hidden' : 'visible'}'}); document.dispatchEvent(new Event('visibilitychange')); return true; })()`);
+  await vis(true); await sleep(1500); await vis(false); await sleep(1500);
+  await p.solve(l);
+  await sleep(2500);
+  // the 1-10 rows sit above the next / retry buttons: the first button met going down the left column is "1"
+  const x = W / 2 - 120;
+  let before1 = await p.png();
+  for (let y = Math.round(H * .25); y < H * .85; y += 12) {
+    await p.tap(x, y);
+    const now = await p.png();
+    if (Buffer.compare(now, before1) !== 0) break;      // the card changed: the answer was taken
+    before1 = now;
+  }
+  await sleep(17000);                                   // flushes run every 15 s
+  const fresh = (await rows()).filter(r => !before.some(b => b.row_id === r.row_id) && r.level_id === 'Z03');
+  const r = fresh[0];
+  let mv = [];
+  if (r) mv = await (await fetch(`${SUPA}/rest/v1/moves?row_id=eq.${r.row_id}&select=kind,hold_ms,move_no&order=move_no`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json();
+  const kinds = k => mv.filter(x => x.kind === k).length;
+  const touchOk = mv.some(x => x.kind === 'touch' && x.hold_ms > 0);
+  const ok = !!r && r.result === 'win' && r.zorluk_puani != null && touchOk && kinds('pause') >= 1 && kinds('resume') >= 1 && kinds('exit') === l.solution.length;
+  check('zeydsend', ok, r ? `Z03 ${r.result}, zorluk_puani ${r.zorluk_puani}, moves: exit ${kinds('exit')}/${l.solution.length}, touch ${kinds('touch')} (hold_ms ${(mv.find(x => x.kind === 'touch') || {}).hold_ms}), pause ${kinds('pause')}, resume ${kinds('resume')}` : 'Z03 satırı gelmedi');
+  p.close();
+}
+
 async function a6b() {
   const p = await newPage(), l02 = levels[1];
   const before = await rows();
@@ -367,6 +405,7 @@ async function m5(p) {
     if (only.includes('card')) await card();
     if (only.includes('redesign')) await redesign();
     if (only.includes('zeydbot')) await zeydbot();
+    if (send && only.includes('zeydsend')) await zeydsend();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
   finally {

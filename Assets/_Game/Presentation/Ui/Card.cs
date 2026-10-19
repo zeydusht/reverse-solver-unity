@@ -105,6 +105,29 @@ namespace ReverseSolver.Presentation
             return this;
         }
 
+        /* Buttons side by side, equal widths (the ZeydBot 1-10 question). */
+        public Card ButtonRow(params (string id, string label)[] items)
+        {
+            _rows.Add(y =>
+            {
+                const float gap = 6;
+                int n = items.Length;
+                float bw = (InnerWidth - gap * (n - 1)) / n, cy = y + ButtonH / 2;
+                for (int i = 0; i < n; i++)
+                {
+                    float x = -InnerWidth / 2 + i * (bw + gap);
+                    var b = ShapeView.Create(_content, "btn " + items[i].id, new Vector2(bw, ButtonH), 2, _order + 2).Radius(11);
+                    b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1);
+                    b.transform.localPosition = Draw.W(x + bw / 2, cy);
+                    TextView.Create(_content, "label " + items[i].id, items[i].label, 15, Draw.Hex("#8fb2b3"), order: _order + 3)
+                        .transform.localPosition = Draw.W(x + bw / 2, cy);
+                    Buttons.Add((new Rect(x, y, bw, ButtonH), items[i].id));
+                }
+                return ButtonH + 8;
+            });
+            return this;
+        }
+
         /* Lays the rows out, centres the card on screen and converts button rects to screen points. */
         public Card Finish()
         {

@@ -54,6 +54,16 @@ namespace ReverseSolver.Core
             return Run(s, r, nodeBudget);
         }
 
+        /* The same from a state reached in play (ZeydBot analysis); the state itself is not changed. */
+        public static SmartPlayResult PlayAfter(GameSession state, Move first, int nodeBudget = DefaultNodeBudget)
+        {
+            var s = state.Clone();
+            if (s.TryExit(first.Piece, first.Dir) != CommandResult.Ok) return null;
+            var r = new SmartPlayResult { LevelId = state.Level.Id };
+            r.Moves.Add(first);
+            return Run(s, r, nodeBudget);
+        }
+
         static SmartPlayResult Run(GameSession s, SmartPlayResult r, int nodeBudget)
         {
             int budget = nodeBudget;

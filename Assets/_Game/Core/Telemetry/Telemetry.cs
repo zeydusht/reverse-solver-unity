@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ReverseSolver.Core.Json;
 
 namespace ReverseSolver.Core
@@ -31,7 +32,8 @@ namespace ReverseSolver.Core
                 .Field("level_version", r.LevelVersion)
                 .Field("level_id", r.LevelId)
                 .Field("row_id", rowId);
-            if (r.Fun.HasValue) w.Field("keyif", r.Fun.Value);     // docs/sql/004_keyif.sql; absent while AskFun is off
+            if (r.Fun.HasValue) w.Field("keyif", r.Fun.Value);
+            if (r.Hardness.HasValue) w.Field("zorluk_puani", r.Hardness.Value);   // docs/sql/007; only ZeydBot sessions     // docs/sql/004_keyif.sql; absent while AskFun is off
             return w.EndObject().ToString();
         }
     }
@@ -185,12 +187,24 @@ namespace ReverseSolver.Core
 
         public string Url => _url;
 
+        static List<TelemetryQueue.Entry> SameKeys(List<TelemetryQueue.Entry> rows)
+        {
+            if (rows.Count <= 1) return rows;
+            string Keys(string row) => string.Join(",", JsonReader.Parse(row).Members.Select(m => m.Key));
+            string first = Keys(rows[0].Row);
+            int n = 1;
+            while (n < rows.Count && Keys(rows[n].Row) == first) n++;
+            return rows.GetRange(0, n);
+        }
+
         /* Sends the next batch if there is one; continues until the queue is
            empty or a request fails. Safe to call often. */
         public void Flush()
         {
             if (!Enabled || Busy || _queue.Rows.Count == 0) return;
-            var batch = _queue.Take(Batch);
+            // PostgREST refuses a bulk insert whose rows do not share their keys (a touch row has hold_ms, a pause row
+            // not; an answered row has zorluk_puani): a batch is the run of rows with the same keys as the first
+            var batch = SameKeys(_queue.Take(Batch));
             var w = new JsonWriter().BeginArray();
             foreach (var e in batch) w.Raw(e.Row);
             string body = w.EndArray().ToString();

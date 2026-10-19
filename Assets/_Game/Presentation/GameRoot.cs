@@ -56,6 +56,7 @@ namespace ReverseSolver.Presentation
         TelemetrySender _moveSender;
         float _moveT0, _moveLast;
         int _moveNo;
+        float _pressAt;
         bool _tutorialDone;           // web tutDone: first removal anywhere ends the hand for this visit
         TutorialHand _hand;
         LevelImages _images;          // G1: level pictures, fetched when a level opens
@@ -135,12 +136,21 @@ namespace ReverseSolver.Presentation
             else if (e.Kind == EventKind.Jammed) kind = "jam";
             else if (e.Kind == EventKind.BoosterUsed && e.Booster != Booster.Hammer) kind = e.Booster.ToString().ToLowerInvariant();
             else return;
+            WriteMove(kind, e.Piece, e.Kind == EventKind.PieceRemoved && !e.ByHammer ? e.Dir.ToString() : null);
+        }
+
+        /* One moves row; touch rows carry how long the piece was held. Pause / resume and touches do not
+           reset the thinking clock: think_ms runs from the last real action. */
+        void WriteMove(string kind, int piece, string dir, int? holdMs = null)
+        {
+            if (_moveQueue == null || _session == null) return;
             float now = Time.unscaledTime;
             var fuses = string.Join(";", System.Linq.Enumerable.Select(_session.Bombs, b => b.Key + ":" + b.Value));
-            _moveQueue?.Add(_rowId + "-" + (++_moveNo), MoveRow.Json(_rowId, _save.Player, _session.Level.Id, _session.Level.Version, _session.Attempt,
-                _moveNo, kind, e.Piece, e.Kind == EventKind.PieceRemoved && !e.ByHammer ? e.Dir.ToString() : null,
-                (int)((now - _moveT0) * 1000), (int)((now - _moveLast) * 1000), _session.TimeLeft, fuses));
-            _moveLast = now;
+            _moveQueue.Add(_rowId + "-" + (++_moveNo), MoveRow.Json(_rowId, _save.Player, _session.Level.Id, _session.Level.Version, _session.Attempt,
+                _moveNo, kind, piece, dir, (int)((now - _moveT0) * 1000), (int)((now - _moveLast) * 1000), _session.TimeLeft, fuses, holdMs));
+            bool action = kind != "touch" && kind != "pause" && kind != "resume";
+            if (action) _moveLast = now;
+            if (kind == "pause") _moveSender?.Flush();
         }
 
         static bool HasLevels(TextAsset file)
@@ -163,6 +173,7 @@ namespace ReverseSolver.Presentation
 
         void OnVisibility(bool visible)
         {
+            if (_zeydbotSet && _mode == Mode.Playing && _session != null && !_session.IsOver) WriteMove(visible ? "resume" : "pause", -1, null);
             if (visible) _telemetry.PageVisible(_mode == Mode.Playing ? _session : null, _rowId);
             else
             {
@@ -203,6 +214,7 @@ namespace ReverseSolver.Presentation
             SendPendingFun();                                  // G8: a won row never waits past the next level
             _funAnswered = false;
             _askFun = false;
+            _hardAnswered = false;
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
             _rowId = _telemetry.NewRowId();
             _save.Store(_log);                                 // the attempt counter, before anything can go wrong
@@ -237,6 +249,7 @@ namespace ReverseSolver.Presentation
             if (SetFlags.AskFun && (e.Outcome == Outcome.Time || e.Outcome == Outcome.Bomb)) _save.RecordLoss(levelId);
             _askFun = ask;
             if (ask) { _save.MarkFunAsked(levelId); _pendingFun = (_session.Record, _rowId); }
+            else if (_zeydbotSet && e.Outcome != Outcome.Quit) _pendingFun = (_session.Record, _rowId);   // waits for the 1-10 answer
             else _telemetry.Finished(_session.Record, _rowId);
             if (Host.Debug) Debug.Log("[attempt] " + _session.Record);
             _drag?.Cancel();
@@ -364,12 +377,12 @@ namespace ReverseSolver.Presentation
             OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
                 PlayOverride.Active ? "Editöre dön" : $"Tebrikler, {_set.Levels.Count} bölüm bitti",
                 _images.Get(_session.Level.Image),          // G1-b: only a picture that really arrived
-                _askFun, _funAnswered));
+                _askFun, _funAnswered, _zeydbotSet, _hardAnswered));
 
         // ---- G8: the 👍/👎 answer (SetFlags.AskFun) -------------------------------------------
 
         (AttemptRecord record, string rowId)? _pendingFun;
-        bool _funAnswered, _askFun;
+        bool _funAnswered, _askFun, _hardAnswered;
 
         /* The held row goes out, with the answer when there is one. */
         void SendPendingFun(int? answer = null)
@@ -453,6 +466,8 @@ namespace ReverseSolver.Presentation
                                  touch.primaryTouch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Canceled;
                 int piece; Dir dir;
                 var result = cancelled ? _drag.Abort(out piece, out dir) : _drag.Release(out piece, out dir);
+                if (_zeydbotSet && result != DragRelease.Exited && piece >= 0)
+                    WriteMove("touch", piece, null, (int)((Time.unscaledTime - _pressAt) * 1000));
                 _board.EndDrag(piece, result, dir, lim.Cells);
             }
         }
@@ -487,6 +502,14 @@ namespace ReverseSolver.Presentation
                         CloseCard();
                         break;
                     case "result":
+                        if (id.StartsWith("hard_") && int.TryParse(id.Substring(5), out int hard))
+                        {
+                            if (_pendingFun != null) _pendingFun.Value.record.Hardness = hard;
+                            SendPendingFun();
+                            _hardAnswered = true;
+                            ShowResult();
+                            break;
+                        }
                         if (id == "fun_up" || id == "fun_down")
                         {
                             SendPendingFun(id == "fun_up" ? 1 : -1);
@@ -532,7 +555,7 @@ namespace ReverseSolver.Presentation
             // a press just outside the board takes the nearest edge piece (PRODUCT.md K1)
             piece = _board.GrabAt(pt, out bool outside);
             if (piece >= 0 && _session.NailAt(piece) > 0) _board.Clang(piece);     // web: pinned, refuse and say so
-            if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) _board.ShowDrag(_drag);
+            if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) { _board.ShowDrag(_drag); _pressAt = Time.unscaledTime; }
         }
 
         void OpenList()

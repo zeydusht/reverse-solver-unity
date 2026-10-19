@@ -158,7 +158,7 @@ namespace ReverseSolver.Presentation
            third loss; the retry button stays where it is. thanked: the answer was given. */
         public static Card Result(Transform parent, Vector2 screen, GameSession s, bool isLast, int order,
                                   string lastLabel = "Tebrikler, 40 bölüm bitti", Texture picture = null,
-                                  bool askFun = false, bool thanked = false)
+                                  bool askFun = false, bool thanked = false, bool askHard = false, bool hardAnswered = false)
         {
             bool won = s.Outcome == Outcome.Win;
             int stars = s.Stars;
@@ -201,6 +201,12 @@ namespace ReverseSolver.Presentation
                     .Button("fun_up", "Beğendim", false)
                     .Button("fun_down", "Beğenmedim", false);
             if (askFun && thanked) card.Body("Teşekkürler!", sizePt: 13, gapAfter: 8);
+            // ZeydBot: optional 1-10 difficulty (1 çok kolay, 10 çok zor); the row waits for it or for the next button
+            if (askHard && !hardAnswered)
+                card.Body("Ne kadar zordu? 1 çok kolay · 10 çok zor", sizePt: 13, gapAfter: 8)
+                    .ButtonRow(("hard_1", "1"), ("hard_2", "2"), ("hard_3", "3"), ("hard_4", "4"), ("hard_5", "5"))
+                    .ButtonRow(("hard_6", "6"), ("hard_7", "7"), ("hard_8", "8"), ("hard_9", "9"), ("hard_10", "10"));
+            if (askHard && hardAnswered) card.Body("Kaydedildi, teşekkürler!", sizePt: 13, gapAfter: 8);
             return card
                 .Button(primaryId, primary, true)
                 .Button("retry", "Tekrar oyna", false)
