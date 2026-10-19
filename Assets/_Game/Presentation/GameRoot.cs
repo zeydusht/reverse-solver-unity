@@ -30,6 +30,7 @@ namespace ReverseSolver.Presentation
 
         [SerializeField] TextAsset levels;
         [SerializeField] TextAsset designs;          // level editor output; only with ?debug=1&set=designs
+        [SerializeField] TextAsset zeydbot;          // ZeydBot sessions (?set=zeydbot&lv=Z01), moves sent too
         [SerializeField] TextAsset redesign;         // Faz 4 set (R..); ?debug=1&set=redesign, default only with SetFlags.RedesignDefault
         [SerializeField] Material pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial;
 
@@ -50,6 +51,11 @@ namespace ReverseSolver.Presentation
         BoosterControls _boosters;
         bool _introOpen;
         bool _designSet;              // playing designs.json (?debug=1&set=designs)
+        bool _zeydbotSet;             // playing zeydbot.json (?set=zeydbot): every move is recorded and sent
+        TelemetryQueue _moveQueue;
+        TelemetrySender _moveSender;
+        float _moveT0, _moveLast;
+        int _moveNo;
         bool _tutorialDone;           // web tutDone: first removal anywhere ends the hand for this visit
         TutorialHand _hand;
         LevelImages _images;          // G1: level pictures, fetched when a level opens
@@ -92,10 +98,15 @@ namespace ReverseSolver.Presentation
             bool send = host.SendEnabled && !Host.Debug && !Application.isEditor;
             var sender = new TelemetrySender(queue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send);
             _telemetry = new TelemetryLog(_save, queue, sender, newId);
+            if (_zeydbotSet)
+            {
+                _moveQueue = new TelemetryQueue(host.Store, "moves");
+                _moveSender = new TelemetrySender(_moveQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "moves?on_conflict=row_id,move_no");
+            }
             host.VisibilityChanged += OnVisibility;
             _telemetry.Flush();                               // rows left from an earlier visit
 
-            _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug };
+            _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug || _zeydbotSet };
             // web name gate: once per browser; the HTML input sits over the canvas
             bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug;
             int requested = PlayOverride.Active ? PlayOverride.Index
@@ -107,12 +118,29 @@ namespace ReverseSolver.Presentation
 
         LevelSet ChooseSet()
         {
-            switch (SetChoice.For(Host.Debug, Host.Current.Query("set"), HasLevels(designs), HasLevels(redesign), SetFlags.RedesignDefault))
+            switch (SetChoice.For(Host.Debug, Host.Current.Query("set"), HasLevels(designs), HasLevels(redesign), SetFlags.RedesignDefault, HasLevels(zeydbot)))
             {
+                case SetChoice.Kind.Zeydbot: _zeydbotSet = true; return LevelParser.Parse(zeydbot.text);
                 case SetChoice.Kind.Designs: _designSet = true; return LevelParser.Parse(designs.text);
                 case SetChoice.Kind.Redesign: return LevelParser.Parse(redesign.text);
                 default: return LevelParser.Parse(levels.text);
             }
+        }
+
+        /* ZeydBot: every action of the attempt with its time and the time spent before it (thinking). */
+        void RecordMove(GameEvent e)
+        {
+            string kind;
+            if (e.Kind == EventKind.PieceRemoved) kind = e.ByHammer ? "hammer" : "exit";
+            else if (e.Kind == EventKind.Jammed) kind = "jam";
+            else if (e.Kind == EventKind.BoosterUsed && e.Booster != Booster.Hammer) kind = e.Booster.ToString().ToLowerInvariant();
+            else return;
+            float now = Time.unscaledTime;
+            var fuses = string.Join(";", System.Linq.Enumerable.Select(_session.Bombs, b => b.Key + ":" + b.Value));
+            _moveQueue?.Add(_rowId + "-" + (++_moveNo), MoveRow.Json(_rowId, _save.Player, _session.Level.Id, _session.Level.Version, _session.Attempt,
+                _moveNo, kind, e.Piece, e.Kind == EventKind.PieceRemoved && !e.ByHammer ? e.Dir.ToString() : null,
+                (int)((now - _moveT0) * 1000), (int)((now - _moveLast) * 1000), _session.TimeLeft, fuses));
+            _moveLast = now;
         }
 
         static bool HasLevels(TextAsset file)
@@ -180,6 +208,8 @@ namespace ReverseSolver.Presentation
             _save.Store(_log);                                 // the attempt counter, before anything can go wrong
             _session.EventRaised += OnEvent;
             _boosters = new BoosterControls(_session);
+            _moveT0 = _moveLast = Time.unscaledTime;
+            _moveNo = 0;
             _mode = Mode.Playing;
             _endAt = -1;
             // web loadLevel(i): the intro shows on a level's first start, not on retries
@@ -190,6 +220,7 @@ namespace ReverseSolver.Presentation
 
         void OnEvent(GameEvent e)
         {
+            if (_zeydbotSet) RecordMove(e);
             if (e.Kind == EventKind.ValveReleased) _bar?.Notice("Çivi kendiliğinden söküldü", 1.6f);   // web says "söktü"; PM: grammar fix
             if (e.Kind == EventKind.PieceRemoved)
             {
@@ -378,7 +409,7 @@ namespace ReverseSolver.Presentation
                 return;
             }
             if (!_awaitingName) HandlePointer();
-            if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); }
+            if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); _moveSender?.Flush(); }
 
             if (_mode == Mode.Playing)
             {

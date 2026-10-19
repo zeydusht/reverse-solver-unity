@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ReverseSolver.Presentation::ReverseSolver.Presentation.GameRoot
   levels: {fileID: 4900000, guid: 7a242d63fa5bff24cb9f1802f7d6094b, type: 3}
   designs: {fileID: 4900000, guid: da8a552a00797bb4d978ea7ed081aca7, type: 3}
+  zeydbot: {fileID: 4900000, guid: 7a3e9c1b5d2f4e60a8b4c2d1e0f9a7b3, type: 3}
   redesign: {fileID: 4900000, guid: 236c4e5454b74f3ebf14bd41b77bbcd0, type: 3}
   pieceMaterial: {fileID: 2100000, guid: b4b7b3ebdb634894aa395f8927626cb0, type: 2}
   shapeMaterial: {fileID: 2100000, guid: 3a6e2c1c0c72b4b468650e2d604a4cd1, type: 2}

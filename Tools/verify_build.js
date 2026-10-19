@@ -15,6 +15,7 @@
 //   card   D01 won at 375x667: card bottom <= 667 pt, primary button >= 44 pt,
 //          gap between the title and the picture's frame >= 8 pt
 //   redesign  the Faz 4 set (redesign.json) with ?debug=1&set=redesign: its first level opens
+//   zeydbot   the ZeydBot set (zeydbot.json) with ?debug=1&set=zeydbot (nothing sent): Z01 opens and its stored solution wins
 //          and is won with its stored solution (result card shown, no exceptions); skipped
 //          while redesign.json has no levels
 //
@@ -44,7 +45,7 @@ if (local && !fs.existsSync(path.join(local, 'index.html'))) { console.error(`--
 const send = flag('send'), player = opt('player', '');
 if (send && !/^TEST_[A-Z0-9_]+$/.test(player)) { console.error('--send needs --player TEST_NAME (TEST_ names are left out of the analysis)'); process.exit(2); }
 if (!send && player) { console.error('--player only makes sense with --send'); process.exit(2); }
-const only = opt('only', 'boot,namekeys,k1,fps,card,redesign' + (send ? ',a6b,m5' : '')).split(',');
+const only = opt('only', 'boot,namekeys,k1,fps,card,redesign,zeydbot' + (send ? ',a6b,m5' : '')).split(',');
 const out = opt('out', null) || fs.mkdtempSync(path.join(os.tmpdir(), 'rs-verify-'));
 fs.mkdirSync(out, { recursive: true });
 const PORT = +opt('port', 9333);
@@ -281,6 +282,22 @@ async function card() {
   p.close();
 }
 
+async function zeydbot() {
+  const file = path.join(ROOT, 'Assets/_Game/Levels/zeydbot.json');
+  const set = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')).levels : [];
+  if (!set.length) { check('zeydbot', true, 'zeydbot.json yok: atlandı'); return; }
+  const l = set[0], p = await newPage();
+  await p.open(dbg(`${base}/?set=zeydbot&lv=${l.id}`));
+  for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);
+  await p.solve(l);
+  await sleep(2500);
+  const buf = await p.png(); fs.writeFileSync(path.join(out, `zeydbot_${l.id}.png`), buf);
+  const img = readPng(buf);
+  let orange = 0; for (let y = 0; y < img.h; y++) { const [r, g, b] = img.at(img.w >> 1, y); if (Math.abs(r - 240) < 12 && Math.abs(g - 167) < 12 && Math.abs(b - 66) < 12) orange++; }
+  check('zeydbot', orange > 60 && p.exceptions.length === 0, `${l.id} (${set.length} seviyeli set) kayıtlı çözümle oynandı: sonuç kartı ${orange > 60 ? 'var' : 'yok'}, istisna ${p.exceptions.length}`);
+  p.close();
+}
+
 async function redesign() {
   const file = path.join(ROOT, 'Assets/_Game/Levels/redesign.json');
   const set = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')).levels : [];
@@ -349,6 +366,7 @@ async function m5(p) {
     if (only.includes('fps')) await fps();
     if (only.includes('card')) await card();
     if (only.includes('redesign')) await redesign();
+    if (only.includes('zeydbot')) await zeydbot();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
   finally {

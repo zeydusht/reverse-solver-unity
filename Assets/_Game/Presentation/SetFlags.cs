@@ -15,10 +15,13 @@ namespace ReverseSolver.Presentation
     /* Which level file the game plays. */
     public static class SetChoice
     {
-        public enum Kind { Levels, Designs, Redesign }
+        public enum Kind { Levels, Designs, Redesign, Zeydbot }
 
-        public static Kind For(bool debug, string setParam, bool hasDesigns, bool hasRedesign, bool redesignDefault)
+        /* set=zeydbot (ZeydBot sessions, Zeyd 2026-10-19) works without debug: its rows and moves are sent
+           under the player's name (TEST_ZEYD), every level open; nothing else changes for the live set. */
+        public static Kind For(bool debug, string setParam, bool hasDesigns, bool hasRedesign, bool redesignDefault, bool hasZeydbot = false)
         {
+            if (setParam == "zeydbot" && hasZeydbot) return Kind.Zeydbot;
             if (debug && setParam == "designs" && hasDesigns) return Kind.Designs;
             if (debug && setParam == "redesign" && hasRedesign) return Kind.Redesign;
             if (debug && setParam == "levels") return Kind.Levels;

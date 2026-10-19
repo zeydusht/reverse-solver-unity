@@ -41,10 +41,21 @@ namespace ReverseSolver.Core
     {
         public const int DefaultNodeBudget = 300_000;
 
-        public static SmartPlayResult Play(LevelData level, int nodeBudget = DefaultNodeBudget)
+        public static SmartPlayResult Play(LevelData level, int nodeBudget = DefaultNodeBudget) =>
+            Run(new GameSession(level, 1, "solver", new Mulberry32(1)), new SmartPlayResult { LevelId = level.Id }, nodeBudget);
+
+        /* ZeydBot's right / trap label: the play after a given first move (null when that move is refused). */
+        public static SmartPlayResult PlayAfter(LevelData level, Move first, int nodeBudget = DefaultNodeBudget)
         {
-            var r = new SmartPlayResult { LevelId = level.Id };
             var s = new GameSession(level, 1, "solver", new Mulberry32(1));
+            if (s.TryExit(first.Piece, first.Dir) != CommandResult.Ok) return null;
+            var r = new SmartPlayResult { LevelId = level.Id };
+            r.Moves.Add(first);
+            return Run(s, r, nodeBudget);
+        }
+
+        static SmartPlayResult Run(GameSession s, SmartPlayResult r, int nodeBudget)
+        {
             int budget = nodeBudget;
 
             while (!s.IsOver)

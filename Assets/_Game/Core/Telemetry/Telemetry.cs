@@ -44,8 +44,7 @@ namespace ReverseSolver.Core
     public sealed class TelemetryQueue
     {
         public const int Max = 500, MaxParked = 100;
-        static readonly string Key = SaveData.Key("queue");
-        static readonly string ParkedKey = SaveData.Key("queue.parked");
+        readonly string Key, ParkedKey;
 
         public sealed class Entry { public string Id; public string Row; }
 
@@ -57,9 +56,12 @@ namespace ReverseSolver.Core
         public int Parked => _parked.Count;
         public int Dropped { get; private set; }
 
-        public TelemetryQueue(IKeyValueStore store)
+        /* name: "queue" for the plays rows; another name keeps another table's rows apart (ZeydBot moves). */
+        public TelemetryQueue(IKeyValueStore store, string name = "queue")
         {
             _store = store;
+            Key = SaveData.Key(name);
+            ParkedKey = SaveData.Key(name + ".parked");
             Read(Key, _rows);
             Read(ParkedKey, _parked);
         }
@@ -162,7 +164,8 @@ namespace ReverseSolver.Core
         public int Sent { get; private set; }
         public int LastStatus { get; private set; } = -1;
 
-        public TelemetrySender(TelemetryQueue queue, ITelemetryTransport transport, string supabaseUrl, string anonKey, bool enabled)
+        public TelemetrySender(TelemetryQueue queue, ITelemetryTransport transport, string supabaseUrl, string anonKey, bool enabled,
+                               string table = "plays?on_conflict=row_id")
         {
             _queue = queue;
             _transport = transport;
@@ -170,7 +173,7 @@ namespace ReverseSolver.Core
             // accept either the project URL or the full REST endpoint (web LOG.flush)
             string baseUrl = (supabaseUrl ?? "").Trim().TrimEnd('/');
             if (baseUrl.EndsWith("/rest/v1")) baseUrl = baseUrl.Substring(0, baseUrl.Length - "/rest/v1".Length);
-            _url = baseUrl + "/rest/v1/plays?on_conflict=row_id";
+            _url = baseUrl + "/rest/v1/" + table;
             _headers = new Dictionary<string, string>
             {
                 ["Content-Type"] = "application/json",
