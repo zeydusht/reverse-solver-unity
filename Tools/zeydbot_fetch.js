@@ -10,6 +10,8 @@ const ROOT = path.resolve(__dirname, '..');
 const settings = fs.readFileSync(path.join(ROOT, 'Assets/_Game/Platform/Web/TelemetrySettings.cs'), 'utf8');
 const url = /SupabaseUrl\s*=\s*"([^"]+)"/.exec(settings)[1].replace(/\/rest\/v1\/?$/, '').replace(/\/$/, '');
 const key = /AnonKey\s*=\s*"([^"]+)"/.exec(settings)[1];
+// --all: also Z21 and later (only after their predictions are frozen: fc4ef7c for Z21-Z30)
+const ALL = process.argv.includes('--all');
 const DDD_FROM_SESSION = 'ad844d4abb404f5f97b5d9e1c28b23f7';
 
 async function get(table, query) {
@@ -30,7 +32,7 @@ async function get(table, query) {
   const startAt = start ? start.created_at : null;
   // Z21-Z30 are the frozen test set: their rows are never downloaded here (overnight 2026-10-20)
   const zeyd = plays.filter(p => p.player === 'TEST_ZEYD' || (p.player === 'ddd' && startAt && p.created_at >= startAt))
-    .filter(p => p.level_id <= 'Z20');
+    .filter(p => ALL || p.level_id <= 'Z20');
   const ids = new Set(zeyd.map(p => p.row_id));
   const moves = (await get('moves', 'select=*&level_id=like.Z*&order=row_id,move_no')).filter(m => ids.has(m.row_id));
   const out = path.join(ROOT, 'Logs/zeydbot');
