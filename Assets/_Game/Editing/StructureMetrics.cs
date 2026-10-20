@@ -121,6 +121,9 @@ namespace ReverseSolver.Editing
 
         /* ZeydBot: fewest moves from this state (its real fuses) that take `bomb` out; SmartPlayer's direct dig
            when the search runs out of budget; -1 when no dig is found before a bomb goes off. */
+        /* ZeydBot (LevelEditor cannot see GameSession.Clone). */
+        public static GameSession Copy(GameSession s) => s.Clone();
+
         public static int DigNow(GameSession s, int bomb, int budget = FuseSearchBudget)
         {
             if (!s.Board.IsPresent(bomb)) return 0;

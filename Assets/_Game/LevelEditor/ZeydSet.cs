@@ -20,7 +20,7 @@ namespace ReverseSolver.LevelEditor
     {
         public const string Path = "Assets/_Game/Levels/zeydbot.json";
         static readonly string[] Args = Environment.GetCommandLineArgs();
-        static string Arg(string k, string d) { int i = Array.IndexOf(Args, k); return i >= 0 && i + 1 < Args.Length ? Args[i + 1] : d; }
+        internal static string Arg(string k, string d) { int i = Array.IndexOf(Args, k); return i >= 0 && i + 1 < Args.Length ? Args[i + 1] : d; }
         static void Log(string s) => Debug.Log("[zeydset] " + s);
 
         public static void Build()
