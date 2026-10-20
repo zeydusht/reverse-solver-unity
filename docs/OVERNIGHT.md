@@ -1,3 +1,11 @@
+# Oturum 5 — 5 yeni bölüm (21 Ekim 2026, Build 5z5)
+
+Söylediklerine göre kuruldu: bomba artık tek bir süpürmeyle açılmıyor, "tek anahtar parça" anları korundu, süre sonda sıkışsın diye ayarlandı. Tahminler sen oynamadan dondu.
+[Z36](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z36) · [Z37](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z37) · [Z38](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z38) · [Z39](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z39) · [Z40](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z40)
+**Her bölümde 1–10 ver.** Bitince iki şey söyle: "bomba şablonu hâlâ var mı?" ve "Z12 gibi miydi?" Kaybedince de puan ver; tekrar düğmesi puan verdikten sonra çıkıyor.
+
+---
+
 # Oturum 4 — 5 yeni bölüm (20 Ekim 2026, Build 5z4)
 
 Bu beş bölümü bir tasarımcı ajan elle kurdu, fabrika her birini doğruladı. Hepsi çözülebilir, tahminler sen oynamadan önce donduruldu.
