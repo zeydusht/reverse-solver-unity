@@ -72,7 +72,7 @@ namespace ReverseSolver.LevelEditor
             var byRow = new Dictionary<string, List<JsonNode>>();
             foreach (var m in moves.Items) { var id = S(m, "row_id"); if (!byRow.ContainsKey(id)) byRow[id] = new List<JsonNode>(); byRow[id].Add(m); }
 
-            var mv = new StringBuilder("level_id,attempt,move_no,kind,piece,dir,t_ms,think_ms,hold_ms,time_left,kalan_parca,secenek,dogru,tuzak,secilen,bomba_pay,en_dar_pay,secim_sonrasi_en_dar_pay\n");
+            var mv = new StringBuilder("level_id,attempt,move_no,kind,piece,dir,t_ms,think_ms,hold_ms,time_left,kalan_parca,secenek,dogru,tuzak,secilen,bomba_pay,en_dar_pay,secim_sonrasi_en_dar_pay,yaniltici\n");
             var at = new StringBuilder("level_id,attempt,result,left_s,dur,hamle,touch,pause,dogru_secim,tuzak_secim,zorluk_puani,think_ort_ms,think_medyan_ms,think_max_ms,kayit\n");
             foreach (var p in plays.Items)
             {
@@ -87,12 +87,13 @@ namespace ReverseSolver.LevelEditor
                 foreach (var m in list)
                 {
                     string kind = S(m, "kind"); int piece = I(m, "piece"); string dir = S(m, "dir");
-                    string opt = "", r = "", t = "", chosen = "", slack = "", minSlack = "", after = "";
+                    string opt = "", r = "", t = "", chosen = "", slack = "", minSlack = "", after = "", mis = "";
                     int left = s.Board.PresentCount;
                     if (kind == "exit" && !s.IsOver && Enum.TryParse(dir, out Dir d))
                     {
                         var opts = Options(s);
                         var sl = Slacks(s, lng);
+                        mis = Misleading(s).ToString();
                         opt = opts.Count.ToString(); r = opts.Count(o => o.right).ToString(); t = opts.Count(o => !o.right).ToString();
                         bool ok = opts.Any(o => o.piece == piece && o.right);
                         chosen = ok ? "dogru" : "tuzak";
@@ -110,7 +111,7 @@ namespace ReverseSolver.LevelEditor
                     else if (kind == "jam" && !s.IsOver) s.RecordJam(piece);
                     if (kind == "touch") touches++;
                     if (kind == "pause") pauses++;
-                    mv.Append($"{levelId},{attempt},{I(m, "move_no")},{kind},{piece},{dir},{I(m, "t_ms")},{I(m, "think_ms")},{IOpt(m, "hold_ms")},{I(m, "time_left")},{left},{opt},{r},{t},{chosen},{slack},{minSlack},{after}\n");
+                    mv.Append($"{levelId},{attempt},{I(m, "move_no")},{kind},{piece},{dir},{I(m, "t_ms")},{I(m, "think_ms")},{IOpt(m, "hold_ms")},{I(m, "time_left")},{left},{opt},{r},{t},{chosen},{slack},{minSlack},{after},{mis}\n");
                 }
                 thinks.Sort();
                 string kayit = list.Count == 0 ? "hamle_yok" : levelId == "Z03" && attempt == 2 ? "atildi_quit" : "";

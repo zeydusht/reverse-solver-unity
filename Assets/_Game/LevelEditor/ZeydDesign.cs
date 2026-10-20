@@ -52,7 +52,7 @@ namespace ReverseSolver.LevelEditor
             });
             File.WriteAllText($"{dir}/taslak_yollar.csv", "level_id,run,adim,kalan_parca,secenek,dogru,en_dar_pay,koruyan,koruyan_secildi,yaniltici,dig\n" +
                 string.Concat(set.Levels.Select(l => paths.TryGetValue(l.Id, out var p) ? p : "")), new UTF8Encoding(false));
-            File.WriteAllText($"{dir}/taslak_ozellik.csv", "level_id,tur,sure_limiti,en_kisa_cozum,adil,rastgele_kazanma,yol_tuzakli_hamle,yol_zorunlu,yol_ort_secenek,yaniltici_adim,baslangic_en_dar_pay\n" +
+            File.WriteAllText($"{dir}/taslak_ozellik.csv", "level_id,tur,sure_limiti,en_kisa_cozum,adil,rastgele_kazanma,yol_tuzakli_hamle,yol_zorunlu,yol_ort_secenek,yaniltici_adim,baslangic_en_dar_pay,m13_anahtar,m13_ikinci_yari,m13_art_arda,m14_supurme,m14_yon,m14_duz_seritten,m14_imza,m15_kalan_pay\n" +
                 string.Concat(set.Levels.Select(l => feats.TryGetValue(l.Id, out var f) ? f : "")), new UTF8Encoding(false));
             Log($"yazıldı: {dir} ({set.Levels.Count} taslak)");
         }
@@ -140,23 +140,64 @@ namespace ReverseSolver.LevelEditor
             var lng = ZeydAnalysis.Long(l);
             var start = ZeydAnalysis.Slacks(s, lng);
             int traps = 0, forced = 0, n = 0; double opt = 0, mis = 0;
+            string m13 = ",,,,,,,";
             var line = new StringBuilder();
+            var key = new List<int>();                                   // M13: steps that are key moments
+            var exits = new List<(int piece, Dir dir, int lane, bool bomb, bool chain)>();
             foreach (var mv in sp.Moves)
             {
                 if (s.IsOver) break;
+                var c0 = l.Pieces[mv.Piece][0];
+                exits.Add((mv.Piece, mv.Dir, mv.Dir.IsVertical() ? c0.X : c0.Y, l.Bombs.ContainsKey(mv.Piece), l.Pieces[mv.Piece].Length == 2));
                 var o = ZeydAnalysis.Options(s, 30_000);
                 int r = o.Count(x => x.right), mi = ZeydAnalysis.Misleading(s);
                 var sl = ZeydAnalysis.Slacks(s, lng);
                 if (r < o.Count) traps++;
                 if (o.Count == 1) forced++;
+                // M13 (PM 2026-10-21): many pieces free or looking free (>= 4), one move that moves the solution on
+                if (o.Count + mi >= 4 && r == 1) key.Add(n + 1);
                 n++; opt += o.Count; mis += mi;
                 // one cell per step: options/right, misleading, slack; "T" = a trap is on offer, "!" = forced
-                line.Append($"{n}:{o.Count}/{r}{(r < o.Count ? "T" : o.Count == 1 ? "!" : "")} y{mi}{(sl.Count == 0 ? "" : " p" + sl.Min(x => x.slack))} · ");
+                line.Append($"{n}:{o.Count}/{r}{(r < o.Count ? "T" : o.Count == 1 ? "!" : "")}{(o.Count + mi >= 4 && r == 1 ? "A" : "")} y{mi}{(sl.Count == 0 ? "" : " p" + sl.Min(x => x.slack))} · ");
                 s.TryExit(mv.Piece, mv.Dir); lng.TryExit(mv.Piece, mv.Dir);
             }
             md.Append($"Yol: tuzaklı hamle {traps}, zorunlu (tek seçenek) {forced}, ortalama seçenek {opt / Math.Max(1, n):0.00}, yanıltıcı / adım {mis / Math.Max(1, n):0.00}, başlangıç en dar pay {(start.Count == 0 ? "—" : start.Min(x => x.slack) < 0 ? "ölçülemedi (kazı araması bütçeyi aştı)" : start.Min(x => x.slack).ToString())}\n\n");
-            md.Append("Adım adım (adım:seçenek/doğru, T tuzak var, ! zorunlu, y yanıltıcı, p en dar pay):\n\n" + line + "\n");
-            string feat = $"{l.Id},taslak,{l.TimerSeconds},{sp.Moves.Count},1,{mc.WinRate.ToString("0.000", Inv)},{traps},{forced},{(opt / Math.Max(1, n)).ToString("0.000", Inv)},{(mis / Math.Max(1, n)).ToString("0.000", Inv)},{(start.Count == 0 ? "" : start.Min(x => x.slack).ToString())}\n";
+            md.Append("Adım adım (adım:seçenek/doğru, T tuzak var, ! zorunlu, A anahtar an, y yanıltıcı, p en dar pay):\n\n" + line + "\n\n");
+
+            // M13: key moments, how many in the second half, the longest run of them with <= 3 easy moves between
+            int half = key.Count(k => k > n / 2), runs = 0, best = 0;
+            for (int i = 0; i < key.Count; i++) { runs = i > 0 && key[i] - key[i - 1] <= 4 ? runs + 1 : 1; best = Math.Max(best, runs); }
+            md.Append("| Ölçüt | Değer | Hedef | Tuttu |\n|---|---|---|---|\n");
+            md.Append($"| M13 Anahtar an (görünür ≥ 4, ilerleten 1) | {key.Count} (ikinci yarıda {half}, art arda en uzun {best}) | orta-son yarıda art arda 3–6 | {(best >= 3 && half >= 3 ? "✓" : "✗")} |\n");
+            md.Append($"| M13 adımları | {string.Join(", ", key)} | | |\n");
+            // M14: per bomb, the 8 exits before it: longest same lane + same direction run, directions used;
+            // bombs / chains leaving one after another along one straight lane
+            var sig = new List<string>(); int sweepMax = 0, dirsMin = 4; bool straight = false;
+            for (int i = 0; i < exits.Count; i++)
+            {
+                if (!exits[i].bomb) continue;
+                var win = exits.Skip(Math.Max(0, i - 8)).Take(Math.Min(8, i)).ToList();
+                int run = 0, bestRun = 0;
+                for (int j = 0; j < win.Count; j++) { run = j > 0 && win[j].dir == win[j - 1].dir && win[j].lane == win[j - 1].lane ? run + 1 : 1; bestRun = Math.Max(bestRun, run); }
+                int dirs = win.Select(w => w.dir).Distinct().Count();
+                sweepMax = Math.Max(sweepMax, bestRun); dirsMin = Math.Min(dirsMin, dirs);
+                if (i > 0 && (exits[i - 1].bomb || exits[i - 1].chain) && exits[i - 1].dir == exits[i].dir && exits[i - 1].lane == exits[i].lane) straight = true;
+                var main = win.GroupBy(w => w.dir).OrderByDescending(g => g.Count()).FirstOrDefault();
+                sig.Add($"{(main == null ? "-" : main.Key.ToString())}{bestRun}>{exits[i].dir}");
+            }
+            if (l.Bombs.Count > 0)
+            {
+                md.Append($"| M14 Bombadan önce aynı şerit + yön art arda (en çok) | {sweepMax} | ≤ 2 | {(sweepMax <= 2 ? "✓" : "✗")} |\n");
+                md.Append($"| M14 Bomba yolunu açan yön sayısı (en az) | {dirsMin} | ≥ 2 | {(dirsMin >= 2 ? "✓" : "✗")} |\n");
+                md.Append($"| M14 Bomba/zincir aynı düz şeritten art arda | {(straight ? "var" : "yok")} | yok | {(straight ? "✗" : "✓")} |\n");
+                md.Append($"| M14 Desen imzası (bomba başına: baskın süpürme yönü + uzunluk > bombanın çıkışı) | {string.Join(" ", sig)} | setteki zorlarda farklı | |\n");
+            }
+            // M15: Zeyd's pace on the Z12-type levels he won (Z31, Z33, Z35: 101 + 96 + 111 s over 3 x 54 moves = 1.90 s
+            // a move, ham_plays.csv); the share of the timer he would have left, target 10-20 %
+            double pace = (101 + 96 + 111) / (3.0 * 54), leftShare = 1 - pace * sp.Moves.Count / Math.Max(1, l.TimerSeconds);
+            md.Append($"| M15 Kalan süre payı (Zeyd'in Z12 tipi hızı 1,90 s/hamle) | %{leftShare * 100:0} | %10–20 | {(leftShare >= .10 && leftShare <= .20 ? "✓" : "✗")} |\n");
+            m13 = $"{key.Count},{half},{best},{sweepMax},{dirsMin},{(straight ? 1 : 0)},{string.Join(" ", sig)},{leftShare.ToString("0.000", Inv)}";
+            string feat = $"{l.Id},taslak,{l.TimerSeconds},{sp.Moves.Count},1,{mc.WinRate.ToString("0.000", Inv)},{traps},{forced},{(opt / Math.Max(1, n)).ToString("0.000", Inv)},{(mis / Math.Max(1, n)).ToString("0.000", Inv)},{(start.Count == 0 ? "" : start.Min(x => x.slack).ToString())},{m13}\n";
             return (md.ToString(), feat);
         }
     }
