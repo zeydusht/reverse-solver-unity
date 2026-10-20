@@ -40,7 +40,7 @@ Build 5z yayında (bayraklar kapalı, canlı 40 aynı). Doğrulama: testler 536/
 
 ### Oturum 3 — TEST
 
-> ⛔ **TAHMİNLER YAZILMADAN OYNAMA.** Oturum 3 (Z21–Z30) ZeydBot'un test bölümleri. ZeydBot'un Z21–Z30 tahminleri (ilk deneme kazanma, kalan sn) dosyaya yazılıp commit edilmeden bu linkleri açma. Tahmin dosyası hazır olunca burada commit kimliğiyle yazacak.
+> ✅ **Tahminler donduruldu: commit `fc4ef7c`** (`docs/analiz/zeydbot/tahmin_Z21_Z30.md`). Oturum 3'ü (Z21–Z30) artık oynayabilirsin; her bölümde 1–10 zorluğu ver. İlk denemen en değerlisi.
 
 | Sıra | Bölüm | Link |
 |---|---|---|
