@@ -1,0 +1,7 @@
+[
+{"id":"T31a","base":"Z12","ops":[["mirror_x"],["mirror_y"],["unbomb_at",4,4],["bomb_at",6,3,6]],"note":"Z12 180°, bomba 24 -> parça 28 fitil 6"},
+{"id":"T32a","base":"Z12","ops":[["mirror_x"],["unbomb_at",2,5],["bomb_at",1,3,25]],"note":"yatay ayna, bomba 37 -> 26 fitil 25"},
+{"id":"T33a","base":"Z13","ops":[["mirror_x"],["nail_at",3,6,14],["timer",120]],"note":"Z13 ayna + çivi + süre"},
+{"id":"T34a","base":"Z23","ops":[["seal","L",2],["seal","L",6],["mirror_y"],["timer",125]],"note":"Z23 mühür L2 L6 + ayna + süre"},
+{"id":"T35a","base":"Z18","ops":[["seal","R",3],["mirror_x"],["timer",120]],"note":"Z18 mühür R3 + ayna + süre"}
+]

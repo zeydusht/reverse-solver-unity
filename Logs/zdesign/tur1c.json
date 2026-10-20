@@ -1,0 +1,1 @@
+[{"id": "T31a", "base": "Z12", "ops": [["mirror_x"], ["mirror_y"], ["unbomb_at", 4, 4], ["bomb_at", 6, 3, 6]], "note": "Z12 180\u00b0, bomba 24 -> par\u00e7a 28 fitil 6"}, {"id": "T32a", "base": "Z12", "ops": [["mirror_x"], ["unbomb_at", 2, 5], ["bomb_at", 1, 3, 25]], "note": "yatay ayna, bomba 37 -> 26 fitil 25"}]

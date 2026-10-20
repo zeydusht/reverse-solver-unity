@@ -1,0 +1,7 @@
+[
+{"id":"T31b","base":"Z12","ops":[["mirror_y"],["unbomb_at",2,4],["bomb_at",0,3,6]],"note":"dikey ayna, erken bomba"},
+{"id":"T32b","base":"Z12","ops":[["mirror_x"],["mirror_y"],["unbomb_at",2,2],["bomb_at",1,4,25]],"note":"180°, geç bomba"},
+{"id":"T33b","base":"Z12","ops":[["mirror_x"],["unbomb_at",4,3],["bomb_at",6,4,6],["unnail_at",3,2],["nail_at",6,2,16]],"note":"yatay ayna, bomba + çivi taşıma"},
+{"id":"T34b","base":"Z23","ops":[["joint","v",4,1,1],["joint","v",5,1,-1],["joint","v",3,6,1],["joint","v",5,6,-1],["mirror_x"],["timer",125]],"note":"Z23 dikiş denemesi"},
+{"id":"T35b","base":"Z25","ops":[["joint","h",1,4,1],["joint","h",2,4,-1],["joint","h",3,4,1],["mirror_y"],["timer",125]],"note":"Z25 dikiş denemesi"}
+]
