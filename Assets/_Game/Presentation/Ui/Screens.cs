@@ -208,6 +208,9 @@ namespace ReverseSolver.Presentation
                     .ButtonRow(("hard_1", "1"), ("hard_2", "2"), ("hard_3", "3"), ("hard_4", "4"), ("hard_5", "5"))
                     .ButtonRow(("hard_6", "6"), ("hard_7", "7"), ("hard_8", "8"), ("hard_9", "9"), ("hard_10", "10"));
             if (askHard && hardAnswered) card.Body("Kaydedildi, teşekkürler!", sizePt: 13, gapAfter: 8);
+            // ZeydBot, on a loss (PM 2026-10-21: Z34's bomb row came without the answer, retry was tapped first):
+            // the retry buttons wait for the 1-10 answer; Menü stays
+            if (askHard && !hardAnswered && !won) return card.Button("menu", "Menü", false).Finish();
             return card
                 .Button(primaryId, primary, true)
                 .Button("retry", "Tekrar oyna", false)

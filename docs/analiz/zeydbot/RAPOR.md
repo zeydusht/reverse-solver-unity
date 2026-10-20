@@ -74,3 +74,24 @@ Kaynak: `node Tools/zeydbot_fetch.js --all` (Supabase plays/moves, anon REST: `p
 - Kalan s ±%25: bot 8/10, tabanlar 9/10.
 - Zeyd: "Bugünküler o kadar zor gelmedi, 12 gibisi gelmedi bile." Oturum 3'ün en yüksek puanı 6.
 - Veri notları: Z03 deneme 3 (quit, 20 Ekim) atıldı. Z20'nin hamle satırları 29'dan 35'e çıktı (gece indirildiğinde son hamleler henüz gönderilmemişti); v2 yeniden oynatmayı bu tam veriyle yapar.
+
+## Oturum 4 sonucu (20 Ekim 23:54 – 21 Ekim 00:02, "ddd") — dondurulmuş tahminler (6b602ba)
+
+Kaynak: `node Tools/zeydbot_fetch.js --all` → `ham_plays.csv`; hesap `python Tools/zeydbot_score_session4.py` (tahminleri `git show 6b602ba:` ile okur). İlk gerçek deneme = 0 hamlelik quit sayılmaz (Z32 deneme 1).
+
+| Bölüm | Gerçek: ilk gerçek deneme / kalan s / puan | v1: puan / kazanma / kalan s | Ajan: puan / Z12 gibi mi |
+|---|---|---|---|
+| Z31 | win (deneme 1) / 24 / 9 | 8.1 / %0 / — | 8 / belki (evet'e yakın) |
+| Z32 | win (deneme 2) / 66 / 6 | 6.1 / %38 / 66 | 6 / hayır |
+| Z33 | win (deneme 1) / 29 / 8 | 8.1 / %0 / — | 8 / belki |
+| Z34 | bomb (deneme 1) / — / 5 | 8.2 / %0 / — | 7 / belki |
+| Z35 | win (deneme 1) / 14 / 9 | 8.1 / %0 / 53 | 7.5 / belki |
+
+Puan sırası (Spearman, 5 bölüm): v1 -0.23, ajan 0.66
+Kazandı/kaybetti (eşik %50): v1 1/5
+Ortalama mutlak puan hatası: v1 1.04, ajan 0.90
+
+- **Oturum 3'ün en yüksek puanı 6 idi; oturum 4'te üç bölüm 8–9 aldı** (Z31 9, Z33 8, Z35 9). Üçü de Z12 türevi; Z23 ailesi (Z32 6, Z34 5) daha düşük kaldı.
+- Ajanın tahmini v1'den iyi: puan sırası 0,66'ya karşı −0,23; ortalama hata 0,90'a karşı 1,04. n = 5, gürültülü.
+- v1 Z12 türevlerine "%0 kazanma" dedi, Zeyd üçünü de ilk denemede kazandı. Bu, v1'nin yanıltıcı parçayı görmediği bulgusunu doğruluyor.
+- Z34'ün puanı (5) 3. denemeden geliyor. 1. denemenin (bomba) satırında puan yok, çünkü Zeyd 9 s sonra "Tekrar dene"ye bastı. Uçtan uca kontrol (`verify_build.js --send --only zeydlosssend`, canlı Build 5z4) kayıptan sonra verilen puanın satıra yazıldığını gösterdi (`Z03 time, zorluk_puani 1`). Yani gönderim çalışıyor, cevap atlanmış. Düzeltme: ZeydBot setinde kayıp kartındaki tekrar düğmeleri puan verilene kadar gizli; Menü açık.

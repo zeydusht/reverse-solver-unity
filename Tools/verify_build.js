@@ -313,6 +313,32 @@ async function zeydloss() {
   p.close();
 }
 
+/* --send only: the 1-10 answer after a LOSS reaches the plays row (PM 2026-10-21: Z34's bomb row had none).
+   Z03 as the TEST player: one move, the timer runs out, the first 1-10 button on the loss card is tapped. */
+async function zeydlosssend() {
+  const file = path.join(ROOT, 'Assets/_Game/Levels/zeydbot.json');
+  const l = JSON.parse(fs.readFileSync(file, 'utf8')).levels.find(x => x.id === 'Z03'), p = await newPage();
+  const before = await rows();
+  await p.open(`${base}/?set=zeydbot&lv=Z03`, { gate: true });
+  await p.name(player);
+  await sleep(1500);
+  await p.solve({ ...l, solution: l.solution.slice(0, 1) });
+  await sleep((l.timer || 65) * 1000 + 5000);
+  const x = W / 2 - 120;
+  let prev = await p.png();
+  for (let y = Math.round(H * .25); y < H * .85; y += 12) {
+    await p.tap(x, y);
+    const now = await p.png();
+    if (Buffer.compare(now, prev) !== 0) break;
+    prev = now;
+  }
+  fs.writeFileSync(path.join(out, 'zeydlosssend_Z03.png'), await p.png());
+  await sleep(17000);
+  const r = (await rows()).filter(r => !before.some(b => b.row_id === r.row_id) && r.level_id === 'Z03')[0];
+  check('zeydlosssend', !!r && r.result === 'time' && r.zorluk_puani != null, r ? `Z03 ${r.result}, zorluk_puani ${r.zorluk_puani}` : 'Z03 satırı gelmedi');
+  p.close();
+}
+
 async function redesign() {
   const file = path.join(ROOT, 'Assets/_Game/Levels/redesign.json');
   const set = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')).levels : [];
@@ -422,6 +448,7 @@ async function m5(p) {
     if (only.includes('zeydbot')) await zeydbot();
     if (send && only.includes('zeydsend')) await zeydsend();
     if (only.includes('zeydloss')) await zeydloss();
+    if (send && only.includes('zeydlosssend')) await zeydlosssend();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
   finally {
