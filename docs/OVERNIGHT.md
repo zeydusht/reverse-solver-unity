@@ -1,3 +1,11 @@
+# Oturum 4 — 5 yeni bölüm (20 Ekim 2026, Build 5z4)
+
+Bu beş bölümü bir tasarımcı ajan elle kurdu, fabrika her birini doğruladı. Hepsi çözülebilir, tahminler sen oynamadan önce donduruldu.
+[Z31](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z31) · [Z32](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z32) · [Z33](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z33) · [Z34](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z34) · [Z35](https://zeydusht.github.io/reverse-solver-unity/br/?set=zeydbot&lv=Z35)
+**Her bölümde 1–10 ver ve bana "Z12 gibi miydi?" diye tek kelime söyle** (evet / hayır / biraz). Kaybedersen de puan ver; ilk denemen en değerlisi.
+
+---
+
 # Sabah raporu — ZeydBot v1 (20 Ekim 2026)
 
 **Ne öğrendik:**
