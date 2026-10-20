@@ -1,3 +1,20 @@
+# Sabah raporu — ZeydBot v1 (20 Ekim 2026)
+
+**Ne öğrendik:**
+1. Zorluk neredeyse tamamen bombadan geliyor. Bombasız 7 bölümün hepsi 1–2 puan aldı; 4 ve üstü puan alan 8 bölümün hepsinde bomba payı 0–2.
+2. Sen bombayı hemen kazıyorsun: bomba varken hamlelerinin %93'ü payı korudu. Orta puan (4–6) yalnızca ilk denemede bir kez yandığın ortalarda çıktı (Z16, Z17).
+3. **Z12'nin sırrı (hipotez):** dar fitil ve hep tek doğru hamle, ama hiç tuzak yok. Yanlış hamle seni bitirmiyor, sadece süre yiyor; o yüzden durup düşündün (öbür zorların iki katı). Z13 ise tuzak dolu: "düşün" değil "ceza" bölümü.
+
+**ZeydBot ne kadar iyi:** Dürüst cevap: henüz basit tabandan (sadece "bomba payı") daha iyi değil. Puan sırası 0,73'e 0,79. Rastgele oyuncu tabanını geçti (0,61). Tahminler yine de donduruldu (`fc4ef7c`); oturum 3 asıl sınav.
+
+**Eğri önerisi:** 40 bölüm; yeni engeller (3, 7, 12, 20) kolay. Ortadaki boşluğu "payı +1 olan orta"lar dolduruyor. Dört Z12 tipi zirve var (10, 19, 29, 38). Ayrıntı: `docs/analiz/zeydbot/zorluk_egrisi_onerisi.md`.
+
+**Oturum 3 (artık açık): her bölümde 1–10 ver**, ilk denemen en değerlisi. Linkler aşağıda. Z31–Z38 bu gece yapılmadı.
+
+Ayrıntı: `docs/analiz/zeydbot/RAPOR.md`
+
+---
+
 # ZeydBot seti — oturum linkleri (19 Ekim 2026)
 
 **Yayındaki build: Build 5z3** (gh-pages `4b89d83`, 2026-10-19 ~20:55). Dokunup bırakma (`touch`, `hold_ms`), arka plana gidip dönme (`pause` / `resume`) ve bölüm sonunda isteğe bağlı **1–10 zorluk** sorusu (`plays.zorluk_puani`) kaydediliyor. Canlı uçtan uca test (TEST_ZEYDBOT, Z03): kazanç, zorluk_puani 1, moves: çıkış 35/35, touch 1 (hold_ms 1349), pause 1, resume 1. Bayraklar kapalı, canlı 40 aynı. **Z03'ü bu build'le oyna** (açtığında eski sürüm gelirse sayfayı yenile).

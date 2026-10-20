@@ -44,7 +44,7 @@ namespace ReverseSolver.LevelEditor
                         sb.Append($"{l.Id},{run},{step},{s.Board.PresentCount},{o.Count},{right.Count},{(sl.Count == 0 ? "" : sl.Min(x => x.slack).ToString())}\n");
                         if (right.Count == 0) break;   // budget miss: SmartPlayer could not confirm a right move
                         // Zeyd digs for the bomb: with a bomb on the board he kept the tightest slack on 95 % of his
-                        // first-attempt moves (hamleler.csv, 359 / 377); the bot does the same with -rsDig
+                        // first-attempt moves (hamleler.csv: 257 / 275 = 93.5 %; the frozen v1 used 0.95, a rounding slip found by the audit); the bot does the same with -rsDig
                         if (sl.Count > 0 && rng.NextDouble() < dig)
                         {
                             int now = sl.Min(x => x.slack);
