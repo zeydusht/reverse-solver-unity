@@ -203,7 +203,8 @@ namespace ReverseSolver.Presentation
             if (askFun && thanked) card.Body("Teşekkürler!", sizePt: 13, gapAfter: 8);
             // ZeydBot: optional 1-10 difficulty (1 çok kolay, 10 çok zor); the row waits for it or for the next button
             if (askHard && !hardAnswered)
-                card.Body("Ne kadar zordu? 1 çok kolay · 10 çok zor", sizePt: 13, gapAfter: 8)
+                // on a loss too (PM 2026-10-20): Zeyd skipped it after losses, the text says the answer counts
+                card.Body(won ? "Ne kadar zordu? 1 çok kolay · 10 çok zor" : "Kaybettin ama puanın önemli: ne kadar zordu? (1–10)", sizePt: 13, gapAfter: 8)
                     .ButtonRow(("hard_1", "1"), ("hard_2", "2"), ("hard_3", "3"), ("hard_4", "4"), ("hard_5", "5"))
                     .ButtonRow(("hard_6", "6"), ("hard_7", "7"), ("hard_8", "8"), ("hard_9", "9"), ("hard_10", "10"));
             if (askHard && hardAnswered) card.Body("Kaydedildi, teşekkürler!", sizePt: 13, gapAfter: 8);

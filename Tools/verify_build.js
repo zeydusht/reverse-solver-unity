@@ -298,6 +298,21 @@ async function zeydbot() {
   p.close();
 }
 
+/* ZeydBot: the 1-10 question also on a loss card. Z03 (debug, nothing sent): one move starts the clock,
+   then the timer runs out; the card must show the question (screenshot zeydloss_Z03.png). */
+async function zeydloss() {
+  const file = path.join(ROOT, 'Assets/_Game/Levels/zeydbot.json');
+  const set = JSON.parse(fs.readFileSync(file, 'utf8')).levels;
+  const l = set.find(x => x.id === 'Z03'), p = await newPage();
+  await p.open(dbg(`${base}/?set=zeydbot&lv=Z03`));
+  for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);
+  await p.solve({ ...l, solution: l.solution.slice(0, 1) });
+  await sleep((l.timer || 65) * 1000 + 6000);
+  const buf = await p.png(); fs.writeFileSync(path.join(out, 'zeydloss_Z03.png'), buf);
+  check('zeydloss', p.exceptions.length === 0, `Z03 süre bitti, kart ekran görüntüsü ${path.join(out, 'zeydloss_Z03.png')}, istisna ${p.exceptions.length}`);
+  p.close();
+}
+
 async function redesign() {
   const file = path.join(ROOT, 'Assets/_Game/Levels/redesign.json');
   const set = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')).levels : [];
@@ -406,6 +421,7 @@ async function m5(p) {
     if (only.includes('redesign')) await redesign();
     if (only.includes('zeydbot')) await zeydbot();
     if (send && only.includes('zeydsend')) await zeydsend();
+    if (only.includes('zeydloss')) await zeydloss();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
   finally {

@@ -164,6 +164,68 @@ namespace ReverseSolver.LevelEditor
             Log($"yazıldı: {Path} ({n} bölüm)");
         }
 
+        /* v2 (PM 2026-10-20): five "Z12-type" candidates, appended as Z31-Z35 (session 4; Z01-Z30 untouched).
+           Z12 against the session-3 hard levels (docs/analiz/zeydbot/RAPOR.md, v2): no traps on the path, start
+           slack 1, a timer of about 2.3x the path (Z23-Z26 had 2.7-3.2x) and many misleading pieces (slide but
+           cannot leave; Zeyd touched / jammed on 0.46 of his Z12 moves). D08's generator (HardSeven, 4 bombs);
+           a board passes with <= 2 trap moves on SmartPlayer's path and start slack <= 1; ranked by misleading
+           pieces per step. Timer set to 2.3x the path, rounded to 5 s.
+
+             bash Tools/unity_batch.sh method ReverseSolver.LevelEditor.ZeydSet.Z12Type [-rsZ12Min 60] */
+        public static void Z12Type()
+        {
+            var look = DesignStore.Parse(File.ReadAllText("Assets/_Game/Levels/designs.json")).Find("D06");
+            var picks = Collect(double.Parse(Arg("-rsZ12Min", "60")), 5, seed =>
+            {
+                HardSeven.BombCount = 4;
+                var r = HardSeven.Try(look, seed + 70_000_000u, out _);
+                if (r == null || r.Bombs < 4) return (null, 0);
+                var l = r.Draft.ToLevelData();
+                var path = SmartPlayer.Play(l);
+                if (path.Verdict != SmartVerdict.Won || path.Valves > 0) return (null, 0);
+                var s = new GameSession(l, 1, "z12", new Mulberry32(1)) { ClockOnFirstMove = false };
+                var lng = ZeydAnalysis.Long(l);
+                var start = ZeydAnalysis.Slacks(s, lng);
+                if (start.Count == 0 || start.Min(x => x.slack) > 1) return (null, 0);
+                int traps = 0; double mis = 0; int steps = 0;
+                foreach (var mv in path.Moves)
+                {
+                    if (s.IsOver) break;
+                    var o = ZeydAnalysis.Options(s, 30_000);
+                    if (o.Any(x => !x.right) && ++traps > 2) return (null, 0);
+                    mis += ZeydAnalysis.Misleading(s); steps++;
+                    s.TryExit(mv.Piece, mv.Dir); lng.TryExit(mv.Piece, mv.Dir);
+                }
+                var d = r.Draft.Clone();
+                d.SetTimer((int)Math.Round(path.Moves.Count * 2.3 / 5) * 5);
+                Log($"aday {seed}: tuzaklı {traps}, yanıltıcı/adım {mis / steps:0.00}, süre {d.Timer}");
+                return (d, mis / steps);
+            }, "z12tipi");
+
+            var text = File.ReadAllText(Path);
+            int at = text.LastIndexOf("\n  ]", StringComparison.Ordinal);
+            int n = LevelParser.Parse(text).Levels.Count;
+            var lines = new List<string>();
+            foreach (var d in picks)
+            {
+                n++;
+                var c = d.Clone();
+                c.Id = $"Z{n:00}";
+                c.SetNumber(n);
+                c.Genre = Genre.CokZor;
+                var sp = SmartPlayer.Play(c.ToLevelData());
+                if (sp.Verdict != SmartVerdict.Won || sp.Valves > 0) { Log($"Z{n:00}: SmartPlayer {sp.Verdict} — atlandı"); n--; continue; }
+                c.Solution = sp.Moves.ToList();
+                var w = new JsonWriter();
+                c.WriteJson(w);
+                string level = w.ToString();
+                lines.Add("    " + level.Substring(0, level.Length - 1) + ",\"zeydbot\":{\"kind\":\"z12tipi\",\"session\":4}}");
+                Log($"Z{n:00} oturum 4 z12tipi, süre {c.Timer}");
+            }
+            File.WriteAllText(Path, text.Substring(0, at) + ",\n" + string.Join(",\n", lines) + text.Substring(at), new System.Text.UTF8Encoding(false));
+            Log($"yazıldı: {Path} (+{lines.Count})");
+        }
+
         /* Seeds in parallel for `minutes`; the `want` best distinct boards. */
         static List<LevelDraft> Collect(double minutes, int want, Func<uint, (LevelDraft d, double score)> make, string name)
         {

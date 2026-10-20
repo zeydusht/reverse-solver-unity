@@ -17,7 +17,7 @@ namespace ReverseSolver.LevelEditor
        slack left (fuse - fewest moves that take it out from here). Per level (design only, no play result,
        so also fine for Z21-Z30): expected values and the path features the model may use.
 
-       Input: Logs/zeydbot/plays.json, moves.json (node Tools/zeydbot_fetch.js; Z01-Z20 only).
+       Input: Logs/zeydbot/plays.json, moves.json (node Tools/zeydbot_fetch.js [--all]; v2: every Z level with frozen predictions).
        Output in docs/analiz/zeydbot/: hamleler.csv (one row per move), denemeler.csv (one per attempt),
        bolum_ozellik.csv (one per level Z01-Z30, design only).
 
@@ -47,6 +47,12 @@ namespace ReverseSolver.LevelEditor
         public static List<(int piece, int slack)> Slacks(GameSession s, GameSession lng) =>
             s.Bombs.Where(b => s.Board.IsPresent(b.Key)).Select(b => { int d = StructureMetrics.DigNow(lng, b.Key); return (b.Key, d < 0 ? -99 : b.Value - d); }).ToList();
 
+        /* v2 (PM 2026-10-20, "düşündüren zor"): pieces that can slide at least one cell but not leave — they look
+           free and are not (Z12: Zeyd touched / jammed on 0.46 of his moves, the other hard levels 0.06-0.21). */
+        public static int Misleading(GameSession s) =>
+            s.Board.PresentPieces().Count(p => s.NailAt(p) <= 0 && !TravelRule.CanExit(s.Board, p) &&
+                DirExt.All.Any(d => TravelRule.Limit(s.Board, p, d).Cells > 0));
+
         public static GameSession Long(LevelData l)
         {
             var d = LevelDraft.FromLevel(l);
@@ -72,7 +78,6 @@ namespace ReverseSolver.LevelEditor
             {
                 string levelId = S(p, "level_id"), rowId = S(p, "row_id");
                 if (!levels.TryGetValue(levelId, out var l)) continue;
-                if (string.Compare(levelId, "Z20", StringComparison.Ordinal) > 0) continue;    // Z21-Z30: test set, never read
                 int attempt = I(p, "attempt");
                 var s = new GameSession(l, 1, "analiz", new Mulberry32(1)) { ClockOnFirstMove = false };
                 var lng = Long(l);
@@ -127,7 +132,7 @@ namespace ReverseSolver.LevelEditor
             root.TryGet("levels", out var jl);
             var sb = new StringBuilder("level_id,tur,oturum,parca,sure_limiti,en_kisa_cozum,rastgele_kazanma,bomba,civi,zincir,baslangic_en_dar_pay,baslangic_ort_pay,en_derin_kazi," +
                                        "m1_dogru,m1_tuzak,m2_en_cok_serbest,m4,m12_tek_eksen,yol_ort_secenek,yol_ort_dogru_orani,yol_tek_dogru,yol_tuzakli_hamle,yol_tuzak_orani_ort,yol_en_dar_pay\n");
-            var yol = new StringBuilder("level_id,adim,kalan_parca,secenek,dogru,en_dar_pay\n");
+            var yol = new StringBuilder("level_id,adim,kalan_parca,secenek,dogru,en_dar_pay,yaniltici\n");
             for (int i = 0; i < set.Levels.Count; i++)
             {
                 var l = set.Levels[i];
@@ -146,7 +151,7 @@ namespace ReverseSolver.LevelEditor
                     var o = Options(s);
                     int rr = o.Count(x => x.right);
                     var sn = Slacks(s, lng);
-                    yol.Append($"{l.Id},{n},{s.Board.PresentCount},{o.Count},{rr},{(sn.Count == 0 ? "" : sn.Min(x => x.slack).ToString())}\n");
+                    yol.Append($"{l.Id},{n},{s.Board.PresentCount},{o.Count},{rr},{(sn.Count == 0 ? "" : sn.Min(x => x.slack).ToString())},{Misleading(s)}\n");
                     if (o.Count > 0)
                     {
                         n++; optSum += o.Count; rightShare += (double)rr / o.Count; trapShare += (double)(o.Count - rr) / o.Count;
