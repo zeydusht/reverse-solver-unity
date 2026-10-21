@@ -95,3 +95,18 @@ Ortalama mutlak puan hatası: v1 1.04, ajan 0.90
 - Ajanın tahmini v1'den iyi: puan sırası 0,66'ya karşı −0,23; ortalama hata 0,90'a karşı 1,04. n = 5, gürültülü.
 - v1 Z12 türevlerine "%0 kazanma" dedi, Zeyd üçünü de ilk denemede kazandı. Bu, v1'nin yanıltıcı parçayı görmediği bulgusunu doğruluyor.
 - Z34'ün puanı (5) 3. denemeden geliyor. 1. denemenin (bomba) satırında puan yok, çünkü Zeyd 9 s sonra "Tekrar dene"ye bastı. Uçtan uca kontrol (`verify_build.js --send --only zeydlosssend`, canlı Build 5z4) kayıptan sonra verilen puanın satıra yazıldığını gösterdi (`Z03 time, zorluk_puani 1`). Yani gönderim çalışıyor, cevap atlanmış. Düzeltme: ZeydBot setinde kayıp kartındaki tekrar düğmeleri puan verilene kadar gizli; Menü açık.
+
+## Oturum 5 sonucu (21 Ekim, "ddd") — dondurulmuş tahminler (d0bf214)
+
+- **Puanlar:** Z36 9, Z37 9, Z38 9, Z39 8, Z40 9.
+  - Z40'ta ilk denemede süre bitti ve kayıpta puan geldi (9). Kayıp kartı düzeltmesi çalışıyor.
+  - 5 bölümün 5'i 8 ve üstü aldı; ölçüt tuttu.
+- **Kalan süre:** 49 / 32 / 34 / 47 / — saniye. Tahmin her biri için 17'ydi.
+  - M15, Zeyd'in hızını olduğundan yavaş varsaydı. Gerçek kalan pay %27–41.
+- **Puan sırası:** M13 puanının Spearman'ı 0,73, ajanınki 0,56. Ortalama hata 1,08 ve 1,20; ikisi de puanı düşük tahmin etti.
+- **Benzerlik** (`python Tools/level_similarity.py`, döndürme ve aynadan bağımsız):
+  - Z36/Z38/Z40 Z12'ye %88–91 benziyor, kendi aralarında %85–94.
+  - Z37/Z39 Z23 ailesine %80–91 benziyor.
+  - Bağımsız 7×8 bölümler arası benzerlik %42–64. Bu taban, tahtaların hepsinin tam dolu 7×8 olmasından geliyor.
+  - Zeyd'in "90 derece dönmüş" hissi ölçümle doğrulandı. Hepsi 7×8, 54 parça.
+  - **M16 eşiği önerisi: %65.**
