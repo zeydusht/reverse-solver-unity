@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 21 Ekim 2026, 17:00 (Claude Code)
+Son güncelleme: 21 Ekim 2026, 17:20 (Claude Code)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -13,7 +13,7 @@ Kurallar:
 
 | İş | Kim | Durum | Tahmini süre |
 |---|---|---|---|
-| SET40 v1 yayında (Build 5z6), Zeyd'in onay oturumu bekleniyor | Zeyd | 🔜 | ~20 dk |
+| SET40 v2 (PM_MESAJ_5 + EK): kayıt, yeni boyutta zirveler, eğri | Claude Code | ⏳ zirve adayları üretiliyor | ~5–7 sa |
 
 ## ZEYD — senin işlerin
 
@@ -42,13 +42,13 @@ Kurallar:
 
 | İş | Durum | Tahmini süre |
 |---|---|---|
-| Oturum 5 sonucu RAPOR.md'ye + Z36–Z40 benzerlik kontrolü | ✅ 4c910f6 | |
-| M16 çeşitlilik ölçümü (`Tools/level_similarity.py`, eşik önerisi %65) | ✅ | |
-| Havuz ölçümü: redesign'da 7×8 dışı zor malzeme yok | ✅ | |
-| SET40 v1: 40 slot seçimi (M16 < %65, en yüksek %64) + SET40.md | ✅ | |
-| SET40 v1: redesign.json + build + doğrulama + yayın (f9aaa8a, gh-pages 1cada35) | ✅ | |
-| Farklı boyutta zor üretimi (SET40 v2 için) | 🔜 | ≤ 1 gece |
-| ZeydBot v2 (oturum 4–5 verisiyle) | ⛔ setten sonra | |
+| ?set=redesign kaydı (plays, moves, 1–10; debug'sız) | ✅ kod, build bekliyor | |
+| Fabrikada M17 (bağımlılık derinliği, sıra başarısı, engel konumu) | ✅ kod | |
+| Zirve adayları 6×7 / 7×7 / 8×8 (HardSeven boyutlu, uzun zincir) | ⏳ | ~1 sa 45 dk |
+| Tasarımcı ajan + fabrika: 4–6 yeni zirve, benzerlik < %50 | 🔜 | ~2 sa |
+| Eğri: S39, dinlenme yerleri, hedeften ≥ 3 sapan slotlar | 🔜 | ~30 dk |
+| SET40 v2 yazım + test + build + yayın + OVERNIGHT | 🔜 | ~1 sa |
+| ZeydBot v2 | ⛔ setten sonra | |
 
 ## Bitenler (son 3 gün)
 
