@@ -1,3 +1,11 @@
+# SET40 v2 — yeni zirveler (21 Ekim gecesi, Build 5z7)
+
+5 zirve yeni: farklı boyut (6×7, 7×7, 8×8), ikisi köşesi boş tahta, hiçbiri eski bölümlere benzemiyor. 39 artık kolay değil. Bu sefer kayıt açık.
+Oyna: [29](https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S29) · [33](https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S33) · [36](https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S36) · [38](https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S38) · [40](https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S40) · yeni 39: [39](https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S39)
+Her bölümde 1–10 ver (kaybedince de). Bitince söyle: zirveler birbirine ya da eskilere benzedi mi, "bombayı açmak için hangi sırayla" hissi geldi mi.
+
+---
+
 # Yeni 40'lık set — onay oturumu (21 Ekim 2026, Build 5z6)
 
 40 bölüm hazır: kolaydan zora, dinlenme bölümleri arada, birbirini tekrar eden bölüm yok. Tüm set `?set=redesign`'da. Önce yalnız şu 10'unu oyna:

@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 21 Ekim 2026, 17:20 (Claude Code)
+Son güncelleme: 21 Ekim 2026, 20:40 (Claude Code)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -13,7 +13,7 @@ Kurallar:
 
 | İş | Kim | Durum | Tahmini süre |
 |---|---|---|---|
-| SET40 v2 (PM_MESAJ_5 + EK): kayıt, yeni boyutta zirveler, eğri | Claude Code | ⏳ zirve adayları üretiliyor | ~5–7 sa |
+| SET40 v2 yayında (Build 5z7): Zeyd 5 yeni zirve + S39'u oynayacak (kayıt açık) | Zeyd | 🔜 | ~20 dk |
 
 ## ZEYD — senin işlerin
 
@@ -42,12 +42,12 @@ Kurallar:
 
 | İş | Durum | Tahmini süre |
 |---|---|---|
-| ?set=redesign kaydı (plays, moves, 1–10; debug'sız) | ✅ kod, build bekliyor | |
+| ?set=redesign kaydı (plays, moves, 1–10; debug'sız) — uçtan uca ✅ | ✅ | |
 | Fabrikada M17 (bağımlılık derinliği, sıra başarısı, engel konumu) | ✅ kod | |
-| Zirve adayları 6×7 / 7×7 / 8×8 (HardSeven boyutlu, uzun zincir) | ⏳ | ~1 sa 45 dk |
-| Tasarımcı ajan + fabrika: 4–6 yeni zirve, benzerlik < %50 | 🔜 | ~2 sa |
-| Eğri: S39, dinlenme yerleri, hedeften ≥ 3 sapan slotlar | 🔜 | ~30 dk |
-| SET40 v2 yazım + test + build + yayın + OVERNIGHT | 🔜 | ~1 sa |
+| Zirve adayları 6×7 / 7×7 / 8×8 (12 aday) | ✅ | |
+| 5 yeni zirve (2 delikli), benzerlik < %50 | ✅ | |
+| Eğri: S39, dinlenme 26/30/34, sapmalar düzeltildi | ✅ | |
+| SET40 v2 yazım + test + build + yayın + OVERNIGHT (7379873, gh-pages 7f8e904) | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Bitenler (son 3 gün)
