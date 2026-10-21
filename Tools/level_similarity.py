@@ -1,7 +1,7 @@
 # M16 (PM_MESAJ_4): similarity of two levels independent of rotation and mirroring. For each of the 8 symmetries
 # of the square (rotations by 90 degrees swap width and height) the second board is mapped onto the first and two
 # scores are taken, the best symmetry kept:
-#   board    Jaccard over the elements: occupied cells, locked joints (as unordered cell pairs), sealed edge lanes,
+#   board    Jaccard over the elements: holes (empty cells), locked joints (as unordered cell pairs), sealed edge lanes,
 #            bomb cells, nail cells, chain links (cell pairs)
 #   solution longest common subsequence of the exit cells in solution order / the longer solution
 #   score    mean of the two (0 = nothing alike, 1 = the same level turned)
@@ -19,8 +19,12 @@ def elements(l):
     w, h = l['w'], l['h']
     pieces = cells_of(l)
     E = set()
+    filled = {c for cs in pieces for c in cs}
+    # holes, not filled cells: every full board has the same cells, which would lift every pair (v2, 2026-10-21)
+    for x in range(w):
+        for y in range(h):
+            if (x, y) not in filled: E.add(('hole', (x, y)))
     for cs in pieces:
-        for c in cs: E.add(('cell', c))
         if len(cs) == 2: E.add(('chain', frozenset(cs)))
     for y, row in enumerate(l['vEdge']):
         for x, v in enumerate(row):
@@ -70,13 +74,17 @@ def similarity(a, b):
     Eb, sb, wb, hb = elements(b)
     best = (0, 0, 0, -1)
     for k in range(8):
-        f, (w2, h2) = sym(k, wb, hb)
-        if (w2, h2) != (wa, ha): continue
-        Em = mapped(Eb, f)
-        board = len(Ea & Em) / max(1, len(Ea | Em))
-        sol = lcs(sa, [f(*c) for c in sb]) / max(1, len(sa), len(sb))
-        s = (board + sol) / 2
-        if s > best[0]: best = (s, board, sol, k)
+        f0, (w2, h2) = sym(k, wb, hb)
+        # different sizes: the turned board is also slid to every offset over the other (a level grown by a row
+        # or cut by a column is still the same level)
+        for dx in range(min(0, wa - w2), max(0, wa - w2) + 1):
+          for dy in range(min(0, ha - h2), max(0, ha - h2) + 1):
+            f = (lambda f0, dx, dy: lambda x, y: (f0(x, y)[0] + dx, f0(x, y)[1] + dy))(f0, dx, dy)
+            Em = mapped(Eb, f)
+            board = len(Ea & Em) / max(1, len(Ea | Em))
+            sol = lcs(sa, [f(*c) for c in sb]) / max(1, len(sa), len(sb))
+            s = (board + sol) / 2
+            if s > best[0]: best = (s, board, sol, k)
     return best
 
 

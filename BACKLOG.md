@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 21 Ekim 2026, 14:00 (Claude Code)
+Son güncelleme: 21 Ekim 2026, 15:10 (Claude Code)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -13,7 +13,7 @@ Kurallar:
 
 | İş | Kim | Durum | Tahmini süre |
 |---|---|---|---|
-| 40 bölümlük yeni set (PM_MESAJ_4) — havuz ölçüldü, boyut çeşitliliği çelişkisi PM'de | Claude Code | ⏳ PM kararı bekleniyor | ~6–10 sa (karara göre) |
+| SET40 v1 (PM kararı A) — 40 slot seçildi, redesign.json + build + doğrulama | Claude Code | ⏳ build sürüyor | ~1 sa |
 
 ## ZEYD — senin işlerin
 
@@ -45,7 +45,9 @@ Kurallar:
 | Oturum 5 sonucu RAPOR.md'ye + Z36–Z40 benzerlik kontrolü | ✅ 4c910f6 | |
 | M16 çeşitlilik ölçümü (`Tools/level_similarity.py`, eşik önerisi %65) | ✅ | |
 | Havuz ölçümü: redesign'da 7×8 dışı zor malzeme yok | ✅ | |
-| 40'lık set — grup 1–8 (5'erli) | ⛔ PM kararı (boyut çeşitliliği) | ~6–10 sa |
+| SET40 v1: 40 slot seçimi (M16 < %65, en yüksek %64) + SET40.md | ✅ | |
+| SET40 v1: redesign.json + build + doğrulama + yayın | ⏳ | ~1 sa |
+| Farklı boyutta zor üretimi (SET40 v2 için) | 🔜 | ≤ 1 gece |
 | ZeydBot v2 (oturum 4–5 verisiyle) | ⛔ setten sonra | |
 
 ## Bitenler (son 3 gün)

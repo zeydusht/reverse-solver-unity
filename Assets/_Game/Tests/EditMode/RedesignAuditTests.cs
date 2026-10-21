@@ -45,9 +45,12 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void FiveDrawnFinalistsReproduceAndPass()
         {
+            // factory finalists only (they carry the V5 scores); SET40 (PM_MESAJ_4) fills redesign.json with hand-picked
+            // levels that never went through FunSim, so there is nothing of the factory's to reproduce
+            var pool = Finalists.Where(e => e.Scores.ContainsKey("keyif")).ToList();
+            if (pool.Count == 0) Assert.Ignore("redesign.json holds SET40, no factory finalist with V5 scores");
             var pop = FunSim.Population();
             var rng = new Mulberry32(20261017);
-            var pool = Finalists.ToList();
             for (int k = 0; k < 5 && pool.Count > 0; k++)
             {
                 var e = pool[(int)(rng.NextDouble() * pool.Count)];

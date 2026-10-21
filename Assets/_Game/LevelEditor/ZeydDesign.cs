@@ -88,6 +88,56 @@ namespace ReverseSolver.LevelEditor
             Log($"yazıldı: {ZeydSet.Path} (+{lines.Count})");
         }
 
+        /* SET40 v1 (PM_MESAJ_4): Tools/set40_plan.py's slots written as redesign.json, one finalist per slot, for
+           Zeyd's approval queue (?set=redesign). Sources: redesign.json (R) and zeydbot.json (Z). The number is part
+           of the gameplay key, so each solution is found again after SetNumber. The old 103 drafts stay in git.
+
+             bash Tools/unity_batch.sh method ReverseSolver.LevelEditor.ZeydDesign.WriteSet40 */
+        public static void WriteSet40()
+        {
+            var plan = ReverseSolver.Core.Json.JsonReader.Parse(File.ReadAllText(ZeydSet.Arg("-rsFile", "Logs/zdesign/set40_plan.json")));
+            var r = LevelParser.Parse(File.ReadAllText(Generation.RedesignStore.Path)).Levels.ToDictionary(x => x.Id);
+            var z = LevelParser.Parse(File.ReadAllText(ZeydSet.Path)).Levels.ToDictionary(x => x.Id);
+            var rawR = ReverseSolver.Core.Json.JsonReader.Parse(File.ReadAllText(Generation.RedesignStore.Path));
+            rawR.TryGet("levels", out var rl);
+            var genreOf = new Dictionary<string, string>();
+            foreach (var n in rl.Items) { n.TryGet("id", out var id); n.TryGet("genre", out var g); if (g != null && g.Kind == ReverseSolver.Core.Json.JsonKind.String) genreOf[id.AsString] = g.AsString; }
+            var store = new Generation.RedesignStore();
+            foreach (var p in plan.Items)
+            {
+                p.TryGet("slot", out var slotN); p.TryGet("src", out var src); p.TryGet("id", out var idN); p.TryGet("idea", out var idea); p.TryGet("genre", out var gN); p.TryGet("target", out var tN);
+                int slot = (int)slotN.AsNumber;
+                var l = (src.AsString == "R" ? r : z)[idN.AsString];
+                var d = LevelDraft.FromLevel(l);
+                d.Id = $"S{slot:00}";
+                d.SetNumber(slot);
+                // boosters follow the new slot (unlock at their introduction, one in stock from then on)
+                foreach (var b in LevelDraft.BoosterIds)
+                {
+                    int at = Generation.SlotSpec.IntroducedAt[b];
+                    d.SetUnlock(b, at); d.SetBooster(b, slot >= at ? 1 : 0);
+                }
+                // obstacles not before their introduction slot
+                var ld = d.ToLevelData();
+                var need = new List<string>();
+                if (ld.Nails.Count > 0 && slot < Generation.SlotSpec.IntroducedAt[Generation.SlotSpec.Nail]) need.Add("çivi");
+                if (ld.Sealed.Values.Any(v => v.Length > 0) && slot < Generation.SlotSpec.IntroducedAt[Generation.SlotSpec.Seal]) need.Add("mühür");
+                if (ld.Pieces.Any(pc => pc.Length == 2) && slot < Generation.SlotSpec.IntroducedAt[Generation.SlotSpec.Chain]) need.Add("zincir");
+                if (ld.Bombs.Count > 0 && slot < Generation.SlotSpec.IntroducedAt[Generation.SlotSpec.Bomb]) need.Add("bomba");
+                if (need.Count > 0) throw new Exception($"slot {slot} {idN.AsString}: tanıtımından önce {string.Join(", ", need)}");
+                string gs = genreOf.TryGetValue(idN.AsString, out var g0) ? g0 : gN.AsString;
+                if (GenreExt.TryParse(gs, out var genre)) d.Genre = genre;
+                var sp = SmartPlayer.Play(d.ToLevelData());
+                if (sp.Verdict != SmartVerdict.Won || sp.Valves > 0) throw new Exception($"slot {slot} {idN.AsString}: SmartPlayer {sp.Verdict}, supap {sp.Valves}");
+                d.Solution = sp.Moves.ToList();
+                var e = new Generation.RedesignStore.Entry { Draft = d, Slot = slot, Candidate = idN.AsString, Genre = gs, Aha = idea.AsString, Psych = $"SET40 v1, hedef puan {tN.AsNumber}" };
+                store.Entries.Add(e);
+                Log($"slot {slot}: {idN.AsString} ({gs}), çözüm {sp.Moves.Count}");
+            }
+            store.Save();
+            Log($"yazıldı: {Generation.RedesignStore.Path} ({store.Entries.Count} slot)");
+        }
+
         /* -rsTightFuse 1: a draft that loses to a bomb is solved with every fuse long; when that wins, each bomb's
            fuse becomes its exit step on that solution + 1 (Z12's rule, docs/analiz/zeydbot/Z12_TARIFI.md 3). */
         static LevelData TightFuses(LevelData l, StringBuilder md)
