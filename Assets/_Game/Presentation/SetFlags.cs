@@ -17,13 +17,14 @@ namespace ReverseSolver.Presentation
     {
         public enum Kind { Levels, Designs, Redesign, Zeydbot }
 
-        /* set=zeydbot (ZeydBot sessions, Zeyd 2026-10-19) works without debug: its rows and moves are sent
+        /* set=zeydbot (ZeydBot sessions, Zeyd 2026-10-19) and set=redesign (SET40, PM 2026-10-21) work without debug: its rows and moves are sent
            under the player's name (TEST_ZEYD), every level open; nothing else changes for the live set. */
         public static Kind For(bool debug, string setParam, bool hasDesigns, bool hasRedesign, bool redesignDefault, bool hasZeydbot = false)
         {
             if (setParam == "zeydbot" && hasZeydbot) return Kind.Zeydbot;
             if (debug && setParam == "designs" && hasDesigns) return Kind.Designs;
-            if (debug && setParam == "redesign" && hasRedesign) return Kind.Redesign;
+            // PM 2026-10-21 (PM_MESAJ_5): the redesigned set opens without debug too, recorded like set=zeydbot
+            if (setParam == "redesign" && hasRedesign) return Kind.Redesign;
             if (debug && setParam == "levels") return Kind.Levels;
             if (redesignDefault && hasRedesign) return Kind.Redesign;
             return Kind.Levels;

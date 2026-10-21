@@ -226,6 +226,65 @@ namespace ReverseSolver.LevelEditor
             Log($"yazıldı: {Path} (+{lines.Count})");
         }
 
+        /* SET40 v2 peaks (PM_MESAJ_5 + EK): new hard boards in other sizes. HardSeven at each size with long chains
+           (far-apart ends, anywhere) and bombs allowed up to the edge; a board passes with: SmartPlayer wins clean,
+           the random player wins <= 5 %, <= 2 trap moves on the path, M17 depth (deepest bomb dig, every fuse long)
+           >= 6. Ranked by misleading pieces per step + 0.3 x depth. Timer = 1.75 x the path (Zeyd's pace on Z36-Z39,
+           1.47 s a move, ham_plays.csv, leaving ~15 %). Out: Logs/zdesign/zirve_<w>x<h>.json (levels format).
+
+             bash Tools/unity_batch.sh method ReverseSolver.LevelEditor.ZeydSet.Peaks [-rsSizes 6x7,7x7,8x8] [-rsBombs 3,3,4] [-rsMin 30] */
+        public static void Peaks()
+        {
+            var look = DesignStore.Parse(File.ReadAllText("Assets/_Game/Levels/designs.json")).Find("D06");
+            var sizes = Arg("-rsSizes", "6x7,7x7,8x8").Split(',');
+            var bombs = Arg("-rsBombs", "3,3,4").Split(',').Select(int.Parse).ToArray();
+            double minutes = double.Parse(Arg("-rsMin", "30"), System.Globalization.CultureInfo.InvariantCulture);
+            for (int si = 0; si < sizes.Length; si++)
+            {
+                var wh = sizes[si].Split('x');
+                HardSeven.W = int.Parse(wh[0]); HardSeven.H = int.Parse(wh[1]);
+                HardSeven.BombCount = bombs[Math.Min(si, bombs.Length - 1)];
+                HardSeven.LongChains = true; HardSeven.MinBombEdge = 0;
+                int want = HardSeven.BombCount;
+                var picks = Collect(minutes, 6, seed =>
+                {
+                    var r = HardSeven.Try(look, seed + 90_000_000u + (uint)si * 7_000_000u, out _);
+                    if (r == null || r.Bombs < want) return (null, 0);
+                    var l = r.Draft.ToLevelData();
+                    var sp = SmartPlayer.Play(l);
+                    if (sp.Verdict != SmartVerdict.Won || sp.Valves > 0) return (null, 0);
+                    if (MonteCarlo.Run(l, 100).WinRate > .05) return (null, 0);
+                    var lng = ZeydAnalysis.Long(l);
+                    int depth = l.Bombs.Keys.Max(b => StructureMetrics.DigNow(lng, b));
+                    if (depth < 6) return (null, 0);
+                    var s = new GameSession(l, 1, "zirve", new Mulberry32(1)) { ClockOnFirstMove = false };
+                    int traps = 0; double mis = 0; int n = 0;
+                    foreach (var mv in sp.Moves)
+                    {
+                        if (s.IsOver) break;
+                        if (ZeydAnalysis.Options(s, 20_000).Any(x => !x.right) && ++traps > 2) return (null, 0);
+                        mis += ZeydAnalysis.Misleading(s); n++;
+                        s.TryExit(mv.Piece, mv.Dir);
+                    }
+                    var d = r.Draft.Clone();
+                    d.SetTimer(Math.Max(30, (int)Math.Round(sp.Moves.Count * 1.75 / 5) * 5));
+                    Log($"{sizes[si]} aday {seed}: derinlik {depth}, tuzaklı {traps}, yanıltıcı/adım {mis / Math.Max(1, n):0.00}");
+                    return (d, mis / Math.Max(1, n) + .3 * depth);
+                }, "zirve " + sizes[si]);
+                var lines = new List<string>();
+                for (int k = 0; k < picks.Count; k++)
+                {
+                    var c = picks[k].Clone(); c.Id = $"P{sizes[si].Replace("x", "")}_{k + 1}";
+                    var sp = SmartPlayer.Play(c.ToLevelData());
+                    c.Solution = sp.Moves.ToList();
+                    var w = new JsonWriter(); c.WriteJson(w); lines.Add("    " + w);
+                }
+                File.WriteAllText($"Logs/zdesign/zirve_{sizes[si]}.json", "{\n  \"format\": 1,\n  \"levels\": [\n" + string.Join(",\n", lines) + "\n  ]\n}\n", new System.Text.UTF8Encoding(false));
+                Log($"{sizes[si]}: {picks.Count} aday yazıldı");
+            }
+            HardSeven.W = 7; HardSeven.H = 8; HardSeven.LongChains = false; HardSeven.MinBombEdge = 2; HardSeven.BombCount = 3;
+        }
+
         /* Seeds in parallel for `minutes`; the `want` best distinct boards. */
         static List<LevelDraft> Collect(double minutes, int want, Func<uint, (LevelDraft d, double score)> make, string name)
         {

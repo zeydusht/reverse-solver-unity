@@ -1,0 +1,7 @@
+{
+"PK1": "geniş, çok yollu tahta; bütün yollar alt kenar bombasının dibindeki zincir ucuna çıkıyor, bomba en sona kalıyor",
+"PK2": "üç kenar bombası sırayla açılıyor ama içteki bomba zincirin ucu çıkmadan açılmıyor",
+"PK3": "köşe bombasının çivili komşusu: çivinin açılmasını beklerken fitil sayılıyor, arada iki zincir çözülmeli",
+"PK4": "çivi sayacı bomba yolunda: çivi açılmadan bomba kapalı, açılınca fitil dar; zincirler tahtayı üstten alta asıyor",
+"PK5": "bomba iki zincirin uçlarının arasında: ikisini sırayla yürütmeden bomba açılmaz"
+}

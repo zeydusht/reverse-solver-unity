@@ -1,0 +1,44 @@
+[
+{
+"id": "PK1",
+"base": "P88_1",
+"ops": [],
+"note": "çok yollu açık tahta, bomba dipte"
+},
+{
+"id": "PK2",
+"base": "P88_2",
+"ops": [
+[
+"hole_at",
+0,
+7
+]
+],
+"note": "tek iç bomba, ucu kapatan zincir; köşe delikli"
+},
+{
+"id": "PK3",
+"base": "P77_4",
+"ops": [],
+"note": "çivili komşusu olan köşe bombası; köşe delikli (delik bölümü kolaylaştırdı: rastgele %100 → deliksiz)"
+},
+{
+"id": "PK4",
+"base": "P67_3",
+"ops": [
+[
+"hole_at",
+5,
+0
+]
+],
+"note": "çivi sayacı bomba yolunda; köşe delikli"
+},
+{
+"id": "PK5",
+"base": "P77_2",
+"ops": [],
+"note": "iki zincirin arasında bomba"
+}
+]

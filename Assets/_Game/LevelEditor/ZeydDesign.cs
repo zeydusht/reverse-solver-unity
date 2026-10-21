@@ -52,7 +52,7 @@ namespace ReverseSolver.LevelEditor
             });
             File.WriteAllText($"{dir}/taslak_yollar.csv", "level_id,run,adim,kalan_parca,secenek,dogru,en_dar_pay,koruyan,koruyan_secildi,yaniltici,dig\n" +
                 string.Concat(set.Levels.Select(l => paths.TryGetValue(l.Id, out var p) ? p : "")), new UTF8Encoding(false));
-            File.WriteAllText($"{dir}/taslak_ozellik.csv", "level_id,tur,sure_limiti,en_kisa_cozum,adil,rastgele_kazanma,yol_tuzakli_hamle,yol_zorunlu,yol_ort_secenek,yaniltici_adim,baslangic_en_dar_pay,m13_anahtar,m13_ikinci_yari,m13_art_arda,m14_supurme,m14_yon,m14_duz_seritten,m14_imza,m15_kalan_pay\n" +
+            File.WriteAllText($"{dir}/taslak_ozellik.csv", "level_id,tur,sure_limiti,en_kisa_cozum,adil,rastgele_kazanma,yol_tuzakli_hamle,yol_zorunlu,yol_ort_secenek,yaniltici_adim,baslangic_en_dar_pay,m13_anahtar,m13_ikinci_yari,m13_art_arda,m14_supurme,m14_yon,m14_duz_seritten,m14_imza,m15_kalan_pay,m17_derinlik,m17_sira_basari,m17_okunur_kenar,engel_konum\n" +
                 string.Concat(set.Levels.Select(l => feats.TryGetValue(l.Id, out var f) ? f : "")), new UTF8Encoding(false));
             Log($"yazıldı: {dir} ({set.Levels.Count} taslak)");
         }
@@ -96,9 +96,13 @@ namespace ReverseSolver.LevelEditor
         public static void WriteSet40()
         {
             var plan = ReverseSolver.Core.Json.JsonReader.Parse(File.ReadAllText(ZeydSet.Arg("-rsFile", "Logs/zdesign/set40_plan.json")));
-            var r = LevelParser.Parse(File.ReadAllText(Generation.RedesignStore.Path)).Levels.ToDictionary(x => x.Id);
+            // R sources: the 103 factory drafts as they were before SET40 (git show 7a40c05:Assets/_Game/Levels/redesign.json)
+            string rSrc = ZeydSet.Arg("-rsSrc", "Logs/zdesign/redesign_eski.json");
+            var r = LevelParser.Parse(File.ReadAllText(rSrc)).Levels.ToDictionary(x => x.Id);
             var z = LevelParser.Parse(File.ReadAllText(ZeydSet.Path)).Levels.ToDictionary(x => x.Id);
-            var rawR = ReverseSolver.Core.Json.JsonReader.Parse(File.ReadAllText(Generation.RedesignStore.Path));
+            // SET40 v2 peaks (designer + factory): Logs/zdesign/zirve_secilen.json
+            var pk = File.Exists("Logs/zdesign/zirve_secilen.json") ? LevelParser.Parse(File.ReadAllText("Logs/zdesign/zirve_secilen.json")).Levels.ToDictionary(x => x.Id) : new Dictionary<string, LevelData>();
+            var rawR = ReverseSolver.Core.Json.JsonReader.Parse(File.ReadAllText(rSrc));
             rawR.TryGet("levels", out var rl);
             var genreOf = new Dictionary<string, string>();
             foreach (var n in rl.Items) { n.TryGet("id", out var id); n.TryGet("genre", out var g); if (g != null && g.Kind == ReverseSolver.Core.Json.JsonKind.String) genreOf[id.AsString] = g.AsString; }
@@ -107,7 +111,7 @@ namespace ReverseSolver.LevelEditor
             {
                 p.TryGet("slot", out var slotN); p.TryGet("src", out var src); p.TryGet("id", out var idN); p.TryGet("idea", out var idea); p.TryGet("genre", out var gN); p.TryGet("target", out var tN);
                 int slot = (int)slotN.AsNumber;
-                var l = (src.AsString == "R" ? r : z)[idN.AsString];
+                var l = (src.AsString == "R" ? r : src.AsString == "P" ? pk : z)[idN.AsString];
                 var d = LevelDraft.FromLevel(l);
                 d.Id = $"S{slot:00}";
                 d.SetNumber(slot);
@@ -125,6 +129,9 @@ namespace ReverseSolver.LevelEditor
                 if (ld.Pieces.Any(pc => pc.Length == 2) && slot < Generation.SlotSpec.IntroducedAt[Generation.SlotSpec.Chain]) need.Add("zincir");
                 if (ld.Bombs.Count > 0 && slot < Generation.SlotSpec.IntroducedAt[Generation.SlotSpec.Bomb]) need.Add("bomba");
                 if (need.Count > 0) throw new Exception($"slot {slot} {idN.AsString}: tanıtımından önce {string.Join(", ", need)}");
+                // the bomb introduction teaches "look first" (PM_MESAJ_5_EK 4): the clock starts on the first move
+                if (l.Intro != null && l.Intro.Icon == "bomb")
+                    d.SetIntro(l.Intro.Title, l.Intro.Body, "Acele etme, süre ilk hamlende başlar.", l.Intro.Icon);
                 string gs = genreOf.TryGetValue(idN.AsString, out var g0) ? g0 : gN.AsString;
                 if (GenreExt.TryParse(gs, out var genre)) d.Genre = genre;
                 var sp = SmartPlayer.Play(d.ToLevelData());
@@ -190,7 +197,7 @@ namespace ReverseSolver.LevelEditor
             var lng = ZeydAnalysis.Long(l);
             var start = ZeydAnalysis.Slacks(s, lng);
             int traps = 0, forced = 0, n = 0; double opt = 0, mis = 0;
-            string m13 = ",,,,,,,";
+            string m13 = ",,,,,,,,,,,";
             var line = new StringBuilder();
             var key = new List<int>();                                   // M13: steps that are key moments
             var exits = new List<(int piece, Dir dir, int lane, bool bomb, bool chain)>();
@@ -242,11 +249,56 @@ namespace ReverseSolver.LevelEditor
                 md.Append($"| M14 Bomba/zincir aynı düz şeritten art arda | {(straight ? "var" : "yok")} | yok | {(straight ? "✗" : "✓")} |\n");
                 md.Append($"| M14 Desen imzası (bomba başına: baskın süpürme yönü + uzunluk > bombanın çıkışı) | {string.Join(" ", sig)} | setteki zorlarda farklı | |\n");
             }
-            // M15: Zeyd's pace on the Z12-type levels he won (Z31, Z33, Z35: 101 + 96 + 111 s over 3 x 54 moves = 1.90 s
-            // a move, ham_plays.csv); the share of the timer he would have left, target 10-20 %
-            double pace = (101 + 96 + 111) / (3.0 * 54), leftShare = 1 - pace * sp.Moves.Count / Math.Max(1, l.TimerSeconds);
-            md.Append($"| M15 Kalan süre payı (Zeyd'in Z12 tipi hızı 1,90 s/hamle) | %{leftShare * 100:0} | %10–20 | {(leftShare >= .10 && leftShare <= .20 ? "✓" : "✗")} |\n");
+            // M15: Zeyd's pace on the peaks he won on the first try in session 5 (Z36-Z39: (71 + 88 + 86 + 73) s over
+            // 4 x 54 moves = 1.47 s a move, ham_plays.csv; it was 1.90 on Z31/Z33/Z35, he got faster); the share of the
+            // timer he would have left, target 10-20 %
+            double pace = (71 + 88 + 86 + 73) / (4.0 * 54), leftShare = 1 - pace * sp.Moves.Count / Math.Max(1, l.TimerSeconds);
+            md.Append($"| M15 Kalan süre payı (Zeyd'in zirve hızı 1,47 s/hamle) | %{leftShare * 100:0} | %10–20 | {(leftShare >= .10 && leftShare <= .20 ? "✓" : "✗")} |\n");
             m13 = $"{key.Count},{half},{best},{sweepMax},{dirsMin},{(straight ? 1 : 0)},{string.Join(" ", sig)},{leftShare.ToString("0.000", Inv)}";
+
+            // M17 (PM_MESAJ_5_EK): per bomb the dependency depth (fewest moves that take it out, every fuse long) and
+            // the order success rate: of 200 random playouts (a uniformly random movable piece each move), the share
+            // that gets that bomb out before any bomb goes off. Obstacle position: corner / edge / centre.
+            var start0 = new GameSession(l, 1, "m17", new Mulberry32(1)) { ClockOnFirstMove = false };
+            var long0 = ZeydAnalysis.Long(l);
+            var m17 = new List<string>(); int depthMax = 0; double succMin = 1; bool readable = false;
+            foreach (var b in l.Bombs)
+            {
+                int dig = StructureMetrics.DigNow(long0, b.Key);
+                int ok = 0;
+                for (int run = 0; run < 200; run++)
+                {
+                    var g = new GameSession(l, 1, "m17", new Mulberry32((uint)(run + 1))) { ClockOnFirstMove = false };
+                    var rnd = new System.Random(run * 7919 + b.Key);
+                    while (!g.IsOver && g.Board.IsPresent(b.Key))
+                    {
+                        var free = TravelRule.FreePieces(g.Board).Where(p => g.NailAt(p) <= 0).ToList();
+                        if (free.Count == 0) break;
+                        int p = free[rnd.Next(free.Count)];
+                        g.TryExit(p, TravelRule.ExitDirs(g.Board, p)[0]);
+                    }
+                    if (!g.Board.IsPresent(b.Key) && g.Outcome != Outcome.Bomb) ok++;
+                }
+                double succ = ok / 200.0;
+                var c = l.Pieces[b.Key][0];
+                bool atEdge = c.X == 0 || c.Y == 0 || c.X == l.Width - 1 || c.Y == l.Height - 1;
+                // forbidden in a peak: an edge bomb with a loose fuse and a shallow chain (read it, solve it)
+                if (atEdge && dig >= 0 && b.Value >= dig + 2 && dig < 3) readable = true;
+                depthMax = Math.Max(depthMax, dig); succMin = Math.Min(succMin, succ);
+                m17.Add($"{b.Key}:{dig}/{succ * 100:0}%");
+            }
+            string Where(Cell c) { bool ex = c.X == 0 || c.X == l.Width - 1, ey = c.Y == 0 || c.Y == l.Height - 1; return ex && ey ? "köşe" : ex || ey ? "kenar" : "merkez"; }
+            var obst = l.Bombs.Keys.Concat(l.Nails.Keys).Select(p => l.Pieces[p][0]).Concat(l.Pieces.Where(pc => pc.Length == 2).SelectMany(pc => pc)).Select(Where).ToList();
+            string pos = $"merkez {obst.Count(x => x == "merkez")} / kenar {obst.Count(x => x == "kenar")} / köşe {obst.Count(x => x == "köşe")}";
+            if (l.Bombs.Count > 0)
+            {
+                md.Append($"| M17 Bomba bağımlılık derinliği (en derin) | {depthMax} | ≥ 6 (zirve) | {(depthMax >= 6 ? "✓" : "✗")} |\n");
+                md.Append($"| M17 Rastgele sıra başarısı (en düşük bomba) | %{succMin * 100:0} | düşük | |\n");
+                md.Append($"| M17 Bomba başına (derinlik / başarı) | {string.Join(" ", m17)} | | |\n");
+                md.Append($"| M17 Okuyunca çözülen kenar bombası (fitil ≥ yol + 2, derinlik < 3) | {(readable ? "VAR" : "yok")} | yok | {(readable ? "✗" : "✓")} |\n");
+            }
+            md.Append($"| Engel konumu (bomba, çivi, zincir hücreleri) | {pos} | dağılsın | |\n");
+            m13 += $",{depthMax},{succMin.ToString("0.000", Inv)},{(readable ? 1 : 0)},{pos.Replace(" / ", ";")}";
             string feat = $"{l.Id},taslak,{l.TimerSeconds},{sp.Moves.Count},1,{mc.WinRate.ToString("0.000", Inv)},{traps},{forced},{(opt / Math.Max(1, n)).ToString("0.000", Inv)},{(mis / Math.Max(1, n)).ToString("0.000", Inv)},{(start.Count == 0 ? "" : start.Min(x => x.slack).ToString())},{m13}\n";
             return (md.ToString(), feat);
         }

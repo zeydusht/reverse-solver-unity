@@ -107,7 +107,8 @@ namespace ReverseSolver.Presentation
             host.VisibilityChanged += OnVisibility;
             _telemetry.Flush();                               // rows left from an earlier visit
 
-            _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug || _zeydbotSet };
+            // every level open for the test links (set= in the address), not when the flag makes SET40 the playtest default
+            _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug || (_zeydbotSet && !string.IsNullOrEmpty(host.Query("set"))) };
             // web name gate: once per browser; the HTML input sits over the canvas
             bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug;
             int requested = PlayOverride.Active ? PlayOverride.Index
@@ -123,7 +124,8 @@ namespace ReverseSolver.Presentation
             {
                 case SetChoice.Kind.Zeydbot: _zeydbotSet = true; return LevelParser.Parse(zeydbot.text);
                 case SetChoice.Kind.Designs: _designSet = true; return LevelParser.Parse(designs.text);
-                case SetChoice.Kind.Redesign: return LevelParser.Parse(redesign.text);
+                // SET40 (PM_MESAJ_5): recorded like the ZeydBot set (moves, 1-10), also when the flag makes it the default
+                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; return LevelParser.Parse(redesign.text);
                 default: return LevelParser.Parse(levels.text);
             }
         }

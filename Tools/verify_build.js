@@ -339,6 +339,34 @@ async function zeydlosssend() {
   p.close();
 }
 
+/* --send only: SET40 under ?set=redesign is recorded (PM_MESAJ_5): S01 without debug as the TEST player, the stored
+   solution, the first 1-10 button; the plays row must carry zorluk_puani and the moves table the exits. */
+async function redesignsend() {
+  const l = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels[0], p = await newPage();
+  const before = await rows();
+  await p.open(`${base}/?set=redesign&lv=${l.id}`, { gate: true });
+  await p.name(player);
+  await sleep(1500);
+  for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);   // an intro card, if any
+  await p.solve(l);
+  await sleep(2500);
+  const x = W / 2 - 120;
+  let prev = await p.png();
+  for (let y = Math.round(H * .25); y < H * .85; y += 12) {
+    await p.tap(x, y);
+    const now = await p.png();
+    if (Buffer.compare(now, prev) !== 0) break;
+    prev = now;
+  }
+  await sleep(17000);
+  const r = (await rows()).filter(r => !before.some(b => b.row_id === r.row_id) && r.level_id === l.id)[0];
+  let mv = [];
+  if (r) mv = await (await fetch(`${SUPA}/rest/v1/moves?row_id=eq.${r.row_id}&select=kind`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json();
+  const exits = mv.filter(m => m.kind === 'exit').length;
+  check('redesignsend', !!r && r.result === 'win' && r.zorluk_puani != null && exits === l.solution.length, r ? `${l.id} ${r.result}, zorluk_puani ${r.zorluk_puani}, moves exit ${exits}/${l.solution.length}` : `${l.id} satırı gelmedi`);
+  p.close();
+}
+
 async function redesign() {
   const file = path.join(ROOT, 'Assets/_Game/Levels/redesign.json');
   const set = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')).levels : [];
@@ -449,6 +477,7 @@ async function m5(p) {
     if (send && only.includes('zeydsend')) await zeydsend();
     if (only.includes('zeydloss')) await zeydloss();
     if (send && only.includes('zeydlosssend')) await zeydlosssend();
+    if (send && only.includes('redesignsend')) await redesignsend();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
   finally {

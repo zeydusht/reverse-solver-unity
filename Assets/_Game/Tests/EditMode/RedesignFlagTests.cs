@@ -19,7 +19,8 @@ namespace ReverseSolver.Core.Tests
         public void SetChoiceKeepsTheLiveFortyByDefault()
         {
             Assert.That(SetChoice.For(false, null, true, true, false), Is.EqualTo(SetKind.Levels), "players get the live 40");
-            Assert.That(SetChoice.For(false, "redesign", true, true, false), Is.EqualTo(SetKind.Levels), "set= only works with debug");
+            Assert.That(SetChoice.For(false, "redesign", true, true, false), Is.EqualTo(SetKind.Redesign), "SET40 opens without debug (recorded, PM 2026-10-21)");
+            Assert.That(SetChoice.For(false, "designs", true, true, false), Is.EqualTo(SetKind.Levels), "designs still need debug");
             Assert.That(SetChoice.For(true, "redesign", true, true, false), Is.EqualTo(SetKind.Redesign));
             Assert.That(SetChoice.For(true, "redesign", true, false, false), Is.EqualTo(SetKind.Levels), "an empty redesign.json falls back");
             Assert.That(SetChoice.For(true, "designs", true, true, false), Is.EqualTo(SetKind.Designs));

@@ -32,19 +32,21 @@ namespace ReverseSolver.Generation
             why = null;
             var rng = new Mulberry32(seed * 2246822519u + 101u);
             // M9 on a 6×7 board leaves 6 inner cells for 3 bombs, 2 chains (4 cells) and the nails: a 7×8 board has 12
-            const int w = 7, h = 8;
+            int w = W, h = H;
             var d = LevelDraft.New(w, h);
             d.SetNumber(40);
             d.Genre = Genre.CokZor;
             if (d06 != null) { d.Art = d06.Art; for (int i = 0; i < 2; i++) d.SetPaletteColour(i, d06.Palette[i]); }
             var innerCells = new List<Cell>();
-            for (int y = 2; y <= h - 3; y++) for (int x = 2; x <= w - 3; x++) innerCells.Add(new Cell(x, y));
+            int ring = LongChains ? 0 : 2;
+            for (int y = ring; y <= h - 1 - ring; y++) for (int x = ring; x <= w - 1 - ring; x++) innerCells.Add(new Cell(x, y));
             innerCells = innerCells.OrderBy(_ => rng.NextDouble()).ToList();
             var usedCells = new HashSet<Cell>();
+            int far = LongChains ? (w + h) / 2 : 0;   // PM_MESAJ_5_EK: a chain joining two far parts of the board
             for (int k = 0; k < 2; k++)
             {
                 var a = innerCells.First(c => !usedCells.Contains(c));
-                var b = innerCells.FirstOrDefault(c => !usedCells.Contains(c) && !c.Equals(a) && c.X != a.X && c.Y != a.Y);
+                var b = innerCells.FirstOrDefault(c => !usedCells.Contains(c) && !c.Equals(a) && c.X != a.X && c.Y != a.Y && Math.Abs(c.X - a.X) + Math.Abs(c.Y - a.Y) >= far);
                 if (!innerCells.Contains(b) || usedCells.Contains(b) || b.Equals(a)) { why = "zincir yeri yok"; return null; }
                 if (!d.AddChain(a, b).Ok) { why = "zincir kurulamadı"; return null; }
                 usedCells.Add(a); usedCells.Add(b);
@@ -72,7 +74,7 @@ namespace ReverseSolver.Generation
             int Edge(Cell c) => Math.Min(Math.Min(c.X, w - 1 - c.X), Math.Min(c.Y, h - 1 - c.Y));
 
             // three inner bombs with the deepest digs, fuse = dig + 1
-            var inner = Enumerable.Range(0, bodies).Where(i => l.Pieces[i].Length == 1 && Edge(l.Pieces[i][0]) >= 2).OrderBy(_ => rng.NextDouble()).ToList();
+            var inner = Enumerable.Range(0, bodies).Where(i => l.Pieces[i].Length == 1 && Edge(l.Pieces[i][0]) >= MinBombEdge).OrderBy(_ => rng.NextDouble()).ToList();
             var digs = new List<(int piece, int dig)>();
             foreach (var i in inner)
             {
@@ -101,7 +103,7 @@ namespace ReverseSolver.Generation
                 {
                     if (nailed.Count >= 4) break;
                     var lv = d.ToLevelData();
-                    if (lv.Pieces[x].Length != 1 || lv.Bombs.ContainsKey(x) || nailed.Contains(x) || Edge(lv.Pieces[x][0]) < 2) continue;
+                    if (lv.Pieces[x].Length != 1 || lv.Bombs.ContainsKey(x) || nailed.Contains(x) || Edge(lv.Pieces[x][0]) < MinBombEdge) continue;
                     if (!Critical(d, lv, x, b.piece)) continue;
                     int leave = sp.Moves.FindIndex(mv => mv.Piece == x);
                     if (leave < 2) continue;
@@ -111,7 +113,7 @@ namespace ReverseSolver.Generation
             for (int extra = 0; extra < 6 && nailed.Count < BombCount; extra++)
             {
                 var lv = d.ToLevelData();
-                var way = bombs.SelectMany(b => Cone(new Board(lv), b.piece)).Distinct().Where(x => lv.Pieces[x].Length == 1 && !lv.Bombs.ContainsKey(x) && !nailed.Contains(x) && Edge(lv.Pieces[x][0]) >= 2 && bombs.Any(b => Critical(d, lv, x, b.piece))).ToList();
+                var way = bombs.SelectMany(b => Cone(new Board(lv), b.piece)).Distinct().Where(x => lv.Pieces[x].Length == 1 && !lv.Bombs.ContainsKey(x) && !nailed.Contains(x) && Edge(lv.Pieces[x][0]) >= MinBombEdge && bombs.Any(b => Critical(d, lv, x, b.piece))).ToList();
                 if (way.Count == 0) break;
                 int x = way[(int)(rng.NextDouble() * way.Count)];
                 int leave = sp.Moves.FindIndex(mv => mv.Piece == x);
@@ -190,6 +192,12 @@ namespace ReverseSolver.Generation
         }
 
         public static int BombCount = 3;
+        /* SET40 v2 peaks (PM_MESAJ_5): board size; chains with far-apart ends anywhere (not only the inner area);
+           bombs allowed this close to the edge (an edge bomb must then sit behind a deep dependency chain, M17,
+           which ZeydDesign checks). Defaults keep D07/D08 as they were. [ThreadStatic] would split the parallel
+           seeds' settings, so they are set once before a run. */
+        public static int W = 7, H = 8, MinBombEdge = 2;
+        public static bool LongChains;
 
         static List<(int piece, int dig)> Spread(List<(int piece, int dig)> digs, LevelData l, int k, IRandom rng)
         {

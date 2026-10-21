@@ -9,6 +9,10 @@ sys.path.insert(0, os.path.dirname(__file__))
 from level_similarity import similarity
 
 M16 = 0.65
+M16_PEAK = 0.50          # PM_MESAJ_5: peaks against each other and against every Z level
+# peaks: the designer's choices (Logs/zdesign/zirve_secilen.json, ids in order P1..P5) with their ideas
+PK = json.load(open('Logs/zdesign/zirve_secilen.json', encoding='utf-8'))['levels']
+PIDEA = json.load(open('Logs/zdesign/zirve_fikir.json', encoding='utf-8'))
 R = {l['id']: l for l in json.load(open('Logs/zdesign/redesign_eski.json', encoding='utf-8'))['levels']}
 Z = {l['id']: l for l in json.load(open('Assets/_Game/Levels/zeydbot.json', encoding='utf-8'))['levels']}
 for l in Z.values(): l.setdefault('fabrika', {})
@@ -24,7 +28,7 @@ PLAN = [
  (7, 2, 'R', ['C07-19057303', 'C07-4ef0899b', 'C07-fe23ac0d'], 'tanıtım: mühürlü kenar'),
  (8, 3, 'R', 'orta', 'kilitli dikişleri okumak'),
  (9, 2, 'R', ['C09-111692a5', 'C09-7cebcdcf', 'C09-c78731ab'], 'tanıtım: değnek'),
- (10, 4, 'R', ['C16-ac10bfbb', 'C10-afebfb9d', 'C17-73ba08a9', 'C16-076e1e91'], 'bombasız zirve: serbest görünen ama çıkamayan parçalar'),
+ (10, 3, 'R', ['C16-ac10bfbb', 'C10-afebfb9d', 'C17-73ba08a9', 'C16-076e1e91'], 'bombasız zirve: serbest görünen ama çıkamayan parçalar'),
  (11, 2, 'R', 'nefes', 'nefes'),
  (12, 2, 'R', ['C12-125a3f3b', 'C12-782c6447', 'C12-be16cb13'], 'tanıtım: zincirli çift'),
  (13, 3, 'R', 'zor', 'zincirin iki ucu farklı yöne ister'),
@@ -32,8 +36,8 @@ PLAN = [
  (15, 2, 'R', ['C15-6d50aae9', 'C15-928804c9', 'C15-1662c4ef'], 'tanıtım: saat'),
  (16, 2, 'R', 'nefes', 'nefes'),
  (17, 3, 'R', 'zor', 'mühür kolay yönü kapatıyor, uzun yoldan dolanmak'),
- (18, 4, 'R', 'zor', 'mühür kolay yönü kapatıyor, uzun yoldan dolanmak'),
- (19, 5, 'R', ['C14-648ee119', 'C17-73ba08a9'], 'bombasız zirve: kalabalıkta tek ilerleten parça'),
+ (18, 3, 'R', 'zor', 'mühür kolay yönü kapatıyor, uzun yoldan dolanmak'),
+ (19, 3, 'R', ['C14-648ee119', 'C17-73ba08a9'], 'bombasız zirve: kalabalıkta tek ilerleten parça'),
  (20, 2, 'R', ['C20-43bbb687', 'C20-45673591', 'C20-facc0b3b'], 'tanıtım: bombalı parça'),
  (21, 3, 'Z', ['Z19', 'Z21'], 'tek bomba, pay +2: bombaya erken yönel [3]'),
  (22, 4, 'Z', ['Z15', 'Z22'], 'tek bomba, çiviler yolu daraltıyor [3]'),
@@ -43,18 +47,18 @@ PLAN = [
  (26, 3, 'R', 'nefes', 'nefes'),
  (27, 5, 'R', ['C30-37066ecb'], 'iki bomba, iki ayrı köşe'),
  (28, 7, 'Z', ['Z08'], 'dört bomba, çivi kazma yolunda [7]'),
- (29, 9, 'Z', ['Z36'], 'ZİRVE: bomba önce, sonra art arda anahtar parça anları [9]'),
- (30, 3, 'R', 'nefes', 'nefes'),
- (31, 6, 'Z', ['Z26', 'Z29'], 'bombalar seyrek, süre bol: ritim [6]'),
+ (29, 7, 'P', 'P1', 'ZİRVE'),
+ (30, 4, 'Z', ['Z10', 'Z02', 'Z24'], 'nefes: tek bomba, geniş tahta [2]'),
+ (31, 6, 'Z', ['Z26'], 'bombalar seyrek, süre bol: ritim [6]'),
  (32, 8, 'Z', ['Z07'], 'dört bomba, ilk hamle tuzaklı [8]'),
- (33, 4, 'Z', ['Z10', 'Z02'], 'tek bomba, geniş tahta [2]'),
- (34, 7, 'Z', ['Z29', 'Z26'], 'tuzak dolu yol, her hamle sayılır [6]'),
- (35, 9, 'Z', ['Z13'], 'ZİRVE (cezalandıran): bomba ortada, iki yönden kazılıyor [9]'),
- (36, 4, 'R', 'nefes', 'nefes'),
- (37, 9, 'Z', ['Z37'], 'ZİRVE: kayar ama çıkamaz satırı [9]'),
- (38, 6, 'Z', ['Z25', 'Z23'], 'tek yol, az seçenek, dar fitil [4]'),
- (39, 4, 'R', 'nefes', 'nefes'),
- (40, 9, 'Z', ['Z18'], 'ZİRVE (final): 51 hamlelik kazı, dört çivi [9]'),
+ (33, 7, 'P', 'P2', 'ZİRVE'),
+ (34, 4, 'Z', ['Z22', 'Z24', 'Z21'], 'nefes: tek bomba, çiviler [2]'),
+ (35, 8, 'Z', ['Z13'], 'cezalandıran zor: tuzak dolu [9]'),
+ (36, 7, 'P', 'P3', 'ZİRVE'),
+ (37, 8, 'Z', ['Z18'], 'uzun kazı, dört çivi [9]'),
+ (38, 8, 'P', 'P4', 'ZİRVE'),
+ (39, 8, 'Z', ['Z29'], 'gerilim: tuzak dolu yol, her hamle sayılır [6]'),
+ (40, 9, 'P', 'P5', 'ZİRVE (final)'),
 ]
 
 chosen, used_ideas, out = [], {}, []
@@ -70,7 +74,18 @@ def intro_ok(l, slot):
 def ok(l):
     return all(similarity(l, c)[0] < M16 and similarity(c, l)[0] < M16 for c in chosen)
 
+PEAKS = []
 for slot, target, src, cand, idea in PLAN:
+    if src == 'P':
+        l = PK[int(cand[1:]) - 1]
+        # M16 for peaks (PM_MESAJ_5): under 50 % against every Z level and every other peak, under 65 % against the rest
+        zmax = max(similarity(l, z)[0] for z in Z.values())
+        pmax = max([similarity(l, q)[0] for q in PEAKS] or [0])
+        if zmax >= M16_PEAK or pmax >= M16_PEAK or not ok(l): print(f'slot {slot}: zirve {l["id"]} eşik üstü (Z %{zmax*100:.0f}, zirve %{pmax*100:.0f})'); continue
+        PEAKS.append(l); chosen.append(l)
+        out.append({'slot': slot, 'target': target, 'src': 'P', 'id': l['id'], 'genre': 'cokzor', 'idea': 'ZİRVE: ' + PIDEA[l['id']], 'size': f"{l['w']}x{l['h']}",
+                    'pieces': len(l['pieces']), 'bombs': len(l.get('bombs') or {}), 'z_max': round(zmax, 3), 'peak_max': round(pmax, 3)})
+        continue
     pool = R if src == 'R' else Z
     if isinstance(cand, str):
         cand = sorted([k for k, l in R.items() if l['genre'] == cand], key=lambda k: (R[k]['fabrika'].get('slot', 0), k))

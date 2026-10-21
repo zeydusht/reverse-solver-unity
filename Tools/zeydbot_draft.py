@@ -8,6 +8,7 @@
 #   joint v|h x y value                       v: boundary left of (x, y); h: above (x, y); -1 / 0 / 1
 #   seal U|D|L|R lane | unseal U|D|L|R lane   lane = column for U/D, row for L/R
 #   timer seconds
+#   hole_at x y                               take a single-cell piece off (corner gap / hole)
 #   bomb_piece piece fuse                     (the factory's tightened fuse, by piece number)
 #
 #   python Tools/zeydbot_draft.py <ops.json> <out levels.json>
@@ -63,11 +64,32 @@ def apply(lv, op):
         lane = lv.setdefault('sealed', {}).setdefault(a[0], [])
         if int(a[1]) in lane: lane.remove(int(a[1]))
     elif k == 'timer': lv['timer'] = int(a[0])
+    elif k == 'hole_at':
+        # non-rectangular boards (PM_MESAJ_5): a single-cell piece is taken off, its seams go flat, the numbers after
+        # it shift down; the stored solution is dropped (the factory solves again)
+        x, y = int(a[0]), int(a[1]); i = piece_at(lv, x, y)
+        if len(lv['pieces'][i]) != 1: raise ValueError(f'({x}, {y}) zincirli parça, delik olamaz')
+        lv['pieces'].pop(i)
+        for key in ('bombs', 'nails'):
+            d = {}
+            for kk, v in (lv.get(key) or {}).items():
+                j = int(kk)
+                if j == i: continue
+                d[str(j - 1 if j > i else j)] = v
+            lv[key] = d
+        for (xx, yy) in ((x, y), (x + 1, y)):
+            if 0 < xx < lv['w']: lv['vEdge'][yy][xx] = 0
+        for (xx, yy) in ((x, y), (x, y + 1)):
+            if 0 < yy < lv['h']: lv['hEdge'][yy][xx] = 0
+        lv['solution'] = []
     else: raise ValueError('bilinmeyen işlem ' + k)
 
 
 def main(ops_file, out_file):
     base = {l['id']: l for l in json.load(open(BASE, encoding='utf-8'))['levels']}
+    import glob                                                   # SET40 v2 peak candidates (ZeydSet.Peaks)
+    for f in glob.glob('Logs/zdesign/zirve_[0-9]*x[0-9]*.json'):
+        base.update({l['id']: l for l in json.load(open(f, encoding='utf-8'))['levels']})
     drafts = json.load(open(ops_file, encoding='utf-8'))
     out = []
     for d in drafts:
