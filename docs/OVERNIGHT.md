@@ -1,3 +1,12 @@
+# Yeni 40'lık set — onay oturumu (21 Ekim 2026, Build 5z6)
+
+40 bölüm hazır: kolaydan zora, dinlenme bölümleri arada, birbirini tekrar eden bölüm yok. Tüm set `?set=redesign`'da. Önce yalnız şu 10'unu oyna:
+Zirveler: [29](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S29) · [35](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S35) · [37](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S37) · [40](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S40)
+Rastgele: [1](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S01) · [11](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S11) · [25](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S25) · [26](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S26) · [38](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S38) · [39](https://zeydusht.github.io/reverse-solver-unity/br/?debug=1&set=redesign&lv=S39)
+Bu sette puan sorusu çıkmıyor, kayıt da gitmiyor: her bölüm için 1–10'u bana yaz. Bitince söyle: akış ve sıra iyi mi, bir bölüm başka birine benzedi mi. (Zirveleri daha önce oynadın; tanıman normal.)
+
+---
+
 # Oturum 5 — 5 yeni bölüm (21 Ekim 2026, Build 5z5)
 
 Söylediklerine göre kuruldu: bomba artık tek bir süpürmeyle açılmıyor, "tek anahtar parça" anları korundu, süre sonda sıkışsın diye ayarlandı. Tahminler sen oynamadan dondu.
