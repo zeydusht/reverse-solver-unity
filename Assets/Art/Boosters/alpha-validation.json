@@ -1,0 +1,86 @@
+﻿[
+    {
+        "File":  "scissors.png",
+        "Width":  1254,
+        "Height":  1254,
+        "PixelFormat":  "Format32bppArgb",
+        "Alpha0":  1019259,
+        "Alpha255":  1409,
+        "PartialAlpha":  551848,
+        "BoundsAlphaGT16":  [
+                                78,
+                                130,
+                                1168,
+                                1172
+                            ],
+        "CornersAlpha":  [
+                             0,
+                             0,
+                             0,
+                             0
+                         ]
+    },
+    {
+        "File":  "wand.png",
+        "Width":  1254,
+        "Height":  1254,
+        "PixelFormat":  "Format32bppArgb",
+        "Alpha0":  1167776,
+        "Alpha255":  815,
+        "PartialAlpha":  403925,
+        "BoundsAlphaGT16":  [
+                                307,
+                                120,
+                                1049,
+                                1176
+                            ],
+        "CornersAlpha":  [
+                             0,
+                             0,
+                             0,
+                             0
+                         ]
+    },
+    {
+        "File":  "hammer.png",
+        "Width":  1254,
+        "Height":  1254,
+        "PixelFormat":  "Format32bppArgb",
+        "Alpha0":  1055068,
+        "Alpha255":  690,
+        "PartialAlpha":  516758,
+        "BoundsAlphaGT16":  [
+                                235,
+                                116,
+                                1115,
+                                1180
+                            ],
+        "CornersAlpha":  [
+                             0,
+                             0,
+                             0,
+                             0
+                         ]
+    },
+    {
+        "File":  "clock.png",
+        "Width":  1254,
+        "Height":  1254,
+        "PixelFormat":  "Format32bppArgb",
+        "Alpha0":  785277,
+        "Alpha255":  1071,
+        "PartialAlpha":  786168,
+        "BoundsAlphaGT16":  [
+                                174,
+                                89,
+                                1100,
+                                1160
+                            ],
+        "CornersAlpha":  [
+                             1,
+                             0,
+                             0,
+                             0
+                         ]
+    }
+]

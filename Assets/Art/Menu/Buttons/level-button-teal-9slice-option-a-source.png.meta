@@ -1,0 +1,522 @@
+fileFormatVersion: 2
+guid: 03f057120614daf47b0034b2f5bd228d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8852420983665179933
+    second: level-button-teal-9slice-option-a-source_0
+  - first:
+      213: 8906438055140423223
+    second: level-button-teal-9slice-option-a-source_1
+  - first:
+      213: -8718895192849928403
+    second: level-button-teal-9slice-option-a-source_2
+  - first:
+      213: 5003717768016754309
+    second: level-button-teal-9slice-option-a-source_3
+  - first:
+      213: 3684896507330317932
+    second: level-button-teal-9slice-option-a-source_4
+  - first:
+      213: 8199529277455511213
+    second: level-button-teal-9slice-option-a-source_5
+  - first:
+      213: 3800035484532909392
+    second: level-button-teal-9slice-option-a-source_6
+  - first:
+      213: -716931391649869268
+    second: level-button-teal-9slice-option-a-source_7
+  - first:
+      213: 2459837692028843291
+    second: level-button-teal-9slice-option-a-source_8
+  - first:
+      213: 5295515558135339970
+    second: level-button-teal-9slice-option-a-source_9
+  - first:
+      213: -5113033657861213477
+    second: level-button-teal-9slice-option-a-source_10
+  - first:
+      213: -3708784081958020737
+    second: level-button-teal-9slice-option-a-source_11
+  - first:
+      213: -7189583298274089952
+    second: level-button-teal-9slice-option-a-source_12
+  - first:
+      213: -2074611750944941132
+    second: level-button-teal-9slice-option-a-source_13
+  - first:
+      213: -7140359288434703811
+    second: level-button-teal-9slice-option-a-source_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2115
+        height: 744
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1db3958bfd1ada70800000000000000
+      internalID: 8852420983665179933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_1
+      rect:
+        serializedVersion: 2
+        x: 991
+        y: 698
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7367aaa09360a9b70800000000000000
+      internalID: 8906438055140423223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_2
+      rect:
+        serializedVersion: 2
+        x: 1001
+        y: 700
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2fa15c4403400780800000000000000
+      internalID: -8718895192849928403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_3
+      rect:
+        serializedVersion: 2
+        x: 1097
+        y: 696
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 586f2f69cc6c07540800000000000000
+      internalID: 5003717768016754309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_4
+      rect:
+        serializedVersion: 2
+        x: 817
+        y: 126
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6e408999d1632330800000000000000
+      internalID: 3684896507330317932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_5
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 122
+        width: 31
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: daea6245f649ac170800000000000000
+      internalID: 8199529277455511213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_6
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 126
+        width: 30
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 055a675c3207cb430800000000000000
+      internalID: 3800035484532909392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_7
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 136
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c221260a2b2fc06f0800000000000000
+      internalID: -716931391649869268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_8
+      rect:
+        serializedVersion: 2
+        x: 1632
+        y: 120
+        width: 23
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b15fe7e1959132220800000000000000
+      internalID: 2459837692028843291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_9
+      rect:
+        serializedVersion: 2
+        x: 1656
+        y: 140
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cb1631e7537d7940800000000000000
+      internalID: 5295515558135339970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_10
+      rect:
+        serializedVersion: 2
+        x: 1660
+        y: 123
+        width: 21
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd2f09a6afada09b0800000000000000
+      internalID: -5113033657861213477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_11
+      rect:
+        serializedVersion: 2
+        x: 1781
+        y: 131
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f79d4460780c78cc0800000000000000
+      internalID: -3708784081958020737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_12
+      rect:
+        serializedVersion: 2
+        x: 1176
+        y: 130
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 024aa4f0518793c90800000000000000
+      internalID: -7189583298274089952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_13
+      rect:
+        serializedVersion: 2
+        x: 1700
+        y: 130
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bb5312ba9f7533e0800000000000000
+      internalID: -2074611750944941132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-9slice-option-a-source_14
+      rect:
+        serializedVersion: 2
+        x: 1776
+        y: 130
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d324034fe0958ec90800000000000000
+      internalID: -7140359288434703811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      level-button-teal-9slice-option-a-source_0: 8852420983665179933
+      level-button-teal-9slice-option-a-source_1: 8906438055140423223
+      level-button-teal-9slice-option-a-source_10: -5113033657861213477
+      level-button-teal-9slice-option-a-source_11: -3708784081958020737
+      level-button-teal-9slice-option-a-source_12: -7189583298274089952
+      level-button-teal-9slice-option-a-source_13: -2074611750944941132
+      level-button-teal-9slice-option-a-source_14: -7140359288434703811
+      level-button-teal-9slice-option-a-source_2: -8718895192849928403
+      level-button-teal-9slice-option-a-source_3: 5003717768016754309
+      level-button-teal-9slice-option-a-source_4: 3684896507330317932
+      level-button-teal-9slice-option-a-source_5: 8199529277455511213
+      level-button-teal-9slice-option-a-source_6: 3800035484532909392
+      level-button-teal-9slice-option-a-source_7: -716931391649869268
+      level-button-teal-9slice-option-a-source_8: 2459837692028843291
+      level-button-teal-9slice-option-a-source_9: 5295515558135339970
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

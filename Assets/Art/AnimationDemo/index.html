@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reverse Solver — Koridor geçiş demosu</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#102a31;color:#f4e8cf;font:15px/1.5 system-ui,sans-serif;display:grid;place-items:center;padding:20px}.wrap{width:min(94vw,480px)}h1{font-size:20px;margin:0 0 8px}.note{margin:0 0 14px;color:#c6d8d5;font-size:13px}canvas{width:100%;display:block;border-radius:16px;box-shadow:0 16px 50px #07191ecc;background:#17363a}button{margin:12px 8px 0 0;border:1px solid #e3b65a;border-radius:999px;color:#fff;background:#087c81;padding:10px 20px;font:700 14px system-ui;cursor:pointer}#status{font-size:12px;color:#c6d8d5}
+</style>
+</head>
+<body><main class="wrap"><h1>Seviye kurtarma → sonraki koridor</h1><p class="note">2,8 saniyelik konsept animatik · koridor kamerası geri çekilir, Jiggle bize yaklaşır, Baron peşinden gelir.</p><canvas id="scene" width="480" height="720" aria-label="Jiggle ve Baron'un koştuğu koridor animasyonu"></canvas><button id="replay">Yeniden oynat</button><button id="export">WebM indir</button> <span id="status" aria-live="polite"></span></main>
+<script>
+const c=document.querySelector('#scene'),x=c.getContext('2d'),W=c.width,H=c.height;
+const load=(src)=>new Promise((ok,no)=>{const i=new Image;i.onload=()=>ok(i);i.onerror=no;i.src=src});
+Promise.all([load('../Menu/corridor-v04-source.png'),load('sprites/jiggle-run-01.png'),load('sprites/jiggle-run-02.png'),load('sprites/baron-run-01.png'),load('sprites/baron-run-02.png')]).then(([bg,j1,j2,b1,b2])=>{
+ let start=performance.now(),hold=false;const duration=2800;
+ function draw(now){if(hold)return;let t=((now-start)%duration)/duration;const ease=t*t*(3-2*t);x.clearRect(0,0,W,H);
+ // Geri çekilen kamera: seçili koridoru yumuşakça küçültüp yana kaydırır.
+ const s=1.06-.10*ease,bw=W*s,bh=H*s;x.drawImage(bg,(W-bw)/2+18*ease,(H-bh)/2-5*ease,bw,bh);
+ // Kayış hissi veren hafif yatay kamera hareketi ve zemin çizgisi.
+ x.fillStyle='rgba(16,42,49,.10)';x.fillRect(0,0,W,H);
+ const frame=t<.5?0:1;
+ const j=frame?j2:j1,b=frame?b2:b1;
+ // Kahraman öne doğru yaklaşır; Baron arkada ve daha küçük kalır.
+ const baronScale=.47+.03*Math.sin(t*18),heroScale=.56+.12*ease;
+ x.save();x.translate(303-22*ease,508+3*Math.sin(t*24));x.scale(baronScale,baronScale);x.drawImage(b,-150,-245,480,640);x.restore();
+ x.save();x.translate(215+8*ease,600+5*Math.sin(t*24+1));x.scale(heroScale,heroScale);x.drawImage(j,-250,-330,500,660);x.restore();
+ // Demo seviye etiketi; oyun verisi değildir.
+ const alpha=t<.72?1:Math.max(0,1-(t-.72)/.16);x.globalAlpha=alpha;x.fillStyle='rgba(13,47,53,.78)';x.beginPath();x.roundRect(18,20,172,38,18);x.fill();x.fillStyle='#f4e8cf';x.font='700 15px system-ui';x.fillText(t<.72?'BÖLÜM 12 KURTARILDI':'BÖLÜM 13',31,45);x.globalAlpha=1;
+ requestAnimationFrame(draw)}requestAnimationFrame(draw);
+ document.querySelector('#replay').onclick=()=>{start=performance.now();hold=false;requestAnimationFrame(draw)};
+ document.querySelector('#export').onclick=()=>{const status=document.querySelector('#status');if(!c.captureStream||!window.MediaRecorder){status.textContent='Bu tarayıcı WebM kaydını desteklemiyor; önizleme çalışmaya devam ediyor.';return}const types=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];const mime=types.find(t=>MediaRecorder.isTypeSupported(t));if(!mime){status.textContent='Bu tarayıcı WebM formatını desteklemiyor.';return}try{const stream=c.captureStream(20),chunks=[],rec=new MediaRecorder(stream,{mimeType:mime});rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};rec.onstop=()=>{const url=URL.createObjectURL(new Blob(chunks,{type:mime})),a=document.createElement('a');a.href=url;a.download='reverse-solver-koridor-gecisi-demo.webm';a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);stream.getTracks().forEach(track=>track.stop());status.textContent='2,8 saniyelik WebM indirildi.'};start=performance.now();rec.start();status.textContent='2,8 saniye kaydediliyor…';setTimeout(()=>{if(rec.state!=='inactive')rec.stop()},duration+60)}catch(e){status.textContent="WebM kaydi baslatilamadi: "+e.message}};
+}).catch(e=>{x.fillStyle='#fff';x.fillText('Görseller yüklenemedi: '+e,12,24)});
+</script></body></html>

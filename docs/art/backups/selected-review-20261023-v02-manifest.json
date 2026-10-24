@@ -1,0 +1,17 @@
+﻿[
+    {
+        "Path":  "Assets/Art/Review/Koridor/2.png",
+        "SHA256":  "94A16FB918B36C97B3B8881C78260E494F209A56C20FF1EE9B66D41249C43F0D",
+        "Bytes":  2217078
+    },
+    {
+        "Path":  "Assets/Art/Review/Ikon/1-safe-area.png",
+        "SHA256":  "138EBB14D58F29F2DBDD8F112FF4C3883BC78E9E18241EB9E6665E5661B830D0",
+        "Bytes":  1919610
+    },
+    {
+        "Path":  "Assets/Art/Review/Ikon/2-market-mavi-v01.png",
+        "SHA256":  "6D2250E6532265FEDF1BCAF2CF6562E5CD9CBED187CF8B2C9339AC6F2A2D4431",
+        "Bytes":  1987021
+    }
+]

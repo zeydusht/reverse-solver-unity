@@ -43,7 +43,7 @@ namespace ReverseSolver.Presentation
             if (piece != null)
             {
                 var glow = ShapeView.Create(piece.transform, "TargetGlow", new Vector2(S, S), 24, piece.SortingOrder - 1)
-                    .Radius(S * .12f).Fill(Draw.Rgba(240, 167, 66, 0)).Stroke(Draw.Rgba(240, 167, 66, .9f), 2.5f)
+                    .Radius(S * .12f).Fill(Draw.Rgba(240, 167, 66, 0)).Stroke(Draw.Rgba(240, 167, 66, .9f), 2.5f).Skin("tutorial-target-glow")
                     .Glow(Draw.Rgba(240, 167, 66, 1f), 16);
                 glow.transform.localPosition = Draw.W((cell.X + .5f) * S, (cell.Y + .5f) * S);
                 h._shapes.Add(glow);
@@ -72,7 +72,6 @@ namespace ReverseSolver.Presentation
             if (glove != null)
             {
                 // PM_MESAJ_8: upright (finger up, wrist down) until Codex's vertical export; fingertip on the piece
-                glove.transform.localRotation = Quaternion.Euler(0, 0, -90);
                 glove.transform.localPosition = Draw.W((cell.X + .5f) * S, (cell.Y + .5f) * S + S * .6f);
             }
             float u = S * .68f / 24f;
@@ -126,7 +125,7 @@ namespace ReverseSolver.Presentation
             }
             h.Apply(0);
             // PM_MESAJ_8: with the drawn glove, the vector arrow and glow go (one hand on screen)
-            if (glove != null) { arrow.gameObject.SetActive(false); if (h._glow != null) h._glow.gameObject.SetActive(false); }
+            if (glove != null) arrow.gameObject.SetActive(false);   // the glow stays: Codex's target glow
             return h;
         }
 

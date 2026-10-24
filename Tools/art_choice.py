@@ -28,6 +28,20 @@ for g in CHOICE: files.update(src(g))
 for n in ('bomb', 'nail', 'chain', 'wall'): files[f'icon-{n}.png'] = A + f'Gameplay/ObstacleIcons/{n}-128.png'
 for n in ('scissors', 'wand', 'hammer', 'clock'): files[f'icon-{n}.png'] = A + f'Gameplay/BoosterIcons/{n}-128.png'
 
+# Task 5 (one version): every Claude-drawn element; name = file name; 9-slice borders from Codex's manifest
+import json
+man = json.load(open(A + 'UI/Task5/manifest.json', encoding='utf-8'))
+borders = {}
+for it in man['assets']:
+    name = os.path.basename(it['path'])
+    if name in files: name = 'hud-' + name          # icon-clock (HUD) must not replace the booster's icon-clock
+    files[name] = it['path']
+    if it.get('slice'): borders[name] = it['slice']
+files['hand-swipe.png'] = A + 'TutorialHand/Exports/hand-swipe-vertical-288.png'    # vertical export (PM_MESAJ_8)
+files['hand-tap.png'] = A + 'TutorialHand/Exports/hand-tap-vertical-288.png'
+files['skin-body.png'] = A + 'PieceSkin/body-256.png'
+files['skin.json'] = A + 'PieceSkin/skin.json'
+json.dump(borders, open('Assets/_Game/Editor/art_borders.json', 'w'), indent=0)
 os.makedirs(OUT + 'audio', exist_ok=True)
 for dst, s in files.items():
     if not os.path.exists(s): print('EKSİK', s); continue

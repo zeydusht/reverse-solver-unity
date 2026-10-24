@@ -10,6 +10,12 @@ namespace ReverseSolver.Presentation
     public static class Art
     {
         public static bool On;
+        // settings (PM_MESAJ_9): sound on/off, kept in the browser between visits
+        public static bool Muted
+        {
+            get => PlayerPrefs.GetInt("rs_mute", 0) == 1;
+            set { PlayerPrefs.SetInt("rs_mute", value ? 1 : 0); PlayerPrefs.Save(); }
+        }
         static readonly Dictionary<string, Object> _cache = new Dictionary<string, Object>();
 
         static T Load<T>(string key) where T : Object
@@ -21,6 +27,14 @@ namespace ReverseSolver.Presentation
 
         public static Sprite Get(string key) => Load<Sprite>(key);
         public static AudioClip Sound(string key) => Load<AudioClip>("audio/" + key);
+
+        /* An icon sprite centred at c (pt); false when the art is off (draw the vector icon instead). */
+        public static bool Icon(Transform parent, string key, Vector2 c, float size, int order)
+        {
+            var r = Place(parent, key, new Vector2(size, size), order);
+            if (r != null) r.transform.localPosition = Draw.W(c);
+            return r != null;
+        }
 
         /* A sprite fitted inside size (pt), centred on the parent's origin; sliced sprites fill size exactly. */
         public static SpriteRenderer Place(Transform parent, string key, Vector2 size, int order, bool sliced = false)

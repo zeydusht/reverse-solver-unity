@@ -24,7 +24,14 @@ namespace ReverseSolver.EditorTools
                 a.ReadTextureSettings(st);
                 st.spriteMeshType = UnityEngine.SpriteMeshType.FullRect;    // needed for sliced drawing
                 a.SetTextureSettings(st);
+                if (assetPath.EndsWith("game-background.png")) a.maxTextureSize = 1024;   // 576x1024: compressible (1125 px is not a multiple of 4)
                 if (assetPath.EndsWith("/frame.png")) a.spriteBorder = new UnityEngine.Vector4(54, 54, 54, 54);
+                // Codex Task 5 borders (left, bottom, right, top px), written by Tools/art_choice.py from Codex's manifest
+                var m = System.Text.RegularExpressions.Regex.Match(System.IO.File.ReadAllText("Assets/_Game/Editor/art_borders.json"),
+                    "\"" + System.IO.Path.GetFileName(assetPath) + "\":" + @"\s*\[\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)");
+                if (m.Success)
+                    a.spriteBorder = new UnityEngine.Vector4(int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value),
+                                                             int.Parse(m.Groups[3].Value), int.Parse(m.Groups[4].Value));
                 if (assetPath.EndsWith("/button.png")) a.spriteBorder = new UnityEngine.Vector4(126, 42, 126, 42);
                 return;
             }

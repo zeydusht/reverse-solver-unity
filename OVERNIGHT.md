@@ -1,3 +1,11 @@
+# Önizleme 4 (gh-pages ecc6541, 25 Ekim 02:30) — yalnızca ?set=redesign; kök ve canlı 40 değişmedi
+- Bitti: PM_MESAJ_8 (sade menü + "Level X" tuşu, tek el, yükleme/isim ekranı) ve PM_MESAJ_9 (profil kutusu "Kurtarılan Jiggles", ayarlar/ses, bölüm başlangıç kartı, yıldız + konfeti).
+- Codex CLI ile Görev 4 (parça skin'i) ve 5/5b (89 PNG) yaptırıldı, hepsi bağlandı: üst bar, booster yuvaları, kartlar, düğmeler, tahta, sayaçlar, oyun arka planı.
+- Link: https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign (menü) · ilk zor + başlangıç kartı: https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S28
+- Zeyd onaylasın: Codex'in yapboz parça stili (koyu petrol kenar; inceleme: Assets/Art/PieceSkin/review.html), krem kart zemini, Level X tuşu.
+- Kalan Claude çizimi ~8: zincir ve duvarın tahtadaki çizimi, booster kilitli/tükendi halleri, bölüm listesi hücreleri, bomba sıcak parlaması, parça dokusu (yalnız kenar rengi uygulandı).
+- Verify yerel 7/7; boyut 8,94 MB (oyun arka planı 9 MB → 98 KB küçültüldü). Build 5 kök yayını Zeyd'in "tamam"ını bekliyor.
+
 # Önizleme 2 — Codex görselleri (gh-pages 76ae1dc, 24 Ekim 20:30), yalnızca ?set=redesign; kök ve canlı 40 değişmedi
 - Engel + booster ikonları, A seçenekleri (düğme, el, tanıtım/zor/kazanma/kaybetme görselleri, kart çerçevesi, tahta altlığı, sesler). A/B tek yerden: `Tools/art_choice.py` → build.
 - Aynı linkler (aşağıda). Telefon boyutunda (375×667) bomba sayacı ve booster ikonları okunuyor; çivi kartında artık çekiç değil çivi ikonu.

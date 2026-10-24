@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jiggles — Referans ve poz kontrolü</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#102d34;color:#f4e8cf}body{max-width:1500px;margin:auto;padding:24px}h1{font-size:clamp(24px,4vw,36px);margin:0 0 12px}p{line-height:1.55}.status{border-left:4px solid #e3b65a;background:#173f47;padding:12px 16px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:24px 0}figure{margin:0;background:#173f47;padding:12px;border-radius:12px}img{display:block;width:100%;height:auto;border-radius:6px}figcaption{padding-top:12px;line-height:1.5}a{color:#8be4d7}li{margin:10px 0;line-height:1.5}code{overflow-wrap:anywhere}@media(max-width:850px){.grid{grid-template-columns:1fr}body{padding:16px}}
+</style>
+</head>
+<body>
+<h1>Jiggles — Referans ve poz kontrolü</h1>
+<p class="status"><strong>İnceleme çıktısı — kullanıcı onayı bekleniyor.</strong> Yeni poz görseli, mevcut çalışma referansının yerine geçirilmedi. Bu sayfa yalnız karşılaştırma önizlemesidir; oyun entegrasyonu veya telefon testi değildir.</p>
+<div class="grid">
+<figure><a href="../../Characters/Jiggles-reference-v02.png"><img src="../../Characters/Jiggles-reference-v02.png" alt="Güncel Jiggles çalışma referansı: farklı görünüşler ve ifadeler"></a><figcaption><strong>Güncel çalışma referansı</strong><br><code>Assets/Art/Characters/Jiggles-reference-v02.png</code><br>Şekil, yüz ailesi, renkler ve malzeme için dayanak.</figcaption></figure>
+<figure><a href="1-poz-kontrol.png"><img src="1-poz-kontrol.png" alt="Aynı turkuaz Jiggle'ın yürüyüş, sevinç sıçraması ve şaşkınlık pozları"></a><figcaption><strong>Yeni poz kontrolü — onaysız</strong><br><code>Assets/Art/Review/Jiggles/1-poz-kontrol.png</code><br>Soldan sağa: doğal adım, sevinç sıçraması, hafif şaşkınlık.</figcaption></figure>
+</div>
+<h2>Sabit tasarım kuralları</h2>
+<ul>
+<li>Gövde düzenli kare tabanlıdır; köşe yuvarlaklıkları ve bağlantı ölçüleri tutarlıdır.</li>
+<li>Üst ve sağ çıkıntı ile sol oyuk, kendi kenarlarının tam ortasında kalır. Poz için gövde bütünü dönebilir; geometri eğriltilmez.</li>
+<li>Her Jiggle iki ayrı kol/el ve iki ayrı bacak/ayak taşır. Yapboz çıkıntısı sabit gövde geometrisidir; kol veya el değildir.</li>
+<li>Kollar alt ön gövdeden çıkar; eller ve bağlantılar birbirine karışmaz. Çıkıntı ve oyuklar görünür kalır.</li>
+<li>Seçilen animasyon filmi stili ve önceki normal neşeli yüz ailesi korunur. Saç, kıyafet ve iptal edilen ekstra tatlı/yalvaran ifade eklenmez.</li>
+<li>Bu görsel bir hareket/anatomi kontrolüdür; animasyon atlası, sprite veya piksel hassasiyetli teknik geometri dosyası değildir.</li>
+</ul>
+<p>Görseller değişmeden gösterilir. Büyük boyut için görsele tıklayabilirsiniz. Ayrıntılı bulgular: <code>docs/art/reports/JIGGLES_PARALLEL.md</code>.</p>
+</body>
+</html>
+

@@ -1,0 +1,522 @@
+fileFormatVersion: 2
+guid: 5203b90bc96fab94faa9c2b984fd39e4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 90066413602629070
+    second: option-a-glove-source-v01_0
+  - first:
+      213: 3725045587554984474
+    second: option-a-glove-source-v01_1
+  - first:
+      213: 2277002543924712489
+    second: option-a-glove-source-v01_2
+  - first:
+      213: 9115098598114567121
+    second: option-a-glove-source-v01_3
+  - first:
+      213: -4508266649020598234
+    second: option-a-glove-source-v01_4
+  - first:
+      213: 8156461821831634441
+    second: option-a-glove-source-v01_5
+  - first:
+      213: -456137441188302879
+    second: option-a-glove-source-v01_6
+  - first:
+      213: 2753686383829385301
+    second: option-a-glove-source-v01_7
+  - first:
+      213: 707785381522170342
+    second: option-a-glove-source-v01_8
+  - first:
+      213: 7669385895905215520
+    second: option-a-glove-source-v01_9
+  - first:
+      213: 6368740991253563566
+    second: option-a-glove-source-v01_10
+  - first:
+      213: -3229688898348007177
+    second: option-a-glove-source-v01_11
+  - first:
+      213: 4253736660709260797
+    second: option-a-glove-source-v01_12
+  - first:
+      213: 6850672945847515039
+    second: option-a-glove-source-v01_13
+  - first:
+      213: 5344560438852079877
+    second: option-a-glove-source-v01_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_0
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 53
+        width: 788
+        height: 774
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec56afc0deaff3100800000000000000
+      internalID: 90066413602629070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_1
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 588
+        width: 26
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a12e95ac93502b330800000000000000
+      internalID: 3725045587554984474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_2
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 639
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9241b47efb9899f10800000000000000
+      internalID: 2277002543924712489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_3
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 629
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d3a74191e55f7e70800000000000000
+      internalID: 9115098598114567121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_4
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 588
+        width: 54
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 628f2685e5b6f61c0800000000000000
+      internalID: -4508266649020598234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_5
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 636
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90e5f4aefc2913170800000000000000
+      internalID: 8156461821831634441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_6
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 0
+        width: 908
+        height: 867
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef2739f9697ba9f0800000000000000
+      internalID: -456137441188302879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_7
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 588
+        width: 46
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5500bfa2d2f073620800000000000000
+      internalID: 2753686383829385301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_8
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 620
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e1e7d2fd0f82d900800000000000000
+      internalID: 707785381522170342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_9
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 394
+        width: 67
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02442d296d12f6a60800000000000000
+      internalID: 7669385895905215520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_10
+      rect:
+        serializedVersion: 2
+        x: 701
+        y: 220
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea843224030526850800000000000000
+      internalID: 6368740991253563566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_11
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 195
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f0c1fefe07dd23d0800000000000000
+      internalID: -3229688898348007177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_12
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 27
+        width: 14
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfdb1a5a4fe480b30800000000000000
+      internalID: 4253736660709260797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_13
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 37
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f97be917fba721f50800000000000000
+      internalID: 6850672945847515039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: option-a-glove-source-v01_14
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 18
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50152660761bb2a40800000000000000
+      internalID: 5344560438852079877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      option-a-glove-source-v01_0: 90066413602629070
+      option-a-glove-source-v01_1: 3725045587554984474
+      option-a-glove-source-v01_10: 6368740991253563566
+      option-a-glove-source-v01_11: -3229688898348007177
+      option-a-glove-source-v01_12: 4253736660709260797
+      option-a-glove-source-v01_13: 6850672945847515039
+      option-a-glove-source-v01_14: 5344560438852079877
+      option-a-glove-source-v01_2: 2277002543924712489
+      option-a-glove-source-v01_3: 9115098598114567121
+      option-a-glove-source-v01_4: -4508266649020598234
+      option-a-glove-source-v01_5: 8156461821831634441
+      option-a-glove-source-v01_6: -456137441188302879
+      option-a-glove-source-v01_7: 2753686383829385301
+      option-a-glove-source-v01_8: 707785381522170342
+      option-a-glove-source-v01_9: 7669385895905215520
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

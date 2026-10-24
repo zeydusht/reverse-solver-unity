@@ -1,0 +1,834 @@
+fileFormatVersion: 2
+guid: f1bb2e43cc4209c419897ae8062d6d00
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3192875252435272127
+    second: level-button-teal-v01_0
+  - first:
+      213: 1814776330169381067
+    second: level-button-teal-v01_1
+  - first:
+      213: -6536638173109315646
+    second: level-button-teal-v01_2
+  - first:
+      213: -8636485276144838616
+    second: level-button-teal-v01_3
+  - first:
+      213: -1431392634840680
+    second: level-button-teal-v01_4
+  - first:
+      213: 1781509931819163559
+    second: level-button-teal-v01_5
+  - first:
+      213: -8625081163037586058
+    second: level-button-teal-v01_6
+  - first:
+      213: -8449828526771531051
+    second: level-button-teal-v01_7
+  - first:
+      213: -1850429307253497386
+    second: level-button-teal-v01_8
+  - first:
+      213: 2342749799367049609
+    second: level-button-teal-v01_9
+  - first:
+      213: -1700326006355055731
+    second: level-button-teal-v01_10
+  - first:
+      213: 3466212541318484168
+    second: level-button-teal-v01_11
+  - first:
+      213: 441714692186174624
+    second: level-button-teal-v01_12
+  - first:
+      213: 1625128149945176180
+    second: level-button-teal-v01_13
+  - first:
+      213: 3570485688788848349
+    second: level-button-teal-v01_14
+  - first:
+      213: -2746911969412505793
+    second: level-button-teal-v01_15
+  - first:
+      213: 5286349990141159257
+    second: level-button-teal-v01_16
+  - first:
+      213: -8826719771929855464
+    second: level-button-teal-v01_17
+  - first:
+      213: 2762077346433677347
+    second: level-button-teal-v01_18
+  - first:
+      213: -8819617511882422335
+    second: level-button-teal-v01_19
+  - first:
+      213: -6911734982373863268
+    second: level-button-teal-v01_20
+  - first:
+      213: 5922272016665122574
+    second: level-button-teal-v01_21
+  - first:
+      213: -4168826242568198208
+    second: level-button-teal-v01_22
+  - first:
+      213: -8447012545339200247
+    second: level-button-teal-v01_23
+  - first:
+      213: -7054191848962600732
+    second: level-button-teal-v01_24
+  - first:
+      213: 8798960939483616894
+    second: level-button-teal-v01_25
+  - first:
+      213: 982074803414574403
+    second: level-button-teal-v01_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: level-button-teal-v01_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 2075
+        height: 708
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14eb57edfd0a0b3d0800000000000000
+      internalID: -3192875252435272127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_1
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 697
+        width: 67
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc0788a05716f2910800000000000000
+      internalID: 1814776330169381067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_2
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 697
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c79f82d6323945a0800000000000000
+      internalID: -6536638173109315646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_3
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 697
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 828de7f366a052880800000000000000
+      internalID: -8636485276144838616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_4
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 698
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 899577ee72aeafff0800000000000000
+      internalID: -1431392634840680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_5
+      rect:
+        serializedVersion: 2
+        x: 787
+        y: 697
+        width: 101
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7af59e918d139b810800000000000000
+      internalID: 1781509931819163559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_6
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 689
+        width: 19
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67d4b3e316e8d4880800000000000000
+      internalID: -8625081163037586058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_7
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 697
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d212d859bd2cba80800000000000000
+      internalID: -8449828526771531051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_8
+      rect:
+        serializedVersion: 2
+        x: 1146
+        y: 697
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d1ee2b5954f156e0800000000000000
+      internalID: -1850429307253497386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_9
+      rect:
+        serializedVersion: 2
+        x: 1188
+        y: 698
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98104e4b78e138020800000000000000
+      internalID: 2342749799367049609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_10
+      rect:
+        serializedVersion: 2
+        x: 1249
+        y: 697
+        width: 29
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8b29d4818a3768e0800000000000000
+      internalID: -1700326006355055731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_11
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 699
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c0da4901f57a1030800000000000000
+      internalID: 3466212541318484168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_12
+      rect:
+        serializedVersion: 2
+        x: 1296
+        y: 689
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a4f3d71c29412600800000000000000
+      internalID: 441714692186174624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_13
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 696
+        width: 23
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47058fb217d9d8610800000000000000
+      internalID: 1625128149945176180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_14
+      rect:
+        serializedVersion: 2
+        x: 1349
+        y: 697
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dde00e311d9ec8130800000000000000
+      internalID: 3570485688788848349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_15
+      rect:
+        serializedVersion: 2
+        x: 1379
+        y: 699
+        width: 41
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3f16e91e1201e9d0800000000000000
+      internalID: -2746911969412505793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_16
+      rect:
+        serializedVersion: 2
+        x: 1483
+        y: 697
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 957e0c8ce43ec5940800000000000000
+      internalID: 5286349990141159257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_17
+      rect:
+        serializedVersion: 2
+        x: 1508
+        y: 699
+        width: 35
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81a34362221318580800000000000000
+      internalID: -8826719771929855464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_18
+      rect:
+        serializedVersion: 2
+        x: 2035
+        y: 697
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 328355466bed45620800000000000000
+      internalID: 2762077346433677347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_19
+      rect:
+        serializedVersion: 2
+        x: 2120
+        y: 121
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c70f6de99c6a9580800000000000000
+      internalID: -8819617511882422335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_20
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 64
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9017f947a59410a0800000000000000
+      internalID: -6911734982373863268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_21
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 46
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e079f888503203250800000000000000
+      internalID: 5922272016665122574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_22
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 56
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c76569ae9a5526c0800000000000000
+      internalID: -4168826242568198208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_23
+      rect:
+        serializedVersion: 2
+        x: 1275
+        y: 48
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90de9cd18de26ca80800000000000000
+      internalID: -8447012545339200247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_24
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 29
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e0d02953e97a1e90800000000000000
+      internalID: -7054191848962600732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_25
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 33
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7655760b503c1a70800000000000000
+      internalID: 8798960939483616894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: level-button-teal-v01_26
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 31
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 345236894d701ad00800000000000000
+      internalID: 982074803414574403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      level-button-teal-v01_0: -3192875252435272127
+      level-button-teal-v01_1: 1814776330169381067
+      level-button-teal-v01_10: -1700326006355055731
+      level-button-teal-v01_11: 3466212541318484168
+      level-button-teal-v01_12: 441714692186174624
+      level-button-teal-v01_13: 1625128149945176180
+      level-button-teal-v01_14: 3570485688788848349
+      level-button-teal-v01_15: -2746911969412505793
+      level-button-teal-v01_16: 5286349990141159257
+      level-button-teal-v01_17: -8826719771929855464
+      level-button-teal-v01_18: 2762077346433677347
+      level-button-teal-v01_19: -8819617511882422335
+      level-button-teal-v01_2: -6536638173109315646
+      level-button-teal-v01_20: -6911734982373863268
+      level-button-teal-v01_21: 5922272016665122574
+      level-button-teal-v01_22: -4168826242568198208
+      level-button-teal-v01_23: -8447012545339200247
+      level-button-teal-v01_24: -7054191848962600732
+      level-button-teal-v01_25: 8798960939483616894
+      level-button-teal-v01_26: 982074803414574403
+      level-button-teal-v01_3: -8636485276144838616
+      level-button-teal-v01_4: -1431392634840680
+      level-button-teal-v01_5: 1781509931819163559
+      level-button-teal-v01_6: -8625081163037586058
+      level-button-teal-v01_7: -8449828526771531051
+      level-button-teal-v01_8: -1850429307253497386
+      level-button-teal-v01_9: 2342749799367049609
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

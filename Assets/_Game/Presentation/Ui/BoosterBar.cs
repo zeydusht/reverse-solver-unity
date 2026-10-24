@@ -46,7 +46,7 @@ namespace ReverseSolver.Presentation
                 float cx = x0 + (int)b * 73;
                 var s = new Slot { B = b, Rect = new Rect(cx - 30, cy - 30, 60, 60) };
                 // .bst: radius 16, gradient #6ecbf5 -> #2b86cf, 3px white ring, 0 6px 13px rgba(0,0,0,.42)
-                s.Face = ShapeView.Create(_root, "bst", new Vector2(60, 60), 20, order).Radius(16)
+                s.Face = ShapeView.Create(_root, "bst", new Vector2(60, 60), 20, order).Radius(16).Skin("booster-normal", false)
                     .Stroke(Draw.Rgba(255, 255, 255, .92f), 3).Shadow(Draw.Rgba(0, 0, 0, .42f), 0, 6, 13)
                     .Inner(Draw.Rgba(0, 0, 0, .22f), -3, 6);
                 s.Face.transform.localPosition = Draw.W(cx, cy);
@@ -61,7 +61,7 @@ namespace ReverseSolver.Presentation
                 Icons.Draw(b.Id(), s.Glyph, 33, order + 2);
                 // .badge: 24px circle at top -8 right -8, gradient #63c2ef -> #2f8fd6, 3px white ring
                 var bc = new Vector2(cx + 30 - 4, cy - 30 + 4);
-                s.Badge = ShapeView.Create(_root, "badge", new Vector2(24, 24), 2, order + 3).Radius(12)
+                s.Badge = ShapeView.Create(_root, "badge", new Vector2(24, 24), 2, order + 3).Radius(12).Skin("booster-badge-stock", false)
                     .Gradient(Draw.Hex("#63c2ef"), Draw.Hex("#2f8fd6")).Stroke(Draw.Rgba(255, 255, 255, .92f), 3);
                 s.Badge.transform.localPosition = Draw.W(bc);
                 s.Count = TextView.Create(_root, "count", "", 12.5f, Draw.Hex("#ffffff"), order: order + 4);

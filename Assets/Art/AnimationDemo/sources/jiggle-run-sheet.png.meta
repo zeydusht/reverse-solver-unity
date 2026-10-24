@@ -1,0 +1,1172 @@
+fileFormatVersion: 2
+guid: 3f3013614d6b9ab499bad40768364b31
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1048027339324847942
+    second: jiggle-run-sheet_0
+  - first:
+      213: -5844777180495018591
+    second: jiggle-run-sheet_1
+  - first:
+      213: -748156447938837577
+    second: jiggle-run-sheet_2
+  - first:
+      213: 9206759500673181671
+    second: jiggle-run-sheet_3
+  - first:
+      213: 4692067672418923307
+    second: jiggle-run-sheet_4
+  - first:
+      213: 3796601277744523651
+    second: jiggle-run-sheet_5
+  - first:
+      213: 2075254013601600499
+    second: jiggle-run-sheet_6
+  - first:
+      213: -1594438885882343670
+    second: jiggle-run-sheet_7
+  - first:
+      213: 5936685343538020627
+    second: jiggle-run-sheet_8
+  - first:
+      213: -7854941738332203301
+    second: jiggle-run-sheet_9
+  - first:
+      213: -2666697346677549851
+    second: jiggle-run-sheet_10
+  - first:
+      213: -8474347835466643390
+    second: jiggle-run-sheet_11
+  - first:
+      213: 518363844056944597
+    second: jiggle-run-sheet_12
+  - first:
+      213: 4310109906281361006
+    second: jiggle-run-sheet_13
+  - first:
+      213: -4033442184053435373
+    second: jiggle-run-sheet_14
+  - first:
+      213: -8040061142885088930
+    second: jiggle-run-sheet_15
+  - first:
+      213: 3104930654428051116
+    second: jiggle-run-sheet_16
+  - first:
+      213: 7051481816550704572
+    second: jiggle-run-sheet_17
+  - first:
+      213: 1581325591046954879
+    second: jiggle-run-sheet_18
+  - first:
+      213: 5733351289657802256
+    second: jiggle-run-sheet_19
+  - first:
+      213: 3641670359421272368
+    second: jiggle-run-sheet_20
+  - first:
+      213: 6344684100377349826
+    second: jiggle-run-sheet_21
+  - first:
+      213: -4136419633053747710
+    second: jiggle-run-sheet_22
+  - first:
+      213: -855226948026958912
+    second: jiggle-run-sheet_23
+  - first:
+      213: 8908177148488206481
+    second: jiggle-run-sheet_24
+  - first:
+      213: -8185650273137261426
+    second: jiggle-run-sheet_25
+  - first:
+      213: -4638184801721163790
+    second: jiggle-run-sheet_26
+  - first:
+      213: 7307257386362930273
+    second: jiggle-run-sheet_27
+  - first:
+      213: 5424708707631401070
+    second: jiggle-run-sheet_28
+  - first:
+      213: 5992183977666640086
+    second: jiggle-run-sheet_29
+  - first:
+      213: 198577446630144989
+    second: jiggle-run-sheet_30
+  - first:
+      213: 2843075291027044750
+    second: jiggle-run-sheet_31
+  - first:
+      213: 680759416004023836
+    second: jiggle-run-sheet_32
+  - first:
+      213: -1685388189219497498
+    second: jiggle-run-sheet_33
+  - first:
+      213: 5280210177323470551
+    second: jiggle-run-sheet_34
+  - first:
+      213: 7186304855652652615
+    second: jiggle-run-sheet_35
+  - first:
+      213: 8958263575525321422
+    second: jiggle-run-sheet_36
+  - first:
+      213: -7105696208541706188
+    second: jiggle-run-sheet_37
+  - first:
+      213: 5801932314658648004
+    second: jiggle-run-sheet_38
+  - first:
+      213: -2779145147856584460
+    second: jiggle-run-sheet_39
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: jiggle-run-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 0
+        width: 813
+        height: 1004
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab805a400b8a471f0800000000000000
+      internalID: -1048027339324847942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 959
+        width: 67
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a5094d0f1e23eea0800000000000000
+      internalID: -5844777180495018591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 961
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b3003caca30e95f0800000000000000
+      internalID: -748156447938837577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 977
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e7e3128cfaf4cf70800000000000000
+      internalID: 9206759500673181671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 662
+        y: 975
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b23bf9c30b29d1140800000000000000
+      internalID: 4692067672418923307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 967
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 389a1c13fbc30b430800000000000000
+      internalID: 3796601277744523651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 946
+        width: 29
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f35d6bb788cccc10800000000000000
+      internalID: 2075254013601600499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 990
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0fc9eee74a6fd9e0800000000000000
+      internalID: -1594438885882343670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_8
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 25
+        width: 685
+        height: 977
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3110ad4bdd7536250800000000000000
+      internalID: 5936685343538020627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_9
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 969
+        width: 30
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd6d1533b14adf290800000000000000
+      internalID: -7854941738332203301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_10
+      rect:
+        serializedVersion: 2
+        x: 854
+        y: 933
+        width: 25
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e4dec754ecfdfad0800000000000000
+      internalID: -2666697346677549851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 885
+        width: 67
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24809ebea81156a80800000000000000
+      internalID: -8474347835466643390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_12
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 895
+        width: 25
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5df8b657b29913700800000000000000
+      internalID: 518363844056944597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_13
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 863
+        width: 59
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6eeac2bf1690db30800000000000000
+      internalID: 4310109906281361006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_14
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 929
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3145b6524b55608c0800000000000000
+      internalID: -4033442184053435373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_15
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 882
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e51c9e51df6fb6090800000000000000
+      internalID: -8040061142885088930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_16
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 893
+        width: 19
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca6b765cafde61b20800000000000000
+      internalID: 3104930654428051116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_17
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 831
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb581af0a55ebd160800000000000000
+      internalID: 7051481816550704572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_18
+      rect:
+        serializedVersion: 2
+        x: 744
+        y: 657
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7f96903f3ff1f510800000000000000
+      internalID: 1581325591046954879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_19
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 476
+        width: 7
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01eb4901f94f09f40800000000000000
+      internalID: 5733351289657802256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_20
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 271
+        width: 37
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 031cf52c5efc98230800000000000000
+      internalID: 3641670359421272368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_21
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 223
+        width: 29
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ce8f0fd298dc0850800000000000000
+      internalID: 6344684100377349826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_22
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 302
+        width: 35
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20631e9624c7896c0800000000000000
+      internalID: -4136419633053747710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_23
+      rect:
+        serializedVersion: 2
+        x: 798
+        y: 268
+        width: 23
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cbf2883f9f9124f0800000000000000
+      internalID: -855226948026958912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_24
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 227
+        width: 47
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19844e34be330ab70800000000000000
+      internalID: 8908177148488206481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_25
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 243
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e84031e227ab66e80800000000000000
+      internalID: -8185650273137261426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_26
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 239
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ff5bca3f7bd1afb0800000000000000
+      internalID: -4638184801721163790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_27
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 215
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 164038c90e7986560800000000000000
+      internalID: 7307257386362930273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_28
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 162
+        width: 25
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e68865804df684b40800000000000000
+      internalID: 5424708707631401070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_29
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 127
+        width: 6
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d87b996493882350800000000000000
+      internalID: 5992183977666640086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 73
+        width: 5
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddb3bc6b22d71c200800000000000000
+      internalID: 198577446630144989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_31
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 78
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e897b57f9e1a47720800000000000000
+      internalID: 2843075291027044750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_32
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 63
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c161c60051b827900800000000000000
+      internalID: 680759416004023836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_33
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 53
+        width: 15
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e9dee81f5c4c98e0800000000000000
+      internalID: -1685388189219497498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_34
+      rect:
+        serializedVersion: 2
+        x: 926
+        y: 54
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7de84c63e23174940800000000000000
+      internalID: 5280210177323470551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_35
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 65
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74657d80132eab360800000000000000
+      internalID: 7186304855652652615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_36
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 15
+        width: 9
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecae18f4245225c70800000000000000
+      internalID: 8958263575525321422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_37
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 23
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 438180822fe736d90800000000000000
+      internalID: -7105696208541706188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_38
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 35
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cfa61243ba948050800000000000000
+      internalID: 5801932314658648004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jiggle-run-sheet_39
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 33
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f002ca663e7e69d0800000000000000
+      internalID: -2779145147856584460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      jiggle-run-sheet_0: -1048027339324847942
+      jiggle-run-sheet_1: -5844777180495018591
+      jiggle-run-sheet_10: -2666697346677549851
+      jiggle-run-sheet_11: -8474347835466643390
+      jiggle-run-sheet_12: 518363844056944597
+      jiggle-run-sheet_13: 4310109906281361006
+      jiggle-run-sheet_14: -4033442184053435373
+      jiggle-run-sheet_15: -8040061142885088930
+      jiggle-run-sheet_16: 3104930654428051116
+      jiggle-run-sheet_17: 7051481816550704572
+      jiggle-run-sheet_18: 1581325591046954879
+      jiggle-run-sheet_19: 5733351289657802256
+      jiggle-run-sheet_2: -748156447938837577
+      jiggle-run-sheet_20: 3641670359421272368
+      jiggle-run-sheet_21: 6344684100377349826
+      jiggle-run-sheet_22: -4136419633053747710
+      jiggle-run-sheet_23: -855226948026958912
+      jiggle-run-sheet_24: 8908177148488206481
+      jiggle-run-sheet_25: -8185650273137261426
+      jiggle-run-sheet_26: -4638184801721163790
+      jiggle-run-sheet_27: 7307257386362930273
+      jiggle-run-sheet_28: 5424708707631401070
+      jiggle-run-sheet_29: 5992183977666640086
+      jiggle-run-sheet_3: 9206759500673181671
+      jiggle-run-sheet_30: 198577446630144989
+      jiggle-run-sheet_31: 2843075291027044750
+      jiggle-run-sheet_32: 680759416004023836
+      jiggle-run-sheet_33: -1685388189219497498
+      jiggle-run-sheet_34: 5280210177323470551
+      jiggle-run-sheet_35: 7186304855652652615
+      jiggle-run-sheet_36: 8958263575525321422
+      jiggle-run-sheet_37: -7105696208541706188
+      jiggle-run-sheet_38: 5801932314658648004
+      jiggle-run-sheet_39: -2779145147856584460
+      jiggle-run-sheet_4: 4692067672418923307
+      jiggle-run-sheet_5: 3796601277744523651
+      jiggle-run-sheet_6: 2075254013601600499
+      jiggle-run-sheet_7: -1594438885882343670
+      jiggle-run-sheet_8: 5936685343538020627
+      jiggle-run-sheet_9: -7854941738332203301
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

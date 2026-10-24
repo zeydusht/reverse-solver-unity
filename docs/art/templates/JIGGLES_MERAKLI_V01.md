@@ -1,0 +1,15 @@
+# Jiggles — meraklı ifade demosu v01
+
+Theme / Meraklı ve umutlu sürü
+Scene / Yukarı bakan, ellerini çene altında toplayan üç Jiggle
+Characters (from cast) / Turkuaz, mercan ve lavanta; iki saç teli bu denemede geçici tercih
+Environment / Petrol fon, krem zemin
+Composition notes (logo space, safe area) / Tam gövdeler, açık bağlantı siluetleri, yazısız
+Style card ref / STYLE_CARD.md v0.2 + merkezleme ve uzuv ayrımı
+
+Araç: yerleşik image_gen. Girdi 1: Jiggles/2-ortali-v01.png (tasarım). Girdi 2: References/minions.png (yalnız duygu/oyunculuk). Çıktı: Assets/Art/Ornekler/JigglesTatlilik/4-merakli-v01.png.
+
+Tam prompt:
+
+Use case: stylized-concept. New original Reverse Solver Jiggles emotional acting demo. Input 1 is PRIMARY character design, color, material and precise centered jigsaw geometry reference. Input 2 is EMOTION ONLY reference: borrow the innocent upward gaze, tiny pursed mouth, pleading clasped hands and group reaction; DO NOT transfer its character design, goggles, clothes, yellow capsule bodies. Render three original living square jigsaw tile creatures in turquoise, coral and lavender, different heights, full bodies and feet visible, loosely grouped but not overlapping silhouettes, gentle three-quarter camera. Rich premium animated-feature 3D, soft satin vinyl with subtle fine surface, warm cinematic lighting, defocused teal studio backdrop and cream floor. Cute hopeful curious reaction, all looking up toward a point above camera: luminous brown irises, ivory sclera, softened expressive eyebrows, SMALL closed slightly puckered mouths, NOT broad toothy grins. Two tiny short darker-body-colored hairs on the top puzzle tab as a provisional option, not yet canonical. CRITICAL ANATOMY: each character has exactly TWO distinct arms with hands and TWO legs with feet. Its jigsaw connectors are NOT limbs. Each square tile body has top circular tab centered exactly at x50%, right circular tab centered exactly at y50%, left circular concave socket centered exactly at y50%, flat bottom and equal rounded corners. BOTH arms originate on the FRONT FACE of the tile at the LOWER left and right quadrants, BELOW connector level, visibly separate from every side edge, tab and socket. Bring both forearms inward and upward across the front of the torso and clasp tiny rounded hands beneath the mouth. No arm raised out to side. All fixed side connectors and sockets must remain completely visible and bare, unbroken and round. Clear visible separation between shoulder roots and connectors, never a hand/arm sprouting from a puzzle tab, never tab becoming fingers. Feet on two short separate legs under flat bottom. Keep square regular centered geometry even in posed bodies. A charming gentle lean of entire body allowed but don't distort body shape. Square polished illustration, no text, logos, watermark, UI, clothing, goggles or accessories. Style card v0.2, centered geometry and limb-separation rule. Focus on genuinely innocent small-mouth appeal rather than copying known characters.
+

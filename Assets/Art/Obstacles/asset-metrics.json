@@ -1,0 +1,66 @@
+﻿[
+    {
+        "File":  "bomb.png",
+        "Width":  1024,
+        "Height":  1024,
+        "SourceWidth":  1254,
+        "SourceHeight":  1254,
+        "TransparentPixels":  747208,
+        "OpaquePixels":  1480,
+        "PartialAlphaPixels":  299888,
+        "BoundsAlphaAbove8":  [
+                                  197,
+                                  148,
+                                  813,
+                                  864
+                              ]
+    },
+    {
+        "File":  "nail.png",
+        "Width":  1024,
+        "Height":  1024,
+        "SourceWidth":  1254,
+        "SourceHeight":  1254,
+        "TransparentPixels":  872244,
+        "OpaquePixels":  1427,
+        "PartialAlphaPixels":  174905,
+        "BoundsAlphaAbove8":  [
+                                  161,
+                                  260,
+                                  877,
+                                  753
+                              ]
+    },
+    {
+        "File":  "chain.png",
+        "Width":  1024,
+        "Height":  1024,
+        "SourceWidth":  1774,
+        "SourceHeight":  887,
+        "TransparentPixels":  956592,
+        "OpaquePixels":  1676,
+        "PartialAlphaPixels":  90308,
+        "BoundsAlphaAbove8":  [
+                                  181,
+                                  433,
+                                  851,
+                                  621
+                              ]
+    },
+    {
+        "File":  "wall.png",
+        "Width":  1024,
+        "Height":  1024,
+        "SourceWidth":  2172,
+        "SourceHeight":  724,
+        "TransparentPixels":  944744,
+        "OpaquePixels":  1406,
+        "PartialAlphaPixels":  102426,
+        "BoundsAlphaAbove8":  [
+                                  205,
+                                  431,
+                                  820,
+                                  608
+                              ]
+    }
+]

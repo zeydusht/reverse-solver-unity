@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="216" viewBox="0 0 600 216">
+  <defs><linearGradient id="rim" x2="0" y2="1"><stop stop-color="#17606a"/><stop offset="1" stop-color="#073541"/></linearGradient><linearGradient id="gold" x2="0" y2="1"><stop stop-color="#f4bd40"/><stop offset=".35" stop-color="#e99c20"/><stop offset="1" stop-color="#bd6416"/></linearGradient></defs>
+  <rect x="22" y="34" width="556" height="166" rx="68" fill="url(#rim)" stroke="#062f39" stroke-width="8"/>
+  <rect x="43" y="38" width="514" height="133" rx="53" fill="url(#gold)" stroke="#f8d879" stroke-width="5"/>
+  <path d="M83 60 Q96 49 122 49 H478 Q504 49 517 60 Q522 66 523 73 H77 Q78 66 83 60Z" fill="#fff2b8" opacity=".34"/>
+</svg>

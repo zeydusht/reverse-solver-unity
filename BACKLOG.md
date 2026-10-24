@@ -54,6 +54,9 @@ Kurallar:
 | Kayıp "kilit" görseli bağlanmadı: oyunda bu kayıp türü yok (yalnızca bomba / süre) | ⛔ | |
 | Zincir ve duvar tahtada hâlâ çizim (ikonlar kartlarda); #12, #15–19 playtest sonrası | ⛔ | |
 | verify fps: makinede 30 FPS sınırı (24 Ekim akşam, build bağımsız) — tekrar ölçülecek | ⛔ | |
+| Önizleme 4 (ecc6541): Codex Görev 4–5 bağlandı; profil, ayarlar, başlangıç kartı, yıldız/konfeti (PM_MESAJ_8–9) | ✅ | |
+| Kalan Claude çizimi ~8 (zincir, duvar, booster halleri, bölüm listesi, parça dokusu) → sıradaki Codex/bağlama turu | 🔜 | ~2 sa |
+| Codex CLI çalışıyor (`codex exec -s workspace-write`); görevleri ben veriyorum | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

@@ -29,6 +29,7 @@ Shader "ReverseSolver/Piece"
         _Glow ("Glow amount (0..1)", Float) = 0
         _Flash ("Brightness flash (0..1)", Float) = 0
         _Alpha ("Opacity", Float) = 1
+        _Rim ("Outer rim colour (sRGB) and amount", Vector) = (1, 1, 1, 0.84)
         _Image ("Board image (sRGB)", 2D) = "white" {}
         _BoardCells ("Board size in cells (w, h)", Vector) = (1, 1, 0, 0)
         _ImageMix ("Image amount (0..1)", Float) = 0
@@ -61,7 +62,7 @@ Shader "ReverseSolver/Piece"
 
             CBUFFER_START(UnityPerMaterial)
                 float _PtToUnit, _Lift, _Gray, _Glow, _Flash, _Alpha, _ImageMix;
-                float4 _GlowColor, _BoardCells, _Image_ST;
+                float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
             CBUFFER_END
             TEXTURE2D(_Image);
             SAMPLER(sampler_Image);
@@ -150,7 +151,7 @@ Shader "ReverseSolver/Piece"
                 float cDark  = saturate(0.5 - dDark / aa);
                 float cFill  = saturate(0.5 - dFill / aa);
 
-                float4 col = float4(1, 1, 1, 1) * (0.84 * cWhite);
+                float4 col = float4(_Rim.rgb, 1) * (_Rim.a * cWhite);   // white rim; Codex skin: dark outline
                 col = over(float4(darkC, 1) * cDark, col);
                 col = over(float4(fill, 1) * cFill, col);
 

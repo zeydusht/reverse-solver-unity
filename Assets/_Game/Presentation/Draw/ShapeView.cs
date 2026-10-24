@@ -29,6 +29,14 @@ namespace ReverseSolver.Presentation
             return s;
         }
 
+        /* Preview art (Art.On): Codex's picture replaces this drawn shape; it is a child, so it follows the
+           shape's later position. Nothing changes when the art is off or the file is missing. */
+        public ShapeView Skin(string key, bool sliced = true)
+        {
+            if (Art.Place(transform, key, Size, _r.sortingOrder, sliced) != null) _r.enabled = false;
+            return this;
+        }
+
         void Init(Vector2 size, float pad, int order)
         {
             _r = GetComponent<MeshRenderer>();

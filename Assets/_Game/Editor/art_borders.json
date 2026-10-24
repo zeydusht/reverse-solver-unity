@@ -1,0 +1,158 @@
+{
+"hud-pill-normal.png": [
+69,
+24,
+69,
+24
+],
+"hud-pill-hot.png": [
+69,
+24,
+69,
+24
+],
+"primary-normal.png": [
+33,
+33,
+33,
+33
+],
+"primary-pressed.png": [
+33,
+33,
+33,
+33
+],
+"secondary-normal.png": [
+33,
+33,
+33,
+33
+],
+"secondary-pressed.png": [
+33,
+33,
+33,
+33
+],
+"popup-card.png": [
+54,
+54,
+54,
+54
+],
+"board-tray.png": [
+60,
+60,
+60,
+60
+],
+"progress-track.png": [
+9,
+0,
+9,
+0
+],
+"progress-fill.png": [
+9,
+0,
+9,
+0
+],
+"toast.png": [
+42,
+18,
+42,
+18
+],
+"tutorial-target-glow.png": [
+42,
+42,
+42,
+42
+],
+"result-picture-frame.png": [
+18,
+18,
+18,
+18
+],
+"rating-normal.png": [
+24,
+24,
+24,
+24
+],
+"rating-selected.png": [
+24,
+24,
+24,
+24
+],
+"rating-pressed.png": [
+24,
+24,
+24,
+24
+],
+"name-input-normal.png": [
+33,
+33,
+33,
+33
+],
+"name-input-focus.png": [
+33,
+33,
+33,
+33
+],
+"profile-normal.png": [
+156,
+36,
+36,
+36
+],
+"profile-pressed.png": [
+156,
+36,
+36,
+36
+],
+"settings-row-on.png": [
+30,
+30,
+30,
+30
+],
+"settings-row-off.png": [
+30,
+30,
+30,
+30
+],
+"level-header-normal.png": [
+60,
+60,
+60,
+60
+],
+"level-header-hard.png": [
+60,
+60,
+60,
+60
+],
+"play-normal.png": [
+72,
+72,
+72,
+72
+],
+"play-pressed.png": [
+72,
+72,
+72,
+72
+]
+}

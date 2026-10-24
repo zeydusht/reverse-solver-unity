@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+ <defs><linearGradient id="f" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#83d8ce"/><stop offset=".52" stop-color="#36afa9"/><stop offset="1" stop-color="#167d83"/></linearGradient><linearGradient id="hi" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".72"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><filter id="s" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur stdDeviation="5"/></filter></defs>
+ <g transform="translate(18 18) scale(.86)">
+ <path d="M38 43 H91 C92 24 108 12 128 12 S164 24 165 43 H218 Q230 43 230 55 V111 C249 112 256 127 256 145 S249 178 230 179 V231 Q230 243 218 243 H38 Q26 243 26 231 V55 Q26 43 38 43Z" transform="translate(0 4)" fill="#143f4a" opacity=".28" filter="url(#s)"/>
+ <path d="M38 35 H91 C92 16 108 5 128 5 S164 16 165 35 H218 Q230 35 230 47 V103 C249 104 256 119 256 137 S249 170 230 171 V223 Q230 235 218 235 H38 Q26 235 26 223 V47 Q26 35 38 35Z" fill="url(#f)" stroke="#0c4b58" stroke-width="8" stroke-linejoin="round"/>
+ <path d="M43 46 H94 C96 29 109 20 128 20 S161 29 162 46 H213 Q218 46 218 52 V108 C236 111 244 121 244 137 S236 163 218 166 V218 Q218 224 212 224 H44 Q38 224 38 218 V52 Q38 46 43 46Z" fill="none" stroke="url(#hi)" stroke-width="5" stroke-linejoin="round"/>
+ <path d="M49 56 H86 Q94 33 126 31 Q159 33 168 56 H204" fill="none" stroke="#e5fff7" stroke-width="8" stroke-linecap="round" opacity=".32"/>
+ </g>
+</svg>

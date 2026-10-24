@@ -35,9 +35,10 @@ namespace ReverseSolver.Presentation
         public sealed class Menu
         {
             public readonly Transform Root;
-            public Rect Play, Levels;
+            public Rect Play, Levels, Settings;
 
-            public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false)
+            public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false,
+                        string player = null, int saved = 0)
             {
                 Root = new GameObject("Menu").transform;
                 Root.SetParent(parent, false);
@@ -58,6 +59,21 @@ namespace ReverseSolver.Presentation
                     // (Royal Match style, ~200x72 pt); no title, text, panel or emblem, no level list button
                     const float bw = 200f, bh = 72f;
                     Play = Button(Root, new Vector2(cx, screen.y - safe.w - 28 - bh / 2), bw, $"Level {nextNumber}", true, order, bh, 26);
+                    // PM_MESAJ_9: profile box top left (a Jiggle avatar, rescued count), settings gear top right
+                    float top = safe.y + 12;
+                    var box = ShapeView.Create(Root, "profile", new Vector2(160, 52), 4, order).Radius(16)
+                        .Fill(Draw.Rgba(14, 42, 46, .8f)).Skin("profile-normal");
+                    box.transform.localPosition = Draw.W(16 + 80, top + 26);
+                    Art.Icon(Root, "avatar", new Vector2(16 + 26, top + 26), 44, order + 1);
+                    TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 13, Draw.Hex("#fff4da"), true, TMPro.TextAlignmentOptions.Left, order + 1)
+                        .transform.localPosition = Draw.W(16 + 54, top + 18);
+                    TextView.Create(Root, "saved", string.Format(Texts.Saved, saved), 10, Draw.Hex("#d5e4df"), false, TMPro.TextAlignmentOptions.Left, order + 1)
+                        .transform.localPosition = Draw.W(16 + 54, top + 36);
+                    float gx = screen.x - 16 - 23;
+                    var gear = ShapeView.Create(Root, "settings", new Vector2(46, 46), 4, order).Radius(23)
+                        .Fill(Draw.Rgba(14, 42, 46, .8f)).Skin("settings-normal", false);
+                    gear.transform.localPosition = Draw.W(gx, top + 26);
+                    Settings = new Rect(gx - 23, top + 3, 46, 46);
                     return;
                 }
 
@@ -87,7 +103,7 @@ namespace ReverseSolver.Presentation
         static Rect Button(Transform root, Vector2 c, float w, string label, bool primary, int order, float h = 46, float font = 15)
         {
             var b = ShapeView.Create(root, "btn", new Vector2(w, h), 2, order).Radius(11);
-            var art = primary ? Art.Place(root, "button", new Vector2(w, h), order, sliced: true) : null;   // preview art (#3)
+            var art = primary ? Art.Place(root, h > 46 ? "play-normal" : "primary-normal", new Vector2(w, h), order, sliced: true) : null;   // preview art (#3, Task 5)
             if (art != null) { art.transform.localPosition = Draw.W(c); b.Fill(new Vector4(0, 0, 0, 0)); }
             else if (primary) b.Fill(Draw.Hex("#f0a742"));
             else b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1);
@@ -213,6 +229,11 @@ namespace ReverseSolver.Presentation
                     // .stars: 32px, gap 9; .off at .2 opacity
                     for (int i = 0; i < 3; i++)
                     {
+                        if (Art.Icon(root, i < stars ? "star-full" : "star-empty", new Vector2((i - 1) * 41, y + 16), 34, o))
+                        {
+                            if (i < stars) PopStar(root.GetChild(root.childCount - 1), i, o, won);
+                            continue;
+                        }
                         var star = SolidView.Polygon(root, "star", SolidView.Star(15, 6.4f),
                             i < stars ? Draw.Hex("#f0a742") : Draw.Rgba(255, 255, 255, .2f), o);
                         star.transform.localPosition = Draw.W((i - 1) * 41, y + 16);
@@ -245,7 +266,7 @@ namespace ReverseSolver.Presentation
 
         public static Card Intro(Transform parent, Vector2 screen, LevelData l, int order)
         {
-            if (l.BoosterIntro == null && l.Intro == null) return HardWarning(parent, screen, order);
+            if (l.BoosterIntro == null && l.Intro == null) return Art.On ? StartCard(parent, screen, l, order) : HardWarning(parent, screen, order);
             bool booster = l.BoosterIntro != null;
             var info = booster ? l.BoosterIntro : l.Intro;
             string icon = booster ? info.Id : (info.Icon ?? "hammer");
@@ -258,6 +279,43 @@ namespace ReverseSolver.Presentation
                 .Body(info.Body ?? "", gapAfter: string.IsNullOrEmpty(info.Tip) ? 18 : 6);
             if (!string.IsNullOrEmpty(info.Tip)) c.Body(info.Tip, Draw.Hex("#f0a742"));
             return c.Button("ok", "Anladım", true).Finish();
+        }
+
+        /* PM_MESAJ_9 win polish: earned stars grow in one after another, with a burst; confetti on a win. */
+        static void PopStar(Transform star, int i, int order, bool won)
+        {
+            var end = star.localScale;
+            star.localScale = Vector3.zero;
+            float delay = .25f + i * .3f;
+            Tweens.Run(star, delay + .35f, t =>
+            {
+                if (star == null) return;
+                float u = Mathf.Clamp01((t * (delay + .35f) - delay) / .35f);
+                star.localScale = end * Tweens.Tick(u);
+            });
+            if (i == 0 && won) Confetti(star.parent, order);
+        }
+
+        static void Confetti(Transform root, int order)
+        {
+            var rng = new System.Random();
+            for (int k = 0; k < 24; k++)
+            {
+                var r = Art.Place(root, "confetti-" + (1 + k % 6), new Vector2(12, 12), order + 5);
+                if (r == null) return;
+                var p = r.transform;
+                Vector3 from = Draw.W((float)(rng.NextDouble() - .5) * 300, -60 - (float)rng.NextDouble() * 80);
+                Vector3 to = from + Draw.W((float)(rng.NextDouble() - .5) * 80, 420);
+                float spin = (float)(rng.NextDouble() - .5) * 720;
+                p.localPosition = from;
+                Tweens.Run(p, 1.6f + (float)rng.NextDouble() * .6f, t =>
+                {
+                    if (p == null) return;
+                    p.localPosition = Vector3.Lerp(from, to, t);
+                    p.localRotation = Quaternion.Euler(0, 0, spin * t);
+                    r.color = new Color(1, 1, 1, 1 - t * t);
+                });
+            }
         }
 
         /* A preview-art picture row on top of a card (nothing when the art is off or missing). */
@@ -273,7 +331,40 @@ namespace ReverseSolver.Presentation
             });
         }
 
-        public static bool HasIntro(LevelData l) => l.BoosterIntro != null || l.Intro != null || l.Hard;
+        public static bool HasIntro(LevelData l) => l.BoosterIntro != null || l.Intro != null || l.Hard || Art.On && l.Tutorial == 0;
+
+        /* PM_MESAJ_9 level start card (preview art only): "Level X" ribbon (gold on hard levels), the goal, the
+           level's obstacles, the hard warning when flagged, Başla. The timer still starts on the first move. */
+        public static Card StartCard(Transform parent, Vector2 screen, LevelData l, int order)
+        {
+            var c = new Card(parent, screen, order, "Intro");
+            c.Custom(70, (root, y, w, o) =>
+            {
+                var r = Art.Place(root, l.Hard ? "level-header-hard" : "level-header-normal", new Vector2(w, 60), o + 2, sliced: true);
+                if (r != null) r.transform.localPosition = Draw.W(0, y + 30);
+                TextView.Create(root, "level", string.Format(Texts.Level, l.Number), 24, Draw.Hex("#fff4da"), true, order: o + 3)
+                    .transform.localPosition = Draw.W(0, y + 30);
+            });
+            c.Custom(52, (root, y, w, o) =>
+            {
+                Art.Icon(root, "goal-jiggle", new Vector2(-w / 2 + 22, y + 22), 40, o + 2);
+                TextView.Create(root, "goal", Texts.Goal, 16, Card.Ink(Draw.Hex("#eaf3f2"), "#123f46"), true, TMPro.TextAlignmentOptions.Left, o + 2)
+                    .transform.localPosition = Draw.W(-w / 2 + 52, y + 22);
+            });
+            var obstacles = new List<string>();
+            if (l.Nails.Count > 0) obstacles.Add("nail");
+            if (l.Bombs.Count > 0) obstacles.Add("bomb");
+            if (l.CellCount > l.Pieces.Count) obstacles.Add("chain");
+            if (l.Sealed != null && l.Sealed.Count > 0) obstacles.Add("wall");
+            if (obstacles.Count > 0)
+                c.Custom(48, (root, y, w, o) =>
+                {
+                    for (int i = 0; i < obstacles.Count; i++)
+                        Art.Icon(root, "icon-" + obstacles[i], new Vector2((i - (obstacles.Count - 1) / 2f) * 50, y + 20), 40, o + 2);
+                });
+            if (l.Hard) c.Body(Texts.HardBody, Draw.Hex("#f0a742"));
+            return c.Button("ok", Texts.HardStart, true).Finish();
+        }
 
         /* SET40 v3: the "zor bölüm" warning (a level with the hard flag and no other card). The timer
            still starts on the first move, after "Başla". */

@@ -1,0 +1,27 @@
+﻿[
+    {
+        "path":  "Assets/Art/Review/Koridor/2-ortali-yan-blok-v04.png",
+        "bytes":  1988542,
+        "sha256":  "37569DCE01CC72E4CA9A6F0171A77A571C0D789824AD7EAC66E6740528D72FDD"
+    },
+    {
+        "path":  "Assets/Art/Review/Ikon/2-market-mavi-v01.png",
+        "bytes":  1987021,
+        "sha256":  "6D2250E6532265FEDF1BCAF2CF6562E5CD9CBED187CF8B2C9339AC6F2A2D4431"
+    },
+    {
+        "path":  "Assets/Art/Characters/Jiggles-reference-v02.png",
+        "bytes":  1781940,
+        "sha256":  "622833B345EBA33A5910A2FC730841CC0E7B4A473C49540B078A4EE909A74A8A"
+    },
+    {
+        "path":  "Assets/Art/Characters/Baron-reference-v01.png",
+        "bytes":  2034257,
+        "sha256":  "0495427A5547BC24EC1D2C984CE305113EB1ECAEFE88D7B0ED784A0E20611949"
+    },
+    {
+        "path":  "Assets/Art/Ornekler/Baron/3.png",
+        "bytes":  2212949,
+        "sha256":  "A043A81B7FABAFB4A747A246DA0F833B189559C8E88B500C0A99939DB2356000"
+    }
+]

@@ -244,11 +244,22 @@ namespace ReverseSolver.Presentation
             if (_session.Level.Tutorial == 1 || done == 0) _bar?.Notice(done == 0 ? Texts.TutorialFirst : Texts.TutorialNext, 2.5f);
         }
 
+        /* PM_MESAJ_9 profile box: every piece of a won level is a rescued Jiggle. */
+        int SavedJiggles()
+        {
+            int n = 0;
+            for (int i = 0; i < _set.Levels.Count; i++) if (_progress.Won(i)) n += _set.Levels[i].Pieces.Count;
+            return n;
+        }
+
+        void OpenSettings() => OpenCard("settings", new Card(_world, _screen, CardOrder, "Settings").Title(Texts.Settings)
+            .Button("sound", Art.Muted ? Texts.SoundOff : Texts.SoundOn, false).Button("close", Texts.Close, true).Finish());
+
         AudioSource _audio;
         void PlaySound(string key)
         {
             var clip = Art.Sound(key);
-            if (clip == null) return;
+            if (clip == null || Art.Muted) return;
             if (_audio == null) _audio = gameObject.AddComponent<AudioSource>();
             _audio.PlayOneShot(clip);
         }
@@ -314,7 +325,7 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Menu)
             {
-                _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt);
+                _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles());
             }
             else
             {
@@ -376,6 +387,15 @@ namespace ReverseSolver.Presentation
             var r = go.AddComponent<MeshRenderer>();
             r.sharedMaterial = Materials.Background;
             r.sortingOrder = -1000;
+            // Codex Task 5 game background, cover-fitted over the drawn gradient (preview art only)
+            var art = Art.Place(go.transform, "game-background", Vector2.one, -999);
+            if (art != null)
+            {
+                var sz = art.sprite.bounds.size;
+                float k = Mathf.Max(_screen.x / sz.x, _screen.y / sz.y);
+                art.transform.localScale = new Vector3(k, k, 1);
+                art.transform.localPosition = Draw.W(_screen.x / 2, _screen.y / 2);
+            }
             var b = new MaterialPropertyBlock();
             b.SetVector("_Screen", _screen);
             r.SetPropertyBlock(b);
@@ -514,6 +534,14 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Menu)
             {
+                if (_card != null && _cardKind == "settings")
+                {
+                    string sid = _card.HitButton(pt);
+                    if (sid == "sound") { Art.Muted = !Art.Muted; OpenSettings(); }
+                    else if (sid != null) CloseCard();
+                    return;
+                }
+                if (_menu.Settings.Contains(pt)) { OpenSettings(); return; }
                 if (_menu.Play.Contains(pt)) StartLevel(_progress.Next());
                 else if (_menu.Levels.Contains(pt)) OpenList();
                 return;

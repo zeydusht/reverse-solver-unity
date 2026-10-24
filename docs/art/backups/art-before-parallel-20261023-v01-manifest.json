@@ -1,0 +1,252 @@
+﻿[
+    {
+        "Path":  "Assets\\Art\\Characters\\Baron-reference-v01.png",
+        "SHA256":  "0495427A5547BC24EC1D2C984CE305113EB1ECAEFE88D7B0ED784A0E20611949",
+        "Bytes":  2034257
+    },
+    {
+        "Path":  "Assets\\Art\\Characters\\Jiggles-reference-v01.png",
+        "SHA256":  "7831D1CD14C243231FE6FF04E44A2D3A81C3BAD5E305F490715ABAC9024E90AC",
+        "Bytes":  1947364
+    },
+    {
+        "Path":  "Assets\\Art\\Characters\\Jiggles-reference-v02.png",
+        "SHA256":  "622833B345EBA33A5910A2FC730841CC0E7B4A473C49540B078A4EE909A74A8A",
+        "Bytes":  1781940
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\01-jiggles-v01.png",
+        "SHA256":  "064C9A51843CACF1C720DBCC8B255591FD3A2F0B02BA74CA8C760B39D9F54E6D",
+        "Bytes":  1770114
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\02-koridor-v01.png",
+        "SHA256":  "2ADDB7B99D7318541B68E2F21B24B5032582B8F1966E5D200F8415FAEA5F64E7",
+        "Bytes":  2160606
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Baron\\1.png",
+        "SHA256":  "BB875B50FEECFFF6FDC45748976F468D5615966B4D468495BC5350160D4D92DE",
+        "Bytes":  2045677
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Baron\\2.png",
+        "SHA256":  "D82D3715C30F627ECD3FBA96CF4C52791C5D49C0CDF484C977015F6374944188",
+        "Bytes":  2147131
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Baron\\3.png",
+        "SHA256":  "A043A81B7FABAFB4A747A246DA0F833B189559C8E88B500C0A99939DB2356000",
+        "Bytes":  2212949
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Ikon\\1.png",
+        "SHA256":  "DFB556F42ADEF9B8F2D27348DB6098AEC3BF39AACF223558B01E6334365ACCFB",
+        "Bytes":  2030196
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Ikon\\2.png",
+        "SHA256":  "C8057E6FC74D4210DEADA734F4358EE22EAD9CA12255A31EB2983D457F7B8652",
+        "Bytes":  2086173
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Ikon\\3.png",
+        "SHA256":  "638926706EB5E2EA70CB1917F7DABCCA10B98D56196B147D374BBC97AD36CFA3",
+        "Bytes":  2027013
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Ikon\\4-uc-jiggles-v02.png",
+        "SHA256":  "0DF9A2286A771F7490FD2B43CB146B386ADF2E430BC9584BC6422C8BA5A182C2",
+        "Bytes":  2056813
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Ikon\\4.png",
+        "SHA256":  "8EA05C2BE6B277D73AACD7F9CB1A441C9FBE4BC1E4AF254E94BC9726B934982E",
+        "Bytes":  2182913
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Jiggles\\1.png",
+        "SHA256":  "064C9A51843CACF1C720DBCC8B255591FD3A2F0B02BA74CA8C760B39D9F54E6D",
+        "Bytes":  1770114
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Jiggles\\2.png",
+        "SHA256":  "3DEC07FE9A5790D51C8FA0801E75522B7AE217F5DB430F76A364171C52E83481",
+        "Bytes":  1775395
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Jiggles\\3.png",
+        "SHA256":  "5AD28A27EE912E3865200F5C2CC7D64267CEDC02F808AB2682EE33C4362D8525",
+        "Bytes":  1754434
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Jiggles\\4.png",
+        "SHA256":  "57B034070FFEE1BA3027023DCE80D61E172B4141CF9FEDB96655EB2CF3E55146",
+        "Bytes":  1761503
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Jiggles\\5.png",
+        "SHA256":  "8FE740BD378041E1B15E37F205C9582FBCBA2897EADFFDF4BECDB56973A5D0DB",
+        "Bytes":  1780574
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\JigglesTatlilik\\1.png",
+        "SHA256":  "CC27C5649146E6BA922D7F2E7E31703A1545B76875CA122D8816F6C5D948D3AC",
+        "Bytes":  1928837
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\JigglesTatlilik\\2.png",
+        "SHA256":  "28CA80B4B0D9BA23459CF37D9EAE49029C31851B980C03ED4B03E3E2B0E670BC",
+        "Bytes":  1885398
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\JigglesTatlilik\\3.png",
+        "SHA256":  "A40E75876B520B4537AAB179F81912543F28454F11093AFE258B736559D738F9",
+        "Bytes":  1895014
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\JigglesTatlilik\\4-merakli-v01.png",
+        "SHA256":  "CAA55BADAE5C6504E5A28867BF40460651E6E3B9B0787A8BCF5C6BAB25238849",
+        "Bytes":  1919480
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\JigglesTatlilik\\5-tulum-v01.png",
+        "SHA256":  "B07271AFB6DE0EEDBC5A02728EA9C91E462C81FB96D12CCFD8B22DA1EBBB02C8",
+        "Bytes":  1866480
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Koridor\\1.png",
+        "SHA256":  "2ADDB7B99D7318541B68E2F21B24B5032582B8F1966E5D200F8415FAEA5F64E7",
+        "Bytes":  2160606
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Koridor\\2.png",
+        "SHA256":  "12EF27B68E23485120BCA31FA68D56E496BD3FAFA55E0F5D123D0FACFFCEC408",
+        "Bytes":  2138675
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Koridor\\3.png",
+        "SHA256":  "6ECA52C71E4BB02E4664B93F988F6C3D6453300FEBF088280014922E0540586F",
+        "Bytes":  2225133
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Koridor\\4.png",
+        "SHA256":  "6C293A6C635C13FE144F594B3C30AD5CA053006BB9FA8EF11CECA40D6F2E498D",
+        "Bytes":  2169002
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\Koridor\\5.png",
+        "SHA256":  "7CF77AFC139918886894B54A0DADF8CB4083C9581F31449DCFA60E1677A7C8A3",
+        "Bytes":  2191595
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Jiggles\\1.png",
+        "SHA256":  "C09F1CB69999A776BB851735ADD95D6303A5A3FA423D055CAC4AE0652DE79695",
+        "Bytes":  1941972
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Jiggles\\2-ortali-v01.png",
+        "SHA256":  "16E5F974CDD5D8DE667C6DA6A53367DCD1E26E80A2D5515953C128B434F043DE",
+        "Bytes":  1810383
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Jiggles\\2.png",
+        "SHA256":  "7CA597FC02C1CF29AD1D13FDE9F0C682A8239473B64E366292792078EADB75E4",
+        "Bytes":  2013852
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Jiggles\\3.png",
+        "SHA256":  "6C0F0F8BD4E6D81DBB1B45BED43F949A9AC289CC9EBC9225BC26CB60A5ED8603",
+        "Bytes":  1898648
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Jiggles\\4.png",
+        "SHA256":  "BAA5F21CF2EFD5A558BB4553DB468BFD6D0186321B412273E645715BDFAC284C",
+        "Bytes":  2058120
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Jiggles\\5.png",
+        "SHA256":  "115906BEA54AF43BD901D9B3F1BD9D94592F808E6BB8FBD29794664CDF51AD84",
+        "Bytes":  1924214
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Koridor\\1.png",
+        "SHA256":  "83484D2A882CC8F11B16A4E07EEDF4DC62749621692D849F0E3E9010BFB7DDFA",
+        "Bytes":  2052045
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Koridor\\2.png",
+        "SHA256":  "CBD15DEC2D497EE013CE8734D1F170AFA3FE6C646AFD748FD04488C8CED2BC61",
+        "Bytes":  2392860
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Koridor\\3.png",
+        "SHA256":  "A5DB551696FECB3FABBC4ED9DF8AE78DACBF402ECA7784A65B50B4B46E24EC92",
+        "Bytes":  2115907
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Koridor\\4.png",
+        "SHA256":  "1A0769BD3166CD579059734E243DC8289C2014A6DB9352AB0B5CFE2F4BE3FFD8",
+        "Bytes":  2366666
+    },
+    {
+        "Path":  "Assets\\Art\\Ornekler\\StilAdaylari\\Koridor\\5.png",
+        "SHA256":  "201780DFA1EA0B7A03F1EF827EA0FF6198B92131CF065E0B663FD484ADF42263",
+        "Bytes":  2364296
+    },
+    {
+        "Path":  "Assets\\Art\\References\\minions.png",
+        "SHA256":  "1DC45BB0BB1C629B0CB970EB2603C59556A8B08FAFE8AD122114269D51DBED2E",
+        "Bytes":  952302
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.52 (1).jpeg",
+        "SHA256":  "C77F5F5C239E6E982E6B5ACD46EB5B0042F506BC70DEF707D548A0E0734DAA21",
+        "Bytes":  300194
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.52 (2).jpeg",
+        "SHA256":  "C2CFCEC408F621657301419F77B8CBA808985A92B3063931079857BBE777C9FC",
+        "Bytes":  235585
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.52 (3).jpeg",
+        "SHA256":  "66EFE434D39EA2CC01BB9E239EDDDEC7EFA54432C139537000D7F3E0CC5FC19F",
+        "Bytes":  233334
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.52 (4).jpeg",
+        "SHA256":  "2414D335BB9700B0915993F37AC17D6A0B9354256C17853B9900012281A3793C",
+        "Bytes":  265776
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.52 (5).jpeg",
+        "SHA256":  "817A7190713F425FDB9EC6C4EE4C2C9A25B810688D03A493A475BE623A17EF00",
+        "Bytes":  267192
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.52 (6).jpeg",
+        "SHA256":  "09FAC936D9F9AD47A18627C19BA441F57F850D83345767E1B3EE24518059DEC9",
+        "Bytes":  289597
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.52 (7).jpeg",
+        "SHA256":  "68D82E52336756884425D1464C44904E14E6C5B4EBFBCD1523BE9FAF99C2B2A3",
+        "Bytes":  322419
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.52 (8).jpeg",
+        "SHA256":  "907DBAD8832E7F20A2C0D8C0FC0BE0DBB5C0367E929E8682D90467A5BB8CB6B6",
+        "Bytes":  405661
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.52.jpeg",
+        "SHA256":  "13DD3BC89C3C7A2A95BEA213E6DA3DF01FA7C389B2B5368E30AF2B39C7E5AB21",
+        "Bytes":  387545
+    },
+    {
+        "Path":  "Assets\\Art\\References\\WhatsApp Image 2026-10-23 at 18.34.53.jpeg",
+        "SHA256":  "99EA810ABD615236838931DD043717F7590B27555AE1618D5E6273E5ED66D01F",
+        "Bytes":  281401
+    }
+]

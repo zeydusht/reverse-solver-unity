@@ -57,7 +57,8 @@ namespace ReverseSolver.Presentation
                 .Shadow(Draw.Rgba(3, 14, 16, .6f), 0, 22, 44);
             tray.transform.localPosition = Draw.W(W / 2, H / 2);
             // preview art (#13): wooden board base, gold on hard levels; stretched to the tray with a frame margin
-            var baseArt = Art.Place(transform, l.Hard ? "board-hard" : "board", Vector2.one, TrayOrder + 1);
+            tray.Skin("board-tray");                                       // Codex Task 5 tray; gold frame on hard levels
+            var baseArt = l.Hard ? Art.Place(transform, "board-hard", Vector2.one, TrayOrder + 1) : null;
             if (baseArt != null)
             {
                 var sz = baseArt.sprite.bounds.size;
@@ -69,7 +70,7 @@ namespace ReverseSolver.Presentation
             for (int y = 0; y < l.Height; y++)
                 for (int x = 0; x < l.Width; x++)
                 {
-                    var slot = ShapeView.Create(transform, "Slot", new Vector2(S, S), 2, SlotOrder)
+                    var slot = ShapeView.Create(transform, "Slot", new Vector2(S, S), 2, SlotOrder).Skin("cell-slot", false)
                         .Radius(4).Fill(Draw.Rgba(4, 20, 23, .42f)).Inner(Draw.Rgba(0, 0, 0, .5f), 2, 3);
                     slot.transform.localPosition = Draw.W((x + .5f) * S, (y + .5f) * S);
                 }

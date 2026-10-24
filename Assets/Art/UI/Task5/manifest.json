@@ -1,0 +1,1031 @@
+{
+  "version": 1,
+  "scale": 3,
+  "sliceOrder": "left,bottom,right,top (Unity px)",
+  "origin": "PNG top-left; Unity border order as specified",
+  "veil": {
+    "id": 36,
+    "color": "#19252D",
+    "opacity": 0.9
+  },
+  "skin": "Assets/Art/PieceSkin/skin.json",
+  "assets": [
+    {
+      "name": "level-badge",
+      "width": 156,
+      "height": 156,
+      "path": "Assets/Art/Gameplay/Task5/level-badge.png",
+      "id": 27,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "hud-pill-normal",
+      "width": 354,
+      "height": 138,
+      "path": "Assets/Art/Gameplay/Task5/hud-pill-normal.png",
+      "id": 28,
+      "slice": [
+        69,
+        24,
+        69,
+        24
+      ],
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "hud-pill-hot",
+      "width": 354,
+      "height": 138,
+      "path": "Assets/Art/Gameplay/Task5/hud-pill-hot.png",
+      "id": 28,
+      "slice": [
+        69,
+        24,
+        69,
+        24
+      ],
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "reset-normal",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/Gameplay/Task5/reset-normal.png",
+      "id": 29,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "reset-pressed",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/Gameplay/Task5/reset-pressed.png",
+      "id": 29,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "booster-normal",
+      "width": 180,
+      "height": 180,
+      "path": "Assets/Art/Gameplay/Task5/booster-normal.png",
+      "id": 30,
+      "slice": null,
+      "tile": null,
+      "note": "İkon ayrı katman; locked kilit içerir."
+    },
+    {
+      "name": "booster-empty",
+      "width": 180,
+      "height": 180,
+      "path": "Assets/Art/Gameplay/Task5/booster-empty.png",
+      "id": 30,
+      "slice": null,
+      "tile": null,
+      "note": "İkon ayrı katman; locked kilit içerir."
+    },
+    {
+      "name": "booster-locked",
+      "width": 180,
+      "height": 180,
+      "path": "Assets/Art/Gameplay/Task5/booster-locked.png",
+      "id": 30,
+      "slice": null,
+      "tile": null,
+      "note": "İkon ayrı katman; locked kilit içerir."
+    },
+    {
+      "name": "booster-out",
+      "width": 180,
+      "height": 180,
+      "path": "Assets/Art/Gameplay/Task5/booster-out.png",
+      "id": 30,
+      "slice": null,
+      "tile": null,
+      "note": "İkon ayrı katman; locked kilit içerir."
+    },
+    {
+      "name": "booster-badge-stock",
+      "width": 72,
+      "height": 72,
+      "path": "Assets/Art/Gameplay/Task5/booster-badge-stock.png",
+      "id": 31,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "booster-badge-lock",
+      "width": 72,
+      "height": 72,
+      "path": "Assets/Art/Gameplay/Task5/booster-badge-lock.png",
+      "id": 31,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "primary-normal",
+      "width": 888,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/primary-normal.png",
+      "id": 32,
+      "slice": [
+        33,
+        33,
+        33,
+        33
+      ],
+      "tile": null,
+      "note": "#20–25 ortak düğme"
+    },
+    {
+      "name": "primary-pressed",
+      "width": 888,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/primary-pressed.png",
+      "id": 32,
+      "slice": [
+        33,
+        33,
+        33,
+        33
+      ],
+      "tile": null,
+      "note": "#20–25 ortak düğme"
+    },
+    {
+      "name": "secondary-normal",
+      "width": 888,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/secondary-normal.png",
+      "id": 33,
+      "slice": [
+        33,
+        33,
+        33,
+        33
+      ],
+      "tile": null,
+      "note": "#20–25 ortak düğme"
+    },
+    {
+      "name": "secondary-pressed",
+      "width": 888,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/secondary-pressed.png",
+      "id": 33,
+      "slice": [
+        33,
+        33,
+        33,
+        33
+      ],
+      "tile": null,
+      "note": "#20–25 ortak düğme"
+    },
+    {
+      "name": "close-normal",
+      "width": 108,
+      "height": 108,
+      "path": "Assets/Art/UI/Task5/close-normal.png",
+      "id": 34,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "close-pressed",
+      "width": 108,
+      "height": 108,
+      "path": "Assets/Art/UI/Task5/close-pressed.png",
+      "id": 34,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "popup-card",
+      "width": 1020,
+      "height": 720,
+      "path": "Assets/Art/UI/Task5/popup-card.png",
+      "id": 35,
+      "slice": [
+        54,
+        54,
+        54,
+        54
+      ],
+      "tile": null,
+      "note": "#20–25 ortak kart; yükseklik dilimlenir"
+    },
+    {
+      "name": "icon-tile",
+      "width": 156,
+      "height": 156,
+      "path": "Assets/Art/UI/Task5/icon-tile.png",
+      "id": 37,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "board-tray",
+      "width": 1020,
+      "height": 1020,
+      "path": "Assets/Art/Gameplay/Task5/board-tray.png",
+      "id": 38,
+      "slice": [
+        60,
+        60,
+        60,
+        60
+      ],
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "cell-slot",
+      "width": 228,
+      "height": 228,
+      "path": "Assets/Art/Gameplay/Task5/cell-slot.png",
+      "id": 39,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "wall-repeat",
+      "width": 96,
+      "height": 18,
+      "path": "Assets/Art/Gameplay/Task5/wall-repeat.png",
+      "id": 40,
+      "slice": null,
+      "tile": "x",
+      "note": "96 px periyot; karşı kenarlar eşit; uç kapak yok"
+    },
+    {
+      "name": "chain-cable",
+      "width": 96,
+      "height": 34,
+      "path": "Assets/Art/Gameplay/Task5/chain-cable.png",
+      "id": 41,
+      "slice": null,
+      "tile": "x",
+      "note": ""
+    },
+    {
+      "name": "chain-link",
+      "width": 62,
+      "height": 40,
+      "path": "Assets/Art/Gameplay/Task5/chain-link.png",
+      "id": 41,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "chain-disc-1",
+      "width": 46,
+      "height": 46,
+      "path": "Assets/Art/Gameplay/Task5/chain-disc-1.png",
+      "id": 41,
+      "slice": null,
+      "tile": null,
+      "note": "ChainView.Tints #ffcc4d"
+    },
+    {
+      "name": "chain-disc-2",
+      "width": 46,
+      "height": 46,
+      "path": "Assets/Art/Gameplay/Task5/chain-disc-2.png",
+      "id": 41,
+      "slice": null,
+      "tile": null,
+      "note": "ChainView.Tints #5fe0d0"
+    },
+    {
+      "name": "chain-disc-3",
+      "width": 46,
+      "height": 46,
+      "path": "Assets/Art/Gameplay/Task5/chain-disc-3.png",
+      "id": 41,
+      "slice": null,
+      "tile": null,
+      "note": "ChainView.Tints #ff8fb8"
+    },
+    {
+      "name": "chain-disc-4",
+      "width": 46,
+      "height": 46,
+      "path": "Assets/Art/Gameplay/Task5/chain-disc-4.png",
+      "id": 41,
+      "slice": null,
+      "tile": null,
+      "note": "ChainView.Tints #9ecbff"
+    },
+    {
+      "name": "nail-counter",
+      "width": 51,
+      "height": 51,
+      "path": "Assets/Art/Gameplay/Task5/nail-counter.png",
+      "id": 42,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "bomb-counter-normal",
+      "width": 51,
+      "height": 51,
+      "path": "Assets/Art/Gameplay/Task5/bomb-counter-normal.png",
+      "id": 43,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "bomb-counter-hot",
+      "width": 51,
+      "height": 51,
+      "path": "Assets/Art/Gameplay/Task5/bomb-counter-hot.png",
+      "id": 43,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "star-full",
+      "width": 84,
+      "height": 84,
+      "path": "Assets/Art/UI/Task5/star-full.png",
+      "id": 44,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "star-empty",
+      "width": 84,
+      "height": 84,
+      "path": "Assets/Art/UI/Task5/star-empty.png",
+      "id": 44,
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "star-filling-glow",
+      "width": 84,
+      "height": 84,
+      "path": "Assets/Art/UI/Task5/star-filling-glow.png",
+      "id": 44,
+      "slice": null,
+      "tile": null,
+      "note": "Dolumda alpha/scale ile kullanılır"
+    },
+    {
+      "name": "progress-track",
+      "width": 540,
+      "height": 18,
+      "path": "Assets/Art/UI/Task5/progress-track.png",
+      "id": 45,
+      "slice": [
+        9,
+        0,
+        9,
+        0
+      ],
+      "tile": null,
+      "note": "Dolgu maskeyle kırpılır; #25 ile ortak"
+    },
+    {
+      "name": "progress-fill",
+      "width": 540,
+      "height": 18,
+      "path": "Assets/Art/UI/Task5/progress-fill.png",
+      "id": 45,
+      "slice": [
+        9,
+        0,
+        9,
+        0
+      ],
+      "tile": null,
+      "note": "Dolgu maskeyle kırpılır; #25 ile ortak"
+    },
+    {
+      "name": "toast",
+      "width": 600,
+      "height": 84,
+      "path": "Assets/Art/UI/Task5/toast.png",
+      "id": 46,
+      "slice": [
+        42,
+        18,
+        42,
+        18
+      ],
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "level-cell-open",
+      "width": 146,
+      "height": 146,
+      "path": "Assets/Art/UI/Task5/level-cell-open.png",
+      "id": 47,
+      "slice": null,
+      "tile": null,
+      "note": "Sayı dinamik; #20 ile ortak"
+    },
+    {
+      "name": "level-cell-locked",
+      "width": 146,
+      "height": 146,
+      "path": "Assets/Art/UI/Task5/level-cell-locked.png",
+      "id": 47,
+      "slice": null,
+      "tile": null,
+      "note": "Sayı dinamik; #20 ile ortak"
+    },
+    {
+      "name": "level-cell-complete",
+      "width": 146,
+      "height": 146,
+      "path": "Assets/Art/UI/Task5/level-cell-complete.png",
+      "id": 47,
+      "slice": null,
+      "tile": null,
+      "note": "Sayı dinamik; #20 ile ortak"
+    },
+    {
+      "name": "level-cell-next",
+      "width": 146,
+      "height": 146,
+      "path": "Assets/Art/UI/Task5/level-cell-next.png",
+      "id": 47,
+      "slice": null,
+      "tile": null,
+      "note": "Sayı dinamik; #20 ile ortak"
+    },
+    {
+      "name": "tutorial-target-glow",
+      "width": 228,
+      "height": 228,
+      "path": "Assets/Art/Gameplay/Task5/tutorial-target-glow.png",
+      "id": 48,
+      "slice": [
+        42,
+        42,
+        42,
+        42
+      ],
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "icon-piece",
+      "width": 48,
+      "height": 48,
+      "path": "Assets/Art/Gameplay/Task5/icon-piece.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "icon-clock",
+      "width": 48,
+      "height": 48,
+      "path": "Assets/Art/Gameplay/Task5/icon-clock.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "icon-reset",
+      "width": 51,
+      "height": 51,
+      "path": "Assets/Art/Gameplay/Task5/icon-reset.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "icon-lock",
+      "width": 42,
+      "height": 42,
+      "path": "Assets/Art/Gameplay/Task5/icon-lock.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "icon-reset-pressed",
+      "width": 51,
+      "height": 51,
+      "path": "Assets/Art/Gameplay/Task5/icon-reset-pressed.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "icon-lock-card",
+      "width": 90,
+      "height": 90,
+      "path": "Assets/Art/UI/Task5/icon-lock-card.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "result-picture-frame",
+      "width": 888,
+      "height": 592,
+      "path": "Assets/Art/UI/Task5/result-picture-frame.png",
+      "id": "5b",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ],
+      "tile": null,
+      "note": "Merkez tamamen şeffaf"
+    },
+    {
+      "name": "rating-normal",
+      "width": 78,
+      "height": 108,
+      "path": "Assets/Art/UI/Task5/rating-normal.png",
+      "id": "5b",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "tile": null,
+      "note": "1–10 sayıları oyun yazar; tek ortak zemin"
+    },
+    {
+      "name": "rating-selected",
+      "width": 78,
+      "height": 108,
+      "path": "Assets/Art/UI/Task5/rating-selected.png",
+      "id": "5b",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "tile": null,
+      "note": "1–10 sayıları oyun yazar; tek ortak zemin"
+    },
+    {
+      "name": "rating-pressed",
+      "width": 78,
+      "height": 108,
+      "path": "Assets/Art/UI/Task5/rating-pressed.png",
+      "id": "5b",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "tile": null,
+      "note": "1–10 sayıları oyun yazar; tek ortak zemin"
+    },
+    {
+      "name": "thumb-up-normal",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/thumb-up-normal.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": "İkincil düğme ailesi"
+    },
+    {
+      "name": "thumb-up-selected",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/thumb-up-selected.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": "İkincil düğme ailesi"
+    },
+    {
+      "name": "thumb-up-pressed",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/thumb-up-pressed.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": "İkincil düğme ailesi"
+    },
+    {
+      "name": "thumb-down-normal",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/thumb-down-normal.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": "İkincil düğme ailesi"
+    },
+    {
+      "name": "thumb-down-selected",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/thumb-down-selected.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": "İkincil düğme ailesi"
+    },
+    {
+      "name": "thumb-down-pressed",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/thumb-down-pressed.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": "İkincil düğme ailesi"
+    },
+    {
+      "name": "bomb-glow-normal",
+      "width": 72,
+      "height": 72,
+      "path": "Assets/Art/Gameplay/Task5/bomb-glow-normal.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": "Nabız alpha/scale; ikon ayrı katman"
+    },
+    {
+      "name": "bomb-glow-hot",
+      "width": 72,
+      "height": 72,
+      "path": "Assets/Art/Gameplay/Task5/bomb-glow-hot.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": "Nabız alpha/scale; ikon ayrı katman"
+    },
+    {
+      "name": "rotate-phone",
+      "width": 168,
+      "height": 168,
+      "path": "Assets/Art/UI/Task5/rotate-phone.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "name-input-normal",
+      "width": 888,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/name-input-normal.png",
+      "id": "5b",
+      "slice": [
+        33,
+        33,
+        33,
+        33
+      ],
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "name-input-focus",
+      "width": 888,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/name-input-focus.png",
+      "id": "5b",
+      "slice": [
+        33,
+        33,
+        33,
+        33
+      ],
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "profile-normal",
+      "width": 480,
+      "height": 156,
+      "path": "Assets/Art/UI/Task5/profile-normal.png",
+      "id": "5b",
+      "slice": [
+        156,
+        36,
+        36,
+        36
+      ],
+      "tile": null,
+      "note": "Köşe 36 px; soldaki avatarı korumak için sol sabit bölge 156 px; yazı x≥162"
+    },
+    {
+      "name": "profile-pressed",
+      "width": 480,
+      "height": 156,
+      "path": "Assets/Art/UI/Task5/profile-pressed.png",
+      "id": "5b",
+      "slice": [
+        156,
+        36,
+        36,
+        36
+      ],
+      "tile": null,
+      "note": "Köşe 36 px; soldaki avatarı korumak için sol sabit bölge 156 px; yazı x≥162"
+    },
+    {
+      "name": "settings-normal",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/settings-normal.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "settings-pressed",
+      "width": 138,
+      "height": 138,
+      "path": "Assets/Art/UI/Task5/settings-pressed.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "settings-row-on",
+      "width": 888,
+      "height": 150,
+      "path": "Assets/Art/UI/Task5/settings-row-on.png",
+      "id": "5b",
+      "slice": [
+        30,
+        30,
+        30,
+        30
+      ],
+      "tile": null,
+      "note": "İkon ve switch ayrı katman"
+    },
+    {
+      "name": "switch-on",
+      "width": 156,
+      "height": 90,
+      "path": "Assets/Art/UI/Task5/switch-on.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "sound-on",
+      "width": 90,
+      "height": 90,
+      "path": "Assets/Art/UI/Task5/sound-on.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "settings-row-off",
+      "width": 888,
+      "height": 150,
+      "path": "Assets/Art/UI/Task5/settings-row-off.png",
+      "id": "5b",
+      "slice": [
+        30,
+        30,
+        30,
+        30
+      ],
+      "tile": null,
+      "note": "İkon ve switch ayrı katman"
+    },
+    {
+      "name": "switch-off",
+      "width": 156,
+      "height": 90,
+      "path": "Assets/Art/UI/Task5/switch-off.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "sound-off",
+      "width": 90,
+      "height": 90,
+      "path": "Assets/Art/UI/Task5/sound-off.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "level-header-normal",
+      "width": 888,
+      "height": 180,
+      "path": "Assets/Art/UI/Task5/level-header-normal.png",
+      "id": "5b",
+      "slice": [
+        60,
+        60,
+        60,
+        60
+      ],
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "level-header-hard",
+      "width": 888,
+      "height": 180,
+      "path": "Assets/Art/UI/Task5/level-header-hard.png",
+      "id": "5b",
+      "slice": [
+        60,
+        60,
+        60,
+        60
+      ],
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "goal-jiggle",
+      "width": 120,
+      "height": 120,
+      "path": "Assets/Art/UI/Task5/goal-jiggle.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "confetti-1",
+      "width": 36,
+      "height": 36,
+      "path": "Assets/Art/UI/Task5/confetti-1.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "confetti-2",
+      "width": 36,
+      "height": 36,
+      "path": "Assets/Art/UI/Task5/confetti-2.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "confetti-3",
+      "width": 36,
+      "height": 36,
+      "path": "Assets/Art/UI/Task5/confetti-3.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "confetti-4",
+      "width": 36,
+      "height": 36,
+      "path": "Assets/Art/UI/Task5/confetti-4.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "confetti-5",
+      "width": 36,
+      "height": 36,
+      "path": "Assets/Art/UI/Task5/confetti-5.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "confetti-6",
+      "width": 36,
+      "height": 36,
+      "path": "Assets/Art/UI/Task5/confetti-6.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "star-burst",
+      "width": 252,
+      "height": 252,
+      "path": "Assets/Art/UI/Task5/star-burst.png",
+      "id": "5b",
+      "slice": null,
+      "tile": null,
+      "note": ""
+    },
+    {
+      "name": "play-normal",
+      "width": 600,
+      "height": 216,
+      "path": "Assets/Art/UI/Task5/play-normal.png",
+      "id": "5b",
+      "slice": [
+        72,
+        72,
+        72,
+        72
+      ],
+      "note": "Görev 4 onaylı kaynak SVG"
+    },
+    {
+      "name": "play-pressed",
+      "width": 600,
+      "height": 216,
+      "path": "Assets/Art/UI/Task5/play-pressed.png",
+      "id": "5b",
+      "slice": [
+        72,
+        72,
+        72,
+        72
+      ],
+      "note": "Görev 4 onaylı kaynak SVG"
+    },
+    {
+      "name": "game-background",
+      "width": 1125,
+      "height": 2001,
+      "path": "Assets/Art/Gameplay/Task5/game-background.png",
+      "id": 26,
+      "note": "Görev 4 sahnesi merkezden 1125×2001 kırpılır; tam ekran opak",
+      "crop": [
+        0,
+        217,
+        1125,
+        2001
+      ]
+    },
+    {
+      "name": "hand-tap",
+      "width": 288,
+      "height": 288,
+      "path": "Assets/Art/UI/Task5/hand-tap.png",
+      "id": "tutorial",
+      "note": "Parmak ucu/pivot üst soldan (151,16) px"
+    },
+    {
+      "name": "hand-swipe",
+      "width": 288,
+      "height": 288,
+      "path": "Assets/Art/UI/Task5/hand-swipe.png",
+      "id": "tutorial",
+      "note": "Parmak ucu/pivot üst soldan (136,15) px"
+    },
+    {
+      "name": "avatar",
+      "width": 132,
+      "height": 132,
+      "path": "Assets/Art/UI/Task5/avatar.png",
+      "id": "5b",
+      "rounded": true,
+      "note": "Onaylı ikon referansından üretilen turkuaz Jiggle yüzü; köşe 27 px"
+    }
+  ]
+}

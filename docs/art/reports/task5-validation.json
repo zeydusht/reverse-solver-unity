@@ -1,0 +1,14 @@
+﻿{
+    "pngCount":  89,
+    "totalBytes":  4949685,
+    "checks":  [
+                   "PNG decode",
+                   "inventory dimensions",
+                   "transparent border (except full-screen background)",
+                   "positive 9-slice center",
+                   "pixel-identical horizontal tile edges"
+               ],
+    "issues":  [
+
+               ]
+}

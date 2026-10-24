@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="768" viewBox="0 0 768 768">
+<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#f4e8cf"/><stop offset="1" stop-color="#48bdb2"/></linearGradient><pattern id="tiles" width="96" height="96" patternUnits="userSpaceOnUse"><rect width="96" height="96" fill="#e3b65a"/><path d="M0 48L48 0 96 48 48 96Z" fill="#f39449"/><circle cx="48" cy="48" r="18" fill="#123f46"/></pattern></defs>
+<path fill="url(#sky)" d="M0 0h768v768H0z"/><circle cx="560" cy="155" r="98" fill="#fff4da"/><path d="M0 350Q200 180 390 350T768 340V768H0Z" fill="#48bdb2"/><path d="M0 520Q240 330 420 540T768 460V768H0Z" fill="#123f46"/><path d="M0 650Q200 490 450 650T768 580V768H0Z" fill="#19252d"/><rect x="240" y="240" width="288" height="288" rx="32" fill="url(#tiles)"/>
+</svg>

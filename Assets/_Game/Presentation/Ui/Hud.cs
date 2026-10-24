@@ -23,7 +23,7 @@ namespace ReverseSolver.Presentation
             float ax = Side + 26;
             ShapeView.Create(_root, "badge", new Vector2(52, 52), 12, order)
                 .Radius(26).Gradient(Draw.Hex("#ffd873"), Draw.Hex("#f0a742"))
-                .Stroke(Draw.Rgba(255, 255, 255, .92f), 3).Shadow(Draw.Rgba(0, 0, 0, .35f), 0, 3, 9)
+                .Stroke(Draw.Rgba(255, 255, 255, .92f), 3).Shadow(Draw.Rgba(0, 0, 0, .35f), 0, 3, 9).Skin("level-badge", false)
                 .transform.localPosition = Draw.W(ax, cy);
             TextView.Create(_root, "lv", "LV", 9, Draw.Hex("#5a3c06"), order: order + 1).transform.localPosition = Draw.W(ax, cy - 9);
             _level = TextView.Create(_root, "lvnum", "1", 20, Draw.Hex("#3a2704"), order: order + 1);
@@ -47,7 +47,7 @@ namespace ReverseSolver.Presentation
 
             // .reset: 46px circle, rgba(255,255,255,.10), 2px rgba(255,255,255,.55)
             ShapeView.Create(_root, "reset", new Vector2(46, 46), 4, order)
-                .Radius(23).Fill(Draw.Rgba(255, 255, 255, .10f)).Stroke(Draw.Rgba(255, 255, 255, .55f), 2)
+                .Radius(23).Fill(Draw.Rgba(255, 255, 255, .10f)).Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Skin("reset-normal", false)
                 .transform.localPosition = Draw.W(resetX, cy);
             RestartIcon(_root, new Vector2(resetX, cy), order + 1);
             RestartRect = new Rect(resetX - 23, cy - 23, 46, 46);
@@ -58,7 +58,7 @@ namespace ReverseSolver.Presentation
             // .pill: 46px high, radius 23, white .16 -> .05, 2px border rgba(255,255,255,.55), shadow 0 3px 8px .28
             ShapeView.Create(_root, "pill", new Vector2(w, Height), 12, order)
                 .Radius(23).Gradient(Draw.Rgba(255, 255, 255, .16f), Draw.Rgba(255, 255, 255, .05f))
-                .Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Shadow(Draw.Rgba(0, 0, 0, .28f), 0, 3, 8)
+                .Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Shadow(Draw.Rgba(0, 0, 0, .28f), 0, 3, 8).Skin("hud-pill-normal")
                 .transform.localPosition = Draw.W(c);
         }
 
@@ -67,6 +67,7 @@ namespace ReverseSolver.Presentation
            own colour laid over the square. */
         static void PieceIcon(Transform root, Vector2 c, int order)
         {
+            if (Art.Icon(root, "icon-piece", c, 16, order)) return;
             var fill = Draw.Hex("#f0a742");
             var notch = Draw.Hex("#3c5c5f");
             ShapeView.Create(root, "pieceIcon", new Vector2(16, 16), 2, order).Radius(1).Fill(fill)
@@ -78,6 +79,7 @@ namespace ReverseSolver.Presentation
 
         static void ClockIcon(Transform root, Vector2 c, int order)
         {
+            if (Art.Icon(root, "hud-icon-clock", c, 16, order)) return;
             var col = Draw.Hex("#ffd489");
             ShapeView.Create(root, "dial", new Vector2(15, 15), 2, order).Radius(7.5f).Ring(col, 1.9f)
                 .transform.localPosition = Draw.W(c + new Vector2(0, 1.6f));
@@ -92,6 +94,7 @@ namespace ReverseSolver.Presentation
 
         static void RestartIcon(Transform root, Vector2 c, int order)
         {
+            if (Art.Icon(root, "icon-reset", c, 17, order)) return;
             var col = Draw.Hex("#eaf3f2");
             // an open circle (gap at the upper right) and an arrow head on its end
             ShapeView.Create(root, "arc", new Vector2(17, 17), 2, order).Radius(8.5f).Ring(col, 2.1f, -1.3f, -0.35f)

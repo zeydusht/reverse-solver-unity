@@ -1,0 +1,12 @@
+# Ana menü yerleşim paketi · v01
+
+Tarih: 24 Ekim 2026. Zeyd'in seçtiği koridor `Assets/Art/Review/Koridor/2-ortali-yan-blok-v04.png` aynen `Assets/Art/Menu/corridor-v04-source.png` konumuna kopyalandı; kaynak seçime dokunulmadı.
+
+- `Assets/Art/Menu/opening-layout-v01.png` — 1024×1536 birleşik yerleşim incelemesi: önde oyuncu Jiggle, arkada kovalayan Baron, alt bölümde LEVEL 12 yazılı demo tuşu.
+- `Assets/Art/Menu/index.html` — aynı kompozisyonu katmanlı önizler. LEVEL yazısı ayrı DOM metnidir ve renk/dil/level koddan görsel dosyaya gömülü değildir.
+- `Assets/Art/Menu/level-button-teal-v01.png`, `level-button-orange-v01.png` — yazısız orijinal şeffaf düğme kaynakları.
+- `Assets/Art/Menu/Exports/level-button-teal-1024x320.png`, `level-button-orange-1024x320.png` — yatay UI dışa aktarımları.
+
+Teal ve turuncu düğme için ayrı ImageGen promptları kullanıldı. Teal promptu: “Use case: game UI sprite. Original Reverse Solver mobile puzzle game. Use input ONLY for premium soft animated-feature 3D material/lighting and teal/warm gold palette. Create ONE single large wide horizontal PLAY BUTTON BACKPLATE, on TRUE transparent background. No words, no text, no letters, numbers, symbols or icons. This is a reusable separate sprite with runtime LEVEL X label to be added later. Strong chunky rounded rectangular silhouette, generous soft corner radius, clean warm golden bevel rim and deep underside shadow, slightly convex tactile glossy surface but controlled highlights, classic extremely polished casual mobile game look. Near front orthographic view so readable type can be overlaid, no perspective tilt. Button occupies central 86% width, 40% height of landscape transparent canvas; object aspect ratio approximately 3.2:1, clean smooth edges and symmetric shape, broad empty central face reserved for text, no decorative details there. No frame scene, no characters, no floor, no background, no baked checkerboard, no glow halo filling transparent pixels, no watermark. Safe padding around all sides. Broad clean highlights at upper-left, dark lower edge. Style card v0.2. Face material deep rich turquoise/teal enamel with warm gold rim, cream text will be placed over it later.”
+
+Turuncu varyant aynı promptun yüz rengi satırı “vivid warm golden-orange enamel, deep orange underside and warm gold rim” olarak değiştirilerek üretildi. Üretim aracı yerleşik image_gen. Kompozisyon PNG'si sunum kanıtıdır; düğme, karakter ve koridor kaynaklarının bağımsız olduğu HTML örneği asıl katman düzenidir. Menü henüz Zeyd tarafından onaylanmadı.

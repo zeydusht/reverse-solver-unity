@@ -12,6 +12,7 @@ namespace ReverseSolver.Presentation
     public sealed class PieceView : MonoBehaviour
     {
         const float Pad = 40f;     // cell units around a cell: tabs (26), rims, shadow
+        static readonly int RimId = Shader.PropertyToID("_Rim");
         static readonly int LiftId = Shader.PropertyToID("_Lift"), GrayId = Shader.PropertyToID("_Gray"),
             GlowId = Shader.PropertyToID("_Glow"), GlowColorId = Shader.PropertyToID("_GlowColor"),
             FlashId = Shader.PropertyToID("_Flash"), AlphaId = Shader.PropertyToID("_Alpha"),
@@ -39,6 +40,8 @@ namespace ReverseSolver.Presentation
             v._b = new MaterialPropertyBlock();
             v._b.SetFloat(PtId, 100f / cell);
             v._b.SetFloat(AlphaId, 1f);
+            // Codex piece skin (Assets/Art/PieceSkin/skin.json "outline" #123F46): a dark, clear outline in the preview
+            v._b.SetVector(RimId, Art.On ? Draw.Hex("#123F46") : new Vector4(1, 1, 1, .84f));
             v._b.SetVector(BoardCellsId, new Vector4(board.Level.Width, board.Level.Height, 0, 0));
             v.Rebuild(board);
             return v;
