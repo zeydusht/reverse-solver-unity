@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 21 Ekim 2026, 20:40 (Claude Code)
+Son güncelleme: 24 Ekim 2026, 17:45 (Claude Code)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -13,7 +13,7 @@ Kurallar:
 
 | İş | Kim | Durum | Tahmini süre |
 |---|---|---|---|
-| SET40 v2 yayında (Build 5z7): Zeyd 5 yeni zirve + S39'u oynayacak (kayıt açık) | Zeyd | 🔜 | ~20 dk |
+| SET40 v3 (öğretici eğri + tutorial + Build 5 hazırlığı) — PM_MESAJ_6 | Claude Code | 🔜 gece | ~1 gece |
 
 ## ZEYD — senin işlerin
 
@@ -34,21 +34,36 @@ Kurallar:
 | İş | Durum |
 |---|---|
 | Oturum 5 kararı: yöntem kabul, 40'lık set onaylandı (M16 çeşitlilik eklendi) | ✅ |
-| Set gelince: 10 bölümlük oynama listesi + Zeyd'in puanlarıyla karar | 🔜 |
-| Build 5 + playtest planı (kök adres yeni sete geçer, 👍/👎 açılır, ~20 kişi) | ⛔ set onayından sonra |
+| SET40 v1 → v2: zirveler yenilendi; v2 ONAYLANDI (zirveler 8–10, "en keyifli tur"); SET40 v3 öğretici eğri (Zeyd'in slot planı) + tutorial/uyarı ekranları + Build 5 hazırlığı (PM_MESAJ_6) | ✅ 21 Ekim 23:00 |
+| Build 5 yayını: Zeyd'in "Build 5'i yayınla" komutunu bekliyor; sonra playtest (~20 kişi) | 🔜 |
+| Görsel/ses üretimi Art Director'e (ChatGPT/Codex) devredildi: ART_DIRECTOR_BRIEF.md | ✅ 23 Ekim |
 | App Store / iOS | ⛔ ertelendi |
 
 ## Mühendislik (Claude Code doldurur)
 
 | İş | Durum | Tahmini süre |
 |---|---|---|
-| ?set=redesign kaydı (plays, moves, 1–10; debug'sız) — uçtan uca ✅ | ✅ | |
-| Fabrikada M17 (bağımlılık derinliği, sıra başarısı, engel konumu) | ✅ kod | |
-| Zirve adayları 6×7 / 7×7 / 8×8 (12 aday) | ✅ | |
-| 5 yeni zirve (2 delikli), benzerlik < %50 | ✅ | |
-| Eğri: S39, dinlenme 26/30/34, sapmalar düzeltildi | ✅ | |
-| SET40 v2 yazım + test + build + yayın + OVERNIGHT (7379873, gh-pages 7f8e904) | ✅ | |
+| Codex yorumları kontrol + commit (e640763; kod aynı, yalnızca yorum + yeni testler) | ✅ | |
+| SET40 v3: 12 yeni bölüm + v2 havuzu yeni eğriye dizildi (574a9ce) | ✅ | |
+| Tutorial eli (1–2), tanıtım kartında N, zor bölüm uyarısı, metinler Texts.cs | ✅ kod, build bekliyor | |
+| İkon + menü koridor arka planı | ✅ kod, görünüm doğrulanacak | |
+| Build 5 (v3 varsayılan, ?set=classic, 👍/👎) — yerel build ✅, verify 6/7 (card ölçüm hatası); yayın Zeyd komutuyla | ✅ | |
+| ASSET_IHTIYAC doğrulandı; CODEX_GOREV.md (3 görev) | ✅ | |
+| HardestLevelStillUnderTwoSeconds: 3,4 sn (sınır 2) — makine yükü, kodla ilgisiz; izlenecek | ⛔ | |
 | ZeydBot v2 | ⛔ setten sonra | |
+
+## Art (ChatGPT / Codex — Art Director doldurur)
+
+| İş | Durum | Tahmini süre |
+|---|---|---|
+| App ikonu: onaylı mavi sürüm, PWA/favicon/Apple touch dışa aktarımları (1024/512/256/192/180/32) | ✅ | |
+| Ana menü koridoru v04: kaynak korunuyor; iki güvenli LEVEL X yerleşimi hazır (`Menu/safe-area-options-v01.html`) | ✅ | |
+| LEVEL X düğmesi: turkuaz/turuncu iki @3x 9-slice adayı (`Menu/Buttons/review-options-v01.html`) | 🔜 Zeyd seçimi | |
+| Tutorial eli: dokun/kaydır için eldivenli ve çıplak A/B setleri (`TutorialHand/Options/review-options-v01.html`) | 🔜 Zeyd seçimi | |
+| Engel tanıtımları: çivi, bomba, zincir, duvar için A/B kadrajları (`ObstacleIntros/review-options-v01.html`) | 🔜 Zeyd seçimi | |
+| Zor bölüm uyarısı: Baron/Jiggle odaklı A/B (`HardWarning/review-options-v01.html`) | 🔜 Zeyd seçimi | |
+| P0 #7–9: modal çerçevesi, kazanma ve kaybetme görselleri | 🔜 sırada | |
+| P1 #10–14: oyun içi engel/booster exportları, tablolar, tahta altlığı ve ses | 🔜 sırada | |
 
 ## Bitenler (son 3 gün)
 

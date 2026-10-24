@@ -196,7 +196,7 @@ async function nameKeys() {
 
 async function boot() {
   const p = await newPage();
-  await p.open(dbg(`${base}/?lv=1`));
+  await p.open(dbg(`${base}/?set=classic&lv=1`));
   let b = ''; for (let i = 0; i < 20 && !/\d+\/\d+/.test(b); i++) { b = (await p.ev(`window.LT && LT.boot`)) || ''; await sleep(500); }
   const m = /(\d+)\s*\/\s*(\d+)/.exec(b);
   check('boot', !!m && m[1] === m[2] && +m[2] >= 40 && p.exceptions.length === 0, `açılış kontrolü "${b}", istisna ${p.exceptions.length}`);
@@ -207,7 +207,7 @@ async function k1() {
   const p = await newPage(); const styles = ['merkez', 'dış yarı', 'tahta dışı', 'fiske']; let k = 0, ok = 0; const fails = [];
   for (const lv of ['L01', 'L40']) {
     const l = levels.find(v => v.id === lv), pl = placement(l);
-    await p.open(dbg(`${base}/?lv=${+lv.slice(1)}`));
+    await p.open(dbg(`${base}/?set=classic&lv=${+lv.slice(1)}`));
     for (const [, x, y, d] of EDGES.filter(e => e[0] === lv)) {
       const [ux, uy] = DIR[d], style = styles[k++ % styles.length];
       const off = style === 'dış yarı' ? .3 * pl.cell : style === 'tahta dışı' ? .5 * pl.cell + 8 : 0;
@@ -240,7 +240,7 @@ async function pieceGone(p, pl, x, y) {
 
 async function fps() {
   const res = {};
-  for (const [name, url, card] of [['L40', `${base}/?lv=40`, false], ['D02', `${base}/?set=designs&lv=D02`, true]]) {
+  for (const [name, url, card] of [['L40', `${base}/?set=classic&lv=40`, false], ['D02', `${base}/?set=designs&lv=D02`, true]]) {
     const p = await newPage();
     await p.open(dbg(url));
     if (card) for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);   // D02's intro card

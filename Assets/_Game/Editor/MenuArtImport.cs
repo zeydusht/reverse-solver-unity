@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace ReverseSolver.Editor
+namespace ReverseSolver.EditorTools
 {
     /* Approved menu art (PM_MESAJ_7): the corridor background is a sprite at 1 pixel per point (the
        game's world unit), at most 2048 px on the long side, compressed, no mipmaps. */
