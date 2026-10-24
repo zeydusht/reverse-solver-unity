@@ -50,9 +50,10 @@ Kurallar:
 | Önizleme ?set=redesign yayında (gh-pages dd11b14, canlı verify 7/7); Build 5 bayrakları kapalı, kök yayını Zeyd komutuyla | ✅ | |
 | ASSET_IHTIYAC doğrulandı; CODEX_GOREV.md (3 görev) | ✅ | |
 | HardestLevelStillUnderTwoSeconds: 3,4 sn (sınır 2) — makine yükü, kodla ilgisiz; izlenecek | ⛔ | |
-| Codex asset'leri bağlandı (yalnızca ?set=redesign): #10 engel + #11 booster ikonları, A seçenekleri #3 #4 #5 #6 #7 #8 #9 #13 #14; seçim tek yerden `Tools/art_choice.py` | ✅ | |
+| Önizleme 2 yayında (gh-pages 76ae1dc). Codex asset'leri bağlandı (yalnızca ?set=redesign): #10 engel + #11 booster ikonları, A seçenekleri #3 #4 #5 #6 #7 #8 #9 #13 #14; seçim tek yerden `Tools/art_choice.py` | ✅ | |
 | Kayıp "kilit" görseli bağlanmadı: oyunda bu kayıp türü yok (yalnızca bomba / süre) | ⛔ | |
 | Zincir ve duvar tahtada hâlâ çizim (ikonlar kartlarda); #12, #15–19 playtest sonrası | ⛔ | |
+| verify fps: makinede 30 FPS sınırı (24 Ekim akşam, build bağımsız) — tekrar ölçülecek | ⛔ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

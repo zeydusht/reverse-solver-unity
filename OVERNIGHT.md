@@ -1,3 +1,9 @@
+# Önizleme 2 — Codex görselleri (gh-pages 76ae1dc, 24 Ekim 20:30), yalnızca ?set=redesign; kök ve canlı 40 değişmedi
+- Engel + booster ikonları, A seçenekleri (düğme, el, tanıtım/zor/kazanma/kaybetme görselleri, kart çerçevesi, tahta altlığı, sesler). A/B tek yerden: `Tools/art_choice.py` → build.
+- Aynı linkler (aşağıda). Telefon boyutunda (375×667) bomba sayacı ve booster ikonları okunuyor; çivi kartında artık çekiç değil çivi ikonu.
+- Verify: yerel 7/7 (ilk koşu); sonra makinede FPS 30'a sabitlendi (yerel ve canlı aynı, eski set de) → makine durumu, build değil. Boyut 7,38 → 8,46 MB.
+- Bağlanmayan: kayıp "kilit" görseli (oyunda o kayıp türü yok), zincir/duvar tahtada çizim kaldı.
+
 # Önizleme — Build 5-önizleme (gh-pages dd11b14, 24 Ekim 18:25): SET40 v3 yalnızca ?set=redesign; kök ve canlı 40 değişmedi
 - Ana menü (koridor + mavi ikon): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign
 - Tutorial 1: https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S41 · Çivi (3): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S43 · Bomba (6): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S45
