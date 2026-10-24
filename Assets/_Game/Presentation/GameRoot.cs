@@ -57,6 +57,7 @@ namespace ReverseSolver.Presentation
         float _moveT0, _moveLast;
         int _moveNo;
         float _pressAt;
+        bool _newArt;                 // SET40 v3 preview: the corridor menu art (live set keeps the old menu)
         bool _tutorialDone;           // web tutDone: first removal anywhere ends the hand for this visit
         TutorialHand _hand;
         LevelImages _images;          // G1: level pictures, fetched when a level opens
@@ -125,7 +126,7 @@ namespace ReverseSolver.Presentation
                 case SetChoice.Kind.Zeydbot: _zeydbotSet = true; return LevelParser.Parse(zeydbot.text);
                 case SetChoice.Kind.Designs: _designSet = true; return LevelParser.Parse(designs.text);
                 // SET40 (PM_MESAJ_5): recorded like the ZeydBot set (moves, 1-10), also when the flag makes it the default
-                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; return LevelParser.Parse(redesign.text);
+                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; _newArt = true; return LevelParser.Parse(redesign.text);
                 default: return LevelParser.Parse(levels.text);
             }
         }
@@ -299,7 +300,7 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Menu)
             {
-                _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder);
+                _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt);
             }
             else
             {

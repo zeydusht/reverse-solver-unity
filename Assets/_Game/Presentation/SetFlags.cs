@@ -8,8 +8,8 @@ namespace ReverseSolver.Presentation
        The redesigned set can always be played with ?debug=1&set=redesign (nothing is sent). */
     public static class SetFlags
     {
-        public static readonly bool RedesignDefault = true;    // Build 5 (PM_MESAJ_6/7): SET40 v3 is the default set
-        public static readonly bool AskFun = true;             // Build 5: 👍/👎 on
+        public static readonly bool RedesignDefault = false;   // Build 5 flips this (SET40 v3 default) only on Zeyd's command
+        public static readonly bool AskFun = false;            // Build 5: 👍/👎 on, with RedesignDefault
     }
 
     /* Which level file the game plays. */

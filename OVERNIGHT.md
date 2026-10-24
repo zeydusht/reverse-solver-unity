@@ -1,3 +1,10 @@
+# Önizleme — Build 5-önizleme (gh-pages dd11b14, 24 Ekim 18:25): SET40 v3 yalnızca ?set=redesign; kök ve canlı 40 değişmedi
+- Ana menü (koridor + mavi ikon): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign
+- Tutorial 1: https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S41 · Çivi (3): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S43 · Bomba (6): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S45
+- Zincir (10): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S48 · Duvar (14): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S52
+- İlk zor (19, uyarı ekranı): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S28 · Final (40): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S40
+- Verify: yerel ve canlı 7/7. Not: "card" ölçümü 👍/👎 açıkken (Build 5 bayrakları) yanlış KALDI veriyor; debug yazısı resim çerçevesine biniyor, kart sığıyor. Ölçüm düzeltilmeli.
+
 # Gece raporu — 24 Ekim 2026 (PM_MESAJ_7)
 
 1. **SET40 v3 hazır, Build 5 yerelde (yayınlanmadı).** Varsayılan set v3, eski 40 `?set=classic`, 👍/👎 açık. Zeyd "Build 5'i yayınla" derse kök yayınlanır.

@@ -11,9 +11,15 @@
 <meta name="apple-mobile-web-app-title" content="{{{ PRODUCT_NAME }}}">
 <meta name="theme-color" content="#0e2a2e">
 <link rel="apple-touch-icon" href="TemplateData/icon-180.png">
-<link rel="icon" type="image/png" sizes="32x32" href="TemplateData/favicon-32.png">
 <link rel="icon" href="TemplateData/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
+<script>
+  // SET40 v3 preview (?set=redesign): the approved blue icon; the live page keeps the old one until Build 5
+  if (/[?&]set=redesign/.test(location.search)) {
+    document.querySelector('link[rel="apple-touch-icon"]').href = 'TemplateData/icon-v3-180.png';
+    document.querySelector('link[rel="icon"]').href = 'TemplateData/icon-v3-32.png';
+  }
+</script>
 <title>{{{ PRODUCT_NAME }}}</title>
 #if SHOW_DIAGNOSTICS
 <link rel="stylesheet" href="<<<TemplateData/diagnostics.css>>>">

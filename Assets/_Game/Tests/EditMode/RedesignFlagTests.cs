@@ -9,11 +9,11 @@ namespace ReverseSolver.Core.Tests
     public class RedesignFlagTests
     {
         [Test]
-        public void Build5FlagsAreOn()
+        public void FlagsAreOffUntilBuild5()
         {
-            // Build 5 (PM_MESAJ_6/7): SET40 v3 by default, 👍/👎 on; the build goes live only on Zeyd's command
-            Assert.That(SetFlags.RedesignDefault, Is.True);
-            Assert.That(SetFlags.AskFun, Is.True);
+            // preview only (Zeyd 2026-10-24): SET40 v3 at ?set=redesign; Build 5 turns both on, on Zeyd's command
+            Assert.That(SetFlags.RedesignDefault, Is.False);
+            Assert.That(SetFlags.AskFun, Is.False);
             Assert.That(SetChoice.For(false, "classic", true, true, true), Is.EqualTo(SetChoice.Kind.Levels), "the old live 40 at ?set=classic");
             Assert.That(SetChoice.For(false, null, true, true, true), Is.EqualTo(SetChoice.Kind.Redesign));
         }

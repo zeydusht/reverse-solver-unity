@@ -37,14 +37,14 @@ namespace ReverseSolver.Presentation
             public readonly Transform Root;
             public Rect Play, Levels;
 
-            public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order)
+            public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false)
             {
                 Root = new GameObject("Menu").transform;
                 Root.SetParent(parent, false);
                 float cx = screen.x / 2, cy = (screen.y + safe.y - safe.w) / 2;
 
                 // approved corridor art (PM_MESAJ_7), static, cover-fitted under everything; texts stay dynamic
-                var art = Resources.Load<Sprite>("menu_bg");
+                var art = newArt ? Resources.Load<Sprite>("menu_bg") : null;
                 if (art != null)
                 {
                     var bg = new GameObject("background").AddComponent<SpriteRenderer>();
