@@ -54,9 +54,11 @@ namespace ReverseSolver.Presentation
                     float k = Mathf.Max(screen.x / art.rect.width, screen.y / art.rect.height);
                     bg.transform.localScale = new Vector3(k, k, 1);
                     bg.transform.localPosition = Draw.W(screen.x / 2, screen.y / 2);
-                    // a dark veil behind the buttons keeps the title and buttons readable on the busy art
-                    ShapeView.Create(Root, "veil", new Vector2(Mathf.Min(340f, screen.x - 24f), 250f), 0, order - 1).Radius(18)
-                        .Fill(Draw.Rgba(14, 42, 46, .72f)).transform.localPosition = Draw.W(cx, cy - 40);
+                    // PM_MESAJ_8: only the corridor and one chunky "Level X" button just above the bottom safe area
+                    // (Royal Match style, ~200x72 pt); no title, text, panel or emblem, no level list button
+                    const float bw = 200f, bh = 72f;
+                    Play = Button(Root, new Vector2(cx, screen.y - safe.w - 28 - bh / 2), bw, $"Level {nextNumber}", true, order, bh, 26);
+                    return;
                 }
 
                 // the strip's amber jigsaw, large
@@ -82,17 +84,17 @@ namespace ReverseSolver.Presentation
             }
         }
 
-        static Rect Button(Transform root, Vector2 c, float w, string label, bool primary, int order)
+        static Rect Button(Transform root, Vector2 c, float w, string label, bool primary, int order, float h = 46, float font = 15)
         {
-            var b = ShapeView.Create(root, "btn", new Vector2(w, 46), 2, order).Radius(11);
-            var art = primary ? Art.Place(root, "button", new Vector2(w, 46), order, sliced: true) : null;   // preview art (#3)
+            var b = ShapeView.Create(root, "btn", new Vector2(w, h), 2, order).Radius(11);
+            var art = primary ? Art.Place(root, "button", new Vector2(w, h), order, sliced: true) : null;   // preview art (#3)
             if (art != null) { art.transform.localPosition = Draw.W(c); b.Fill(new Vector4(0, 0, 0, 0)); }
             else if (primary) b.Fill(Draw.Hex("#f0a742"));
             else b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1);
             b.transform.localPosition = Draw.W(c);
-            TextView.Create(root, "label", label, 15, art != null ? Draw.Hex("#ffffff") : primary ? Draw.Hex("#33220a") : Draw.Hex("#8fb2b3"), order: order + 1)
+            TextView.Create(root, "label", label, font, art != null ? Draw.Hex("#ffffff") : primary ? Draw.Hex("#33220a") : Draw.Hex("#8fb2b3"), order: order + 1)
                 .transform.localPosition = Draw.W(c);
-            return new Rect(c.x - w / 2, c.y - 23, w, 46);
+            return new Rect(c.x - w / 2, c.y - h / 2, w, h);
         }
 
         // ---- level list (web #selVeil) ------------------------------------------------

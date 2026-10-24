@@ -69,7 +69,12 @@ namespace ReverseSolver.Presentation
             arrow.localRotation = Quaternion.Euler(0, 0, -rot);
             // preview art (#4): the glove, fingertip (upper-left quadrant) on the piece, nudging with the arrow
             var glove = Art.Place(h._move, "hand-swipe", new Vector2(S * 1.4f, S * 1.4f), order + 6);
-            if (glove != null) glove.transform.localPosition = Draw.W((cell.X + .5f) * S + S * .35f, (cell.Y + .5f) * S + S * .35f);
+            if (glove != null)
+            {
+                // PM_MESAJ_8: upright (finger up, wrist down) until Codex's vertical export; fingertip on the piece
+                glove.transform.localRotation = Quaternion.Euler(0, 0, -90);
+                glove.transform.localPosition = Draw.W((cell.X + .5f) * S, (cell.Y + .5f) * S + S * .6f);
+            }
             float u = S * .68f / 24f;
             Vector2 A(float x, float y) => new Vector2((x - 12) * u, (y - 12) * u);
             var halo = ShapeView.Create(arrow, "halo", new Vector2(S * .5f, S * .5f), 16, order)
@@ -120,6 +125,8 @@ namespace ReverseSolver.Presentation
                 }
             }
             h.Apply(0);
+            // PM_MESAJ_8: with the drawn glove, the vector arrow and glow go (one hand on screen)
+            if (glove != null) { arrow.gameObject.SetActive(false); if (h._glow != null) h._glow.gameObject.SetActive(false); }
             return h;
         }
 
