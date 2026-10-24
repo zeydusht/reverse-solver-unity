@@ -15,6 +15,7 @@ namespace ReverseSolver.Presentation
             Root.SetParent(parent, false);
             Root.localPosition = Draw.W(center);
             float d = Mathf.Max(22f, cell * 0.46f);
+            if (ArtBadge(Root, "icon-nail", d, order, out _n)) return;
             // radial-gradient(60% 50% at 32% 26%, #f2f5f8, #8d9aa6 60%, #5b6874)
             ShapeView.Create(Root, "disc", new Vector2(d, d), 8, order)
                 .Radius(d / 2)
@@ -25,6 +26,20 @@ namespace ReverseSolver.Presentation
         }
 
         public int Count { set => _n.Text = value.ToString(); }
+
+        /* Preview art (#10): the icon a bit larger than the drawn disc, the counter on a dark chip at its
+           lower right so the number stays readable on a phone-size cell. */
+        internal static bool ArtBadge(Transform root, string key, float d, int order, out TextView count)
+        {
+            count = null;
+            if (Art.Place(root, key, new Vector2(d, d) * 1.2f, order) == null) return false;
+            var chip = ShapeView.Create(root, "chip", new Vector2(17, 17), 3, order + 1).Radius(8.5f)
+                .Fill(Draw.Hex("#0c1418", .85f)).Stroke(Draw.Rgba(255, 255, 255, .7f), 1);
+            chip.transform.localPosition = Draw.W(d * .38f, d * .38f);
+            count = TextView.Create(root, "count", "", 12, Draw.Hex("#ffffff"), true, order: order + 2);
+            count.transform.localPosition = Draw.W(d * .38f, d * .38f);
+            return true;
+        }
 
         /* .nail.tick: scale 1.45 -> 1 over .32s cubic-bezier(.3,1.5,.5,1) on every count. */
         public void Tick() => Tweens.Run(this, .32f, t => { if (Root != null) Root.localScale = Vector3.one * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
@@ -45,6 +60,7 @@ namespace ReverseSolver.Presentation
             _body = new GameObject("body").transform;
             _body.SetParent(Root, false);
             float d = Mathf.Max(24f, cell * 0.52f);
+            if (NailBadge.ArtBadge(_body, "icon-bomb", d, order, out _n)) return;
             // radial-gradient(58% 48% at 32% 26%, #6c7a84, #232f36 62%, #111a1f); ring 2px #0c1418;
             // 0 3px 6px rgba(0,0,0,.6); 0 0 14px rgba(226,74,60,.55)
             ShapeView.Create(_body, "disc", new Vector2(d, d), 16, order)

@@ -121,12 +121,13 @@ namespace ReverseSolver.Presentation
 
         LevelSet ChooseSet()
         {
+            Art.On = false;                                    // static: no domain reload between Play sessions
             switch (SetChoice.For(Host.Debug, Host.Current.Query("set"), HasLevels(designs), HasLevels(redesign), SetFlags.RedesignDefault, HasLevels(zeydbot)))
             {
                 case SetChoice.Kind.Zeydbot: _zeydbotSet = true; return LevelParser.Parse(zeydbot.text);
                 case SetChoice.Kind.Designs: _designSet = true; return LevelParser.Parse(designs.text);
                 // SET40 (PM_MESAJ_5): recorded like the ZeydBot set (moves, 1-10), also when the flag makes it the default
-                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; _newArt = true; return LevelParser.Parse(redesign.text);
+                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; _newArt = Art.On = true; return LevelParser.Parse(redesign.text);
                 default: return LevelParser.Parse(levels.text);
             }
         }
@@ -243,6 +244,15 @@ namespace ReverseSolver.Presentation
             if (_session.Level.Tutorial == 1 || done == 0) _bar?.Notice(done == 0 ? Texts.TutorialFirst : Texts.TutorialNext, 2.5f);
         }
 
+        AudioSource _audio;
+        void PlaySound(string key)
+        {
+            var clip = Art.Sound(key);
+            if (clip == null) return;
+            if (_audio == null) _audio = gameObject.AddComponent<AudioSource>();
+            _audio.PlayOneShot(clip);
+        }
+
         void OnEvent(GameEvent e)
         {
             if (_zeydbotSet) RecordMove(e);
@@ -253,6 +263,10 @@ namespace ReverseSolver.Presentation
                 if (_hand != null) { _hand.Remove(); _hand = null; }
                 if (_session.Level.Tutorial > 0) ShowTutorialStep();
             }
+            // Codex sounds (preview art only; silent when Art is off)
+            if (e.Kind == EventKind.PieceRemoved) PlaySound("weee");
+            else if (e.Kind == EventKind.Jammed) PlaySound("piece");
+            else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound(e.Outcome == Outcome.Win ? "win" : "loss");
             if (e.Kind != EventKind.Finished) return;
             _log.Add(_session.Record);
             _save.Store(_log);

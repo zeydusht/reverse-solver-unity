@@ -56,6 +56,14 @@ namespace ReverseSolver.Presentation
                 .Stroke(Draw.Rgba(255, 255, 255, .06f), 1)
                 .Shadow(Draw.Rgba(3, 14, 16, .6f), 0, 22, 44);
             tray.transform.localPosition = Draw.W(W / 2, H / 2);
+            // preview art (#13): wooden board base, gold on hard levels; stretched to the tray with a frame margin
+            var baseArt = Art.Place(transform, l.Hard ? "board-hard" : "board", Vector2.one, TrayOrder + 1);
+            if (baseArt != null)
+            {
+                var sz = baseArt.sprite.bounds.size;
+                baseArt.transform.localScale = new Vector3((W + 56) / sz.x, (H + 56) / sz.y, 1);
+                baseArt.transform.localPosition = Draw.W(W / 2, H / 2);
+            }
 
             // .slot: radius 4, rgba(4,20,23,.42), inset 0 2px 3px rgba(0,0,0,.5)
             for (int y = 0; y < l.Height; y++)

@@ -50,6 +50,9 @@ Kurallar:
 | Önizleme ?set=redesign yayında (gh-pages dd11b14, canlı verify 7/7); Build 5 bayrakları kapalı, kök yayını Zeyd komutuyla | ✅ | |
 | ASSET_IHTIYAC doğrulandı; CODEX_GOREV.md (3 görev) | ✅ | |
 | HardestLevelStillUnderTwoSeconds: 3,4 sn (sınır 2) — makine yükü, kodla ilgisiz; izlenecek | ⛔ | |
+| Codex asset'leri bağlandı (yalnızca ?set=redesign): #10 engel + #11 booster ikonları, A seçenekleri #3 #4 #5 #6 #7 #8 #9 #13 #14; seçim tek yerden `Tools/art_choice.py` | ✅ | |
+| Kayıp "kilit" görseli bağlanmadı: oyunda bu kayıp türü yok (yalnızca bomba / süre) | ⛔ | |
+| Zincir ve duvar tahtada hâlâ çizim (ikonlar kartlarda); #12, #15–19 playtest sonrası | ⛔ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)
@@ -70,6 +73,13 @@ Kurallar:
 | P1 #12: tablo yönü A/B örnekleri (`Paintings/review-directions-v01.html`) | 🔜 Zeyd yön seçimi; seri bekliyor | |
 | P1 #13: tahta altlığı A/B, şeffaf merkezli kare çerçeve (`Gameplay/BoardBase/review-options-v01.html`) | 🔜 Zeyd seçimi | |
 | P1 #14: dört oyun sesi için iki özgün WAV tını yönü (`Audio/review-options-v01.html`) | 🔜 Zeyd dinleme/seçimi | |
+| #20: Bölüm listesi, 5×8 LevelList SVG @3x (`MissingScreens/review-v01.html`) | 🔜 Zeyd incelemesi | |
+| #21: Duraklatma/çıkış onayı SVG @3x | 🔜 Zeyd incelemesi | |
+| #22: Booster onay kartı SVG @3x | 🔜 Zeyd incelemesi | |
+| #23: 5/9/15/23 booster tanıtımı için ortak SVG @3x | 🔜 Zeyd incelemesi | |
+| #24: İsim sorma ekranı SVG @3x | 🔜 Zeyd incelemesi | |
+| #25: WebGL yükleme ekranı SVG @3x | 🔜 Zeyd incelemesi | |
+| Tüm A/B seçimlerini tek yerde göster (`docs/art/SECIM.html`) | ✅ | |
 
 ## Bitenler (son 3 gün)
 

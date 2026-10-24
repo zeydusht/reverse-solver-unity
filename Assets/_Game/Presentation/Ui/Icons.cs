@@ -11,6 +11,7 @@ namespace ReverseSolver.Presentation
 
         public static void Draw(string id, Transform parent, float size, int order)
         {
+            if (Art.Place(parent, "icon-" + id, new Vector2(size, size) * 1.25f, order) != null) return;   // preview art (#10, #11)
             float u = size / 24f;                                   // SVG unit
             switch (id)
             {

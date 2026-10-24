@@ -85,10 +85,12 @@ namespace ReverseSolver.Presentation
         static Rect Button(Transform root, Vector2 c, float w, string label, bool primary, int order)
         {
             var b = ShapeView.Create(root, "btn", new Vector2(w, 46), 2, order).Radius(11);
-            if (primary) b.Fill(Draw.Hex("#f0a742"));
+            var art = primary ? Art.Place(root, "button", new Vector2(w, 46), order, sliced: true) : null;   // preview art (#3)
+            if (art != null) { art.transform.localPosition = Draw.W(c); b.Fill(new Vector4(0, 0, 0, 0)); }
+            else if (primary) b.Fill(Draw.Hex("#f0a742"));
             else b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1);
             b.transform.localPosition = Draw.W(c);
-            TextView.Create(root, "label", label, 15, primary ? Draw.Hex("#33220a") : Draw.Hex("#8fb2b3"), order: order + 1)
+            TextView.Create(root, "label", label, 15, art != null ? Draw.Hex("#ffffff") : primary ? Draw.Hex("#33220a") : Draw.Hex("#8fb2b3"), order: order + 1)
                 .transform.localPosition = Draw.W(c);
             return new Rect(c.x - w / 2, c.y - 23, w, 46);
         }
@@ -187,7 +189,10 @@ namespace ReverseSolver.Presentation
             string primary = won ? (isLast ? lastLabel : "Sonraki bölüm") : "Tekrar dene";
             string primaryId = won ? (isLast ? "menu" : "next") : "retry";
 
-            var card = new Card(parent, screen, order, "Result").Title(title);
+            var card = new Card(parent, screen, order, "Result");
+            // preview art (#8, #9): victory / defeat scene when the level has no picture of its own
+            if (!withPicture) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
+            card.Title(title);
             if (withPicture)
             {
                 // the whole picture, as wide as the card allows and never taller than PictureMaxHeight
@@ -242,12 +247,28 @@ namespace ReverseSolver.Presentation
             bool booster = l.BoosterIntro != null;
             var info = booster ? l.BoosterIntro : l.Intro;
             string icon = booster ? info.Id : (info.Icon ?? "hammer");
-            var c = new Card(parent, screen, order, "Intro")
-                .Icon((t, size, o) => Icons.Draw(icon, t, size, o))
+            var c = new Card(parent, screen, order, "Intro");
+            if (!booster) Picture(c, "intro-" + (icon == "hammer" ? "nail" : icon));   // preview art (#5)
+            // the nail card's icon is the hammer in the web data; with the preview art it shows the nail itself
+            string glyph = !booster && icon == "hammer" && Art.Get("icon-nail") != null ? "nail" : icon;
+            c.Icon((t, size, o) => Icons.Draw(glyph, t, size, o))
                 .Title(booster ? "Yeni booster: " + info.Title : info.Title)
                 .Body(info.Body ?? "", gapAfter: string.IsNullOrEmpty(info.Tip) ? 18 : 6);
             if (!string.IsNullOrEmpty(info.Tip)) c.Body(info.Tip, Draw.Hex("#f0a742"));
             return c.Button("ok", "Anladım", true).Finish();
+        }
+
+        /* A preview-art picture row on top of a card (nothing when the art is off or missing). */
+        static Card Picture(Card c, string key, float height = 0)
+        {
+            var s = Art.Get(key);
+            if (s == null) return c;
+            float w = c.InnerWidth, h = height > 0 ? height : w * s.bounds.size.y / s.bounds.size.x;
+            return c.Custom(h + 10, (root, y, cw, o) =>
+            {
+                var r = Art.Place(root, key, new Vector2(w, h), o + 2);
+                r.transform.localPosition = Draw.W(0, y + h / 2);
+            });
         }
 
         public static bool HasIntro(LevelData l) => l.BoosterIntro != null || l.Intro != null || l.Hard;
@@ -255,7 +276,7 @@ namespace ReverseSolver.Presentation
         /* SET40 v3: the "zor bölüm" warning (a level with the hard flag and no other card). The timer
            still starts on the first move, after "Başla". */
         public static Card HardWarning(Transform parent, Vector2 screen, int order) =>
-            new Card(parent, screen, order, "Intro")
+            Picture(new Card(parent, screen, order, "Intro"), "hard")                     // preview art (#6)
                 .Icon((t, size, o) => Icons.Draw("bomb", t, size, o))
                 .Title(Texts.HardTitle)
                 .Body(Texts.HardBody, gapAfter: 18)

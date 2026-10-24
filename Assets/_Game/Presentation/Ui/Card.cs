@@ -140,6 +140,9 @@ namespace ReverseSolver.Presentation
             ShapeView.Create(Root, "card", new Vector2(_w, h), 4, _order + 1)
                 .Radius(18).Fill(Draw.Hex("#14484c")).Stroke(Draw.Rgba(255, 255, 255, .16f), 1)
                 .transform.localPosition = Draw.W(_screen.x / 2, top + h / 2);
+            // preview art (#7): 9-sliced frame over the panel's edge, under the content
+            var frame = Art.Place(Root, "frame", new Vector2(_w + 8, h + 8), _order + 1, sliced: true);
+            if (frame != null) frame.transform.localPosition = Draw.W(_screen.x / 2, top + h / 2, -1);
             for (int i = 0; i < Buttons.Count; i++)
             {
                 var (r, id) = Buttons[i];

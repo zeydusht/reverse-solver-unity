@@ -1,0 +1,1 @@
+button=A hand=A intro=A hard=A frame=A victory=A defeat=A board=A audio=A

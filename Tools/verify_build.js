@@ -378,7 +378,14 @@ async function redesign() {
   await sleep(2500);
   const buf = await p.png(); fs.writeFileSync(path.join(out, `redesign_${l.id}.png`), buf);
   const img = readPng(buf);
-  let orange = 0; for (let y = 0; y < img.h; y++) { const [r, g, b] = img.at(img.w >> 1, y); if (Math.abs(r - 240) < 12 && Math.abs(g - 167) < 12 && Math.abs(b - 66) < 12) orange++; }
+  let orange = 0; for (let y = 0; y < img.h; y++) { const [r, g, b] = img.at(img.w >> 1, y); if (Math.abs(r - 20) < 6 && Math.abs(g - 72) < 6 && Math.abs(b - 76) < 6) orange++; }   // the result card's panel (#14484c): the preview art's button is not orange
+  // phone-size screenshots of the preview art (intro card, board with obstacles, hard warning) for a look
+  for (const id of ['S43', 'S45', 'S28']) {
+    const q = await newPage(); await q.open(dbg(`${base}/?set=redesign&lv=${id}`)); await sleep(2500);
+    fs.writeFileSync(path.join(out, `art_${id}_card.png`), await q.png());
+    for (let y = Math.round(H * .45); y < H * .85; y += 18) await q.tap(W / 2, y);
+    await sleep(800); fs.writeFileSync(path.join(out, `art_${id}_board.png`), await q.png()); q.close();
+  }
   check('redesign', orange > 60 && p.exceptions.length === 0, `${l.id} (${set.length} seviyeli set) kayıtlı çözümle oynandı: sonuç kartı ${orange > 60 ? 'var' : 'yok'}, istisna ${p.exceptions.length}`);
   p.close();
 }
