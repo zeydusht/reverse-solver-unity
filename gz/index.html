@@ -13,6 +13,13 @@
 <link rel="apple-touch-icon" href="TemplateData/icon-180.png">
 <link rel="icon" href="TemplateData/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
+<script>
+  // SET40 v3 preview (?set=redesign): the approved blue icon; the live page keeps the old one until Build 5
+  if (/[?&]set=redesign/.test(location.search)) {
+    document.querySelector('link[rel="apple-touch-icon"]').href = 'TemplateData/icon-v3-180.png';
+    document.querySelector('link[rel="icon"]').href = 'TemplateData/icon-v3-32.png';
+  }
+</script>
 <title>Reverse Solver</title>
 
 <style>
@@ -211,14 +218,14 @@ window.ltBoot = function (msg) {
   }, { passive: false });
 </script>
 
-<script src="Build/7b8c813d50b328ab8ff6fac3193f2fcc.loader.js"></script>
+<script src="Build/14b67bcc5363b1c080c014a07887884c.loader.js"></script>
 <script>
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/a03bc92bddd3c62c9d4420b7ae41fb62.data.unityweb",
+    dataUrl: "Build/0641305f0207c8ea8c2bfffa2826b6c7.data.unityweb",
     frameworkUrl: "Build/c16aec3275f444d4df5b5d6f3c3b5d8a.framework.js.unityweb",
-    codeUrl: "Build/cbbf2211c3f10cb79888ba1809f33b0d.wasm.unityweb",
+    codeUrl: "Build/c1e9f6e1245c819665d5bfa0d58c2902.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
