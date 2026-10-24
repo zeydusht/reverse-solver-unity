@@ -1,3 +1,52 @@
+# SET40 v3 (PM_MESAJ_6/7, 2026-10-24): öğretici eğri
+
+Build 5'in varsayılan seti (yayınlanmadı). Üretim: `SetV3.Gen` (12 yeni bölüm) + `Tools/make_set40_v3.py` (sıra, kartlar, bayraklar); tablo `Tools/set40_v3_doc.py`. v2: `Levels/redesign_v2.json`. Booster açılışları değişmedi (makas 5, değnek 9, saat 15, çekiç 23), tanıtımlar 3/6/10/14 ile çakışmıyor. S39 çıkarıldı ("eski usul"), 37 nefes. 15 üretilemedi → S13 (duvar+zincir+çivi). Hiçbir engel tanıtımından önce görünmüyor (betik kontrolü).
+
+| Slot | Hedef (yeni oyuncu) | Zeyd tahmini (v2) | Engel (çivi/bomba/zincir/duvar) | Boyut | Bayrak | Kaynak |
+|---|---|---|---|---|---|---|
+| 1 | 1 | yeni, ölçülmedi | 0/0/0/0 | 3x3, 9 parça | tutorial 1 | S41 (yeni, SetV3.Gen) |
+| 2 | 1 | yeni, ölçülmedi | 0/0/0/0 | 4x4, 16 parça | tutorial 2 | S42 (yeni, SetV3.Gen) |
+| 3 | 2 | yeni, ölçülmedi | 1/0/0/0 | 4x5, 20 parça | tanıtım: Çivili parça | S43 (yeni, SetV3.Gen) |
+| 4 | 2 | 1.1 / %100 | 1/0/0/0 | 5x6, 30 parça |  | S06 (v2 slot 6) |
+| 5 | 3 | yeni, ölçülmedi | 2/0/0/0 | 5x5, 25 parça | booster: Makas | S44 (yeni, SetV3.Gen) |
+| 6 | 2 | yeni, ölçülmedi | 0/1/0/0 | 4x5, 20 parça | tanıtım: Bombalı parça | S45 (yeni, SetV3.Gen) |
+| 7 | 3 | yeni, ölçülmedi | 0/1/0/0 | 5x5, 25 parça |  | S46 (yeni, SetV3.Gen) |
+| 8 | 4 | yeni, ölçülmedi | 0/2/0/0 | 5x6, 30 parça |  | S47 (yeni, SetV3.Gen) |
+| 9 | 5 | taban: bomba payı (ölçülmedi) | 0/1/0/0 | 5x6, 30 parça | booster: Değnek | S20 (v2 slot 20) |
+| 10 | 2 | yeni, ölçülmedi | 0/0/1/0 | 4x5, 19 parça | tanıtım: Zincirli çift | S48 (yeni, SetV3.Gen) |
+| 11 | 3 | yeni, ölçülmedi | 0/0/1/0 | 5x5, 24 parça |  | S49 (yeni, SetV3.Gen) |
+| 12 | 3 | yeni, ölçülmedi | 0/0/2/0 | 5x6, 28 parça |  | S50 (yeni, SetV3.Gen) |
+| 13 | 4 | yeni, ölçülmedi | 0/1/1/0 | 5x6, 29 parça |  | S51 (yeni, SetV3.Gen) |
+| 14 | 3 | yeni, ölçülmedi | 0/0/0/1 | 5x5, 25 parça | tanıtım: Mühürlü kenar | S52 (yeni, SetV3.Gen) |
+| 15 | 4 | 1.1 / %100 | 1/0/2/1 | 6x6, 34 parça | booster: Saat | S13 (v2 slot 13) |
+| 16 | 3–4 | 1.1 / %100 | 1/0/3/1 | 6x6, 33 parça |  | S17 (v2 slot 17) |
+| 17 | 3–4 | 1.1 / %100 | 1/0/0/1 | 6x6, 36 parça |  | S10 (v2 slot 10) |
+| 18 | 3–4 | 1.1 / %100 | 1/0/3/2 | 6x6, 33 parça |  | S18 (v2 slot 18) |
+| 19 | 7 | 7 (Zeyd) / kazandı | 3/4/2/13 | 7x8, 54 parça | zor uyarısı | S28 (v2 slot 28) |
+| 20 | 5–6 | 6 (Zeyd) / bomb | 2/1/3/0 | 6x7, 39 parça |  | S24 (v2 slot 24) |
+| 21 | 4–6 | 3 (Zeyd) / kazandı | 2/1/3/2 | 6x7, 39 parça |  | S22 (v2 slot 22) |
+| 22 | 4–6 | 1.1 / %100 | 2/0/3/2 | 6x6, 33 parça |  | S19 (v2 slot 19) |
+| 23 | 4–6 | taban: bomba payı (ölçülmedi) | 1/2/3/1 | 6x7, 39 parça | booster: Çekiç | S27 (v2 slot 27) |
+| 24 | 4–6 | 1.1 / %100 | 2/0/1/2 | 6x6, 35 parça |  | S14 (v2 slot 14) |
+| 25 | 7–8 | 9 (Zeyd) / bomb | 0/4/2/14 | 7x8, 54 parça | zor uyarısı | S35 (v2 slot 35) |
+| 26 | 4–6 | 1.1 / %100 | 1/0/0/0 | 5x5, 25 parça |  | S26 (v2 slot 26) |
+| 27 | 4–6 | 4 (Zeyd) / bomb | 2/1/2/2 | 6x7, 40 parça |  | S25 (v2 slot 25) |
+| 28 | 4–6 | 2 (Zeyd) / kazandı | 2/1/3/2 | 6x7, 39 parça |  | S30 (v2 slot 30) |
+| 29 | 4–6 | 1.1 / %100 | 1/0/0/1 | 5x6, 30 parça |  | S11 (v2 slot 11) |
+| 30 | 7–8 | 9 (Zeyd) / kazandı | 4/4/2/13 | 7x8, 54 parça | zor uyarısı | S37 (v2 slot 37) |
+| 31 | 4–6 | 1.1 / %100 | 0/0/0/0 | 5x6, 30 parça |  | S23 (v2 slot 23) |
+| 32 | 4–6 | 6 (Zeyd) / kazandı | 2/4/2/14 | 7x8, 54 parça |  | S31 (v2 slot 31) |
+| 33 | 4–6 | 2 (Zeyd) / kazandı | 2/1/3/0 | 6x7, 39 parça |  | S34 (v2 slot 34) |
+| 34 | 4–6 | 8 (Zeyd) / bomb | 1/4/2/14 | 7x8, 54 parça |  | S32 (v2 slot 32) |
+| 35 | 8–9 | 5.6 (M13 modeli) / rastgele %4 | 3/3/2/12 | 7x7, 47 parça | zor uyarısı | S36 (v2 slot 36) |
+| 36 | 8–9 | 5.4 (M13 modeli) / rastgele %0 | 4/4/2/14 | 8x8, 62 parça | zor uyarısı | S29 (v2 slot 29) |
+| 37 | nefes | 1.1 / %100 | 2/0/0/2 | 6x6, 36 parça |  | S08 (v2 slot 8) |
+| 38 | 8–9 | 6.0 (M13 modeli) / rastgele %0 | 3/3/2/12 | 6x7, 40 parça | zor uyarısı | S38 (v2 slot 38) |
+| 39 | 8–9 | 5.6 (M13 modeli) / rastgele %0 | 4/4/2/15 | 8x8, 62 parça | zor uyarısı | S33 (v2 slot 33) |
+| 40 | 10 | 6.6 (M13 modeli) / rastgele %1 | 3/3/2/13 | 7x7, 47 parça | zor uyarısı | S40 (v2 slot 40) |
+
+---
+
 # SET40 v2 (PM_MESAJ_5 + EK, 2026-10-21 gecesi)
 
 `?set=redesign` altında (Build 5z7, kayıt açık: plays, moves, 1–10); bayraklar kapalı, canlı 40 değişmedi. Slotlar `Tools/set40_plan.py`, belge `Tools/set40_doc.py`.

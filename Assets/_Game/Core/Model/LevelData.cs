@@ -2,7 +2,14 @@ using System.Collections.Generic;
 
 namespace ReverseSolver.Core
 {
-    /* One level as authored. Immutable: play state lives in Board.
+    /* One level as authored. Treat as immutable after construction.
+       This is a caller convention, not deep immutability: internal setters restrict
+       assignment, but exposed arrays, nested arrays and LevelIntro fields remain
+       mutable. IReadOnly collections do not freeze elements or copy backing storage.
+       Use an independent draft for edits. Boards retain this reference and consult
+       its geometry while keeping copied occupancy and joints; changing shared data
+       during a solve can make those copies inconsistent. Runtime presence and joint
+       changes live in Board; session counters live in GameSession.
 
        Joints. A boundary between two cells holds +1, -1 or 0:
          +1 / -1  one side owns the tab, the pair is interlocked
@@ -20,7 +27,9 @@ namespace ReverseSolver.Core
         public int Height { get; internal set; }
         public int TimerSeconds { get; internal set; }
 
-        /* Each piece is a list of cells; a chained pair is one piece with two. */
+        /* Each piece is a list of cells; a chained pair is one piece with two.
+           Piece indices are shared by Move, Nails, Bombs, and Board. Reordering this
+           list requires remapping those references; do not edit the returned arrays. */
         public IReadOnlyList<Cell[]> Pieces { get; internal set; }
 
         internal int[,] V;                                // [y, x], x in 0..W
@@ -52,6 +61,10 @@ namespace ReverseSolver.Core
         // Generator outputs, kept for comparing prediction with play data.
         public int Load { get; internal set; }
         public int Open { get; internal set; }
+
+        // SET40 v3: "zor bölüm" warning before the level, and the tutorial step (1, 2) that shows the hand.
+        public bool Hard { get; internal set; }
+        public int Tutorial { get; internal set; }
 
         public int CellCount => Width * Height;
         public bool OnBoard(Cell c) => c.X >= 0 && c.X < Width && c.Y >= 0 && c.Y < Height;

@@ -232,6 +232,16 @@ namespace ReverseSolver.Presentation
             _board?.Deal();                                    // web render(true): pieces deal in on a fresh start
         }
 
+        /* SET40 v3 tutorial: the hand on the next solution move and its step text. */
+        void ShowTutorialStep()
+        {
+            if (_board == null || !Tutorial.Step(_session, out var m)) return;
+            var origin = BoardPlacement(_screen, _safe, _session.Level, out _);
+            _hand = TutorialHand.Show(_board, _board.PieceViewOf(m.Piece), m, HandOrder, new Rect(-origin, _screen));
+            int done = _session.Level.Pieces.Count - _session.Board.PresentCount;
+            if (_session.Level.Tutorial == 1 || done == 0) _bar?.Notice(done == 0 ? Texts.TutorialFirst : Texts.TutorialNext, 2.5f);
+        }
+
         void OnEvent(GameEvent e)
         {
             if (_zeydbotSet) RecordMove(e);
@@ -240,6 +250,7 @@ namespace ReverseSolver.Presentation
             {
                 _tutorialDone = true;                          // web clearTutorial() in flyOut and the hammer
                 if (_hand != null) { _hand.Remove(); _hand = null; }
+                if (_session.Level.Tutorial > 0) ShowTutorialStep();
             }
             if (e.Kind != EventKind.Finished) return;
             _log.Add(_session.Record);
@@ -304,11 +315,12 @@ namespace ReverseSolver.Presentation
                 }
                 _hand = null;
                 bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active;
-                if (Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
+                if (_session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
                     _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
                                               new Rect(-origin, _screen));
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder);
+                if (_session.Level.Tutorial > 0) ShowTutorialStep();
                 if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder));
                 else if (_session.IsOver && _endAt < 0) ShowResult();
                 RefreshPlaying();

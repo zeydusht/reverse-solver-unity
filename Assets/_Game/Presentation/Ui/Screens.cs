@@ -43,6 +43,22 @@ namespace ReverseSolver.Presentation
                 Root.SetParent(parent, false);
                 float cx = screen.x / 2, cy = (screen.y + safe.y - safe.w) / 2;
 
+                // approved corridor art (PM_MESAJ_7), static, cover-fitted under everything; texts stay dynamic
+                var art = Resources.Load<Sprite>("menu_bg");
+                if (art != null)
+                {
+                    var bg = new GameObject("background").AddComponent<SpriteRenderer>();
+                    bg.transform.SetParent(Root, false);
+                    bg.sprite = art;
+                    bg.sortingOrder = order - 2;
+                    float k = Mathf.Max(screen.x / art.rect.width, screen.y / art.rect.height);
+                    bg.transform.localScale = new Vector3(k, k, 1);
+                    bg.transform.localPosition = Draw.W(screen.x / 2, screen.y / 2);
+                    // a dark veil behind the buttons keeps the title and buttons readable on the busy art
+                    ShapeView.Create(Root, "veil", new Vector2(Mathf.Min(340f, screen.x - 24f), 250f), 0, order - 1).Radius(18)
+                        .Fill(Draw.Rgba(14, 42, 46, .72f)).transform.localPosition = Draw.W(cx, cy - 40);
+                }
+
                 // the strip's amber jigsaw, large
                 var icon = new GameObject("logo").transform;
                 icon.SetParent(Root, false);
@@ -222,6 +238,7 @@ namespace ReverseSolver.Presentation
 
         public static Card Intro(Transform parent, Vector2 screen, LevelData l, int order)
         {
+            if (l.BoosterIntro == null && l.Intro == null) return HardWarning(parent, screen, order);
             bool booster = l.BoosterIntro != null;
             var info = booster ? l.BoosterIntro : l.Intro;
             string icon = booster ? info.Id : (info.Icon ?? "hammer");
@@ -233,7 +250,16 @@ namespace ReverseSolver.Presentation
             return c.Button("ok", "Anladım", true).Finish();
         }
 
-        public static bool HasIntro(LevelData l) => l.BoosterIntro != null || l.Intro != null;
+        public static bool HasIntro(LevelData l) => l.BoosterIntro != null || l.Intro != null || l.Hard;
+
+        /* SET40 v3: the "zor bölüm" warning (a level with the hard flag and no other card). The timer
+           still starts on the first move, after "Başla". */
+        public static Card HardWarning(Transform parent, Vector2 screen, int order) =>
+            new Card(parent, screen, order, "Intro")
+                .Icon((t, size, o) => Icons.Draw("bomb", t, size, o))
+                .Title(Texts.HardTitle)
+                .Body(Texts.HardBody, gapAfter: 18)
+                .Button("ok", Texts.HardStart, true).Finish();
 
         // ---- booster confirmation (web #ask) ----------------------------------------------
 

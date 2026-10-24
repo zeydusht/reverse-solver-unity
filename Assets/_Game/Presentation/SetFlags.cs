@@ -8,8 +8,8 @@ namespace ReverseSolver.Presentation
        The redesigned set can always be played with ?debug=1&set=redesign (nothing is sent). */
     public static class SetFlags
     {
-        public static readonly bool RedesignDefault = false;
-        public static readonly bool AskFun = false;
+        public static readonly bool RedesignDefault = true;    // Build 5 (PM_MESAJ_6/7): SET40 v3 is the default set
+        public static readonly bool AskFun = true;             // Build 5: 👍/👎 on
     }
 
     /* Which level file the game plays. */
@@ -26,6 +26,7 @@ namespace ReverseSolver.Presentation
             // PM 2026-10-21 (PM_MESAJ_5): the redesigned set opens without debug too, recorded like set=zeydbot
             if (setParam == "redesign" && hasRedesign) return Kind.Redesign;
             if (debug && setParam == "levels") return Kind.Levels;
+            if (setParam == "classic") return Kind.Levels;            // Build 5: the old live 40 stay reachable
             if (redesignDefault && hasRedesign) return Kind.Redesign;
             return Kind.Levels;
         }

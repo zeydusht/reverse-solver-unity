@@ -83,6 +83,8 @@ namespace ReverseSolver.Core
             l.Unlock = ParseNamedInts(n, "unlock", at);
             l.Load = OptInt(n, "load", at, 0);
             l.Open = OptInt(n, "open", at, 0);
+            l.Hard = n.TryGet("hard", out var hard) && hard.Kind == JsonKind.Bool && hard.AsBool;
+            l.Tutorial = OptInt(n, "tutorial", at, 0);
             return l;
         }
 

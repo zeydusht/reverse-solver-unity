@@ -24,5 +24,23 @@ namespace ReverseSolver.Core
             if (!s.Board.IsPresent(move.Piece) || s.NailAt(move.Piece) > 0) return false;
             return s.Probe(move.Piece, move.Dir).Exit;
         }
+
+        /* SET40 v3 tutorial levels (PM_MESAJ_6): the hand walks the stored solution step by step. It points at
+           the first solution move whose piece is still on the board and can leave now, for the first `steps`
+           removals of the attempt (tutorial 1: every move; tutorial 2: fewer, "el ve yazı daha az"). */
+        public static int StepsOf(LevelData l) => l.Tutorial == 1 ? int.MaxValue : l.Tutorial == 2 ? 3 : 0;
+
+        public static bool Step(GameSession s, out Move move)
+        {
+            move = default;
+            var l = s.Level;
+            if (s.IsOver || l.Pieces.Count - s.Board.PresentCount >= StepsOf(l)) return false;
+            foreach (var m in l.Solution)
+            {
+                if (!s.Board.IsPresent(m.Piece) || s.NailAt(m.Piece) > 0) continue;
+                if (s.Probe(m.Piece, m.Dir).Exit) { move = m; return true; }
+            }
+            return false;
+        }
     }
 }
