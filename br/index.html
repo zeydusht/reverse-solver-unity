@@ -18,6 +18,11 @@
   if (/[?&]set=redesign/.test(location.search)) {
     document.querySelector('link[rel="apple-touch-icon"]').href = 'TemplateData/icon-v3-180.png';
     document.querySelector('link[rel="icon"]').href = 'TemplateData/icon-v3-32.png';
+    // #24 / #25 (Codex MissingScreens): loading and name screens in the new look
+    document.documentElement.classList.add('v3');
+    document.addEventListener('DOMContentLoaded', function () {
+      var img = document.querySelector('#loader img'); if (img) img.src = 'TemplateData/icon-v3-192.png';
+    });
   }
 </script>
 <title>Reverse Solver</title>
@@ -45,6 +50,11 @@
   #loader img{width:96px;height:96px;border-radius:22px}
   #loader .track{width:180px;height:6px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
   #loader .fill{height:100%;width:0;background:#f0a742;transition:width .15s}
+  .v3 #loader{background:linear-gradient(180deg,#164b50 0%,#0b252a 100%)}
+  .v3 #loader .fill{background:linear-gradient(90deg,#f8cb70,#e8953e)}
+  .v3 #loader .msg{color:#b3cbca}
+  .v3 div:has(> #rs-name-in){background:linear-gradient(160deg,#1b5960,#103c43)!important;border-radius:18px!important;border-color:rgba(244,232,207,.2)!important}
+  .v3 #rs-name-go{background:linear-gradient(180deg,#f8cb70,#e8953e)!important}
   #loader .msg{font-size:13px;color:#8fb2b3;max-width:280px;text-align:center;line-height:1.5}
 
   /* Safari cannot lock orientation, so a landscape phone gets a hint instead. */
@@ -223,9 +233,9 @@ window.ltBoot = function (msg) {
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/c27661f8c42cec9425869ff020d3917c.data.unityweb",
-    frameworkUrl: "Build/b4b8581aa2bd1e15a51ce1557b073085.framework.js.unityweb",
-    codeUrl: "Build/53c203b864dc7b2729fc26fddb076d32.wasm.unityweb",
+    dataUrl: "Build/c24ec000e09baeb52a0e4aad39b07eb4.data.unityweb",
+    frameworkUrl: "Build/a9500e1f803275c5148df8333d1c6e62.framework.js.unityweb",
+    codeUrl: "Build/3f137b1ee4e840d8de6c1e2584be316e.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
