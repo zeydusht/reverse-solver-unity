@@ -5,6 +5,9 @@ namespace ReverseSolver.Core
 {
     /* How far a piece can slide in a direction, and why it stops.
          Exit     the piece leaves the board; Cells is the travel inside it
+                  (last offset before ALL cells are off, not the exit offset)
+         Cells    collision/catch: offset before the first stop; sealed rim:
+                  last offset with ALL body cells still on the board
          Blocker  the piece in the way, -1 for a wall segment
          Hard     a solid stop (occupied cell or wall) rather than a catch */
     public readonly struct TravelLimit : IEquatable<TravelLimit>
@@ -76,6 +79,17 @@ namespace ReverseSolver.Core
             return false;
         }
 
+        /// <summary>Read-only geometric travel using current occupancy and joints.</summary>
+        /// <remarks>
+        /// Requires a valid, present piece with nonempty cells, a valid direction and
+        /// a well-formed board. Presence is not checked: a removed piece is still
+        /// queried at its original home cells. Nails, bombs, timers and session
+        /// outcomes are outside this query; Exit does not guarantee a legal session move.
+        /// At each offset, occupancy stops precede side catches. Blocker is the first
+        /// encountered piece index, not all obstructions. Exit also has Blocker -1;
+        /// use Exit and Hard to distinguish it from a sealed wall.
+        /// Neither the board nor the level is changed.
+        /// </remarks>
         public static TravelLimit Limit(Board b, int piece, Dir dir)
         {
             var l = b.Level;
@@ -133,6 +147,7 @@ namespace ReverseSolver.Core
             return true;
         }
 
+        /// <summary>Any geometric exit direction; Limit preconditions apply.</summary>
         public static bool CanExit(Board b, int piece)
         {
             foreach (var d in DirExt.All)
@@ -140,6 +155,8 @@ namespace ReverseSolver.Core
             return false;
         }
 
+        /// <summary>New list of geometric exit directions in DirExt.All order (U, D, L, R).</summary>
+        /// <remarks>Limit preconditions apply; session restrictions are not filtered.</remarks>
         public static List<Dir> ExitDirs(Board b, int piece)
         {
             var dirs = new List<Dir>(4);
@@ -148,7 +165,7 @@ namespace ReverseSolver.Core
             return dirs;
         }
 
-        /* Pieces with at least one exit right now, ascending. */
+        /* Present pieces with at least one geometric exit right now, ascending. Nails/bombs are not filtered; returns a new list. */
         public static List<int> FreePieces(Board b)
         {
             var free = new List<int>();

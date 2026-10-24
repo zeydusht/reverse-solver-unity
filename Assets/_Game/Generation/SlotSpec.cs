@@ -39,6 +39,11 @@ namespace ReverseSolver.Generation
         public int MinRemote, MaxRemote;                 // of those, chains between cells that do not touch
         public int MinBombs, MaxBombs;
 
+        /// <summary>
+        /// Queries only the introduction calendar, not this instance's obstacle limits.
+        /// Known boosters are included; unknown non-null ids return false. Genre,
+        /// NewThing and manually edited Min/Max fields do not affect this query.
+        /// </summary>
         public bool Allows(string thing) => IntroducedAt.TryGetValue(thing, out int at) && Slot >= at;
 
         public override string ToString() =>
@@ -49,6 +54,20 @@ namespace ReverseSolver.Generation
            introduction calendar: nothing appears before its slot, an introduction
            slot shows its new thing alone (one new thing per level), 1–11 have
            single-cell pieces only, bombs from 20. */
+        /// <summary>
+        /// Creates a fresh, mutable specification with default bounds; does not validate
+        /// slot range, board capacity or introduction chronology. NewThing comes from
+        /// the caller and is never inferred from IntroducedAt.
+        /// </summary>
+        /// <remarks>
+        /// Calendar limits apply first, then slot 4's nail override, then the
+        /// Tanitim/NewThing override. The last override can introduce an obstacle
+        /// before its calendar slot. Chain introduction requests two chains, one remote;
+        /// booster or unknown introduction ids clear all obstacle counts.
+        /// Outside Tanitim only recognized obstacle ids throw; booster and unknown ids
+        /// remain metadata and leave default counts intact. Callers own validation of
+        /// custom specifications and any later edits to the public fields.
+        /// </remarks>
         public static SlotSpec For(int slot, Genre genre, string newThing = null)
         {
             var s = new SlotSpec { Slot = slot, Genre = genre, NewThing = newThing };

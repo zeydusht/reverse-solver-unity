@@ -97,6 +97,17 @@ namespace ReverseSolver.Generation
 
         public enum Verdict { Enjoyed, Frustrated, Bored }
 
+        /// <summary>
+        /// Exclusive player verdicts; wins may overlap frustration because reasons from
+        /// earlier losses and slow moves persist after a win. Unfair/Hard use the first
+        /// recorded reason. Each distinct reason is counted once per player.
+        /// </summary>
+        /// <remarks>
+        /// Rates use Players, except BoostedWinShare which uses winning attempts.
+        /// Attempts counts attempts, NearMiss counts players with any near miss.
+        /// MedianStars includes zero for non-winners and selects the upper middle
+        /// value for even populations. Ms measures elapsed wall time.
+        /// </remarks>
         public sealed class Result
         {
             public int Players;
@@ -142,6 +153,16 @@ namespace ReverseSolver.Generation
 
         // ---- one level --------------------------------------------------------------------------------
 
+        /// <summary>Simulates up to three attempts per player, stopping on a win or abandoned retry.</summary>
+        /// <remarks>
+        /// Null players selects Population(); a supplied list must be nonempty because
+        /// MedianStars indexes the sorted results. Random streams depend on player index:
+        /// reproducibility requires the same ordered population, level, genre, learning,
+        /// seed and options (excluding elapsed Ms). Each attempt gets a fresh session and
+        /// stock; retry memory, bomb attention and frustration persist within a player.
+        /// learning=false disables only the later-attempt look multiplier, not Memory
+        /// or the other option rules. A frozen board ends the attempt as Quit.
+        /// </remarks>
         public static Result Run(LevelData level, Genre genre, List<Player> players = null, bool learning = true, uint seed = 1, Options options = null)
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();

@@ -84,6 +84,10 @@ namespace ReverseSolver.Editing
         /* ceil to the next multiple of 5 (a tiny epsilon keeps 50.0000001 at 50). */
         public static int Ceil5(double seconds) => (int)(Math.Ceiling(seconds / 5 - 1e-9) * 5);
 
+        /// <summary>
+        /// Rounds the raw time formula up to a multiple of five. This helper does not
+        /// apply MaxTime; Analyze caps SuggestedTime and reports whether it was capped.
+        /// </summary>
         public static int Time(int pieces, double s, double p) => Ceil5(pieces * s * p);
 
         /* s from structure (the only source tonight besides the kind's own s). */
@@ -174,6 +178,21 @@ namespace ReverseSolver.Editing
             public double RandomWinRate;
         }
 
+        /// <summary>
+        /// Builds an advisory report without applying timer, fuse or nail suggestions
+        /// to the level. Structure metrics and the random win rate are supplied by the
+        /// caller: they are neither recomputed nor checked for matching this level.
+        /// </summary>
+        /// <remarks>
+        /// Seconds per piece comes from structure (or the first-level override), not
+        /// Params.S. Current time measures use the level's actual timer; suggested
+        /// time measures use the formula capped at MaxTime. Median time-left shares
+        /// may be negative and are not clamped to [0, 1].
+        /// Fuse suggestions include only bombs present in m.BombDigs and retain each
+        /// dig's exactness flag; missing digs are omitted. Nail suggestions are ordered
+        /// by piece index, so the first-nail share refers to the lowest indexed nail.
+        /// RandomWinRate is copied as a report-only value and does not affect suggestions.
+        /// </remarks>
         public static Report Analyze(LevelData level, Genre genre, StructureMetrics m, double randomWinRate, bool firstLevel = false)
         {
             var p = Of(genre);

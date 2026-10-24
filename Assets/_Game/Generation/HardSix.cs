@@ -35,10 +35,19 @@ namespace ReverseSolver.Generation
             return s;
         }
 
+        // Non-null results: satisfied metric rows first, then score; equal results are not better.
         public static bool Better(Result a, Result b) => a.Held != b.Held ? a.Held > b.Held : a.Score > b.Score;
 
         static bool Clean(LevelData l, out SmartPlayResult r) { r = SmartPlayer.Play(l); return r.Verdict == SmartVerdict.Won && r.Valves == 0; }
 
+        /// <summary>
+        /// Attempts one candidate; explicit rejections return null with why, success clears why.
+        /// Exceptions from invalid inputs are not caught. Samples at most six shuffled inner
+        /// single pieces for an exact bomb dig, rather than finding the deepest on the board.
+        /// Requires an inner single-piece nail blocker and keeps fuse = dig + 1. Replays
+        /// the chosen directions, checks DesignCheck and the minimum computed time share.
+        /// HardFactors rows rank survivors; passing every row is not an acceptance condition.
+        /// </summary>
         public static Result Try(uint seed, Catalog catalog, out string why)
         {
             var rng = new Mulberry32(seed * 2654435761u + 13u);
@@ -127,7 +136,15 @@ namespace ReverseSolver.Generation
             };
         }
 
-        /* Zeyd's fast path (2026-10-18): D06 = D05 edited by hand rules. Returns the draft and a log. */
+        /// <summary>
+        /// Edits a clone of d05 and appends diagnostics to the supplied non-null log, even
+        /// on failure. Returns null on rejection; the supplied draft is not modified.
+        /// Unlike Try, scans all inner single pieces for the bomb, allows a missing or
+        /// outer nail and can relax the fuse through dig + 4. The post-nail dig need not
+        /// be exact; a missing measurement falls back to the earlier best dig.
+        /// Success requires the recorded solution to win without valves, but does not run
+        /// Try's DesignCheck/minimum-time-share gates or return HardFactors scores.
+        /// </summary>
         public static LevelDraft FromD05(LevelDraft d05, List<string> log)
         {
             var rng = new Mulberry32(20261018);

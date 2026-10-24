@@ -29,6 +29,19 @@ namespace ReverseSolver.Editing
 
         static readonly CultureInfo Tr = CultureInfo.GetCultureInfo("tr-TR");
 
+        /// <summary>Builds a semicolon-separated table in input order, with a header and CRLF rows.</summary>
+        /// <remarks>
+        /// Emits 19 columns when monteCarloRuns is zero or negative, otherwise 36.
+        /// Positive runs perform Monte Carlo and structural analysis for each row;
+        /// nodeBudget is passed only to DesignCheck, which runs for every row.
+        /// genreOf is consulted only with positive runs, using the level ID (not set).
+        /// A missing genre leaves the final five cells empty. Suggestions are not
+        /// applied to the level. Read solution length together with the verdict:
+        /// an unverified result does not prove that no solution exists.
+        /// Decimal values use Turkish formatting. Base text fields quote semicolons,
+        /// quotes and line breaks. Set and level ID must be non-null.
+        /// The returned string has no BOM; use ToBytes for Excel-compatible bytes.
+        /// </remarks>
         public static string Build(IEnumerable<(string set, LevelData level)> rows, int nodeBudget = DesignCheck.QuickBudget,
                                    int monteCarloRuns = 0, System.Func<string, Genre?> genreOf = null)
         {
@@ -78,7 +91,8 @@ namespace ReverseSolver.Editing
             return sb.ToString();
         }
 
-        /* The file's bytes: UTF-8 with its BOM. */
+        /// <summary>Encodes CSV text as UTF-8, prepending a BOM.</summary>
+        /// <remarks>Pass BOM-free text; an existing BOM is not removed.</remarks>
         public static byte[] ToBytes(string csv)
         {
             var enc = new UTF8Encoding(true);

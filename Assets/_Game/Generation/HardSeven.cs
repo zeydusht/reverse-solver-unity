@@ -27,6 +27,17 @@ namespace ReverseSolver.Generation
         static bool Clean(LevelData l, out SmartPlayResult r) { r = SmartPlayer.Play(l); return r.Verdict == SmartVerdict.Won && r.Valves == 0; }
         static int Free(LevelDraft d) => TravelRule.FreePieces(new Board(d.ToLevelData())).Count;
 
+        /// <summary>
+        /// Builds fresh geometry; d06 supplies only art and its first two palette colours.
+        /// Configure shared W/H/LongChains/MinBombEdge/BombCount before starting concurrent seeds
+        /// and keep them unchanged during the run. Invalid placement settings may throw.
+        /// </summary>
+        /// <remarks>
+        /// Opener and obstacle counts are search goals, not hard acceptance gates. Bombs may be
+        /// removed to retain solvability. A non-null result can carry an opener warning in why.
+        /// Acceptance requires a final SmartPlayer win without valves and a winning stored replay
+        /// without valves; fun thresholds are not checked. Seed records the input before RNG mixing.
+        /// </remarks>
         public static Result Try(LevelDraft d06, uint seed, out string why)
         {
             why = null;
@@ -144,7 +155,7 @@ namespace ReverseSolver.Generation
                 slack = bombs.Select(b => mf.BombDigs.TryGetValue(b.piece, out var dg) ? lv.Bombs[b.piece] - dg.dig : 0).ToList();
             }
 
-            // time share 1.15, the stored solution
+            // Timer uses the current HardDesign.TimeShare; stored directions are replay-validated below.
             d.SetTimer(60);
             var ms = StructureMetrics.Of(d.ToLevelData());
             double sec = DifficultyModel.SecondsPerPiece(ms.ReadingPerMove, true, false);
@@ -180,7 +191,9 @@ namespace ReverseSolver.Generation
             };
         }
 
-        /* The nail on x counts for the bomb: with x pinned for good the bomb's dig grows (or the bomb cannot be reached). */
+        /* Heuristic dependency probe with counter 99 and bounded 20,000-node measurements.
+           Missing pinned dig counts as critical; exactness is not checked, so this does not
+           prove that x is required on every winning path. */
         static bool Critical(LevelDraft d, LevelData lv, int x, int bomb)
         {
             var free = StructureMetrics.Of(lv, 20_000);
@@ -199,6 +212,9 @@ namespace ReverseSolver.Generation
         public static int W = 7, H = 8, MinBombEdge = 2;
         public static bool LongChains;
 
+        // Sample up to 300 groups from digs >= 6. Rank by minimum Manhattan distance * 100
+        // plus summed dig (a weighted score, not lexicographic ordering). If none was sampled,
+        // fall back to up to k deepest candidates, including digs < 6; fewer than k may return.
         static List<(int piece, int dig)> Spread(List<(int piece, int dig)> digs, LevelData l, int k, IRandom rng)
         {
             var best = new List<(int piece, int dig)>(); double bestKey = double.MinValue;

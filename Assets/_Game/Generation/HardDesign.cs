@@ -9,7 +9,9 @@ namespace ReverseSolver.Generation
 {
     /* Zeyd's single hardest-but-fair Çok zor level (PRODUCT.md karar 2026-10-18 (3)): the
        "derin bomba" recipe with his conditions, measured by the strongest player (SmartPlayer's
-       order, 0.5 s a piece for a fast expert), not by the fun model.
+       order), not by the fun model. The timer uses DifficultyModel.SecondsPerPiece;
+       the fixed 0.5 s expert estimate is report-only. The recipe below is the original
+       request; FuseOverDig, MaxFreeAtStart and MaxOpen include later relaxations.
 
          6×7, 36-40 bodies, open seams 42-46 %, at most 5 pieces free on the first move;
          the bomb on a core cell (each edge >= 3 cells away), shortest dig >= 8, fuse = dig + 2;
@@ -36,7 +38,9 @@ namespace ReverseSolver.Generation
             public Cell Core;
             public uint Seed;
             public string Params;
-            /* Conditions missed (fairness never is): text "tarif X, gerçek Y" and a cost; 0 = every condition held. */
+            /* Recipe deviations and weighted costs. A deviation may cost zero under later
+               relaxations, so Miss == 0 does not imply Misses is empty.
+               Fairness failures reject the candidate instead of entering this list. */
             public readonly List<(string text, double cost)> Misses = new List<(string, double)>();
             public double Miss => Misses.Sum(m => m.cost);
 
@@ -66,7 +70,11 @@ namespace ReverseSolver.Generation
             return s;
         }
 
-        /* One candidate seed: null with the reason when a condition fails. */
+        /* Evaluates one seeded board and nail pairs among the four eligible single pieces
+           with the most exit-path cuts; returns the best accepted pair by Better.
+           Recipe deviations may remain. Null means no accepted result; why is the generator
+           or last failed check diagnostic and can be null if fewer than two nail picks exist.
+           This is not an exhaustive search. Mutable MaxOpen also affects scoring. */
         public static Result Try(uint seed, Catalog catalog, out string why)
         {
             var rng = new Mulberry32(seed * 2246822519u + 7u);
@@ -87,7 +95,7 @@ namespace ReverseSolver.Generation
             var miss = new List<(string, double)>();
             if (open < 42 || open > 46) miss.Add(($"açık dikiş: tarif %42–46, gerçek %{open}", open > MaxOpen ? open - 46 : 0));
 
-            // the bomb on the core: its shortest dig with a long fuse, then fuse = dig + 2
+            // Prove the shortest dig with a long fuse, then apply the current FuseOverDig margin.
             d.SetBomb(core, 99);
             var m0 = StructureMetrics.Of(d.ToLevelData(), 60_000);    // deep bomb: prove the shortest dig
             int bombPiece = PieceAt(d.ToLevelData(), core);
@@ -119,7 +127,8 @@ namespace ReverseSolver.Generation
             return best;
         }
 
-        /* Every condition held beats any miss; then fewer misses; then the harder board. */
+        /* Lower total weighted recipe cost wins, then higher hardness Score.
+           Deviation count is not a tie-breaker; exact ties return false. */
         public static bool Better(Result a, Result b) => a.Miss != b.Miss ? a.Miss < b.Miss : a.Score > b.Score;
 
         static Result Finish(LevelDraft d, Cell core, int bodies, int open, int[] cuts, int[] counters, SlotSpec spec, out string why)

@@ -50,6 +50,19 @@ namespace ReverseSolver.Generation
 
         /* Bombs get long fuses for the curve (as for the dig): the curve is about
            reading; a random player blowing up early would cut it short. */
+        /// <summary>Samples reading along seeded random legal-removal paths.</summary>
+        /// <remarks>
+        /// Each run starts from the full level with seed firstSeed + run index.
+        /// Nails are obeyed; a piece is chosen uniformly among free, unnailed pieces,
+        /// then a direction uniformly among that piece's exits. Reading is recorded
+        /// before removal, with progress measured by removed piece count, not time.
+        /// Stalled or ended sessions contribute only their observed prefix; bins
+        /// pool observations across runs rather than averaging per-run averages.
+        /// Bomb fuses are replaced on a copied draft; the supplied level is not
+        /// edited. Other session rules remain active. Zero or negative runs yield
+        /// no observations and an undefined curve. This is a reading estimate,
+        /// not a win-rate or timed-play guarantee.
+        /// </remarks>
         public static LevelCurve Of(LevelData level, int runs = 200, uint firstSeed = 1)
         {
             if (level.Bombs.Count > 0)
@@ -92,6 +105,13 @@ namespace ReverseSolver.Generation
             return v.Count == 0 ? double.NaN : v.Average();
         }
 
+        /* Scoring contract: ties for the highest reading select the earliest bin.
+           Opening/final are unweighted means of populated bins 0-1 / 7-9;
+           knot is the MAXIMUM populated bin in 3-6, not their mean. Bin 2
+           participates in peak selection but belongs to none of those acts.
+           Missing opening/final contributes zero to its component, not a smaller
+           Fit denominator. No observations or a missing/nonpositive knot marks
+           the curve undefined; consumers must check Defined before using Fit. */
         static void Score(LevelCurve c)
         {
             int peak = -1;

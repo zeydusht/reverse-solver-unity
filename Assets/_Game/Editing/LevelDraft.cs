@@ -102,9 +102,17 @@ namespace ReverseSolver.Editing
         public Dictionary<string, int> Boosters = new Dictionary<string, int>();
         public Dictionary<string, int> Unlock = new Dictionary<string, int>();
         public int Load;
-        /* Written from the solver on save, never typed in. It belongs to the
-           gameplay it was found for: after any gameplay edit it is dropped
-           (piece numbers may no longer even exist) until the next save. */
+        /// <summary>Stored solver path, exposed only while its gameplay key matches.</summary>
+        /// <remarks>
+        /// Assignment records the current GameplayKey but does not validate or replay
+        /// the path. A matching key therefore does not prove that the path wins.
+        /// The getter and setter share the supplied list: callers that need ownership
+        /// isolation must copy it. Null assignment stores an empty list.
+        /// A mismatched key returns a fresh empty list without deleting the stored path;
+        /// restoring the original gameplay makes that path visible again. Mutating an
+        /// empty list returned during a mismatch does not update the stored solution.
+        /// Cosmetic edits excluded from GameplayKey do not hide the path.
+        /// </remarks>
         public List<Move> Solution
         {
             get => _solutionKey == GameplayKey() ? _solution : new List<Move>();

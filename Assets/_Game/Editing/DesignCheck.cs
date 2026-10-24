@@ -7,9 +7,9 @@ namespace ReverseSolver.Editing
     public enum DesignVerdict
     {
         Solvable,       // cleared with 0 bombs, 0 freezes, 0 safety-valve pulls
-        NeedsValve,     // cleared, but only because the safety valve popped a nail
+        NeedsValve,     // the found solution used the valve; other orders are not ruled out
         Frozen,         // pieces left that can never leave
-        Bomb,           // no order found that takes a bomb out in time
+        Bomb,           // restricted search failed to defuse a bomb; not a proof over all orders
         Unverified      // the bomb search ran out of budget: neither proved nor refuted
     }
 
@@ -18,13 +18,14 @@ namespace ReverseSolver.Editing
         public DesignVerdict Verdict;
         public string Message;                          // Turkish, for the editor panel
         public readonly List<int> Pieces = new List<int>();    // where it got stuck / what went wrong
-        public readonly List<Move> Solution = new List<Move>();
-        public int Nodes;
+        public readonly List<Move> Solution = new List<Move>(); // only Solvable / NeedsValve; no failed-run prefix
+        public int Nodes; // SmartPlayer fallback visits; zero on geometric failure
         public LevelStats Stats;
         public int CellSize;                            // on a 375x667 phone
         public bool Fits => CellSize >= Layout.MinTouchCell;
 
-        /* The design rule: solvable with 0 bombs, 0 freezes and 0 valve pulls. */
+        /* A found solution with 0 bombs, 0 freezes and 0 valve pulls.
+           Independent of Fits: a solution can still fail the phone size check. */
         public bool FollowsRule => Verdict == DesignVerdict.Solvable;
     }
 
@@ -43,7 +44,8 @@ namespace ReverseSolver.Editing
             bombs do, and the stuck pieces are the answer;
          2. SmartPlayer (the player the 40/40 guarantee is checked with) on a
             GameSession for nails, bombs and the safety valve.
-       So the editor and the game cannot disagree about a level.
+       A successful report witnesses a legal session. SmartPlayer uses a restricted search:
+       Bomb and NeedsValve do not prove that every move order fails the design rule.
 
        The bomb search costs ~16k nodes a second here. The web levels need at
        most 213 nodes, so the live panel uses QuickBudget (well under a second);
@@ -53,6 +55,16 @@ namespace ReverseSolver.Editing
     {
         public const int QuickBudget = 10_000;
 
+        /// <summary>Checks geometry, then plays a fresh deterministic session without boosters.</summary>
+        /// <remarks>
+        /// Expects valid level data; does not validate malformed input or modify the level.
+        /// nodeBudget limits fallback search visits, not time or all simulated moves;
+        /// the direct heuristic can succeed even with zero budget. Geometry failure
+        /// returns immediately with no solution and zero Nodes. Pieces contains original
+        /// indices: geometric stuck pieces, replay survivors, valve-released nails, or a
+        /// reported bomb, depending on Verdict; it is not always a list of all blockers.
+        /// CellSize/Fits describe the default 375x667 layout independently of Verdict.
+        /// </remarks>
         public static DesignReport Run(LevelData level, int nodeBudget = SmartPlayer.DefaultNodeBudget)
         {
             var report = new DesignReport

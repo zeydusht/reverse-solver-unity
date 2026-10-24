@@ -78,7 +78,12 @@ namespace ReverseSolver.Generation
     {
         const int Tab = 1, Socket = -1, Flat = 0;
 
-        /* Up to `tries` seeds after `seed` until one passes; null if none does. */
+        /// <summary>Returns the first accepted candidate from at most tries attempts.</summary>
+        /// <remarks>
+        /// Attempt t (starting at zero) uses seed + t * 7919; the first attempt uses seed itself.
+        /// Returns null if all attempts fail or tries is zero or negative. Rejection reasons
+        /// are discarded; use TryMake to inspect one attempt. Invalid input exceptions are not caught.
+        /// </remarks>
         public static Candidate Make(SlotSpec spec, GenParams p, uint seed, int tries = 20, Catalog catalog = null)
         {
             for (int t = 0; t < tries; t++)
@@ -89,7 +94,15 @@ namespace ReverseSolver.Generation
             return null;
         }
 
-        /* One attempt. `why` says what failed (for the speed/failure report). */
+        /// <summary>Builds and validates one candidate without retrying.</summary>
+        /// <remarks>
+        /// Returns null with a diagnostic in why on construction or validation rejection;
+        /// why is null on success. Invalid input exceptions are not caught.
+        /// Zero seeds initialize the random stream as one, but remain zero in Candidate.Seed
+        /// and the candidate ID. A null catalog skips introduction cards.
+        /// The candidate retains the spec reference and stores a shallow clone of p.
+        /// Acceptance requires the recorded solution to replay and the design checks to pass.
+        /// </remarks>
         public static Candidate TryMake(SlotSpec spec, GenParams p, uint seed, Catalog catalog, out string why)
         {
             var rng = new Mulberry32(seed == 0 ? 1u : seed);

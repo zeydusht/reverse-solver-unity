@@ -10,15 +10,22 @@ namespace ReverseSolver.Generation
        hill climbing around the knobs that came closest to the genre's bands.
        Closeness is BandDistance: 0 inside every band, otherwise the sum of how far
        each row is outside, scaled per row, plus 10 per unfair reason.
-       Deterministic for a given slot and seed. Passing boards that look like an
-       earlier one (Similarity) are not kept. */
+       With no deadline, candidate selection repeats for identical inputs (including catalog).
+       Ms is wall-clock timing; a deadline can change the examined candidates.
+       Passing boards that look like an
+       earlier finalist in this run (Similarity) are not kept; other slots/runs
+       are not included in this deduplication. */
     public sealed class SearchResult
     {
         public SlotSpec Spec;
         public readonly List<Assessment> Passed = new List<Assessment>();
         public bool TimedOut;                                  // stopped at the run's deadline
+        // Evaluated counts TryMake calls, including failures; each call can retry internally.
+        // Generated counts non-null candidates. LookAlikes counts duplicate finalists
+        // rejected against Passed, excluding duplicates in the near lists.
         public int Evaluated, Generated, LookAlikes;
-        public int BandPassed;                                 // inside the bands and fair (curve aside)
+        // Counts a.Passed after fun processing: null FitTimer results skip this counter.
+        public int BandPassed;
         /* Checkpoint 4: everything passed but the curve (fit 0.40 to 0.6); the slot's curve exception comes from here. */
         public readonly List<Assessment> CurveNear = new List<Assessment>();
         /* Orta only: fine with the early time-out cap relaxed to 10 % (used when the slot is short of two). */
@@ -27,7 +34,8 @@ namespace ReverseSolver.Generation
         public Assessment Best;
         public double Ms;
 
-        /* Share of the generated candidates inside every band and fair (G2's rate). */
+        /* BandPassed / Generated (0 if none generated), including the FitTimer exclusion
+           above. This is not the proportion of candidates kept in Passed. */
         public double PassRate => Generated == 0 ? 0 : (double)BandPassed / Generated;
         public override string ToString() =>
             $"slot {Spec.Slot} {Spec.Genre.Label()}: {Passed.Count} finalist ({BandPassed} bantta, {LookAlikes} benzer atıldı), {Generated}/{Evaluated} üretildi, " +
@@ -121,7 +129,14 @@ namespace ReverseSolver.Generation
             return q;
         }
 
-        /* Up to `budget` candidates; stops early once `want` distinct boards passed. */
+        /* Up to budget TryMake calls; stops once want distinct finalists are kept.
+           Non-positive budget or want returns an empty result without generation.
+           The result retains spec by reference, not as a copy.
+           deadline should be UTC: it is compared with UtcNow before attempts 0, 16,
+           32, ... . Work in progress is allowed to finish; this is no hard timeout.
+           TimedOut means a deadline check stopped the loop, not merely that time
+           expired by return. Best can be null if nothing reaches scoring (including
+           when every generated candidate gets a null FitTimer result). */
         /* funPlayers > 0: band finalists also get a quick fun estimate, and their first-try
            win outside the genre's band (FunThresholds) adds (distance / 0.1) and keeps them
            out of the finalists. 0 leaves the fun estimate to the factory. */

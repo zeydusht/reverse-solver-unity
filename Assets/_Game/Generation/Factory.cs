@@ -72,6 +72,11 @@ namespace ReverseSolver.Generation
 
         /* The relaxed copy: Orta's early time-out cap 10 % ("erken süre gevşetildi"), Zor's and
            Çok zor's first-try band top 70 / 45 % ("bant gevşetildi"); other genres unchanged. */
+        /// <summary>
+        /// Returns a shallow copy with only the genre-specific relaxed bound changed.
+        /// Does not check round count or finalist count; callers must use RelaxAllowed.
+        /// The original thresholds remain unchanged (Band is a value type).
+        /// </summary>
         public FunThresholds Relaxed()
         {
             var r = (FunThresholds)MemberwiseClone();
@@ -87,6 +92,17 @@ namespace ReverseSolver.Generation
 
         /* plain: the run without boosters (first try, early time-out); boosted: the V5 run (fun,
            frustration); null takes plain for both (the search and the old tables). */
+        /// <summary>
+        /// Returns all failed gates in a fresh list; an empty list means acceptance.
+        /// Enjoyment, frustration and unfairness use boosted when supplied; first-win
+        /// and early-timeout rates always use plain. Near-miss is not an acceptance gate.
+        /// Bounds allow 1e-9 tolerance, including FirstWin via Band.Contains.
+        /// </summary>
+        /// <remarks>
+        /// Does not mutate results or thresholds, validate rates, or reject an empty
+        /// simulation separately. The caller must supply a non-null plain result and
+        /// meaningful simulation data; this method only compares the reported rates.
+        /// </remarks>
         public List<string> Check(FunSim.Result plain, FunSim.Result boosted = null)
         {
             var f = boosted ?? plain;
@@ -99,13 +115,17 @@ namespace ReverseSolver.Generation
             return u;
         }
 
-        /* How far the first-try win is from the band's middle (0 inside the middle). */
+        /* Absolute distance from the band's midpoint, not distance from its edges:
+           an in-band value still has a positive penalty unless it is the midpoint.
+           Missing endpoints use 0 / 1. No tolerance or clamping is applied here. */
         public double FirstWinOffCentre(double firstWin)
         {
             double lo = FirstWin.Min ?? 0, hi = FirstWin.Max ?? 1;
             return Math.Abs(firstWin - (lo + hi) / 2);
         }
 
+        /* Zero inside the tolerated band; otherwise distance to the nearer endpoint.
+           Missing endpoints use 0 / 1 for the distance calculation. */
         public double NearMissOff(double nearMiss) =>
             NearMiss.Contains(nearMiss) ? 0 : Math.Min(Math.Abs(nearMiss - (NearMiss.Min ?? 0)), Math.Abs(nearMiss - (NearMiss.Max ?? 1)));
 

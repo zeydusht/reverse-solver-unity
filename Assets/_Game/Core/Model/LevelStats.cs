@@ -5,15 +5,20 @@ namespace ReverseSolver.Core
     /* Obstacle and density counts derived from a level, never stored in the
        file. These are the inputs the difficulty model will be fitted on, so
        they must come from the level itself rather than from hand-kept fields. */
+    /// <summary>
+    /// Snapshot of authored geometry, not remaining Board state or a solveability score.
+    /// Counts collection entries as supplied; does not validate piece indices, wall
+    /// lanes or counter values, and does not deduplicate wall lanes.
+    /// </summary>
     public readonly struct LevelStats
     {
         public readonly int Width, Height, Pieces;
         public readonly int Chains;        // pieces with more than one cell
-        public readonly int Nails;         // nailed pieces
-        public readonly int Bombs;         // pieces carrying a bomb
+        public readonly int Nails;         // dictionary entries, not sum of nail counters
+        public readonly int Bombs;         // dictionary entries, not sum of bomb counters
         public readonly int SealedSides;   // board sides with any wall segment
         public readonly int SealedLanes;   // wall segments in total
-        public readonly int Joints;        // internal cell boundaries
+        public readonly int Joints;        // all internal cell boundaries, even within one piece
         public readonly int OpenJoints;    // of those, flat seams (0)
 
         LevelStats(LevelData l)
@@ -42,10 +47,18 @@ namespace ReverseSolver.Core
             OpenJoints = open;
         }
 
+        /// <summary>
+        /// Recomputes counts from a non-null, fully populated level with joint arrays
+        /// matching its dimensions. Later edits to the source do not update this value.
+        /// LevelData.Open and Load are not used.
+        /// </summary>
         public static LevelStats Of(LevelData level) => new LevelStats(level);
 
         /* Open joints as a whole percent, computed the way the level generator
-           did (divide first), so it reproduces the `open` field of the web data. */
+           did (divide first), so it reproduces the `open` field of the web data.
+           Includes every internal grid seam, regardless of piece occupancy; excludes
+           outer edges and walls. Math.Round uses midpoint-to-even rounding (e.g.
+           12.5 -> 12, 37.5 -> 38); a board with no internal seams reports 0. */
         public int OpenPercent => Joints == 0 ? 0 : (int)Math.Round((double)OpenJoints / Joints * 100);
 
         public int Cells => Width * Height;

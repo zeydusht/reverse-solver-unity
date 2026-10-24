@@ -52,7 +52,20 @@ namespace ReverseSolver.Editing
 
         public const int FuseSearchBudget = 20_000;
 
-        /* fuseBudget: search nodes per bomb for the shortest dig (a deep bomb may need more). */
+        /// <summary>Measures a fresh level along the moves returned by SmartPlayer.</summary>
+        /// <remarks>
+        /// Uses new sessions and a draft copy; the supplied level is not modified.
+        /// Only states before replayed moves contribute, and replay stops if the session
+        /// ends. Steps counts these states; it does not guarantee a complete solution.
+        /// BlindTriesPerExit and FreedomMean divide by Steps; ReadingPerMove divides by
+        /// the original piece count, even for a partial path. With no replayed moves,
+        /// path measures (including FreeAtStart and FewestChoices) remain zero.
+        /// Bomb digs use a separate session with long fuses and a node budget per bomb.
+        /// A successful budget fallback is an upper bound on dig length. Bombs with no
+        /// dig found are omitted from BombDigs and the minimum margin; if none is found,
+        /// FuseMargin is NaN. FuseMarginExact only flags successful fallbacks, so true
+        /// does not guarantee every bomb has an entry. Digs include the bomb's own exit.
+        /// </remarks>
         public static StructureMetrics Of(LevelData level, int fuseBudget = FuseSearchBudget)
         {
             var m = new StructureMetrics { LevelId = level.Id, FewestChoices = int.MaxValue };

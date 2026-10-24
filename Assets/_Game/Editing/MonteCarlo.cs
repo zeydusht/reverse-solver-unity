@@ -24,6 +24,10 @@ namespace ReverseSolver.Editing
         {
             public string LevelId;
             public int Version, Runs, Wins, Bombs, Frozen, RunsWithValve;
+            // Moves and valves are averaged over all runs, including losses.
+            // Branching pools steps with at least one eligible piece: longer runs
+            // contribute more samples; terminal frozen states contribute none.
+            // RunsWithValve counts runs with any use, not total activations.
             public double MeanMoves, MeanBranching, MeanValves;
             /* Exact path measures (StructureMetrics), next to the sampled ones. */
             public StructureMetrics Structure;
@@ -38,7 +42,20 @@ namespace ReverseSolver.Editing
                 $"moves {MeanMoves:0.0} branching {MeanBranching:0.0}";
         }
 
-        /* Seeds firstSeed .. firstSeed + runs - 1. */
+        /// <summary>
+        /// Samples without advancing the session clock or using boosters. Each run
+        /// has separate move-choice and session RNGs initialized with the same seed
+        /// (firstSeed + run index). Choice is uniform over pieces, then over that
+        /// piece's directions, rather than over all piece/direction pairs.
+        /// </summary>
+        /// <param name="runs">Intended to be nonnegative. Zero still computes Structure,
+        /// but creates no sessions and returns zero sampled rates and means. Negative
+        /// values are not validated and do not represent a valid sample.</param>
+        /// <remarks>
+        /// Each run is classified once as win, bomb, or frozen (all other outcomes,
+        /// including a loop stopped for lack of eligible pieces). Structure is
+        /// computed independently of the samples, even with zero runs.
+        /// </remarks>
         public static Result Run(LevelData level, int runs = DefaultRuns, uint firstSeed = 1)
         {
             var r = new Result { LevelId = level.Id, Version = level.Version, Runs = runs, Structure = StructureMetrics.Of(level) };
@@ -93,6 +110,8 @@ namespace ReverseSolver.Editing
             double.IsNaN(m.FuseMargin) ? "" : (m.FuseMarginExact ? "" : ">=") + m.FuseMargin.ToString("0", tr)
         };
 
+        // Legacy column "tohum" carries Result.Runs (sample count), not firstSeed.
+        // Result does not retain firstSeed; record it separately for reproducibility.
         /* Same Turkish-Excel shape as LevelCsv: ';', decimal comma; write with LevelCsv.ToBytes for the BOM. */
         public static string Csv(IEnumerable<(string set, Result r)> rows)
         {

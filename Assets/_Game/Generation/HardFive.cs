@@ -27,6 +27,8 @@ namespace ReverseSolver.Generation
 
         public const int L40CrossChains = 2, L40FakeFree = 5;       // measured with HardFactors, 2026-10-18
 
+        /// <summary>Returns a fresh generator spec; Try later replaces its nails and fuse.</summary>
+        /// <remarks>The two-nail bounds are not rechecked on the final draft.</remarks>
         public static SlotSpec Spec()
         {
             var s = SlotSpec.For(40, Genre.CokZor);
@@ -37,8 +39,17 @@ namespace ReverseSolver.Generation
             return s;
         }
 
+        /// <summary>Ranks non-null results by fewer misses, then higher score; ties are not better.</summary>
         public static bool Better(Result a, Result b) => a.Missed != b.Missed ? a.Missed < b.Missed : a.Score > b.Score;
 
+        /// <summary>Attempts one board; returns null with a diagnostic on rejection.</summary>
+        /// <remarks>
+        /// Success clears replay, design and fairness checks and sets why to null, but may
+        /// still miss hardness targets. Missed counts failed factor rows plus both L40
+        /// comparisons; it ranks candidates rather than rejecting them.
+        /// Bomb dig must be exact within 60,000 nodes. Fuse is dig + 2 independently of
+        /// HardDesign.FuseOverDig; timer construction and minimum share use shared constants.
+        /// </remarks>
         public static Result Try(uint seed, Catalog catalog, out string why)
         {
             var rng = new Mulberry32(seed * 3266489917u + 11u);
@@ -56,7 +67,9 @@ namespace ReverseSolver.Generation
             int bomb = l0.Bombs.Keys.First();
             int bodies = l0.Pieces.Count;
 
-            // nails onto the bomb's way out: the cone pieces nearest the bomb first
+            // Replace generated nails using the static blocker cone, filtered to single cells.
+            // Only the first nail is required; a one-piece cone leaves the second absent.
+            // The second pick samples up to three subsequent entries, not the whole cone.
             foreach (var n in l0.Nails) d.SetNail(l0.Pieces[n.Key][0], 0);
             var board = new Board(l0);
             var cone = ConeByDepth(board, bomb).Where(x => l0.Pieces[x].Length == 1 && x != bomb).ToList();
@@ -72,7 +85,7 @@ namespace ReverseSolver.Generation
             if (!m0.BombDigs.TryGetValue(bomb, out var dig) || !dig.exact) { why = "kazma yolu ölçülemedi"; return null; }
             d.SetBomb(l0.Pieces[bomb][0], dig.dig + 2);
 
-            // timer share 1.15
+            // Uses HardDesign.TimeShare; the minimum share is checked after rounding.
             d.SetTimer(60);
             var m = StructureMetrics.Of(d.ToLevelData());
             double s = DifficultyModel.SecondsPerPiece(m.ReadingPerMove, true, false);
@@ -80,7 +93,9 @@ namespace ReverseSolver.Generation
             d.SetTimer(timer);
             var level = d.ToLevelData();
 
-            // solvable clean; the solution with exit sides turned whenever the board allows
+            // Keep SmartPlayer's piece order and prefer an exit unlike the previous one.
+            // Equal consecutive sides remain legal when no alternative is available.
+            // Replay checks the stored direction variant before the independent design check.
             var sp = SmartPlayer.Play(level);
             if (sp.Verdict != SmartVerdict.Won || sp.Valves > 0) { why = "SmartPlayer: " + sp.Verdict; return null; }
             var moves = new List<Move>();
@@ -115,7 +130,9 @@ namespace ReverseSolver.Generation
             };
         }
 
-        /* The bomb's blockers, nearest first (breadth-first from the bomb). */
+        /* Static transitive blockers, breadth-first over all four directions, each visited once.
+           Ties follow DirExt.All. This union of alternatives is not a shortest removal plan;
+           the board is never advanced here. */
         static List<int> ConeByDepth(Board b, int target)
         {
             var order = new List<int>();

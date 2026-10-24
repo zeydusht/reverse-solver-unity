@@ -50,6 +50,17 @@ namespace ReverseSolver.Editing
         public int WallLanes;                    // M8: sealed lanes
         public int EasyWalled;                   // M8: pieces whose shortest way out is sealed
 
+        /// <summary>Measures a valid level without changing it. Uses the stored move list if its
+        /// replay wins; otherwise uses SmartPlayer's winning list, or an empty path if it fails.
+        /// Moves is the selected list length; path sampling stops when the replay session ends.
+        /// </summary>
+        /// <remarks>
+        /// With an empty path, static geometry and bomb digs are still measured, but path maxima
+        /// remain zero. Passing upper bounds in Metrics/Rows therefore does not prove solvability
+        /// or that a meaningful path was sampled. Source names the attempted source.
+        /// digBudget is passed to each StructureMetrics analysis, including the nail-free one.
+        /// Missing digs are omitted: Dig == -1 can also mean no dig was found for an existing bomb.
+        /// </remarks>
         public static HardFactors Of(LevelData level, int digBudget = 60_000)
         {
             var f = new HardFactors();
@@ -117,7 +128,12 @@ namespace ReverseSolver.Editing
                 if (way.Contains(n.Key) && leaveAt.TryGetValue(n.Key, out int at)) f.NailSlack = Math.Min(f.NailSlack, at - n.Value);
             var chainDirs = chainIds.ToDictionary(c => c, c => new HashSet<Dir>());
 
-            // 4 + 5 along the path
+            // 4 + 5 along the path. Samples are taken BEFORE each attempted move.
+            // Early: i < floor(0.7 * Moves); middle: [floor(Moves/4), floor(3*Moves/4)).
+            // Short paths may have no early/middle samples. Chain leaveAt and NailSlack above
+            // use zero-based move indices. ChainConflict compares direction unions over the path,
+            // not simultaneous exits. Metrics/Rows apply independent thresholds, not a solution
+            // check; neither rejects approximate digs via DigExact.
             var s = start.Clone();
             Dir? lastDir = null; int lastLane = -1, run = 0, narrow = 0;
             int lo = moves.Count / 4, hi = moves.Count * 3 / 4;

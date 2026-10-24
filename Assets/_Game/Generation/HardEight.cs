@@ -28,6 +28,12 @@ namespace ReverseSolver.Generation
 
         const int W = 7, H = 8;
 
+        /// <summary>
+        /// Builds a 7x8 candidate with two inner chains and three inner single bombs.
+        /// look supplies art/palette only and is not mutated. Explicit rejection returns
+        /// null with why; success clears why. Held and Score rank candidates, rather
+        /// than requiring every HardFactors metric to pass.
+        /// </summary>
         public static Result Try(LevelDraft look, uint seed, out string why)
         {
             why = null;
@@ -88,6 +94,11 @@ namespace ReverseSolver.Generation
 
         /* The peel way (Generator): every seam locked at first, each step the move that flattens the fewest
            seams, so few pieces open at the start and most stay held; then bombs, nails and sides from the order. */
+        /// <summary>
+        /// Uses Generator's peel order, then the same Finish acceptance gate as Try.
+        /// Selects up to three bombs with exact dig >= 8; one or two suffice.
+        /// Does not refresh static Diag: Result.Diag may describe an earlier Try.
+        /// </summary>
         public static Result TryPeel(LevelDraft look, uint seed, out string why)
         {
             var rng = new Mulberry32(seed * 40503u + 9u);
@@ -137,7 +148,9 @@ namespace ReverseSolver.Generation
             l = d.ToLevelData();
             if (!Replays(l, order)) { why = "çiviler / fitillerle sıra oynanmıyor"; return null; }
 
-            // time share 1.15 and the stored solution
+            // Timer uses HardDesign.TimeShare and DifficultyModel.Time, including its cap.
+            // Replay never advances elapsed time: it proves legal moves, a win and zero
+            // valve use, not completion within the timer under real player timing.
             d.SetTimer(60);
             var ms = StructureMetrics.Of(d.ToLevelData(), 20_000);
             double s = DifficultyModel.SecondsPerPiece(ms.ReadingPerMove, true, false);
@@ -153,7 +166,8 @@ namespace ReverseSolver.Generation
             if (g.Outcome != Outcome.Win || g.ValveCount > 0) { why = "kayıtlı çözüm kazanmadı"; return null; }
             var check = DesignCheck.Run(level, 1);
             if (!check.Fits) { why = "hücre 44 pt altı"; return null; }
-            // the 75 s cap is left out: a 7×8 board cannot keep it with a 1.15 share (reported)
+            // Filter all fairness reasons starting with "süre". This relaxes acceptance
+            // only; it does not remove DifficultyModel.Time's cap on the assigned timer.
             var unfair = Calibration.UnfairReasons(level, HardSix.Spec(), ms, timer, s).Where(u => !u.StartsWith("süre")).ToList();
             if (unfair.Count > 0) { why = "haksız: " + string.Join(", ", unfair); return null; }
 
@@ -193,6 +207,7 @@ namespace ReverseSolver.Generation
                     }
                 if (options.Count == 0) { why = "açık tahtada sıra kurulamadı"; return null; }
                 var best = options.Where(o => o.bad == 0).ToList();
+                // Lane/side repetition is a preference, not a hard acceptance rule.
                 if (best.Count == 0) best = options;
                 var pick = best[(int)(rng.NextDouble() * best.Count)];
                 board.Remove(pick.p);
@@ -225,6 +240,8 @@ namespace ReverseSolver.Generation
             return g.Outcome == Outcome.Win && g.ValveCount == 0 ? outMoves : null;
         }
 
+        // Try refreshes this before Finish accepts. Early rejection and TryPeel leave
+        // the old value intact; it is thread-local diagnostic context, not a success flag.
         [ThreadStatic] public static string Diag;
 
         static int LockFromOrder(LevelDraft d, List<Move> order, IRandom rng)

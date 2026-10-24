@@ -41,10 +41,25 @@ namespace ReverseSolver.Core
     {
         public const int DefaultNodeBudget = 300_000;
 
+        /// <summary>Plays a fresh session without boosters; the supplied level is not modified.</summary>
+        /// <remarks>
+        /// The direct bomb heuristic runs first and need not find the shortest dig.
+        /// Only its failure triggers iterative deepening over the restricted candidate set.
+        /// nodeBudget is shared by those fallback searches for the whole run; direct plans
+        /// and bomb-free moves do not consume it. Nodes counts fallback search visits,
+        /// not all simulated moves. Even a zero budget can therefore produce a win.
+        /// A failed search is not a proof that the level is impossible. Outcome is the
+        /// session outcome at stopping time and can still be None when analysis stops early.
+        /// </remarks>
         public static SmartPlayResult Play(LevelData level, int nodeBudget = DefaultNodeBudget) =>
             Run(new GameSession(level, 1, "solver", new Mulberry32(1)), new SmartPlayResult { LevelId = level.Id }, nodeBudget);
 
-        /* ZeydBot's right / trap label: the play after a given first move (null when that move is refused). */
+        /// <summary>Tries a first move in a fresh session, then plays the remainder.</summary>
+        /// <remarks>
+        /// Returns null when TryExit refuses the first move. Otherwise Moves includes that
+        /// first move, including when it immediately ends the session. The node budget
+        /// applies only to subsequent fallback searches, as in Play.
+        /// </remarks>
         public static SmartPlayResult PlayAfter(LevelData level, Move first, int nodeBudget = DefaultNodeBudget)
         {
             var s = new GameSession(level, 1, "solver", new Mulberry32(1));
@@ -54,7 +69,13 @@ namespace ReverseSolver.Core
             return Run(s, r, nodeBudget);
         }
 
-        /* The same from a state reached in play (ZeydBot analysis); the state itself is not changed. */
+        /// <summary>Tries a first move on a clone of the supplied session, then plays the remainder.</summary>
+        /// <remarks>
+        /// The supplied session is not modified. Moves starts with first and excludes moves
+        /// played before this call; Outcome and Valves describe the cloned session final
+        /// state, so Valves can include valve uses from before this call. A refused first
+        /// move returns null. Search limits and result guarantees are the same as in Play.
+        /// </remarks>
         public static SmartPlayResult PlayAfter(GameSession state, Move first, int nodeBudget = DefaultNodeBudget)
         {
             var s = state.Clone();

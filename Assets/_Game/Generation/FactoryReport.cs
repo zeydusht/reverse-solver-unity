@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -25,7 +25,14 @@ namespace ReverseSolver.Generation
             public readonly List<string> Problems = new List<string>();
         }
 
-        /* The 40-slot checks on the best finalist (or the approved level) of each slot. */
+        /// <summary>Checks the plan and pairwise similarity of the selected levels.</summary>
+        /// <remarks>
+        /// FirstTenFirstWin averages available, non-NaN ilkDeneme scores from the first
+        /// ten plan entries, not slot numbers 1-10. The 85% check runs only when all
+        /// ten scores are present. Missing picks are skipped in similarity checks.
+        /// Problems includes FactoryPlan.Problems; an empty list does not establish
+        /// that every slot has a finalist or complete scores. Inputs are unchanged.
+        /// </remarks>
         public static SequenceCheck Check(RedesignStore store, IReadOnlyList<SlotSpec> plan)
         {
             var c = new SequenceCheck();
@@ -44,11 +51,25 @@ namespace ReverseSolver.Generation
             return c;
         }
 
-        /* The approved level of the slot, otherwise its best finalist. */
+        /// <summary>Returns the first approved entry, otherwise the best finalist, or null.</summary>
+        /// <remarks>
+        /// Finalists rank by keyif - 2 * hayalKirikligi. Equal ranks preserve store
+        /// enumeration order, as do multiple approved entries. Missing score keys
+        /// become NaN, so callers needing complete rankings must ensure both exist.
+        /// Returns the stored entry, not a clone; status and scores are unchanged.
+        /// </remarks>
         public static RedesignStore.Entry Pick(RedesignStore s, int slot) =>
             s.ForSlot(slot).FirstOrDefault(e => e.Status == RedesignStore.Approved)
             ?? s.ForSlot(slot).Where(e => e.Status == RedesignStore.Finalist).OrderByDescending(e => S(e, "keyif") - 2 * S(e, "hayalKirikligi")).FirstOrDefault();
 
+        /// <summary>Formats Markdown without saving it or changing the store.</summary>
+        /// <remarks>
+        /// run may be null. With runDir, existing slot_NN.txt files are read for
+        /// diagnostics; read failures propagate. Check uses the first ten plan
+        /// positions, while the summary uses selected entries with slot at most ten
+        /// and non-NaN keyif. The summary does not filter missing ilkDeneme scores
+        /// and can display NaN. Model estimates are not playtest validation.
+        /// </remarks>
         public static string Build(RedesignStore store, IReadOnlyList<SlotSpec> plan, IReadOnlyDictionary<int, SlotOutcome> run, string runName, string when,
                                    string runDir = null)
         {

@@ -40,6 +40,8 @@ namespace ReverseSolver.Generation
             [20] = "bomba tanıtımı: tanıtımda kaybetmek hayal kırıklığı sayıldığı için bölüm 2'nin zirvesi 19 (PM 2026-10-13 ~18:40)"
         };
 
+        /* Built-in order only (1-based, 1..Slots); does not consult PlanPath.
+           Each call creates a new SlotSpec with SlotSpec.For's default limits. */
         public static SlotSpec Slot(int slot) => SlotSpec.For(slot, Order[slot - 1].g, Order[slot - 1].thing);
 
         public static List<SlotSpec> Default()
@@ -49,12 +51,14 @@ namespace ReverseSolver.Generation
             return list;
         }
 
-        /* The approved plan when the file exists, otherwise the default. */
+        /* Reads PlanPath afresh on every call; only a missing file selects Default().
+           Read/parse errors propagate, and Problems() is not called automatically. */
         public static List<SlotSpec> All() => File.Exists(PlanPath) ? Parse(File.ReadAllText(PlanPath)) : Default();
 
         // ---- file ---------------------------------------------------------------------------
 
-        /* One slot per line, so a reviewer can read the diff. */
+        /* One slot per line, preserving enumeration order without validation/sorting.
+           Serializes the fields below, not every SlotSpec setting; format/note are metadata. */
         public static string ToJson(IEnumerable<SlotSpec> plan)
         {
             var lines = new List<string>();
@@ -80,6 +84,11 @@ namespace ReverseSolver.Generation
 
         static void Range(JsonWriter w, string key, int lo, int hi) => w.Key(key).BeginArray().Value(lo).Value(hi).EndArray();
 
+        /* Preserves file order and creates fresh specs; does not merge SlotSpec.For defaults.
+           Missing/non-string text becomes null, missing slot becomes 0, and a missing or
+           non-two-element range becomes (0,0). Boards must be readable as numeric pairs.
+           Does not enforce format metadata, slot count/order or generation-safe limits;
+           malformed input may throw. Call Problems separately for the order checks. */
         public static List<SlotSpec> Parse(string json)
         {
             var root = JsonReader.Parse(json);
@@ -116,7 +125,12 @@ namespace ReverseSolver.Generation
 
         static bool Hard(Genre g) => g == Genre.Zor || g == Genre.CokZor;
 
-        /* The plan's order rules (FAZ4 "Sıra planı"); empty when the plan follows them. */
+        /* The plan's order rules (FAZ4 "Sıra planı"), inspected without mutation.
+           List positions define adjacency and complete ten-slot chapters; Slot values
+           are checked against those positions, not used to sort. PeakExceptions keys
+           refer to chapter-end positions. Partial trailing chapters get no peak check.
+           Expects a non-null list of non-null specs. An empty result covers only these
+           checks: board dimensions and general min/max range validity are not checked. */
         public static List<string> Problems(IReadOnlyList<SlotSpec> plan)
         {
             var p = new List<string>();

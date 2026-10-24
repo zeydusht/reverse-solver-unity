@@ -17,6 +17,15 @@ namespace ReverseSolver.Generation
     {
         public const double DuplicateBelow = 0.15;
 
+        /// <summary>Returns visual distance in [0, 1] for valid levels; lower is more alike.</summary>
+        /// <remarks>
+        /// Different dimensions return 1. Equal dimensions compare identity, horizontal
+        /// and vertical reflections and a half turn, but not quarter turns.
+        /// Seams compare only open/locked, ignoring tab ownership. Cell obstacle
+        /// precedence is bomb, nail, multi-cell piece; counters and piece pairings
+        /// are ignored, as are art, colours, solution and timing.
+        /// Inputs are read without mutation. This does not test solvability.
+        /// </remarks>
         public static double Distance(LevelData a, LevelData b)
         {
             if (a.Width != b.Width || a.Height != b.Height) return 1;
@@ -25,6 +34,7 @@ namespace ReverseSolver.Generation
             return best;
         }
 
+        /// <summary>True only when Distance is strictly below DuplicateBelow, not equal.</summary>
         public static bool IsDuplicate(LevelData a, LevelData b) => Distance(a, b) < DuplicateBelow;
 
         /* b is read through the mirror(s); mirroring both ways is the half turn. */
@@ -94,7 +104,14 @@ namespace ReverseSolver.Generation
             return set;
         }
 
-        /* Keeps the first of every group of look-alikes; returns how many were dropped. */
+        /// <summary>Removes visual duplicates in place and returns the number removed.</summary>
+        /// <remarks>
+        /// Scans in input order and compares only against already kept candidates.
+        /// Kept references retain their relative order; discarded candidates do not
+        /// participate in later comparisons. The threshold relation is not transitive,
+        /// so this does not form equivalence groups: input order can change survivors.
+        /// Candidate levels are read without mutation.
+        /// </remarks>
         public static int Dedupe(List<Candidate> list)
         {
             var kept = new List<Candidate>();

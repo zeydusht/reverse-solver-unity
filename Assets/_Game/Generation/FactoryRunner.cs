@@ -143,13 +143,21 @@ namespace ReverseSolver.Generation
 
         static int Kept(RedesignStore store, int slot) => store.ForSlot(slot).Count(e => e.Status != RedesignStore.Rejected);
 
-        /* Rounds for short slots (PRODUCT.md "2026-10-17 SIRASI"): up to `rounds` searches with new
-           seeds (firstSeed, firstSeed + 1, …) while a slot has fewer than two finalists, the slots of a
-           round in parallel; the finalists found fill the slot (earlier ones stay). Then, with relax,
-           one more round with the relaxed thresholds for the slots still short. Fun first on Zor /
-           Çok zor when the set's fun average is under 90 %. */
-        /* roundMinutes / totalMinutes: time limits (a round's searches stop at its limit and keep what
-           they found; no new round starts after the total); a progress line every 20 minutes. */
+        /* Runs requested slots in parallel within each round. The first round visits every
+           requested slot, even if already full; later rounds keep only slots with fewer than
+           two non-rejected entries (Kept counts approved entries too). Earlier finalists stay.
+           With relax, round index `rounds` uses relaxed thresholds; if rounds is zero this is
+           also the first, unfiltered round. Seeds are firstSeed + round index.
+           FunFirst is computed once from the initial SetFun average (< .90), not recomputed
+           after each round, and applies to Zor / Çok zor. Callers supply valid, distinct slots
+           in 1..FactoryPlan.Slots and nonnegative rounds. */
+        /* roundMinutes / totalMinutes set cooperative search deadlines and prevent starting
+           a new round after the total; simulation, parallel completion and file/report writes
+           can finish later. This is not a hard timeout for the whole method.
+           Results are merged and the store saved only after the whole parallel round returns,
+           unlike Run's per-slot save. An interrupted round has no partial store save.
+           Every 20 minutes the timer calls log on a timer thread; log must tolerate concurrent
+           calls from that timer and the calling thread. */
         public static string RunRounds(IEnumerable<int> slots, FactoryOptions o, string runName, int rounds, uint firstSeed, bool relax,
                                        Action<string> log = null, string levelsJson = "Assets/_Game/Levels/levels.json",
                                        double roundMinutes = 45, double totalMinutes = 240)

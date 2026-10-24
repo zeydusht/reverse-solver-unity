@@ -2,9 +2,12 @@ using System.Collections.Generic;
 
 namespace ReverseSolver.Core
 {
-    /* The mutable side of a level: which pieces are still on the board and the
-       current joints (boosters will rewrite those in M2). Removing a piece is
-       the only way the board changes shape, and it only ever empties cells. */
+    /// <summary>Mutable occupancy and joint state used by geometric rules and solvers.</summary>
+    /// <remarks>
+    /// Requires valid geometry: distinct, in-bounds piece cells and correctly sized joints.
+    /// Construction does not validate these conditions. Level is shared and its geometry
+    /// must remain unchanged while boards use it. Session counters are stored elsewhere.
+    /// </remarks>
     public sealed class Board
     {
         public LevelData Level { get; }
@@ -41,6 +44,11 @@ namespace ReverseSolver.Core
             PresentCount = other.PresentCount;
         }
 
+        /// <summary>Copies presence, occupancy, current joints, and the remaining count.</summary>
+        /// <remarks>
+        /// Removing pieces or editing joints on the copy does not change the source.
+        /// Both boards share the same Level reference; level data is not deep-copied.
+        /// </remarks>
         public Board Clone() => new Board(this);
 
         public bool IsPresent(int piece) => _present[piece];
@@ -52,8 +60,14 @@ namespace ReverseSolver.Core
                 if (_present[p]) yield return p;
         }
 
+        /// <summary>Original piece index, or -1 for an empty or out-of-bounds cell.</summary>
         public int PieceAt(Cell c) => Level.OnBoard(c) ? _owner[c.Y * Level.Width + c.X] : -1;
 
+        /// <summary>Empties a present piece; removing it again has no effect.</summary>
+        /// <remarks>
+        /// Requires a valid original piece index. Does not check exit directions, nails,
+        /// bombs, or move legality, and does not change joints or renumber other pieces.
+        /// </remarks>
         public void Remove(int piece)
         {
             if (!_present[piece]) return;

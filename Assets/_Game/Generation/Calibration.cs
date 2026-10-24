@@ -91,6 +91,13 @@ namespace ReverseSolver.Generation
         public static bool TimeSearched(Genre g) => g == Genre.Orta || g == Genre.Zor || g == Genre.CokZor;
         public const int IntroBombDigMin = 2, IntroBombDigMax = 3;
 
+        /// <summary>Calibrates the supplied candidate in place and reports failures.</summary>
+        /// <remarks>
+        /// Mutates Draft's fuses and timer, and replaces Candidate.Level. A successful rule
+        /// check also replaces Draft.Solution; failure is recorded in Unfair without rollback.
+        /// FormulaTime is uncapped, while the draft timer is capped at MaxTime.
+        /// Reports describe this assessment and are not automatically refreshed by later edits.
+        /// </remarks>
         public static Assessment Assess(Candidate c)
         {
             var a = new Assessment { Candidate = c };
@@ -161,6 +168,20 @@ namespace ReverseSolver.Generation
            win is nearest the band's middle among the ones whose early time-outs stay under the
            cap. First-try win only grows with the timer, so a bisection finds the band's middle.
            Returns null when no timer keeps early time-outs under the cap. */
+        /// <summary>Searches five-second timer steps with the supplied simulated players.</summary>
+        /// <returns>The chosen timer's simulation, or null when no eligible timer is found.</returns>
+        /// <remarks>
+        /// Searches from the rounded SearchedTimeShareFloor bound to MaxTime. The target is
+        /// the FirstWin midpoint (missing ends use 0 and 1). Bisection assumes monotonic win
+        /// rate. It compares the crossing and preceding step subject to the early-timeout cap;
+        /// exact distance ties favor the shorter timer. If neither qualifies, it takes the
+        /// first longer step meeting that cap. It does not exhaustively rank all timers or
+        /// require the selected win rate to fall inside the FirstWin band.
+        /// Simulations mutate Candidate.Draft's timer. Success leaves the selected timer and
+        /// replaces Candidate.Level, but does not refresh Structure, Report, FormulaTime,
+        /// Curve or failure lists. Failure restores the timer from Candidate.Level. If the
+        /// lower bound exceeds MaxTime, returns without touching the draft. Exceptions propagate.
+        /// </remarks>
         public static FunSim.Result FitTimer(Assessment a, List<FunSim.Player> players, FunThresholds t, FunSim.Options options)
         {
             var d = a.Candidate.Draft;
