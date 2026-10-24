@@ -47,7 +47,7 @@ Kurallar:
 | SET40 v3: 12 yeni bölüm + v2 havuzu yeni eğriye dizildi (574a9ce) | ✅ | |
 | Tutorial eli (1–2), tanıtım kartında N, zor bölüm uyarısı, metinler Texts.cs | ✅ kod, build bekliyor | |
 | İkon + menü koridor arka planı | ✅ kod, görünüm doğrulanacak | |
-| Build 5 (v3 varsayılan, ?set=classic, 👍/👎) — yerel build ✅, verify 6/7 (card ölçüm hatası); yayın Zeyd komutuyla | ✅ | |
+| Önizleme ?set=redesign yayında (gh-pages dd11b14, canlı verify 7/7); Build 5 bayrakları kapalı, kök yayını Zeyd komutuyla | ✅ | |
 | ASSET_IHTIYAC doğrulandı; CODEX_GOREV.md (3 görev) | ✅ | |
 | HardestLevelStillUnderTwoSeconds: 3,4 sn (sınır 2) — makine yükü, kodla ilgisiz; izlenecek | ⛔ | |
 | ZeydBot v2 | ⛔ setten sonra | |
@@ -62,8 +62,14 @@ Kurallar:
 | Tutorial eli: dokun/kaydır için eldivenli ve çıplak A/B setleri (`TutorialHand/Options/review-options-v01.html`) | 🔜 Zeyd seçimi | |
 | Engel tanıtımları: çivi, bomba, zincir, duvar için A/B kadrajları (`ObstacleIntros/review-options-v01.html`) | 🔜 Zeyd seçimi | |
 | Zor bölüm uyarısı: Baron/Jiggle odaklı A/B (`HardWarning/review-options-v01.html`) | 🔜 Zeyd seçimi | |
-| P0 #7–9: modal çerçevesi, kazanma ve kaybetme görselleri | 🔜 sırada | |
-| P1 #10–14: oyun içi engel/booster exportları, tablolar, tahta altlığı ve ses | 🔜 sırada | |
+| Popup çerçevesi: turkuaz-altın / krem-teal 9-slice A/B (`UI/PopupFrame/review-options-v01.html`) | 🔜 Zeyd seçimi | |
+| Zafer görseli: tek Jiggle / üç Jiggle A/B (`Victory/review-options-v01.html`) | 🔜 Zeyd seçimi | |
+| Kaybetme görseli: bomba/süre/hamlesiz sebepleri için A/B (`Defeat/review-options-v01.html`) | 🔜 Zeyd seçimi | |
+| P1 #10: oyun içi engel ikonları, şeffaf 128 px exportlar (`Gameplay/ObstacleIcons/index.html`) | ✅ | |
+| P1 #11: booster ikonları, şeffaf 128 px exportlar (`Gameplay/BoosterIcons/index.html`) | ✅ | |
+| P1 #12: tablo yönü A/B örnekleri (`Paintings/review-directions-v01.html`) | 🔜 Zeyd yön seçimi; seri bekliyor | |
+| P1 #13: tahta altlığı A/B, şeffaf merkezli kare çerçeve (`Gameplay/BoardBase/review-options-v01.html`) | 🔜 Zeyd seçimi | |
+| P1 #14: dört oyun sesi için iki özgün WAV tını yönü (`Audio/review-options-v01.html`) | 🔜 Zeyd dinleme/seçimi | |
 
 ## Bitenler (son 3 gün)
 

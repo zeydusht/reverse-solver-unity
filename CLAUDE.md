@@ -61,3 +61,16 @@ Bağımlılık tek yönlü: **Core ← Presentation ← Platform**.
 - **Belgeleri bölüm bölüm oku:** `docs/PRODUCT.md` ve uzun belgelerde önce `grep -n '^##'` ile başlığı bul, yalnızca o bölümü oku. Kapanmış milestone'lar, 2026-10-14 öncesi kararlar, ölçümler ve eski gece raporları `docs/arsiv/` altında; yalnızca gerekirse aç. `OVERNIGHT.md`'de yalnızca son gecenin raporu durur, yenisi yazılınca eskisi `docs/arsiv/OVERNIGHT_ARSIV.md`'nin başına taşınır.
 - Supabase'in yalnızca publishable/anon anahtarı repoya girebilir; `service_role` ya da başka gizli anahtar asla. Push'tan önce kontrol et.
 - Commit mesajları İngilizce.
+
+## Token tasarrufu (ZORUNLU)
+- Kullanıcının haftalık limiti çok az. Her adımda minimum token harca.
+- KESİN KURAL: Ağır işleri ASLA kendin yapma, Codex CLI'a yaptır (kullanıcının PC'sinde kurulu, ChatGPT aboneliğiyle giriş yapılı):
+  - Tarama/arama/okuma/özet (2'den fazla dosya, uzun dosya, log): `codex exec "Assets/ altında X'i kullanan dosya ve satırları listele, sadece kısa liste ver"`
+  - Rutin/uzun kod yazma, toplu basit düzenleme: `codex exec --sandbox workspace-write "<net, tek iş tarifi>"` — sonra sadece değişen kısmı (git diff) kontrol et.
+  - Codex'ten her zaman KISA çıktı iste. Codex hata verirse kullanıcıya söyle, kendin taramaya geçme.
+- Sen sadece karar ver, plan yap, Codex'in işini kontrol et ve küçük hedefli düzenlemeleri yap.
+- `Library/`, `Logs/`, `Builds/`, `*.csproj` dosyalarını asla okuma/tarama.
+- Önce BACKLOG.md ve docs/ içindeki ilgili dosyaya bak, tüm projeyi tarama.
+- Subagent açma.
+- Kullanıcı yazılımcı değil: bug'ı davranışla anlatır ("şuna tıklıyorum gitmiyor"), dosyayı sen (Codex ile) bul. Cevaplar kısa ve Türkçe.
+- Bir iş bitince BACKLOG.md'yi güncelle ve mesajın sonuna yaz: "✅ Bu iş bitti, şimdi /clear yaz".
