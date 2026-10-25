@@ -13,6 +13,15 @@ namespace ReverseSolver.Presentation
 
         TextMeshPro _t;
 
+        /* Another font (counter digits, PM_MESAJ_12); the weight is in the font itself. */
+        public TextView Font(TMP_FontAsset font)
+        {
+            if (font == null) return this;
+            _t.font = font;
+            _t.fontStyle = FontStyles.Normal;
+            return this;
+        }
+
         /* A dark outline around the glyphs (counters on obstacle art, PM_MESAJ_11). */
         public TextView Outline(Vector4 color, float width)
         {

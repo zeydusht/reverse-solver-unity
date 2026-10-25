@@ -4,7 +4,8 @@
     "references": [
         "ReverseSolver.Core",
         "ReverseSolver.Presentation",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [
         "Editor"

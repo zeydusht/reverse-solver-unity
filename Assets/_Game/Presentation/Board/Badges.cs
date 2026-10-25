@@ -8,6 +8,7 @@ namespace ReverseSolver.Presentation
     {
         public readonly Transform Root;
         readonly TextView _n;
+        readonly float _one, _two;                  // counter size (pt) for one digit / two digits (art counters)
 
         public NailBadge(Transform parent, Vector2 center, float cell, int order)
         {
@@ -15,7 +16,9 @@ namespace ReverseSolver.Presentation
             Root.SetParent(parent, false);
             Root.localPosition = Draw.W(center);
             float d = Mathf.Max(22f, cell * 0.46f);
-            if (ArtBadge(Root, "board-nail", cell, Vector2.zero, order, out _n)) return;                  // nail head seen from above, count in the middle
+            // nail head seen from above (head = 80 % of the canvas), navy digits ~55 % of the head with a 2 px cream rim
+            if (ArtBadge(Root, "board-nail", cell, .8f, 0, order, Draw.Hex("#0B2A36"), Draw.Hex("#fff4da"), out _n))
+            { _one = cell * .46f; _two = cell * .36f; return; }
             if (ArtBadge(Root, "icon-nail", cell, new Vector2(-.2f, -.2f), order, out _n)) return;   // count on the nail head (upper left)
             // radial-gradient(60% 50% at 32% 26%, #f2f5f8, #8d9aa6 60%, #5b6874)
             ShapeView.Create(Root, "disc", new Vector2(d, d), 8, order)
@@ -26,18 +29,40 @@ namespace ReverseSolver.Presentation
             _n = TextView.Create(Root, "count", "", 13, Draw.Hex("#1d2b31"), true, order: order + 1);
         }
 
-        public int Count { set => _n.Text = value.ToString(); }
+        public int Count { set { _n.Text = value.ToString(); Fit(_n, value, _one, _two); } }
+
+        /* Two digits get a smaller size so they never crowd the disc. */
+        internal static void Fit(TextView t, int value, float one, float two)
+        {
+            if (one > 0) t.SizePt = value >= 10 ? two : one;
+        }
 
         /* Preview art (#10): the icon a bit larger than the drawn disc, the counter on a dark chip at its
            lower right so the number stays readable on a phone-size cell. */
-        internal static bool ArtBadge(Transform root, string key, float cell, Vector2 at, int order, out TextView count, bool dark = false)
+        /* Codex board art (PM_MESAJ_11/12): the sprite sized so its body is `body` of the cell, shifted up by `lift`
+           (share of the sprite) so the body, not the canvas, sits on the cell centre; the counter in Fredoka on top. */
+        internal static bool ArtBadge(Transform root, string key, float cell, float body, float lift, int order,
+                                      Vector4 ink, Vector4? rim, out TextView count)
+        {
+            count = null;
+            float size = cell * body;
+            var r = Art.Place(root, key, new Vector2(size, size), order);
+            if (r == null) return false;
+            r.transform.localPosition = Draw.W(0, -lift * size);
+            count = TextView.Create(root, "count", "", cell * .4f, ink, true, order: order + 2)
+                .Font(Resources.Load<TMPro.TMP_FontAsset>("Fonts/Counter"));
+            if (rim.HasValue) count.Outline(rim.Value, .22f);
+            return true;
+        }
+
+        // legacy icon badge (no Codex board art): kept as the fallback
+        internal static bool ArtBadge(Transform root, string key, float cell, Vector2 at, int order, out TextView count)
         {
             count = null;
             float d = cell * .8f;
             if (Art.Place(root, key, new Vector2(d, d), order) == null) return false;
-            // on a light disc (bomb) dark digits with a light rim; elsewhere white digits with a dark rim
-            count = TextView.Create(root, "count", "", cell * .4f, Draw.Hex(dark ? "#2b1608" : "#ffffff"), true, order: order + 2)
-                .Outline(Draw.Hex(dark ? "#fff4da" : "#0c1418"), .3f);
+            count = TextView.Create(root, "count", "", cell * .4f, Draw.Hex("#ffffff"), true, order: order + 2)
+                .Outline(Draw.Hex("#0c1418"), .3f);
             count.transform.localPosition = Draw.W(at * d);
             return true;
         }
@@ -50,6 +75,7 @@ namespace ReverseSolver.Presentation
     {
         public readonly Transform Root;
         readonly TextView _n;
+        readonly float _one, _two;
         readonly Transform _body;
         bool _hot;
 
@@ -61,7 +87,11 @@ namespace ReverseSolver.Presentation
             _body = new GameObject("body").transform;
             _body.SetParent(Root, false);
             float d = Mathf.Max(24f, cell * 0.52f);
-            if (NailBadge.ArtBadge(_body, "board-bomb", cell, Vector2.zero, order, out _n, dark: true)) return;               // count on the cream disc
+            // body = 71 % of the canvas, its centre 39 px (10 %) below the canvas centre (the fuse is on top): body 85 % of
+            // the cell, sprite lifted so the body is centred; navy digits ~70 % of the cream disc, no rim
+            if (NailBadge.ArtBadge(_body, Art.Get("bomb-v2") != null ? "bomb-v2" : "board-bomb", cell, Art.Get("bomb-v2") != null ? .85f : 1.19f,
+                                   Art.Get("bomb-v2") != null ? 0 : .1f, order, Draw.Hex("#0B2A36"), null, out _n))
+            { _one = cell * .5f; _two = cell * .38f; return; }
             if (NailBadge.ArtBadge(_body, "icon-bomb", cell, new Vector2(-.03f, .06f), order, out _n)) return;   // count on the bomb's round body
             // radial-gradient(58% 48% at 32% 26%, #6c7a84, #232f36 62%, #111a1f); ring 2px #0c1418;
             // 0 3px 6px rgba(0,0,0,.6); 0 0 14px rgba(226,74,60,.55)
@@ -84,6 +114,7 @@ namespace ReverseSolver.Presentation
             set
             {
                 _n.Text = value.ToString();
+                NailBadge.Fit(_n, value, _one, _two);
                 bool hot = value <= 4;                          // .bomb.hot
                 if (hot && !_hot) Pulse();
                 if (!hot) { Tweens.Kill(this); _body.localScale = Vector3.one; }

@@ -380,7 +380,7 @@ async function redesign() {
   const img = readPng(buf);
   let orange = 0; for (let y = 0; y < img.h; y++) { const [r, g, b] = img.at(img.w >> 1, y); if ((Math.abs(r - 20) < 6 && Math.abs(g - 72) < 6 && Math.abs(b - 76) < 6) || (r > 238 && g > 228 && b > 200 && b < 240)) orange++; }   // or Codex's cream card   // the result card's panel (#14484c): the preview art's button is not orange
   // phone-size screenshots of the preview art (intro card, board with obstacles, hard warning) for a look
-  for (const id of ['', 'S43', 'S45', 'S28']) {
+  for (const id of ['', 'S43', 'S45', 'S28', 'S40']) {
     const q = await newPage(); await q.open(dbg(`${base}/?set=redesign${id ? '&lv=' + id : ''}`)); await sleep(2500);
     fs.writeFileSync(path.join(out, `art_${id}_card.png`), await q.png());
     for (let y = Math.round(H * .45); y < H * .85; y += 18) await q.tap(W / 2, y);

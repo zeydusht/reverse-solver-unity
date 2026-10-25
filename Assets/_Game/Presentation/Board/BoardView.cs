@@ -57,7 +57,9 @@ namespace ReverseSolver.Presentation
                 .Shadow(Draw.Rgba(3, 14, 16, .6f), 0, 22, 44);
             tray.transform.localPosition = Draw.W(W / 2, H / 2);
             // preview art (#13): wooden board base, gold on hard levels; stretched to the tray with a frame margin
-            tray.Skin("board-tray");                                       // Codex Task 5 tray; gold frame on hard levels
+            // Codex tray; the corridor's picture-frame gold until board-frame-gold arrives (PM_MESAJ_12: tint for now)
+            if (Art.Get("board-frame") != null) tray.Skin("board-frame");
+            else tray.Skin("board-tray").Tint(new Color(1f, .82f, .52f));
             var baseArt = l.Hard ? Art.Place(transform, "board-hard", Vector2.one, TrayOrder + 1) : null;
             if (baseArt != null)
             {
@@ -77,6 +79,7 @@ namespace ReverseSolver.Presentation
 
             // .wall: repeating-linear-gradient(45deg, #d9412f 0 9px, #f6efe6 9px 18px), ring 2px #7d1f16
             float t = Mathf.Max(7f, S * .16f), ov = S * .06f;
+            if (Art.Get("wall-stripe") != null) t = Mathf.Max(8f, S * .18f);      // PM_MESAJ_12: strip ~18 % of the cell
             foreach (var side in l.Sealed)
                 foreach (int lane in side.Value)
                 {

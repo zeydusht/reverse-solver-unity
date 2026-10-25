@@ -42,6 +42,12 @@ for n in ('booster-active', 'joint-target', 'joint-target-pulse'): files[n + '.p
 for src, dst in (('nail-head-384', 'board-nail'), ('bomb-counter-384', 'board-bomb'), ('chain-link-repeat-96x48', 'chain-repeat'),
                  ('chain-endpoint-144', 'chain-end'), ('wall-repeat-96x48', 'wall-stripe'), ('wall-corner-96x96', 'wall-corner')):
     files[dst + '.png'] = A + f'Gameplay/Task6/{src}.png'
+# Codex v2 (PM_MESAJ_12), used as soon as the files exist; names in the game on the right
+for src, dst in (('Gameplay/Task6/bomb-v2-384.png', 'bomb-v2'), ('Gameplay/Task6/wall-repeat-v2.png', 'wall-stripe'),
+                 ('Gameplay/Task6/board-frame-gold-v1.png', 'board-frame'), ('UI/HUD/hud-level-badge.png', 'level-badge'),
+                 ('UI/HUD/hud-pill.png', 'hud-pill-normal'), ('UI/HUD/hud-pause-normal.png', 'pause-normal'),
+                 ('UI/HUD/hud-pause-pressed.png', 'pause-pressed')):
+    if os.path.exists(A + src): files[dst + '.png'] = A + src
 files['hand-swipe.png'] = A + 'TutorialHand/Exports/hand-swipe-vertical-288.png'    # vertical export (PM_MESAJ_8)
 files['hand-tap.png'] = A + 'TutorialHand/Exports/hand-tap-vertical-288.png'
 files['skin-body.png'] = A + 'PieceSkin/body-256.png'

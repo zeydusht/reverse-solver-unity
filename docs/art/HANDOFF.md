@@ -334,3 +334,23 @@ Yükleme arka planı: 206.176 bayt; renk azaltmadan kayıpsız PNG sıkıştırm
 | `Assets/Art/Gameplay/Task6/wall-corner-96x96.png` | Duvar köşesi (oyunda `wall-corner`) | 96×96 şeffaf | İki kapalı kenarın buluştuğu tahta köşesinde |
 
 > Not (Claude Code): yeni oyun görselleri `Tools/art_choice.py` içindeki ad eşlemesine eklenmeden oyuna girmez; yeni dosyaya bu tabloya "oyunda `ad`" ile satır yazın.
+
+## Task7 — oyun içi görseller v2
+
+| Dosya | Oyunda nereye | Boyut |
+|---|---|---:|
+| `Assets/Art/Gameplay/Task7/bomb-v2-384.png` | Tahta bomba gövdesi ve hamle sayacı zemini | 384×384 şeffaf PNG |
+| `Assets/Art/Gameplay/Task7/nail-head-v2-384.png` | Tahta çivi başı ve hamle sayacı zemini | 384×384 şeffaf PNG |
+| `Assets/Art/Gameplay/Task7/wall-repeat-v2-96x96.png` | Tahta kenar bariyeri, tekrarlanabilir şerit | 96×96 şeffaf PNG; yatay tekrar |
+| `Assets/Art/Gameplay/Task7/wall-corner-v2-96x96.png` | Tahta kenar bariyeri köşesi | 96×96 şeffaf PNG |
+| `Assets/Art/Gameplay/Task7/board-frame-gold-v1.png` | Oyun tahtasını çevreleyen altın tablo çerçevesi | 1125×1125 şeffaf PNG; 9-slice köşe ≥90 px |
+| `Assets/Art/Gameplay/Task7/hud-level-badge.png` | Üst barda bölüm rozeti; LV ve numara yazısı ayrı katman | 216×216 şeffaf PNG |
+| `Assets/Art/Gameplay/Task7/hud-pill.png` | Üst bar hamle/süre kutusu zemini | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task7/hud-pill-urgent.png` | Süre azaldığında üst bar kutusu | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task7/hud-icon-piece.png` | Hamle göstergesi yapboz parçası ikonu | 96×96 şeffaf PNG |
+| `Assets/Art/Gameplay/Task7/hud-icon-clock.png` | Süre göstergesi saat ikonu | 96×96 şeffaf PNG |
+| `Assets/Art/Gameplay/Task7/hud-pause-normal.png` | Normal durumdaki oyun içi durdur tuşu | 168×168 şeffaf PNG |
+| `Assets/Art/Gameplay/Task7/hud-pause-pressed.png` | Basılı durumdaki oyun içi durdur tuşu | 168×168 şeffaf PNG || (bekleniyor) `Assets/Art/Gameplay/Task6/bomb-v2-384.png` | Bomba v2 (oyunda `bomb-v2`) | 384×384, gövde tuvalin ortasında | Gövde hücrenin %85'i; sayaç krem dairede |
+| (bekleniyor) `Assets/Art/Gameplay/Task6/wall-repeat-v2.png` | Duvar şeridi v2 (oyunda `wall-stripe`) | yatay tekrar | Kalınlık hücrenin %18'i |
+| (bekleniyor) `Assets/Art/Gameplay/Task6/board-frame-gold-v1.png` | Tahta çerçevesi (oyunda `board-frame`) | 1020×1020, 9-slice 60 px | Gelince geçici altın tint kalkar |
+| (bekleniyor) `Assets/Art/UI/HUD/hud-level-badge.png`, `hud-pill.png`, `hud-pause-normal.png`, `hud-pause-pressed.png` | HUD (oyunda `level-badge`, `hud-pill-normal`, `pause-normal`, `pause-pressed`) | Task5 ölçüleri | Bu yollara konursa build'de kendiliğinden bağlanır |

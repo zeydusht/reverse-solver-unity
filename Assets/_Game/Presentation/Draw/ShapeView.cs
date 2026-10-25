@@ -41,6 +41,9 @@ namespace ReverseSolver.Presentation
         SpriteRenderer _skin;
         public bool Skinned => _skin != null;
 
+        /* Colour multiplier on the skin (temporary tints until a new export arrives). */
+        public ShapeView Tint(Color c) { if (_skin != null) _skin.color = c; return this; }
+
         /* Another state of the same skin (booster locked / out / active ...); kept when the file is missing. */
         public void SkinAs(string key)
         {

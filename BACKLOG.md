@@ -62,6 +62,8 @@ Kurallar:
 | Codex dosya adları bekleniyor: `pause-normal`, `wall-stripe`, `piece_*` (HANDOFF'a düşünce art_choice.py + bağlama) | 🔜 | |
 | Önizleme 7: parçalar Kit81 ile (KitAtlas → 3 atlas, Piece.shader kit dalı; resimli bölümde mask+overlay, resimsizde flat) | ✅ | |
 | Önizleme 8: Task6 tahta görselleri bağlandı (çivi/bomba %80 + sayaç ortada, zincir şeridi + uç kilidi, duvar şeridi + köşe); HANDOFF'a oyun adlarıyla eklendi. Pause görseli yok, çizim tuş kaldı | ✅ | |
+| Önizleme 9: bomba gövdesi ortada %85, sayaçlar Fredoka SemiBold (OFL) lacivert, çift basamak küçülür; zincir kilidi %45, duvar %18, çerçeve altın tint | ✅ | |
+| Codex v2 bekleniyor (bomb-v2, wall-repeat-v2, board-frame-gold-v1, HUD seti): HANDOFF'taki yollara gelince build'de otomatik bağlanır | 🔜 | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)
@@ -89,6 +91,7 @@ Kurallar:
 | #24: İsim sorma ekranı SVG @3x | 🔜 Zeyd incelemesi | |
 | #25: WebGL yükleme ekranı SVG @3x | 🔜 Zeyd incelemesi | |
 | 4c jigsaw tek onay parçası O-I-F-F: üst çıkıntı + sağ girinti, iki kenarda da merkezli (`PieceSkin/Task6/piece_O-I-F-F-review.html`) | 🔜 Zeyd incelemesi; 81 kombinasyon örnek onayından sonra | |
+| Oyun içi v2: bomba, çivi, duvar, altın tahta çerçevesi ve HUD 12 PNG (Gameplay/Task7/); HANDOFF tamam | ✅ | |
 | Tüm A/B seçimlerini tek yerde göster (`docs/art/SECIM.html`) | ✅ | |
 
 ## Bitenler (son 3 gün)
