@@ -32,6 +32,10 @@ Shader "ReverseSolver/Piece"
         _Rim ("Outer rim colour (sRGB) and amount", Vector) = (1, 1, 1, 0.84)
         _SkinTex ("Codex piece body texture (tileable)", 2D) = "white" {}
         _SkinMix ("Body texture amount (0..1)", Float) = 0
+        _KitOn ("Draw with the Codex piece kit (0/1)", Float) = 0
+        _KitMask ("Kit masks, 9x9 atlas (alpha)", 2D) = "white" {}
+        _KitOver ("Kit overlays, 9x9 atlas", 2D) = "black" {}
+        _KitFlat ("Kit flat pieces, 9x9 atlas", 2D) = "white" {}
         _Image ("Board image (sRGB)", 2D) = "white" {}
         _BoardCells ("Board size in cells (w, h)", Vector) = (1, 1, 0, 0)
         _ImageMix ("Image amount (0..1)", Float) = 0
@@ -65,8 +69,11 @@ Shader "ReverseSolver/Piece"
             CBUFFER_START(UnityPerMaterial)
                 float _PtToUnit, _Lift, _Gray, _Glow, _Flash, _Alpha, _ImageMix;
                 float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
-                float _SkinMix;
+                float _SkinMix, _KitOn;
             CBUFFER_END
+            TEXTURE2D(_KitMask); SAMPLER(sampler_KitMask);
+            TEXTURE2D(_KitOver); SAMPLER(sampler_KitOver);
+            TEXTURE2D(_KitFlat); SAMPLER(sampler_KitFlat);
             TEXTURE2D(_SkinTex);
             SAMPLER(sampler_SkinTex);
             TEXTURE2D(_Image);
@@ -108,6 +115,25 @@ Shader "ReverseSolver/Piece"
             float3 shade(float3 c, float amt) { return amt > 0 ? c + (1.0 - c) * amt : c * (1.0 + amt); }
 
             float4 over(float4 top, float4 bottom) { return top + bottom * (1.0 - top.a); }   // premultiplied
+
+            /* Codex kit (Assets/Art/Pieces/Kit81): tile of piece_TOP-RIGHT-BOTTOM-LEFT in a 9x9 atlas,
+               index = a(U)*27 + a(R)*9 + a(D)*3 + a(L) with O(tab)=0, F=1, I(notch)=2, row 0 at the top.
+               Tile: 640 px canvas, the 384 px cell centred = cell units -33.3..133.3. */
+            float2 kitUV(float2 q, float4 e)
+            {
+                float4 a = e > 0.5 ? 0.0 : (e < -0.5 ? 2.0 : 1.0);
+                float idx = a.x * 27.0 + a.y * 9.0 + a.z * 3.0 + a.w;
+                float2 t = saturate((q + 33.3333) / 166.6667);
+                float col = fmod(idx, 9.0), row = floor(idx / 9.0);
+                return (float2(col, 8.0 - row) + float2(t.x, 1.0 - t.y) * 0.996 + 0.002) / 9.0;
+            }
+
+            // 1 inside the kit tile, 0 outside (the quad's pad is wider than the tile: no edge-pixel smear)
+            float kitIn(float2 q)
+            {
+                float2 t = (q + 33.3333) / 166.6667;
+                return step(0.0, t.x) * step(t.x, 1.0) * step(0.0, t.y) * step(t.y, 1.0);
+            }
 
             float4 frag(V i) : SV_Target
             {
@@ -159,19 +185,50 @@ Shader "ReverseSolver/Piece"
                 float cDark  = saturate(0.5 - dDark / aa);
                 float cFill  = saturate(0.5 - dFill / aa);
 
-                float4 col = float4(_Rim.rgb, 1) * (_Rim.a * cWhite);   // white rim; Codex skin: dark outline
-                col = over(float4(darkC, 1) * cDark, col);
-                col = over(float4(fill, 1) * cFill, col);
+                float4 col; float shA, gA;
+                float offY = lerp(2.0, 12.0, lift) * _PtToUnit, blur = lerp(4.0, 18.0, lift) * _PtToUnit, gR = 9.0 * _PtToUnit;
+                if (_KitOn > 0.5)
+                {
+                    float2 kuv = kitUV(q, i.edges);
+                    float kin = kitIn(q);
+                    float m = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kuv).a * kin;
+                    float4 ov = SAMPLE_TEXTURE2D(_KitOver, sampler_KitOver, kuv) * kin;
+                    if (imageAmt > 0.001)
+                        col = over(float4(ov.rgb * ov.a, ov.a) * m, float4(fill, 1) * m);   // painting clipped by the mask, overlay on top
+                    else
+                    {
+                        float4 fl = SAMPLE_TEXTURE2D(_KitFlat, sampler_KitFlat, kuv) * kin;
+                        float fl_l = dot(fl.rgb, float3(0.299, 0.587, 0.114));
+                        fl.rgb = lerp(fl.rgb, fl_l.xxx, 0.55 * pinned) * lerp(1.0, 0.82, pinned);
+                        fl.rgb = fl.rgb + (1.0 - fl.rgb) * saturate(_Flash) * 0.9;
+                        col = float4(fl.rgb * fl.a, fl.a);
+                    }
+                    float ms = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q - float2(0, offY), i.edges)).a * kitIn(q - float2(0, offY));
+                    shA = lerp(0.42, 0.55, lift) * ms;
+                    float mg = 0.0;
+                    for (int k = 0; k < 4; k++)
+                    {
+                        float2 o = float2(k == 0 ? gR : k == 1 ? -gR : 0.0, k == 2 ? gR : k == 3 ? -gR : 0.0);
+                        mg = max(mg, SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + o, i.edges)).a * kitIn(q + o));
+                    }
+                    gA = saturate(_Glow) * mg * (1.0 - m * 0.6);
+                }
+                else
+                {
+                    col = float4(_Rim.rgb, 1) * (_Rim.a * cWhite);   // white rim; Codex skin: dark outline
+                    col = over(float4(darkC, 1) * cDark, col);
+                    col = over(float4(fill, 1) * cFill, col);
 
-                // drop shadow: 0 2px 4px .42 at rest, 0 12px 18px .55 when lifted (CSS px = points)
-                float offY = lerp(2.0, 12.0, lift) * _PtToUnit;
-                float blur = lerp(4.0, 18.0, lift) * _PtToUnit;
-                float dSh = sdScaled(q - float2(0, offY), i.edges, 1.088);
-                float shA = lerp(0.42, 0.55, lift) * (1.0 - smoothstep(-blur * 0.5, blur, dSh));
+                    // drop shadow: 0 2px 4px .42 at rest, 0 12px 18px .55 when lifted (CSS px = points)
+                    offY = lerp(2.0, 12.0, lift) * _PtToUnit;
+                    blur = lerp(4.0, 18.0, lift) * _PtToUnit;
+                    float dSh = sdScaled(q - float2(0, offY), i.edges, 1.088);
+                    shA = lerp(0.42, 0.55, lift) * (1.0 - smoothstep(-blur * 0.5, blur, dSh));
 
-                // glow (blocker coral, popped amber): drop-shadow(0 0 7px colour)
-                float gR = 9.0 * _PtToUnit;
-                float gA = saturate(_Glow) * (1.0 - smoothstep(0.0, gR, dWhite)) * (1.0 - cWhite * 0.6);
+                    // glow (blocker coral, popped amber): drop-shadow(0 0 7px colour)
+                    gR = 9.0 * _PtToUnit;
+                    gA = saturate(_Glow) * (1.0 - smoothstep(0.0, gR, dWhite)) * (1.0 - cWhite * 0.6);
+                }
                 float4 under = over(float4(_GlowColor.rgb, 1) * gA, float4(0, 0, 0, 1) * shA);
                 col = over(col, under);
 

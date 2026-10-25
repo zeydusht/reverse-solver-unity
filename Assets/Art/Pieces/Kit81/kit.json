@@ -1,0 +1,22 @@
+{
+  "canvas": 640,
+  "cell": 384,
+  "padding": 128,
+  "cell_rect": [
+    128,
+    128,
+    384,
+    384
+  ],
+  "pivot": [
+    320.0,
+    320.0
+  ],
+  "naming": "piece_TOP-RIGHT-BOTTOM-LEFT, O=tab out, F=flat, I=notch in",
+  "layers": {
+    "mask": "white + alpha shape; clip the painting with it",
+    "overlay": "outline+bevel+gloss, draw ON TOP of painting",
+    "flat": "ready colored piece (no painting)"
+  },
+  "count": 81
+}

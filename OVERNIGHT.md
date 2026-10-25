@@ -1,3 +1,5 @@
+# Önizleme 7 (25 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign — parçalar Codex Kit81 ile (mask/overlay/flat, 81 kenar kombinasyonu); prosedürel çizim yedek. Verify 7/7, kök değişmedi.
+
 # Önizleme 6 (25 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign · zincir+duvar: &lv=S28
 - Büyük engel + üstünde sayaç, zincir engelin altında, pause kartı, kırmızı-beyaz duvar. Verify 7/7; kök değişmedi.
 

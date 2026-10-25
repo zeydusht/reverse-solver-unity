@@ -44,6 +44,16 @@ namespace ReverseSolver.Presentation
             v._b.SetVector(RimId, Art.On ? Draw.Hex("#123F46") : new Vector4(1, 1, 1, .84f));
             var skin = Art.Texture("skin-body");                       // Codex piece body (PieceSkin/body-256.png)
             if (skin != null) { v._b.SetTexture("_SkinTex", skin); v._b.SetFloat("_SkinMix", .35f); }
+            // Codex piece kit (Kit81 via KitAtlas): shapes from the kit; the procedural drawing stays the fallback
+            var kitMask = Art.Texture("kit-mask");
+            if (kitMask != null)
+            {
+                v._b.SetTexture("_KitMask", kitMask);
+                v._b.SetTexture("_KitOver", Art.Texture("kit-overlay"));
+                v._b.SetTexture("_KitFlat", Art.Texture("kit-flat"));
+                v._b.SetFloat("_KitOn", 1);
+                v._b.SetFloat("_SkinMix", 0);
+            }
             v._b.SetVector(BoardCellsId, new Vector4(board.Level.Width, board.Level.Height, 0, 0));
             v.Rebuild(board);
             return v;

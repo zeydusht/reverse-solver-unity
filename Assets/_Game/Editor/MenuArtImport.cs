@@ -9,6 +9,20 @@ namespace ReverseSolver.EditorTools
         void OnPreprocessTexture()
         {
             // Codex art for the v3 preview (Art.cs): @3x sprites, 3 px per point; frame and button 9-sliced
+            // Codex piece kit atlases (KitAtlas.cs): plain textures sampled by Piece.shader, 2592 px
+            if (assetPath.Contains("Presentation/Resources/Art/kit-"))
+            {
+                var k = (TextureImporter)assetImporter;
+                k.textureType = TextureImporterType.Default;
+                k.alphaIsTransparency = true;
+                k.mipmapEnabled = false;
+                k.maxTextureSize = 4096;
+                k.wrapMode = UnityEngine.TextureWrapMode.Clamp;
+                k.textureCompression = TextureImporterCompression.Compressed;
+                k.crunchedCompression = true;
+                k.compressionQuality = 70;
+                return;
+            }
             if (assetPath.Contains("Presentation/Resources/Art/"))
             {
                 var a = (TextureImporter)assetImporter;

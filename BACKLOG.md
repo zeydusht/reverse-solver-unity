@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 24 Ekim 2026, 17:45 (Claude Code)
+Son güncelleme: 25 Ekim 2026 (Codex — Art)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -60,6 +60,7 @@ Kurallar:
 | Önizleme 5 düzeltme: parçalar hâlâ prosedürel; zincir/duvar beklenen gibi değil → Codex parça seti (81, `piece_O-F-I-F`) ve yeni engel/pause görselleri gelince bağlanacak | 🔜 | |
 | Önizleme 6: engeller hücrenin %80'i, sayaç görselin üstünde (büyük, kalın, dış çizgili), katman parça < zincir < engel < sayaç, pause kartı (Devam / Yeniden başla / Ana menü → quit), duvar geçici kırmızı-beyaz | ✅ | |
 | Codex dosya adları bekleniyor: `pause-normal`, `wall-stripe`, `piece_*` (HANDOFF'a düşünce art_choice.py + bağlama) | 🔜 | |
+| Önizleme 7: parçalar Kit81 ile (KitAtlas → 3 atlas, Piece.shader kit dalı; resimli bölümde mask+overlay, resimsizde flat) | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)
@@ -86,6 +87,7 @@ Kurallar:
 | #23: 5/9/15/23 booster tanıtımı için ortak SVG @3x | 🔜 Zeyd incelemesi | |
 | #24: İsim sorma ekranı SVG @3x | 🔜 Zeyd incelemesi | |
 | #25: WebGL yükleme ekranı SVG @3x | 🔜 Zeyd incelemesi | |
+| 4c jigsaw tek onay parçası O-I-F-F: üst çıkıntı + sağ girinti, iki kenarda da merkezli (`PieceSkin/Task6/piece_O-I-F-F-review.html`) | 🔜 Zeyd incelemesi; 81 kombinasyon örnek onayından sonra | |
 | Tüm A/B seçimlerini tek yerde göster (`docs/art/SECIM.html`) | ✅ | |
 
 ## Bitenler (son 3 gün)

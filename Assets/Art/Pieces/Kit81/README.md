@@ -1,0 +1,21 @@
+# Yapboz parçası kiti — 81 kombinasyon (v1, 25 Ekim 2026)
+
+- **Kaynak:** Codex demosu `Assets/Art/Review/Pieces/demo-v02-centered.png`. Tırnak şekli kırmızı parçanın sol tırnağından ölçüldü. Stil olarak kontur, kabartma ve parlama taklit edildi.
+- **Üretim:** `make_pieces.py`. Aynı script ile tekrar üretilebilir; tırnak boyu ve renkler de ayarlanabilir.
+- **Adlandırma:** `piece_ÜST-SAĞ-ALT-SOL.png`
+  - O = çıkıntı (tab)
+  - F = düz
+  - I = girinti
+- **Ölçüler:**
+  - Tuval: 640×640 px
+  - Hücre: 384×384 px (128 pt @3x), tuvalin ortasında
+  - Kenar boşluğu: her yönde 128 px (tırnaklar için)
+  - Pivot: tuvalin merkezi (320, 320)
+- **Katmanlar:**
+  - `mask/`: Beyaz + alfa şekil. Tablo resmini bununla kırp.
+  - `overlay/`: Kontur, kabartma ve parlama. Resmin ÜSTÜNE çiz.
+  - `flat/`: Resimsiz, hazır renkli parça (Codex demosunun mavisi).
+- **Önizlemeler:**
+  - `board_full.png`: 3×3 düz ve resimli tahta.
+  - `contact_81.png`: 81 parçanın tamamı.
+  - `codex-piece-topleft.png`: Codex demosundaki sol üst parçanın birebir kesiti.
