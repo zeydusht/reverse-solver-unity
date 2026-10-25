@@ -141,7 +141,8 @@ namespace ReverseSolver.Presentation
                             // .sel.done: amber .18 / .5; .sel.now: 2px amber outline
                             var cell = ShapeView.Create(root, "sel", new Vector2(cellW, cellW), 4, o).Radius(11)
                                 .Fill(done ? Draw.Rgba(240, 167, 66, .18f) : Draw.Rgba(255, 255, 255, .07f))
-                                .Stroke(now ? Draw.Hex("#f0a742") : done ? Draw.Rgba(240, 167, 66, .5f) : Draw.Rgba(255, 255, 255, .18f), now ? 2 : 1);
+                                .Stroke(now ? Draw.Hex("#f0a742") : done ? Draw.Rgba(240, 167, 66, .5f) : Draw.Rgba(255, 255, 255, .18f), now ? 2 : 1)
+                                .Skin(now ? "level-cell-next" : done ? "level-cell-complete" : open ? "level-cell-open" : "level-cell-locked", false);
                             cell.transform.localPosition = Draw.W(center);
                             if (!open) cell.Alpha(.45f);
                             var label = TextView.Create(root, "n", levels[i].Number.ToString(), 15,

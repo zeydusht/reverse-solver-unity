@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "scale": 3,
+  "sliceOrder": "left,bottom,right,top (Unity px)",
+  "origin": "PNG top-left; Unity border order as specified",
+  "assets": [
+    {
+      "name": "booster-active",
+      "width": 180,
+      "height": 180,
+      "path": "Assets/Art/Gameplay/Task6/booster-active.png",
+      "slice": null
+    },
+    {
+      "name": "joint-target",
+      "width": 66,
+      "height": 66,
+      "path": "Assets/Art/Gameplay/Task6/joint-target.png",
+      "slice": null
+    },
+    {
+      "name": "joint-target-pulse",
+      "width": 66,
+      "height": 66,
+      "path": "Assets/Art/Gameplay/Task6/joint-target-pulse.png",
+      "slice": null
+    },
+    {
+      "name": "loader-bg",
+      "width": 750,
+      "height": 1334,
+      "path": "Assets/Art/Gameplay/Task6/loader-bg.png",
+      "slice": null
+    }
+  ]
+}

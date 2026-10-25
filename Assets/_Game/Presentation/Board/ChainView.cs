@@ -20,7 +20,7 @@ namespace ReverseSolver.Presentation
 
             // cable: stroke #16242b width S*.15, round caps, opacity .6
             var cable = ShapeView.Create(root, "cable", new Vector2(len + s * .15f, s * .15f), 2, order)
-                .Radius(s * .075f).Fill(Draw.Hex("#16242b", .6f));
+                .Radius(s * .075f).Fill(Draw.Hex("#16242b", .6f)).Skin("chain-cable", false, tiled: true);
             Place(cable.transform, (a + b) / 2, ang);
 
             float inner = len - disc * 2;
@@ -34,8 +34,19 @@ namespace ReverseSolver.Presentation
                 var link = ShapeView.Create(root, "link", new Vector2(s * .27f, s * .176f), 6, order + 1)
                     .Radius(s * .088f).Fill(new Vector4(0, 0, 0, 0))
                     .Stroke(i % 2 == 1 ? Draw.Hex("#ffffff") : tint, s * .055f)
-                    .Shadow(Draw.Rgba(0, 0, 0, .35f), 0, 2, 4);
+                    .Shadow(Draw.Rgba(0, 0, 0, .35f), 0, 2, 4).Skin("chain-link", false);
                 Place(link.transform, c, ang);
+            }
+            // Codex chain end discs, one colour per chain (chain-disc-1..4 in the order of Tints)
+            int k = System.Array.IndexOf(Tints, tintHex) % 4 + 1;
+            if (Art.Get("chain-disc-" + k) != null)
+            {
+                foreach (var e in new[] { a, b })
+                {
+                    var r = Art.Place(root, "chain-disc-" + k, new Vector2(disc * 2.4f, disc * 2.4f), order + 2);
+                    Place(r.transform, e, 0);
+                }
+                return;
             }
             Ring(root, a, disc, s, tint, order + 2);
             Ring(root, b, disc, s, tint, order + 2);

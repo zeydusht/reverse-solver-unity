@@ -24,6 +24,7 @@ namespace ReverseSolver.EditorTools
                 a.ReadTextureSettings(st);
                 st.spriteMeshType = UnityEngine.SpriteMeshType.FullRect;    // needed for sliced drawing
                 a.SetTextureSettings(st);
+                if (assetPath.EndsWith("skin-body.png")) { a.wrapMode = UnityEngine.TextureWrapMode.Repeat; a.crunchedCompression = false; }
                 if (assetPath.EndsWith("game-background.png")) a.maxTextureSize = 1024;   // 576x1024: compressible (1125 px is not a multiple of 4)
                 if (assetPath.EndsWith("/frame.png")) a.spriteBorder = new UnityEngine.Vector4(54, 54, 54, 54);
                 // Codex Task 5 borders (left, bottom, right, top px), written by Tools/art_choice.py from Codex's manifest

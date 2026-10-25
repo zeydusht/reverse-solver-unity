@@ -108,13 +108,16 @@ namespace ReverseSolver.Presentation
                 else if (state == BoosterButton.Out) { top = Draw.Hex("#8f9a9f"); bottom = Draw.Hex("#4f5a60"); }      // grayscale(.85) brightness(.72)
                 else { top = Draw.Hex("#6ecbf5"); bottom = Draw.Hex("#2b86cf"); }
                 s.Face.Gradient(top, bottom);
+                s.Face.SkinAs(on ? "booster-active" : state == BoosterButton.Locked ? "booster-locked"
+                              : state == BoosterButton.Out ? "booster-out" : "booster-normal");
                 s.Face.Glow(on ? Draw.Rgba(240, 167, 66, .8f) : new Vector4(0, 0, 0, 0), on ? 17 : 0);
-                s.Shine.Alpha(state == BoosterButton.Ready || on ? 1 : .35f);
+                s.Shine.Alpha(s.Face.Skinned ? 0 : state == BoosterButton.Ready || on ? 1 : .35f);
 
                 bool locked = state == BoosterButton.Locked;
                 s.Count.Text = locked ? "" : session.Stock(s.B).ToString();
                 s.Lock.gameObject.SetActive(locked);
                 s.Badge.Gradient(locked ? Draw.Hex("#6b7479") : Draw.Hex("#63c2ef"), locked ? Draw.Hex("#3f474b") : Draw.Hex("#2f8fd6"));
+                s.Badge.SkinAs(locked ? "booster-badge-lock" : "booster-badge-stock");
                 s.Name.Text = locked ? $"{bar.UnlockLevel(s.B)}. BÖLÜM" : Names[(int)s.B];
 
                 bool wasFresh = s.Fresh;

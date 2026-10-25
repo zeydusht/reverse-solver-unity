@@ -265,3 +265,17 @@ Jiggles-reference-v01.png kullanılmamalı; anatomik hata içerir, v02 ile düze
 #36 veil: PNG gerekmez; renk `#19252D`, opaklık `0.90`. #49: `Assets/Art/PieceSkin/skin.json` + `body-256.png` değişmeden korunur; gölge, seçili/parça sürükleme bu skin sözleşmesinden uygulanır.
 
 Yazı tipi önerisi: `Nunito[wght].ttf` — normal 400 / kalın 700 — SIL Open Font License 1.1, Türkçe Latin Extended desteği. Yalnız dosya adı/lisans önerisidir; font yüklenmedi. Kaynak: [Google Fonts dosya/Latin Extended bilgisi](https://github.com/google/fonts/blob/main/ofl/nunito/METADATA.pb), [SIL OFL 1.1](https://github.com/googlefonts/nunito/blob/main/OFL.txt).
+
+## Görev 6 PNG teslimi
+
+İnceleme: Assets/Art/Gameplay/Task6/review.html. Manifest Görev 5 biçimindedir; @3x, merkez pivot (0.5,0.5), tüm slice alanları null. Yazı/sayı yok.
+
+| Dosya | Ölçü | 9-slice / not |
+|---|---|---|
+| Assets/Art/Gameplay/Task6/booster-active.png | 180×180 | yok; Görev 5 normal yuva geometrisi, altın kenar ve iç ışıma; booster ikonu ayrı katman |
+| Assets/Art/Gameplay/Task6/joint-target.png | 66×66 | yok; dolu turuncu/altın hedef, merkez (33,33) px |
+| Assets/Art/Gameplay/Task6/joint-target-pulse.png | 66×66 | yok; aynı pivot, daha büyük/parlak gövde; normal ile dönüşümlü kullanılabilir |
+| Assets/Art/Gameplay/Task6/loader-bg.png | 750×1334 | yok; opak, Görev 5 şato sahnesinden bulanık/koyu türev; 250 KB altında |
+
+Kontroller: docs/art/reports/task6-validation.json. İlk üç PNG şeffaf; arka plan tam opak. Unity entegrasyonu ve push/deploy yapılmadı.
+Yükleme arka planı: 206.176 bayt; renk azaltmadan kayıpsız PNG sıkıştırması. Yeniden üretim: `node docs/art/build-task6.cjs`; doğrulama: `powershell -NoProfile -ExecutionPolicy Bypass -File docs/art/verify-task6.ps1`.

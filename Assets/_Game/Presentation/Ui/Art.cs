@@ -26,6 +26,7 @@ namespace ReverseSolver.Presentation
         }
 
         public static Sprite Get(string key) => Load<Sprite>(key);
+        public static Texture2D Texture(string key) => Load<Texture2D>(key);
         public static AudioClip Sound(string key) => Load<AudioClip>("audio/" + key);
 
         /* An icon sprite centred at c (pt); false when the art is off (draw the vector icon instead). */
@@ -37,7 +38,7 @@ namespace ReverseSolver.Presentation
         }
 
         /* A sprite fitted inside size (pt), centred on the parent's origin; sliced sprites fill size exactly. */
-        public static SpriteRenderer Place(Transform parent, string key, Vector2 size, int order, bool sliced = false)
+        public static SpriteRenderer Place(Transform parent, string key, Vector2 size, int order, bool sliced = false, bool tiled = false)
         {
             var s = Get(key);
             if (s == null) return null;
@@ -45,7 +46,8 @@ namespace ReverseSolver.Presentation
             r.transform.SetParent(parent, false);
             r.sprite = s;
             r.sortingOrder = order;
-            if (sliced) { r.drawMode = SpriteDrawMode.Sliced; r.size = size; }
+            if (tiled) { r.drawMode = SpriteDrawMode.Tiled; r.tileMode = SpriteTileMode.Continuous; r.size = size; }
+            else if (sliced) { r.drawMode = SpriteDrawMode.Sliced; r.size = size; }
             else
             {
                 float k = Mathf.Min(size.x / s.bounds.size.x, size.y / s.bounds.size.y);

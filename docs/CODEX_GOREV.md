@@ -86,3 +86,13 @@ Hepsi @3x PNG, şeffaf, tek seçenek; yazı ve sayılar çizilmez. Liste: `ASSET
 | Yıldız patlaması | Kazanma kartı | kare | yıldız dolarken çıkan ışık halkası | 252×252 | 1 kare |
 | Kilit, üst bar ikonları, 1–10 sayı düğmesi, isim kutusu, telefonu çevir ikonu | bkz. "Kalan Claude çizimleri" tablosu | tabloda | tabloda | tabloda | tabloda |
 | Yazı tipi önerisi | Her yer | — | Türkçe karakterli, açık lisanslı, Codex stiline uyan bir TTF (yalnızca dosya adı + lisans, çizim yok) | — | normal / kalın |
+
+## 6. Son eksikler (PM_MESAJ_10) — Bitti
+Not: 4 yazısız PNG, Görev 5 biçiminde manifest ve review.html teslim edildi; ölçü/alpha/boyut kontrolleri temiz.
+HANDOFF güncellendi; yalnız izinli sanat klasörlerinde çalışıldı, push/deploy yapılmadı.
+Stil: Görev 5 ile aynı (Assets/Art/UI/Task5, Gameplay/Task5). Yazı/sayı çizilmez. Dosyalar `Assets/Art/Gameplay/Task6/`; `manifest.json` Görev 5'teki alanlarla (name, width, height, path, slice).
+| Ne | Nerede | Şekil | İçinde | Ölçü @3x | Durumlar |
+|---|---|---|---|---|---|
+| booster-active.png | Alt bar, seçili booster | kare (booster-normal ile aynı çerçeve) | normal yuvanın parlayan, altın kenarlı hali | 180×180 | aktif |
+| joint-target.png, joint-target-pulse.png | Makas seçiliyken kesilebilecek dikiş noktası (tahtada) | yuvarlak | turuncu/altın hedef noktası, ortası dolu | 66×66 | normal / nabız (biraz büyük, daha parlak) |
+| loader-bg.png | WebGL yükleme ekranı arka planı | tam ekran | koridor ya da oyun arka planının sade, bulanık, koyu hali (ikon ve çubuk üstüne gelecek) | 750×1334, ≤ 250 KB | — |

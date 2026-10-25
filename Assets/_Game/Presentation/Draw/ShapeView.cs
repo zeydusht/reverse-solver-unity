@@ -31,10 +31,21 @@ namespace ReverseSolver.Presentation
 
         /* Preview art (Art.On): Codex's picture replaces this drawn shape; it is a child, so it follows the
            shape's later position. Nothing changes when the art is off or the file is missing. */
-        public ShapeView Skin(string key, bool sliced = true)
+        public ShapeView Skin(string key, bool sliced = true, bool tiled = false)
         {
-            if (Art.Place(transform, key, Size, _r.sortingOrder, sliced) != null) _r.enabled = false;
+            _skin = Art.Place(transform, key, Size, _r.sortingOrder, sliced, tiled);
+            if (_skin != null) _r.enabled = false;
             return this;
+        }
+
+        SpriteRenderer _skin;
+        public bool Skinned => _skin != null;
+
+        /* Another state of the same skin (booster locked / out / active ...); kept when the file is missing. */
+        public void SkinAs(string key)
+        {
+            var s = _skin != null ? Art.Get(key) : null;
+            if (s != null) _skin.sprite = s;
         }
 
         void Init(Vector2 size, float pad, int order)

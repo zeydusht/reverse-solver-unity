@@ -30,6 +30,8 @@ Shader "ReverseSolver/Piece"
         _Flash ("Brightness flash (0..1)", Float) = 0
         _Alpha ("Opacity", Float) = 1
         _Rim ("Outer rim colour (sRGB) and amount", Vector) = (1, 1, 1, 0.84)
+        _SkinTex ("Codex piece body texture (tileable)", 2D) = "white" {}
+        _SkinMix ("Body texture amount (0..1)", Float) = 0
         _Image ("Board image (sRGB)", 2D) = "white" {}
         _BoardCells ("Board size in cells (w, h)", Vector) = (1, 1, 0, 0)
         _ImageMix ("Image amount (0..1)", Float) = 0
@@ -63,7 +65,10 @@ Shader "ReverseSolver/Piece"
             CBUFFER_START(UnityPerMaterial)
                 float _PtToUnit, _Lift, _Gray, _Glow, _Flash, _Alpha, _ImageMix;
                 float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
+                float _SkinMix;
             CBUFFER_END
+            TEXTURE2D(_SkinTex);
+            SAMPLER(sampler_SkinTex);
             TEXTURE2D(_Image);
             SAMPLER(sampler_Image);
 
@@ -145,6 +150,9 @@ Shader "ReverseSolver/Piece"
                     fill = lerp(fill, imgFill, imageAmt);
                     darkC = lerp(darkC, shade(img, -0.55), imageAmt);
                 }
+                // Codex skin body (skin.json "body"): the tileable texture, one tile per cell, under the picture
+                float3 skinTex = SAMPLE_TEXTURE2D(_SkinTex, sampler_SkinTex, i.p).rgb;
+                fill = lerp(fill, fill * skinTex * 1.12, _SkinMix);
                 fill = fill + (1.0 - fill) * saturate(_Flash) * 0.9;
 
                 float cWhite = saturate(0.5 - dWhite / aa);

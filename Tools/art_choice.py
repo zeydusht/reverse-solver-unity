@@ -37,6 +37,7 @@ for it in man['assets']:
     if name in files: name = 'hud-' + name          # icon-clock (HUD) must not replace the booster's icon-clock
     files[name] = it['path']
     if it.get('slice'): borders[name] = it['slice']
+for n in ('booster-active', 'joint-target', 'joint-target-pulse'): files[n + '.png'] = A + f'Gameplay/Task6/{n}.png'   # Task 6
 files['hand-swipe.png'] = A + 'TutorialHand/Exports/hand-swipe-vertical-288.png'    # vertical export (PM_MESAJ_8)
 files['hand-tap.png'] = A + 'TutorialHand/Exports/hand-tap-vertical-288.png'
 files['skin-body.png'] = A + 'PieceSkin/body-256.png'

@@ -42,6 +42,8 @@ namespace ReverseSolver.Presentation
             v._b.SetFloat(AlphaId, 1f);
             // Codex piece skin (Assets/Art/PieceSkin/skin.json "outline" #123F46): a dark, clear outline in the preview
             v._b.SetVector(RimId, Art.On ? Draw.Hex("#123F46") : new Vector4(1, 1, 1, .84f));
+            var skin = Art.Texture("skin-body");                       // Codex piece body (PieceSkin/body-256.png)
+            if (skin != null) { v._b.SetTexture("_SkinTex", skin); v._b.SetFloat("_SkinMix", .35f); }
             v._b.SetVector(BoardCellsId, new Vector4(board.Level.Width, board.Level.Height, 0, 0));
             v.Rebuild(board);
             return v;

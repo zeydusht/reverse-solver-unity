@@ -1,3 +1,7 @@
+# Önizleme 5 (25 Ekim 13:10): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign · ilk zor: &lv=S28
+- Codex Görev 6 + kalan bağlantılar: zincir, duvar, booster halleri (kilitli/aktif/tükendi/rozet), bölüm hücreleri, makas noktası, parça gövde dokusu, yükleme ve isim ekranı.
+- Verify yerel 7/7; kök ve canlı 40 değişmedi. Duvar şeridi ince/gri, okunurluğu Zeyd baksın.
+
 # Önizleme 4 (gh-pages ecc6541, 25 Ekim 02:30) — yalnızca ?set=redesign; kök ve canlı 40 değişmedi
 - Bitti: PM_MESAJ_8 (sade menü + "Level X" tuşu, tek el, yükleme/isim ekranı) ve PM_MESAJ_9 (profil kutusu "Kurtarılan Jiggles", ayarlar/ses, bölüm başlangıç kartı, yıldız + konfeti).
 - Codex CLI ile Görev 4 (parça skin'i) ve 5/5b (89 PNG) yaptırıldı, hepsi bağlandı: üst bar, booster yuvaları, kartlar, düğmeler, tahta, sayaçlar, oyun arka planı.

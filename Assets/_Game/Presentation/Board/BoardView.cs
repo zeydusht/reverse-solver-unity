@@ -87,6 +87,15 @@ namespace ReverseSolver.Presentation
                         Dir.L => new Rect(-t * 1.5f, lane * S - ov, t, S + ov * 2),
                         _ => new Rect(W + t * .5f, lane * S - ov, t, S + ov * 2)
                     };
+                    // Codex wall strip (tiles along the lane; drawn horizontally, turned for the left/right sides)
+                    bool vertical = side.Key == Dir.L || side.Key == Dir.R;
+                    var wallArt = Art.Place(transform, "wall-repeat", vertical ? new Vector2(r.height, r.width) : r.size, WallOrder, tiled: true);
+                    if (wallArt != null)
+                    {
+                        wallArt.transform.localPosition = Draw.W(r.center);
+                        if (vertical) wallArt.transform.localRotation = Quaternion.Euler(0, 0, 90);
+                        continue;
+                    }
                     var wall = ShapeView.Create(transform, "Wall", r.size, 10, WallOrder)
                         .Radius(3).Stripes(Draw.Hex("#d9412f"), Draw.Hex("#f6efe6"))
                         .Stroke(Draw.Hex("#7d1f16"), 2).Shadow(Draw.Rgba(0, 0, 0, .55f), 0, 3, 8);
@@ -279,7 +288,7 @@ namespace ReverseSolver.Presentation
             {
                 var at = v ? new Vector2(x * Cell, (y + .5f) * Cell) : new Vector2((x + .5f) * Cell, y * Cell);
                 var dot = ShapeView.Create(transform, "joint", new Vector2(d, d), 6, LiftOrder + 50).Radius(d / 2)
-                    .Fill(Draw.Hex("#f0a742")).Stroke(Draw.Rgba(240, 167, 66, .3f), 3);
+                    .Fill(Draw.Hex("#f0a742")).Stroke(Draw.Rgba(240, 167, 66, .3f), 3).Skin("joint-target", false);
                 dot.transform.localPosition = Draw.W(at);
                 _joints.Add((at, x, y, v, dot));
                 Pulse(dot);
