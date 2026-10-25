@@ -40,7 +40,7 @@ namespace ReverseSolver.Presentation
             _left = TextView.Create(_root, "left", "0", 22, Draw.Hex("#eaf3f2"), order: order + 2);
             _left.transform.localPosition = Draw.W(pillX + 12, cy);
 
-            Pill(new Vector2(clockX, cy), clockW, order);
+            _clockPill = Pill(new Vector2(clockX, cy), clockW, order);
             ClockIcon(_root, new Vector2(clockX - 30, cy), order + 2);
             _clock = TextView.Create(_root, "clock", "0:00", 22, Draw.Hex("#eaf3f2"), order: order + 2);
             _clock.transform.localPosition = Draw.W(clockX + 12, cy);
@@ -53,13 +53,16 @@ namespace ReverseSolver.Presentation
             RestartRect = new Rect(resetX - 23, cy - 23, 46, 46);
         }
 
-        void Pill(Vector2 c, float w, int order)
+        ShapeView _clockPill;
+
+        ShapeView Pill(Vector2 c, float w, int order)
         {
             // .pill: 46px high, radius 23, white .16 -> .05, 2px border rgba(255,255,255,.55), shadow 0 3px 8px .28
-            ShapeView.Create(_root, "pill", new Vector2(w, Height), 12, order)
+            var pill = ShapeView.Create(_root, "pill", new Vector2(w, Height), 12, order)
                 .Radius(23).Gradient(Draw.Rgba(255, 255, 255, .16f), Draw.Rgba(255, 255, 255, .05f))
-                .Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Shadow(Draw.Rgba(0, 0, 0, .28f), 0, 3, 8).Skin("hud-pill-normal")
-                .transform.localPosition = Draw.W(c);
+                .Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Shadow(Draw.Rgba(0, 0, 0, .28f), 0, 3, 8).Skin("hud-pill-normal");
+            pill.transform.localPosition = Draw.W(c);
+            return pill;
         }
 
         /* The strip's amber jigsaw icon (web: a 16pt square with a round notch
@@ -94,6 +97,7 @@ namespace ReverseSolver.Presentation
 
         static void RestartIcon(Transform root, Vector2 c, int order)
         {
+            if (Art.On && Art.Get("pause-normal") != null) return;   // Codex's pause button carries its own glyph
             if (Art.On)
             {
                 // pause glyph until Codex's pause icon: two cream bars on the round button
@@ -119,6 +123,7 @@ namespace ReverseSolver.Presentation
             int t = Mathf.Max(0, seconds);
             _clock.Text = $"{t / 60}:{t % 60:00}";
             _clock.Color = t <= 20 ? Draw.Hex("#ffb4a6") : Draw.Hex("#eaf3f2");   // .pill b.warn
+            _clockPill?.SkinAs(t <= 20 ? "hud-pill-urgent" : "hud-pill-normal");      // Codex Task 7 urgent pill
         }
     }
 }

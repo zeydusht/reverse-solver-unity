@@ -93,8 +93,11 @@ namespace ReverseSolver.Presentation
                     // Codex wall strip (tiles along the lane; drawn horizontally, turned for the left/right sides)
                     bool vertical = side.Key == Dir.L || side.Key == Dir.R;
                     // the tile (96x48 px = 32x16 pt) is scaled so its height is the wall's thickness, then repeated along the lane
-                    float len = vertical ? r.height : r.width, k = t / 16f;
-                    var wallArt = Art.Place(transform, "wall-stripe", new Vector2(len / k, 16f), WallOrder, tiled: true);
+                    // v1 tile 96x48 (band = whole height), v2 96x96 (band = 78 % of the height, 11..85 px)
+                    var ws = Art.Get("wall-stripe");
+                    float tileH = ws != null ? ws.bounds.size.y : 16f, band = tileH > 20f ? .78f : 1f;
+                    float len = vertical ? r.height : r.width, k = t / (tileH * band);
+                    var wallArt = Art.Place(transform, "wall-stripe", new Vector2(len / k, tileH), WallOrder, tiled: true);
                     if (wallArt != null)
                     {
                         wallArt.transform.localScale = new Vector3(k, k, 1);

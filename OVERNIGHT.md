@@ -1,3 +1,5 @@
+# Önizleme 10 (26 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S40 — Codex Task7 (v2 bomba/çivi/duvar, altın çerçeve, HUD seti); verify 7/7, kök değişmedi.
+
 # Önizleme 9 (25 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S40 — ortalanmış büyük bomba, Fredoka sayaçlar, kalın duvar, altın çerçeve; verify 7/7, kök değişmedi.
 
 # Önizleme 8 (25 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign · &lv=S28 — Codex Task6 çivi, bomba, zincir, duvar (+köşe) tahtada; verify 7/7, kök değişmedi.

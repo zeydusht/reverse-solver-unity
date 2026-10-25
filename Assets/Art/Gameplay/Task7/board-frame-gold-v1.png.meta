@@ -1,0 +1,678 @@
+fileFormatVersion: 2
+guid: 94bbde81df69b444e970eab527695022
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1138319027955800902
+    second: board-frame-gold-v1_0
+  - first:
+      213: -7619989135064358662
+    second: board-frame-gold-v1_1
+  - first:
+      213: 3171189406764476749
+    second: board-frame-gold-v1_2
+  - first:
+      213: -5509752312382132712
+    second: board-frame-gold-v1_3
+  - first:
+      213: -7810002386389753287
+    second: board-frame-gold-v1_4
+  - first:
+      213: 8933441158617884653
+    second: board-frame-gold-v1_5
+  - first:
+      213: -8908603303634167070
+    second: board-frame-gold-v1_6
+  - first:
+      213: -2539540858492674544
+    second: board-frame-gold-v1_7
+  - first:
+      213: -4800161699486086187
+    second: board-frame-gold-v1_8
+  - first:
+      213: -2171682859830908338
+    second: board-frame-gold-v1_9
+  - first:
+      213: 4026787891418630112
+    second: board-frame-gold-v1_10
+  - first:
+      213: -1890781325008750768
+    second: board-frame-gold-v1_11
+  - first:
+      213: 4311254515949906412
+    second: board-frame-gold-v1_12
+  - first:
+      213: 2245748350756445985
+    second: board-frame-gold-v1_13
+  - first:
+      213: -1478856088767571578
+    second: board-frame-gold-v1_14
+  - first:
+      213: -6779131720240568321
+    second: board-frame-gold-v1_15
+  - first:
+      213: 6653674527689485511
+    second: board-frame-gold-v1_16
+  - first:
+      213: 2124386080660882174
+    second: board-frame-gold-v1_17
+  - first:
+      213: -2903844331470832015
+    second: board-frame-gold-v1_18
+  - first:
+      213: -3717250463087608322
+    second: board-frame-gold-v1_19
+  - first:
+      213: -3609326312429990810
+    second: board-frame-gold-v1_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: board-frame-gold-v1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1121
+        height: 1113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab460a900e0e330f0800000000000000
+      internalID: -1138319027955800902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_1
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 1102
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af0272c014c504690800000000000000
+      internalID: -7619989135064358662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_2
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 1072
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d49ada9b6f3520c20800000000000000
+      internalID: 3171189406764476749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_3
+      rect:
+        serializedVersion: 2
+        x: 705
+        y: 1093
+        width: 17
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81e631cb67d6983b0800000000000000
+      internalID: -5509752312382132712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_4
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 1093
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9322940753c4d9390800000000000000
+      internalID: -7810002386389753287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_5
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 1097
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de7e5410765f9fb70800000000000000
+      internalID: 8933441158617884653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_6
+      rect:
+        serializedVersion: 2
+        x: 1034
+        y: 1092
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ea9302ce784e5480800000000000000
+      internalID: -8908603303634167070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_7
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 1094
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01e14f45b0db1ccd0800000000000000
+      internalID: -2539540858492674544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_8
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 1096
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5db42bddd56626db0800000000000000
+      internalID: -4800161699486086187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_9
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 1083
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4a69fee1f1acd1e0800000000000000
+      internalID: -2171682859830908338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_10
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1086
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e70add904602e730800000000000000
+      internalID: 4026787891418630112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_11
+      rect:
+        serializedVersion: 2
+        x: 465
+        y: 1083
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05739e6176892c5e0800000000000000
+      internalID: -1890781325008750768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_12
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 1088
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce92e77e327a4db30800000000000000
+      internalID: 4311254515949906412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_13
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 1088
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12fd1cdf9308a2f10800000000000000
+      internalID: 2245748350756445985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_14
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 1063
+        width: 20
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 689d51bf83c0a7be0800000000000000
+      internalID: -1478856088767571578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_15
+      rect:
+        serializedVersion: 2
+        x: 1096
+        y: 648
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff76a792e9fabe1a0800000000000000
+      internalID: -6779131720240568321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_16
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 28
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cc2ff1fab9965c50800000000000000
+      internalID: 6653674527689485511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_17
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 35
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef2839782e55b7d10800000000000000
+      internalID: 2124386080660882174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_18
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 22
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17e36ab37f873b7d0800000000000000
+      internalID: -2903844331470832015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_19
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 20
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efdb18e066ca96cc0800000000000000
+      internalID: -3717250463087608322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-gold-v1_20
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 20
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66cc32587d819edc0800000000000000
+      internalID: -3609326312429990810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      board-frame-gold-v1_0: -1138319027955800902
+      board-frame-gold-v1_1: -7619989135064358662
+      board-frame-gold-v1_10: 4026787891418630112
+      board-frame-gold-v1_11: -1890781325008750768
+      board-frame-gold-v1_12: 4311254515949906412
+      board-frame-gold-v1_13: 2245748350756445985
+      board-frame-gold-v1_14: -1478856088767571578
+      board-frame-gold-v1_15: -6779131720240568321
+      board-frame-gold-v1_16: 6653674527689485511
+      board-frame-gold-v1_17: 2124386080660882174
+      board-frame-gold-v1_18: -2903844331470832015
+      board-frame-gold-v1_19: -3717250463087608322
+      board-frame-gold-v1_2: 3171189406764476749
+      board-frame-gold-v1_20: -3609326312429990810
+      board-frame-gold-v1_3: -5509752312382132712
+      board-frame-gold-v1_4: -7810002386389753287
+      board-frame-gold-v1_5: 8933441158617884653
+      board-frame-gold-v1_6: -8908603303634167070
+      board-frame-gold-v1_7: -2539540858492674544
+      board-frame-gold-v1_8: -4800161699486086187
+      board-frame-gold-v1_9: -2171682859830908338
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

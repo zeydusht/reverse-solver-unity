@@ -52,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 3
-  spriteBorder: {x: 69, y: 24, z: 69, w: 24}
+  spriteBorder: {x: 84, y: 40, z: 84, w: 40}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -118,10 +118,10 @@ TextureImporter:
       name: hud-pill-normal_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 2
-        width: 354
-        height: 136
+        x: 2
+        y: 0
+        width: 597
+        height: 166
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

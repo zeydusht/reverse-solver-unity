@@ -350,7 +350,18 @@ Yükleme arka planı: 206.176 bayt; renk azaltmadan kayıpsız PNG sıkıştırm
 | `Assets/Art/Gameplay/Task7/hud-icon-piece.png` | Hamle göstergesi yapboz parçası ikonu | 96×96 şeffaf PNG |
 | `Assets/Art/Gameplay/Task7/hud-icon-clock.png` | Süre göstergesi saat ikonu | 96×96 şeffaf PNG |
 | `Assets/Art/Gameplay/Task7/hud-pause-normal.png` | Normal durumdaki oyun içi durdur tuşu | 168×168 şeffaf PNG |
+
 | `Assets/Art/Gameplay/Task7/hud-pause-pressed.png` | Basılı durumdaki oyun içi durdur tuşu | 168×168 şeffaf PNG || (bekleniyor) `Assets/Art/Gameplay/Task6/bomb-v2-384.png` | Bomba v2 (oyunda `bomb-v2`) | 384×384, gövde tuvalin ortasında | Gövde hücrenin %85'i; sayaç krem dairede |
-| (bekleniyor) `Assets/Art/Gameplay/Task6/wall-repeat-v2.png` | Duvar şeridi v2 (oyunda `wall-stripe`) | yatay tekrar | Kalınlık hücrenin %18'i |
-| (bekleniyor) `Assets/Art/Gameplay/Task6/board-frame-gold-v1.png` | Tahta çerçevesi (oyunda `board-frame`) | 1020×1020, 9-slice 60 px | Gelince geçici altın tint kalkar |
-| (bekleniyor) `Assets/Art/UI/HUD/hud-level-badge.png`, `hud-pill.png`, `hud-pause-normal.png`, `hud-pause-pressed.png` | HUD (oyunda `level-badge`, `hud-pill-normal`, `pause-normal`, `pause-pressed`) | Task5 ölçüleri | Bu yollara konursa build'de kendiliğinden bağlanır |
+
+### Task7 oyundaki adları (Claude Code, 26 Ekim) — `Tools/art_choice.py` bu adlarla kopyalar
+| Dosya | Oyunda | Kullanım |
+|---|---|---|
+| `bomb-v2-384.png` | `bomb-v2` | Gövde (tuvalin %71'i, ortada) hücrenin %85'i; sayaç krem dairede |
+| `nail-head-v2-384.png` | `board-nail` | Hücrenin %80'i; sayaç ortada |
+| `wall-repeat-v2-96x96.png` | `wall-stripe` | Yatay tekrar; şerit (11–85 px) duvar kalınlığına (hücrenin %18'i) ölçeklenir |
+| `wall-corner-v2-96x96.png` | `wall-corner` | İki kapalı kenarın buluştuğu köşe |
+| `board-frame-gold-v1.png` | `board-frame` | Tahta tepsisi, 9-slice 90 px; geçici altın tint kalktı |
+| `hud-level-badge.png` | `level-badge` | Üst bar bölüm rozeti |
+| `hud-pill.png`, `hud-pill-urgent.png` | `hud-pill-normal`, `hud-pill-urgent` | 9-slice 84/40/84/40 px; süre ≤ 20 sn'de urgent |
+| `hud-icon-piece.png`, `hud-icon-clock.png` | `icon-piece`, `hud-icon-clock` | Üst bar ikonları |
+| `hud-pause-normal.png`, `hud-pause-pressed.png` | `pause-normal`, `pause-pressed` | Durdur tuşu (basılı hal henüz kullanılmıyor) |

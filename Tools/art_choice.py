@@ -42,12 +42,14 @@ for n in ('booster-active', 'joint-target', 'joint-target-pulse'): files[n + '.p
 for src, dst in (('nail-head-384', 'board-nail'), ('bomb-counter-384', 'board-bomb'), ('chain-link-repeat-96x48', 'chain-repeat'),
                  ('chain-endpoint-144', 'chain-end'), ('wall-repeat-96x48', 'wall-stripe'), ('wall-corner-96x96', 'wall-corner')):
     files[dst + '.png'] = A + f'Gameplay/Task6/{src}.png'
-# Codex v2 (PM_MESAJ_12), used as soon as the files exist; names in the game on the right
-for src, dst in (('Gameplay/Task6/bomb-v2-384.png', 'bomb-v2'), ('Gameplay/Task6/wall-repeat-v2.png', 'wall-stripe'),
-                 ('Gameplay/Task6/board-frame-gold-v1.png', 'board-frame'), ('UI/HUD/hud-level-badge.png', 'level-badge'),
-                 ('UI/HUD/hud-pill.png', 'hud-pill-normal'), ('UI/HUD/hud-pause-normal.png', 'pause-normal'),
-                 ('UI/HUD/hud-pause-pressed.png', 'pause-pressed')):
-    if os.path.exists(A + src): files[dst + '.png'] = A + src
+# Codex Task 7 (v2 board + HUD, 2026-10-26); names in the game on the right
+for src, dst in (('bomb-v2-384', 'bomb-v2'), ('nail-head-v2-384', 'board-nail'), ('wall-repeat-v2-96x96', 'wall-stripe'),
+                 ('wall-corner-v2-96x96', 'wall-corner'), ('board-frame-gold-v1', 'board-frame'), ('hud-level-badge', 'level-badge'),
+                 ('hud-pill', 'hud-pill-normal'), ('hud-pill-urgent', 'hud-pill-urgent'), ('hud-icon-piece', 'icon-piece'),
+                 ('hud-icon-clock', 'hud-icon-clock'), ('hud-pause-normal', 'pause-normal'), ('hud-pause-pressed', 'pause-pressed')):
+    files[dst + '.png'] = A + f'Gameplay/Task7/{src}.png'
+# Task 7 has no manifest: 9-slice borders from HANDOFF (frame corner >= 90 px) and the pill's round ends (84 px)
+borders.update({'board-frame.png': [90, 90, 90, 90], 'hud-pill-normal.png': [84, 40, 84, 40], 'hud-pill-urgent.png': [84, 40, 84, 40]})
 files['hand-swipe.png'] = A + 'TutorialHand/Exports/hand-swipe-vertical-288.png'    # vertical export (PM_MESAJ_8)
 files['hand-tap.png'] = A + 'TutorialHand/Exports/hand-tap-vertical-288.png'
 files['skin-body.png'] = A + 'PieceSkin/body-256.png'
