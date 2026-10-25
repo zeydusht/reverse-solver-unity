@@ -58,9 +58,18 @@ namespace ReverseSolver.Presentation
             tray.transform.localPosition = Draw.W(W / 2, H / 2);
             // preview art (#13): wooden board base, gold on hard levels; stretched to the tray with a frame margin
             // Codex tray; the corridor's picture-frame gold until board-frame-gold arrives (PM_MESAJ_12: tint for now)
-            if (Art.Get("board-frame") != null) tray.Skin("board-frame");
-            else tray.Skin("board-tray").Tint(new Color(1f, .82f, .52f));
-            var baseArt = l.Hard ? Art.Place(transform, "board-hard", Vector2.one, TrayOrder + 1) : null;
+            // Codex Task 7 gold picture frame around the board; the dark Task 5 tray stays underneath
+            tray.Skin("board-tray");
+            // 9-sliced on its ~200 px band (67 pt at @3x), scaled so the band is 20 pt and the frame fits the screen
+            const float band = 20f, fk = band / (200f / 3f);
+            var frameArt = Art.Place(transform, "board-frame", new Vector2((W + band * 1.4f) / fk, (H + band * 1.4f) / fk), TrayOrder + 1, sliced: true);
+            if (frameArt != null)
+            {
+                frameArt.transform.localScale = new Vector3(fk, fk, 1);
+                frameArt.transform.localPosition = Draw.W(W / 2, H / 2);
+            }
+            else tray.Tint(new Color(1f, .82f, .52f));
+            var baseArt = l.Hard && frameArt == null ? Art.Place(transform, "board-hard", Vector2.one, TrayOrder + 1) : null;
             if (baseArt != null)
             {
                 var sz = baseArt.sprite.bounds.size;
@@ -78,56 +87,37 @@ namespace ReverseSolver.Presentation
                 }
 
             // .wall: repeating-linear-gradient(45deg, #d9412f 0 9px, #f6efe6 9px 18px), ring 2px #7d1f16
-            float t = Mathf.Max(7f, S * .16f), ov = S * .06f;
-            if (Art.Get("wall-stripe") != null) t = Mathf.Max(8f, S * .18f);      // PM_MESAJ_12: strip ~18 % of the cell
+            // PM_MESAJ_13 (preview): ~20 % of the cell, thick sparse #D9332B / white bands, thin dark rim; consecutive
+            // lanes are one strip and top/bottom strips run over the corner when the side next to it is sealed there
+            bool v3 = Art.On;
+            float t = v3 ? Mathf.Max(8f, S * .20f) : Mathf.Max(7f, S * .16f), ov = v3 ? 0 : S * .06f;
+            bool Sealed(Dir d, int lane) => l.Sealed.TryGetValue(d, out var ls) && System.Array.IndexOf(ls, lane) >= 0;
             foreach (var side in l.Sealed)
-                foreach (int lane in side.Value)
+            {
+                var lanes = new List<int>(side.Value); lanes.Sort();
+                for (int k = 0; k < lanes.Count; k++)
                 {
+                    int a = lanes[k], b = a;
+                    if (v3) while (k + 1 < lanes.Count && lanes[k + 1] == b + 1) b = lanes[++k];
+                    float from = a * S - ov, to = (b + 1) * S + ov;
+                    bool horizontal = side.Key == Dir.U || side.Key == Dir.D;
+                    if (v3 && horizontal)
+                    {
+                        int edgeRow = side.Key == Dir.U ? 0 : l.Height - 1;
+                        if (a == 0 && Sealed(Dir.L, edgeRow)) from = -t * 1.5f;
+                        if (b == l.Width - 1 && Sealed(Dir.R, edgeRow)) to = W + t * 1.5f;
+                    }
                     Rect r = side.Key switch
                     {
-                        Dir.U => new Rect(lane * S - ov, -t * 1.5f, S + ov * 2, t),
-                        Dir.D => new Rect(lane * S - ov, H + t * .5f, S + ov * 2, t),
-                        Dir.L => new Rect(-t * 1.5f, lane * S - ov, t, S + ov * 2),
-                        _ => new Rect(W + t * .5f, lane * S - ov, t, S + ov * 2)
+                        Dir.U => new Rect(from, -t * 1.5f, to - from, t),
+                        Dir.D => new Rect(from, H + t * .5f, to - from, t),
+                        Dir.L => new Rect(-t * 1.5f, from, t, to - from),
+                        _ => new Rect(W + t * .5f, from, t, to - from)
                     };
-                    // Codex wall strip (tiles along the lane; drawn horizontally, turned for the left/right sides)
-                    bool vertical = side.Key == Dir.L || side.Key == Dir.R;
-                    // the tile (96x48 px = 32x16 pt) is scaled so its height is the wall's thickness, then repeated along the lane
-                    // v1 tile 96x48 (band = whole height), v2 96x96 (band = 78 % of the height, 11..85 px)
-                    var ws = Art.Get("wall-stripe");
-                    float tileH = ws != null ? ws.bounds.size.y : 16f, band = tileH > 20f ? .78f : 1f;
-                    float len = vertical ? r.height : r.width, k = t / (tileH * band);
-                    var wallArt = Art.Place(transform, "wall-stripe", new Vector2(len / k, tileH), WallOrder, tiled: true);
-                    if (wallArt != null)
-                    {
-                        wallArt.transform.localScale = new Vector3(k, k, 1);
-                        wallArt.transform.localPosition = Draw.W(r.center);
-                        if (vertical) wallArt.transform.localRotation = Quaternion.Euler(0, 0, 90);
-                        continue;
-                    }
                     var wall = ShapeView.Create(transform, "Wall", r.size, 10, WallOrder)
-                        .Radius(3).Stripes(Draw.Hex("#d9412f"), Draw.Hex("#f6efe6"))
-                        .Stroke(Draw.Hex("#7d1f16"), 2).Shadow(Draw.Rgba(0, 0, 0, .55f), 0, 3, 8);
+                        .Radius(3).Stripes(Draw.Hex(v3 ? "#D9332B" : "#d9412f"), Draw.Hex(v3 ? "#FFFFFF" : "#f6efe6"), v3 ? Mathf.Max(18f, t * 2.2f) : 18f)
+                        .Stroke(Draw.Hex("#7d1f16"), v3 ? 1.2f : 2).Shadow(Draw.Rgba(0, 0, 0, .55f), 0, 3, 8);
                     wall.transform.localPosition = Draw.W(r.center);
-                }
-
-            // Codex wall corners where two sealed sides meet at a board corner
-            if (Art.Get("wall-corner") != null)
-            {
-                bool Has(Dir d, int lane) => l.Sealed.TryGetValue(d, out var lanes) && System.Array.IndexOf(lanes, lane) >= 0;
-                var corners = new[]
-                {
-                    (Has(Dir.U, 0) && Has(Dir.L, 0), new Vector2(-t, -t), 0f),
-                    (Has(Dir.U, l.Width - 1) && Has(Dir.R, 0), new Vector2(W + t, -t), -90f),
-                    (Has(Dir.D, l.Width - 1) && Has(Dir.R, l.Height - 1), new Vector2(W + t, H + t), 180f),
-                    (Has(Dir.D, 0) && Has(Dir.L, l.Height - 1), new Vector2(-t, H + t), 90f),
-                };
-                foreach (var (on, at, rot) in corners)
-                {
-                    if (!on) continue;
-                    var c = Art.Place(transform, "wall-corner", new Vector2(t * 1.6f, t * 1.6f), WallOrder + 1);
-                    c.transform.localPosition = Draw.W(at);
-                    c.transform.localRotation = Quaternion.Euler(0, 0, rot);
                 }
             }
 

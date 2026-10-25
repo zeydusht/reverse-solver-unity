@@ -118,10 +118,10 @@ TextureImporter:
       name: icon-wand_0
       rect:
         serializedVersion: 2
-        x: 28
-        y: 12
-        width: 73
-        height: 103
+        x: 11
+        y: 3
+        width: 219
+        height: 234
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

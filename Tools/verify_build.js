@@ -56,7 +56,7 @@ const levels = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/l
 const designs = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/designs.json'), 'utf8')).levels;
 const KEY = 'sb_publishable_S-DzN5GrUyMR2izo8vHc3Q_0kaGiVDK';   // publishable key, as in TelemetrySettings.cs
 const SUPA = 'https://vwneqdhzfevgbuwoadod.supabase.co';
-const W = 375, H = 667;
+let W = 375, H = 667;   // let: the qa check runs other phone sizes
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 /* Edge pieces of L01 and L40 that can leave outward at the start (single cell, no nail, no wall):
@@ -468,6 +468,35 @@ async function m5(p) {
   p.close();
 }
 
+/* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
+   --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
+async function qa() {
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10)));
+  fs.mkdirSync(dir, { recursive: true });
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const lv = id => set.find(l => l.id === id);
+  const sizes = [[375, 667], [390, 844], [430, 932]];
+  let n = 0, exc = 0;
+  for (const [w, h] of sizes) {
+    W = w; H = h;
+    const shot = async (p, name) => { fs.writeFileSync(path.join(dir, `${w}x${h}_${name}.png`), await p.png()); n++; };
+    const tapCard = async p => { for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y); await sleep(500); };
+    let p = await newPage(); await p.open(dbg(`${base}/?set=redesign`)); await sleep(2500);
+    await shot(p, '01_menu');
+    await p.tap(W - 39, 38); await sleep(700); await shot(p, '08_ayarlar'); exc += p.exceptions.length; p.close();
+    p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lv=S28`)); await sleep(2500);
+    await shot(p, '02_baslangic'); await tapCard(p); await shot(p, '03_oyun');
+    await p.tap(W - 36, 33); await sleep(700); await shot(p, '04_pause'); await tapCard(p);
+    await p.tap(39, 33); await sleep(700); await shot(p, '07_bolum_listesi'); exc += p.exceptions.length; p.close();
+    p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lv=S41`)); await sleep(2500);
+    await p.solve(lv('S41')); await sleep(3000); await shot(p, '05_kazanma'); exc += p.exceptions.length; p.close();
+    p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lv=S45`)); await sleep(2500); await tapCard(p);
+    const l = lv('S45'); await p.solve({ ...l, solution: l.solution.slice(0, 1) }); await sleep(64000);
+    await shot(p, '06_kaybetme'); exc += p.exceptions.length; p.close();
+  }
+  check('qa', exc === 0, `${n} ekran görüntüsü → ${dir}, istisna ${exc}`);
+}
+
 (async () => {
   console.log(`Build doğrulama: ${local ? "yerel " + local : base}  (${send ? 'GÖNDERİM AÇIK, oyuncu ' + player : 'gönderim yok'})  görüntüler: ${out}`);
   const server = local ? await serveCopy(local) : null;
@@ -481,6 +510,7 @@ async function m5(p) {
     if (only.includes('card')) await card();
     if (only.includes('redesign')) await redesign();
     if (only.includes('zeydbot')) await zeydbot();
+    if (only.includes('qa')) await qa();
     if (send && only.includes('zeydsend')) await zeydsend();
     if (only.includes('zeydloss')) await zeydloss();
     if (send && only.includes('zeydlosssend')) await zeydlosssend();

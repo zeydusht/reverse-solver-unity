@@ -118,10 +118,10 @@ TextureImporter:
       name: icon-clock_0
       rect:
         serializedVersion: 2
-        x: 20
-        y: 12
-        width: 89
-        height: 103
+        x: 12
+        y: 3
+        width: 216
+        height: 234
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -83,7 +83,8 @@ namespace ReverseSolver.Presentation
             return Apply();
         }
 
-        public ShapeView Stripes(Vector4 a, Vector4 b) { _b.SetFloat(ModeId, 2); _b.SetVector(AId, a); _b.SetVector(BId, b); return Apply(); }
+        public ShapeView Stripes(Vector4 a, Vector4 b, float period = 18f)
+        { _b.SetFloat(ModeId, 2); _b.SetVector(AId, a); _b.SetVector(BId, b); _b.SetFloat("_Period", period); return Apply(); }
 
         /* A circle outline (diameter = Size.x) with an optional angular gap (radians, atan2 with y down). */
         public ShapeView Ring(Vector4 c, float width, float gapFrom = 0, float gapTo = 0)

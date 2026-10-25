@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4023fab9c0144cf4fb556ffbe3397013
+guid: 8424c8ba882fb834c95f81900eef85e3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2865589054908265402
-    second: chain-cable_0
+      213: 6801918100135517652
+    second: booster-button_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: chain-cable_0
+      name: booster-button_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 6
-        width: 96
-        height: 22
+        x: 6
+        y: 2
+        width: 252
+        height: 258
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,8 +130,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ab3fd0a101e94c720800000000000000
-      internalID: 2865589054908265402
+      spriteID: 4dd90e55974456e50800000000000000
+      internalID: 6801918100135517652
       vertices: []
       indices: 
       edges: []

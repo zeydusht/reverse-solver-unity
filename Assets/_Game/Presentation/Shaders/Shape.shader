@@ -18,6 +18,7 @@ Shader "ReverseSolver/Shape"
         _Radial ("Radial centre xy (0..1), radii zw (0..1)", Vector) = (0.32, 0.26, 0.6, 0.5)
         _Stroke ("Stroke colour", Vector) = (0, 0, 0, 0)
         _StrokeWidth ("Stroke width (pt)", Float) = 0
+        _Period ("Stripe period (pt)", Float) = 18
         _Shadow ("Drop shadow colour", Vector) = (0, 0, 0, 0)
         _ShadowParams ("Shadow offset x, y, blur (pt)", Vector) = (0, 2, 4, 0)
         _Inner ("Inner shadow colour", Vector) = (0, 0, 0, 0)
@@ -56,7 +57,7 @@ Shader "ReverseSolver/Shape"
             CBUFFER_START(UnityPerMaterial)
                 float4 _Size, _ColorA, _ColorB, _ColorC, _Radial, _Stroke, _Shadow, _ShadowParams;
                 float4 _Inner, _InnerParams, _Glow, _Arc;
-                float _Radius, _Mode, _StrokeWidth, _GlowSize, _Alpha;
+                float _Radius, _Mode, _StrokeWidth, _GlowSize, _Alpha, _Period;
             CBUFFER_END
 
             struct A { float4 pos : POSITION; float2 uv : TEXCOORD0; };
@@ -96,7 +97,7 @@ Shader "ReverseSolver/Shape"
                 }
                 else if (_Mode < 2.5)
                 {
-                    float s = frac(((p.x - p.y) / 1.41421356) / 18.0);     // 45deg, 9pt bands
+                    float s = frac(((p.x - p.y) / 1.41421356) / max(_Period, 1.0));     // 45deg, half-period bands
                     fillC = s < 0.5 ? _ColorA : _ColorB;
                 }
                 else

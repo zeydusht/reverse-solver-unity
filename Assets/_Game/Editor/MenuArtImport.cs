@@ -16,7 +16,7 @@ namespace ReverseSolver.EditorTools
                 k.textureType = TextureImporterType.Default;
                 k.alphaIsTransparency = true;
                 k.mipmapEnabled = false;
-                k.maxTextureSize = 4096;
+                k.maxTextureSize = 2048;   // PM_MESAJ_14: no texture above 2048 px
                 k.wrapMode = UnityEngine.TextureWrapMode.Clamp;
                 k.textureCompression = TextureImporterCompression.Compressed;
                 k.crunchedCompression = true;

@@ -43,13 +43,24 @@ for src, dst in (('nail-head-384', 'board-nail'), ('bomb-counter-384', 'board-bo
                  ('chain-endpoint-144', 'chain-end'), ('wall-repeat-96x48', 'wall-stripe'), ('wall-corner-96x96', 'wall-corner')):
     files[dst + '.png'] = A + f'Gameplay/Task6/{src}.png'
 # Codex Task 7 (v2 board + HUD, 2026-10-26); names in the game on the right
-for src, dst in (('bomb-v2-384', 'bomb-v2'), ('nail-head-v2-384', 'board-nail'), ('wall-repeat-v2-96x96', 'wall-stripe'),
-                 ('wall-corner-v2-96x96', 'wall-corner'), ('board-frame-gold-v1', 'board-frame'), ('hud-level-badge', 'level-badge'),
-                 ('hud-pill', 'hud-pill-normal'), ('hud-pill-urgent', 'hud-pill-urgent'), ('hud-icon-piece', 'icon-piece'),
+for src, dst in (('bomb-v2-384', 'bomb-v2'), ('nail-head-v2-384', 'board-nail'), ('board-frame-gold-v1', 'board-frame'), ('hud-level-badge', 'level-badge'),
+                 ('hud-icon-piece', 'icon-piece'),
                  ('hud-icon-clock', 'hud-icon-clock'), ('hud-pause-normal', 'pause-normal'), ('hud-pause-pressed', 'pause-pressed')):
     files[dst + '.png'] = A + f'Gameplay/Task7/{src}.png'
 # Task 7 has no manifest: 9-slice borders from HANDOFF (frame corner >= 90 px) and the pill's round ends (84 px)
-borders.update({'board-frame.png': [90, 90, 90, 90], 'hud-pill-normal.png': [84, 40, 84, 40], 'hud-pill-urgent.png': [84, 40, 84, 40]})
+borders.update({'board-frame.png': [200, 200, 200, 200]})   # the ornament band is ~200 px wide
+# Codex Task 10 booster set (PM_MESAJ_14; Task 8/9 not used): button, badge, icons
+for src, dst in (('booster-button', 'booster-button'), ('booster-badge', 'booster-badge'), ('booster-scissors', 'icon-scissors'),
+                 ('booster-wand', 'icon-wand'), ('booster-hammer', 'icon-hammer'), ('booster-clock', 'icon-clock')):
+    files[dst + '.png'] = A + f'Gameplay/Task10/{src}.png'
+# Codex Task 11 (PM_MESAJ_14): HUD v3, menu Level button, card panel and buttons, stars; 9-slice from HANDOFF
+for src, dst in (('hud-level-badge', 'level-badge'), ('hud-pill', 'hud-pill-normal'), ('hud-pill-urgent', 'hud-pill-hot'),
+                 ('hud-icon-piece', 'icon-piece'), ('hud-icon-clock', 'hud-icon-clock'), ('menu-play-button', 'play-normal'),
+                 ('btn-primary', 'primary-normal'), ('btn-secondary', 'secondary-normal'), ('card-panel', 'popup-card'),
+                 ('star-full', 'star-full'), ('star-empty', 'star-empty')):
+    if os.path.exists(A + f'Gameplay/Task11/{src}.png'): files[dst + '.png'] = A + f'Gameplay/Task11/{src}.png'
+for n in ('hud-pill-normal', 'hud-pill-hot', 'play-normal', 'primary-normal', 'secondary-normal'): borders[n + '.png'] = [72, 72, 72, 72]
+borders['popup-card.png'] = [96, 96, 96, 96]
 files['hand-swipe.png'] = A + 'TutorialHand/Exports/hand-swipe-vertical-288.png'    # vertical export (PM_MESAJ_8)
 files['hand-tap.png'] = A + 'TutorialHand/Exports/hand-tap-vertical-288.png'
 files['skin-body.png'] = A + 'PieceSkin/body-256.png'
@@ -59,5 +70,18 @@ os.makedirs(OUT + 'audio', exist_ok=True)
 for dst, s in files.items():
     if not os.path.exists(s): print('EKSİK', s); continue
     shutil.copyfile(s, OUT + dst)            # copyfile: keeps the destination .meta (import settings)
+# not used by the game (pressed states, replaced sets, HTML-only copies): kept out of Resources so the build stays small
+UNUSED = ['settings-row-on', 'settings-row-off', 'switch-on', 'switch-off', 'sound-on', 'sound-off', 'close-normal', 'close-pressed',
+          'rating-normal', 'rating-pressed', 'rating-selected', 'thumb-up-normal', 'thumb-up-pressed', 'thumb-up-selected',
+          'thumb-down-normal', 'thumb-down-pressed', 'thumb-down-selected', 'name-input-normal', 'name-input-focus', 'progress-track',
+          'progress-fill', 'rotate-phone', 'star-burst', 'star-filling-glow', 'play-pressed', 'primary-pressed', 'secondary-pressed',
+          'profile-pressed', 'settings-pressed', 'reset-pressed', 'icon-reset-pressed', 'booster-empty', 'booster-locked', 'booster-out',
+          'booster-active', 'booster-badge-stock', 'booster-badge-lock', 'booster-normal', 'bomb-counter-normal', 'bomb-counter-hot',
+          'nail-counter', 'bomb-glow-normal', 'bomb-glow-hot', 'avatar-source', 'wall-repeat', 'wall-stripe', 'wall-corner', 'chain-cable',
+          'chain-link', 'chain-disc-1', 'chain-disc-2', 'chain-disc-3', 'chain-disc-4', 'frame', 'button', 'board', 'board-hard',
+          'hand-tap', 'joint-target-pulse', 'skin-body', 'icon-lock-card', 'board-tray-unused', 'reset-normal', 'icon-reset', 'pause-pressed']
+for n in UNUSED:
+    for ext in ('.png', '.png.meta'):
+        if os.path.exists(OUT + n + ext): os.remove(OUT + n + ext)
 open(OUT + 'choice.txt', 'w').write(' '.join(f'{k}={v}' for k, v in CHOICE.items()) + '\n')
 print(len(files), 'dosya;', open(OUT + 'choice.txt').read().strip())

@@ -1,7 +1,7 @@
 -- 008: Build 5 playtest analysis (SET40 v3). DRAFT; PM runs it, not the agent.
 -- Read-only. Replace the future start date before use; it intentionally returns no rows.
 -- Requires plays fields from migrations 001/002/004/007 and the existing booster fields.
--- Only redesigned R levels; classic/debug sets must not enter the Build 5 cohort.
+-- Only SET40 v3 levels (ids S..); classic/debug sets must not enter the Build 5 cohort.
 -- attempt = 1 is the persisted start counter, NOT the first row after the date filter.
 -- Quits are excluded from first-try outcomes. Retries are not renumbered as first tries.
 -- Group by slot AND permanent id/version so changed/reordered levels never mix.
@@ -18,7 +18,7 @@ with pt as (
   where p.player not ilike 'TEST\_%'
     and p.player <> 'ddd'
     and p.client = 'unity-web'
-    and p.level_id like 'R%'
+    and p.level_id like 'S%'                                     -- SET40 v3 ids are S.. (classic L.., ZeydBot Z..)
     and p.created_at >= timestamptz '2099-01-01 00:00+03' -- playtest start
 ),
 last_level as (

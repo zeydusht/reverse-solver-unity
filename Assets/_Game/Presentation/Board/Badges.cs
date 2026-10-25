@@ -87,9 +87,9 @@ namespace ReverseSolver.Presentation
             _body = new GameObject("body").transform;
             _body.SetParent(Root, false);
             float d = Mathf.Max(24f, cell * 0.52f);
-            // body = 71 % of the canvas (v1 and v2): sprite 1.19 cell so the body is 85 % of the cell; v1's body sits 10 %
+            // body = 71 % of the canvas (v1 and v2): sprite 1.06 cell so the body is 76 % of the cell (PM_MESAJ_13); v1's body sits 10 %
             // low (the fuse is on top) and is lifted, v2's body is centred; navy digits ~70 % of the cream disc, no rim
-            if (NailBadge.ArtBadge(_body, Art.Get("bomb-v2") != null ? "bomb-v2" : "board-bomb", cell, 1.19f,
+            if (NailBadge.ArtBadge(_body, Art.Get("bomb-v2") != null ? "bomb-v2" : "board-bomb", cell, 1.06f,
                                    Art.Get("bomb-v2") != null ? 0 : .1f, order, Draw.Hex("#0B2A36"), null, out _n))
             { _one = cell * .5f; _two = cell * .38f; return; }
             if (NailBadge.ArtBadge(_body, "icon-bomb", cell, new Vector2(-.03f, .06f), order, out _n)) return;   // count on the bomb's round body

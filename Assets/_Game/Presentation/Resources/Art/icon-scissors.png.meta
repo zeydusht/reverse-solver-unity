@@ -118,10 +118,10 @@ TextureImporter:
       name: icon-scissors_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 14
-        width: 103
-        height: 99
+        x: 3
+        y: 21
+        width: 234
+        height: 198
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
