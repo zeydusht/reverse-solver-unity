@@ -50,7 +50,7 @@
   #loader img{width:96px;height:96px;border-radius:22px}
   #loader .track{width:180px;height:6px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
   #loader .fill{height:100%;width:0;background:#f0a742;transition:width .15s}
-  .v3 #loader{background:linear-gradient(180deg,#164b50 0%,#0b252a 100%)}
+  .v3 #loader{background:#0b252a url(TemplateData/v3-loader-bg.png) center/cover no-repeat}
   .v3 #loader .msg{color:#b3cbca}
   .v3 #loader .track{background:none;border-image:url(TemplateData/v3-progress-track.png) 0 9 fill / 0 3px;height:6px}
   .v3 #loader .fill{background:none;border-image:url(TemplateData/v3-progress-fill.png) 0 9 fill / 0 3px}
@@ -58,7 +58,8 @@
   .v3 #rs-name-go{background:none!important;border-image:url(TemplateData/v3-primary-normal.png) 33 fill / 11px!important}
   .v3 #rotate svg{display:none}
   .v3 #rotate::before{content:"";width:56px;height:56px;background:url(TemplateData/v3-rotate-phone.png) center/contain no-repeat}
-  .v3 div:has(> #rs-name-in){background:linear-gradient(160deg,#1b5960,#103c43)!important;border-radius:18px!important;border-color:rgba(244,232,207,.2)!important}
+  .v3 div:has(> #rs-name-in){background:none!important;border:none!important;border-image:url(TemplateData/v3-popup-card.png) 54 fill / 18px!important;color:#123f46!important}
+  .v3 div:has(> #rs-name-in) p{color:#3d6266!important}
   #loader .msg{font-size:13px;color:#8fb2b3;max-width:280px;text-align:center;line-height:1.5}
 
   /* Safari cannot lock orientation, so a landscape phone gets a hint instead. */
@@ -232,14 +233,14 @@ window.ltBoot = function (msg) {
   }, { passive: false });
 </script>
 
-<script src="Build/8a807c5278fae388ac10853decdf7512.loader.js"></script>
+<script src="Build/dba4cf580fa60fd972fb560e6118f690.loader.js"></script>
 <script>
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/255acb689c20f47d6c055b7cac56d403.data.unityweb",
-    frameworkUrl: "Build/a9500e1f803275c5148df8333d1c6e62.framework.js.unityweb",
-    codeUrl: "Build/ec291c7f6c1a917d0738a02a71ffda57.wasm.unityweb",
+    dataUrl: "Build/c30afd27bf3af4cb862a65805c61b3be.data.unityweb",
+    frameworkUrl: "Build/676739333e94fbc109196974e5102bd0.framework.js.unityweb",
+    codeUrl: "Build/00de7b54acef4e65d6f15cdc79715b4d.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
