@@ -18,6 +18,21 @@ namespace ReverseSolver.Presentation
             float ang = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             float disc = s * .33f;
 
+            if (Art.Get("chain-repeat") != null)
+            {
+                // tile 96x48 px = 32x16 pt, scaled to a band of 0.24 cell, repeated along the chain
+                float ks = s * .24f / 16f;
+                var strip = Art.Place(root, "chain-repeat", new Vector2(len / ks, 16f), order, tiled: true);
+                strip.transform.localScale = new Vector3(ks, ks, 1);
+                Place(strip.transform, (a + b) / 2, ang);
+                foreach (var e in new[] { a, b })
+                {
+                    var end = Art.Place(root, "chain-end", new Vector2(s * .5f, s * .5f), order + 2);
+                    Place(end.transform, e, 0);
+                }
+                return;
+            }
+
             // cable: stroke #16242b width S*.15, round caps, opacity .6
             var cable = ShapeView.Create(root, "cable", new Vector2(len + s * .15f, s * .15f), 2, order)
                 .Radius(s * .075f).Fill(Draw.Hex("#16242b", .6f)).Skin("chain-cable", false, tiled: true);

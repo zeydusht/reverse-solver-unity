@@ -15,6 +15,7 @@ namespace ReverseSolver.Presentation
             Root.SetParent(parent, false);
             Root.localPosition = Draw.W(center);
             float d = Mathf.Max(22f, cell * 0.46f);
+            if (ArtBadge(Root, "board-nail", cell, Vector2.zero, order, out _n)) return;                  // nail head seen from above, count in the middle
             if (ArtBadge(Root, "icon-nail", cell, new Vector2(-.2f, -.2f), order, out _n)) return;   // count on the nail head (upper left)
             // radial-gradient(60% 50% at 32% 26%, #f2f5f8, #8d9aa6 60%, #5b6874)
             ShapeView.Create(Root, "disc", new Vector2(d, d), 8, order)
@@ -29,13 +30,14 @@ namespace ReverseSolver.Presentation
 
         /* Preview art (#10): the icon a bit larger than the drawn disc, the counter on a dark chip at its
            lower right so the number stays readable on a phone-size cell. */
-        internal static bool ArtBadge(Transform root, string key, float cell, Vector2 at, int order, out TextView count)
+        internal static bool ArtBadge(Transform root, string key, float cell, Vector2 at, int order, out TextView count, bool dark = false)
         {
             count = null;
             float d = cell * .8f;
             if (Art.Place(root, key, new Vector2(d, d), order) == null) return false;
-            count = TextView.Create(root, "count", "", cell * .4f, Draw.Hex("#ffffff"), true, order: order + 2)
-                .Outline(Draw.Hex("#0c1418"), .3f);
+            // on a light disc (bomb) dark digits with a light rim; elsewhere white digits with a dark rim
+            count = TextView.Create(root, "count", "", cell * .4f, Draw.Hex(dark ? "#2b1608" : "#ffffff"), true, order: order + 2)
+                .Outline(Draw.Hex(dark ? "#fff4da" : "#0c1418"), .3f);
             count.transform.localPosition = Draw.W(at * d);
             return true;
         }
@@ -59,6 +61,7 @@ namespace ReverseSolver.Presentation
             _body = new GameObject("body").transform;
             _body.SetParent(Root, false);
             float d = Mathf.Max(24f, cell * 0.52f);
+            if (NailBadge.ArtBadge(_body, "board-bomb", cell, Vector2.zero, order, out _n, dark: true)) return;               // count on the cream disc
             if (NailBadge.ArtBadge(_body, "icon-bomb", cell, new Vector2(-.03f, .06f), order, out _n)) return;   // count on the bomb's round body
             // radial-gradient(58% 48% at 32% 26%, #6c7a84, #232f36 62%, #111a1f); ring 2px #0c1418;
             // 0 3px 6px rgba(0,0,0,.6); 0 0 14px rgba(226,74,60,.55)

@@ -1,0 +1,548 @@
+fileFormatVersion: 2
+guid: 9a7de16f6fbbabd4099376db4f026e8c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 322072478474881134
+    second: bomb-short-fuse-1254-source_0
+  - first:
+      213: 6202972984797406606
+    second: bomb-short-fuse-1254-source_1
+  - first:
+      213: -5874329348806024334
+    second: bomb-short-fuse-1254-source_2
+  - first:
+      213: 6716530093945400638
+    second: bomb-short-fuse-1254-source_3
+  - first:
+      213: -6264224989249904847
+    second: bomb-short-fuse-1254-source_4
+  - first:
+      213: -7141602453597825333
+    second: bomb-short-fuse-1254-source_5
+  - first:
+      213: -2312199800496662022
+    second: bomb-short-fuse-1254-source_6
+  - first:
+      213: 8067737063822950577
+    second: bomb-short-fuse-1254-source_7
+  - first:
+      213: -1316716078097663575
+    second: bomb-short-fuse-1254-source_8
+  - first:
+      213: -5680036885728449186
+    second: bomb-short-fuse-1254-source_9
+  - first:
+      213: -7646230538623045116
+    second: bomb-short-fuse-1254-source_10
+  - first:
+      213: 5538827556455319983
+    second: bomb-short-fuse-1254-source_11
+  - first:
+      213: 8273163560453301943
+    second: bomb-short-fuse-1254-source_12
+  - first:
+      213: -5107778321380495413
+    second: bomb-short-fuse-1254-source_13
+  - first:
+      213: -5760528800056660148
+    second: bomb-short-fuse-1254-source_14
+  - first:
+      213: 774569251437824576
+    second: bomb-short-fuse-1254-source_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_0
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 1203
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e68cc67763b387400800000000000000
+      internalID: 322072478474881134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 31
+        width: 1203
+        height: 1161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e85a13e9013651650800000000000000
+      internalID: 6202972984797406606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_2
+      rect:
+        serializedVersion: 2
+        x: 1075
+        y: 901
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 273e3cea4903a7ea0800000000000000
+      internalID: -5874329348806024334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_3
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 843
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3d26d4e888e53d50800000000000000
+      internalID: 6716530093945400638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_4
+      rect:
+        serializedVersion: 2
+        x: 1092
+        y: 789
+        width: 16
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13f52a2cf800119a0800000000000000
+      internalID: -6264224989249904847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_5
+      rect:
+        serializedVersion: 2
+        x: 1107
+        y: 783
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc65e32086ee3ec90800000000000000
+      internalID: -7141602453597825333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_6
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 641
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af9daa1388a69efd0800000000000000
+      internalID: -2312199800496662022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_7
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 326
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b08b666d1c56ff60800000000000000
+      internalID: 8067737063822950577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_8
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 307
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a971f604b51abde0800000000000000
+      internalID: -1316716078097663575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_9
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 304
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5d2a0beb847c21b0800000000000000
+      internalID: -5680036885728449186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_10
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 278
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40231aa26d123e590800000000000000
+      internalID: -7646230538623045116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_11
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 262
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa90aae015edddc40800000000000000
+      internalID: 5538827556455319983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_12
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 260
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b66685dc6e20d270800000000000000
+      internalID: 8273163560453301943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_13
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 244
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcfacaacda68d19b0800000000000000
+      internalID: -5107778321380495413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_14
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 248
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4f2732b39d7e00b0800000000000000
+      internalID: -5760528800056660148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb-short-fuse-1254-source_15
+      rect:
+        serializedVersion: 2
+        x: 1067
+        y: 176
+        width: 33
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04a44ed51a2dfba00800000000000000
+      internalID: 774569251437824576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      bomb-short-fuse-1254-source_0: 322072478474881134
+      bomb-short-fuse-1254-source_1: 6202972984797406606
+      bomb-short-fuse-1254-source_10: -7646230538623045116
+      bomb-short-fuse-1254-source_11: 5538827556455319983
+      bomb-short-fuse-1254-source_12: 8273163560453301943
+      bomb-short-fuse-1254-source_13: -5107778321380495413
+      bomb-short-fuse-1254-source_14: -5760528800056660148
+      bomb-short-fuse-1254-source_15: 774569251437824576
+      bomb-short-fuse-1254-source_2: -5874329348806024334
+      bomb-short-fuse-1254-source_3: 6716530093945400638
+      bomb-short-fuse-1254-source_4: -6264224989249904847
+      bomb-short-fuse-1254-source_5: -7141602453597825333
+      bomb-short-fuse-1254-source_6: -2312199800496662022
+      bomb-short-fuse-1254-source_7: 8067737063822950577
+      bomb-short-fuse-1254-source_8: -1316716078097663575
+      bomb-short-fuse-1254-source_9: -5680036885728449186
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -38,6 +38,10 @@ for it in man['assets']:
     files[name] = it['path']
     if it.get('slice'): borders[name] = it['slice']
 for n in ('booster-active', 'joint-target', 'joint-target-pulse'): files[n + '.png'] = A + f'Gameplay/Task6/{n}.png'   # Task 6
+# Task 6 board art (Zeyd 2026-10-25): obstacles, chain and wall on the board
+for src, dst in (('nail-head-384', 'board-nail'), ('bomb-counter-384', 'board-bomb'), ('chain-link-repeat-96x48', 'chain-repeat'),
+                 ('chain-endpoint-144', 'chain-end'), ('wall-repeat-96x48', 'wall-stripe'), ('wall-corner-96x96', 'wall-corner')):
+    files[dst + '.png'] = A + f'Gameplay/Task6/{src}.png'
 files['hand-swipe.png'] = A + 'TutorialHand/Exports/hand-swipe-vertical-288.png'    # vertical export (PM_MESAJ_8)
 files['hand-tap.png'] = A + 'TutorialHand/Exports/hand-tap-vertical-288.png'
 files['skin-body.png'] = A + 'PieceSkin/body-256.png'

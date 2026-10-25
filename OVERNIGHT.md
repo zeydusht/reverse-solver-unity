@@ -1,3 +1,5 @@
+# Önizleme 8 (25 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign · &lv=S28 — Codex Task6 çivi, bomba, zincir, duvar (+köşe) tahtada; verify 7/7, kök değişmedi.
+
 # Önizleme 7 (25 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign — parçalar Codex Kit81 ile (mask/overlay/flat, 81 kenar kombinasyonu); prosedürel çizim yedek. Verify 7/7, kök değişmedi.
 
 # Önizleme 6 (25 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign · zincir+duvar: &lv=S28

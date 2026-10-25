@@ -61,6 +61,7 @@ Kurallar:
 | Önizleme 6: engeller hücrenin %80'i, sayaç görselin üstünde (büyük, kalın, dış çizgili), katman parça < zincir < engel < sayaç, pause kartı (Devam / Yeniden başla / Ana menü → quit), duvar geçici kırmızı-beyaz | ✅ | |
 | Codex dosya adları bekleniyor: `pause-normal`, `wall-stripe`, `piece_*` (HANDOFF'a düşünce art_choice.py + bağlama) | 🔜 | |
 | Önizleme 7: parçalar Kit81 ile (KitAtlas → 3 atlas, Piece.shader kit dalı; resimli bölümde mask+overlay, resimsizde flat) | ✅ | |
+| Önizleme 8: Task6 tahta görselleri bağlandı (çivi/bomba %80 + sayaç ortada, zincir şeridi + uç kilidi, duvar şeridi + köşe); HANDOFF'a oyun adlarıyla eklendi. Pause görseli yok, çizim tuş kaldı | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

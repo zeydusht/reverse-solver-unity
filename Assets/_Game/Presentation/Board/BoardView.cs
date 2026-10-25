@@ -89,9 +89,12 @@ namespace ReverseSolver.Presentation
                     };
                     // Codex wall strip (tiles along the lane; drawn horizontally, turned for the left/right sides)
                     bool vertical = side.Key == Dir.L || side.Key == Dir.R;
-                    var wallArt = Art.Place(transform, "wall-stripe", vertical ? new Vector2(r.height, r.width) : r.size, WallOrder, tiled: true);
+                    // the tile (96x48 px = 32x16 pt) is scaled so its height is the wall's thickness, then repeated along the lane
+                    float len = vertical ? r.height : r.width, k = t / 16f;
+                    var wallArt = Art.Place(transform, "wall-stripe", new Vector2(len / k, 16f), WallOrder, tiled: true);
                     if (wallArt != null)
                     {
+                        wallArt.transform.localScale = new Vector3(k, k, 1);
                         wallArt.transform.localPosition = Draw.W(r.center);
                         if (vertical) wallArt.transform.localRotation = Quaternion.Euler(0, 0, 90);
                         continue;
@@ -101,6 +104,26 @@ namespace ReverseSolver.Presentation
                         .Stroke(Draw.Hex("#7d1f16"), 2).Shadow(Draw.Rgba(0, 0, 0, .55f), 0, 3, 8);
                     wall.transform.localPosition = Draw.W(r.center);
                 }
+
+            // Codex wall corners where two sealed sides meet at a board corner
+            if (Art.Get("wall-corner") != null)
+            {
+                bool Has(Dir d, int lane) => l.Sealed.TryGetValue(d, out var lanes) && System.Array.IndexOf(lanes, lane) >= 0;
+                var corners = new[]
+                {
+                    (Has(Dir.U, 0) && Has(Dir.L, 0), new Vector2(-t, -t), 0f),
+                    (Has(Dir.U, l.Width - 1) && Has(Dir.R, 0), new Vector2(W + t, -t), -90f),
+                    (Has(Dir.D, l.Width - 1) && Has(Dir.R, l.Height - 1), new Vector2(W + t, H + t), 180f),
+                    (Has(Dir.D, 0) && Has(Dir.L, l.Height - 1), new Vector2(-t, H + t), 90f),
+                };
+                foreach (var (on, at, rot) in corners)
+                {
+                    if (!on) continue;
+                    var c = Art.Place(transform, "wall-corner", new Vector2(t * 1.6f, t * 1.6f), WallOrder + 1);
+                    c.transform.localPosition = Draw.W(at);
+                    c.transform.localRotation = Quaternion.Euler(0, 0, rot);
+                }
+            }
 
             int chainNo = 0;
             for (int i = 0; i < l.Pieces.Count; i++)

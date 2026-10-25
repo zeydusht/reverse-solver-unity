@@ -279,3 +279,58 @@ Yazı tipi önerisi: `Nunito[wght].ttf` — normal 400 / kalın 700 — SIL Open
 
 Kontroller: docs/art/reports/task6-validation.json. İlk üç PNG şeffaf; arka plan tam opak. Unity entegrasyonu ve push/deploy yapılmadı.
 Yükleme arka planı: 206.176 bayt; renk azaltmadan kayıpsız PNG sıkıştırması. Yeniden üretim: `node docs/art/build-task6.cjs`; doğrulama: `powershell -NoProfile -ExecutionPolicy Bypass -File docs/art/verify-task6.ps1`.
+
+## Oyun içi görsel revizyonu — 25 Ekim
+
+- `Assets/Art/Gameplay/Task6/nail-head-384.png` / tahta üstten görünüş çivi başı / 384×384 şeffaf PNG / düz altın merkez alanı hamle sayısı için boş; rakam çizilmedi.
+- `Assets/Art/Gameplay/Task6/bomb-counter-384.png` / iri bomba / 384×384 şeffaf PNG / kısa fitil, açık krem boş etiket alanı; rakam çizilmedi.
+- `Assets/Art/Gameplay/Task6/chain-link-repeat-96x48.png` / zincir halkası / 96×48 şeffaf PNG / yatay dizilimde halkalar 48 px adımla bindirilir.
+- `Assets/Art/Gameplay/Task6/chain-endpoint-144.png` / zincir uç kilit/halka diski / 144×144 şeffaf PNG / mevcut ölçü yönü korundu.
+- `Assets/Art/Gameplay/Task6/wall-repeat-96x48.png` / duvar uyarı şeridi / 96×48 şeffaf PNG / kırmızı-beyaz çapraz; yatay tekrar.
+- `Assets/Art/Gameplay/Task6/wall-corner-96x96.png` / şerit köşesi / 96×96 şeffaf PNG / L dönüş.
+- `Assets/Art/PieceSkin/Task6/piece-sample-384.png` / yapboz görünüm örneği / 384×384 şeffaf PNG / üst merkezde çıkıntı, diğer kenarlar düz; tablo resmi, koyu kontur, bevel ve gölge.
+- `Assets/Art/PieceSkin/Task6/sample-review-v01.html` / aynı örnek parçanın 3×3 materyal önizlemesi / 81 kenar kombinasyonu değildir.
+- 4c için şekil maskesi/overlay/düz dolgu üçlüsü ve 81 kombinasyon üretimi Zeyd’in örnek onayına kadar beklemede.
+- `Assets/Art/UI/Task6/pause-button-168.png` / oyun içi pause düğmesi / 168×168 şeffaf PNG.
+- `Assets/Art/UI/Task6/pause-card-1020x1080.png` / pause kart zemini / 1020×1080 şeffaf PNG / mevcut popup kartından 60 px çerçeve köşeleri korunup 9-bölge yöntemiyle uzatıldı.
+- Pause düzeni `Assets/Art/UI/Task6/pause-review-v01.html` içinde: Devam, Yeniden başla, Ana menü metinleri ayrı katman; mevcut genel `UI/Task5/primary-normal.png`, `secondary-normal.png` düğmeleri tekrar kullanılır.
+- Toplu inceleme: `Assets/Art/Gameplay/Task6/redraw-review-v01.html`.
+
+## Yapboz parçası 2×2 demo — 25 Ekim
+
+- `Assets/Art/Review/Pieces/demo-v01.png` / turkuaz–mercan–altın yüzeyli 2×2 geçmeli set / 1152×1152 px, şeffaf PNG / referans geometrisine göre kare gövde, yuvarlak merkez tırnakları, koyu kontur ve yumuşak bevel.
+- `Assets/Art/Review/Pieces/demo-v01-painted.png` / aynı setin örnek tablo resmi kaplanmış hali / 1152×1152 px, şeffaf PNG / resim tek parça gibi hizalı; kontur, kabartma ve gölgeler görünür.
+- 81 kenar kombinasyonu ve mask/overlay/fill çıktıları Zeyd onayı gelene kadar üretilmeyecek.
+- `Assets/Art/Review/Pieces/demo-v02-centered.png` / IMG_2392.PNG’de işaretlenen aynı 2×2 demo / 1152×1152 şeffaf PNG / üst dikey, sağ sütundaki yatay ve alt dikey bağlantı kenar ortasına alındı; diğer çizim pikselleri korunur.
+- `Assets/Art/Review/Pieces/demo-v02-centered-review.html` / v01-v02 karşılaştırma sayfası / yalnız inceleme; 81 kombinasyon üretilmedi.
+- Yeniden üretim: `powershell -NoProfile -ExecutionPolicy Bypass -File Assets/Art/Review/Pieces/recenter-connections.ps1`.
+- `Assets/Art/PieceSkin/Task6/piece_O-I-F-F.png` / tek 4c onay parçası / 384×384 şeffaf PNG / üst O çıkıntısı ve sağ I girintisi kendi kenarlarının tam ortasında; alt/sol F düz.
+- `Assets/Art/PieceSkin/Task6/piece_O-I-F-F-review.html` / merkez çizgileri açılıp kapanabilen tek-parça önizlemesi / 81 kombinasyon Zeyd bu örneği onaylayana kadar beklemede.
+- Yeniden üretim: `powershell -NoProfile -ExecutionPolicy Bypass -File Assets/Art/PieceSkin/Task6/build-one-piece-demo.ps1`.
+
+## Sonsuz koridor geçiş demosu — 25 Ekim
+
+İlk sanat ve tarayıcı prototipi hazır. Bölme frontal/ortografik; 1125×2436 px (@3x) baz alınır. Demo 390×844 telefon çerçevesinde 1 sn bekler, 1,5 sn ease-in-out ile bir tam bölme sola kayar, sonraki tabloyu gösterir ve döngüyü sürdürür. Mod A düz kayış; Mod B silindir kıvrımı kaydırıcılıdır. Oyuna entegrasyon yapılmadı, Zeyd incelemesi bekleniyor.
+
+| Dosya | Ölçü | Yatay tekrar | Paralaks / açıklama |
+|---|---:|---|---|
+| `Assets/Art/Menu/InfiniteCorridor/wall-tile-v01.png` | 1125×2436 | X; sol/sağ sınır RGB farkı 0 | 1.0×; opak teal duvar alanı |
+| `Assets/Art/Menu/InfiniteCorridor/frame-empty-v01.png` | 1125×2436; çerçeve 981×651, (72,890) | Bölme ile X | 1.0×; alfa şeffaf boş çerçeve |
+| `Assets/Art/Menu/InfiniteCorridor/painting-level-01-v01.png` | 716×330 | Bölme başına değişir | 1.0×; tablo iç ölçüsü |
+| `Assets/Art/Menu/InfiniteCorridor/painting-level-02-v01.png` | 716×330 | Bölme başına değişir | 1.0×; örnek sonraki bölüm resmi |
+| `Assets/Art/Menu/InfiniteCorridor/foreground-columns-v01.png` | 1125×2436 | X; alfa kenarları eşlenik | 1.4×; sütun, sancak ve aplikler, şeffaf orta alan |
+| `Assets/Art/Menu/InfiniteCorridor/floor-strip-v01.png` | 1125×600 | X; dikiş kontrollü | 1.0×; şeffaf çevreli, UI altındaki bordo şerit |
+| `Assets/Art/Menu/InfiniteCorridor/tile-repeat-proof-v01.png` | 3375×2436 | Üç döşeme yan yana | Duvar, sütun, çerçeve, tablo ve zeminle birleşim kanıtı |
+| `Assets/Art/Menu/InfiniteCorridor/demo-preview-v01.png` | 780×1688 | yok; 390×844 önizleme @2x | Durağan kompozit ekran görüntüsü |
+| `Assets/Art/Menu/InfiniteCorridor/index.html` | 390×844 sahne | canlı döngü | Mod A/B, 1 sn + 1,5 sn, kıvrım kaydırıcısı, tekrar oynat |
+| `Assets/Art/Menu/InfiniteCorridor/build-demo.ps1` | kaynak oluşturucu | — | Katman ve kanıt PNG’lerini yeniden üretir |
+
+Üretim kaynakları `Assets/Art/Menu/InfiniteCorridor/source/` içindedir. Önizleme ve katmanlar Zeyd’in değerlendirmesi için; görsel onayı ve oyun bağlantısı beklemede.
+| `Assets/Art/Gameplay/Task6/nail-head-384.png` | Tahtadaki çivi (oyunda `board-nail`) | 384×384 şeffaf | Hücrenin %80'i; sayaç çivi başının ortasında |
+| `Assets/Art/Gameplay/Task6/bomb-counter-384.png` | Tahtadaki bomba (oyunda `board-bomb`) | 384×384 şeffaf | Hücrenin %80'i; sayaç ortadaki krem dairede |
+| `Assets/Art/Gameplay/Task6/chain-link-repeat-96x48.png` | Tahtadaki zincir şeridi (oyunda `chain-repeat`) | 96×48, yatay tekrar | Kalınlık hücrenin 0,24'ü; iki hücre arasında döndürülür |
+| `Assets/Art/Gameplay/Task6/chain-endpoint-144.png` | Zincir uç kilidi (oyunda `chain-end`) | 144×144 şeffaf | Her uçta hücrenin 0,5'i |
+| `Assets/Art/Gameplay/Task6/wall-repeat-96x48.png` | Duvar şeridi (oyunda `wall-stripe`) | 96×48, yatay tekrar | Yükseklik = duvar kalınlığı; sol/sağ kenarda 90° döner |
+| `Assets/Art/Gameplay/Task6/wall-corner-96x96.png` | Duvar köşesi (oyunda `wall-corner`) | 96×96 şeffaf | İki kapalı kenarın buluştuğu tahta köşesinde |
+
+> Not (Claude Code): yeni oyun görselleri `Tools/art_choice.py` içindeki ad eşlemesine eklenmeden oyuna girmez; yeni dosyaya bu tabloya "oyunda `ad`" ile satır yazın.
