@@ -13,7 +13,7 @@ namespace ReverseSolver.Presentation
     {
         // sorting: tray < slots < pieces < chained pieces < walls < lifted piece
         const int TrayOrder = 0, SlotOrder = 5, PieceOrder = 100, PieceStride = 12, ChainedBoost = 600,
-                  WallOrder = 1300, LiftOrder = 1500;
+                  WallOrder = 1300, LiftOrder = 1500, BadgeOrder = 1800;
 
         public GameSession Session { get; private set; }
         public float Cell { get; private set; }
@@ -89,7 +89,7 @@ namespace ReverseSolver.Presentation
                     };
                     // Codex wall strip (tiles along the lane; drawn horizontally, turned for the left/right sides)
                     bool vertical = side.Key == Dir.L || side.Key == Dir.R;
-                    var wallArt = Art.Place(transform, "wall-repeat", vertical ? new Vector2(r.height, r.width) : r.size, WallOrder, tiled: true);
+                    var wallArt = Art.Place(transform, "wall-stripe", vertical ? new Vector2(r.height, r.width) : r.size, WallOrder, tiled: true);
                     if (wallArt != null)
                     {
                         wallArt.transform.localPosition = Draw.W(r.center);
@@ -115,12 +115,12 @@ namespace ReverseSolver.Presentation
                                     ChainView.Tints[chainNo++ % ChainView.Tints.Length], pv.SortingOrder + 1);
                 if (Session.NailAt(i) > 0)
                 {
-                    var n = new NailBadge(pv.transform, pv.FirstCellCenter, S, pv.SortingOrder + 8) { Count = Session.NailAt(i) };
+                    var n = new NailBadge(pv.transform, pv.FirstCellCenter, S, BadgeOrder + i * 4) { Count = Session.NailAt(i) };
                     _nails[i] = n;
                     pv.SetPinned(true);
                 }
                 if (Session.FuseAt(i) > 0)
-                    _bombs[i] = new BombBadge(pv.transform, pv.FirstCellCenter, S, pv.SortingOrder + 8) { Fuse = Session.FuseAt(i) };
+                    _bombs[i] = new BombBadge(pv.transform, pv.FirstCellCenter, S, BadgeOrder + i * 4) { Fuse = Session.FuseAt(i) };
             }
         }
 

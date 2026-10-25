@@ -554,6 +554,11 @@ namespace ReverseSolver.Presentation
                 switch (_cardKind)
                 {
                     case "intro": _introOpen = false; CloseCard(); break;
+                    case "pause":                                   // the attempt ends as a quit when left (LeaveLevel)
+                        CloseCard();
+                        if (id == "restart") StartLevel(_index);
+                        else if (id == "menu") ShowMenu();
+                        break;
                     case "ask":
                         if (id == "yes") _boosters.Confirm(); else _boosters.CancelAsk();
                         CloseCard();
@@ -583,7 +588,13 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
-            if (_hud.RestartRect.Contains(pt)) { StartLevel(_index); return; }
+            if (_hud.RestartRect.Contains(pt))
+            {
+                if (!Art.On) { StartLevel(_index); return; }
+                OpenCard("pause", new Card(_world, _screen, CardOrder, "Pause").Title(Texts.Paused)
+                    .Button("resume", Texts.Resume, true).Button("restart", Texts.Restart, false).Button("menu", Texts.MainMenu, false).Finish());
+                return;
+            }
             if (_hud.LevelRect.Contains(pt)) { OpenList(); return; }
 
             var b = _bar.Hit(pt);

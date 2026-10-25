@@ -1,3 +1,6 @@
+# Önizleme 6 (25 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign · zincir+duvar: &lv=S28
+- Büyük engel + üstünde sayaç, zincir engelin altında, pause kartı, kırmızı-beyaz duvar. Verify 7/7; kök değişmedi.
+
 # Önizleme 5 (25 Ekim 13:10): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign · ilk zor: &lv=S28
 - Codex Görev 6 + kalan bağlantılar: zincir, duvar, booster halleri (kilitli/aktif/tükendi/rozet), bölüm hücreleri, makas noktası, parça gövde dokusu, yükleme ve isim ekranı.
 - Verify yerel 7/7; kök ve canlı 40 değişmedi. Duvar şeridi ince/gri, okunurluğu Zeyd baksın.

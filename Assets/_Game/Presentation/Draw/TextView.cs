@@ -12,6 +12,14 @@ namespace ReverseSolver.Presentation
         public const float PointToFontSize = 10f;
 
         TextMeshPro _t;
+
+        /* A dark outline around the glyphs (counters on obstacle art, PM_MESAJ_11). */
+        public TextView Outline(Vector4 color, float width)
+        {
+            _t.outlineWidth = width;
+            _t.outlineColor = new Color(color.x, color.y, color.z, color.w);
+            return this;
+        }
         Vector4 _color;
 
         public static TextView Create(Transform parent, string name, string text, float sizePt, Vector4 color,

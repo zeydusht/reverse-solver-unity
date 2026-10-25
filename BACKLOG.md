@@ -57,7 +57,9 @@ Kurallar:
 | Önizleme 4 (ecc6541): Codex Görev 4–5 bağlandı; profil, ayarlar, başlangıç kartı, yıldız/konfeti (PM_MESAJ_8–9) | ✅ | |
 | Kalan Claude çizimi ~8 (zincir, duvar, booster halleri, bölüm listesi, parça dokusu) → sıradaki Codex/bağlama turu | 🔜 | ~2 sa |
 | Codex CLI çalışıyor (`codex exec -s workspace-write`); görevleri ben veriyorum | ✅ | |
-| Önizleme 5: Claude çizimi kalmadı (görünen her öğe Codex'in); yalnız efektler kodda: ekran flaşı, kart karartması, yedek çizimler (görsel yoksa) | ✅ | |
+| Önizleme 5 düzeltme: parçalar hâlâ prosedürel; zincir/duvar beklenen gibi değil → Codex parça seti (81, `piece_O-F-I-F`) ve yeni engel/pause görselleri gelince bağlanacak | 🔜 | |
+| Önizleme 6: engeller hücrenin %80'i, sayaç görselin üstünde (büyük, kalın, dış çizgili), katman parça < zincir < engel < sayaç, pause kartı (Devam / Yeniden başla / Ana menü → quit), duvar geçici kırmızı-beyaz | ✅ | |
+| Codex dosya adları bekleniyor: `pause-normal`, `wall-stripe`, `piece_*` (HANDOFF'a düşünce art_choice.py + bağlama) | 🔜 | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

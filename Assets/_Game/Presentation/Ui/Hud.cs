@@ -47,7 +47,7 @@ namespace ReverseSolver.Presentation
 
             // .reset: 46px circle, rgba(255,255,255,.10), 2px rgba(255,255,255,.55)
             ShapeView.Create(_root, "reset", new Vector2(46, 46), 4, order)
-                .Radius(23).Fill(Draw.Rgba(255, 255, 255, .10f)).Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Skin("reset-normal", false)
+                .Radius(23).Fill(Draw.Rgba(255, 255, 255, .10f)).Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Skin(Art.On ? "pause-normal" : "reset-normal", false)   // pause-normal: Codex pause button when it arrives
                 .transform.localPosition = Draw.W(resetX, cy);
             RestartIcon(_root, new Vector2(resetX, cy), order + 1);
             RestartRect = new Rect(resetX - 23, cy - 23, 46, 46);
@@ -94,6 +94,14 @@ namespace ReverseSolver.Presentation
 
         static void RestartIcon(Transform root, Vector2 c, int order)
         {
+            if (Art.On)
+            {
+                // pause glyph until Codex's pause icon: two cream bars on the round button
+                foreach (float dx in new[] { -4.5f, 4.5f })
+                    ShapeView.Create(root, "pause", new Vector2(5, 16), 1, order).Radius(1.5f).Fill(Draw.Hex("#fff4da"))
+                        .transform.localPosition = Draw.W(c.x + dx, c.y);
+                return;
+            }
             if (Art.Icon(root, "icon-reset", c, 17, order)) return;
             var col = Draw.Hex("#eaf3f2");
             // an open circle (gap at the upper right) and an arrow head on its end
