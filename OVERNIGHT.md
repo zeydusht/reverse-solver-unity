@@ -1,3 +1,6 @@
+# Build 5 YAYINDA (27 Ekim): https://zeydusht.github.io/reverse-solver-unity/ — kök SET40 v3, eski 40 ?set=classic, 👍/👎 + kayıt açık. Canlı verify 6/7 (card = bilinen debug ölçümü). Gizlilik: /privacy/ (iletişim adresi yer tutucu).
+- iOS 0.5.0 hazırlığı: NativeHost (güvenli alan, iOS klavyesiyle isim, unity-ios kaydı), bölümler GitHub Pages'ten önbelleğe, IosBuild (bundle com.zeydtekin.reversesolver, iOS 15+, dikey, otomatik imza). iOS build iOS Build Support kurulunca alınacak.
+
 # Zeyd: Unity Hub'dan iOS Build Support'u elle kur (Installs → 6000.6.4f1 → ⚙ → Add modules → iOS Build Support). Komut satırından denendi, yönetici izni penceresi onaylanmadığı için kurulamadı; iOS build (madde 5) bunu bekliyor.
 
 # Önizleme (kart tuşları): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign — Task15 tuşları orijinal oranında (germe yok), krem yazı + koyu kontur + gölge, basılı hâl; başlangıç kartında ikonlar 2×

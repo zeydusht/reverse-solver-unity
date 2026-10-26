@@ -79,6 +79,8 @@ Kurallar:
 | Önizleme 17: resimli level kenarı = kalın koyu lacivert (#06161D, 1,5×, krem şerit %80, dış gölge); karşılaştırma parametresi kaldırıldı | ✅ | |
 | Menü: Levels kısayolu kalktı, Level tuşu ortada; avatar kutusu turkuaz radyal zemin, Jiggle %85 ortalı (seçim kartında da) | ✅ | |
 | Kart tuşları: Task15 v2 tuşları 684×336 oranında (9-slice germe yok), basılı hâl, yazı krem 22 pt + koyu kontur + gölge; başlangıç kartında engel ikonları 80 pt, zor uyarısı mercan | ✅ | |
+| Web Build 5 kökte yayında (5fc3142); gizlilik sayfası + levels/redesign.json gh-pages'te | ✅ | |
+| iOS TestFlight 0.5.0: kod + ayar hazır; build/zip iOS Build Support kurulumunu bekliyor (yönetici izni) | 🔜 | ~30 dk |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

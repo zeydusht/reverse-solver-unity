@@ -24,7 +24,8 @@ namespace ReverseSolver.Presentation
        ignored; debug sessions never send telemetry. */
     public sealed class GameRoot : MonoBehaviour
     {
-        public const string Client = "unity-web";
+        // plays.client: the web build or the iOS app (TestFlight)
+        public static readonly string Client = Application.platform == RuntimePlatform.IPhonePlayer ? "unity-ios" : "unity-web";
         const float BodyPad = 4f, StripBottom = 6f, BottomReserve = BoosterBar.PromptH + BoosterBar.Height, MaxCell = 78f;
         const int HandOrder = 1400, HudOrder = 3000, BarOrder = 3200, CardOrder = 5000, FlashOrder = 4500, DebugOrder = 6000;
 
@@ -119,6 +120,18 @@ namespace ReverseSolver.Presentation
                            name => { _save.SetPlayer(name); _awaitingName = false; });
         }
 
+        /* iOS: the levels saved from GitHub Pages at an earlier launch (Platform.RemoteLevels), when they still parse
+           as a full set; otherwise the copy inside the app. */
+        string RedesignJson()
+        {
+            string remote = Application.platform == RuntimePlatform.IPhonePlayer ? PlayerPrefs.GetString("rs_remote_redesign", null) : null;
+            if (!string.IsNullOrEmpty(remote))
+            {
+                try { if (LevelParser.Parse(remote).Levels.Count >= 40) return remote; } catch { }
+            }
+            return redesign.text;
+        }
+
         LevelSet ChooseSet()
         {
             Art.On = false;                                    // static: no domain reload between Play sessions
@@ -127,7 +140,7 @@ namespace ReverseSolver.Presentation
                 case SetChoice.Kind.Zeydbot: _zeydbotSet = true; return LevelParser.Parse(zeydbot.text);
                 case SetChoice.Kind.Designs: _designSet = true; return LevelParser.Parse(designs.text);
                 // SET40 (PM_MESAJ_5): recorded like the ZeydBot set (moves, 1-10), also when the flag makes it the default
-                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; _newArt = Art.On = true; return LevelParser.Parse(redesign.text);
+                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; _newArt = Art.On = true; return LevelParser.Parse(RedesignJson());
                 default: return LevelParser.Parse(levels.text);
             }
         }

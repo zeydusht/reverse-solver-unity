@@ -17,7 +17,7 @@ with pt as (
   select p.* from public.plays p
   where p.player not ilike 'TEST\_%'
     and p.player <> 'ddd'
-    and p.client = 'unity-web'
+    and p.client in ('unity-web', 'unity-ios')   -- web Build 5 and the iOS TestFlight app
     and p.level_id like 'S%'                                     -- SET40 v3 ids are S.. (classic L.., ZeydBot Z..)
     and p.created_at >= timestamptz '2099-01-01 00:00+03' -- playtest start
 ),
