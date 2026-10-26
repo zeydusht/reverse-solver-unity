@@ -15,7 +15,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <script>
   // SET40 v3 preview (?set=redesign): the approved blue icon; the live page keeps the old one until Build 5
-  if (/[?&]set=redesign/.test(location.search)) {
+  if (/[?&]set=redesign/.test(location.search)) {   // Build 5: the new look everywhere but the old sets
     document.querySelector('link[rel="apple-touch-icon"]').href = 'TemplateData/icon-v3-180.png';
     document.querySelector('link[rel="icon"]').href = 'TemplateData/icon-v3-32.png';
     // #24 / #25 (Codex MissingScreens): loading and name screens in the new look
@@ -238,9 +238,9 @@ window.ltBoot = function (msg) {
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/9825d7668cea5cd1fb16f1b92a10496b.data.unityweb",
+    dataUrl: "Build/9a164536d85932cecb73ca45296b2dd0.data.unityweb",
     frameworkUrl: "Build/22adda03144d95d341ba20a458a21304.framework.js.unityweb",
-    codeUrl: "Build/6e70523073ab513d63380d9c17e3e5f1.wasm.unityweb",
+    codeUrl: "Build/b944f45724f26da9bffd6d9027b186ca.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
