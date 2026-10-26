@@ -1,3 +1,5 @@
+# Kenar karşılaştırması (önizleme 16): şimdiki https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46 · koyu lacivert kalın https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46&edge=navy · siyah kalın https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46&edge=dark
+
 # Önizleme 15 (26 Ekim 20:55): resimli level https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46
 - Parça kenarı: lacivert dış kontur, içte krem ışık şeridi (%60), hafif bevel; sürüklenen parçanın altında aşağı-sağa yumuşak gölge. Yalnız painting=1; düz mavi set aynı. 3 telefon boyutunda kontrol edildi (docs/qa/2026-10-26-p15).
 

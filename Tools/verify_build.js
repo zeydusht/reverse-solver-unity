@@ -538,9 +538,9 @@ async function painting() {
   const sizes = (opt('sizes', '375x667,390x844,430x932')).split(',').map(s => s.split('x').map(Number));
   for (const [w, h] of sizes) {
     W = w; H = h;
-    const p = await newPage(); await p.open(dbg(`${base}/?set=redesign&painting=1&lv=${l.id}`)); await sleep(2500);
+    const p = await newPage(); await p.open(dbg(`${base}/?set=redesign&painting=1${opt('edge', '') ? '&edge=' + opt('edge', '') : ''}&lv=${l.id}`)); await sleep(2500);
     for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y);
-    await sleep(800); fs.writeFileSync(path.join(dir, `painting_${w}x${h}.png`), await p.png());
+    await sleep(800); fs.writeFileSync(path.join(dir, `painting_${opt('edge', 'base')}_${w}x${h}.png`), await p.png());
     const pl = placement(l), c = l.pieces[l.solution[0].piece][0], x0 = pl.x + (c[0] + .5) * pl.cell, y0 = pl.y + (c[1] + .5) * pl.cell;
     await p.touch('touchStart', x0, y0);
     for (let k = 1; k <= 6; k++) { await p.touch('touchMove', x0 + k * 2, y0 + k * 2); await sleep(16); }

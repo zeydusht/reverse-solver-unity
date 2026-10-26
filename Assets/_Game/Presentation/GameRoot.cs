@@ -351,6 +351,9 @@ namespace ReverseSolver.Presentation
                 // PM_MESAJ_16 B: painted-board test on level 7 with ?set=redesign&painting=1 (Kit81 mask unchanged)
                 if (Art.On && _session.Level.Number == 7 && Host.Current.Query("painting") == "1")
                 {
+                    // edge comparison (Zeyd 2026-10-26): &edge=navy thick dark navy, &edge=dark thick black, none = approved
+                    string edge = Host.Current.Query("edge");
+                    Shader.SetGlobalFloat("_RSEdge", edge == "dark" ? 2 : edge == "navy" ? 1 : 0);
                     var paint = Art.Texture("painting-test-01");
                     if (paint != null) _board.SetImage(paint);
                 }

@@ -71,6 +71,7 @@ Shader "ReverseSolver/Piece"
                 float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
                 float _SkinMix, _KitOn;
             CBUFFER_END
+            float _RSEdge;   // global, painted board edge test: 0 as approved, 1 thick dark navy, 2 thick black (&edge=)
             TEXTURE2D(_KitMask); SAMPLER(sampler_KitMask);
             TEXTURE2D(_KitOver); SAMPLER(sampler_KitOver);
             TEXTURE2D(_KitFlat); SAMPLER(sampler_KitFlat);
@@ -196,14 +197,17 @@ Shader "ReverseSolver/Piece"
                     if (imageAmt > 0.001)
                     {
                         // painted board (painting=1): the cut must read inside a busy picture (Zeyd 2026-10-26)
-                        float r = 1.1 * _PtToUnit;                                    // ~3 device px on a 3x phone
-                        float mOut = 0.0, mIn = 1.0;
+                        float thick = _RSEdge > 0.5 ? 1.5 : 1.0;
+                        float r = 1.1 * thick * _PtToUnit;                            // ~3 device px (thick: ~4-5 px)
+                        float mOut = 0.0, mIn = 1.0, mOut2 = 0.0;
                         for (int k = 0; k < 8; k++)
                         {
                             float an = k * 0.785398;
                             float2 o = float2(cos(an), sin(an)) * r;
                             float mo = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + o, i.edges)).a * kitIn(q + o);
                             mOut = max(mOut, mo);
+                            float2 o3 = o * 1.9;                                      // soft dark halo just outside the rim
+                            mOut2 = max(mOut2, SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + o3, i.edges)).a * kitIn(q + o3));
                             float2 o2 = o * 1.8;
                             mIn = min(mIn, SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + o2, i.edges)).a * kitIn(q + o2));
                         }
@@ -212,10 +216,12 @@ Shader "ReverseSolver/Piece"
                                   - SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q - d, i.edges)).a * kitIn(q - d);
                         float3 pf = fill + bev * 0.16;
                         float band = saturate(m - mIn);                               // ~2 px just inside the edge
-                        pf = lerp(pf, float3(0.973, 0.922, 0.816), band * 0.6);       // cream #F8EBD0 at 60 %
+                        pf = lerp(pf, float3(0.973, 0.922, 0.816), band * (_RSEdge > 0.5 ? 0.8 : 0.6));   // cream #F8EBD0, 60 % (80 % thick)
                         col = over(float4(ov.rgb * ov.a, ov.a) * m * 0.6, float4(pf, 1) * m);
                         float outline = saturate(mOut - m);                           // navy #0B2A36 rim outside the shape
-                        col = over(col, float4(0.043, 0.165, 0.212, 1) * outline);
+                        float3 rim = _RSEdge > 1.5 ? float3(0, 0, 0) : _RSEdge > 0.5 ? float3(0.024, 0.086, 0.114) : float3(0.043, 0.165, 0.212);
+                        col = over(col, float4(rim, 1) * outline);                     // black / #06161D / #0B2A36
+                        if (_RSEdge > 0.5) col = over(col, float4(0, 0, 0, 1) * saturate(mOut2 - mOut) * 0.35);
                     }
                     else
                     {
