@@ -150,6 +150,8 @@ namespace ReverseSolver.Presentation
                 _r.sortingOrder = value;
                 foreach (var s in GetComponentsInChildren<ShapeView>()) s.SortingOrder += delta;
                 foreach (var t in GetComponentsInChildren<TextView>()) t.SortingOrder += delta;
+                // Codex art on the piece (chain strip and end locks, obstacle art) rises with it while dragged
+                foreach (var sr in GetComponentsInChildren<SpriteRenderer>()) sr.sortingOrder += delta;
             }
         }
 

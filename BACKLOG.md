@@ -71,6 +71,8 @@ Kurallar:
 | Menü QA 3 boyut (docs/qa/2026-10-26-menu): taşma yok; profil yazısı krem kutuda okunmuyordu → lacivert | ✅ | |
 | Önizleme 12 (PM_MESAJ_15): Task13 menü + Task14 oyun içi (HUD, birleşik booster tuşları, çerçeve, bomba/çivi/zincir/duvar, kartlar); Lilita rakam/İngilizce, Fredoka Türkçe (ğ/ş/İ RS Sans yedeği) | ✅ | |
 | QA 3 boyut (docs/qa/2026-10-26-t14) 8/8; düzeltilen: çift kilit, 4'e bölünmeyen dokular (kart 3,4 MB → 167 KB), kullanılmayan görseller; build 10,9 MB | ✅ | |
+| Önizleme 13 (PM_MESAJ_16 A): sürüklerken zincir kilidi kayboluyordu (sprite'lar parçayla yükselmiyordu) + engelleyen parçanın parlaması girintileri boyuyordu ("kırmızı 7") → düzeldi; LV rozeti ortalandı | ✅ | |
+| Menü: "Jiggles rescued" çubuğu kalktı, yıldız sayacı → Jiggles sayacı, profilde yalnız ad (ortalı), avatar seçimi (5 Jiggle, cihazda); B kısmı Task15 bekliyor | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

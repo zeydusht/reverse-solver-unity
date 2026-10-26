@@ -10,6 +10,25 @@ namespace ReverseSolver.Presentation
     public static class Art
     {
         public static bool On;
+
+        // PM_MESAJ_16: the player's Jiggle avatar, kept in the browser (PlayerPrefs = localStorage on WebGL), never sent.
+        // Until Codex's five avatars arrive (Task 15): tinted copies of the approved one (blue, pink, red, green, purple).
+        public static readonly string[] AvatarKeys = { "avatar-blue", "avatar-pink", "avatar-red", "avatar-green", "avatar-purple" };
+        static readonly Color[] AvatarTints = { Color.white, new Color(1f, .55f, .8f), new Color(1f, .42f, .42f), new Color(.55f, 1f, .5f), new Color(.75f, .55f, 1f) };
+        public static int AvatarIndex
+        {
+            get => Mathf.Clamp(PlayerPrefs.GetInt("rs_avatar", 0), 0, 4);
+            set { PlayerPrefs.SetInt("rs_avatar", value); PlayerPrefs.Save(); }
+        }
+        /* The avatar sprite for slot i (Codex's own file when present, else the tinted placeholder). */
+        public static SpriteRenderer Avatar(Transform parent, int i, Vector2 size, int order)
+        {
+            var r = Place(parent, AvatarKeys[i], size, order);
+            if (r != null) return r;
+            r = Place(parent, "m13-profile-avatar", size, order);
+            if (r != null) r.color = AvatarTints[i];
+            return r;
+        }
         // settings (PM_MESAJ_9): sound on/off, kept in the browser between visits
         public static bool Muted
         {

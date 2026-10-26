@@ -25,9 +25,9 @@ namespace ReverseSolver.Presentation
                 .Radius(26).Gradient(Draw.Hex("#ffd873"), Draw.Hex("#f0a742"))
                 .Stroke(Draw.Rgba(255, 255, 255, .92f), 3).Shadow(Draw.Rgba(0, 0, 0, .35f), 0, 3, 9).Skin("level-badge", false)
                 .transform.localPosition = Draw.W(ax, cy);
-            TextView.Create(_root, "lv", "LV", 9, Palette.Or(Draw.Hex("#5a3c06"), Palette.TealDark), order: order + 1).transform.localPosition = Draw.W(ax, cy - 9);   // Task 11 badge has an LV area
+            TextView.Create(_root, "lv", "LV", 9, Palette.Or(Draw.Hex("#5a3c06"), Palette.TealDark), order: order + 1).transform.localPosition = Draw.W(ax, Art.On ? cy - 11 : cy - 9);   // badge art has an LV area; centred with the number (PM_MESAJ_16)
             _level = TextView.Create(_root, "lvnum", "1", 20, Palette.Or(Draw.Hex("#3a2704"), Palette.Navy), order: order + 1).Font(Art.Lilita);
-            _level.transform.localPosition = Draw.W(ax, cy + 6);
+            _level.transform.localPosition = Draw.W(ax, Art.On ? cy + 4 : cy + 6);
             LevelRect = new Rect(ax - 26, cy - 26, 52, 52);                // web #lvBtn opens the level list
 
             float resetX = screenW - Side - 23;
@@ -123,7 +123,7 @@ namespace ReverseSolver.Presentation
                 .transform.localPosition = Draw.W(c + new Vector2(7.5f, -4.5f));
         }
 
-        public void SetLevel(int number) => _level.Text = number.ToString();
+        public void SetLevel(int number) { _level.Text = number.ToString(); if (Art.On) _level.SizePt = number >= 100 ? 15 : 20; }
         public void SetLeft(int n) => _left.Text = n.ToString();
 
         public void SetTime(int seconds)

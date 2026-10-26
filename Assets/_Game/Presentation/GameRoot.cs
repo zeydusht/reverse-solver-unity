@@ -247,6 +247,7 @@ namespace ReverseSolver.Presentation
         void MenuAction(Vector2 pt)
         {
             if (_menu.Settings.Contains(pt)) OpenSettings();
+            else if (_menu.Profile.Contains(pt) && Art.On) OpenCard("avatar", Screens.Avatars(_world, _screen, CardOrder));
             else if (_menu.Play.Contains(pt)) StartLevel(_progress.Next());
             else if (_menu.Levels.Contains(pt)) OpenList();
         }
@@ -553,6 +554,13 @@ namespace ReverseSolver.Presentation
                     string sid = _card.HitButton(pt);
                     if (sid == "sound") { Art.Muted = !Art.Muted; OpenSettings(); }
                     else if (sid != null) CloseCard();
+                    return;
+                }
+                if (_card != null && _cardKind == "avatar")
+                {
+                    string aid = _card.HitButton(pt);
+                    if (aid != null && aid.StartsWith("av")) { Art.AvatarIndex = aid[2] - '0'; CloseCard(); Layout(); }
+                    else if (aid != null) CloseCard();
                     return;
                 }
                 // Task 13: the pressed look shows for a moment before the menu acts

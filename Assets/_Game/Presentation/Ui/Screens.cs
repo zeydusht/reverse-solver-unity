@@ -35,7 +35,7 @@ namespace ReverseSolver.Presentation
         public sealed class Menu
         {
             public readonly Transform Root;
-            public Rect Play, Levels, Settings;
+            public Rect Play, Levels, Settings, Profile;
 
             public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false,
                         string player = null, int saved = 0, int stars = 0)
@@ -111,16 +111,15 @@ namespace ReverseSolver.Presentation
             void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars)
             {
                 float w = screen.x, top = safe.y, hy = top + 34;
-                // header: avatar + profile box (name, Jiggles), star counter, settings
+                // header: avatar (tap: choose a Jiggle) + profile box with the name centred, Jiggles counter, settings
                 var box = Sprite("m13-profile-box", new Vector2(40 + 66, hy), new Vector2(132, 46), order, sliced: true);
-                Sprite("m13-profile-avatar", new Vector2(40, hy), new Vector2(44, 44), order + 1);
-                var frame = Sprite("m13-profile-frame", new Vector2(40, hy), new Vector2(60, 60), order + 2);
-                var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 14, Palette.Navy, true,
-                                           TMPro.TextAlignmentOptions.Left, order + 3);
-                name.transform.localPosition = Draw.W(76, hy - 8);
-                TextView.Create(Root, "saved", $"Jiggles: {saved}", 11, Palette.TealDark, true, TMPro.TextAlignmentOptions.Left, order + 3)
-                    .transform.localPosition = Draw.W(76, hy + 10);
-                if (box != null) _press.Add((new Rect(16, hy - 30, 158, 60), box, "m13-profile-box", "m13-profile-box-pressed", null));
+                var av = Art.Avatar(Root, Art.AvatarIndex, new Vector2(44, 44), order + 1);
+                if (av != null) av.transform.localPosition = Draw.W(40, hy);
+                Sprite("m13-profile-frame", new Vector2(40, hy), new Vector2(60, 60), order + 2);
+                var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 15, Palette.Navy, true, order: order + 3);
+                name.transform.localPosition = Draw.W(40 + 66 + 12, hy);       // centre of the box's free part (right of the frame)
+                Profile = new Rect(10, hy - 30, 164, 60);
+                if (box != null) _press.Add((Profile, box, "m13-profile-box", "m13-profile-box-pressed", null));
 
                 float gx = w - 16 - 24;
                 var gear = Sprite("m13-settings-button", new Vector2(gx, hy), new Vector2(48, 48), order);
@@ -129,8 +128,9 @@ namespace ReverseSolver.Presentation
 
                 float pl = 40 + 132 + 10, pr = gx - 24 - 10, pw = Mathf.Min(120, pr - pl), px = (pl + pr) / 2;
                 Sprite("m13-counter-pill", new Vector2(px + 8, hy), new Vector2(pw - 10, 34), order, sliced: true);
-                Sprite("m13-token-star", new Vector2(px - pw / 2 + 14, hy), new Vector2(38, 38), order + 1);
-                var st = TextView.Create(Root, "stars", stars.ToString(), 18, Palette.Navy, true, order: order + 2)
+                var tok = Art.Avatar(Root, Art.AvatarIndex, new Vector2(36, 36), order + 1);   // Jiggles counter (PM_MESAJ_16)
+                if (tok != null) tok.transform.localPosition = Draw.W(px - pw / 2 + 14, hy);
+                var st = TextView.Create(Root, "jiggles", saved.ToString(), 18, Palette.Navy, true, order: order + 2)
                     .Font(Resources.Load<TMPro.TMP_FontAsset>("Fonts/Counter"));
                 st.transform.localPosition = Draw.W(px + 14, hy);
 
@@ -151,17 +151,7 @@ namespace ReverseSolver.Presentation
                 Levels = new Rect(lx - lv / 2, ly - lv / 2, lv, lv + 18);
                 if (levels != null) _press.Add((Levels, levels, "m13-levels-button", "m13-levels-button", null));
 
-                // "Jiggles rescued X / goal" (goals 100, 500, 1000)
-                int goal = saved < 100 ? 100 : saved < 500 ? 500 : 1000;
-                float tw = Mathf.Min(320f, w - 56f), th = 40f, ty = cy - bh / 2 - 30, tx = w / 2 + 6;
-                Sprite("m13-progress-track", new Vector2(tx, ty), new Vector2(tw, th), order, sliced: true);
-                float inner = tw - 16, f = Mathf.Clamp01(saved / (float)goal), fw = Mathf.Max(24f, inner * f);
-                if (saved > 0) Sprite("m13-progress-fill", new Vector2(tx - inner / 2 + fw / 2, ty), new Vector2(fw, 24), order + 1, sliced: true);
-                Sprite("m13-token-jiggle", new Vector2(tx - tw / 2 - 2, ty), new Vector2(44, 44), order + 2);
-                TextView.Create(Root, "goal", $"{saved} / {goal}", 17, Palette.Cream, false, order: order + 3).Font(Lilita).Outline(Palette.Navy, .25f)
-                    .transform.localPosition = Draw.W(tx + 8, ty);
-                TextView.Create(Root, "rescued", "Jiggles rescued", 16, Palette.Cream, false, order: order + 3).Font(Lilita).Outline(Palette.Navy, .25f)
-                    .transform.localPosition = Draw.W(w / 2, ty - th / 2 - 12);
+                // PM_MESAJ_16: no "Jiggles rescued" bar on the menu
             }
         }
 
@@ -399,6 +389,29 @@ namespace ReverseSolver.Presentation
         }
 
         public static bool HasIntro(LevelData l) => l.BoosterIntro != null || l.Intro != null || l.Hard || Art.On && l.Tutorial == 0;
+
+        /* PM_MESAJ_16 avatar picker: five Jiggles in a row, the chosen one framed; ids av0..av4. */
+        public static Card Avatars(Transform parent, Vector2 screen, int order)
+        {
+            var c = new Card(parent, screen, order, "Avatars").Title(Texts.Avatar);
+            c.Custom(76, (root, y, w, o) =>
+            {
+                float cell = w / 5f;
+                for (int i = 0; i < 5; i++)
+                {
+                    float x = -w / 2 + cell * (i + .5f);
+                    var a = Art.Avatar(root, i, new Vector2(cell - 12, cell - 12), o + 2);
+                    if (a != null) a.transform.localPosition = Draw.W(x, y + 34);
+                    if (i == Art.AvatarIndex)
+                    {
+                        var f = Art.Place(root, "m13-profile-frame", new Vector2(cell + 2, cell + 2), o + 3);
+                        if (f != null) f.transform.localPosition = Draw.W(x, y + 34);
+                    }
+                    c.Buttons.Add((new Rect(x - cell / 2, y, cell, 72), "av" + i));
+                }
+            });
+            return c.Button("close", Texts.Close, true).Finish();
+        }
 
         /* PM_MESAJ_9 level start card (preview art only): "Level X" ribbon (gold on hard levels), the goal, the
            level's obstacles, the hard warning when flagged, Başla. The timer still starts on the first move. */

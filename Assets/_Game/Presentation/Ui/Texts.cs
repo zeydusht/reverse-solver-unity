@@ -15,6 +15,7 @@ namespace ReverseSolver.Presentation
         public const string SoundOn = "Ses: Açık", SoundOff = "Ses: Kapalı", Close = "Kapat";
         public const string Level = "Level {0}";
         public const string Goal = "Tüm Jiggles'ı kurtar";
+        public const string Avatar = "Jiggle'ını seç";
         public const string Paused = "Durduruldu", Resume = "Devam", Restart = "Yeniden başla", MainMenu = "Ana menü";
     }
 }

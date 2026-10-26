@@ -205,13 +205,10 @@ Shader "ReverseSolver/Piece"
                     }
                     float ms = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q - float2(0, offY), i.edges)).a * kitIn(q - float2(0, offY));
                     shA = lerp(0.42, 0.55, lift) * ms;
-                    float mg = 0.0;
-                    for (int k = 0; k < 4; k++)
-                    {
-                        float2 o = float2(k == 0 ? gR : k == 1 ? -gR : 0.0, k == 2 ? gR : k == 3 ? -gR : 0.0);
-                        mg = max(mg, SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + o, i.edges)).a * kitIn(q + o));
-                    }
-                    gA = saturate(_Glow) * mg * (1.0 - m * 0.6);
+                    // highlight (blocker coral / popped amber) on the piece itself: an outer glow lit the notches and the
+                    // cell box around them (the red "7" next to a dragged piece, PM_MESAJ_16)
+                    gA = 0;
+                    col.rgb = lerp(col.rgb, _GlowColor.rgb * col.a, saturate(_Glow) * 0.45);
                 }
                 else
                 {
