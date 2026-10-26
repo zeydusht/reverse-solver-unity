@@ -13,6 +13,33 @@ namespace ReverseSolver.EditorTools
     {
         const string Dir = "Assets/_Game/Presentation/Resources/Fonts/";
 
+        /* Lilita One (OFL, Resources/Fonts/LilitaOne-OFL.txt) for English menu words ("Level 7", "Levels", "Jiggles
+           rescued"): printable ASCII only, the font has no Turkish letters.
+             bash Tools/unity_batch.sh method ReverseSolver.EditorTools.CounterFont.BuildLilita */
+        public static void BuildLilita()
+        {
+            var font = AssetDatabase.LoadAssetAtPath<Font>(Dir + "LilitaOne-Regular.ttf");
+            var fa = TMP_FontAsset.CreateFontAsset(font, 90, 9, GlyphRenderMode.SDFAA, 1024, 512, AtlasPopulationMode.Dynamic);
+            var ascii = new System.Text.StringBuilder();
+            for (char c = ' '; c <= '~'; c++) ascii.Append(c);
+            fa.TryAddCharacters(ascii.ToString());
+            Save(fa, "Lilita");
+        }
+
+        static void Save(TMP_FontAsset fa, string name)
+        {
+            fa.atlasPopulationMode = AtlasPopulationMode.Static;
+            fa.name = name;
+            AssetDatabase.DeleteAsset(Dir + name + ".asset");
+            AssetDatabase.CreateAsset(fa, Dir + name + ".asset");
+            fa.atlasTexture.name = name + " Atlas";
+            AssetDatabase.AddObjectToAsset(fa.atlasTexture, fa);
+            fa.material.name = name + " Material";
+            AssetDatabase.AddObjectToAsset(fa.material, fa);
+            AssetDatabase.SaveAssets();
+            Debug.Log("[font] " + name + ".asset: " + fa.characterTable.Count + " karakter");
+        }
+
         public static void Build()
         {
             var font = AssetDatabase.LoadAssetAtPath<Font>(Dir + "Fredoka-SemiBold.ttf");

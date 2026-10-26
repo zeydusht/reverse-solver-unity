@@ -1,0 +1,531 @@
+{
+    "version":  "menu-task13-v01",
+    "styleAnchor":  "Assets/Art/UI/PlayButton/menu-play-button-v2.png",
+    "status":  "Zeyd incelemesi",
+    "assets":  [
+                   {
+                       "name":  "profile-frame",
+                       "path":  "Assets/Art/Menu/Task13/profile-frame.png",
+                       "width":  216,
+                       "height":  216,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Avatarın içi şeffaf altın-turkuaz çerçevesi",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/profile-frame.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "profile-avatar",
+                       "path":  "Assets/Art/Menu/Task13/profile-avatar.png",
+                       "width":  132,
+                       "height":  132,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Onaylı Jiggle kimliğinde avatar portresi",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/profile-avatar.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "counter-pill",
+                       "path":  "Assets/Art/Menu/Task13/counter-pill.png",
+                       "width":  360,
+                       "height":  108,
+                       "sliceLTRB":  [
+                                         44,
+                                         44,
+                                         44,
+                                         44
+                                     ],
+                       "use":  "Ortak kaynak sayacı zemini",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/counter-pill.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "settings-button",
+                       "path":  "Assets/Art/Menu/Task13/settings-button.png",
+                       "width":  168,
+                       "height":  168,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Ana menü ayarlar dişlisi",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/settings-button.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "profile-box",
+                       "path":  "Assets/Art/Menu/Task13/profile-box.png",
+                       "width":  480,
+                       "height":  156,
+                       "sliceLTRB":  [
+                                         156,
+                                         48,
+                                         48,
+                                         48
+                                     ],
+                       "use":  "Profil adı ve kurtarılan sayısı zemini",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/profile-box.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "token-coin",
+                       "path":  "Assets/Art/Menu/Task13/token-coin.png",
+                       "width":  120,
+                       "height":  120,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Para göstergesi simgesi",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/token-coin.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "token-heart",
+                       "path":  "Assets/Art/Menu/Task13/token-heart.png",
+                       "width":  120,
+                       "height":  120,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Can göstergesi simgesi",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/token-heart.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "token-star",
+                       "path":  "Assets/Art/Menu/Task13/token-star.png",
+                       "width":  120,
+                       "height":  120,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Yıldız göstergesi simgesi",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/token-star.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "token-jiggle",
+                       "path":  "Assets/Art/Menu/Task13/token-jiggle.png",
+                       "width":  120,
+                       "height":  120,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Kurtarılan Jiggles göstergesi simgesi",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/token-jiggle.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "nav-home",
+                       "path":  "Assets/Art/Menu/Task13/nav-home.png",
+                       "width":  180,
+                       "height":  180,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Alt gezinmede şato/ana ekran",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/nav-home.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "nav-collection",
+                       "path":  "Assets/Art/Menu/Task13/nav-collection.png",
+                       "width":  180,
+                       "height":  180,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Alt gezinmede tablo koleksiyonu",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/nav-collection.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "nav-jiggles",
+                       "path":  "Assets/Art/Menu/Task13/nav-jiggles.png",
+                       "width":  180,
+                       "height":  180,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Alt gezinmede kurtarılan Jiggles",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/nav-jiggles.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "nav-trophy",
+                       "path":  "Assets/Art/Menu/Task13/nav-trophy.png",
+                       "width":  180,
+                       "height":  180,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Alt gezinmede başarılar",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/nav-trophy.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "progress-track",
+                       "path":  "Assets/Art/Menu/Task13/progress-track.png",
+                       "width":  1020,
+                       "height":  120,
+                       "sliceLTRB":  [
+                                         60,
+                                         60,
+                                         48,
+                                         48
+                                     ],
+                       "use":  "Kurtarılan hedefi ilerleme çubuğu boş izi",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/progress-track.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "progress-fill",
+                       "path":  "Assets/Art/Menu/Task13/progress-fill.png",
+                       "width":  996,
+                       "height":  72,
+                       "sliceLTRB":  [
+                                         36,
+                                         36,
+                                         30,
+                                         30
+                                     ],
+                       "use":  "İlerleme dolgusu; oyun tarafından kırpılır",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/progress-fill.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "bottom-nav",
+                       "path":  "Assets/Art/Menu/Task13/bottom-nav.png",
+                       "width":  1170,
+                       "height":  246,
+                       "sliceLTRB":  [
+                                         66,
+                                         66,
+                                         48,
+                                         48
+                                     ],
+                       "use":  "Alt gezinme şeridi; ikon ve etiketler ayrı",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/bottom-nav.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "nav-active",
+                       "path":  "Assets/Art/Menu/Task13/nav-active.png",
+                       "width":  252,
+                       "height":  222,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Seçili alt sekme zemini",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/nav-active.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "plus-button",
+                       "path":  "Assets/Art/Menu/Task13/plus-button.png",
+                       "width":  84,
+                       "height":  84,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Küçük ekleme/artı kontrolü",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/plus-button.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "notification-badge",
+                       "path":  "Assets/Art/Menu/Task13/notification-badge.png",
+                       "width":  72,
+                       "height":  72,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Bildirim sayısı rozeti; sayı ayrı",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/notification-badge.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "levels-button",
+                       "path":  "Assets/Art/Menu/Task13/levels-button.png",
+                       "width":  192,
+                       "height":  192,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Bölüm listesi kısayolu",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/levels-button.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "profile-box-pressed",
+                       "path":  "Assets/Art/Menu/Task13/profile-box-pressed.png",
+                       "width":  480,
+                       "height":  156,
+                       "sliceLTRB":  [
+                                         156,
+                                         48,
+                                         48,
+                                         48
+                                     ],
+                       "use":  "Profil kutusu basılı",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/profile-box-pressed.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "settings-button-pressed",
+                       "path":  "Assets/Art/Menu/Task13/settings-button-pressed.png",
+                       "width":  168,
+                       "height":  168,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Ayarlar dişlisi basılı",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/settings-button-pressed.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "plus-button-pressed",
+                       "path":  "Assets/Art/Menu/Task13/plus-button-pressed.png",
+                       "width":  84,
+                       "height":  84,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Artı kontrolü basılı",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/plus-button-pressed.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "profile-frame-pressed",
+                       "path":  "Assets/Art/Menu/Task13/profile-frame-pressed.png",
+                       "width":  216,
+                       "height":  216,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Avatar çerçevesi basılı",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  "Assets/Art/Menu/Task13/Source/profile-frame-pressed.png",
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "profile-button",
+                       "path":  "Assets/Art/Menu/Task13/profile-button.png",
+                       "width":  216,
+                       "height":  216,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Profil avatar düğmesi",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  null,
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "profile-button-pressed",
+                       "path":  "Assets/Art/Menu/Task13/profile-button-pressed.png",
+                       "width":  216,
+                       "height":  216,
+                       "sliceLTRB":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                       "use":  "Profil avatar düğmesi basılı",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  null,
+                       "approval":  "Zeyd incelemesi"
+                   },
+                   {
+                       "name":  "menu-play-button",
+                       "path":  "Assets/Art/Menu/Task13/menu-play-button.png",
+                       "width":  684,
+                       "height":  336,
+                       "sliceLTRB":  [
+                                         92,
+                                         92,
+                                         92,
+                                         92
+                                     ],
+                       "use":  "Onaylı Level tuşu",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  null,
+                       "approval":  "Zeyd onaylı; birebir kopya"
+                   },
+                   {
+                       "name":  "menu-play-button-pressed",
+                       "path":  "Assets/Art/Menu/Task13/menu-play-button-pressed.png",
+                       "width":  684,
+                       "height":  336,
+                       "sliceLTRB":  [
+                                         92,
+                                         92,
+                                         92,
+                                         92
+                                     ],
+                       "use":  "Onaylı Level tuşu basılı",
+                       "transparent":  true,
+                       "textBaked":  false,
+                       "source":  null,
+                       "approval":  "Zeyd onaylı; birebir kopya"
+                   }
+               ],
+    "missing":  [
+
+                ],
+    "approvedAnchorCopies":  [
+                                 {
+                                     "canonical":  "Assets/Art/UI/PlayButton/menu-play-button-v2.png",
+                                     "copy":  "Assets/Art/Menu/Task13/menu-play-button.png",
+                                     "sha256":  "185896B91C8ACEDED51CF533690B7649A0FA1F10A0726F75E5CBAEB350A3C007"
+                                 },
+                                 {
+                                     "canonical":  "Assets/Art/UI/PlayButton/menu-play-button-v2-pressed.png",
+                                     "copy":  "Assets/Art/Menu/Task13/menu-play-button-pressed.png",
+                                     "sha256":  "1A3A73B2B8FF126796F72DDA870F1A62138DF47952FE68EFDA71CCA3D8B5CAF3"
+                                 }
+                             ],
+    "previews":  [
+                     {
+                         "path":  "Assets/Art/Menu/Task13/preview-menu@3x.png",
+                         "width":  1170,
+                         "height":  2532
+                     },
+                     {
+                         "path":  "Assets/Art/Menu/Task13/preview-menu.png",
+                         "width":  390,
+                         "height":  844
+                     },
+                     {
+                         "path":  "Assets/Art/Menu/Task13/preview-header.png",
+                         "width":  1500,
+                         "height":  490
+                     },
+                     {
+                         "path":  "Assets/Art/Menu/Task13/preview-nav.png",
+                         "width":  1500,
+                         "height":  530
+                     },
+                     {
+                         "path":  "Assets/Art/Menu/Task13/preview-controls.png",
+                         "width":  1500,
+                         "height":  820
+                     },
+                     {
+                         "path":  "Assets/Art/Menu/Task13/preview.png",
+                         "width":  1800,
+                         "height":  1240
+                     }
+                 ],
+    "sourcePolicy":  "Source klasörü üretim kaynağıdır; runtime atlasına yalnız assets listesi alınır."
+}

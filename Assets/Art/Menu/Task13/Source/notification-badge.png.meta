@@ -1,0 +1,626 @@
+fileFormatVersion: 2
+guid: b5cc6abbb7a1f19479f44e8896266397
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5209286829377016529
+    second: notification-badge_0
+  - first:
+      213: -393265278966443779
+    second: notification-badge_1
+  - first:
+      213: 5153138466140981137
+    second: notification-badge_2
+  - first:
+      213: -2123574068379688949
+    second: notification-badge_3
+  - first:
+      213: 8858131934893071900
+    second: notification-badge_4
+  - first:
+      213: -2019721190568093315
+    second: notification-badge_5
+  - first:
+      213: 5258435265470256374
+    second: notification-badge_6
+  - first:
+      213: -5992750005404019188
+    second: notification-badge_7
+  - first:
+      213: 7129431109684991019
+    second: notification-badge_8
+  - first:
+      213: 4437392252924469978
+    second: notification-badge_9
+  - first:
+      213: 1194511878939218686
+    second: notification-badge_10
+  - first:
+      213: 6918816568019692402
+    second: notification-badge_11
+  - first:
+      213: 4024350092958711437
+    second: notification-badge_12
+  - first:
+      213: -6863730959997181904
+    second: notification-badge_13
+  - first:
+      213: -439927687095071065
+    second: notification-badge_14
+  - first:
+      213: 4721004765938747352
+    second: notification-badge_15
+  - first:
+      213: -4134878096241778467
+    second: notification-badge_16
+  - first:
+      213: -1158181603045488676
+    second: notification-badge_17
+  - first:
+      213: 6451070153083797602
+    second: notification-badge_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: notification-badge_0
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 17
+        width: 1189
+        height: 1228
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d2532675ca1b4840800000000000000
+      internalID: 5209286829377016529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_1
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 1201
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df0d5b8ff47da8af0800000000000000
+      internalID: -393265278966443779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_2
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 1207
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1970cb8e120a38740800000000000000
+      internalID: 5153138466140981137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_3
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 1213
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b006fffc2ac8782e0800000000000000
+      internalID: -2123574068379688949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_4
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 1183
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1e58d8ff086eea70800000000000000
+      internalID: 8858131934893071900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_5
+      rect:
+        serializedVersion: 2
+        x: 1007
+        y: 1189
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d791cd2374288f3e0800000000000000
+      internalID: -2019721190568093315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_6
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 1014
+        width: 19
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f4ddb87307b9f840800000000000000
+      internalID: 5258435265470256374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_7
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 968
+        width: 19
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c065c2cfe9975dca0800000000000000
+      internalID: -5992750005404019188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_8
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 964
+        width: 12
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b24946722d3d0f260800000000000000
+      internalID: 7129431109684991019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_9
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 941
+        width: 67
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad222a46eb8c49d30800000000000000
+      internalID: 4437392252924469978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_10
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 955
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef21820a932c39010800000000000000
+      internalID: 1194511878939218686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_11
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 880
+        width: 25
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27ba6ead203940060800000000000000
+      internalID: 6918816568019692402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_12
+      rect:
+        serializedVersion: 2
+        x: 1153
+        y: 906
+        width: 24
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8e3d9e661d59d730800000000000000
+      internalID: 4024350092958711437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_13
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 841
+        width: 33
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0306487be012fb0a0800000000000000
+      internalID: -6863730959997181904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_14
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 811
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7aec6d3791015e9f0800000000000000
+      internalID: -439927687095071065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_15
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 795
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d784b852d0648140800000000000000
+      internalID: 4721004765938747352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_16
+      rect:
+        serializedVersion: 2
+        x: 1155
+        y: 395
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd027fb6746fd96c0800000000000000
+      internalID: -4134878096241778467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_17
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 369
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd7c415e7ff4defe0800000000000000
+      internalID: -1158181603045488676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notification-badge_18
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 31
+        width: 23
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2604fafff1ec68950800000000000000
+      internalID: 6451070153083797602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      notification-badge_0: 5209286829377016529
+      notification-badge_1: -393265278966443779
+      notification-badge_10: 1194511878939218686
+      notification-badge_11: 6918816568019692402
+      notification-badge_12: 4024350092958711437
+      notification-badge_13: -6863730959997181904
+      notification-badge_14: -439927687095071065
+      notification-badge_15: 4721004765938747352
+      notification-badge_16: -4134878096241778467
+      notification-badge_17: -1158181603045488676
+      notification-badge_18: 6451070153083797602
+      notification-badge_2: 5153138466140981137
+      notification-badge_3: -2123574068379688949
+      notification-badge_4: 8858131934893071900
+      notification-badge_5: -2019721190568093315
+      notification-badge_6: 5258435265470256374
+      notification-badge_7: -5992750005404019188
+      notification-badge_8: 7129431109684991019
+      notification-badge_9: 4437392252924469978
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

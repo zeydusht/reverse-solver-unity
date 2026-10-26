@@ -38,7 +38,7 @@ namespace ReverseSolver.Presentation
             public Rect Play, Levels, Settings;
 
             public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false,
-                        string player = null, int saved = 0)
+                        string player = null, int saved = 0, int stars = 0)
             {
                 Root = new GameObject("Menu").transform;
                 Root.SetParent(parent, false);
@@ -55,25 +55,7 @@ namespace ReverseSolver.Presentation
                     float k = Mathf.Max(screen.x / art.rect.width, screen.y / art.rect.height);
                     bg.transform.localScale = new Vector3(k, k, 1);
                     bg.transform.localPosition = Draw.W(screen.x / 2, screen.y / 2);
-                    // PM_MESAJ_8: only the corridor and one chunky "Level X" button just above the bottom safe area
-                    // (Royal Match style, ~200x72 pt); no title, text, panel or emblem, no level list button
-                    const float bw = 200f, bh = 72f;
-                    Play = Button(Root, new Vector2(cx, screen.y - safe.w - 28 - bh / 2), bw, $"Level {nextNumber}", true, order, bh, 26);
-                    // PM_MESAJ_9: profile box top left (a Jiggle avatar, rescued count), settings gear top right
-                    float top = safe.y + 12;
-                    var box = ShapeView.Create(Root, "profile", new Vector2(160, 52), 4, order).Radius(16)
-                        .Fill(Draw.Rgba(14, 42, 46, .8f)).Skin("profile-normal");
-                    box.transform.localPosition = Draw.W(16 + 80, top + 26);
-                    Art.Icon(Root, "avatar", new Vector2(16 + 26, top + 26), 44, order + 1);
-                    TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 13, Palette.Cream, true, TMPro.TextAlignmentOptions.Left, order + 1)
-                        .transform.localPosition = Draw.W(16 + 54, top + 18);
-                    TextView.Create(Root, "saved", string.Format(Texts.Saved, saved), 10, Palette.GoldGlow, false, TMPro.TextAlignmentOptions.Left, order + 1)
-                        .transform.localPosition = Draw.W(16 + 54, top + 36);
-                    float gx = screen.x - 16 - 23;
-                    var gear = ShapeView.Create(Root, "settings", new Vector2(46, 46), 4, order).Radius(23)
-                        .Fill(Draw.Rgba(14, 42, 46, .8f)).Skin("settings-normal", false);
-                    gear.transform.localPosition = Draw.W(gx, top + 26);
-                    Settings = new Rect(gx - 23, top + 3, 46, 46);
+                    Task13(screen, safe, nextNumber, order, player, saved, stars);
                     return;
                 }
 
@@ -97,6 +79,89 @@ namespace ReverseSolver.Presentation
                 float w = Mathf.Min(296f, screen.x - 80f);
                 Play = Button(Root, new Vector2(cx, cy + 30), w, $"Oyna · Bölüm {nextNumber}", true, order);
                 Levels = Button(Root, new Vector2(cx, cy + 30 + 46 + 10), w, "Bölümler", false, order);
+            }
+
+            // ---- Codex Task 13 menu (approved 2026-10-26; bottom navigation hidden until its screens exist) ----
+            readonly List<(Rect r, SpriteRenderer sr, string normal, string pressed, Transform label)> _press =
+                new List<(Rect, SpriteRenderer, string, string, Transform)>();
+
+            /* A pressed look for the control under pt (true when there is one); the caller acts a moment later. */
+            public bool Press(Vector2 pt)
+            {
+                foreach (var p in _press)
+                    if (p.r.Contains(pt))
+                    {
+                        var s = Art.Get(p.pressed);
+                        if (s != null) p.sr.sprite = s;
+                        if (p.label != null) p.label.localPosition += Draw.W(0, 2);
+                        return true;
+                    }
+                return false;
+            }
+
+            SpriteRenderer Sprite(string key, Vector2 c, Vector2 size, int order, bool sliced = false)
+            {
+                var r = Art.Place(Root, key, size, order, sliced);
+                if (r != null) r.transform.localPosition = Draw.W(c);
+                return r;
+            }
+
+            static TMPro.TMP_FontAsset Lilita => Resources.Load<TMPro.TMP_FontAsset>("Fonts/Lilita");
+
+            void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars)
+            {
+                float w = screen.x, top = safe.y, hy = top + 34;
+                // header: avatar + profile box (name, Jiggles), star counter, settings
+                var box = Sprite("m13-profile-box", new Vector2(40 + 66, hy), new Vector2(132, 46), order, sliced: true);
+                Sprite("m13-profile-avatar", new Vector2(40, hy), new Vector2(44, 44), order + 1);
+                var frame = Sprite("m13-profile-frame", new Vector2(40, hy), new Vector2(60, 60), order + 2);
+                var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 14, Palette.Navy, true,
+                                           TMPro.TextAlignmentOptions.Left, order + 3);
+                name.transform.localPosition = Draw.W(76, hy - 8);
+                TextView.Create(Root, "saved", $"Jiggles: {saved}", 11, Palette.TealDark, true, TMPro.TextAlignmentOptions.Left, order + 3)
+                    .transform.localPosition = Draw.W(76, hy + 10);
+                if (box != null) _press.Add((new Rect(16, hy - 30, 158, 60), box, "m13-profile-box", "m13-profile-box-pressed", null));
+
+                float gx = w - 16 - 24;
+                var gear = Sprite("m13-settings-button", new Vector2(gx, hy), new Vector2(48, 48), order);
+                Settings = new Rect(gx - 24, hy - 24, 48, 48);
+                if (gear != null) _press.Add((Settings, gear, "m13-settings-button", "m13-settings-button-pressed", null));
+
+                float pl = 40 + 132 + 10, pr = gx - 24 - 10, pw = Mathf.Min(120, pr - pl), px = (pl + pr) / 2;
+                Sprite("m13-counter-pill", new Vector2(px + 8, hy), new Vector2(pw - 10, 34), order, sliced: true);
+                Sprite("m13-token-star", new Vector2(px - pw / 2 + 14, hy), new Vector2(38, 38), order + 1);
+                var st = TextView.Create(Root, "stars", stars.ToString(), 18, Palette.Navy, true, order: order + 2)
+                    .Font(Resources.Load<TMPro.TMP_FontAsset>("Fonts/Counter"));
+                st.transform.localPosition = Draw.W(px + 14, hy);
+
+                // bottom: big Level button and the Levels shortcut, above the safe area
+                float bw = Mathf.Min(228f, w - 130f), bh = bw * 112f / 228f, lv = 58f, gap = 10f;
+                float x0 = (w - (bw + gap + lv)) / 2, cy = screen.y - safe.w - 22 - bh / 2;
+                var play = Sprite("level-button", new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
+                var label = TextView.Create(Root, "play", $"Level {next}", bh * .34f, Palette.Cream, false, order: order + 2)
+                    .Font(Lilita).Outline(Draw.Hex("#1E5C0E"), .22f);
+                label.transform.localPosition = Draw.W(x0 + bw / 2, cy - 2);
+                Play = new Rect(x0, cy - bh / 2, bw, bh);
+                if (play != null) _press.Add((Play, play, "level-button", "level-button-pressed", label.transform));
+
+                float lx = x0 + bw + gap + lv / 2, ly = cy - 8;
+                var levels = Sprite("m13-levels-button", new Vector2(lx, ly), new Vector2(lv, lv), order);
+                TextView.Create(Root, "levels", "Levels", 12, Palette.Cream, false, order: order + 2).Font(Lilita).Outline(Palette.Navy, .25f)
+                    .transform.localPosition = Draw.W(lx, ly + lv / 2 + 8);
+                Levels = new Rect(lx - lv / 2, ly - lv / 2, lv, lv + 18);
+                if (levels != null) _press.Add((Levels, levels, "m13-levels-button", "m13-levels-button", null));
+
+                // "Jiggles rescued X / goal" (goals 100, 500, 1000)
+                int goal = saved < 100 ? 100 : saved < 500 ? 500 : 1000;
+                float tw = Mathf.Min(320f, w - 56f), th = 40f, ty = cy - bh / 2 - 30, tx = w / 2 + 6;
+                Sprite("m13-progress-track", new Vector2(tx, ty), new Vector2(tw, th), order, sliced: true);
+                float inner = tw - 16, f = Mathf.Clamp01(saved / (float)goal), fw = Mathf.Max(24f, inner * f);
+                if (saved > 0) Sprite("m13-progress-fill", new Vector2(tx - inner / 2 + fw / 2, ty), new Vector2(fw, 24), order + 1, sliced: true);
+                Sprite("m13-token-jiggle", new Vector2(tx - tw / 2 - 2, ty), new Vector2(44, 44), order + 2);
+                TextView.Create(Root, "goal", $"{saved} / {goal}", 17, Palette.Cream, false, order: order + 3).Font(Lilita).Outline(Palette.Navy, .25f)
+                    .transform.localPosition = Draw.W(tx + 8, ty);
+                TextView.Create(Root, "rescued", "Jiggles rescued", 16, Palette.Cream, false, order: order + 3).Font(Lilita).Outline(Palette.Navy, .25f)
+                    .transform.localPosition = Draw.W(w / 2, ty - th / 2 - 12);
             }
         }
 

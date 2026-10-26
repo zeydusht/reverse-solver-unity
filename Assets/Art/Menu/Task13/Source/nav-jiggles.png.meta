@@ -1,0 +1,860 @@
+fileFormatVersion: 2
+guid: b8d070cbfcc4b11459ce1fc274441be9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9154792214758635562
+    second: nav-jiggles_0
+  - first:
+      213: 3088714830070529661
+    second: nav-jiggles_1
+  - first:
+      213: 172546908771939198
+    second: nav-jiggles_2
+  - first:
+      213: 2945562352571400824
+    second: nav-jiggles_3
+  - first:
+      213: 2672833408611830990
+    second: nav-jiggles_4
+  - first:
+      213: -1921290020943465855
+    second: nav-jiggles_5
+  - first:
+      213: -3718851028834601080
+    second: nav-jiggles_6
+  - first:
+      213: 121775815081629473
+    second: nav-jiggles_7
+  - first:
+      213: 870872383190240875
+    second: nav-jiggles_8
+  - first:
+      213: 8590907181899552507
+    second: nav-jiggles_9
+  - first:
+      213: -3439543515494220879
+    second: nav-jiggles_10
+  - first:
+      213: 2145388161703288130
+    second: nav-jiggles_11
+  - first:
+      213: -5317322627179755225
+    second: nav-jiggles_12
+  - first:
+      213: 2443625463069296136
+    second: nav-jiggles_13
+  - first:
+      213: 1642043213943373164
+    second: nav-jiggles_14
+  - first:
+      213: -3776298085419230268
+    second: nav-jiggles_15
+  - first:
+      213: -253034697433628661
+    second: nav-jiggles_16
+  - first:
+      213: 4407188298874211671
+    second: nav-jiggles_17
+  - first:
+      213: 6324766479403298715
+    second: nav-jiggles_18
+  - first:
+      213: 8573386326441194162
+    second: nav-jiggles_19
+  - first:
+      213: 6598423788283411742
+    second: nav-jiggles_20
+  - first:
+      213: -2687471735716077171
+    second: nav-jiggles_21
+  - first:
+      213: 9036447798198406496
+    second: nav-jiggles_22
+  - first:
+      213: 3351569619362200027
+    second: nav-jiggles_23
+  - first:
+      213: 7089358039945248062
+    second: nav-jiggles_24
+  - first:
+      213: 3627586636186731139
+    second: nav-jiggles_25
+  - first:
+      213: -5228821448821072720
+    second: nav-jiggles_26
+  - first:
+      213: 651339714907506057
+    second: nav-jiggles_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: nav-jiggles_0
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 1113
+        width: 43
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d7ccce1cf4a3f080800000000000000
+      internalID: -9154792214758635562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_1
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1062
+        width: 345
+        height: 184
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7eb5d2f5c15dda20800000000000000
+      internalID: 3088714830070529661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 52
+        width: 1243
+        height: 1039
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e737174df72056200800000000000000
+      internalID: 172546908771939198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_3
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 1019
+        width: 31
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87248c87a5db0e820800000000000000
+      internalID: 2945562352571400824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_4
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 1030
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eccca18e2dfc71520800000000000000
+      internalID: 2672833408611830990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_5
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 1042
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1827927c7e43655e0800000000000000
+      internalID: -1921290020943465855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_6
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 1034
+        width: 25
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 887b7bd41bcf36cc0800000000000000
+      internalID: -3718851028834601080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_7
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 1034
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1279c286572a0b100800000000000000
+      internalID: 121775815081629473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_8
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 1032
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6e80c481d5f51c00800000000000000
+      internalID: 870872383190240875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_9
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 1020
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf6997bb098093770800000000000000
+      internalID: 8590907181899552507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_10
+      rect:
+        serializedVersion: 2
+        x: 940
+        y: 1012
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bbf77965694440d0800000000000000
+      internalID: -3439543515494220879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_11
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 1016
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24d17a39a23f5cd10800000000000000
+      internalID: 2145388161703288130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_12
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 210
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 729cdc23e331536b0800000000000000
+      internalID: -5317322627179755225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_13
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 178
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 806485a696089e120800000000000000
+      internalID: 2443625463069296136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_14
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 127
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6d7fe86a95b9c610800000000000000
+      internalID: 1642043213943373164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_15
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 114
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cb599426e4e79bc0800000000000000
+      internalID: -3776298085419230268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_16
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 113
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b00ce97884a0d7cf0800000000000000
+      internalID: -253034697433628661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_17
+      rect:
+        serializedVersion: 2
+        x: 1147
+        y: 114
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75dc7a4586a792d30800000000000000
+      internalID: 4407188298874211671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_18
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 117
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9fa12c5a9516c750800000000000000
+      internalID: 6324766479403298715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_19
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 79
+        width: 7
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b2f7bda079caf670800000000000000
+      internalID: 8573386326441194162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_20
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 91
+        width: 7
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1dbe1ab97f429b50800000000000000
+      internalID: 6598423788283411742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_21
+      rect:
+        serializedVersion: 2
+        x: 1123
+        y: 103
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d81adb8f1be24bad0800000000000000
+      internalID: -2687471735716077171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_22
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 87
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06d0af23569e76d70800000000000000
+      internalID: 9036447798198406496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_23
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 85
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd9331abfca238e20800000000000000
+      internalID: 3351569619362200027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_24
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 83
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3dfe788395726260800000000000000
+      internalID: 7089358039945248062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_25
+      rect:
+        serializedVersion: 2
+        x: 354
+        y: 83
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3824dd963d6c75230800000000000000
+      internalID: 3627586636186731139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_26
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 91
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bc9315889e7f67b0800000000000000
+      internalID: -5228821448821072720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nav-jiggles_27
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 87
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9858a2f05060a0900800000000000000
+      internalID: 651339714907506057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      nav-jiggles_0: -9154792214758635562
+      nav-jiggles_1: 3088714830070529661
+      nav-jiggles_10: -3439543515494220879
+      nav-jiggles_11: 2145388161703288130
+      nav-jiggles_12: -5317322627179755225
+      nav-jiggles_13: 2443625463069296136
+      nav-jiggles_14: 1642043213943373164
+      nav-jiggles_15: -3776298085419230268
+      nav-jiggles_16: -253034697433628661
+      nav-jiggles_17: 4407188298874211671
+      nav-jiggles_18: 6324766479403298715
+      nav-jiggles_19: 8573386326441194162
+      nav-jiggles_2: 172546908771939198
+      nav-jiggles_20: 6598423788283411742
+      nav-jiggles_21: -2687471735716077171
+      nav-jiggles_22: 9036447798198406496
+      nav-jiggles_23: 3351569619362200027
+      nav-jiggles_24: 7089358039945248062
+      nav-jiggles_25: 3627586636186731139
+      nav-jiggles_26: -5228821448821072720
+      nav-jiggles_27: 651339714907506057
+      nav-jiggles_3: 2945562352571400824
+      nav-jiggles_4: 2672833408611830990
+      nav-jiggles_5: -1921290020943465855
+      nav-jiggles_6: -3718851028834601080
+      nav-jiggles_7: 121775815081629473
+      nav-jiggles_8: 870872383190240875
+      nav-jiggles_9: 8590907181899552507
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

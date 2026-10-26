@@ -160,5 +160,65 @@
 200,
 200,
 200
+],
+"m13-counter-pill.png": [
+44,
+44,
+44,
+44
+],
+"m13-profile-box.png": [
+156,
+48,
+48,
+48
+],
+"m13-progress-track.png": [
+60,
+48,
+60,
+48
+],
+"m13-progress-fill.png": [
+36,
+30,
+36,
+30
+],
+"m13-bottom-nav.png": [
+66,
+48,
+66,
+48
+],
+"m13-profile-box-pressed.png": [
+156,
+48,
+48,
+48
+],
+"m13-menu-play-button.png": [
+92,
+92,
+92,
+92
+],
+"m13-menu-play-button-pressed.png": [
+92,
+92,
+92,
+92
+],
+"level-button.png": [
+92,
+92,
+92,
+92
+],
+"level-button-pressed.png": [
+92,
+92,
+92,
+92
 ]
 }

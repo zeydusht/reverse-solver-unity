@@ -244,6 +244,20 @@ namespace ReverseSolver.Presentation
             if (_session.Level.Tutorial == 1 || done == 0) _bar?.Notice(done == 0 ? Texts.TutorialFirst : Texts.TutorialNext, 2.5f);
         }
 
+        void MenuAction(Vector2 pt)
+        {
+            if (_menu.Settings.Contains(pt)) OpenSettings();
+            else if (_menu.Play.Contains(pt)) StartLevel(_progress.Next());
+            else if (_menu.Levels.Contains(pt)) OpenList();
+        }
+
+        int TotalStars()
+        {
+            int n = 0;
+            for (int i = 0; i < _set.Levels.Count; i++) n += _progress.Stars(i);
+            return n;
+        }
+
         /* PM_MESAJ_9 profile box: every piece of a won level is a rescued Jiggle. */
         int SavedJiggles()
         {
@@ -325,7 +339,7 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Menu)
             {
-                _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles());
+                _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars());
             }
             else
             {
@@ -541,9 +555,9 @@ namespace ReverseSolver.Presentation
                     else if (sid != null) CloseCard();
                     return;
                 }
-                if (_menu.Settings.Contains(pt)) { OpenSettings(); return; }
-                if (_menu.Play.Contains(pt)) StartLevel(_progress.Next());
-                else if (_menu.Levels.Contains(pt)) OpenList();
+                // Task 13: the pressed look shows for a moment before the menu acts
+                if (_menu.Press(pt)) { var at = pt; Tweens.Run(_menu, .12f, _ => { }, () => { if (_mode == Mode.Menu) MenuAction(at); }); return; }
+                MenuAction(pt);
                 return;
             }
 

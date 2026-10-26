@@ -67,6 +67,8 @@ Kurallar:
 | Gece QA (PM_MESAJ_14): 40/40 çözüm, slotlar, 3 boyut ekran, telemetri uçtan uca ✓; 6/7 sorun düzeldi; Önizleme 11 yayında | ✅ | |
 | Build 5 adayı (bayraklar açık) Builds/build5-candidate; yayın Zeyd komutuyla; iPhone FPS ölçülmedi | 🔜 | |
 | Önizleme 12: PALETTE.md zorunlu palet (Ui/Palette.cs: rakam, kontur, urgent, tint, rozet, duvar), booster ikonu iç dairenin ~%75'i; önizlemeler `Tools/preview_mode.sh on/off` ile kök değişmeden; Build 5 şablonundaki ikon kontrolü düzeltildi. Task12 bekleniyor | ✅ | |
+| Ana menü Task13: profil kutusu (avatar, ad, Jiggles), yıldız sayacı, ayarlar, "Jiggles rescued X / 100·500·1000", Level tuşu v2 (LilitaOne) + Levels; basılı hâller; alt gezinme gizli | ✅ | |
+| Menü QA 3 boyut (docs/qa/2026-10-26-menu): taşma yok; profil yazısı krem kutuda okunmuyordu → lacivert | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)
@@ -100,6 +102,9 @@ Kurallar:
 | Task11: oyun içi HUD, menü başlat tuşu, kart tuşları/paneli ve kazanma yıldızları; 5 grup önizlemesi hazır, HANDOFF'a işlendi | ✅ | |
 | Task12: koridor ana menüsü için Level X tuşu, profil/avatar, sayaçlar, ayarlar ve alt gezinme; 390×844 önizleme hazır, HANDOFF eklendi | 🔜 Zeyd değerlendirmesi | |
 | Task12 Gameplay: booster seti, HUD, menü/kart UI ve tahta çerçevesi PALETTE.md zorunlu tonlarına eşlendi; preview ve HANDOFF hazır | 🔜 Zeyd değerlendirmesi | |
+| PlayButton v2 REV: referans restorasyonu ve krem yazı Zeyd tarafından onaylandı; Task13 ana sanat dayanağı olarak korundu | ✅ | |
+| Task13 ana menü: 28 şeffaf PNG; profil/sayaç/ayarlar/ilerleme/gezinme, normal-basılı durumlar, koridor üstünde menü ve tek sayfa inceleme hazır; HANDOFF/manifest tamam | 🔜 Zeyd değerlendirmesi | |
+| Task14 oyun UI: 390×844 tam ekran taslak hazır; 252 korunan kaynağın hash kontrolü temiz; ayrı sprite/kart üretimi taslak onayından sonra | 🔜 Zeyd taslak onayı | |
 | Tüm A/B seçimlerini tek yerde göster (`docs/art/SECIM.html`) | ✅ | |
 
 ## Bitenler (son 3 gün)

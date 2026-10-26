@@ -65,6 +65,16 @@ files['hand-swipe.png'] = A + 'TutorialHand/Exports/hand-swipe-vertical-288.png'
 files['hand-tap.png'] = A + 'TutorialHand/Exports/hand-tap-vertical-288.png'
 files['skin-body.png'] = A + 'PieceSkin/body-256.png'
 files['skin.json'] = A + 'PieceSkin/skin.json'
+# Codex Task 13 menu set (approved 2026-10-26): every sprite as m13-<name>; manifest sliceLTRB -> Unity L,B,R,T
+m13 = json.load(open(A + 'Menu/Task13/manifest.json', encoding='utf-8'))
+for it in m13['assets']:
+    if it['name'].startswith('preview') or not it['path'].endswith('.png'): continue
+    files['m13-' + it['name'] + '.png'] = it['path']
+    l, r, t, b = it.get('sliceLTRB') or [0, 0, 0, 0]          # values are L,R,T,B (as HANDOFF), despite the key name
+    if l or t or r or b: borders['m13-' + it['name'] + '.png'] = [l, b, r, t]
+# approved Level button v2 (Assets/Art/UI/PlayButton): 684x336, 9-slice 92 px
+for src, dst in (('menu-play-button-v2', 'level-button'), ('menu-play-button-v2-pressed', 'level-button-pressed')):
+    files[dst + '.png'] = A + f'UI/PlayButton/{src}.png'; borders[dst + '.png'] = [92, 92, 92, 92]
 json.dump(borders, open('Assets/_Game/Editor/art_borders.json', 'w'), indent=0)
 os.makedirs(OUT + 'audio', exist_ok=True)
 for dst, s in files.items():
