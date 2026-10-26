@@ -75,6 +75,7 @@ Kurallar:
 | Menü: "Jiggles rescued" çubuğu kalktı, yıldız sayacı → Jiggles sayacı, profilde yalnız ad (ortalı), avatar seçimi (5 Jiggle, cihazda); B kısmı Task15 bekliyor | ✅ | |
 | Önizleme 14 (PM_MESAJ_16 B): Task15 bağlandı (rozet v2, duvar v3, HUD hap v2 + ikonlar, kart tuşları v2 ≤ %65, avatarlar, Jiggles sayacı); kilitliyken boş rozet gizlendi | ✅ | |
 | Resimli test: ?set=redesign&painting=1, Level 7'de painting-test-01 Kit81 maskesiyle; normal set düz mavi | ✅ | |
+| Önizleme 15: resimli level kenarları (lacivert kontur, krem şerit, bevel, sürükleme gölgesi), yalnız painting=1 | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

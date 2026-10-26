@@ -529,6 +529,28 @@ async function extra() {
   check('extra', exc1 + exc2 + p.exceptions.length === 0, dir); p.close();
 }
 
+/* --only painting: the painted level 7 (?painting=1) at 3 phone sizes, resting and with a piece mid-drag. */
+async function painting() {
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10)));
+  fs.mkdirSync(dir, { recursive: true });
+  const l = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels.find(x => x.lv === 7);
+  let exc = 0;
+  const sizes = (opt('sizes', '375x667,390x844,430x932')).split(',').map(s => s.split('x').map(Number));
+  for (const [w, h] of sizes) {
+    W = w; H = h;
+    const p = await newPage(); await p.open(dbg(`${base}/?set=redesign&painting=1&lv=${l.id}`)); await sleep(2500);
+    for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y);
+    await sleep(800); fs.writeFileSync(path.join(dir, `painting_${w}x${h}.png`), await p.png());
+    const pl = placement(l), c = l.pieces[l.solution[0].piece][0], x0 = pl.x + (c[0] + .5) * pl.cell, y0 = pl.y + (c[1] + .5) * pl.cell;
+    await p.touch('touchStart', x0, y0);
+    for (let k = 1; k <= 6; k++) { await p.touch('touchMove', x0 + k * 2, y0 + k * 2); await sleep(16); }
+    await sleep(300); fs.writeFileSync(path.join(dir, `painting_drag_${w}x${h}.png`), await p.png());
+    await p.touch('touchEnd', x0 + 12, y0 + 12); exc += p.exceptions.length; p.close();
+  }
+  W = 375; H = 667;
+  check('painting', exc === 0, dir);
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -572,6 +594,7 @@ async function qa() {
     if (only.includes('redesign')) await redesign();
     if (only.includes('zeydbot')) await zeydbot();
     if (only.includes('qa')) await qa();
+    if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();
     if (send && only.includes('zeydsend')) await zeydsend();

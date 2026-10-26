@@ -1,3 +1,6 @@
+# Önizleme 15 (26 Ekim 20:55): resimli level https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46
+- Parça kenarı: lacivert dış kontur, içte krem ışık şeridi (%60), hafif bevel; sürüklenen parçanın altında aşağı-sağa yumuşak gölge. Yalnız painting=1; düz mavi set aynı. 3 telefon boyutunda kontrol edildi (docs/qa/2026-10-26-p15).
+
 # Önizleme 14 (26 Ekim 19:45): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign
 - Resimli yapboz testi (Level 7): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46
 - Codex Task15: kırmızı rozet, duvar v3, uzun HUD hapları + ikonlar, kısa/uzun kart tuşları, 5 avatar, Jiggles sayacı. Çerçeve ve booster çubuğu eski hâliyle kaldı (Zeyd'in notu).

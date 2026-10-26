@@ -194,7 +194,29 @@ Shader "ReverseSolver/Piece"
                     float m = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kuv).a * kin;
                     float4 ov = SAMPLE_TEXTURE2D(_KitOver, sampler_KitOver, kuv) * kin;
                     if (imageAmt > 0.001)
-                        col = over(float4(ov.rgb * ov.a, ov.a) * m, float4(fill, 1) * m);   // painting clipped by the mask, overlay on top
+                    {
+                        // painted board (painting=1): the cut must read inside a busy picture (Zeyd 2026-10-26)
+                        float r = 1.1 * _PtToUnit;                                    // ~3 device px on a 3x phone
+                        float mOut = 0.0, mIn = 1.0;
+                        for (int k = 0; k < 8; k++)
+                        {
+                            float an = k * 0.785398;
+                            float2 o = float2(cos(an), sin(an)) * r;
+                            float mo = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + o, i.edges)).a * kitIn(q + o);
+                            mOut = max(mOut, mo);
+                            float2 o2 = o * 1.8;
+                            mIn = min(mIn, SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + o2, i.edges)).a * kitIn(q + o2));
+                        }
+                        float2 d = float2(r, r) * 1.6;                                // bevel: light top-left, dark bottom-right
+                        float bev = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + d, i.edges)).a * kitIn(q + d)
+                                  - SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q - d, i.edges)).a * kitIn(q - d);
+                        float3 pf = fill + bev * 0.16;
+                        float band = saturate(m - mIn);                               // ~2 px just inside the edge
+                        pf = lerp(pf, float3(0.973, 0.922, 0.816), band * 0.6);       // cream #F8EBD0 at 60 %
+                        col = over(float4(ov.rgb * ov.a, ov.a) * m * 0.6, float4(pf, 1) * m);
+                        float outline = saturate(mOut - m);                           // navy #0B2A36 rim outside the shape
+                        col = over(col, float4(0.043, 0.165, 0.212, 1) * outline);
+                    }
                     else
                     {
                         float4 fl = SAMPLE_TEXTURE2D(_KitFlat, sampler_KitFlat, kuv) * kin;
@@ -205,6 +227,17 @@ Shader "ReverseSolver/Piece"
                     }
                     float ms = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q - float2(0, offY), i.edges)).a * kitIn(q - float2(0, offY));
                     shA = lerp(0.42, 0.55, lift) * ms;
+                    if (imageAmt > 0.001)
+                    {
+                        float2 so = float2(4.0, 4.0) * _PtToUnit, sb = float2(1.5, 0) * _PtToUnit;
+                        float s4 = 0.0;
+                        for (int j = 0; j < 4; j++)
+                        {
+                            float2 sq = q - so + (j == 0 ? sb : j == 1 ? -sb : j == 2 ? sb.yx : -sb.yx);
+                            s4 += SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(sq, i.edges)).a * kitIn(sq);
+                        }
+                        shA = max(0.42 * ms * (1.0 - lift), 0.35 * lift * s4 * 0.25);   // resting: the old soft drop; dragged: down-right
+                    }
                     // highlight (blocker coral / popped amber) on the piece itself: an outer glow lit the notches and the
                     // cell box around them (the red "7" next to a dragged piece, PM_MESAJ_16)
                     gA = 0;
