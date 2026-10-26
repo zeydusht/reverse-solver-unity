@@ -106,6 +106,21 @@ namespace ReverseSolver.Presentation
                 return r;
             }
 
+            /* A Jiggle avatar on a teal radial ground (#1C7F8C centre -> #0F4F5A edge) filling the gold frame's opening;
+               the Jiggle ~85 % of the opening, centred, clear of the frame. */
+            public static void AvatarTile(Transform root, Vector2 c, float size, int index, int order, bool frame)
+            {
+                float inner = size * .8f;
+                ShapeView.Create(root, "avatarGround", new Vector2(inner, inner), 2, order).Radius(inner * .2f)
+                    .Radial(Palette.Teal, Vector4.Lerp(Palette.Teal, Palette.TealDark, .5f), Palette.TealDark, new Vector4(.5f, .5f, .75f, .75f))
+                    .transform.localPosition = Draw.W(c);
+                var a = Art.Avatar(root, index, new Vector2(inner * .85f, inner * .85f), order + 1);
+                if (a != null) a.transform.localPosition = Draw.W(c);
+                if (!frame) return;
+                var f = Art.Place(root, "m13-profile-frame", new Vector2(size, size), order + 2);
+                if (f != null) f.transform.localPosition = Draw.W(c);
+            }
+
             static TMPro.TMP_FontAsset Lilita => Resources.Load<TMPro.TMP_FontAsset>("Fonts/Lilita");
 
             void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars)
@@ -113,10 +128,8 @@ namespace ReverseSolver.Presentation
                 float w = screen.x, top = safe.y, hy = top + 34;
                 // header: avatar (tap: choose a Jiggle) + profile box with the name centred, Jiggles counter, settings
                 var box = Sprite("m13-profile-box", new Vector2(40 + 66, hy), new Vector2(132, 46), order, sliced: true);
-                var av = Art.Avatar(Root, Art.AvatarIndex, new Vector2(44, 44), order + 1);
-                if (av != null) av.transform.localPosition = Draw.W(40, hy);
-                Sprite("m13-profile-frame", new Vector2(40, hy), new Vector2(60, 60), order + 2);
-                var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 15, Palette.Navy, true, order: order + 3);
+                AvatarTile(Root, new Vector2(40, hy), 60, Art.AvatarIndex, order + 1, frame: true);   // teal ground, centred Jiggle, gold frame
+                var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 15, Palette.Navy, true, order: order + 4);
                 name.transform.localPosition = Draw.W(40 + 66 + 12, hy);       // centre of the box's free part (right of the frame)
                 Profile = new Rect(10, hy - 30, 164, 60);
                 if (box != null) _press.Add((Profile, box, "m13-profile-box", "m13-profile-box-pressed", null));
@@ -136,8 +149,8 @@ namespace ReverseSolver.Presentation
                 st.transform.localPosition = Draw.W(px + 14, hy);
 
                 // bottom: big Level button and the Levels shortcut, above the safe area
-                float bw = Mathf.Min(228f, w - 130f), bh = bw * 112f / 228f, lv = 58f, gap = 10f;
-                float x0 = (w - (bw + gap + lv)) / 2, cy = screen.y - safe.w - 22 - bh / 2;
+                float bw = Mathf.Min(228f, w - 130f), bh = bw * 112f / 228f;
+                float x0 = (w - bw) / 2, cy = screen.y - safe.w - 22 - bh / 2;   // centred; the Levels shortcut is gone (Zeyd)
                 var play = Sprite("level-button", new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
                 var label = TextView.Create(Root, "play", $"Level {next}", bh * .34f, Palette.Cream, false, order: order + 2)
                     .Font(Lilita).Outline(Draw.Hex("#1E5C0E"), .22f);
@@ -145,12 +158,6 @@ namespace ReverseSolver.Presentation
                 Play = new Rect(x0, cy - bh / 2, bw, bh);
                 if (play != null) _press.Add((Play, play, "level-button", "level-button-pressed", label.transform));
 
-                float lx = x0 + bw + gap + lv / 2, ly = cy - 8;
-                var levels = Sprite("m13-levels-button", new Vector2(lx, ly), new Vector2(lv, lv), order);
-                TextView.Create(Root, "levels", "Levels", 12, Palette.Cream, false, order: order + 2).Font(Lilita).Outline(Palette.Navy, .25f)
-                    .transform.localPosition = Draw.W(lx, ly + lv / 2 + 8);
-                Levels = new Rect(lx - lv / 2, ly - lv / 2, lv, lv + 18);
-                if (levels != null) _press.Add((Levels, levels, "m13-levels-button", "m13-levels-button", null));
 
                 // PM_MESAJ_16: no "Jiggles rescued" bar on the menu
             }
@@ -401,11 +408,10 @@ namespace ReverseSolver.Presentation
                 for (int i = 0; i < 5; i++)
                 {
                     float x = -w / 2 + cell * (i + .5f);
-                    var a = Art.Avatar(root, i, new Vector2(cell - 12, cell - 12), o + 2);
-                    if (a != null) a.transform.localPosition = Draw.W(x, y + 34);
+                    Menu.AvatarTile(root, new Vector2(x, y + 34), cell - 6, i, o + 2, frame: false);
                     if (i == Art.AvatarIndex)
                     {
-                        var f = Art.Place(root, "m13-profile-frame", new Vector2(cell + 2, cell + 2), o + 3);
+                        var f = Art.Place(root, "m13-profile-frame", new Vector2(cell + 2, cell + 2), o + 5);
                         if (f != null) f.transform.localPosition = Draw.W(x, y + 34);
                     }
                     c.Buttons.Add((new Rect(x - cell / 2, y, cell, 72), "av" + i));

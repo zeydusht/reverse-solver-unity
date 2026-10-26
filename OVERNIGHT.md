@@ -1,3 +1,5 @@
+# Önizleme (menü düzeltmesi): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign — Levels tuşu yok, Level tuşu ortada, avatar kutusunda turkuaz radyal zemin + ortalı Jiggle (seçim kartında da)
+
 # Önizleme 17: resimli level kalın koyu lacivert kenarla (Zeyd seçti) https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46
 
 # Kenar karşılaştırması (önizleme 16): şimdiki https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46 · koyu lacivert kalın https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46&edge=navy · siyah kalın https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46&edge=dark

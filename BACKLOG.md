@@ -77,6 +77,7 @@ Kurallar:
 | Resimli test: ?set=redesign&painting=1, Level 7'de painting-test-01 Kit81 maskesiyle; normal set düz mavi | ✅ | |
 | Önizleme 15: resimli level kenarları (lacivert kontur, krem şerit, bevel, sürükleme gölgesi), yalnız painting=1 | ✅ | |
 | Önizleme 17: resimli level kenarı = kalın koyu lacivert (#06161D, 1,5×, krem şerit %80, dış gölge); karşılaştırma parametresi kaldırıldı | ✅ | |
+| Menü: Levels kısayolu kalktı, Level tuşu ortada; avatar kutusu turkuaz radyal zemin, Jiggle %85 ortalı (seçim kartında da) | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)
