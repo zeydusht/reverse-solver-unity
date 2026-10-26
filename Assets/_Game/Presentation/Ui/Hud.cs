@@ -26,7 +26,7 @@ namespace ReverseSolver.Presentation
                 .Stroke(Draw.Rgba(255, 255, 255, .92f), 3).Shadow(Draw.Rgba(0, 0, 0, .35f), 0, 3, 9).Skin("level-badge", false)
                 .transform.localPosition = Draw.W(ax, cy);
             TextView.Create(_root, "lv", "LV", 9, Palette.Or(Draw.Hex("#5a3c06"), Palette.TealDark), order: order + 1).transform.localPosition = Draw.W(ax, cy - 9);   // Task 11 badge has an LV area
-            _level = TextView.Create(_root, "lvnum", "1", 20, Palette.Or(Draw.Hex("#3a2704"), Palette.Navy), order: order + 1);
+            _level = TextView.Create(_root, "lvnum", "1", 20, Palette.Or(Draw.Hex("#3a2704"), Palette.Navy), order: order + 1).Font(Art.Lilita);
             _level.transform.localPosition = Draw.W(ax, cy + 6);
             LevelRect = new Rect(ax - 26, cy - 26, 52, 52);                // web #lvBtn opens the level list
 
@@ -35,20 +35,23 @@ namespace ReverseSolver.Presentation
             float pillL = Side + 52 + Gap, pillR = clockX - clockW / 2 - Gap;
             float pillX = (pillL + pillR) / 2, pillW = pillR - pillL;
 
-            Pill(new Vector2(pillX, cy), pillW, order);
+            Pill(new Vector2(pillX, cy), pillW, order, "hud-moves-pill");
             // preview: the icon centred in the pill's left end, the number centred in the rest
             // v3 pill: 16 pt ornaments at both ends; the icon sits just inside the left one, the number between the two
             const float end = 12f;   // Task 11 pill: 24 pt rounded ends, the icon sits on the surface just inside
             float pillIcon = Art.On ? pillL + end + 12 : pillX - 22, pillText = Art.On ? (pillL + end + 24 + pillR - end) / 2 : pillX + 12;
-            PieceIcon(_root, new Vector2(pillIcon, cy), order + 2);
-            _left = TextView.Create(_root, "left", "0", 22, Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream), order: order + 2);
+            if (Art.T14) { pillIcon = pillL + 20; pillText = (pillL + 40 + pillR) / 2; }   // Task 14 pill: icon baked in its 40 pt left end
+            else PieceIcon(_root, new Vector2(pillIcon, cy), order + 2);
+            _left = TextView.Create(_root, "left", "0", 22, Art.T14 ? Palette.Navy : Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream), order: order + 2);
+            _left.Font(Art.Lilita);
             _left.transform.localPosition = Draw.W(pillText, cy);
 
-            _clockPill = Pill(new Vector2(clockX, cy), clockW, order);
+            _clockPill = Pill(new Vector2(clockX, cy), clockW, order, "hud-time-pill");
             float clockL = clockX - clockW / 2;
-            ClockIcon(_root, new Vector2(Art.On ? clockL + end + 12 : clockX - 30, cy), order + 2);
+            if (!Art.T14) ClockIcon(_root, new Vector2(Art.On ? clockL + end + 12 : clockX - 30, cy), order + 2);
             _clock = TextView.Create(_root, "clock", "0:00", Art.On ? 20 : 22, Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream), order: order + 2);
-            _clock.transform.localPosition = Draw.W(Art.On ? (clockL + end + 24 + clockX + clockW / 2 - end) / 2 : clockX + 12, cy);
+            _clock.Font(Art.Lilita);
+            _clock.transform.localPosition = Draw.W(Art.T14 ? (clockL + 42 + clockX + clockW / 2) / 2 : Art.On ? (clockL + end + 24 + clockX + clockW / 2 - end) / 2 : clockX + 12, cy);
 
             // .reset: 46px circle, rgba(255,255,255,.10), 2px rgba(255,255,255,.55)
             ShapeView.Create(_root, "reset", new Vector2(46, 46), 4, order)
@@ -60,12 +63,12 @@ namespace ReverseSolver.Presentation
 
         ShapeView _clockPill;
 
-        ShapeView Pill(Vector2 c, float w, int order)
+        ShapeView Pill(Vector2 c, float w, int order, string t14Key)
         {
             // .pill: 46px high, radius 23, white .16 -> .05, 2px border rgba(255,255,255,.55), shadow 0 3px 8px .28
             var pill = ShapeView.Create(_root, "pill", new Vector2(w, Height), 12, order)
                 .Radius(23).Gradient(Draw.Rgba(255, 255, 255, .16f), Draw.Rgba(255, 255, 255, .05f))
-                .Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Shadow(Draw.Rgba(0, 0, 0, .28f), 0, 3, 8).Skin("hud-pill-normal");
+                .Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Shadow(Draw.Rgba(0, 0, 0, .28f), 0, 3, 8).Skin(Art.T14 ? t14Key : "hud-pill-normal");
             pill.transform.localPosition = Draw.W(c);
             return pill;
         }
@@ -127,8 +130,8 @@ namespace ReverseSolver.Presentation
         {
             int t = Mathf.Max(0, seconds);
             _clock.Text = $"{t / 60}:{t % 60:00}";
-            _clock.Color = t <= 20 ? Palette.Or(Draw.Hex("#ffb4a6"), Palette.Coral) : Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream);   // .pill b.warn; PALETTE urgent = coral
-            _clockPill?.SkinAs(t <= 20 ? "hud-pill-hot" : "hud-pill-normal");         // Codex Task 5 urgent pill (Task 7's has the shield slot)
+            _clock.Color = Art.T14 ? (t <= 20 ? Palette.Cream : Palette.Navy) : t <= 20 ? Palette.Or(Draw.Hex("#ffb4a6"), Palette.Coral) : Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream);   // .pill b.warn; PALETTE urgent = coral
+            _clockPill?.SkinAs(Art.T14 ? (t <= 20 ? "hud-time-pill-urgent" : "hud-time-pill") : t <= 20 ? "hud-pill-hot" : "hud-pill-normal");         // Codex Task 5 urgent pill (Task 7's has the shield slot)
         }
     }
 }

@@ -61,7 +61,7 @@ namespace ReverseSolver.Presentation
             // Codex Task 7 gold picture frame around the board; the dark Task 5 tray stays underneath
             tray.Skin("board-tray");
             // 9-sliced on its ~200 px band (67 pt at @3x), scaled so the band is 20 pt and the frame fits the screen
-            const float band = 20f, fk = band / (200f / 3f);
+            float band = Art.T14 ? 26f : 20f, fk = band / ((Art.T14 ? 300f : 200f) / 3f);   // Task 14 frame: 300 px slice
             var frameArt = Art.Place(transform, "board-frame", new Vector2((W + band * 1.4f) / fk, (H + band * 1.4f) / fk), TrayOrder + 1, sliced: true);
             if (frameArt != null)
             {
@@ -114,10 +114,41 @@ namespace ReverseSolver.Presentation
                         Dir.L => new Rect(-t * 1.5f, from, t, to - from),
                         _ => new Rect(W + t * .5f, from, t, to - from)
                     };
+                    // Task 14 red-white strip: 96x48 tile (band 90 % of its height) repeated along the lane
+                    var ws = v3 && Art.T14 ? Art.Get("wall-stripe") : null;
+                    if (ws != null)
+                    {
+                        bool vert = side.Key == Dir.L || side.Key == Dir.R;
+                        float tileH = ws.bounds.size.y, kk = t / (tileH * .9f), len = vert ? r.height : r.width;
+                        var strip = Art.Place(transform, "wall-stripe", new Vector2(len / kk, tileH), WallOrder, tiled: true);
+                        strip.transform.localScale = new Vector3(kk, kk, 1);
+                        strip.transform.localPosition = Draw.W(r.center);
+                        if (vert) strip.transform.localRotation = Quaternion.Euler(0, 0, 90);
+                        continue;
+                    }
                     var wall = ShapeView.Create(transform, "Wall", r.size, 10, WallOrder)
                         .Radius(3).Stripes(v3 ? Palette.Coral : Draw.Hex("#d9412f"), v3 ? Palette.Cream : Draw.Hex("#f6efe6"), v3 ? Mathf.Max(18f, t * 2.2f) : 18f)
                         .Stroke(v3 ? Palette.Navy : Draw.Hex("#7d1f16"), v3 ? 1.2f : 2).Shadow(Draw.Rgba(0, 0, 0, .55f), 0, 3, 8);
                     wall.transform.localPosition = Draw.W(r.center);
+                }
+            }
+
+            // Task 14 wall corners (the art opens up and right: bottom-left as drawn, the others turned)
+            if (Art.On && Art.T14 && Art.Get("wall-corner") != null)
+            {
+                bool Has(Dir d, int lane) => l.Sealed.TryGetValue(d, out var lanes) && System.Array.IndexOf(lanes, lane) >= 0;
+                foreach (var (on, at, rot) in new[]
+                {
+                    (Has(Dir.U, 0) && Has(Dir.L, 0), new Vector2(-t, -t), -90f),
+                    (Has(Dir.U, l.Width - 1) && Has(Dir.R, 0), new Vector2(W + t, -t), 180f),
+                    (Has(Dir.D, l.Width - 1) && Has(Dir.R, l.Height - 1), new Vector2(W + t, H + t), 90f),
+                    (Has(Dir.D, 0) && Has(Dir.L, l.Height - 1), new Vector2(-t, H + t), 0f),
+                })
+                {
+                    if (!on) continue;
+                    var c = Art.Place(transform, "wall-corner", new Vector2(t * 1.1f, t * 1.1f), WallOrder + 1);
+                    c.transform.localPosition = Draw.W(at);
+                    c.transform.localRotation = Quaternion.Euler(0, 0, rot);
                 }
             }
 

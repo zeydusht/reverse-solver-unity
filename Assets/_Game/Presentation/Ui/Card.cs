@@ -19,7 +19,8 @@ namespace ReverseSolver.Presentation
         readonly List<System.Func<float, float>> _rows = new List<System.Func<float, float>>();
         readonly Transform _content;
 
-        public const float Pad = 22f, ButtonH = 46f;
+        public const float Pad = 22f;
+        public static float ButtonH => Art.T14 ? 52f : 46f;   // Task 14 buttons have 28 pt rounded ends
         public float InnerWidth => _w - Pad * 2;
 
         /* Codex's popup card is cream: texts drawn for the dark card switch to dark ink there. */
@@ -56,8 +57,11 @@ namespace ReverseSolver.Presentation
             return this;
         }
 
+        string _banner;   // Task 14: the title sits on the panel's teal banner, not in the rows
+
         public Card Title(string text)
         {
+            if (Art.T14) { _banner = text; return this; }
             _rows.Add(y =>
             {
                 TextView.Create(_content, "title", text, 20, Ink(Draw.Hex("#eaf3f2"), "#0B2A36"), order: _order + 2)
@@ -101,7 +105,7 @@ namespace ReverseSolver.Presentation
                 else b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1);
                 b.Skin(primary ? "primary-normal" : "secondary-normal");
                 b.transform.localPosition = Draw.W(0, cy);
-                TextView.Create(_content, "label " + id, label, 15, primary ? Palette.Or(Draw.Hex("#33220a"), Palette.Navy) : Ink(Draw.Hex("#8fb2b3"), "#0B2A36"),
+                TextView.Create(_content, "label " + id, label, 15, Art.T14 ? Palette.Cream : primary ? Palette.Or(Draw.Hex("#33220a"), Palette.Navy) : Ink(Draw.Hex("#8fb2b3"), "#0B2A36"),
                                 order: _order + 3).transform.localPosition = Draw.W(0, cy);
                 Buttons.Add((new Rect(-InnerWidth / 2, y, InnerWidth, ButtonH), id));
                 return ButtonH + 8;
@@ -123,7 +127,7 @@ namespace ReverseSolver.Presentation
                     var b = ShapeView.Create(_content, "btn " + items[i].id, new Vector2(bw, ButtonH), 2, _order + 2).Radius(11);
                     b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1).Skin("secondary-normal");
                     b.transform.localPosition = Draw.W(x + bw / 2, cy);
-                    TextView.Create(_content, "label " + items[i].id, items[i].label, 15, Ink(Draw.Hex("#8fb2b3"), "#0B2A36"), order: _order + 3)
+                    TextView.Create(_content, "label " + items[i].id, items[i].label, 15, Art.T14 ? Palette.Cream : Ink(Draw.Hex("#8fb2b3"), "#0B2A36"), order: _order + 3)
                         .transform.localPosition = Draw.W(x + bw / 2, cy);
                     Buttons.Add((new Rect(x, y, bw, ButtonH), items[i].id));
                 }
@@ -135,9 +139,9 @@ namespace ReverseSolver.Presentation
         /* Lays the rows out, centres the card on screen and converts button rects to screen points. */
         public Card Finish()
         {
-            float y = 24;
+            float y = Art.T14 ? 96 : 24;                                        // Task 14: rows start under the 80 pt banner
             foreach (var row in _rows) y += row(y);
-            float h = y + 18 - 8 + (Art.Get("popup-card") != null ? 18 : 0);   // Task 11 panel: its rim needs room under the last button
+            float h = y + 18 - 8 + (Art.T14 ? 30 : Art.Get("popup-card") != null ? 18 : 0);   // the panel's rim needs room under the last button
             float top = (_screen.y - h) / 2;
             _content.localPosition = Draw.W(_screen.x / 2, top);
             // .card: #14484c, 1px rgba(255,255,255,.16), radius 18
@@ -152,6 +156,9 @@ namespace ReverseSolver.Presentation
                 var (r, id) = Buttons[i];
                 Buttons[i] = (new Rect(r.x + _screen.x / 2, r.y + top, r.width, r.height), id);
             }
+            if (_banner != null)
+                TextView.Create(Root, "title", _banner, 21, Palette.Cream, true, order: _order + 3).Outline(Palette.Navy, .2f)
+                    .transform.localPosition = Draw.W(_screen.x / 2, top + 40);
             Height = h;
             Top = top;
             return this;

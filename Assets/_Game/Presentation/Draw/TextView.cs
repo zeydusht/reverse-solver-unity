@@ -12,6 +12,7 @@ namespace ReverseSolver.Presentation
         public const float PointToFontSize = 10f;
 
         TextMeshPro _t;
+        static TMP_FontAsset _fredoka;
 
         /* Another font (counter digits, PM_MESAJ_12); the weight is in the font itself. */
         public TextView Font(TMP_FontAsset font)
@@ -36,6 +37,8 @@ namespace ReverseSolver.Presentation
         {
             var v = Draw.Child<TextView>(parent, name);
             v._t = v.GetComponent<TextMeshPro>();
+            // preview art: Turkish texts in Fredoka (PM_MESAJ_15); digits / English labels set Lilita themselves
+            if (Art.On) { _fredoka ??= Resources.Load<TMP_FontAsset>("Fonts/Fredoka"); if (_fredoka != null) v._t.font = _fredoka; }
             v._t.textWrappingMode = TextWrappingModes.NoWrap;
             v._t.overflowMode = TextOverflowModes.Overflow;
             v._t.alignment = align;

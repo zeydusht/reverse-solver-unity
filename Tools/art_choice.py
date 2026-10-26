@@ -75,19 +75,77 @@ for it in m13['assets']:
 # approved Level button v2 (Assets/Art/UI/PlayButton): 684x336, 9-slice 92 px
 for src, dst in (('menu-play-button-v2', 'level-button'), ('menu-play-button-v2-pressed', 'level-button-pressed')):
     files[dst + '.png'] = A + f'UI/PlayButton/{src}.png'; borders[dst + '.png'] = [92, 92, 92, 92]
+# Codex Task 14 (approved in-game set, PM_MESAJ_15): replaces the Task 7-12 board/HUD/booster/card art
+T14 = A + 'Gameplay/Task14/'
+for src, dst in (('hud-level-badge', 'level-badge'), ('hud-moves-pill', 'hud-moves-pill'), ('hud-time-pill', 'hud-time-pill'),
+                 ('hud-time-pill-urgent', 'hud-time-pill-urgent'), ('hud-pause-normal', 'pause-normal'), ('hud-pause-pressed', 'pause-pressed'),
+                 ('booster-badge', 'booster-badge'), ('booster-bar', 'booster-bar'), ('board-frame-gold', 'board-frame'),
+                 ('bomb-384', 'bomb-v2'), ('nail-head-384', 'board-nail'), ('chain-link-repeat-96x48', 'chain-repeat'),
+                 ('chain-endpoint-144', 'chain-end'), ('wall-repeat-96x48', 'wall-stripe'), ('wall-corner-96x96', 'wall-corner'),
+                 ('card-panel', 'popup-card'), ('btn-primary', 'primary-normal'), ('btn-secondary', 'secondary-normal'),
+                 ('btn-danger', 'danger-normal'), ('star-full', 'star-full'), ('star-empty', 'star-empty'),
+                 ('loss-reason-bomb', 'loss-reason-bomb'), ('loss-reason-time', 'loss-reason-time')):
+    files[dst + '.png'] = T14 + src + '.png'
+for b in ('scissors', 'wand', 'hammer', 'clock'):
+    for st in ('normal', 'pressed', 'locked', 'zero'): files[f'booster-{b}-{st}.png'] = T14 + f'booster-{b}-{st}.png'
+# Task 14 manifest gives L,R,T,B (as HANDOFF); Unity wants L,B,R,T
+t14 = {a['file']: a for a in json.load(open(T14 + 'manifest.json', encoding='utf-8-sig'))}
+for src, dst in (('hud-moves-pill', 'hud-moves-pill'), ('hud-time-pill', 'hud-time-pill'), ('hud-time-pill-urgent', 'hud-time-pill-urgent'),
+                 ('booster-bar', 'booster-bar'), ('board-frame-gold', 'board-frame'), ('card-panel', 'popup-card'),
+                 ('btn-primary', 'primary-normal'), ('btn-secondary', 'secondary-normal'), ('btn-danger', 'danger-normal')):
+    l, r, t, b = t14[src + '.png']['sliceLTRB']; borders[dst + '.png'] = [l, b, r, t]
+# Big sprites whose sides are not multiples of 4 cannot be block-compressed (WebGL keeps them raw, MBs each):
+# pad them with transparent pixels at the right/bottom to a multiple of 4 and move the right/bottom 9-slice border
+import struct, zlib
+def png_size(path):
+    with open(path, 'rb') as f: return struct.unpack('>II', f.read(24)[16:24])
+def pad_png(src, dst, pw, ph):
+    b = open(src, 'rb').read(); i = 8; idat = b''
+    while i < len(b):
+        n = struct.unpack('>I', b[i:i+4])[0]; t = b[i+4:i+8]; d = b[i+8:i+8+n]
+        if t == b'IHDR': w, h, bd, ct = struct.unpack('>IIBB', d[:10])
+        if t == b'IDAT': idat += d
+        i += 12 + n
+    assert bd == 8 and ct == 6, src
+    raw = zlib.decompress(idat); st = w * 4; prev = bytearray(st); k2 = 0; rows = []
+    for y in range(h):
+        f = raw[k2]; line = bytearray(raw[k2+1:k2+1+st]); k2 += 1 + st
+        if f:
+            for x in range(st):
+                a = line[x-4] if x >= 4 else 0; c = prev[x-4] if x >= 4 else 0; up = prev[x]
+                if f == 1: line[x] = (line[x] + a) & 255
+                elif f == 2: line[x] = (line[x] + up) & 255
+                elif f == 3: line[x] = (line[x] + ((a + up) >> 1)) & 255
+                else:
+                    pa = abs(up - c); pb = abs(a - c); pc = abs(a + up - 2 * c)
+                    line[x] = (line[x] + (a if pa <= pb and pa <= pc else up if pb <= pc else c)) & 255
+        rows.append(bytes(line)); prev = line
+    W2, H2 = w + pw, h + ph
+    body = b''.join(b'\x00' + r + b'\x00' * (4 * pw) for r in rows) + (b'\x00' + b'\x00' * (4 * W2)) * ph
+    def chunk(t, d): return struct.pack('>I', len(d)) + t + d + struct.pack('>I', zlib.crc32(t + d) & 0xffffffff)
+    open(dst, 'wb').write(b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', struct.pack('>IIBBBBB', W2, H2, 8, 6, 0, 0, 0)) +
+                          chunk(b'IDAT', zlib.compress(body, 6)) + chunk(b'IEND', b''))
+PAD = {}
+for dst, src in files.items():
+    if not src.endswith('.png') or not os.path.exists(src): continue
+    w, h = png_size(src)
+    if w * h >= 300 * 300 and (w % 4 or h % 4):
+        PAD[dst] = ((-w) % 4, (-h) % 4)
+        if dst in borders: borders[dst] = [borders[dst][0], borders[dst][1] + PAD[dst][1], borders[dst][2] + PAD[dst][0], borders[dst][3]]
 json.dump(borders, open('Assets/_Game/Editor/art_borders.json', 'w'), indent=0)
 os.makedirs(OUT + 'audio', exist_ok=True)
 for dst, s in files.items():
     if not os.path.exists(s): print('EKSİK', s); continue
-    shutil.copyfile(s, OUT + dst)            # copyfile: keeps the destination .meta (import settings)
+    if dst in PAD: pad_png(s, OUT + dst, *PAD[dst])
+    else: shutil.copyfile(s, OUT + dst)      # copyfile: keeps the destination .meta (import settings)
 # not used by the game (pressed states, replaced sets, HTML-only copies): kept out of Resources so the build stays small
-UNUSED = ['settings-row-on', 'settings-row-off', 'switch-on', 'switch-off', 'sound-on', 'sound-off', 'close-normal', 'close-pressed',
+UNUSED = ['booster-bar', 'm13-bottom-nav', 'm13-nav-active', 'm13-nav-home', 'm13-nav-collection', 'm13-nav-jiggles', 'm13-nav-trophy', 'settings-row-on', 'settings-row-off', 'switch-on', 'switch-off', 'sound-on', 'sound-off', 'close-normal', 'close-pressed',
           'rating-normal', 'rating-pressed', 'rating-selected', 'thumb-up-normal', 'thumb-up-pressed', 'thumb-up-selected',
           'thumb-down-normal', 'thumb-down-pressed', 'thumb-down-selected', 'name-input-normal', 'name-input-focus', 'progress-track',
           'progress-fill', 'rotate-phone', 'star-burst', 'star-filling-glow', 'play-pressed', 'primary-pressed', 'secondary-pressed',
           'profile-pressed', 'settings-pressed', 'reset-pressed', 'icon-reset-pressed', 'booster-empty', 'booster-locked', 'booster-out',
           'booster-active', 'booster-badge-stock', 'booster-badge-lock', 'booster-normal', 'bomb-counter-normal', 'bomb-counter-hot',
-          'nail-counter', 'bomb-glow-normal', 'bomb-glow-hot', 'avatar-source', 'wall-repeat', 'wall-stripe', 'wall-corner', 'chain-cable',
+          'nail-counter', 'bomb-glow-normal', 'bomb-glow-hot', 'avatar-source', 'wall-repeat', 'chain-cable',
           'chain-link', 'chain-disc-1', 'chain-disc-2', 'chain-disc-3', 'chain-disc-4', 'frame', 'button', 'board', 'board-hard',
           'hand-tap', 'joint-target-pulse', 'skin-body', 'icon-lock-card', 'board-tray-unused', 'reset-normal', 'icon-reset', 'pause-pressed']
 for n in UNUSED:

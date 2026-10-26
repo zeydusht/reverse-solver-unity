@@ -5,24 +5,6 @@ TextureImporter:
   - first:
       213: -2527350519931452118
     second: bomb-v2_0
-  - first:
-      213: 5003640431268962326
-    second: bomb-v2_1
-  - first:
-      213: 2517399295881886585
-    second: bomb-v2_2
-  - first:
-      213: 572271949066800159
-    second: bomb-v2_3
-  - first:
-      213: -4054835460596770110
-    second: bomb-v2_4
-  - first:
-      213: 7666466507538682129
-    second: bomb-v2_5
-  - first:
-      213: -45924888352011803
-    second: bomb-v2_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -136,10 +118,10 @@ TextureImporter:
       name: bomb-v2_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 53
-        width: 344
-        height: 331
+        x: 44
+        y: 44
+        width: 296
+        height: 336
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,138 +132,6 @@ TextureImporter:
       bones: []
       spriteID: a254694b71c0decd0800000000000000
       internalID: -2527350519931452118
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bomb-v2_1
-      rect:
-        serializedVersion: 2
-        x: 329
-        y: 315
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 610a1993670807540800000000000000
-      internalID: 5003640431268962326
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bomb-v2_2
-      rect:
-        serializedVersion: 2
-        x: 334
-        y: 279
-        width: 11
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 97bbbd462599fe220800000000000000
-      internalID: 2517399295881886585
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bomb-v2_3
-      rect:
-        serializedVersion: 2
-        x: 30
-        y: 133
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f1c0c0f3e4e11f700800000000000000
-      internalID: 572271949066800159
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bomb-v2_4
-      rect:
-        serializedVersion: 2
-        x: 43
-        y: 134
-        width: 7
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2cad87cc1a45ab7c0800000000000000
-      internalID: -4054835460596770110
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bomb-v2_5
-      rect:
-        serializedVersion: 2
-        x: 38
-        y: 114
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 111d5408ba2c46a60800000000000000
-      internalID: 7666466507538682129
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bomb-v2_6
-      rect:
-        serializedVersion: 2
-        x: 327
-        y: 93
-        width: 11
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5e9cd6fae87dc5ff0800000000000000
-      internalID: -45924888352011803
       vertices: []
       indices: 
       edges: []

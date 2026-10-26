@@ -275,7 +275,8 @@ namespace ReverseSolver.Presentation
 
             var card = new Card(parent, screen, order, "Result");
             // preview art (#8, #9): victory / defeat scene when the level has no picture of its own
-            if (!withPicture) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
+            if (!withPicture && !Art.T14) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
+            if (!won && Art.T14) Picture(card, s.Outcome == Outcome.Bomb ? "loss-reason-bomb" : "loss-reason-time", 80);   // Task 14 loss reason
             card.Title(title);
             if (withPicture)
             {
@@ -388,7 +389,8 @@ namespace ReverseSolver.Presentation
         {
             var s = Art.Get(key);
             if (s == null) return c;
-            float w = c.InnerWidth, h = height > 0 ? height : w * s.bounds.size.y / s.bounds.size.x;
+            float h = height > 0 ? height : c.InnerWidth * s.bounds.size.y / s.bounds.size.x;
+            float w = height > 0 ? Mathf.Min(c.InnerWidth, h * s.bounds.size.x / s.bounds.size.y) : c.InnerWidth;
             return c.Custom(h + 10, (root, y, cw, o) =>
             {
                 var r = Art.Place(root, key, new Vector2(w, h), o + 2);
@@ -403,7 +405,8 @@ namespace ReverseSolver.Presentation
         public static Card StartCard(Transform parent, Vector2 screen, LevelData l, int order)
         {
             var c = new Card(parent, screen, order, "Intro");
-            c.Custom(70, (root, y, w, o) =>
+            if (Art.T14) c.Title(string.Format(Texts.Level, l.Number));
+            else c.Custom(70, (root, y, w, o) =>
             {
                 var r = Art.Place(root, l.Hard ? "level-header-hard" : "level-header-normal", new Vector2(w, 60), o + 2, sliced: true);
                 if (r != null) r.transform.localPosition = Draw.W(0, y + 30);

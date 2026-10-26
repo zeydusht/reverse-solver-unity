@@ -1,0 +1,1484 @@
+fileFormatVersion: 2
+guid: 292e7d3ec7677d748a0a2ac3dc79b6a5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6375026934948068124
+    second: chain-endpoint-source_0
+  - first:
+      213: 4408760970127421889
+    second: chain-endpoint-source_1
+  - first:
+      213: 2922549652121391963
+    second: chain-endpoint-source_2
+  - first:
+      213: 3488711220156173674
+    second: chain-endpoint-source_3
+  - first:
+      213: -8161739089937358213
+    second: chain-endpoint-source_4
+  - first:
+      213: -7196387011486814214
+    second: chain-endpoint-source_5
+  - first:
+      213: 2865227708730743234
+    second: chain-endpoint-source_6
+  - first:
+      213: 9038539859577763034
+    second: chain-endpoint-source_7
+  - first:
+      213: 5466184574819301575
+    second: chain-endpoint-source_8
+  - first:
+      213: 5161331023647313282
+    second: chain-endpoint-source_9
+  - first:
+      213: 8126687151439665239
+    second: chain-endpoint-source_10
+  - first:
+      213: 1744880047819158667
+    second: chain-endpoint-source_11
+  - first:
+      213: -177092163903920535
+    second: chain-endpoint-source_12
+  - first:
+      213: 3402938312645177528
+    second: chain-endpoint-source_13
+  - first:
+      213: -2135629786222342091
+    second: chain-endpoint-source_14
+  - first:
+      213: 5070067470166642249
+    second: chain-endpoint-source_15
+  - first:
+      213: 3759307590218123788
+    second: chain-endpoint-source_16
+  - first:
+      213: 2644274990178535339
+    second: chain-endpoint-source_17
+  - first:
+      213: 3992499608550104238
+    second: chain-endpoint-source_18
+  - first:
+      213: 2756824850825087255
+    second: chain-endpoint-source_19
+  - first:
+      213: -5065540942549035202
+    second: chain-endpoint-source_20
+  - first:
+      213: 1123841139537347703
+    second: chain-endpoint-source_21
+  - first:
+      213: 425227295659359424
+    second: chain-endpoint-source_22
+  - first:
+      213: 402203848074193806
+    second: chain-endpoint-source_23
+  - first:
+      213: -3259823866091503282
+    second: chain-endpoint-source_24
+  - first:
+      213: -4300247787056739075
+    second: chain-endpoint-source_25
+  - first:
+      213: 3971968378029082360
+    second: chain-endpoint-source_26
+  - first:
+      213: -3699516705442798050
+    second: chain-endpoint-source_27
+  - first:
+      213: 2901457082899815880
+    second: chain-endpoint-source_28
+  - first:
+      213: -5247937106055941715
+    second: chain-endpoint-source_29
+  - first:
+      213: -7608844942023191796
+    second: chain-endpoint-source_30
+  - first:
+      213: 3476045748103695312
+    second: chain-endpoint-source_31
+  - first:
+      213: 8301721338025865183
+    second: chain-endpoint-source_32
+  - first:
+      213: -7395944764825917399
+    second: chain-endpoint-source_33
+  - first:
+      213: 6353777506751942823
+    second: chain-endpoint-source_34
+  - first:
+      213: 8018176657914773591
+    second: chain-endpoint-source_35
+  - first:
+      213: -2496769338877278624
+    second: chain-endpoint-source_36
+  - first:
+      213: -8010048953476733253
+    second: chain-endpoint-source_37
+  - first:
+      213: -6460452814959788570
+    second: chain-endpoint-source_38
+  - first:
+      213: -8943816219988067422
+    second: chain-endpoint-source_39
+  - first:
+      213: 5354863531265809809
+    second: chain-endpoint-source_40
+  - first:
+      213: -4194289371471751660
+    second: chain-endpoint-source_41
+  - first:
+      213: -6561825067934317652
+    second: chain-endpoint-source_42
+  - first:
+      213: -6091675280470466316
+    second: chain-endpoint-source_43
+  - first:
+      213: -4735309533415831166
+    second: chain-endpoint-source_44
+  - first:
+      213: 4630995321451966410
+    second: chain-endpoint-source_45
+  - first:
+      213: -6005998692131911470
+    second: chain-endpoint-source_46
+  - first:
+      213: -7042461181387901052
+    second: chain-endpoint-source_47
+  - first:
+      213: 3937745666465899815
+    second: chain-endpoint-source_48
+  - first:
+      213: -4309040561908824411
+    second: chain-endpoint-source_49
+  - first:
+      213: -1321282497875697445
+    second: chain-endpoint-source_50
+  - first:
+      213: -4366039753935823478
+    second: chain-endpoint-source_51
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: chain-endpoint-source_0
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 1237
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e48fdc67ca5787a0800000000000000
+      internalID: -6375026934948068124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_1
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 1231
+        width: 27
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c13d046eb01f2d30800000000000000
+      internalID: 4408760970127421889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_2
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 1209
+        width: 21
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b53132d9c6bfe8820800000000000000
+      internalID: 2922549652121391963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1241
+        height: 1236
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6d0459ee546a6030800000000000000
+      internalID: 3488711220156173674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_4
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 1156
+        width: 119
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b722dda5a8dabbe80800000000000000
+      internalID: -8161739089937358213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_5
+      rect:
+        serializedVersion: 2
+        x: 889
+        y: 1211
+        width: 14
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: affe712242c412c90800000000000000
+      internalID: -7196387011486814214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_6
+      rect:
+        serializedVersion: 2
+        x: 1216
+        y: 1020
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c99083ab6553c720800000000000000
+      internalID: 2865227708730743234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_7
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 917
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad477523d185f6d70800000000000000
+      internalID: 9038539859577763034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_8
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 929
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c8f2d2e8e9cbdb40800000000000000
+      internalID: 5466184574819301575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_9
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 919
+        width: 16
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28d83b8583bb0a740800000000000000
+      internalID: 5161331023647313282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_10
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 920
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 758da4e38eac7c070800000000000000
+      internalID: 8126687151439665239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_11
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 931
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b847de1a82f073810800000000000000
+      internalID: 1744880047819158667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_12
+      rect:
+        serializedVersion: 2
+        x: 1059
+        y: 883
+        width: 27
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 966600e7d97da8df0800000000000000
+      internalID: -177092163903920535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_13
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 897
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b078c5ad5aa93f20800000000000000
+      internalID: 3402938312645177528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_14
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 867
+        width: 23
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53059744608bc52e0800000000000000
+      internalID: -2135629786222342091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_15
+      rect:
+        serializedVersion: 2
+        x: 1117
+        y: 875
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94ecb82708f7c5640800000000000000
+      internalID: 5070067470166642249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_16
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 859
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0a816ce55ebb2430800000000000000
+      internalID: 3759307590218123788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_17
+      rect:
+        serializedVersion: 2
+        x: 1123
+        y: 854
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba78a06f71a52b420800000000000000
+      internalID: 2644274990178535339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_18
+      rect:
+        serializedVersion: 2
+        x: 1099
+        y: 839
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eacd385ad35386730800000000000000
+      internalID: 3992499608550104238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_19
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 813
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71906657895324620800000000000000
+      internalID: 2756824850825087255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_20
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 771
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e37da24e95593b9b0800000000000000
+      internalID: -5065540942549035202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_21
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 765
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7740812ef8fa89f00800000000000000
+      internalID: 1123841139537347703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_22
+      rect:
+        serializedVersion: 2
+        x: 1109
+        y: 763
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cc7392f8f5b6e500800000000000000
+      internalID: 425227295659359424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_23
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 690
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8be1c3d44ae49500800000000000000
+      internalID: 402203848074193806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_24
+      rect:
+        serializedVersion: 2
+        x: 1065
+        y: 641
+        width: 47
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e41864f0777c2c2d0800000000000000
+      internalID: -3259823866091503282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_25
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 610
+        width: 43
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfcc25edb637254c0800000000000000
+      internalID: -4300247787056739075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_26
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 664
+        width: 16
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f6028702344f1730800000000000000
+      internalID: 3971968378029082360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_27
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 663
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e166573482da8acc0800000000000000
+      internalID: -3699516705442798050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_28
+      rect:
+        serializedVersion: 2
+        x: 1139
+        y: 650
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cdd84528db044820800000000000000
+      internalID: 2901457082899815880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_29
+      rect:
+        serializedVersion: 2
+        x: 1146
+        y: 664
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da1b1fdb1059b27b0800000000000000
+      internalID: -5247937106055941715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_30
+      rect:
+        serializedVersion: 2
+        x: 1107
+        y: 585
+        width: 47
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c031eafa6d3f76690800000000000000
+      internalID: -7608844942023191796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_31
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 650
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0db4ab6e0356d3030800000000000000
+      internalID: 3476045748103695312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_32
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 535
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdfef419293a53370800000000000000
+      internalID: 8301721338025865183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_33
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 492
+        width: 10
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 928242afb635c5990800000000000000
+      internalID: -7395944764825917399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_34
+      rect:
+        serializedVersion: 2
+        x: 1153
+        y: 511
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a011d78af62d2850800000000000000
+      internalID: 6353777506751942823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_35
+      rect:
+        serializedVersion: 2
+        x: 1189
+        y: 514
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 750c6513039464f60800000000000000
+      internalID: 8018176657914773591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_36
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 497
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0660226c381b95dd0800000000000000
+      internalID: -2496769338877278624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_37
+      rect:
+        serializedVersion: 2
+        x: 1139
+        y: 503
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb6a7867ae696d090800000000000000
+      internalID: -8010048953476733253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_38
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 470
+        width: 15
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ed362cc46cd756a0800000000000000
+      internalID: -6460452814959788570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_39
+      rect:
+        serializedVersion: 2
+        x: 1125
+        y: 493
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2abfb37c88e21e380800000000000000
+      internalID: -8943816219988067422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_40
+      rect:
+        serializedVersion: 2
+        x: 1165
+        y: 457
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19ddac9a20c405a40800000000000000
+      internalID: 5354863531265809809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_41
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 461
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 416da38f904eac5c0800000000000000
+      internalID: -4194289371471751660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_42
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 422
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca38583edd6bfe4a0800000000000000
+      internalID: -6561825067934317652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_43
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 411
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f0a7848b95067ba0800000000000000
+      internalID: -6091675280470466316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_44
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 320
+        width: 21
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2898a3f611dc84eb0800000000000000
+      internalID: -4735309533415831166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_45
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 280
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acfe3a375b9944040800000000000000
+      internalID: 4630995321451966410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_46
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 280
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d8440ab20866aca0800000000000000
+      internalID: -6005998692131911470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_47
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 225
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48775ea3ed6244e90800000000000000
+      internalID: -7042461181387901052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_48
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 216
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 725a88112dea5a630800000000000000
+      internalID: 3937745666465899815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_49
+      rect:
+        serializedVersion: 2
+        x: 1068
+        y: 172
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a6cca070763334c0800000000000000
+      internalID: -4309040561908824411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_50
+      rect:
+        serializedVersion: 2
+        x: 1076
+        y: 136
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd0ad22919cd9ade0800000000000000
+      internalID: -1321282497875697445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chain-endpoint-source_51
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 7
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8ddb6fd9f5b863c0800000000000000
+      internalID: -4366039753935823478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      chain-endpoint-source_0: -6375026934948068124
+      chain-endpoint-source_1: 4408760970127421889
+      chain-endpoint-source_10: 8126687151439665239
+      chain-endpoint-source_11: 1744880047819158667
+      chain-endpoint-source_12: -177092163903920535
+      chain-endpoint-source_13: 3402938312645177528
+      chain-endpoint-source_14: -2135629786222342091
+      chain-endpoint-source_15: 5070067470166642249
+      chain-endpoint-source_16: 3759307590218123788
+      chain-endpoint-source_17: 2644274990178535339
+      chain-endpoint-source_18: 3992499608550104238
+      chain-endpoint-source_19: 2756824850825087255
+      chain-endpoint-source_2: 2922549652121391963
+      chain-endpoint-source_20: -5065540942549035202
+      chain-endpoint-source_21: 1123841139537347703
+      chain-endpoint-source_22: 425227295659359424
+      chain-endpoint-source_23: 402203848074193806
+      chain-endpoint-source_24: -3259823866091503282
+      chain-endpoint-source_25: -4300247787056739075
+      chain-endpoint-source_26: 3971968378029082360
+      chain-endpoint-source_27: -3699516705442798050
+      chain-endpoint-source_28: 2901457082899815880
+      chain-endpoint-source_29: -5247937106055941715
+      chain-endpoint-source_3: 3488711220156173674
+      chain-endpoint-source_30: -7608844942023191796
+      chain-endpoint-source_31: 3476045748103695312
+      chain-endpoint-source_32: 8301721338025865183
+      chain-endpoint-source_33: -7395944764825917399
+      chain-endpoint-source_34: 6353777506751942823
+      chain-endpoint-source_35: 8018176657914773591
+      chain-endpoint-source_36: -2496769338877278624
+      chain-endpoint-source_37: -8010048953476733253
+      chain-endpoint-source_38: -6460452814959788570
+      chain-endpoint-source_39: -8943816219988067422
+      chain-endpoint-source_4: -8161739089937358213
+      chain-endpoint-source_40: 5354863531265809809
+      chain-endpoint-source_41: -4194289371471751660
+      chain-endpoint-source_42: -6561825067934317652
+      chain-endpoint-source_43: -6091675280470466316
+      chain-endpoint-source_44: -4735309533415831166
+      chain-endpoint-source_45: 4630995321451966410
+      chain-endpoint-source_46: -6005998692131911470
+      chain-endpoint-source_47: -7042461181387901052
+      chain-endpoint-source_48: 3937745666465899815
+      chain-endpoint-source_49: -4309040561908824411
+      chain-endpoint-source_5: -7196387011486814214
+      chain-endpoint-source_50: -1321282497875697445
+      chain-endpoint-source_51: -4366039753935823478
+      chain-endpoint-source_6: 2865227708730743234
+      chain-endpoint-source_7: 9038539859577763034
+      chain-endpoint-source_8: 5466184574819301575
+      chain-endpoint-source_9: 5161331023647313282
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -12,34 +12,34 @@
 72
 ],
 "primary-normal.png": [
-72,
-72,
-72,
-72
+84,
+84,
+84,
+84
 ],
 "primary-pressed.png": [
 33,
-33,
+35,
 33,
 33
 ],
 "secondary-normal.png": [
-72,
-72,
-72,
-72
+84,
+84,
+84,
+84
 ],
 "secondary-pressed.png": [
 33,
-33,
+35,
 33,
 33
 ],
 "popup-card.png": [
-96,
-96,
-96,
-96
+192,
+132,
+195,
+300
 ],
 "board-tray.png": [
 60,
@@ -97,13 +97,13 @@
 ],
 "name-input-normal.png": [
 33,
-33,
+35,
 33,
 33
 ],
 "name-input-focus.png": [
 33,
-33,
+35,
 33,
 33
 ],
@@ -121,13 +121,13 @@
 ],
 "settings-row-on.png": [
 30,
-30,
+32,
 30,
 30
 ],
 "settings-row-off.png": [
 30,
-30,
+32,
 30,
 30
 ],
@@ -156,10 +156,10 @@
 72
 ],
 "board-frame.png": [
-200,
-200,
-200,
-200
+300,
+303,
+303,
+300
 ],
 "m13-counter-pill.png": [
 44,
@@ -187,8 +187,8 @@
 ],
 "m13-bottom-nav.png": [
 66,
-48,
-66,
+50,
+68,
 48
 ],
 "m13-profile-box-pressed.png": [
@@ -220,5 +220,35 @@
 92,
 92,
 92
+],
+"hud-moves-pill.png": [
+120,
+72,
+72,
+72
+],
+"hud-time-pill.png": [
+126,
+72,
+72,
+72
+],
+"hud-time-pill-urgent.png": [
+126,
+72,
+72,
+72
+],
+"booster-bar.png": [
+108,
+72,
+110,
+108
+],
+"danger-normal.png": [
+84,
+84,
+84,
+84
 ]
 }

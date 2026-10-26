@@ -26,6 +26,22 @@ namespace ReverseSolver.EditorTools
             Save(fa, "Lilita");
         }
 
+        /* Fredoka SemiBold (OFL) for Turkish texts with the preview art (Lilita has no ğ, ş, İ): ASCII + Turkish letters.
+             bash Tools/unity_batch.sh method ReverseSolver.EditorTools.CounterFont.BuildFredoka */
+        public static void BuildFredoka()
+        {
+            var font = AssetDatabase.LoadAssetAtPath<Font>(Dir + "Fredoka-SemiBold.ttf");
+            var fa = TMP_FontAsset.CreateFontAsset(font, 56, 6, GlyphRenderMode.SDFAA, 512, 512, AtlasPopulationMode.Dynamic);
+            var chars = new System.Text.StringBuilder("çÇğĞıİöÖşŞüÜâÂîÎûÛ·…’‘“”–—👍");
+            for (char c = ' '; c <= '~'; c++) chars.Append(c);
+            fa.TryAddCharacters(chars.ToString(), out string missing);
+            if (!string.IsNullOrEmpty(missing)) Debug.Log("[font] Fredoka eksik: " + missing);
+            // Fredoka has no ğ, ş, İ (checked in the full Google Fonts file too): those come from the game's RS Sans
+            var rs = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_Game/Presentation/Fonts/RS Sans SDF.asset");
+            if (rs != null) fa.fallbackFontAssetTable = new System.Collections.Generic.List<TMP_FontAsset> { rs };
+            Save(fa, "Fredoka");
+        }
+
         static void Save(TMP_FontAsset fa, string name)
         {
             fa.atlasPopulationMode = AtlasPopulationMode.Static;

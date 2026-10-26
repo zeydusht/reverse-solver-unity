@@ -52,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 3
-  spriteBorder: {x: 96, y: 96, z: 96, w: 96}
+  spriteBorder: {x: 192, y: 132, z: 195, w: 300}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -74,7 +74,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -118,10 +118,10 @@ TextureImporter:
       name: popup-card_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 28
-        width: 931
-        height: 1160
+        x: 11
+        y: 11
+        width: 946
+        height: 1177
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

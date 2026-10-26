@@ -365,3 +365,277 @@ Yükleme arka planı: 206.176 bayt; renk azaltmadan kayıpsız PNG sıkıştırm
 | `hud-pill.png`, `hud-pill-urgent.png` | `hud-pill-normal`, `hud-pill-urgent` | 9-slice 84/40/84/40 px; süre ≤ 20 sn'de urgent |
 | `hud-icon-piece.png`, `hud-icon-clock.png` | `icon-piece`, `hud-icon-clock` | Üst bar ikonları |
 | `hud-pause-normal.png`, `hud-pause-pressed.png` | `pause-normal`, `pause-pressed` | Durdur tuşu (basılı hal henüz kullanılmıyor) |
+
+## Task8 — booster çubuğu ve üst bar v3
+
+| Dosya | Oyunda nereye | Boyut |
+|---|---|---:|
+| `Assets/Art/Gameplay/Task8/booster-button.png` | Booster çubuğundaki boş yuvarlak tuş zemini | 264×264 şeffaf PNG |
+| `Assets/Art/Gameplay/Task8/booster-scissors.png` | Makas booster tuşunun büyük merkez ikonu | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task8/booster-wand.png` | Asa booster tuşunun büyük merkez ikonu | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task8/booster-hammer.png` | Çekiç booster tuşunun büyük merkez ikonu | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task8/booster-clock.png` | Saat booster tuşunun büyük merkez ikonu | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task8/booster-badge.png` | Booster tuşunun sağ altındaki sayı rozeti zemini | 96×96 şeffaf PNG |
+| `Assets/Art/Gameplay/Task8/hud-level-badge-v3.png` | Üst barda LV etiketi ve bölüm numarası rozeti | 216×216 şeffaf PNG |
+| `Assets/Art/Gameplay/Task8/hud-pill-v3.png` | Üst bar süre/hamle alanı; ikon yüzeye doğrudan yerleşir | 600×168 şeffaf PNG; 9-slice köşe ~48 px |
+| `docs/art/Task8-review.png` | Booster ve üst bar birleşik görsel incelemesi | 1420×760 PNG |
+
+Önizleme: `docs/art/Task8-review.png`. Booster butonu, ikon ve sayı rozeti ayrı katmanlardır; üst bar hapında sol ikon yuvası yoktur.
+## Task10 — referans stili booster seti
+
+| Dosya | Oyunda nereye | Boyut |
+|---|---|---:|
+| `Assets/Art/Gameplay/Task10/booster-button.png` | Booster tuşlarının boş, parlak turuncu-altın halkalı turkuaz zemini | 264×264 şeffaf PNG |
+| `Assets/Art/Gameplay/Task10/booster-scissors.png` | Makas tuşunun iri mercan saplı, açık duran makas ikonu | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task10/booster-wand.png` | Değnek tuşunun mor saplı, yıldız uçlu ikonu | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task10/booster-hammer.png` | Çekiç tuşunun kırmızı tombul başlı, kısa ahşap saplı ikonu | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task10/booster-clock.png` | Saat tuşunun turuncu çift zilli, beyaz kadranlı ikonu | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task10/booster-badge.png` | Booster tuşunun sağ altındaki sayı rozeti zemini | 96×96 şeffaf PNG |
+| `Assets/Art/Gameplay/Task10/preview.png` | Dört tamamlanmış booster tuşunun yan yana önizlemesi | 1240×340 PNG |
+
+Task9 iptal edildi; klasör ve HANDOFF kaydı kaldırıldı. Task10 görünümü, `Assets/Art/Reference/booster-bar-layout-reference.jpg` ile kompozisyon ve parlak oyuncak malzeme dili açısından karşılaştırıldı; ikon biçimleri ve renkleri özgün tutuldu.
+## Task11 — oyun arayüzü oyuncak stili
+
+| Dosya | Oyunda nereye | Boyut |
+|---|---|---:|
+| `Assets/Art/Gameplay/Task11/hud-level-badge.png` | Üst bar bölüm rozeti; üst LV ve alt sayı yazı alanları ayrı katman | 216×216 şeffaf PNG |
+| `Assets/Art/Gameplay/Task11/hud-pill.png` | Üst bar hamle/süre zemini; ikon yüzeye doğrudan konur | 600×168 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/hud-pill-urgent.png` | Süre azalınca kırmızımsı üst bar zemini | 600×168 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/hud-icon-piece.png` | Üst barda hamle göstergesi yapboz ikonu | 120×120 şeffaf PNG |
+| `Assets/Art/Gameplay/Task11/hud-icon-clock.png` | Üst barda süre göstergesi saat ikonu | 120×120 şeffaf PNG |
+| `Assets/Art/Gameplay/Task11/menu-play-button.png` | Menüde Level X yazısı eklenecek ana başlat tuşu | 600×216 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/menu-play-button-pressed.png` | Menü başlat tuşunun basılı hali | 600×216 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/btn-primary.png` | Pause/kazan/kaybet kartlarında ana işlem tuşu | 600×168 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/btn-primary-pressed.png` | Ana işlem tuşunun basılı hali | 600×168 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/btn-secondary.png` | Kartlarda ikincil işlem tuşu | 600×168 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/btn-secondary-pressed.png` | İkincil işlem tuşunun basılı hali | 600×168 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/btn-danger.png` | Kartlarda çıkış/tekrar gibi tehlikeli işlem tuşu | 600×168 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/btn-danger-pressed.png` | Tehlikeli işlem tuşunun basılı hali | 600×168 şeffaf PNG; 9-slice köşe 72 px |
+| `Assets/Art/Gameplay/Task11/card-panel.png` | Pause/kazan/kaybet kartlarının krem zemin paneli | 969×1200 şeffaf PNG; 9-slice köşe 96 px |
+| `Assets/Art/Gameplay/Task11/star-full.png` | Kazanma kartında kazanılmış yıldız | 180×180 şeffaf PNG |
+| `Assets/Art/Gameplay/Task11/star-empty.png` | Kazanma kartında boş yıldız | 180×180 şeffaf PNG |
+| `Assets/Art/Gameplay/Task11/preview-hud.png` | HUD rozeti, haplar ve ikonlar grup önizlemesi | 1420×390 PNG |
+| `Assets/Art/Gameplay/Task11/preview-menu.png` | Menü başlat tuşu normal/basılı önizlemesi | 1240×290 PNG |
+| `Assets/Art/Gameplay/Task11/preview-card-buttons.png` | Kart tuşları ve basılı hallerinin önizlemesi | 1500×570 PNG |
+| `Assets/Art/Gameplay/Task11/preview-card-panel.png` | Kart zemini önizlemesi | 600×690 PNG |
+| `Assets/Art/Gameplay/Task11/preview-stars.png` | Dolu/boş yıldız önizlemesi | 600×270 PNG |
+
+Dokuz dilim kenar payı: hap ve kart tuşlarında 72 px; kart panelinde 96 px. Tüm yazı alanları boş bırakılmıştır.
+## Task12 — koridor ana menü UI
+
+| Dosya | Oyunda nereye | Boyut |
+|---|---|---:|
+| `Assets/Art/Menu/Task12/menu-level-button-v01.png` | Koridor ana menüsündeki Level X başlat tuşu | 600×216 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-level-button-pressed-v01.png` | Level X tuşunun basılı durumu | 600×216 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-profile-button-v01.png` | Sol üst oyuncu profili; Jiggles portresi | 216×216 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-resource-pill-v01.png` | Üst sıradaki para/enerji/yıldız sayaç zemini; tekrarlanabilir | 360×108 şeffaf PNG; 9-slice |
+| `Assets/Art/Menu/Task12/menu-token-coin-v01.png` | Para göstergesinin ayrı altın token ikonu | 112×112 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-token-heart-v01.png` | Enerji göstergesinin ayrı kalp ikonu | 112×112 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-token-star-v01.png` | Yıldız/puan göstergesinin ayrı ikonu | 112×112 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-settings-button-v01.png` | Sağ üst ayarlar tuşu | 168×168 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-bottom-nav-v01.png` | Ana menü alt gezinme şeridi | 1170×240 şeffaf PNG; 9-slice |
+| `Assets/Art/Menu/Task12/menu-nav-home-v01.png` | Alt gezinme ana sayfa ikonu | 120×120 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-nav-album-v01.png` | Alt gezinme tablo/album ikonu | 120×120 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-nav-friends-v01.png` | Alt gezinme Jiggles/kurtarma ikonu | 120×120 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-nav-trophy-v01.png` | Alt gezinme kupa/başarı ikonu | 120×120 şeffaf PNG |
+| `Assets/Art/Menu/Task12/menu-preview-v01.png` | Koridor üstüne yerleştirilmiş ana menü düzeni; örnek sayaç değerleri | 390×844 PNG |
+
+Menü önizlemesinde seçili corridor-v04 arka planı korundu; profil portresinde onaylı Jiggles referansından yararlanıldı. Referans ekranlardaki varlıklar kopyalanmadı. 9-slice kaynaklarında resource pill için 42 px, alt nav için 76 px kenar payı kullanılabilir.
+
+## Task12 — oyun UI zorunlu palet uyumu
+
+| Dosya | Oyunda nereye | Boyut |
+|---|---|---:|
+| `Assets/Art/Gameplay/Task12/booster-button.png` | Booster tuşlarının ortak altın-teal yuvarlak zemini | 264×264 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/booster-scissors.png` | Makas booster ikonu; ortak altın-krem-lacivert takım stili | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/booster-wand.png` | Değnek booster ikonu; ortak altın-krem-lacivert takım stili | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/booster-hammer.png` | Çekiç booster ikonu; ortak altın-krem-lacivert takım stili | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/booster-clock.png` | Saat booster ikonu; ortak altın-krem-lacivert takım stili | 240×240 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/booster-badge.png` | Booster adet rozeti zemini; sayı ayrı katman | 96×96 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/hud-level-badge.png` | Oyun üst barı bölüm rozeti | 216×216 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/hud-pill.png` | Oyun üst barı hamle/süre zemini | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/hud-pill-urgent.png` | Süre azaldığında üst bar zemini | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/hud-icon-piece.png` | Üst barda hamle simgesi | 120×120 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/hud-icon-clock.png` | Üst barda süre simgesi | 120×120 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/menu-play-button.png` | Menü Level X başlat tuşu | 600×216 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/menu-play-button-pressed.png` | Menü Level X başlat tuşunun basılı hali | 600×216 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/btn-primary.png` | Kartlardaki ana işlem tuşu | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/btn-primary-pressed.png` | Ana işlem tuşunun basılı hali | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/btn-secondary.png` | Kartlardaki ikincil işlem tuşu | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/btn-secondary-pressed.png` | İkincil işlem tuşunun basılı hali | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/btn-danger.png` | Kartlardaki çıkış/tekrar tuşu | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/btn-danger-pressed.png` | Tehlikeli işlem tuşunun basılı hali | 600×168 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/card-panel.png` | Pause/kazan/kaybet kart paneli | 969×1200 şeffaf PNG; 9-slice |
+| `Assets/Art/Gameplay/Task12/star-full.png` | Kazanma kartı dolu yıldız | 180×180 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/star-empty.png` | Kazanma kartı boş yıldız | 180×180 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/board-frame-gold-v2.png` | Oyun tahtası çerçevesi; Task7 çerçevesinin palet uyumlu sürümü | 1125×1125 şeffaf PNG |
+| `Assets/Art/Gameplay/Task12/preview.png` | Çerçeve, booster çubuğu ve HUD palet karşılaştırma sayfası | 1800×580 PNG |
+
+Renk eşlemesi `docs/art/PALETTE.md` zorunlu altın, teal, krem, lacivert ve mercan tonlarına göre yapıldı. Booster ikonlarının vektör/çizim karakteri Task10 oyuncak stilinden korunup ortak altın-krem paletine toplandı.
+## PlayButton v2 — referans uyumlu Level tuşu
+
+| Dosya | Oyunda nereye | Boyut |
+|---|---|---:|
+| `Assets/Art/UI/PlayButton/menu-play-button-v2.png` | Menüde Level X başlat tuşu; yazısız kaynak, LilitaOne metni Unity'de eklenir | 684×336 şeffaf PNG (@3x; görünür gövde 660×300) |
+| `Assets/Art/UI/PlayButton/menu-play-button-v2-pressed.png` | Başlat tuşunun basılı hali; gövde 4 px aşağıda ve koyulaştırılmış | 684×336 şeffaf PNG (@3x) |
+| `Assets/Art/UI/PlayButton/preview-v2.png` | Referans ve “Level 7” yazılı örnek tuşun yan yana karşılaştırması | 1560×590 PNG |
+| `Assets/Art/UI/PlayButton/Source/normal-v2.png` | Yeniden dışa aktarım için normal durum üretim kaynağı; oyuna doğrudan bağlanmaz | 1860×846 şeffaf PNG |
+| `Assets/Art/UI/PlayButton/Source/pressed-v2.png` | Yeniden dışa aktarım için basılı durum üretim kaynağı; oyuna doğrudan bağlanmaz | 1859×846 şeffaf PNG |
+
+9-slice: sol/sağ 92 px, üst/alt 92 px. Köşeleri sabit tutup yalnızca orta gövdeyi esnetin. Revizyon: önceki uzun/ince prosedürel çizim reddedildi; mevcut v2 referans görselinden image_gen ile yeniden oluşturuldu. Görünen oran yaklaşık 2,2:1. Önizleme metni referanstaki harflerden ölçülen krem (#F9F1BA), koyu yeşil konturlu ve gölgelidir; metin PNG kaynaklarına gömülü değildir. Referans önizlemede özgün 247×155 oranında gösterilir.
+<!-- MENU_TASK13_START -->
+## Task13 — onaylı Level tuşuyla aynı dilde ana menü
+
+Onaylı Level normal/basılı dosyaları SHA-256 ile doğrulanan birebir kopyadır. Yeni çizimler Zeyd incelemesindedir. Tüm sprite PNG dosyalari ayrı @3x şeffaf PNG; dinamik yazı ve sayılar ayrı kalır. `manifest.json` ölçü, kaynak ve 9-slice için esas kayıttır. Source klasörü runtime atlasına alınmaz.
+
+| Dosya | Oyunda nereye | Boyut / 9-slice |
+|---|---|---|
+| `Assets/Art/Menu/Task13/profile-frame.png` | Avatarın içi şeffaf altın-turkuaz çerçevesi | 216×216 |
+| `Assets/Art/Menu/Task13/profile-avatar.png` | Onaylı Jiggle kimliğinde avatar portresi | 132×132 |
+| `Assets/Art/Menu/Task13/counter-pill.png` | Ortak kaynak sayacı zemini | 360×108; L/R/T/B 44/44/44/44 |
+| `Assets/Art/Menu/Task13/settings-button.png` | Ana menü ayarlar dişlisi | 168×168 |
+| `Assets/Art/Menu/Task13/profile-box.png` | Profil adı ve kurtarılan sayısı zemini | 480×156; L/R/T/B 156/48/48/48 |
+| `Assets/Art/Menu/Task13/token-coin.png` | Para göstergesi simgesi | 120×120 |
+| `Assets/Art/Menu/Task13/token-heart.png` | Can göstergesi simgesi | 120×120 |
+| `Assets/Art/Menu/Task13/token-star.png` | Yıldız göstergesi simgesi | 120×120 |
+| `Assets/Art/Menu/Task13/token-jiggle.png` | Kurtarılan Jiggles göstergesi simgesi | 120×120 |
+| `Assets/Art/Menu/Task13/nav-home.png` | Alt gezinmede şato/ana ekran | 180×180 |
+| `Assets/Art/Menu/Task13/nav-collection.png` | Alt gezinmede tablo koleksiyonu | 180×180 |
+| `Assets/Art/Menu/Task13/nav-jiggles.png` | Alt gezinmede kurtarılan Jiggles | 180×180 |
+| `Assets/Art/Menu/Task13/nav-trophy.png` | Alt gezinmede başarılar | 180×180 |
+| `Assets/Art/Menu/Task13/progress-track.png` | Kurtarılan hedefi ilerleme çubuğu boş izi | 1020×120; L/R/T/B 60/60/48/48 |
+| `Assets/Art/Menu/Task13/progress-fill.png` | İlerleme dolgusu; oyun tarafından kırpılır | 996×72; L/R/T/B 36/36/30/30 |
+| `Assets/Art/Menu/Task13/bottom-nav.png` | Alt gezinme şeridi; ikon ve etiketler ayrı | 1170×246; L/R/T/B 66/66/48/48 |
+| `Assets/Art/Menu/Task13/nav-active.png` | Seçili alt sekme zemini | 252×222 |
+| `Assets/Art/Menu/Task13/plus-button.png` | Küçük ekleme/artı kontrolü | 84×84 |
+| `Assets/Art/Menu/Task13/notification-badge.png` | Bildirim sayısı rozeti; sayı ayrı | 72×72 |
+| `Assets/Art/Menu/Task13/levels-button.png` | Bölüm listesi kısayolu | 192×192 |
+| `Assets/Art/Menu/Task13/profile-box-pressed.png` | Profil kutusu basılı | 480×156; L/R/T/B 156/48/48/48 |
+| `Assets/Art/Menu/Task13/settings-button-pressed.png` | Ayarlar dişlisi basılı | 168×168 |
+| `Assets/Art/Menu/Task13/plus-button-pressed.png` | Artı kontrolü basılı | 84×84 |
+| `Assets/Art/Menu/Task13/profile-frame-pressed.png` | Avatar çerçevesi basılı | 216×216 |
+| `Assets/Art/Menu/Task13/profile-button.png` | Profil avatar düğmesi | 216×216 |
+| `Assets/Art/Menu/Task13/profile-button-pressed.png` | Profil avatar düğmesi basılı | 216×216 |
+| `Assets/Art/Menu/Task13/menu-play-button.png` | Onaylı Level tuşu | 684×336; L/R/T/B 92/92/92/92 |
+| `Assets/Art/Menu/Task13/menu-play-button-pressed.png` | Onaylı Level tuşu basılı | 684×336; L/R/T/B 92/92/92/92 |
+| `Assets/Art/Menu/Task13/preview-menu@3x.png` | Sanat inceleme önizlemesi; oyun sprite dosyası değildir | 1170×2532 |
+| `Assets/Art/Menu/Task13/preview-menu.png` | Sanat inceleme önizlemesi; oyun sprite dosyası değildir | 390×844 |
+| `Assets/Art/Menu/Task13/preview-header.png` | Sanat inceleme önizlemesi; oyun sprite dosyası değildir | 1500×490 |
+| `Assets/Art/Menu/Task13/preview-nav.png` | Sanat inceleme önizlemesi; oyun sprite dosyası değildir | 1500×530 |
+| `Assets/Art/Menu/Task13/preview-controls.png` | Sanat inceleme önizlemesi; oyun sprite dosyası değildir | 1500×820 |
+| `Assets/Art/Menu/Task13/preview.png` | Sanat inceleme önizlemesi; oyun sprite dosyası değildir | 1800×1240 |
+| `Assets/Art/Menu/Task13/index.html` | 390×844 telefon menüsü ve tüm sprite dosyalarının tek sayfalık incelemesi | HTML; yerel açılabilir |
+
+İlerleme dolgusu maske/kırpma ile gösterilir; iki PNG üst üste yerleşir. Gösterge ikonları sayaç zemininin sol kenarına bindirilir. Profil portresi/çerçeve/kutu ayrı parçalar ve birleşik avatar düğmesi olarak teslim edilir. Önizlemedeki kullanıcı adı, sayaçlar ve alt gezinme etiketleri örnektir.
+<!-- MENU_TASK13_END -->
+## Task14 — onaylanan taslak (geçmiş kayıt)
+
+| Dosya | Oyunda nereye | Boyut | 9-slice |
+|---|---|---|---|
+| `Assets/Art/Gameplay/Task14/preview-ingame.png` | Revizyon 2 tam ekran sanat taslağı: yeni booster/engel/bariyer; Zeyd onayı için, oyuna bağlanmaz | 390×844 PNG | Uygulanmaz; birleşik önizleme |
+
+Zeyd revizyon 2'yi onayladı. Önceki ekranlar ve ham çalışma kaynakları Source altında korundu; inceleme görsellerindeki rakamlar üretim PNG'lerine gömülmedi. Ayrı final sprite teslimi aşağıdaki Task14 export tablosundadır. Oyun koduna dokunulmadı.
+
+<!-- TASK14_FINAL_EXPORT_BEGIN -->
+## Task14 — final export tamamlandı (Zeyd onaylı)
+
+61 üretim PNG: @3x, gerçek alpha, yazısız/rakamsız. Border sırası sol/sağ/üst/alt; birim PNG pikseli. Pivot normalize Unity sol-alt başlangıçlıdır. Kontrol geçti; oyun entegrasyonu yapılmadı. Ayrıntı: `docs/art/TASK14_EXPORT.md`.
+
+| Dosya | Oyunda nereye | Boyut | 9-slice L/R/T/B | Pivot x/y |
+|---|---|---|---|---|
+| `Assets/Art/Gameplay/Task14/hud-level-badge.png` | HUD level rozeti; LV ve numara ayrı | 216×216 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/hud-level-badge-pressed.png` | HUD level rozeti basılı | 216×216 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/hud-moves-pill.png` | HUD hamle kutusu; parça ikonu içerir, sayı boş | 360×168 px | 120/72/72/72 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/hud-moves-pill-pressed.png` | HUD hamle kutusu basılı | 360×168 px | 120/72/72/72 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/hud-time-pill.png` | HUD süre kutusu; saat ikonu içerir, sayı boş | 408×168 px | 126/72/72/72 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/hud-time-pill-pressed.png` | HUD süre kutusu basılı | 408×168 px | 126/72/72/72 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/hud-time-pill-urgent.png` | HUD azalan süre; mercan zemin, sayı boş | 408×168 px | 126/72/72/72 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/hud-time-pill-urgent-pressed.png` | HUD acil süre basılı | 408×168 px | 126/72/72/72 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/hud-pause-normal.png` | HUD durdur tuşu | 168×168 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/hud-pause-pressed.png` | HUD durdur tuşu basılı | 168×168 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-button.png` | Booster boş yuvarlak tuş zemini | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-button-pressed.png` | Booster boş zemin basılı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-button-zero.png` | Booster 0-adet zemin durumu; rakam ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-lock.png` | Booster kilitli durum kaplama simgesi | 96×96 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-button-locked.png` | Booster kilitli zemin; kilit içerir | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-scissors.png` | Booster bağımsız scissors ikonu; görünür ölçü 150 px | 240×240 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-wand.png` | Booster bağımsız wand ikonu; görünür ölçü 150 px | 240×240 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-hammer.png` | Booster bağımsız hammer ikonu; görünür ölçü 150 px | 240×240 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-clock.png` | Booster bağımsız clock ikonu; görünür ölçü 150 px | 240×240 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-badge.png` | Booster adet rozeti; tüm rakamlar boş | 96×96 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-scissors-normal.png` | Birleşik scissors booster / normal; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-scissors-pressed.png` | Birleşik scissors booster / pressed; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-scissors-locked.png` | Birleşik scissors booster / locked; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-scissors-zero.png` | Birleşik scissors booster / zero; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-wand-normal.png` | Birleşik wand booster / normal; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-wand-pressed.png` | Birleşik wand booster / pressed; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-wand-locked.png` | Birleşik wand booster / locked; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-wand-zero.png` | Birleşik wand booster / zero; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-hammer-normal.png` | Birleşik hammer booster / normal; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-hammer-pressed.png` | Birleşik hammer booster / pressed; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-hammer-locked.png` | Birleşik hammer booster / locked; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-hammer-zero.png` | Birleşik hammer booster / zero; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-clock-normal.png` | Birleşik clock booster / normal; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-clock-pressed.png` | Birleşik clock booster / pressed; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-clock-locked.png` | Birleşik clock booster / locked; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-clock-zero.png` | Birleşik clock booster / zero; sayı ayrı | 264×264 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/booster-bar.png` | Booster çubuğu boş paneli; tuşlar ayrı | 1170×360 px | 108/108/108/72 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/board-frame-gold.png` | Tahta altın çerçevesi; ortası şeffaf, bariyer ayrı | 1125×1125 px | 300/300/300/300 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/bomb-384.png` | Hücre bomba engeli; gövde merkezi (192,192), boş krem sayaç | 384×384 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/nail-head-384.png` | Hücre çivi engeli; üstten altın baş, boş geniş sayı yüzü | 384×384 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/chain-link-repeat-96x48.png` | İki hücre arası zincir; X tekrar | 96×48 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/chain-endpoint-144.png` | Zincirin hücrelerdeki belirgin uç kilidi | 144×144 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/wall-repeat-96x48.png` | Kapalı kenar bariyeri; X tekrar, dikey kullanımda 90 derece döndür | 96×48 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/wall-corner-96x96.png` | Bariyer L köşe; yukarı ve sağ açık bağlantı | 96×96 px | Yok | 0.25/0.25 |
+| `Assets/Art/Gameplay/Task14/card-panel.png` | Ortak kart paneli; başlık ve gövde metni boş | 969×1200 px | 192/192/300/132 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/btn-primary.png` | Kart primary tuşu; yazısız | 600×216 px | 84/84/84/84 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/btn-primary-pressed.png` | Kart primary tuşu basılı; yazısız | 600×216 px | 84/84/84/84 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/btn-secondary.png` | Kart secondary tuşu; yazısız | 600×216 px | 84/84/84/84 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/btn-secondary-pressed.png` | Kart secondary tuşu basılı; yazısız | 600×216 px | 84/84/84/84 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/btn-danger.png` | Kart danger tuşu; yazısız | 600×216 px | 84/84/84/84 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/btn-danger-pressed.png` | Kart danger tuşu basılı; yazısız | 600×216 px | 84/84/84/84 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/star-full.png` | Kazanma dolu yıldız | 180×180 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/star-empty.png` | Kazanma boş yıldız durumu | 180×180 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/card-pause.png` | Kart pause; tüm metinler ve eylem tuşları ayrı | 969×1320 px | 192/192/552/132 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/card-win.png` | Kart win; tüm metinler ve eylem tuşları ayrı | 969×1200 px | 192/192/552/132 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/card-lose.png` | Kart lose; tüm metinler ve eylem tuşları ayrı | 969×1200 px | 192/192/552/132 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/card-start.png` | Kart start; tüm metinler ve eylem tuşları ayrı | 969×1200 px | 192/192/552/132 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/loss-reason-bomb.png` | Kaybetme kartı bomba sebebi; boş etiket | 240×240 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/loss-reason-time.png` | Kaybetme kartı süre sebebi | 240×240 px | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/card-lose-bomb.png` | Kaybetme kartı bomba sebebiyle; metin ve tuş ayrı | 969×1200 px | 192/192/552/132 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/card-lose-time.png` | Kaybetme kartı süre sebebiyle; metin ve tuş ayrı | 969×1200 px | 192/192/552/132 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task14/preview-export.png` | İnceleme; runtime sprite değildir | 1200×1032 px | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task14/preview-booster-states.png` | İnceleme; runtime sprite değildir | 1200×1032 px | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task14/preview-cards.png` | İnceleme; runtime sprite değildir | 1200×774 px | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task14/preview-seams.png` | İnceleme; runtime sprite değildir | 768×240 px | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task14/preview-ingame.png` | İnceleme; runtime sprite değildir | 390×844 px | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task14/preview-details.png` | İnceleme; runtime sprite değildir | 720×304 px | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task14/LilitaOne-Regular.ttf` | TMP kaynak font; ı/ç/ö/ü var, ğ/ş/İ yok | TTF | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task14/LilitaOne-OFL.txt` | Font ile birlikte korunacak OFL 1.1 lisansı | Metin | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task14/manifest.json` | Dosya başına kullanım, ölçü, slice, pivot, @3x ve SHA-256 | 61 sprite kaydı | Metadata | Metadata |
+| `Assets/Art/Gameplay/Task14/README.md` | Paket özeti ve entegrasyon bağlantıları | Markdown | Uygulanmaz | Uygulanmaz |
+
+Bomba gövde merkezi (192,192); etiket ve çivi yüzü iki hane için boştur. `zero` durumları 0 rakamı içermez. Birleşik booster ile ayrı zemin+ikon yolu alternatiflerdir; iki yol üst üste kullanılmaz. Kart tuşları ayrı `btn-*` dosyalarıdır. Kazanma yıldızlarını dinamik göstermek için ortak panel ve ayrı yıldızlar kullanılır.
+
+Zincir/duvar X tekrar kenarlarında ve duvar köşe bağlantılarında RGBA farkı: 0. Frame merkezi alpha=0. 252 korunan kaynakta hash farkı: 0. Font TTF kopyası birebir. `Source/` ham/önceki çalışma arşividir, final atlas teslimine dahil değildir. C# dosyası ve Assets/_Game değiştirilmedi. Font ayrıntısı: `docs/art/TASK14_FONT.md`; rapor: `docs/art/reports/task14-export-validation.json`.
+<!-- TASK14_FINAL_EXPORT_END -->
+
+### Task13 + Task14 oyundaki adları (Claude Code, 26 Ekim) — `Tools/art_choice.py`
+| Dosya | Oyunda | Not |
+|---|---|---|
+| `Menu/Task13/*.png` | `m13-<ad>` | Menü: profil kutusu/avatar/çerçeve, sayaç hapı, yıldız/jiggle simgesi, ayarlar, Levels, ilerleme izi/dolgusu; alt gezinme build'e alınmadı (gizli) |
+| `UI/PlayButton/menu-play-button-v2(-pressed).png` | `level-button(-pressed)` | 9-slice 92 px, yazı Lilita One |
+| `Task14/hud-level-badge.png` | `level-badge` | LV + numara Lilita |
+| `Task14/hud-moves-pill.png`, `hud-time-pill.png`, `hud-time-pill-urgent.png` | aynı adlar | İkon görselde; rakam Lilita lacivert (acil hâlde krem); süre ≤ 20 sn urgent |
+| `Task14/hud-pause-normal.png` | `pause-normal` | |
+| `Task14/booster-{scissors,wand,hammer,clock}-{normal,pressed,locked,zero}.png` | aynı adlar | Birleşik tuş: hazır / seçili / kilitli / adet 0; ayrı ikon ve kilit çizilmez |
+| `Task14/booster-badge.png` | `booster-badge` | Rakam Lilita krem |
+| `Task14/board-frame-gold.png` | `board-frame` | 4'ün katına dolduruldu (1128), 9-slice 300 px, bant 26 pt |
+| `Task14/bomb-384.png`, `nail-head-384.png` | `bomb-v2`, `board-nail` | Bomba gövdesi hücrenin %76'sı (ortada), çivi başı ~%75; sayaç Lilita lacivert, kontursuz |
+| `Task14/chain-link-repeat-96x48.png`, `chain-endpoint-144.png` | `chain-repeat`, `chain-end` | |
+| `Task14/wall-repeat-96x48.png`, `wall-corner-96x96.png` | `wall-stripe`, `wall-corner` | Şerit hücrenin %20'si; köşe sol-alt çizildiği gibi, diğerleri döndürülür |
+| `Task14/card-panel.png` | `popup-card` | Bütün kartlar; 972'ye dolduruldu, başlık turkuaz şeritte (Fredoka, krem) |
+| `Task14/btn-primary.png`, `btn-secondary.png`, `btn-danger.png` | `primary-normal`, `secondary-normal`, `danger-normal` | 9-slice 84 px |
+| `Task14/star-full.png`, `star-empty.png`, `loss-reason-bomb.png`, `loss-reason-time.png` | aynı adlar | Kazanma 3 yıldız; kaybetme sebebi ikonu |
+| Kullanılmadı | — | `card-pause/win/lose*/start` (gömülü ikonlar içeriğimizle çakışır; ortak `card-panel`), `booster-bar` (panel yerleşimi yok), basılı HUD hâlleri |
+

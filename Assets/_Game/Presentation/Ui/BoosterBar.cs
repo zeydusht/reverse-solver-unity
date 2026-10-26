@@ -46,7 +46,7 @@ namespace ReverseSolver.Presentation
                 float cx = x0 + (int)b * 73;
                 var s = new Slot { B = b, Rect = new Rect(cx - 30, cy - 30, 60, 60) };
                 // .bst: radius 16, gradient #6ecbf5 -> #2b86cf, 3px white ring, 0 6px 13px rgba(0,0,0,.42)
-                s.Face = ShapeView.Create(_root, "bst", new Vector2(60, 60), 20, order).Radius(16).Skin(Art.Get("booster-button") != null ? "booster-button" : "booster-normal", false)
+                s.Face = ShapeView.Create(_root, "bst", new Vector2(60, 60), 20, order).Radius(16).Skin(Art.T14 ? $"booster-{b.Id()}-normal" : Art.Get("booster-button") != null ? "booster-button" : "booster-normal", false)
                     .Stroke(Draw.Rgba(255, 255, 255, .92f), 3).Shadow(Draw.Rgba(0, 0, 0, .42f), 0, 6, 13)
                     .Inner(Draw.Rgba(0, 0, 0, .22f), -3, 6);
                 s.Face.transform.localPosition = Draw.W(cx, cy);
@@ -58,7 +58,7 @@ namespace ReverseSolver.Presentation
                 s.Glyph = new GameObject("glyph").transform;
                 s.Glyph.SetParent(_root, false);
                 s.Glyph.localPosition = Draw.W(cx, cy);
-                Icons.Draw(b.Id(), s.Glyph, Art.On ? 27.2f : 33, order + 2);   // art icons draw at 1.25x: 34 pt = ~75 % of the inner disc (PALETTE: never on the ring)
+                if (!Art.T14) Icons.Draw(b.Id(), s.Glyph, Art.On ? 27.2f : 33, order + 2);   // Task 14 buttons carry their icon   // art icons draw at 1.25x: 34 pt = ~75 % of the inner disc (PALETTE: never on the ring)
                 // .badge: 24px circle at top -8 right -8, gradient #63c2ef -> #2f8fd6, 3px white ring
                 // PM_MESAJ_13 (preview): red badge at the bottom right, 2 px light rim, white Fredoka digits
                 var bc = Art.On ? new Vector2(cx + 30 - 5, cy + 30 - 5) : new Vector2(cx + 30 - 4, cy - 30 + 4);
@@ -68,12 +68,13 @@ namespace ReverseSolver.Presentation
                 else s.Badge.Skin("booster-badge-stock", false);
                 s.Badge.transform.localPosition = Draw.W(bc);
                 s.Count = TextView.Create(_root, "count", "", Art.On ? 15f : 12.5f, Draw.Hex("#ffffff"), order: order + 4);
-                if (Art.On) s.Count.Font(Resources.Load<TMP_FontAsset>("Fonts/Counter"));
+                if (Art.On) s.Count.Font(Art.T14 ? Art.Lilita : Resources.Load<TMP_FontAsset>("Fonts/Counter"));
+                if (Art.T14) s.Count.Color = Palette.Cream;
                 s.Count.transform.localPosition = Draw.W(bc);
                 s.Lock = new GameObject("lock").transform;
                 s.Lock.SetParent(_root, false);
                 s.Lock.localPosition = Draw.W(bc);
-                Icons.Draw("lock", s.Lock, 13, order + 4);
+                if (!Art.T14) Icons.Draw("lock", s.Lock, 13, order + 4);
                 // .bst-name: 9px, letter-spacing .16em, uppercase, muted
                 s.Name = TextView.Create(_root, "name", Names[(int)b], 9, Draw.Hex("#8fb2b3"), order: order);
                 s.Name.GetComponent<TextMeshPro>().characterSpacing = 16;
@@ -113,7 +114,10 @@ namespace ReverseSolver.Presentation
                 else if (state == BoosterButton.Out) { top = Draw.Hex("#8f9a9f"); bottom = Draw.Hex("#4f5a60"); }      // grayscale(.85) brightness(.72)
                 else { top = Draw.Hex("#6ecbf5"); bottom = Draw.Hex("#2b86cf"); }
                 s.Face.Gradient(top, bottom);
-                if (Art.Get("booster-button") != null)
+                if (Art.T14)
+                    // Task 14: one combined sprite per state (icon included), no tints
+                    s.Face.SkinAs($"booster-{s.B.Id()}-" + (on ? "pressed" : state == BoosterButton.Locked ? "locked" : state == BoosterButton.Out ? "zero" : "normal"));
+                else if (Art.Get("booster-button") != null)
                     // Codex Task 10: one round button for every state, told apart by tone (locked grey, out dimmed, active warm)
                     s.Face.Tint(on ? Palette.C(Palette.GoldGlow) : state == BoosterButton.Locked ? Palette.C(Palette.TealDark) * 2.2f
                                 : state == BoosterButton.Out ? Palette.C(Palette.Cream, .55f) : Color.white);   // PALETTE tints

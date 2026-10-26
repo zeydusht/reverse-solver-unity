@@ -118,10 +118,10 @@ TextureImporter:
       name: board-nail_0
       rect:
         serializedVersion: 2
-        x: 29
-        y: 33
-        width: 334
-        height: 317
+        x: 23
+        y: 24
+        width: 338
+        height: 336
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

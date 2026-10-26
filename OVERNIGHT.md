@@ -1,3 +1,8 @@
+# Önizleme 12 (26 Ekim 16:40): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign
+- Yeni menü (Task13: profil, yıldız, Jiggles rescued, Level + Levels) ve yeni oyun içi set (Task14: HUD, booster tuşları, çerçeve, engeller, duvar, kartlar).
+- QA 3 telefon boyutu 8/8, taşma yok; Lilita'da ğ/ş/İ olmadığı için Türkçe metinler Fredoka (+RS Sans yedeği).
+- Build 5 yayınlanmadı; kodda Build 5 hâli duruyor, yayın öncesi yeniden alınacak.
+
 # Gece turu (PM_MESAJ_14, 26 Ekim sabahı)
 1. Son önizleme 11: https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign (Task10 booster, Task11 HUD/kart/menü, kodla kırmızı-beyaz duvar). Kök değişmedi.
 2. QA: 40 bölüm kayıtlı çözümle kazanılıyor, slotlar doğru (tutorial 1–2, tanıtım 3/6/10/14, zor 19/25/30/35–40, booster 5/9/15/23). 3 boyutta 24 ekran: docs/qa/2026-10-26/.

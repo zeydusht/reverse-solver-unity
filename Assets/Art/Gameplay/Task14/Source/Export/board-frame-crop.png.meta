@@ -1,0 +1,756 @@
+fileFormatVersion: 2
+guid: 203c33817afbd784a9ccad73dc8a254b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8945509989669907715
+    second: board-frame-crop_0
+  - first:
+      213: 3566496727564864327
+    second: board-frame-crop_1
+  - first:
+      213: 804986673365294221
+    second: board-frame-crop_2
+  - first:
+      213: -764669140625189554
+    second: board-frame-crop_3
+  - first:
+      213: 738505503369484472
+    second: board-frame-crop_4
+  - first:
+      213: -5245585392075844468
+    second: board-frame-crop_5
+  - first:
+      213: -905140495241862921
+    second: board-frame-crop_6
+  - first:
+      213: 1867110565625331141
+    second: board-frame-crop_7
+  - first:
+      213: 985606274277725359
+    second: board-frame-crop_8
+  - first:
+      213: 2924309236552960559
+    second: board-frame-crop_9
+  - first:
+      213: -7805795123866106832
+    second: board-frame-crop_10
+  - first:
+      213: 8107809674502120973
+    second: board-frame-crop_11
+  - first:
+      213: -2158843177188959640
+    second: board-frame-crop_12
+  - first:
+      213: 2546834146652581881
+    second: board-frame-crop_13
+  - first:
+      213: 1010421578227206986
+    second: board-frame-crop_14
+  - first:
+      213: -269219988948805242
+    second: board-frame-crop_15
+  - first:
+      213: -1199151435762968936
+    second: board-frame-crop_16
+  - first:
+      213: 4061369837769592858
+    second: board-frame-crop_17
+  - first:
+      213: -156410872964794531
+    second: board-frame-crop_18
+  - first:
+      213: 128262303189824464
+    second: board-frame-crop_19
+  - first:
+      213: -5391911033078925304
+    second: board-frame-crop_20
+  - first:
+      213: 3935473888523567385
+    second: board-frame-crop_21
+  - first:
+      213: 6703930111313914737
+    second: board-frame-crop_22
+  - first:
+      213: -7544144765405210446
+    second: board-frame-crop_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: board-frame-crop_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 0
+        width: 831
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30dabf4b0f5d42c70800000000000000
+      internalID: 8945509989669907715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_1
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 889
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74bc81ba0edbe7130800000000000000
+      internalID: 3566496727564864327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_2
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 887
+        width: 36
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8c9cda4d13eb2b00800000000000000
+      internalID: 804986673365294221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_3
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 882
+        width: 26
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e45155ec7795365f0800000000000000
+      internalID: -764669140625189554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_4
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 889
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b85201b7d2bf3a00800000000000000
+      internalID: 738505503369484472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_5
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 885
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c845752d0efe337b0800000000000000
+      internalID: -5245585392075844468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_6
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 878
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f0a945e38b4073f0800000000000000
+      internalID: -905140495241862921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_7
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 872
+        width: 19
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cdf974ca2f49e910800000000000000
+      internalID: 1867110565625331141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_8
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 887
+        width: 19
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa458ba3fa39dad00800000000000000
+      internalID: 985606274277725359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_9
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 891
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2a022ac1cb359820800000000000000
+      internalID: 2924309236552960559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_10
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 895
+        width: 9
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0340c7411be3ca390800000000000000
+      internalID: -7805795123866106832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_11
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 881
+        width: 56
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d06ac2321f9b48070800000000000000
+      internalID: 8107809674502120973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_12
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 893
+        width: 22
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86a50e1819f3a02e0800000000000000
+      internalID: -2158843177188959640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_13
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 893
+        width: 27
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ffef05a92c285320800000000000000
+      internalID: 2546834146652581881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_14
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 876
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4b4f9b621db50e00800000000000000
+      internalID: 1010421578227206986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_15
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 875
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6899540b8d9834cf0800000000000000
+      internalID: -269219988948805242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_16
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 876
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 896d27f5f12cb5fe0800000000000000
+      internalID: -1199151435762968936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_17
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 0
+        width: 76
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a101eb17952ec5830800000000000000
+      internalID: 4061369837769592858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_18
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 17
+        width: 19
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d57bce5c32154ddf0800000000000000
+      internalID: -156410872964794531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_19
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 7
+        width: 25
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d3f3bb92eda7c100800000000000000
+      internalID: 128262303189824464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_20
+      rect:
+        serializedVersion: 2
+        x: 502
+        y: 0
+        width: 50
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80832d4ab751c25b0800000000000000
+      internalID: -5391911033078925304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_21
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 35
+        width: 12
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 911c54c86ac9d9630800000000000000
+      internalID: 3935473888523567385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_22
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 0
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17b29e3dae4290d50800000000000000
+      internalID: 6703930111313914737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: board-frame-crop_23
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 0
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b856e37e40dd4790800000000000000
+      internalID: -7544144765405210446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      board-frame-crop_0: 8945509989669907715
+      board-frame-crop_1: 3566496727564864327
+      board-frame-crop_10: -7805795123866106832
+      board-frame-crop_11: 8107809674502120973
+      board-frame-crop_12: -2158843177188959640
+      board-frame-crop_13: 2546834146652581881
+      board-frame-crop_14: 1010421578227206986
+      board-frame-crop_15: -269219988948805242
+      board-frame-crop_16: -1199151435762968936
+      board-frame-crop_17: 4061369837769592858
+      board-frame-crop_18: -156410872964794531
+      board-frame-crop_19: 128262303189824464
+      board-frame-crop_2: 804986673365294221
+      board-frame-crop_20: -5391911033078925304
+      board-frame-crop_21: 3935473888523567385
+      board-frame-crop_22: 6703930111313914737
+      board-frame-crop_23: -7544144765405210446
+      board-frame-crop_3: -764669140625189554
+      board-frame-crop_4: 738505503369484472
+      board-frame-crop_5: -5245585392075844468
+      board-frame-crop_6: -905140495241862921
+      board-frame-crop_7: 1867110565625331141
+      board-frame-crop_8: 985606274277725359
+      board-frame-crop_9: 2924309236552960559
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

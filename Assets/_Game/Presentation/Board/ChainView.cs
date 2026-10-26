@@ -27,7 +27,7 @@ namespace ReverseSolver.Presentation
                 Place(strip.transform, (a + b) / 2, ang);
                 foreach (var e in new[] { a, b })
                 {
-                    var end = Art.Place(root, "chain-end", new Vector2(s * .45f, s * .45f) * 1.6f, order + 2);   // the lock itself ~45 % of the cell (art has a margin)
+                    var end = Art.Place(root, "chain-end", new Vector2(s * .45f, s * .45f) * (Art.T14 ? 1.45f : 1.6f), order + 2);   // the lock itself ~45 % of the cell (art has a margin)
                     Place(end.transform, e, 0);
                 }
                 return;
