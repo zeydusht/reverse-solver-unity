@@ -137,7 +137,7 @@ namespace ReverseSolver.Presentation
         {
             float y = 24;
             foreach (var row in _rows) y += row(y);
-            float h = y + 18 - 8;
+            float h = y + 18 - 8 + (Art.Get("popup-card") != null ? 18 : 0);   // Task 11 panel: its rim needs room under the last button
             float top = (_screen.y - h) / 2;
             _content.localPosition = Draw.W(_screen.x / 2, top);
             // .card: #14484c, 1px rgba(255,255,255,.16), radius 18

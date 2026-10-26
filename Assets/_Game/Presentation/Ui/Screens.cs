@@ -146,7 +146,7 @@ namespace ReverseSolver.Presentation
                             cell.transform.localPosition = Draw.W(center);
                             if (!open) cell.Alpha(.45f);
                             var label = TextView.Create(root, "n", levels[i].Number.ToString(), 15,
-                                                        done ? Draw.Hex("#f0a742") : Draw.Hex("#eaf3f2"), order: o + 1);
+                                                        now && Art.On ? Draw.Hex("#123f46") : done ? Draw.Hex("#f0a742") : Draw.Hex("#eaf3f2"), order: o + 1);   // the next cell is cream
                             label.transform.localPosition = Draw.W(center + (open ? Vector2.zero : new Vector2(0, -5)));
                             if (!open)
                             {
@@ -256,11 +256,10 @@ namespace ReverseSolver.Presentation
             // ZeydBot, on a loss (PM 2026-10-21: Z34's bomb row came without the answer, retry was tapped first):
             // the retry buttons wait for the 1-10 answer; Menü stays
             if (askHard && !hardAnswered && !won) return card.Button("menu", "Menü", false).Finish();
-            return card
-                .Button(primaryId, primary, true)
-                .Button("retry", "Tekrar oyna", false)
-                .Button("menu", "Menü", false)
-                .Finish();
+            // QA 2026-10-26: on a loss the primary is already "Tekrar dene"; the second retry button only doubled it
+            card.Button(primaryId, primary, true);
+            if (won || !Art.On) card.Button("retry", "Tekrar oyna", false);
+            return card.Button("menu", "Menü", false).Finish();
         }
 
         // ---- obstacle / booster introduction (web #introVeil) -----------------------------

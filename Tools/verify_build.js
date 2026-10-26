@@ -468,6 +468,24 @@ async function m5(p) {
   p.close();
 }
 
+/* --send only (PM_MESAJ_14): pause -> "Ana menü" on S45 after one move ends the attempt as a quit row. */
+async function pausequit() {
+  const l = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels.find(x => x.id === 'S45'), p = await newPage();
+  const before = await rows();
+  await p.open(`${base}/?set=redesign&lv=${l.id}`, { gate: true });
+  await p.name(player);
+  await sleep(1500);
+  for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y);   // the intro / start card
+  await p.solve({ ...l, solution: l.solution.slice(0, 1) });
+  await sleep(800);
+  await p.tap(W - 36, 33); await sleep(800);                                     // pause
+  for (let y = Math.round(H * .85); y > H * .4; y -= 14) { await p.tap(W / 2, y); }   // lowest card button first: "Ana menü"
+  await sleep(17000);
+  const r = (await rows()).filter(r => !before.some(b => b.row_id === r.row_id) && r.level_id === l.id)[0];
+  check('pausequit', !!r && r.result === 'quit', r ? `${l.id} ${r.result}` : `${l.id} satırı gelmedi`);
+  p.close();
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -515,6 +533,7 @@ async function qa() {
     if (only.includes('zeydloss')) await zeydloss();
     if (send && only.includes('zeydlosssend')) await zeydlosssend();
     if (send && only.includes('redesignsend')) await redesignsend();
+    if (send && only.includes('pausequit')) await pausequit();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
   finally {

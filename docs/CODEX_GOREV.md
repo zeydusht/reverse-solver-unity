@@ -96,3 +96,15 @@ Stil: Görev 5 ile aynı (Assets/Art/UI/Task5, Gameplay/Task5). Yazı/sayı çiz
 | booster-active.png | Alt bar, seçili booster | kare (booster-normal ile aynı çerçeve) | normal yuvanın parlayan, altın kenarlı hali | 180×180 | aktif |
 | joint-target.png, joint-target-pulse.png | Makas seçiliyken kesilebilecek dikiş noktası (tahtada) | yuvarlak | turuncu/altın hedef noktası, ortası dolu | 66×66 | normal / nabız (biraz büyük, daha parlak) |
 | loader-bg.png | WebGL yükleme ekranı arka planı | tam ekran | koridor ya da oyun arka planının sade, bulanık, koyu hali (ikon ve çubuk üstüne gelecek) | 750×1334, ≤ 250 KB | — |
+
+## 7. Gece QA'sından kalanlar (PM_MESAJ_14, 26 Ekim) — Zeyd iletecek
+Stil: Task11 oyuncak stili. Dosyalar `Assets/Art/Gameplay/Task12/`, HANDOFF'a satır + 9-slice px. Yazı/sayı çizilmez.
+| Ne | Nerede | Şekil | İçinde | Ölçü @3x | Durumlar |
+|---|---|---|---|---|---|
+| wall-strip-v3.png | Tahtada kapalı kenar (şu an kodla çiziliyor, PM_MESAJ_13) | yatay tekrar | kalın, seyrek 45° kırmızı (#D9332B) / beyaz bantlar, ince koyu kontur; şerit tile yüksekliğinin tamamı | 192×60 | — |
+| wall-corner-v3.png | İki kapalı kenarın köşesi | kare | aynı şeridin L birleşimi | 60×60 | — |
+| profile-box-v3.png | Menü sol üst profil kutusu (şu an Task5) | 9-slice (sol 156 px avatar yuvası) | krem/turkuaz oyuncak kutu | 480×156 | normal / basılı |
+| settings-button-v3.png | Menü sağ üst ayarlar (şu an Task5) | yuvarlak | dişli, Task11 pause tuşuyla aynı malzeme | 168×168 | normal / basılı |
+| level-cell-v3-{open,complete,next,locked}.png | Bölüm listesi hücreleri (şu an Task5; "next" kremde yazı okunmuyordu, kod koyu yazıyla geçici çözdü) | kare | Task11 tuş malzemesi | 146×146 | 4 hal |
+| tutorial-target-v3.png | Tutorial'da hedef parçanın parıltısı (Task5) | 9-slice kare çerçeve | altın parıltı | 228×228 (sınır 42) | — |
+| victory düzeltmesi | `Victory/option-a-single-jiggle-768.png` | — | sağ kenarda ince dikey çizgi var (kart üstünde görünüyor) | 768×768 | — |
