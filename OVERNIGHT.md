@@ -1,3 +1,5 @@
+# Önizleme 17: resimli level kalın koyu lacivert kenarla (Zeyd seçti) https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46
+
 # Kenar karşılaştırması (önizleme 16): şimdiki https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46 · koyu lacivert kalın https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46&edge=navy · siyah kalın https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46&edge=dark
 
 # Önizleme 15 (26 Ekim 20:55): resimli level https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46

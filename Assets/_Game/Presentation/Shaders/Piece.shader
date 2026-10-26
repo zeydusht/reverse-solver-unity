@@ -71,7 +71,7 @@ Shader "ReverseSolver/Piece"
                 float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
                 float _SkinMix, _KitOn;
             CBUFFER_END
-            float _RSEdge;   // global, painted board edge test: 0 as approved, 1 thick dark navy, 2 thick black (&edge=)
+            float _RSEdge;   // global: 1 = the chosen thick dark navy edge on painted boards (2 = black, kept for tests)
             TEXTURE2D(_KitMask); SAMPLER(sampler_KitMask);
             TEXTURE2D(_KitOver); SAMPLER(sampler_KitOver);
             TEXTURE2D(_KitFlat); SAMPLER(sampler_KitFlat);
