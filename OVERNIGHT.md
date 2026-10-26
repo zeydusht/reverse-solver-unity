@@ -1,3 +1,11 @@
+# iOS 0.5.0 HAZIR (27 Ekim gecesi): Builds/ReverseSolver-iOS-0.5.0.zip (304 MB)
+1. Zip'i Mac'e aktar (USB / Google Drive / AirDrop), docs/MAC_YUKLEME.md'yi adım adım izle (Xcode en güncel, Unity-iPhone.xcodeproj, Signing → Team, Product → Archive → Distribute → App Store Connect).
+2. Kontrol edildi: bundle com.zeydtekin.reversesolver, 0.5.0 (1), iOS 15+, yalnız iPhone, dikey, otomatik imza, şifreleme beyanı (Missing Compliance çıkmaz), Mac IL2CPP araçları zip'te çalıştırılabilir işaretli.
+3. Gizlilik sayfası (iletişim zeydusht@gmail.com): https://zeydusht.github.io/reverse-solver-unity/privacy/ — App Store Connect'te "Privacy Policy URL" olarak gir.
+4. Web Build 5 kökte yayında; iOS kayıtları Supabase'e "unity-ios" olarak düşer (008 sorgusu ikisini de sayar).
+5. Gerçek iPhone'da denenmeyenler (ilk TestFlight'ta bak): isim girişi (iOS klavyesi), çentik/alt çubuk boşlukları, ses.
+6. Not: Unity projesinin aktif hedefi şimdi iOS; bir sonraki web build'i ilk seferde biraz uzun sürer.
+
 # Build 5 YAYINDA (27 Ekim): https://zeydusht.github.io/reverse-solver-unity/ — kök SET40 v3, eski 40 ?set=classic, 👍/👎 + kayıt açık. Canlı verify 6/7 (card = bilinen debug ölçümü). Gizlilik: /privacy/ (iletişim adresi yer tutucu).
 - iOS 0.5.0 hazırlığı: NativeHost (güvenli alan, iOS klavyesiyle isim, unity-ios kaydı), bölümler GitHub Pages'ten önbelleğe, IosBuild (bundle com.zeydtekin.reversesolver, iOS 15+, dikey, otomatik imza). iOS build iOS Build Support kurulunca alınacak.
 
