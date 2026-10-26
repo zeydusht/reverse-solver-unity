@@ -351,19 +351,24 @@ async function redesignsend() {
   await p.solve(l);
   await sleep(2500);
   const x = W / 2 - 120;
-  let prev = await p.png();
-  for (let y = Math.round(H * .25); y < H * .85; y += 12) {
-    await p.tap(x, y);
-    const now = await p.png();
-    if (Buffer.compare(now, prev) !== 0) break;
-    prev = now;
+  // Build 5: the card asks 👍/👎 first (the left button is "Beğendim"), then the 1-10 row; one tap per question
+  for (let q = 0; q < 2; q++) {
+    await sleep(3000);                                  // the win confetti and star pop change the picture on their own
+    let prev = await p.png();
+    for (let y = Math.round(H * .25); y < H * .85; y += 12) {
+      await p.tap(x, y);
+      const now = await p.png();
+      if (Buffer.compare(now, prev) !== 0) break;
+      prev = now;
+    }
+    await sleep(1200);
   }
   await sleep(17000);
   const r = (await rows()).filter(r => !before.some(b => b.row_id === r.row_id) && r.level_id === l.id)[0];
   let mv = [];
   if (r) mv = await (await fetch(`${SUPA}/rest/v1/moves?row_id=eq.${r.row_id}&select=kind`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json();
   const exits = mv.filter(m => m.kind === 'exit').length;
-  check('redesignsend', !!r && r.result === 'win' && r.zorluk_puani != null && exits === l.solution.length, r ? `${l.id} ${r.result}, zorluk_puani ${r.zorluk_puani}, moves exit ${exits}/${l.solution.length}` : `${l.id} satırı gelmedi`);
+  check('redesignsend', !!r && r.result === 'win' && r.zorluk_puani != null && exits === l.solution.length, r ? `${l.id} ${r.result}, keyif ${r.keyif}, zorluk_puani ${r.zorluk_puani}, moves exit ${exits}/${l.solution.length}` : `${l.id} satırı gelmedi`);
   p.close();
 }
 
@@ -486,6 +491,19 @@ async function pausequit() {
   p.close();
 }
 
+/* --only funcard: the Build 5 win card before and after the 👍 tap (no debug, nothing sent: Supabase is blocked). */
+async function funcard() {
+  const l = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels[0], p = await newPage();
+  await p.open(`${base}/?set=redesign&lv=${l.id}`, { gate: true }); await p.name('TEST_QA'); await sleep(1500);
+  for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);
+  await p.solve(l); await sleep(2500);
+  fs.writeFileSync(path.join(out, 'fun_1.png'), await p.png());
+  const x = W / 2 - 120; let prev = await p.png();
+  for (let y = Math.round(H * .25); y < H * .85; y += 12) { await p.tap(x, y); const now = await p.png(); if (Buffer.compare(now, prev) !== 0) break; prev = now; }
+  await sleep(1200); fs.writeFileSync(path.join(out, 'fun_2.png'), await p.png());
+  check('funcard', p.exceptions.length === 0, out); p.close();
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -529,6 +547,7 @@ async function qa() {
     if (only.includes('redesign')) await redesign();
     if (only.includes('zeydbot')) await zeydbot();
     if (only.includes('qa')) await qa();
+    if (only.includes('funcard')) await funcard();
     if (send && only.includes('zeydsend')) await zeydsend();
     if (only.includes('zeydloss')) await zeydloss();
     if (send && only.includes('zeydlosssend')) await zeydlosssend();

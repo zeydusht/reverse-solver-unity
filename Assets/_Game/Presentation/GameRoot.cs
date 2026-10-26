@@ -439,7 +439,7 @@ namespace ReverseSolver.Presentation
             if (_pendingFun == null) return;
             var (record, rowId) = _pendingFun.Value;
             _pendingFun = null;
-            record.Fun = answer;
+            if (answer.HasValue) record.Fun = answer;          // a 👍/👎 given earlier stays on the record
             _telemetry.Finished(record, rowId);
         }
 
@@ -574,7 +574,10 @@ namespace ReverseSolver.Presentation
                         }
                         if (id == "fun_up" || id == "fun_down")
                         {
-                            SendPendingFun(id == "fun_up" ? 1 : -1);
+                            // Build 5: the row also waits for the 1-10 answer (both go in one row)
+                            int fun = id == "fun_up" ? 1 : -1;
+                            if (_zeydbotSet && !_hardAnswered && _pendingFun != null) _pendingFun.Value.record.Fun = fun;
+                            else SendPendingFun(fun);
                             _funAnswered = true;
                             ShowResult();
                             break;

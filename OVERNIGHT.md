@@ -1,3 +1,12 @@
+# Gece turu (PM_MESAJ_14, 26 Ekim sabahı)
+1. Son önizleme 11: https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign (Task10 booster, Task11 HUD/kart/menü, kodla kırmızı-beyaz duvar). Kök değişmedi.
+2. QA: 40 bölüm kayıtlı çözümle kazanılıyor, slotlar doğru (tutorial 1–2, tanıtım 3/6/10/14, zor 19/25/30/35–40, booster 5/9/15/23). 3 boyutta 24 ekran: docs/qa/2026-10-26/.
+3. Bulunan 7 sorun, 6'sı düzeldi: kart tuşları alt kenara değiyordu; kayıpta çift "tekrar" tuşu; listede sıradaki bölüm okunmuyordu; kazanmada 1–10 kayda girmiyordu (👍 satırı erken gönderiyordu); 008 sorgusu yanlış kimlik (R→S); 2048 üstü atlas + kullanılmayan 64 görsel. Kalan: kazanma görselinde ince çizgi (Codex görev 7).
+4. Telemetri (TEST_NIGHT, Build 5 adayı): plays + moves 9/9, 👍 ve 1–10 kazanmada, 1–10 kayıpta, pause→Ana menü = quit ✓. Eski a6b testi kökte L02 beklediği için artık uymuyor (ürün hatası değil).
+5. Build 5 adayı hazır, YAYINLANMADI: Builds/build5-candidate (kök yeni set, ?set=classic eski, 👍/👎 açık). Yerel verify 6/7 (card = bilinen debug ölçüm hatası). Boyut 9,7 MB (br), PC'de 60 FPS; iPhone FPS ölçülemedi.
+6. Not: kodda bayraklar artık AÇIK; bir sonraki gh-pages yüklemesi kökü değiştirir → yalnız "Build 5'i yayınla" ile.
+7. Zeyd sabah: 1) önizleme 11'i oyna, 2) "Build 5'i yayınla" kararı, 3) iPhone + 4G testi, 4) CODEX_GOREV 7'yi Codex'e ilet.
+
 # Önizleme 10 (26 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S40 — Codex Task7 (v2 bomba/çivi/duvar, altın çerçeve, HUD seti); verify 7/7, kök değişmedi.
 
 # Önizleme 9 (25 Ekim): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&lv=S40 — ortalanmış büyük bomba, Fredoka sayaçlar, kalın duvar, altın çerçeve; verify 7/7, kök değişmedi.

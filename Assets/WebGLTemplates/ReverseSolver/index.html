@@ -15,7 +15,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <script>
   // SET40 v3 preview (?set=redesign): the approved blue icon; the live page keeps the old one until Build 5
-  if (/[?&]set=redesign/.test(location.search)) {
+  if (!/[?&]set=(classic|zeydbot|designs|levels)/.test(location.search)) {   // Build 5: the new look everywhere but the old sets
     document.querySelector('link[rel="apple-touch-icon"]').href = 'TemplateData/icon-v3-180.png';
     document.querySelector('link[rel="icon"]').href = 'TemplateData/icon-v3-32.png';
     // #24 / #25 (Codex MissingScreens): loading and name screens in the new look

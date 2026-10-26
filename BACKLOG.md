@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 25 Ekim 2026 (Codex — Art)
+Son güncelleme: 26 Ekim 2026 (Codex — Art)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -64,6 +64,8 @@ Kurallar:
 | Önizleme 8: Task6 tahta görselleri bağlandı (çivi/bomba %80 + sayaç ortada, zincir şeridi + uç kilidi, duvar şeridi + köşe); HANDOFF'a oyun adlarıyla eklendi. Pause görseli yok, çizim tuş kaldı | ✅ | |
 | Önizleme 9: bomba gövdesi ortada %85, sayaçlar Fredoka SemiBold (OFL) lacivert, çift basamak küçülür; zincir kilidi %45, duvar %18, çerçeve altın tint | ✅ | |
 | Önizleme 10: Codex Task7 bağlandı (bomba/çivi v2, duvar v2 + köşe, altın tahta çerçevesi, HUD rozet/kutu/urgent/ikonlar/pause); geçici tint ve ofset kalktı | ✅ | |
+| Gece QA (PM_MESAJ_14): 40/40 çözüm, slotlar, 3 boyut ekran, telemetri uçtan uca ✓; 6/7 sorun düzeldi; Önizleme 11 yayında | ✅ | |
+| Build 5 adayı (bayraklar açık) Builds/build5-candidate; yayın Zeyd komutuyla; iPhone FPS ölçülmedi | 🔜 | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)
@@ -92,6 +94,9 @@ Kurallar:
 | #25: WebGL yükleme ekranı SVG @3x | 🔜 Zeyd incelemesi | |
 | 4c jigsaw tek onay parçası O-I-F-F: üst çıkıntı + sağ girinti, iki kenarda da merkezli (`PieceSkin/Task6/piece_O-I-F-F-review.html`) | 🔜 Zeyd incelemesi; 81 kombinasyon örnek onayından sonra | |
 | Oyun içi v2: bomba, çivi, duvar, altın tahta çerçevesi ve HUD 12 PNG (Gameplay/Task7/); HANDOFF tamam | ✅ | |
+| Booster çubuğu ve üst bar v3: koridor stilinde buton, 4 ikon, sayı rozeti, sade level rozeti ve simetrik hap (Gameplay/Task8/); önizleme HANDOFF'ta | 🔜 Zeyd değerlendirmesi | |
+| Booster çubuğu ve ikonları Task10: referansın parlak oyuncak stilinde, 4 şeffaf ikon ve yan yana önizleme; Task9 iptal edilip kaldırıldı | 🔜 Zeyd değerlendirmesi | |
+| Task11: oyun içi HUD, menü başlat tuşu, kart tuşları/paneli ve kazanma yıldızları; 5 grup önizlemesi hazır, HANDOFF'a işlendi | ✅ | |
 | Tüm A/B seçimlerini tek yerde göster (`docs/art/SECIM.html`) | ✅ | |
 
 ## Bitenler (son 3 gün)
