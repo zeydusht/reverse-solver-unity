@@ -1,3 +1,5 @@
+# Zeyd: Unity Hub'dan iOS Build Support'u elle kur (Installs → 6000.6.4f1 → ⚙ → Add modules → iOS Build Support). Komut satırından denendi, yönetici izni penceresi onaylanmadığı için kurulamadı; iOS build (madde 5) bunu bekliyor.
+
 # Önizleme (kart tuşları): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign — Task15 tuşları orijinal oranında (germe yok), krem yazı + koyu kontur + gölge, basılı hâl; başlangıç kartında ikonlar 2×
 
 # Önizleme (menü düzeltmesi): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign — Levels tuşu yok, Level tuşu ortada, avatar kutusunda turkuaz radyal zemin + ortalı Jiggle (seçim kartında da)

@@ -58,6 +58,8 @@ namespace ReverseSolver.Presentation
         }
 
         string _banner;
+        /* Cards with questions (👍/👎, 1-10) use the compact Task 14 buttons so they fit a 375x667 phone. */
+        public bool Compact;
         readonly List<(int index, SpriteRenderer sr, string pressed)> _pressArt = new List<(int, SpriteRenderer, string)>();
 
         /* The pressed sprite of the Task 15 button under pt (true when there is one); the caller acts a moment later. */
@@ -113,7 +115,7 @@ namespace ReverseSolver.Presentation
         {
             _rows.Add(y =>
             {
-                if (Art.T15)
+                if (Art.T15 && !Compact)
                 {
                     // Task 15 (as Codex's preview-pause.png): the button at its own 684x336 aspect, never stretched, ~60 % of
                     // the card, centred; cream label, dark rim (green #1E5A0E / teal #0B2A36), a 2 px shadow, 1.3x size

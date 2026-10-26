@@ -271,7 +271,7 @@ namespace ReverseSolver.Presentation
             string primary = won ? (isLast ? lastLabel : "Sonraki bölüm") : "Tekrar dene";
             string primaryId = won ? (isLast ? "menu" : "next") : "retry";
 
-            var card = new Card(parent, screen, order, "Result");
+            var card = new Card(parent, screen, order, "Result") { Compact = askFun && !thanked || askHard && !hardAnswered };
             // preview art (#8, #9): victory / defeat scene when the level has no picture of its own
             if (!withPicture && !Art.T14) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
             if (!won && Art.T14) Picture(card, s.Outcome == Outcome.Bomb ? "loss-reason-bomb" : "loss-reason-time", 80);   // Task 14 loss reason
@@ -307,8 +307,7 @@ namespace ReverseSolver.Presentation
                 .Body(sub);
             if (askFun && !thanked)
                 card.Body("Bu bölümü beğendin mi?", sizePt: 13, gapAfter: 8)
-                    .Button("fun_up", "Beğendim", false)
-                    .Button("fun_down", "Beğenmedim", false);
+                    .ButtonRow(("fun_up", "Beğendim"), ("fun_down", "Beğenmedim"));
             if (askFun && thanked) card.Body("Teşekkürler!", sizePt: 13, gapAfter: 8);
             // ZeydBot: optional 1-10 difficulty (1 çok kolay, 10 çok zor); the row waits for it or for the next button
             if (askHard && !hardAnswered)
