@@ -25,8 +25,8 @@ namespace ReverseSolver.Presentation
                 .Radius(26).Gradient(Draw.Hex("#ffd873"), Draw.Hex("#f0a742"))
                 .Stroke(Draw.Rgba(255, 255, 255, .92f), 3).Shadow(Draw.Rgba(0, 0, 0, .35f), 0, 3, 9).Skin("level-badge", false)
                 .transform.localPosition = Draw.W(ax, cy);
-            TextView.Create(_root, "lv", "LV", 9, Draw.Hex("#5a3c06"), order: order + 1).transform.localPosition = Draw.W(ax, cy - 9);   // Task 11 badge has an LV area
-            _level = TextView.Create(_root, "lvnum", "1", 20, Draw.Hex("#3a2704"), order: order + 1);
+            TextView.Create(_root, "lv", "LV", 9, Palette.Or(Draw.Hex("#5a3c06"), Palette.TealDark), order: order + 1).transform.localPosition = Draw.W(ax, cy - 9);   // Task 11 badge has an LV area
+            _level = TextView.Create(_root, "lvnum", "1", 20, Palette.Or(Draw.Hex("#3a2704"), Palette.Navy), order: order + 1);
             _level.transform.localPosition = Draw.W(ax, cy + 6);
             LevelRect = new Rect(ax - 26, cy - 26, 52, 52);                // web #lvBtn opens the level list
 
@@ -41,13 +41,13 @@ namespace ReverseSolver.Presentation
             const float end = 12f;   // Task 11 pill: 24 pt rounded ends, the icon sits on the surface just inside
             float pillIcon = Art.On ? pillL + end + 12 : pillX - 22, pillText = Art.On ? (pillL + end + 24 + pillR - end) / 2 : pillX + 12;
             PieceIcon(_root, new Vector2(pillIcon, cy), order + 2);
-            _left = TextView.Create(_root, "left", "0", 22, Draw.Hex("#eaf3f2"), order: order + 2);
+            _left = TextView.Create(_root, "left", "0", 22, Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream), order: order + 2);
             _left.transform.localPosition = Draw.W(pillText, cy);
 
             _clockPill = Pill(new Vector2(clockX, cy), clockW, order);
             float clockL = clockX - clockW / 2;
             ClockIcon(_root, new Vector2(Art.On ? clockL + end + 12 : clockX - 30, cy), order + 2);
-            _clock = TextView.Create(_root, "clock", "0:00", Art.On ? 20 : 22, Draw.Hex("#eaf3f2"), order: order + 2);
+            _clock = TextView.Create(_root, "clock", "0:00", Art.On ? 20 : 22, Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream), order: order + 2);
             _clock.transform.localPosition = Draw.W(Art.On ? (clockL + end + 24 + clockX + clockW / 2 - end) / 2 : clockX + 12, cy);
 
             // .reset: 46px circle, rgba(255,255,255,.10), 2px rgba(255,255,255,.55)
@@ -107,7 +107,7 @@ namespace ReverseSolver.Presentation
             {
                 // pause glyph until Codex's pause icon: two cream bars on the round button
                 foreach (float dx in new[] { -4.5f, 4.5f })
-                    ShapeView.Create(root, "pause", new Vector2(5, 16), 1, order).Radius(1.5f).Fill(Draw.Hex("#fff4da"))
+                    ShapeView.Create(root, "pause", new Vector2(5, 16), 1, order).Radius(1.5f).Fill(Palette.Cream)
                         .transform.localPosition = Draw.W(c.x + dx, c.y);
                 return;
             }
@@ -127,7 +127,7 @@ namespace ReverseSolver.Presentation
         {
             int t = Mathf.Max(0, seconds);
             _clock.Text = $"{t / 60}:{t % 60:00}";
-            _clock.Color = t <= 20 ? Draw.Hex("#ffb4a6") : Draw.Hex("#eaf3f2");   // .pill b.warn
+            _clock.Color = t <= 20 ? Palette.Or(Draw.Hex("#ffb4a6"), Palette.Coral) : Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream);   // .pill b.warn; PALETTE urgent = coral
             _clockPill?.SkinAs(t <= 20 ? "hud-pill-hot" : "hud-pill-normal");         // Codex Task 5 urgent pill (Task 7's has the shield slot)
         }
     }

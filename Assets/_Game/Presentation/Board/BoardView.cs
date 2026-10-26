@@ -115,8 +115,8 @@ namespace ReverseSolver.Presentation
                         _ => new Rect(W + t * .5f, from, t, to - from)
                     };
                     var wall = ShapeView.Create(transform, "Wall", r.size, 10, WallOrder)
-                        .Radius(3).Stripes(Draw.Hex(v3 ? "#D9332B" : "#d9412f"), Draw.Hex(v3 ? "#FFFFFF" : "#f6efe6"), v3 ? Mathf.Max(18f, t * 2.2f) : 18f)
-                        .Stroke(Draw.Hex("#7d1f16"), v3 ? 1.2f : 2).Shadow(Draw.Rgba(0, 0, 0, .55f), 0, 3, 8);
+                        .Radius(3).Stripes(v3 ? Palette.Coral : Draw.Hex("#d9412f"), v3 ? Palette.Cream : Draw.Hex("#f6efe6"), v3 ? Mathf.Max(18f, t * 2.2f) : 18f)
+                        .Stroke(v3 ? Palette.Navy : Draw.Hex("#7d1f16"), v3 ? 1.2f : 2).Shadow(Draw.Rgba(0, 0, 0, .55f), 0, 3, 8);
                     wall.transform.localPosition = Draw.W(r.center);
                 }
             }

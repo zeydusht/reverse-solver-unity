@@ -17,7 +17,7 @@ namespace ReverseSolver.Presentation
             Root.localPosition = Draw.W(center);
             float d = Mathf.Max(22f, cell * 0.46f);
             // nail head seen from above (head = 80 % of the canvas), navy digits ~55 % of the head with a 2 px cream rim
-            if (ArtBadge(Root, "board-nail", cell, .8f, 0, order, Draw.Hex("#0B2A36"), Draw.Hex("#fff4da"), out _n))
+            if (ArtBadge(Root, "board-nail", cell, .8f, 0, order, Palette.Navy, Palette.Cream, out _n))
             { _one = cell * .46f; _two = cell * .36f; return; }
             if (ArtBadge(Root, "icon-nail", cell, new Vector2(-.2f, -.2f), order, out _n)) return;   // count on the nail head (upper left)
             // radial-gradient(60% 50% at 32% 26%, #f2f5f8, #8d9aa6 60%, #5b6874)
@@ -90,7 +90,7 @@ namespace ReverseSolver.Presentation
             // body = 71 % of the canvas (v1 and v2): sprite 1.06 cell so the body is 76 % of the cell (PM_MESAJ_13); v1's body sits 10 %
             // low (the fuse is on top) and is lifted, v2's body is centred; navy digits ~70 % of the cream disc, no rim
             if (NailBadge.ArtBadge(_body, Art.Get("bomb-v2") != null ? "bomb-v2" : "board-bomb", cell, 1.06f,
-                                   Art.Get("bomb-v2") != null ? 0 : .1f, order, Draw.Hex("#0B2A36"), null, out _n))
+                                   Art.Get("bomb-v2") != null ? 0 : .1f, order, Palette.Navy, null, out _n))
             { _one = cell * .5f; _two = cell * .38f; return; }
             if (NailBadge.ArtBadge(_body, "icon-bomb", cell, new Vector2(-.03f, .06f), order, out _n)) return;   // count on the bomb's round body
             // radial-gradient(58% 48% at 32% 26%, #6c7a84, #232f36 62%, #111a1f); ring 2px #0c1418;

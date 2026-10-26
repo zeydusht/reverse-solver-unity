@@ -66,6 +66,7 @@ Kurallar:
 | Önizleme 10: Codex Task7 bağlandı (bomba/çivi v2, duvar v2 + köşe, altın tahta çerçevesi, HUD rozet/kutu/urgent/ikonlar/pause); geçici tint ve ofset kalktı | ✅ | |
 | Gece QA (PM_MESAJ_14): 40/40 çözüm, slotlar, 3 boyut ekran, telemetri uçtan uca ✓; 6/7 sorun düzeldi; Önizleme 11 yayında | ✅ | |
 | Build 5 adayı (bayraklar açık) Builds/build5-candidate; yayın Zeyd komutuyla; iPhone FPS ölçülmedi | 🔜 | |
+| Önizleme 12: PALETTE.md zorunlu palet (Ui/Palette.cs: rakam, kontur, urgent, tint, rozet, duvar), booster ikonu iç dairenin ~%75'i; önizlemeler `Tools/preview_mode.sh on/off` ile kök değişmeden; Build 5 şablonundaki ikon kontrolü düzeltildi. Task12 bekleniyor | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)
@@ -97,6 +98,8 @@ Kurallar:
 | Booster çubuğu ve üst bar v3: koridor stilinde buton, 4 ikon, sayı rozeti, sade level rozeti ve simetrik hap (Gameplay/Task8/); önizleme HANDOFF'ta | 🔜 Zeyd değerlendirmesi | |
 | Booster çubuğu ve ikonları Task10: referansın parlak oyuncak stilinde, 4 şeffaf ikon ve yan yana önizleme; Task9 iptal edilip kaldırıldı | 🔜 Zeyd değerlendirmesi | |
 | Task11: oyun içi HUD, menü başlat tuşu, kart tuşları/paneli ve kazanma yıldızları; 5 grup önizlemesi hazır, HANDOFF'a işlendi | ✅ | |
+| Task12: koridor ana menüsü için Level X tuşu, profil/avatar, sayaçlar, ayarlar ve alt gezinme; 390×844 önizleme hazır, HANDOFF eklendi | 🔜 Zeyd değerlendirmesi | |
+| Task12 Gameplay: booster seti, HUD, menü/kart UI ve tahta çerçevesi PALETTE.md zorunlu tonlarına eşlendi; preview ve HANDOFF hazır | 🔜 Zeyd değerlendirmesi | |
 | Tüm A/B seçimlerini tek yerde göster (`docs/art/SECIM.html`) | ✅ | |
 
 ## Bitenler (son 3 gün)

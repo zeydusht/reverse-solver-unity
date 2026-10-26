@@ -58,13 +58,13 @@ namespace ReverseSolver.Presentation
                 s.Glyph = new GameObject("glyph").transform;
                 s.Glyph.SetParent(_root, false);
                 s.Glyph.localPosition = Draw.W(cx, cy);
-                Icons.Draw(b.Id(), s.Glyph, Art.On ? 40.8f : 33, order + 2);   // art icons draw at 1.25x: 51 pt = 85 % of the button
+                Icons.Draw(b.Id(), s.Glyph, Art.On ? 27.2f : 33, order + 2);   // art icons draw at 1.25x: 34 pt = ~75 % of the inner disc (PALETTE: never on the ring)
                 // .badge: 24px circle at top -8 right -8, gradient #63c2ef -> #2f8fd6, 3px white ring
                 // PM_MESAJ_13 (preview): red badge at the bottom right, 2 px light rim, white Fredoka digits
                 var bc = Art.On ? new Vector2(cx + 30 - 5, cy + 30 - 5) : new Vector2(cx + 30 - 4, cy - 30 + 4);
                 s.Badge = ShapeView.Create(_root, "badge", new Vector2(24, 24), 2, order + 3).Radius(12)
                     .Gradient(Draw.Hex("#63c2ef"), Draw.Hex("#2f8fd6")).Stroke(Draw.Rgba(255, 255, 255, .92f), 3);
-                if (Art.On) s.Badge.Fill(Draw.Hex("#D9332B")).Stroke(Draw.Hex("#fff4da"), 2).Skin("booster-badge", false);
+                if (Art.On) s.Badge.Fill(Palette.Coral).Stroke(Palette.Cream, 2).Skin("booster-badge", false);   // PALETTE: coral, cream rim, white digits
                 else s.Badge.Skin("booster-badge-stock", false);
                 s.Badge.transform.localPosition = Draw.W(bc);
                 s.Count = TextView.Create(_root, "count", "", Art.On ? 15f : 12.5f, Draw.Hex("#ffffff"), order: order + 4);
@@ -115,8 +115,8 @@ namespace ReverseSolver.Presentation
                 s.Face.Gradient(top, bottom);
                 if (Art.Get("booster-button") != null)
                     // Codex Task 10: one round button for every state, told apart by tone (locked grey, out dimmed, active warm)
-                    s.Face.Tint(on ? new Color(1f, .93f, .75f) : state == BoosterButton.Locked ? new Color(.5f, .5f, .52f)
-                                : state == BoosterButton.Out ? new Color(.72f, .72f, .74f) : Color.white);
+                    s.Face.Tint(on ? Palette.C(Palette.GoldGlow) : state == BoosterButton.Locked ? Palette.C(Palette.TealDark) * 2.2f
+                                : state == BoosterButton.Out ? Palette.C(Palette.Cream, .55f) : Color.white);   // PALETTE tints
                 else s.Face.SkinAs(on ? "booster-active" : state == BoosterButton.Locked ? "booster-locked"
                                    : state == BoosterButton.Out ? "booster-out" : "booster-normal");
                 s.Face.Glow(on ? Draw.Rgba(240, 167, 66, .8f) : new Vector4(0, 0, 0, 0), on ? 17 : 0);
@@ -125,7 +125,7 @@ namespace ReverseSolver.Presentation
                 bool locked = state == BoosterButton.Locked;
                 s.Count.Text = locked ? "" : session.Stock(s.B).ToString();
                 s.Lock.gameObject.SetActive(locked);
-                if (Art.On) s.Badge.Fill(locked ? Draw.Hex("#6b7479") : Draw.Hex("#D9332B"));   // PM_MESAJ_13: red stock badge
+                if (Art.On) s.Badge.Fill(locked ? Palette.TealDark : Palette.Coral);   // PALETTE: coral stock badge, dark teal when locked
                 else s.Badge.Gradient(locked ? Draw.Hex("#6b7479") : Draw.Hex("#63c2ef"), locked ? Draw.Hex("#3f474b") : Draw.Hex("#2f8fd6"));
                 s.Badge.SkinAs(locked ? "booster-badge-lock" : "booster-badge-stock");
                 s.Name.Text = locked ? $"{bar.UnlockLevel(s.B)}. BÖLÜM" : Names[(int)s.B];

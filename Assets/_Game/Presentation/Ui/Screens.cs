@@ -65,9 +65,9 @@ namespace ReverseSolver.Presentation
                         .Fill(Draw.Rgba(14, 42, 46, .8f)).Skin("profile-normal");
                     box.transform.localPosition = Draw.W(16 + 80, top + 26);
                     Art.Icon(Root, "avatar", new Vector2(16 + 26, top + 26), 44, order + 1);
-                    TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 13, Draw.Hex("#fff4da"), true, TMPro.TextAlignmentOptions.Left, order + 1)
+                    TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 13, Palette.Cream, true, TMPro.TextAlignmentOptions.Left, order + 1)
                         .transform.localPosition = Draw.W(16 + 54, top + 18);
-                    TextView.Create(Root, "saved", string.Format(Texts.Saved, saved), 10, Draw.Hex("#d5e4df"), false, TMPro.TextAlignmentOptions.Left, order + 1)
+                    TextView.Create(Root, "saved", string.Format(Texts.Saved, saved), 10, Palette.GoldGlow, false, TMPro.TextAlignmentOptions.Left, order + 1)
                         .transform.localPosition = Draw.W(16 + 54, top + 36);
                     float gx = screen.x - 16 - 23;
                     var gear = ShapeView.Create(Root, "settings", new Vector2(46, 46), 4, order).Radius(23)
@@ -108,7 +108,7 @@ namespace ReverseSolver.Presentation
             else if (primary) b.Fill(Draw.Hex("#f0a742"));
             else b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1);
             b.transform.localPosition = Draw.W(c);
-            TextView.Create(root, "label", label, font, art != null ? Draw.Hex("#ffffff") : primary ? Draw.Hex("#33220a") : Draw.Hex("#8fb2b3"), order: order + 1)
+            TextView.Create(root, "label", label, font, art != null ? Palette.Navy : primary ? Draw.Hex("#33220a") : Draw.Hex("#8fb2b3"), order: order + 1)
                 .transform.localPosition = Draw.W(c);
             return new Rect(c.x - w / 2, c.y - h / 2, w, h);
         }
@@ -146,7 +146,7 @@ namespace ReverseSolver.Presentation
                             cell.transform.localPosition = Draw.W(center);
                             if (!open) cell.Alpha(.45f);
                             var label = TextView.Create(root, "n", levels[i].Number.ToString(), 15,
-                                                        now && Art.On ? Draw.Hex("#123f46") : done ? Draw.Hex("#f0a742") : Draw.Hex("#eaf3f2"), order: o + 1);   // the next cell is cream
+                                                        now && Art.On ? Palette.Navy : done ? Draw.Hex("#f0a742") : Draw.Hex("#eaf3f2"), order: o + 1);   // the next cell is cream
                             label.transform.localPosition = Draw.W(center + (open ? Vector2.zero : new Vector2(0, -5)));
                             if (!open)
                             {
@@ -342,13 +342,13 @@ namespace ReverseSolver.Presentation
             {
                 var r = Art.Place(root, l.Hard ? "level-header-hard" : "level-header-normal", new Vector2(w, 60), o + 2, sliced: true);
                 if (r != null) r.transform.localPosition = Draw.W(0, y + 30);
-                TextView.Create(root, "level", string.Format(Texts.Level, l.Number), 24, Draw.Hex("#fff4da"), true, order: o + 3)
+                TextView.Create(root, "level", string.Format(Texts.Level, l.Number), 24, Palette.Navy, true, order: o + 3)
                     .transform.localPosition = Draw.W(0, y + 30);
             });
             c.Custom(52, (root, y, w, o) =>
             {
                 Art.Icon(root, "goal-jiggle", new Vector2(-w / 2 + 22, y + 22), 40, o + 2);
-                TextView.Create(root, "goal", Texts.Goal, 16, Card.Ink(Draw.Hex("#eaf3f2"), "#123f46"), true, TMPro.TextAlignmentOptions.Left, o + 2)
+                TextView.Create(root, "goal", Texts.Goal, 16, Card.Ink(Draw.Hex("#eaf3f2"), "#0B2A36"), true, TMPro.TextAlignmentOptions.Left, o + 2)
                     .transform.localPosition = Draw.W(-w / 2 + 52, y + 22);
             });
             var obstacles = new List<string>();

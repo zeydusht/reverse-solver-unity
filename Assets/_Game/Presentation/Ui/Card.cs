@@ -60,7 +60,7 @@ namespace ReverseSolver.Presentation
         {
             _rows.Add(y =>
             {
-                TextView.Create(_content, "title", text, 20, Ink(Draw.Hex("#eaf3f2"), "#123f46"), order: _order + 2)
+                TextView.Create(_content, "title", text, 20, Ink(Draw.Hex("#eaf3f2"), "#0B2A36"), order: _order + 2)
                     .transform.localPosition = Draw.W(0, y + 12);
                 return 24 + 6;
             });
@@ -71,7 +71,7 @@ namespace ReverseSolver.Presentation
         {
             _rows.Add(y =>
             {
-                var t = TextView.Create(_content, "body", text, sizePt, color ?? Ink(Draw.Hex("#8fb2b3"), "#3d6266"), false, order: _order + 2);
+                var t = TextView.Create(_content, "body", text, sizePt, color ?? Ink(Draw.Hex("#8fb2b3"), "#0F4F5A"), false, order: _order + 2);
                 var tmp = t.GetComponent<TextMeshPro>();
                 tmp.textWrappingMode = TextWrappingModes.Normal;
                 tmp.alignment = TextAlignmentOptions.Top;
@@ -101,7 +101,7 @@ namespace ReverseSolver.Presentation
                 else b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1);
                 b.Skin(primary ? "primary-normal" : "secondary-normal");
                 b.transform.localPosition = Draw.W(0, cy);
-                TextView.Create(_content, "label " + id, label, 15, primary ? Draw.Hex("#33220a") : Ink(Draw.Hex("#8fb2b3"), "#123f46"),
+                TextView.Create(_content, "label " + id, label, 15, primary ? Palette.Or(Draw.Hex("#33220a"), Palette.Navy) : Ink(Draw.Hex("#8fb2b3"), "#0B2A36"),
                                 order: _order + 3).transform.localPosition = Draw.W(0, cy);
                 Buttons.Add((new Rect(-InnerWidth / 2, y, InnerWidth, ButtonH), id));
                 return ButtonH + 8;
@@ -123,7 +123,7 @@ namespace ReverseSolver.Presentation
                     var b = ShapeView.Create(_content, "btn " + items[i].id, new Vector2(bw, ButtonH), 2, _order + 2).Radius(11);
                     b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1).Skin("secondary-normal");
                     b.transform.localPosition = Draw.W(x + bw / 2, cy);
-                    TextView.Create(_content, "label " + items[i].id, items[i].label, 15, Ink(Draw.Hex("#8fb2b3"), "#123f46"), order: _order + 3)
+                    TextView.Create(_content, "label " + items[i].id, items[i].label, 15, Ink(Draw.Hex("#8fb2b3"), "#0B2A36"), order: _order + 3)
                         .transform.localPosition = Draw.W(x + bw / 2, cy);
                     Buttons.Add((new Rect(x, y, bw, ButtonH), items[i].id));
                 }
