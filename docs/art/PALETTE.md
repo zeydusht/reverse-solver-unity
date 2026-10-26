@@ -1,4 +1,4 @@
-# Reverse Solver — ZORUNLU RENK PALETİ (v1, 26 Ekim 2026)
+# Reverse Solver — ZORUNLU RENK PALETİ (v2, Task15, 26 Ekim 2026)
 
 Zeyd'in kararı: Oyundaki her UI öğesi aynı paleti kullanacak. Kaynak, tahta çerçevesindeki "kraliyet altını"dır (`Assets/Art/Gameplay/Task7/board-frame-gold-v1.png`, renkler ölçülerek alındı).
 
@@ -14,10 +14,43 @@ Bu tablonun dışında altın, sarı ya da turuncu tonu kullanılmaz. Booster ha
 | Turkuaz koyu | `#0F4F5A` | Turkuazın gölgesi |
 | Krem | `#F8EBD0` | Kart içi, bomba etiketi |
 | Lacivert kontur / yazı | `#0B2A36` | Rakamlar, ince kontur |
-| Mercan vurgu | `#E8574A` | Yalnız kritik vurgular: sayı rozeti, urgent süre |
+| Mercan vurgu | `#E8574A` | Yalnız urgent süre; adet rozeti ve duvarda kullanılmaz |
+| Kırmızı parlak | `#F04438` | Adet rozeti ve duvarın ışık alan kırmızısı |
+| Kırmızı orta | `#D62822` | Yeni sıcak, canlı kırmızı ana yüzey |
+| Kırmızı gölge | `#94160F` | Kırmızının alt/yan hacim gölgesi |
+| Uyarı beyazı | `#FFF9F1` | Duvarın beyaz bantları ve yeni rozetin ince açık konturu |
 
 ## Kurallar
 
-- **Booster ikonları** bu paletten en fazla 3 renk alır: altın + turkuaz + krem veya mercan. Dört ikon yan yana bir set gibi görünmeli. İkonlar arasında ayrı ana renk YOK; kırmızı çekiç ile mor değnek gibi bir karışım yasak.
+- **Booster ikonları** altın + turkuaz + krem ailesindedir. Task14 seti onaylıdır; yeni kırmızı kararı ikonları yeniden boyama izni değildir. Dört ikon yan yana bir set gibi görünmeli. İkonlar arasında ayrı ana renk YOK.
 - **Tuş içindeki ikon**, iç dairenin yaklaşık %70'ini kaplar. Halkaya değmez; tuşun dışına taşmaz.
-- **Rozet:** Mercan zemin, krem kontur, beyaz rakam.
+- **Rozet:** Kırmızı skala, ince uyarı beyazı kontur, krem rakam; sayı ayrı katmandır.
+
+## Kırmızı — Task15
+
+Ton referansı `Assets/Art/Reference/booster-bar-layout-reference.jpg` içindeki adet rozetidir; yalnız renk ailesi alınır. Örnek kırmızı bölgeden ölçülen alt/orta/üst örnekler `#902015 / #C82B1C / #D93533` oldu. Yeni skala bu sıcak aileyi daha temiz ışık/gölge basamaklarıyla kullanır. Mercan `#E8574A` yalnız süre aciliyetine ayrıldı. Duvarın beyazı krem karta göre daha aydınlıktır; iki malzeme karıştırılmaz.
+
+## Task15 ana eylem yeşili
+
+Zeyd Task15'te Başla/Devam tuşunu onaylı Level v2 ailesindeki yeşille açıkça istedi. Yeşil ana eylem tuşlarında kullanılabilir; ikincil tuşlar turkuazdır. Altın çerçeve skalası değişmedi.
+
+| Rol | Hex |
+|---|---|
+| Yeşil ışık | `#B7EA43` |
+| Yeşil parlak | `#79C800` |
+| Yeşil orta | `#4A9D05` |
+| Yeşil gölge | `#1E6305` |
+
+## Jiggle avatar renkleri ve resim testi
+
+Task15'in açık renk talebidir; bu tablo yalnız Jiggle gövdesi/portresi ve test tablosunun resim paletini genişletir. HUD veya booster ikonlarına yeni ana renk atanmaz. Göz/ağız, sıcak ana ışık ve altın/turkuaz UI ailesi korunur.
+
+| Jiggle | Ana renk | Gölge |
+|---|---|---|
+| Mavi | `#28B8DE` | `#087BA2` |
+| Pembe | `#EF83B3` | `#B33E7C` |
+| Kırmızı | `#D62822` | `#94160F` |
+| Yeşil | `#70C942` | `#368730` |
+| Mor | `#AF77E8` | `#7546B1` |
+
+Işıklar krem/uyarı beyazına, gölgeler laciverte karışabilir. Resim testinde deniz/gökyüzü için ek resim mavisi `#3C8DD9`, gölgesi `#245A87`; taş ve ahşap mevcut altın–krem–lacivert karışımlarıdır. Degradeler listelenen renklerin yumuşak karışımlarıdır; yeni bağımsız UI altını yoktur.

@@ -127,7 +127,7 @@ namespace ReverseSolver.Presentation
                         continue;
                     }
                     var wall = ShapeView.Create(transform, "Wall", r.size, 10, WallOrder)
-                        .Radius(3).Stripes(v3 ? Palette.Coral : Draw.Hex("#d9412f"), v3 ? Palette.Cream : Draw.Hex("#f6efe6"), v3 ? Mathf.Max(18f, t * 2.2f) : 18f)
+                        .Radius(3).Stripes(v3 ? Palette.Red : Draw.Hex("#d9412f"), v3 ? Palette.WarnWhite : Draw.Hex("#f6efe6"), v3 ? Mathf.Max(18f, t * 2.2f) : 18f)
                         .Stroke(v3 ? Palette.Navy : Draw.Hex("#7d1f16"), v3 ? 1.2f : 2).Shadow(Draw.Rgba(0, 0, 0, .55f), 0, 3, 8);
                     wall.transform.localPosition = Draw.W(r.center);
                 }

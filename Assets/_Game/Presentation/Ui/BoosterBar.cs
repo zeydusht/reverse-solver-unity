@@ -64,7 +64,7 @@ namespace ReverseSolver.Presentation
                 var bc = Art.On ? new Vector2(cx + 30 - 5, cy + 30 - 5) : new Vector2(cx + 30 - 4, cy - 30 + 4);
                 s.Badge = ShapeView.Create(_root, "badge", new Vector2(24, 24), 2, order + 3).Radius(12)
                     .Gradient(Draw.Hex("#63c2ef"), Draw.Hex("#2f8fd6")).Stroke(Draw.Rgba(255, 255, 255, .92f), 3);
-                if (Art.On) s.Badge.Fill(Palette.Coral).Stroke(Palette.Cream, 2).Skin("booster-badge", false);   // PALETTE: coral, cream rim, white digits
+                if (Art.On) s.Badge.Fill(Palette.Red).Stroke(Palette.WarnWhite, 2).Skin("booster-badge", false);   // PALETTE (Task 15): red, warning-white rim, cream digits
                 else s.Badge.Skin("booster-badge-stock", false);
                 s.Badge.transform.localPosition = Draw.W(bc);
                 s.Count = TextView.Create(_root, "count", "", Art.On ? 15f : 12.5f, Draw.Hex("#ffffff"), order: order + 4);
@@ -129,7 +129,7 @@ namespace ReverseSolver.Presentation
                 bool locked = state == BoosterButton.Locked;
                 s.Count.Text = locked ? "" : session.Stock(s.B).ToString();
                 s.Lock.gameObject.SetActive(locked);
-                if (Art.On) s.Badge.Fill(locked ? Palette.TealDark : Palette.Coral);   // PALETTE: coral stock badge, dark teal when locked
+                if (Art.On) s.Badge.Fill(locked ? Palette.TealDark : Palette.Red);   // PALETTE: coral stock badge, dark teal when locked
                 else s.Badge.Gradient(locked ? Draw.Hex("#6b7479") : Draw.Hex("#63c2ef"), locked ? Draw.Hex("#3f474b") : Draw.Hex("#2f8fd6"));
                 s.Badge.SkinAs(locked ? "booster-badge-lock" : "booster-badge-stock");
                 s.Name.Text = locked ? $"{bar.UnlockLevel(s.B)}. BÖLÜM" : Names[(int)s.B];
