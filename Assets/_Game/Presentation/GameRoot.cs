@@ -544,6 +544,8 @@ namespace ReverseSolver.Presentation
             }
         }
 
+        bool _cardPressed;   // Task 15 card buttons: the pressed sprite shows before the action
+
         void Press(Vector2 pt)
         {
             // level list (over menu or game)
@@ -579,6 +581,13 @@ namespace ReverseSolver.Presentation
 
             if (_card != null)
             {
+                if (!_cardPressed && _card.Press(pt))
+                {
+                    _cardPressed = true;
+                    var at = pt;
+                    Tweens.Run(_card, .12f, _ => { }, () => { if (_card != null) Press(at); _cardPressed = false; });
+                    return;
+                }
                 string id = _card.HitButton(pt);
                 if (id == null) return;
                 switch (_cardKind)

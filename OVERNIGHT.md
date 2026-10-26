@@ -1,3 +1,5 @@
+# Önizleme (kart tuşları): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign — Task15 tuşları orijinal oranında (germe yok), krem yazı + koyu kontur + gölge, basılı hâl; başlangıç kartında ikonlar 2×
+
 # Önizleme (menü düzeltmesi): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign — Levels tuşu yok, Level tuşu ortada, avatar kutusunda turkuaz radyal zemin + ortalı Jiggle (seçim kartında da)
 
 # Önizleme 17: resimli level kalın koyu lacivert kenarla (Zeyd seçti) https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46

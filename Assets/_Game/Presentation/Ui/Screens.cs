@@ -444,13 +444,15 @@ namespace ReverseSolver.Presentation
             if (l.Bombs.Count > 0) obstacles.Add("bomb");
             if (l.CellCount > l.Pieces.Count) obstacles.Add("chain");
             if (l.Sealed != null && l.Sealed.Count > 0) obstacles.Add("wall");
+            // Zeyd 2026-10-26: obstacle icons twice as big (80 pt, smaller only when four do not fit)
+            float isz = obstacles.Count == 0 ? 0 : Mathf.Min(80f, (c.InnerWidth - 8 * (obstacles.Count - 1)) / obstacles.Count);
             if (obstacles.Count > 0)
-                c.Custom(48, (root, y, w, o) =>
+                c.Custom(isz + 8, (root, y, w, o) =>
                 {
                     for (int i = 0; i < obstacles.Count; i++)
-                        Art.Icon(root, "icon-" + obstacles[i], new Vector2((i - (obstacles.Count - 1) / 2f) * 50, y + 20), 40, o + 2);
+                        Art.Icon(root, "icon-" + obstacles[i], new Vector2((i - (obstacles.Count - 1) / 2f) * (isz + 8), y + isz / 2), isz, o + 2);
                 });
-            if (l.Hard) c.Body(Texts.HardBody, Draw.Hex("#f0a742"));
+            if (l.Hard) c.Body(Texts.HardBody, Art.T14 ? Palette.Coral : Draw.Hex("#f0a742"), Art.T14 ? 12 : 13);   // coral reads on the cream card
             return c.Button("ok", Texts.HardStart, true).Finish();
         }
 

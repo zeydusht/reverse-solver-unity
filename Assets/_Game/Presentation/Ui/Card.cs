@@ -57,7 +57,21 @@ namespace ReverseSolver.Presentation
             return this;
         }
 
-        string _banner;   // Task 14: the title sits on the panel's teal banner, not in the rows
+        string _banner;
+        readonly List<(int index, SpriteRenderer sr, string pressed)> _pressArt = new List<(int, SpriteRenderer, string)>();
+
+        /* The pressed sprite of the Task 15 button under pt (true when there is one); the caller acts a moment later. */
+        public bool Press(Vector2 pt)
+        {
+            foreach (var (i, sr, key) in _pressArt)
+                if (i < Buttons.Count && Buttons[i].rect.Contains(pt))
+                {
+                    var s = Art.Get(key);
+                    if (s != null) sr.sprite = s;
+                    return true;
+                }
+            return false;
+        }   // Task 14: the title sits on the panel's teal banner, not in the rows
 
         public Card Title(string text)
         {
@@ -101,14 +115,17 @@ namespace ReverseSolver.Presentation
             {
                 if (Art.T15)
                 {
-                    // Task 15 (PM_MESAJ_16): green primary / teal secondary, 60 pt tall, <= 65 % of the card, centred
-                    float bw = Mathf.Min(InnerWidth, _w * .65f), bh = 60f, by = y + bh / 2;
-                    var art = Art.Place(_content, primary ? "btn2-primary" : "btn2-secondary", new Vector2(bw, bh), _order + 2, sliced: true);
-                    if (art != null) art.transform.localPosition = Draw.W(0, by);
-                    TextView.Create(_content, "label " + id, label, 17, Palette.Cream, true, order: _order + 3).Outline(Palette.Navy, .22f)
-                        .transform.localPosition = Draw.W(0, by - 2);
-                    Buttons.Add((new Rect(-bw / 2, y, bw, bh), id));
-                    return bh + 10;
+                    // Task 15 (as Codex's preview-pause.png): the button at its own 684x336 aspect, never stretched, ~60 % of
+                    // the card, centred; cream label, dark rim (green #1E5A0E / teal #0B2A36), a 2 px shadow, 1.3x size
+                    string key = primary ? "btn2-primary" : "btn2-secondary";
+                    float bw = Mathf.Min(InnerWidth, _w * .6f), bh = bw * 336f / 684f, by = y + bh / 2;
+                    var art = Art.Place(_content, key, new Vector2(bw, bh), _order + 2);
+                    if (art != null) { art.transform.localPosition = Draw.W(0, by); _pressArt.Add((Buttons.Count, art, key + "-pressed")); }
+                    TextView.Create(_content, "label " + id, label, 22, Palette.Cream, true, order: _order + 3)
+                        .Outline(primary ? Draw.Hex("#1E5A0E") : Palette.Navy, .3f).Shadow(Draw.Rgba(0, 0, 0, .55f), 2)
+                        .transform.localPosition = Draw.W(0, by - 3);
+                    Buttons.Add((new Rect(-bw / 2, y + bh * .1f, bw, bh * .8f), id));
+                    return bh + 4;
                 }
                 float cy = y + ButtonH / 2;
                 var b = ShapeView.Create(_content, "btn " + id, new Vector2(InnerWidth, ButtonH), 2, _order + 2).Radius(11);

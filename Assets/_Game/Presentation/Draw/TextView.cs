@@ -23,6 +23,17 @@ namespace ReverseSolver.Presentation
             return this;
         }
 
+        /* A soft drop shadow under the glyphs (TMP underlay), offset in points downwards. */
+        public TextView Shadow(Vector4 color, float down)
+        {
+            var m = _t.fontMaterial;
+            m.EnableKeyword("UNDERLAY_ON");
+            m.SetColor("_UnderlayColor", new Color(color.x, color.y, color.z, color.w));
+            m.SetFloat("_UnderlayOffsetY", -down * .4f);
+            m.SetFloat("_UnderlaySoftness", .15f);
+            return this;
+        }
+
         /* A dark outline around the glyphs (counters on obstacle art, PM_MESAJ_11). */
         public TextView Outline(Vector4 color, float width)
         {
