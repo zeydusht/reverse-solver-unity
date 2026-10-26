@@ -47,6 +47,8 @@ namespace ReverseSolver.Presentation
         public static Sprite Get(string key) => Load<Sprite>(key);
         /* Codex Task 14 in-game set present (cards with a title banner, combined booster buttons, icon pills). */
         public static bool T14 => Get("loss-reason-bomb") != null;
+        /* Codex Task 15 present (HUD pills without baked icons, short tall card buttons, Jiggles counter icon). */
+        public static bool T15 => Get("jiggle-counter") != null;
         public static TMPro.TMP_FontAsset Lilita => On ? Resources.Load<TMPro.TMP_FontAsset>("Fonts/Lilita") : null;
         public static Texture2D Texture(string key) => Load<Texture2D>(key);
         public static AudioClip Sound(string key) => Load<AudioClip>("audio/" + key);

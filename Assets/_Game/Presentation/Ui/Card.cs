@@ -99,6 +99,17 @@ namespace ReverseSolver.Presentation
         {
             _rows.Add(y =>
             {
+                if (Art.T15)
+                {
+                    // Task 15 (PM_MESAJ_16): green primary / teal secondary, 60 pt tall, <= 65 % of the card, centred
+                    float bw = Mathf.Min(InnerWidth, _w * .65f), bh = 60f, by = y + bh / 2;
+                    var art = Art.Place(_content, primary ? "btn2-primary" : "btn2-secondary", new Vector2(bw, bh), _order + 2, sliced: true);
+                    if (art != null) art.transform.localPosition = Draw.W(0, by);
+                    TextView.Create(_content, "label " + id, label, 17, Palette.Cream, true, order: _order + 3).Outline(Palette.Navy, .22f)
+                        .transform.localPosition = Draw.W(0, by - 2);
+                    Buttons.Add((new Rect(-bw / 2, y, bw, bh), id));
+                    return bh + 10;
+                }
                 float cy = y + ButtonH / 2;
                 var b = ShapeView.Create(_content, "btn " + id, new Vector2(InnerWidth, ButtonH), 2, _order + 2).Radius(11);
                 if (primary) b.Fill(Draw.Hex("#f0a742"));

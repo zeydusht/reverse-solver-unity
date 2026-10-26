@@ -1,0 +1,363 @@
+[
+  {
+    "file": "booster-badge-v2.png",
+    "use": "Yeni kırmızı adet rozeti; rakam ayrı",
+    "width": 96,
+    "height": 96,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "FC9C666A66B2BC5BDCA43C4F6A153D1F38ED60DC1A67C0ABB0F07BAE1BD4574C"
+  },
+  {
+    "file": "wall-repeat-v3.png",
+    "use": "Kalın kırmızı-beyaz duvar; X tekrar, native kalınlık 24 pt",
+    "width": 144,
+    "height": 72,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "08FA94A54C3DF9A3E1F8590A0EAC832103147723473CC043D42AE99A3F4CE9EE"
+  },
+  {
+    "file": "wall-corner-v3.png",
+    "use": "Duvar köşesi; üstten giriş, sağdan çıkış",
+    "width": 144,
+    "height": 144,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.25,
+      0.25
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "02E8025D8782FF49457EFFE3E24EA95D3ACDCFC8EB4C12A784FB313E65390879"
+  },
+  {
+    "file": "hud-moves-pill-v2.png",
+    "use": "Hamle hapı boş zemin; ikon ve sayı ayrı",
+    "width": 330,
+    "height": 210,
+    "sliceLTRB": [
+      84,
+      84,
+      84,
+      84
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "5077B51D1DFD6BE72021DC7933C40E86B170C2DAB57221B7AF5570E8FBD9EFF0"
+  },
+  {
+    "file": "hud-time-pill-v2.png",
+    "use": "Süre hapı boş zemin; kare kronometre ve sayı ayrı",
+    "width": 366,
+    "height": 210,
+    "sliceLTRB": [
+      84,
+      84,
+      84,
+      84
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "1E24517600B6A74E7BA2FE7964ED5C965E38980C4DFA9286E6BDC50F975338A1"
+  },
+  {
+    "file": "hud-time-pill-urgent-v2.png",
+    "use": "Acil süre hapı; mercan yalnız burada, sayı ayrı",
+    "width": 366,
+    "height": 210,
+    "sliceLTRB": [
+      84,
+      84,
+      84,
+      84
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "FEA7F9479AABB7599E3DA955BF5EE392FD1599448F1E849B281E0CD57B0CEFCA"
+  },
+  {
+    "file": "hud-icon-piece-v2.png",
+    "use": "HUD bağımsız piece ikonu; kare Simple/PreserveAspect",
+    "width": 120,
+    "height": 120,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "8CC7A93E3136EA254F8633440BC3801638E38F1E5401F8A72454F351061489B0"
+  },
+  {
+    "file": "hud-icon-stopwatch-v2.png",
+    "use": "HUD bağımsız stopwatch ikonu; kare Simple/PreserveAspect",
+    "width": 120,
+    "height": 120,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "F3875082213FCA0AF801934BCDC90A70569D95430986D988AF3CB5719B946661"
+  },
+  {
+    "file": "btn-primary-v2.png",
+    "use": "Başla/Devam yeşil ana tuş",
+    "width": 684,
+    "height": 336,
+    "sliceLTRB": [
+      92,
+      92,
+      92,
+      92
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "185896B91C8ACEDED51CF533690B7649A0FA1F10A0726F75E5CBAEB350A3C007"
+  },
+  {
+    "file": "btn-primary-v2-pressed.png",
+    "use": "Başla/Devam yeşil ana tuş basılı",
+    "width": 684,
+    "height": 336,
+    "sliceLTRB": [
+      92,
+      92,
+      92,
+      92
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "1A3A73B2B8FF126796F72DDA870F1A62138DF47952FE68EFDA71CCA3D8B5CAF3"
+  },
+  {
+    "file": "btn-secondary-v2.png",
+    "use": "Yeniden başla/Ana menü turkuaz tuş; yazı ayrı",
+    "width": 684,
+    "height": 336,
+    "sliceLTRB": [
+      92,
+      92,
+      92,
+      92
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "B095AF4BF2B6A1B60A944DBDC266A4F648A3ED4708895F10208851791227B1EC"
+  },
+  {
+    "file": "btn-secondary-v2-pressed.png",
+    "use": "Turkuaz ikincil tuş basılı",
+    "width": 684,
+    "height": 336,
+    "sliceLTRB": [
+      92,
+      92,
+      92,
+      92
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "5904B276D13C5591BC36A259011262DA4A343AE56877351C42B09A55F3487782"
+  },
+  {
+    "file": "avatar-blue.png",
+    "use": "blue Jiggle profil avatarı; 256 px özel ölçü",
+    "width": 256,
+    "height": 256,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": true,
+    "sha256": "B6A7E1254815BFE4AD073A5AC38D96B21AD00D26E8AFECB8AF772E15C6405323"
+  },
+  {
+    "file": "avatar-pink.png",
+    "use": "pink Jiggle profil avatarı; 256 px özel ölçü",
+    "width": 256,
+    "height": 256,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": true,
+    "sha256": "9810F17141E9D2E6A8DB6305BC5704E681071FEAA1D46595F7419A827DA96E2D"
+  },
+  {
+    "file": "avatar-red.png",
+    "use": "red Jiggle profil avatarı; 256 px özel ölçü",
+    "width": 256,
+    "height": 256,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": true,
+    "sha256": "6D1C3AEDE00444B28987034429AA2E886B481A201FB472F5668950324B07F28B"
+  },
+  {
+    "file": "avatar-green.png",
+    "use": "green Jiggle profil avatarı; 256 px özel ölçü",
+    "width": 256,
+    "height": 256,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": true,
+    "sha256": "3E9850D3EC4AD12B63F3C8E9476395B8132710CCD4642FF2D6AB44DA52A36472"
+  },
+  {
+    "file": "avatar-purple.png",
+    "use": "purple Jiggle profil avatarı; 256 px özel ölçü",
+    "width": 256,
+    "height": 256,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": true,
+    "sha256": "845637EAA5D2B35A5523B00C78F8DD7048B8F0876658AF0272F25C6046CA95A8"
+  },
+  {
+    "file": "jiggle-counter-icon.png",
+    "use": "Menü sağ üst kurtarılan Jiggle sayacı; 64 pt",
+    "width": 192,
+    "height": 192,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "transparent": true,
+    "sha256": "F986876661E69A044E6A780DA3CF60E7EC2C06B163F0EF0BD6D1FF1C6A3F84D2"
+  },
+  {
+    "file": "painting-test-01.png",
+    "use": "Parçalara board UV ile kaplanacak test tablosu; çizgisiz tam resim",
+    "width": 1536,
+    "height": 1536,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": false,
+    "sha256": "DDF9CCCAC542073C344F3993A7420F408FA2ED8282EAC2981529F6C8CE6BECB6"
+  }
+]

@@ -128,7 +128,8 @@ namespace ReverseSolver.Presentation
 
                 float pl = 40 + 132 + 10, pr = gx - 24 - 10, pw = Mathf.Min(120, pr - pl), px = (pl + pr) / 2;
                 Sprite("m13-counter-pill", new Vector2(px + 8, hy), new Vector2(pw - 10, 34), order, sliced: true);
-                var tok = Art.Avatar(Root, Art.AvatarIndex, new Vector2(36, 36), order + 1);   // Jiggles counter (PM_MESAJ_16)
+                var tok = Art.T15 ? Art.Place(Root, "jiggle-counter", new Vector2(40, 40), order + 1)
+                                  : Art.Avatar(Root, Art.AvatarIndex, new Vector2(36, 36), order + 1);   // Jiggles counter (PM_MESAJ_16)
                 if (tok != null) tok.transform.localPosition = Draw.W(px - pw / 2 + 14, hy);
                 var st = TextView.Create(Root, "jiggles", saved.ToString(), 18, Palette.Navy, true, order: order + 2)
                     .Font(Resources.Load<TMPro.TMP_FontAsset>("Fonts/Counter"));

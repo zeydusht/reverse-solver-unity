@@ -222,22 +222,22 @@
 92
 ],
 "hud-moves-pill.png": [
-120,
-72,
-72,
-72
+84,
+84,
+84,
+84
 ],
 "hud-time-pill.png": [
-126,
-72,
-72,
-72
+84,
+84,
+84,
+84
 ],
 "hud-time-pill-urgent.png": [
-126,
-72,
-72,
-72
+84,
+84,
+84,
+84
 ],
 "booster-bar.png": [
 108,
@@ -250,5 +250,29 @@
 84,
 84,
 84
+],
+"btn2-primary.png": [
+92,
+92,
+92,
+92
+],
+"btn2-primary-pressed.png": [
+92,
+92,
+92,
+92
+],
+"btn2-secondary.png": [
+92,
+92,
+92,
+92
+],
+"btn2-secondary-pressed.png": [
+92,
+92,
+92,
+92
 ]
 }

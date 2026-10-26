@@ -521,7 +521,12 @@ async function extra() {
   const exc1 = p.exceptions.length; p.close();
   p = await newPage(); await p.open(dbg(`${base}/?set=redesign`)); await sleep(2500);
   await p.tap(40, 34); await sleep(700); fs.writeFileSync(path.join(dir, 'avatar_card.png'), await p.png());
-  check('extra', exc1 + p.exceptions.length === 0, dir); p.close();
+  const exc2 = p.exceptions.length; p.close();
+  // PM_MESAJ_16 B: the painted-board test on level 7
+  p = await newPage(); await p.open(dbg(`${base}/?set=redesign&painting=1&lv=S46`)); await sleep(2500);
+  for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y);
+  await sleep(800); fs.writeFileSync(path.join(dir, 'painting_l7.png'), await p.png());
+  check('extra', exc1 + exc2 + p.exceptions.length === 0, dir); p.close();
 }
 
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into

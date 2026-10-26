@@ -348,6 +348,12 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_session.Level.Number);
                 var origin = BoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin);
+                // PM_MESAJ_16 B: painted-board test on level 7 with ?set=redesign&painting=1 (Kit81 mask unchanged)
+                if (Art.On && _session.Level.Number == 7 && Host.Current.Query("painting") == "1")
+                {
+                    var paint = Art.Texture("painting-test-01");
+                    if (paint != null) _board.SetImage(paint);
+                }
                 if (_session.Level.Image != null)
                 {
                     var board = _board;

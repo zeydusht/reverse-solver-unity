@@ -1,0 +1,1120 @@
+fileFormatVersion: 2
+guid: 7851c4b7e2d73884ea83a8e745587181
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6247243600503767329
+    second: hud-pill-source_0
+  - first:
+      213: -2365168333034590095
+    second: hud-pill-source_1
+  - first:
+      213: 1571204053562745506
+    second: hud-pill-source_2
+  - first:
+      213: -284579047487766812
+    second: hud-pill-source_3
+  - first:
+      213: -1743227083653168220
+    second: hud-pill-source_4
+  - first:
+      213: -1031973042525120468
+    second: hud-pill-source_5
+  - first:
+      213: -6603873786590366428
+    second: hud-pill-source_6
+  - first:
+      213: 4329223361635784605
+    second: hud-pill-source_7
+  - first:
+      213: -2443611782293614026
+    second: hud-pill-source_8
+  - first:
+      213: -3016913635419319313
+    second: hud-pill-source_9
+  - first:
+      213: -2802581577605333186
+    second: hud-pill-source_10
+  - first:
+      213: -1031032290618744755
+    second: hud-pill-source_11
+  - first:
+      213: -4651272203265529379
+    second: hud-pill-source_12
+  - first:
+      213: -5967630143642303597
+    second: hud-pill-source_13
+  - first:
+      213: 7322662836206890678
+    second: hud-pill-source_14
+  - first:
+      213: -23128810711316967
+    second: hud-pill-source_15
+  - first:
+      213: -5329710943509843116
+    second: hud-pill-source_16
+  - first:
+      213: 9058081970057541949
+    second: hud-pill-source_17
+  - first:
+      213: 6499248286764388796
+    second: hud-pill-source_18
+  - first:
+      213: -1437038927709541338
+    second: hud-pill-source_19
+  - first:
+      213: -6673826963761152104
+    second: hud-pill-source_20
+  - first:
+      213: -8906528119422425649
+    second: hud-pill-source_21
+  - first:
+      213: -1358531838936517241
+    second: hud-pill-source_22
+  - first:
+      213: -3638579395174575355
+    second: hud-pill-source_23
+  - first:
+      213: -7833325415001958517
+    second: hud-pill-source_24
+  - first:
+      213: 2601888061540235757
+    second: hud-pill-source_25
+  - first:
+      213: -7328084563721968916
+    second: hud-pill-source_26
+  - first:
+      213: -498610544355159533
+    second: hud-pill-source_27
+  - first:
+      213: 1845968767968521159
+    second: hud-pill-source_28
+  - first:
+      213: -1913969387890654112
+    second: hud-pill-source_29
+  - first:
+      213: -7687622630812759032
+    second: hud-pill-source_30
+  - first:
+      213: 6924282233817520188
+    second: hud-pill-source_31
+  - first:
+      213: -4595200099913447291
+    second: hud-pill-source_32
+  - first:
+      213: -638568660102431229
+    second: hud-pill-source_33
+  - first:
+      213: -7225583054227820323
+    second: hud-pill-source_34
+  - first:
+      213: 8924639386593389344
+    second: hud-pill-source_35
+  - first:
+      213: -6151469952643361259
+    second: hud-pill-source_36
+  - first:
+      213: 6417360165624740202
+    second: hud-pill-source_37
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: hud-pill-source_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1557
+        height: 987
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1210c5194faa2b650800000000000000
+      internalID: 6247243600503767329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_1
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 976
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 170787baeeb3d2fd0800000000000000
+      internalID: -2365168333034590095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_2
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 976
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a2e24a13c90ec510800000000000000
+      internalID: 1571204053562745506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_3
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 947
+        width: 43
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4eef8f33dd8fc0cf0800000000000000
+      internalID: -284579047487766812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_4
+      rect:
+        serializedVersion: 2
+        x: 997
+        y: 970
+        width: 21
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a343041430dec7e0800000000000000
+      internalID: -1743227083653168220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_5
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 966
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c28d2864cf1bda1f0800000000000000
+      internalID: -1031973042525120468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_6
+      rect:
+        serializedVersion: 2
+        x: 1043
+        y: 960
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42574c8a7c35a54a0800000000000000
+      internalID: -6603873786590366428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_7
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 941
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d979f9fc5bd741c30800000000000000
+      internalID: 4329223361635784605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_8
+      rect:
+        serializedVersion: 2
+        x: 465
+        y: 935
+        width: 33
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6321e63e70c861ed0800000000000000
+      internalID: -2443611782293614026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_9
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 941
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe39cca6805c126d0800000000000000
+      internalID: -3016913635419319313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_10
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 945
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3fb7c467ea3b19d0800000000000000
+      internalID: -2802581577605333186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_11
+      rect:
+        serializedVersion: 2
+        x: 1010
+        y: 937
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4066b5289901b1f0800000000000000
+      internalID: -1031032290618744755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_12
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 941
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd9a5ba139c537fb0800000000000000
+      internalID: -4651272203265529379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_13
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 937
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39389419008be2da0800000000000000
+      internalID: -5967630143642303597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_14
+      rect:
+        serializedVersion: 2
+        x: 1043
+        y: 932
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bee01a6d035f9560800000000000000
+      internalID: 7322662836206890678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_15
+      rect:
+        serializedVersion: 2
+        x: 699
+        y: 110
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 916897d1874ddaff0800000000000000
+      internalID: -23128810711316967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_16
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 112
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 453759882201906b0800000000000000
+      internalID: -5329710943509843116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_17
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 88
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3976ab5f85c4bd70800000000000000
+      internalID: 9058081970057541949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_18
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 86
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb158afd1e7f13a50800000000000000
+      internalID: 6499248286764388796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_19
+      rect:
+        serializedVersion: 2
+        x: 906
+        y: 46
+        width: 86
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62ce67185bc9e0ce0800000000000000
+      internalID: -1437038927709541338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_20
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 68
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89fb7946cbdc163a0800000000000000
+      internalID: -6673826963761152104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_21
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 55
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc56ccb3dd7a56480800000000000000
+      internalID: -8906528119422425649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_22
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 56
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78571248d76852de0800000000000000
+      internalID: -1358531838936517241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_23
+      rect:
+        serializedVersion: 2
+        x: 1163
+        y: 63
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 503509f615b218dc0800000000000000
+      internalID: -3638579395174575355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_24
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 56
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b87d4cca9007a4390800000000000000
+      internalID: -7833325415001958517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_25
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 51
+        width: 23
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de97f651863cb1420800000000000000
+      internalID: 2601888061540235757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_26
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 53
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce224574ae96d4a90800000000000000
+      internalID: -7328084563721968916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_27
+      rect:
+        serializedVersion: 2
+        x: 509
+        y: 51
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31252760a549419f0800000000000000
+      internalID: -498610544355159533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_28
+      rect:
+        serializedVersion: 2
+        x: 1123
+        y: 59
+        width: 13
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cbaa3960d23e9910800000000000000
+      internalID: 1845968767968521159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_29
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 55
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0644ecb7bf63075e0800000000000000
+      internalID: -1913969387890654112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_30
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 31
+        width: 31
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80cc623b2f3105590800000000000000
+      internalID: -7687622630812759032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_31
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 33
+        width: 41
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c38dd37510ef71060800000000000000
+      internalID: 6924282233817520188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_32
+      rect:
+        serializedVersion: 2
+        x: 1178
+        y: 41
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 588c1d40bd19a30c0800000000000000
+      internalID: -4595200099913447291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_33
+      rect:
+        serializedVersion: 2
+        x: 1207
+        y: 47
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30eb5e9df295327f0800000000000000
+      internalID: -638568660102431229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_34
+      rect:
+        serializedVersion: 2
+        x: 1242
+        y: 39
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd03ba5be7299bb90800000000000000
+      internalID: -7225583054227820323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_35
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 31
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02beb52cc30badb70800000000000000
+      internalID: 8924639386593389344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_36
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 31
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51614328ba691aaa0800000000000000
+      internalID: -6151469952643361259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hud-pill-source_37
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 29
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a69fdcbe11b0f0950800000000000000
+      internalID: 6417360165624740202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      hud-pill-source_0: 6247243600503767329
+      hud-pill-source_1: -2365168333034590095
+      hud-pill-source_10: -2802581577605333186
+      hud-pill-source_11: -1031032290618744755
+      hud-pill-source_12: -4651272203265529379
+      hud-pill-source_13: -5967630143642303597
+      hud-pill-source_14: 7322662836206890678
+      hud-pill-source_15: -23128810711316967
+      hud-pill-source_16: -5329710943509843116
+      hud-pill-source_17: 9058081970057541949
+      hud-pill-source_18: 6499248286764388796
+      hud-pill-source_19: -1437038927709541338
+      hud-pill-source_2: 1571204053562745506
+      hud-pill-source_20: -6673826963761152104
+      hud-pill-source_21: -8906528119422425649
+      hud-pill-source_22: -1358531838936517241
+      hud-pill-source_23: -3638579395174575355
+      hud-pill-source_24: -7833325415001958517
+      hud-pill-source_25: 2601888061540235757
+      hud-pill-source_26: -7328084563721968916
+      hud-pill-source_27: -498610544355159533
+      hud-pill-source_28: 1845968767968521159
+      hud-pill-source_29: -1913969387890654112
+      hud-pill-source_3: -284579047487766812
+      hud-pill-source_30: -7687622630812759032
+      hud-pill-source_31: 6924282233817520188
+      hud-pill-source_32: -4595200099913447291
+      hud-pill-source_33: -638568660102431229
+      hud-pill-source_34: -7225583054227820323
+      hud-pill-source_35: 8924639386593389344
+      hud-pill-source_36: -6151469952643361259
+      hud-pill-source_37: 6417360165624740202
+      hud-pill-source_4: -1743227083653168220
+      hud-pill-source_5: -1031973042525120468
+      hud-pill-source_6: -6603873786590366428
+      hud-pill-source_7: 4329223361635784605
+      hud-pill-source_8: -2443611782293614026
+      hud-pill-source_9: -3016913635419319313
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

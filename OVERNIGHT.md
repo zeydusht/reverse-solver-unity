@@ -1,3 +1,7 @@
+# Önizleme 14 (26 Ekim 19:45): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign
+- Resimli yapboz testi (Level 7): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=S46
+- Codex Task15: kırmızı rozet, duvar v3, uzun HUD hapları + ikonlar, kısa/uzun kart tuşları, 5 avatar, Jiggles sayacı. Çerçeve ve booster çubuğu eski hâliyle kaldı (Zeyd'in notu).
+
 # Önizleme 12 (26 Ekim 16:40): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign
 - Yeni menü (Task13: profil, yıldız, Jiggles rescued, Level + Levels) ve yeni oyun içi set (Task14: HUD, booster tuşları, çerçeve, engeller, duvar, kartlar).
 - QA 3 telefon boyutu 8/8, taşma yok; Lilita'da ğ/ş/İ olmadığı için Türkçe metinler Fredoka (+RS Sans yedeği).

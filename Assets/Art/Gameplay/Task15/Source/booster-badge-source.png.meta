@@ -1,0 +1,678 @@
+fileFormatVersion: 2
+guid: d29524c1cf8b012409a896bf4b529820
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5779808429642410207
+    second: booster-badge-source_0
+  - first:
+      213: -4817185491750711459
+    second: booster-badge-source_1
+  - first:
+      213: -8000569002387723118
+    second: booster-badge-source_2
+  - first:
+      213: 8099084778463952590
+    second: booster-badge-source_3
+  - first:
+      213: -7482747566820294528
+    second: booster-badge-source_4
+  - first:
+      213: -2852099620826935985
+    second: booster-badge-source_5
+  - first:
+      213: -3896118526542666100
+    second: booster-badge-source_6
+  - first:
+      213: -6353923564120369268
+    second: booster-badge-source_7
+  - first:
+      213: 941954141962235616
+    second: booster-badge-source_8
+  - first:
+      213: -6335051422348195026
+    second: booster-badge-source_9
+  - first:
+      213: -1526097736926371038
+    second: booster-badge-source_10
+  - first:
+      213: 9091856844392009372
+    second: booster-badge-source_11
+  - first:
+      213: -4231945077791647510
+    second: booster-badge-source_12
+  - first:
+      213: -6743606414039347297
+    second: booster-badge-source_13
+  - first:
+      213: 8276377864833850707
+    second: booster-badge-source_14
+  - first:
+      213: 8060058875256421632
+    second: booster-badge-source_15
+  - first:
+      213: -755520066554519645
+    second: booster-badge-source_16
+  - first:
+      213: -3776787488030178674
+    second: booster-badge-source_17
+  - first:
+      213: 4130094943802500593
+    second: booster-badge-source_18
+  - first:
+      213: -6396423069924980173
+    second: booster-badge-source_19
+  - first:
+      213: 2841996844832515925
+    second: booster-badge-source_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: booster-badge-source_0
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 1245
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd8e4aed421063050800000000000000
+      internalID: 5779808429642410207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_1
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 1243
+        width: 18
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5f880b515be52db0800000000000000
+      internalID: -4817185491750711459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_2
+      rect:
+        serializedVersion: 2
+        x: 573
+        y: 1231
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29cada391e448f090800000000000000
+      internalID: -8000569002387723118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_3
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 1231
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecefd1af1bab56070800000000000000
+      internalID: 8099084778463952590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_4
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 1205
+        width: 68
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08002c7bbb0f72890800000000000000
+      internalID: -7482747566820294528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_5
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 1237
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4d8594818e4b68d0800000000000000
+      internalID: -2852099620826935985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1254
+        height: 1237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c862b96b7d43ee9c0800000000000000
+      internalID: -3896118526542666100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_7
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 1198
+        width: 36
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c871f96de2452d7a0800000000000000
+      internalID: -6353923564120369268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_8
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 795
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0eeed5a2d4e721d00800000000000000
+      internalID: 941954141962235616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_9
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 747
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2b4a11cb406518a0800000000000000
+      internalID: -6335051422348195026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_10
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 741
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 223e9f1a13632dae0800000000000000
+      internalID: -1526097736926371038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_11
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 725
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9e80b611a3cc2e70800000000000000
+      internalID: 9091856844392009372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 681
+        width: 5
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae81441af5c1545c0800000000000000
+      internalID: -4231945077791647510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_13
+      rect:
+        serializedVersion: 2
+        x: 1236
+        y: 618
+        width: 7
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9f832212b5e962a0800000000000000
+      internalID: -6743606414039347297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_14
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 604
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35dd35461d99bd270800000000000000
+      internalID: 8276377864833850707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_15
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 537
+        width: 38
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00db460d7d41bdf60800000000000000
+      internalID: 8060058875256421632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_16
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 359
+        width: 17
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3af965c908ad385f0800000000000000
+      internalID: -755520066554519645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_17
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 39
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8242d73ac7269bc0800000000000000
+      internalID: -3776787488030178674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_18
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 19
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f52cfd187b015930800000000000000
+      internalID: 4130094943802500593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_19
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 15
+        width: 46
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33a020c8b175b37a0800000000000000
+      internalID: -6396423069924980173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: booster-badge-source_20
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 7
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 557e505a21dc07720800000000000000
+      internalID: 2841996844832515925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      booster-badge-source_0: 5779808429642410207
+      booster-badge-source_1: -4817185491750711459
+      booster-badge-source_10: -1526097736926371038
+      booster-badge-source_11: 9091856844392009372
+      booster-badge-source_12: -4231945077791647510
+      booster-badge-source_13: -6743606414039347297
+      booster-badge-source_14: 8276377864833850707
+      booster-badge-source_15: 8060058875256421632
+      booster-badge-source_16: -755520066554519645
+      booster-badge-source_17: -3776787488030178674
+      booster-badge-source_18: 4130094943802500593
+      booster-badge-source_19: -6396423069924980173
+      booster-badge-source_2: -8000569002387723118
+      booster-badge-source_20: 2841996844832515925
+      booster-badge-source_3: 8099084778463952590
+      booster-badge-source_4: -7482747566820294528
+      booster-badge-source_5: -2852099620826935985
+      booster-badge-source_6: -3896118526542666100
+      booster-badge-source_7: -6353923564120369268
+      booster-badge-source_8: 941954141962235616
+      booster-badge-source_9: -6335051422348195026
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

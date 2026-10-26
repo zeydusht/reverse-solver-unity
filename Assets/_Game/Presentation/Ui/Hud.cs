@@ -40,7 +40,8 @@ namespace ReverseSolver.Presentation
             // v3 pill: 16 pt ornaments at both ends; the icon sits just inside the left one, the number between the two
             const float end = 12f;   // Task 11 pill: 24 pt rounded ends, the icon sits on the surface just inside
             float pillIcon = Art.On ? pillL + end + 12 : pillX - 22, pillText = Art.On ? (pillL + end + 24 + pillR - end) / 2 : pillX + 12;
-            if (Art.T14) { pillIcon = pillL + 20; pillText = (pillL + 40 + pillR) / 2; }   // Task 14 pill: icon baked in its 40 pt left end
+            if (Art.T15) { pillIcon = pillL + 24; pillText = (pillL + 44 + pillR) / 2; Art.Icon(_root, "icon-piece", new Vector2(pillIcon, cy), 30, order + 2); }   // Task 15: icon on the pill
+            else if (Art.T14) { pillIcon = pillL + 20; pillText = (pillL + 40 + pillR) / 2; }   // Task 14 pill: icon baked in its 40 pt left end
             else PieceIcon(_root, new Vector2(pillIcon, cy), order + 2);
             _left = TextView.Create(_root, "left", "0", 22, Art.T14 ? Palette.Navy : Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream), order: order + 2);
             _left.Font(Art.Lilita);
@@ -48,10 +49,11 @@ namespace ReverseSolver.Presentation
 
             _clockPill = Pill(new Vector2(clockX, cy), clockW, order, "hud-time-pill");
             float clockL = clockX - clockW / 2;
-            if (!Art.T14) ClockIcon(_root, new Vector2(Art.On ? clockL + end + 12 : clockX - 30, cy), order + 2);
+            if (Art.T15) Art.Icon(_root, "hud-icon-clock", new Vector2(clockL + 24, cy), 30, order + 2);
+            else if (!Art.T14) ClockIcon(_root, new Vector2(Art.On ? clockL + end + 12 : clockX - 30, cy), order + 2);
             _clock = TextView.Create(_root, "clock", "0:00", Art.On ? 20 : 22, Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream), order: order + 2);
             _clock.Font(Art.Lilita);
-            _clock.transform.localPosition = Draw.W(Art.T14 ? (clockL + 42 + clockX + clockW / 2) / 2 : Art.On ? (clockL + end + 24 + clockX + clockW / 2 - end) / 2 : clockX + 12, cy);
+            _clock.transform.localPosition = Draw.W(Art.T15 ? (clockL + 44 + clockX + clockW / 2) / 2 : Art.T14 ? (clockL + 42 + clockX + clockW / 2) / 2 : Art.On ? (clockL + end + 24 + clockX + clockW / 2 - end) / 2 : clockX + 12, cy);
 
             // .reset: 46px circle, rgba(255,255,255,.10), 2px rgba(255,255,255,.55)
             ShapeView.Create(_root, "reset", new Vector2(46, 46), 4, order)
@@ -66,7 +68,7 @@ namespace ReverseSolver.Presentation
         ShapeView Pill(Vector2 c, float w, int order, string t14Key)
         {
             // .pill: 46px high, radius 23, white .16 -> .05, 2px border rgba(255,255,255,.55), shadow 0 3px 8px .28
-            var pill = ShapeView.Create(_root, "pill", new Vector2(w, Height), 12, order)
+            var pill = ShapeView.Create(_root, "pill", new Vector2(w, Art.T15 ? 56f : Height), 12, order)
                 .Radius(23).Gradient(Draw.Rgba(255, 255, 255, .16f), Draw.Rgba(255, 255, 255, .05f))
                 .Stroke(Draw.Rgba(255, 255, 255, .55f), 2).Shadow(Draw.Rgba(0, 0, 0, .28f), 0, 3, 8).Skin(Art.T14 ? t14Key : "hud-pill-normal");
             pill.transform.localPosition = Draw.W(c);

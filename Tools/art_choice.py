@@ -94,6 +94,20 @@ for src, dst in (('hud-moves-pill', 'hud-moves-pill'), ('hud-time-pill', 'hud-ti
                  ('booster-bar', 'booster-bar'), ('board-frame-gold', 'board-frame'), ('card-panel', 'popup-card'),
                  ('btn-primary', 'primary-normal'), ('btn-secondary', 'secondary-normal'), ('btn-danger', 'danger-normal')):
     l, r, t, b = t14[src + '.png']['sliceLTRB']; borders[dst + '.png'] = [l, b, r, t]
+# Codex Task 15 (PM_MESAJ_16 B): red badge, wall v3, taller HUD pills with separate icons, short tall card buttons,
+# five avatars, the Jiggles counter icon, the painting test. NOT taken (Zeyd): its board frame and boxed booster bar.
+T15 = A + 'Gameplay/Task15/'
+for src, dst in (('booster-badge-v2', 'booster-badge'), ('wall-repeat-v3', 'wall-stripe'), ('wall-corner-v3', 'wall-corner'),
+                 ('hud-moves-pill-v2', 'hud-moves-pill'), ('hud-time-pill-v2', 'hud-time-pill'), ('hud-time-pill-urgent-v2', 'hud-time-pill-urgent'),
+                 ('hud-icon-piece-v2', 'icon-piece'), ('hud-icon-stopwatch-v2', 'hud-icon-clock'),
+                 ('btn-primary-v2', 'btn2-primary'), ('btn-primary-v2-pressed', 'btn2-primary-pressed'),
+                 ('btn-secondary-v2', 'btn2-secondary'), ('btn-secondary-v2-pressed', 'btn2-secondary-pressed'),
+                 ('avatar-blue', 'avatar-blue'), ('avatar-pink', 'avatar-pink'), ('avatar-red', 'avatar-red'),
+                 ('avatar-green', 'avatar-green'), ('avatar-purple', 'avatar-purple'), ('jiggle-counter-icon', 'jiggle-counter'),
+                 ('painting-test-01', 'painting-test-01')):
+    files[dst + '.png'] = T15 + src + '.png'
+for n in ('hud-moves-pill', 'hud-time-pill', 'hud-time-pill-urgent'): borders[n + '.png'] = [84, 84, 84, 84]
+for n in ('btn2-primary', 'btn2-primary-pressed', 'btn2-secondary', 'btn2-secondary-pressed'): borders[n + '.png'] = [92, 92, 92, 92]
 # Big sprites whose sides are not multiples of 4 cannot be block-compressed (WebGL keeps them raw, MBs each):
 # pad them with transparent pixels at the right/bottom to a multiple of 4 and move the right/bottom 9-slice border
 import struct, zlib

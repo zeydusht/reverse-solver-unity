@@ -127,6 +127,7 @@ namespace ReverseSolver.Presentation
                 s.Shine.Alpha(s.Face.Skinned ? 0 : state == BoosterButton.Ready || on ? 1 : .35f);
 
                 bool locked = state == BoosterButton.Locked;
+                if (Art.T14) s.Badge.gameObject.SetActive(!locked);   // the locked button art carries its own lock: no empty badge
                 s.Count.Text = locked ? "" : session.Stock(s.B).ToString();
                 s.Lock.gameObject.SetActive(locked);
                 if (Art.On) s.Badge.Fill(locked ? Palette.TealDark : Palette.Red);   // PALETTE: coral stock badge, dark teal when locked

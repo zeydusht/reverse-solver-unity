@@ -639,3 +639,58 @@ Zincir/duvar X tekrar kenarlarında ve duvar köşe bağlantılarında RGBA fark
 | `Task14/star-full.png`, `star-empty.png`, `loss-reason-bomb.png`, `loss-reason-time.png` | aynı adlar | Kazanma 3 yıldız; kaybetme sebebi ikonu |
 | Kullanılmadı | — | `card-pause/win/lose*/start` (gömülü ikonlar içeriğimizle çakışır; ortak `card-panel`), `booster-bar` (panel yerleşimi yok), basılı HUD hâlleri |
 
+<!-- TASK15_BEGIN -->
+## Task15 — export tamamlandı
+
+Hazır Source çizimlerinden Python/Pillow ile export edildi; yeniden çizim yapılmadı. Border L/R/T/B kaynak pikseli, pivot Unity sol-alt başlangıçlı normalize koordinattır. UI @3x; avatarlar özel 256×256 ölçü, tablo özel 1536×1536 ölçüdedir.
+
+| Dosya | Oyunda nereye | Boyut | 9-slice L/R/T/B | Pivot |
+|---|---|---|---|---|
+| `Assets/Art/Gameplay/Task15/booster-badge-v2.png` | Yeni kırmızı adet rozeti; rakam ayrı | 96×96 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/wall-repeat-v3.png` | Kalın kırmızı-beyaz duvar; X tekrar, native kalınlık 24 pt | 144×72 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/wall-corner-v3.png` | Duvar köşesi; üstten giriş, sağdan çıkış | 144×144 | Yok | 0.25/0.25 |
+| `Assets/Art/Gameplay/Task15/hud-moves-pill-v2.png` | Hamle hapı boş zemin; ikon ve sayı ayrı | 330×210 | 84/84/84/84 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/hud-time-pill-v2.png` | Süre hapı boş zemin; kare kronometre ve sayı ayrı | 366×210 | 84/84/84/84 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/hud-time-pill-urgent-v2.png` | Acil süre hapı; mercan yalnız burada, sayı ayrı | 366×210 | 84/84/84/84 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/hud-icon-piece-v2.png` | HUD bağımsız piece ikonu; kare Simple/PreserveAspect | 120×120 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/hud-icon-stopwatch-v2.png` | HUD bağımsız stopwatch ikonu; kare Simple/PreserveAspect | 120×120 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/btn-primary-v2.png` | Başla/Devam yeşil ana tuş | 684×336 | 92/92/92/92 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png` | Başla/Devam yeşil ana tuş basılı | 684×336 | 92/92/92/92 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/btn-secondary-v2.png` | Yeniden başla/Ana menü turkuaz tuş; yazı ayrı | 684×336 | 92/92/92/92 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png` | Turkuaz ikincil tuş basılı | 684×336 | 92/92/92/92 | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/avatar-blue.png` | blue Jiggle profil avatarı; 256 px özel ölçü | 256×256 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/avatar-pink.png` | pink Jiggle profil avatarı; 256 px özel ölçü | 256×256 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/avatar-red.png` | red Jiggle profil avatarı; 256 px özel ölçü | 256×256 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/avatar-green.png` | green Jiggle profil avatarı; 256 px özel ölçü | 256×256 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/avatar-purple.png` | purple Jiggle profil avatarı; 256 px özel ölçü | 256×256 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/jiggle-counter-icon.png` | Menü sağ üst kurtarılan Jiggle sayacı; 64 pt | 192×192 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/painting-test-01.png` | Parçalara board UV ile kaplanacak test tablosu; çizgisiz tam resim | 1536×1536 | Yok | 0.50/0.50 |
+| `Assets/Art/Gameplay/Task15/preview.png` | İnceleme; runtime değildir | 1296×1008 | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task15/preview-ingame.png` | İnceleme; runtime değildir | 390×844 | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task15/preview-ingame-blue.png` | İnceleme; runtime değildir | 390×844 | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task15/preview-pause.png` | İnceleme; runtime değildir | 390×844 | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task15/preview-avatars.png` | İnceleme; runtime değildir | 390×844 | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task15/preview-painted-board.png` | İnceleme; runtime değildir | 1536×1536 | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task15/preview-components.png` | İnceleme; runtime değildir | 1200×1270 | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task15/preview-seams.png` | İnceleme; runtime değildir | 900×300 | Uygulanmaz | Uygulanmaz |
+| `Assets/Art/Gameplay/Task15/manifest.json` | Dosya ve entegrasyon metadata listesi | 19 PNG kaydı | Metadata | Metadata |
+| `Assets/Art/Gameplay/Task15/README.md` | Paket ve katman kullanım notları | Markdown | Uygulanmaz | Uygulanmaz |
+
+Haplar boş zemindir; ayrı 120×120 ikonlar Simple + PreserveAspect ile kullanılır. Yeni rozet için Task14 ayrı zemin+ikon yolu kullanılmalı; eski rozet içeren birleşik booster PNG üstüne ikinci rozet eklenmemeli. Detaylar: `docs/art/TASK15_EXPORT.md`.
+
+Kontrol: 19 üretim PNG, 14 Source PNG değişmeden korundu, 109 eski onaylı sanat kaynağında fark 0; duvar ve köşe RGBA farkı 0. Rapor: `docs/art/reports/task15-export-validation.json`. C# ve Assets/_Game yazımı yapılmadı.
+<!-- TASK15_END -->
+
+### Task15 oyundaki adları (Claude Code, 26 Ekim)
+| Dosya | Oyunda | Not |
+|---|---|---|
+| `booster-badge-v2.png` | `booster-badge` | Kilitliyken gizli (kilit tuş görselinde) |
+| `wall-repeat-v3.png`, `wall-corner-v3.png` | `wall-stripe`, `wall-corner` | Şerit (tile'ın %90'ı) hücrenin %20'si |
+| `hud-moves-pill-v2.png`, `hud-time-pill-v2.png`, `hud-time-pill-urgent-v2.png` | `hud-moves-pill`, `hud-time-pill`, `hud-time-pill-urgent` | 9-slice 84 px, 56 pt yükseklik |
+| `hud-icon-piece-v2.png`, `hud-icon-stopwatch-v2.png` | `icon-piece`, `hud-icon-clock` | Hapın solunda 30 pt |
+| `btn-primary-v2(-pressed).png`, `btn-secondary-v2(-pressed).png` | `btn2-primary`, `btn2-secondary` | Kartlarda tek tuşlar: 60 pt, kartın en çok %65'i; 1–10 ve 👍/👎 satırları Task14 tuşlarıyla |
+| `avatar-{blue,pink,red,green,purple}.png` | aynı adlar | Avatar seçimi |
+| `jiggle-counter-icon.png` | `jiggle-counter` | Menü sağ üst |
+| `painting-test-01.png` | `painting-test-01` | Yalnız `?set=redesign&painting=1`, Level 7 |
+| Kullanılmadı | — | Önizlemedeki süslü tahta çerçevesi ve kutulu booster çubuğu (Zeyd) |
+
