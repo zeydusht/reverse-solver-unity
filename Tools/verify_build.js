@@ -561,6 +561,8 @@ async function show() {
   for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) {
     W = w; H = h;
     const p = await newPage(); await p.open(`${base}/?set=redesign&painting=1&lv=SHOW1`, { gate: true }); await sleep(3000);
+    fs.writeFileSync(path.join(dir, `show_${w}x${h}_0_menu.png`), await p.png());
+    await p.tap(W / 2, H - 70); await sleep(1500);                                  // the menu's Demo button
     fs.writeFileSync(path.join(dir, `show_${w}x${h}_1_kart.png`), await p.png());
     for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y);
     await sleep(800); fs.writeFileSync(path.join(dir, `show_${w}x${h}_2_tahta.png`), await p.png());

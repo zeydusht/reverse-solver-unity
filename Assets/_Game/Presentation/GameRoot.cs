@@ -116,7 +116,7 @@ namespace ReverseSolver.Presentation
             if (_showSet && string.IsNullOrEmpty(_save.Player)) _save.SetPlayer("SHOW");   // demo visitors are tagged SHOW
             bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug && !_showSet;
             int requested = PlayOverride.Active ? PlayOverride.Index
-                          : TryLevelIndex(host.Query("lv"), out int index) ? index : -1;
+                          : !_showSet && TryLevelIndex(host.Query("lv"), out int index) ? index : -1;   // SHOW1: the menu first, its Demo button starts the level
             _awaitingName = askName;
             LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName,
                            name => { _save.SetPlayer(name); _awaitingName = false; });
@@ -361,7 +361,7 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Menu)
             {
-                _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars());
+                _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null);
             }
             else
             {

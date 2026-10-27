@@ -38,7 +38,7 @@ namespace ReverseSolver.Presentation
             public Rect Play, Levels, Settings, Profile;
 
             public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false,
-                        string player = null, int saved = 0, int stars = 0)
+                        string player = null, int saved = 0, int stars = 0, string playLabel = null)
             {
                 Root = new GameObject("Menu").transform;
                 Root.SetParent(parent, false);
@@ -55,7 +55,7 @@ namespace ReverseSolver.Presentation
                     float k = Mathf.Max(screen.x / art.rect.width, screen.y / art.rect.height);
                     bg.transform.localScale = new Vector3(k, k, 1);
                     bg.transform.localPosition = Draw.W(screen.x / 2, screen.y / 2);
-                    Task13(screen, safe, nextNumber, order, player, saved, stars);
+                    Task13(screen, safe, nextNumber, order, player, saved, stars, playLabel);
                     return;
                 }
 
@@ -123,7 +123,7 @@ namespace ReverseSolver.Presentation
 
             static TMPro.TMP_FontAsset Lilita => Resources.Load<TMPro.TMP_FontAsset>("Fonts/Lilita");
 
-            void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars)
+            void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel)
             {
                 float w = screen.x, top = safe.y, hy = top + 34;
                 // header: avatar (tap: choose a Jiggle) + profile box with the name centred, Jiggles counter, settings
@@ -152,7 +152,7 @@ namespace ReverseSolver.Presentation
                 float bw = Mathf.Min(228f, w - 130f), bh = bw * 112f / 228f;
                 float x0 = (w - bw) / 2, cy = screen.y - safe.w - 22 - bh / 2;   // centred; the Levels shortcut is gone (Zeyd)
                 var play = Sprite("level-button", new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
-                var label = TextView.Create(Root, "play", $"Level {next}", bh * .34f, Palette.Cream, false, order: order + 2)
+                var label = TextView.Create(Root, "play", playLabel ?? $"Level {next}", bh * .34f, Palette.Cream, false, order: order + 2)
                     .Font(Lilita).Outline(Draw.Hex("#1E5C0E"), .22f);
                 label.transform.localPosition = Draw.W(x0 + bw / 2, cy - 2);
                 Play = new Rect(x0, cy - bh / 2, bw, bh);
@@ -321,7 +321,7 @@ namespace ReverseSolver.Presentation
             // the retry buttons wait for the 1-10 answer; Menü stays
             if (askHard && !hardAnswered && !won) return card.Button("menu", "Menü", false).Finish();
             // PM_MESAJ_17 demo level: one button, "Tekrar oyna"; the win says it was a demo
-            if (demo) { if (won) card.Body("Bu bir demo bölüm.", null, 16); return card.Button("retry", won ? "Tekrar oyna" : primary, true).Finish(); }
+            if (demo) { if (won) card.Body("Bu bir demo bölüm.", null, 16); return card.Button("retry", won ? "Tekrar oyna" : primary, true).Button("menu", "Ana menü", false).Finish(); }
             // QA 2026-10-26: on a loss the primary is already "Tekrar dene"; the second retry button only doubled it
             card.Button(primaryId, primary, true);
             if (won || !Art.On) card.Button("retry", "Tekrar oyna", false);

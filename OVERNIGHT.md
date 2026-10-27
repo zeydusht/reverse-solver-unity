@@ -1,10 +1,12 @@
-# Kazanma sesi adayları (A çan arpeji · B marimba + pırıltı · C pop + yükselen ışıltı): https://zeydusht.github.io/reverse-solver-unity/sounds/ — Zeyd harfini söyleyince oyuna bağlanacak.
+# ⚠️ YAYIN BEKLİYOR: 27 Ekim gecesi github.com'a bu bilgisayardan bağlanılamadı (zaman aşımı). Aşağıdaki SHOW1 değişikliği ve ses sayfası build'de hazır (Builds/publish), bağlantı gelince gh-pages'e konacak; canlı link şu an eski SHOW1'i açar.
+
+# Kazanma sesi adayları (A çan arpeji · B marimba + pırıltı · C pop + yükselen ışıltı): https://zeydusht.github.io/reverse-solver-unity/sounds/ (yayından sonra açılır; şimdilik docs/sounds/index.html'i tarayıcıda aç) — Zeyd harfini söyleyince oyuna bağlanacak.
 
 # SHOW1 vitrin bölümü (Görkem Bey için): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=SHOW1
-- 6×6 Akdeniz resimli tahta; 1 bomba (fitil 24), 1 çivi (11), 1 uzak zincir (2 kilit), 2 duvar şeridi; süre 2:30. Menü ve isim girişi yok (isim boşsa "SHOW"), kayıtlar level_id SHOW1 + oyuncu SHOW.
+- 6×6 Akdeniz resimli tahta; 1 bomba (fitil 24), 1 çivi (11), 1 uzak zincir (2 kilit), 2 duvar şeridi; süre 2:30. Link önce ana menüyü açar (isim girişi yok, isim "SHOW"), büyük tuş "Demo" yazar ve SHOW1'i başlatır. 4 booster açık, her biri 1 adet. Kazanınca "Tebrikler! / Bu bir demo bölüm." kartında "Tekrar oyna" ve "Ana menü", kayıtlar level_id SHOW1 + oyuncu SHOW.
 - Doğrulama (fabrika üreticisi + bot): SmartPlayer kazanır, supap 0; FunSim ilk deneme %89, Monte Carlo (rastgele) %63; fitil 10→24 taraması: %20/%32/%43/%54/%64/%74/%89.
 - Metrikler: kazma 4, fitilPay 20, yem 0,3, sahteSerbest 1, m1Açılış 10, m2Tavan 11, m3Bağlı3 0,11, m3TekBağlı 7, m6ÇiviPay 22, m7Çatışma 0, m8DuvarKolay 1 (tam liste Logs/batch/ShowLevel.Tune-*.log).
-- Anahtar parça: SmartPlayer çözümünde zincirli çift bombadan önce çıkıyor. QA: 3 telefon boyutu (docs/qa/2026-10-27-show), canlıda doğrulandı.
+- Anahtar parça: SmartPlayer çözümünde zincirli çift bombadan önce çıkıyor. QA: 3 telefon boyutu (yeni akış: docs/qa/2026-10-27-show2 — menü, booster'lar, iki tuşlu kart doğrulandı; build verify 6/7, kalan card bilinen ölçüm hatası).
 
 # iOS 0.5.0 HAZIR (27 Ekim gecesi): Builds/ReverseSolver-iOS-0.5.0.zip (304 MB)
 1. Zip'i Mac'e aktar (USB / Google Drive / AirDrop), docs/MAC_YUKLEME.md'yi adım adım izle (Xcode en güncel, Unity-iPhone.xcodeproj, Signing → Team, Product → Archive → Distribute → App Store Connect).
