@@ -1,3 +1,5 @@
+# Kazanma sesi adayları (A çan arpeji · B marimba + pırıltı · C pop + yükselen ışıltı): https://zeydusht.github.io/reverse-solver-unity/sounds/ — Zeyd harfini söyleyince oyuna bağlanacak.
+
 # SHOW1 vitrin bölümü (Görkem Bey için): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=SHOW1
 - 6×6 Akdeniz resimli tahta; 1 bomba (fitil 24), 1 çivi (11), 1 uzak zincir (2 kilit), 2 duvar şeridi; süre 2:30. Menü ve isim girişi yok (isim boşsa "SHOW"), kayıtlar level_id SHOW1 + oyuncu SHOW.
 - Doğrulama (fabrika üreticisi + bot): SmartPlayer kazanır, supap 0; FunSim ilk deneme %89, Monte Carlo (rastgele) %63; fitil 10→24 taraması: %20/%32/%43/%54/%64/%74/%89.
