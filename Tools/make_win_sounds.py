@@ -112,3 +112,27 @@ html.append('<p>Sesler kodla üretildi (örnek dosya kullanılmadı), telif yok.
 os.makedirs('docs/sounds', exist_ok=True)
 open('docs/sounds/index.html', 'w', encoding='utf-8').write(''.join(html))
 print('docs/sounds/index.html')
+
+# Zeyd 27 Ekim: C chosen. pop = first 30 % of C for each piece, popfull = whole C for the last piece,
+# win = a short "dı-dı-dııı" fanfare (bell G5 G5 C6, the last one long) played after the last piece.
+def fade_out(buf, secs):
+    n = len(buf); f = int(secs * SR)
+    for i in range(f): buf[n - f + i] *= 1 - i / f
+    return buf
+cfull = finish(c)
+pop_s = fade_out(cfull[:int(len(cfull) * .3)], .08)
+fan = [0.0] * int(1.3 * SR)
+for t, m, d, g in ((0, 79, .25, .8), (.13, 79, .25, .8), (.26, 84, 1.0, 1.0)):
+    mix(fan, t, bell(note(m), d, g)); mix(fan, t, bell(note(m - 12), d, .35 * g))
+sparkle(fan, .3, .7, 10, 3000, 6000, .08)
+for d in ('Assets/Art/Audio/OptionA/', 'Assets/_Game/Presentation/Resources/Art/audio/'):
+    write(d + 'pop.wav', pop_s); write(d + 'popfull.wav', cfull); write(d + 'win.wav', finish(fan, .10, .5))
+print('pop', round(len(pop_s) / SR, 2), 's; popfull', round(len(cfull) / SR, 2), 's; win', round(len(fan) / SR, 2), 's')
+extra = ''
+for k, label in (('pop', 'Her parça: kısa C'), ('popfull', 'Son parça: uzun C'), ('win', 'Kazanınca: dı-dı-dııı')):
+    data = base64.b64encode(open(f'Assets/Art/Audio/OptionA/{k}.wav', 'rb').read()).decode()
+    extra += (f'<button onclick="var a=document.getElementById(\'n{k}\');a.currentTime=0;a.play()">{label}</button>'
+              f'<audio id="n{k}" src="data:audio/wav;base64,{data}"></audio>')
+page = open('docs/sounds/index.html', encoding='utf-8').read()
+page = page.replace('<h1>Kazanma sesi adayları</h1>', '<h1>Oyundaki yeni sesler (C seçildi)</h1>' + extra + '<h1>Kazanma sesi adayları</h1>', 1)
+open('docs/sounds/index.html', 'w', encoding='utf-8').write(page)

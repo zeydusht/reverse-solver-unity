@@ -82,8 +82,8 @@ Kurallar:
 | Web Build 5 kökte yayında (5fc3142); gizlilik sayfası + levels/redesign.json gh-pages'te | ✅ | |
 | iOS TestFlight 0.5.0: Xcode projesi + Builds/ReverseSolver-iOS-0.5.0.zip hazır; Mac'te yükleme Zeyd'de (docs/MAC_YUKLEME.md) | ✅ | |
 | SHOW1 vitrin bölümü yayında (lv=SHOW1): resimli 6×6, 4 engel, ilk deneme %89; demo kartları, isim girişi yok, SHOW etiketi | ✅ | |
-| SHOW1 v2: menü önce + "Demo" tuşu, 4 booster ×1, kazanma kartında Tekrar oyna + Ana menü | ✅ build · ⏳ gh-pages (github.com'a erişim yok) | |
-| Kazanma sesi 3 aday (A/B/C, kodla üretildi, CC0) + test sayfası /sounds/ | 🔜 Zeyd seçimi · ⏳ yayın | |
+| SHOW1 v2: menü önce + "Demo" tuşu, 4 booster ×1, kazanma kartında Tekrar oyna + Ana menü | ✅ yayında | |
+| Sesler: C seçildi → parça başına kısa C, son parça uzun C, kazanınca dı-dı-dııı fanfarı (/sounds/) | ✅ yayında | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

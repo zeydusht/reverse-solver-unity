@@ -1,6 +1,4 @@
-# ⚠️ YAYIN BEKLİYOR: 27 Ekim gecesi github.com'a bu bilgisayardan bağlanılamadı (zaman aşımı). Aşağıdaki SHOW1 değişikliği ve ses sayfası build'de hazır (Builds/publish), bağlantı gelince gh-pages'e konacak; canlı link şu an eski SHOW1'i açar.
-
-# Kazanma sesi adayları (A çan arpeji · B marimba + pırıltı · C pop + yükselen ışıltı): https://zeydusht.github.io/reverse-solver-unity/sounds/ (yayından sonra açılır; şimdilik docs/sounds/index.html'i tarayıcıda aç) — Zeyd harfini söyleyince oyuna bağlanacak.
+# Yeni sesler yayında (Zeyd C'yi seçti): her parçada C'nin kısa hali (0,4 sn), son parçada uzun hali, ardından kazanma "dı-dı-dııı" fanfarı. Dinle: https://zeydusht.github.io/reverse-solver-unity/sounds/ (üstteki 3 tuş). Testler 552/552, canlı kontrol 2/2.
 
 # SHOW1 vitrin bölümü (Görkem Bey için): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=SHOW1
 - 6×6 Akdeniz resimli tahta; 1 bomba (fitil 24), 1 çivi (11), 1 uzak zincir (2 kilit), 2 duvar şeridi; süre 2:30. Link önce ana menüyü açar (isim girişi yok, isim "SHOW"), büyük tuş "Demo" yazar ve SHOW1'i başlatır. 4 booster açık, her biri 1 adet. Kazanınca "Tebrikler! / Bu bir demo bölüm." kartında "Tekrar oyna" ve "Ana menü", kayıtlar level_id SHOW1 + oyuncu SHOW.

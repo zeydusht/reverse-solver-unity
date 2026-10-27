@@ -300,6 +300,16 @@ namespace ReverseSolver.Presentation
             _audio.PlayOneShot(clip);
         }
 
+        AudioSource _late;
+        void PlaySoundLater(string key, float delay)   // the win fanfare waits for the last piece's long sparkle
+        {
+            var clip = Art.Sound(key);
+            if (clip == null || Art.Muted) return;
+            if (_late == null) _late = gameObject.AddComponent<AudioSource>();
+            _late.clip = clip;
+            _late.PlayDelayed(delay);
+        }
+
         void OnEvent(GameEvent e)
         {
             if (_zeydbotSet) RecordMove(e);
@@ -311,9 +321,11 @@ namespace ReverseSolver.Presentation
                 if (_session.Level.Tutorial > 0) ShowTutorialStep();
             }
             // Codex sounds (preview art only; silent when Art is off)
-            if (e.Kind == EventKind.PieceRemoved) PlaySound("weee");
+            // Zeyd 27 Oct: a short pop per piece, the whole sparkle on the last one, then the "dı-dı-dııı" win fanfare
+            if (e.Kind == EventKind.PieceRemoved) PlaySound(_session.Board.PresentCount == 0 ? "popfull" : "pop");
             else if (e.Kind == EventKind.Jammed) PlaySound("piece");
-            else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound(e.Outcome == Outcome.Win ? "win" : "loss");
+            else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
+            else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
             if (e.Kind != EventKind.Finished) return;
             _log.Add(_session.Record);
             _save.Store(_log);
