@@ -53,6 +53,7 @@ namespace ReverseSolver.Presentation
         bool _introOpen;
         bool _designSet;              // playing designs.json (?debug=1&set=designs)
         bool _zeydbotSet;             // playing zeydbot.json (?set=zeydbot): every move is recorded and sent
+        bool _showSet;                // lv=SHOW1 (PM_MESAJ_17): the investor demo level alone, no menu, no name gate
         TelemetryQueue _moveQueue;
         TelemetrySender _moveSender;
         float _moveT0, _moveLast;
@@ -112,7 +113,8 @@ namespace ReverseSolver.Presentation
             // every level open for the test links (set= in the address), not when the flag makes SET40 the playtest default
             _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug || (_zeydbotSet && !string.IsNullOrEmpty(host.Query("set"))) };
             // web name gate: once per browser; the HTML input sits over the canvas
-            bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug;
+            if (_showSet && string.IsNullOrEmpty(_save.Player)) _save.SetPlayer("SHOW");   // demo visitors are tagged SHOW
+            bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug && !_showSet;
             int requested = PlayOverride.Active ? PlayOverride.Index
                           : TryLevelIndex(host.Query("lv"), out int index) ? index : -1;
             _awaitingName = askName;
@@ -134,6 +136,12 @@ namespace ReverseSolver.Presentation
 
         LevelSet ChooseSet()
         {
+            // PM_MESAJ_17: lv=SHOW1 opens the demo level by itself, with the new look and the painting
+            if (Host.Current.Query("lv") == "SHOW1")
+            {
+                var show = Resources.Load<TextAsset>("show");
+                if (show != null) { _showSet = true; _newArt = Art.On = true; return LevelParser.Parse(show.text); }
+            }
             Art.On = false;                                    // static: no domain reload between Play sessions
             switch (SetChoice.For(Host.Debug, Host.Current.Query("set"), HasLevels(designs), HasLevels(redesign), SetFlags.RedesignDefault, HasLevels(zeydbot)))
             {
@@ -312,7 +320,7 @@ namespace ReverseSolver.Presentation
             // G8: the attempt that gets the 👍/👎 question waits for the answer (or the card closing)
             // before its row goes; asked once per level, on the win or after the third loss
             string levelId = _session.Level.Id;
-            bool ask = SetFlags.AskFun && FunAsk.ShouldAsk(e.Outcome, _save.LossesOf(levelId), _save.WasFunAsked(levelId));
+            bool ask = !_showSet && SetFlags.AskFun && FunAsk.ShouldAsk(e.Outcome, _save.LossesOf(levelId), _save.WasFunAsked(levelId));
             if (SetFlags.AskFun && (e.Outcome == Outcome.Time || e.Outcome == Outcome.Bomb)) _save.RecordLoss(levelId);
             _askFun = ask;
             if (ask) { _save.MarkFunAsked(levelId); _pendingFun = (_session.Record, _rowId); }
@@ -362,7 +370,7 @@ namespace ReverseSolver.Presentation
                 var origin = BoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin);
                 // PM_MESAJ_16 B: painted-board test on level 7 with ?set=redesign&painting=1 (Kit81 mask unchanged)
-                if (Art.On && _session.Level.Number == 7 && Host.Current.Query("painting") == "1")
+                if (Art.On && (_session.Level.Number == 7 || _showSet) && (Host.Current.Query("painting") == "1" || _showSet))
                 {
                     // Zeyd 2026-10-26 chose the thick dark navy edge (#06161D, 1.5x rim, 80 % cream band, soft halo)
                     Shader.SetGlobalFloat("_RSEdge", 1);
@@ -462,7 +470,7 @@ namespace ReverseSolver.Presentation
             OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
                 PlayOverride.Active ? "Editöre dön" : $"Tebrikler, {_set.Levels.Count} bölüm bitti",
                 _images.Get(_session.Level.Image),          // G1-b: only a picture that really arrived
-                _askFun, _funAnswered, _zeydbotSet, _hardAnswered));
+                _askFun, _funAnswered, _zeydbotSet, _hardAnswered, _showSet));
 
         // ---- G8: the 👍/👎 answer (SetFlags.AskFun) -------------------------------------------
 

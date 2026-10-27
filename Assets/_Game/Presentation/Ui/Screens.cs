@@ -258,7 +258,7 @@ namespace ReverseSolver.Presentation
            third loss; the retry button stays where it is. thanked: the answer was given. */
         public static Card Result(Transform parent, Vector2 screen, GameSession s, bool isLast, int order,
                                   string lastLabel = "Tebrikler, 40 bölüm bitti", Texture picture = null,
-                                  bool askFun = false, bool thanked = false, bool askHard = false, bool hardAnswered = false)
+                                  bool askFun = false, bool thanked = false, bool askHard = false, bool hardAnswered = false, bool demo = false)
         {
             bool won = s.Outcome == Outcome.Win;
             int stars = s.Stars;
@@ -271,6 +271,7 @@ namespace ReverseSolver.Presentation
             string primary = won ? (isLast ? lastLabel : "Sonraki bölüm") : "Tekrar dene";
             string primaryId = won ? (isLast ? "menu" : "next") : "retry";
 
+            if (demo && won) title = "Tebrikler!";   // the banner is short; the demo line goes into the card
             var card = new Card(parent, screen, order, "Result") { Compact = askFun && !thanked || askHard && !hardAnswered };
             // preview art (#8, #9): victory / defeat scene when the level has no picture of its own
             if (!withPicture && !Art.T14) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
@@ -319,6 +320,8 @@ namespace ReverseSolver.Presentation
             // ZeydBot, on a loss (PM 2026-10-21: Z34's bomb row came without the answer, retry was tapped first):
             // the retry buttons wait for the 1-10 answer; Menü stays
             if (askHard && !hardAnswered && !won) return card.Button("menu", "Menü", false).Finish();
+            // PM_MESAJ_17 demo level: one button, "Tekrar oyna"; the win says it was a demo
+            if (demo) { if (won) card.Body("Bu bir demo bölüm.", null, 16); return card.Button("retry", won ? "Tekrar oyna" : primary, true).Finish(); }
             // QA 2026-10-26: on a loss the primary is already "Tekrar dene"; the second retry button only doubled it
             card.Button(primaryId, primary, true);
             if (won || !Art.On) card.Button("retry", "Tekrar oyna", false);

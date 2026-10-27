@@ -551,6 +551,27 @@ async function painting() {
   check('painting', exc === 0, dir);
 }
 
+/* --only show (PM_MESAJ_17): the investor link as a visitor sees it (no debug, nothing sent): hint card, painted
+   board, a win with the stored solution, at 3 phone sizes. */
+async function show() {
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10)));
+  fs.mkdirSync(dir, { recursive: true });
+  const l = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Presentation/Resources/show.json'), 'utf8')).levels[0];
+  let exc = 0, won = 0;
+  for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) {
+    W = w; H = h;
+    const p = await newPage(); await p.open(`${base}/?set=redesign&painting=1&lv=SHOW1`, { gate: true }); await sleep(3000);
+    fs.writeFileSync(path.join(dir, `show_${w}x${h}_1_kart.png`), await p.png());
+    for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y);
+    await sleep(800); fs.writeFileSync(path.join(dir, `show_${w}x${h}_2_tahta.png`), await p.png());
+    await p.solve(l); await sleep(3500);
+    const buf = await p.png(); fs.writeFileSync(path.join(dir, `show_${w}x${h}_3_kazanma.png`), buf);
+    exc += p.exceptions.length; p.close();
+  }
+  W = 375; H = 667;
+  check('show', exc === 0, `SHOW1 3 boyut → ${dir}, istisna ${exc}`);
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -594,6 +615,7 @@ async function qa() {
     if (only.includes('redesign')) await redesign();
     if (only.includes('zeydbot')) await zeydbot();
     if (only.includes('qa')) await qa();
+    if (only.includes('show')) await show();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();

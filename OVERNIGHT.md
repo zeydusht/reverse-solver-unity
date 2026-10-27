@@ -1,3 +1,9 @@
+# SHOW1 vitrin bölümü (Görkem Bey için): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=SHOW1
+- 6×6 Akdeniz resimli tahta; 1 bomba (fitil 24), 1 çivi (11), 1 uzak zincir (2 kilit), 2 duvar şeridi; süre 2:30. Menü ve isim girişi yok (isim boşsa "SHOW"), kayıtlar level_id SHOW1 + oyuncu SHOW.
+- Doğrulama (fabrika üreticisi + bot): SmartPlayer kazanır, supap 0; FunSim ilk deneme %89, Monte Carlo (rastgele) %63; fitil 10→24 taraması: %20/%32/%43/%54/%64/%74/%89.
+- Metrikler: kazma 4, fitilPay 20, yem 0,3, sahteSerbest 1, m1Açılış 10, m2Tavan 11, m3Bağlı3 0,11, m3TekBağlı 7, m6ÇiviPay 22, m7Çatışma 0, m8DuvarKolay 1 (tam liste Logs/batch/ShowLevel.Tune-*.log).
+- Anahtar parça: SmartPlayer çözümünde zincirli çift bombadan önce çıkıyor. QA: 3 telefon boyutu (docs/qa/2026-10-27-show), canlıda doğrulandı.
+
 # iOS 0.5.0 HAZIR (27 Ekim gecesi): Builds/ReverseSolver-iOS-0.5.0.zip (304 MB)
 1. Zip'i Mac'e aktar (USB / Google Drive / AirDrop), docs/MAC_YUKLEME.md'yi adım adım izle (Xcode en güncel, Unity-iPhone.xcodeproj, Signing → Team, Product → Archive → Distribute → App Store Connect).
 2. Kontrol edildi: bundle com.zeydtekin.reversesolver, 0.5.0 (1), iOS 15+, yalnız iPhone, dikey, otomatik imza, şifreleme beyanı (Missing Compliance çıkmaz), Mac IL2CPP araçları zip'te çalıştırılabilir işaretli.

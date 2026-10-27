@@ -81,6 +81,7 @@ Kurallar:
 | Kart tuşları: Task15 v2 tuşları 684×336 oranında (9-slice germe yok), basılı hâl, yazı krem 22 pt + koyu kontur + gölge; başlangıç kartında engel ikonları 80 pt, zor uyarısı mercan | ✅ | |
 | Web Build 5 kökte yayında (5fc3142); gizlilik sayfası + levels/redesign.json gh-pages'te | ✅ | |
 | iOS TestFlight 0.5.0: Xcode projesi + Builds/ReverseSolver-iOS-0.5.0.zip hazır; Mac'te yükleme Zeyd'de (docs/MAC_YUKLEME.md) | ✅ | |
+| SHOW1 vitrin bölümü yayında (lv=SHOW1): resimli 6×6, 4 engel, ilk deneme %89; demo kartları, isim/menü yok, SHOW etiketi | ✅ | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)
