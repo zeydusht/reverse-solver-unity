@@ -84,6 +84,8 @@ Kurallar:
 | SHOW1 vitrin bölümü yayında (lv=SHOW1): resimli 6×6, 4 engel, ilk deneme %89; demo kartları, isim girişi yok, SHOW etiketi | ✅ | |
 | SHOW1 v2: menü önce + "Demo" tuşu, 4 booster ×1, kazanma kartında Tekrar oyna + Ana menü | ✅ yayında | |
 | Sesler: C seçildi → parça başına kısa C, son parça uzun C, kazanınca dı-dı-dııı fanfarı (/sounds/) | ✅ yayında | |
+| PM_MESAJ_18: 40 tablo her bölümde (Pages'ten, önbellek, menü tablosu, kazanınca 1 sn resim) — önizleme /p18/ | ✅ önizleme · ⏳ kök için Zeyd onayı · ⏳ iOS 0.5.1 | |
+| Kazanma anındaki tam resmin sağ/alt kenar çizgilenmesi | 🔜 | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

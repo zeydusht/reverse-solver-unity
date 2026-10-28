@@ -574,6 +574,32 @@ async function show() {
   check('show', exc === 0, `SHOW1 3 boyut → ${dir}, istisna ${exc}`);
 }
 
+/* --only paint40 (PM_MESAJ_18): every SET40 v3 level wears its own painting. At 3 phone sizes: the menu (the next
+   level's painting in the corridor frame), levels 1, 2, 19, 30 and 40 on their painted boards, and level 1's win
+   (the whole painting before the card, then the card). Debug pages, nothing sent. */
+async function paint40() {
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-paint40'));
+  fs.mkdirSync(dir, { recursive: true });
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  let exc = 0;
+  for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) {
+    W = w; H = h;
+    const shot = async (p, name) => fs.writeFileSync(path.join(dir, `${w}x${h}_${name}.png`), await p.png());
+    const tapCard = async p => { for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y); await sleep(500); };
+    let p = await newPage(); await p.open(dbg(`${base}/?set=redesign`)); await sleep(4000);
+    await shot(p, '0_menu'); exc += p.exceptions.length; p.close();
+    for (const n of [1, 2, 19, 30, 40]) {
+      p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lv=${set[n - 1].id}`)); await sleep(3500);
+      await tapCard(p); await sleep(1500); await shot(p, `lv${String(n).padStart(2, '0')}`); exc += p.exceptions.length; p.close();
+    }
+    p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lv=${set[0].id}`)); await sleep(3500);
+    await p.solve(set[0]); await sleep(250); await shot(p, 'win_1_resim'); await sleep(2900); await shot(p, 'win_2_kart');
+    exc += p.exceptions.length; p.close();
+  }
+  W = 375; H = 667;
+  check('paint40', exc === 0, `3 boyut → ${dir}, istisna ${exc}`);
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -618,6 +644,7 @@ async function qa() {
     if (only.includes('zeydbot')) await zeydbot();
     if (only.includes('qa')) await qa();
     if (only.includes('show')) await show();
+    if (only.includes('paint40')) await paint40();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();

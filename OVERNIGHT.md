@@ -1,3 +1,11 @@
+# Önizleme 18 (PM_MESAJ_18, 28 Ekim): her bölüm kendi tablosuyla — https://zeydusht.github.io/reverse-solver-unity/p18/?set=redesign
+- Bölüm N → painting-NN (40 tablo). Resimler build'de değil, GitHub Pages /paintings/'ten iniyor; sıradaki bölümün resmi önceden yükleniyor, web'de tarayıcı önbelleği, iOS'ta diske kopya. Resim gelmezse tahta düz mavi açılıyor, oyun beklemiyor.
+- Ana menüdeki büyük altın çerçevede sıradaki bölümün tablosu var (çerçeve aynı). Kazanınca kart açılmadan önce tamamlanmış resim 1 sn görünüyor.
+- Build boyutu değişmedi (Brotli 11,43 MB → 11,44 MB, kod farkı). Kök adres (Build 5) DEĞİŞMEDİ; önizleme ayrı klasörde (/p18/). Kök için Zeyd'in "kökü güncelle" onayı bekleniyor.
+- QA (3 boyut: 375×667, 390×844, 430×932; yerel + canlı, istisna 0): menü, bölüm 1, 2, 19, 30, 40 ve kazanma anı → docs/qa/2026-10-28-paint40(-live). Kenarlar, bomba/çivi sayaçları, zincirler ve kırmızı-beyaz duvar okunuyor; güçlendirme gerekmedi.
+- Bilinen küçük kusur: kazanma anındaki tam resmin sağ ve alt kenarında ince çizgilenme var (kenar şeridinde). Sonraki işte düzeltilecek.
+- iOS 0.5.1'e girecek (kod ortak, titreşim işiyle birlikte).
+
 # Yeni sesler yayında (Zeyd C'yi seçti): her parçada C'nin kısa hali (0,4 sn), son parçada uzun hali, ardından kazanma "dı-dı-dııı" fanfarı. Dinle: https://zeydusht.github.io/reverse-solver-unity/sounds/ (üstteki 3 tuş). Testler 552/552, canlı kontrol 2/2.
 
 # SHOW1 vitrin bölümü (Görkem Bey için): https://zeydusht.github.io/reverse-solver-unity/br/?set=redesign&painting=1&lv=SHOW1
