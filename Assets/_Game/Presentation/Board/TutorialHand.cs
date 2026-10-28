@@ -87,42 +87,7 @@ namespace ReverseSolver.Presentation
             shaft.transform.localPosition = Draw.W(A(12, 16.9f));
             h._shapes.Add(shaft);
 
-            // hand: SVG 64x64 at S*1.05, its box's top-left at the cell's (.55, .5)
-            var hand = new GameObject("Hand").transform;
-            hand.SetParent(h._move, false);
-            float k = S * 1.05f / 64f;
-            hand.localPosition = Draw.W((cell.X + .55f) * S, (cell.Y + .5f) * S);
-            Vector2 H(float x, float y) => new Vector2(x * k, y * k);
-            // (centre a, centre b, width) capsules approximating the path, plus the palm
-            var parts = new (Vector2 a, Vector2 b, float w)[]
-            {
-                (H(29, 6), H(29, 30), 10 * k),          // index finger
-                (H(11, 22), H(11, 36), 10 * k),         // folded finger on the left
-                (H(36, 40), H(45.5f, 23.5f), 10 * k),   // thumb
-            };
-            Rect palm = new Rect(6 * k, 27 * k, 33 * k, 25 * k);
-            float outline = 3.2f * k;
-            for (int pass = 0; pass < 2; pass++)
-            {
-                bool dark = pass == 0;
-                var col = dark ? Draw.Hex("#22484a") : Draw.Hex("#ffffff");
-                float grow = dark ? outline : 0;
-                int o = order + 4 + pass;
-                var p = ShapeView.Create(hand, "palm", palm.size + Vector2.one * grow * 2, 4, o)
-                    .Radius(12 * k + grow).Fill(col);
-                p.transform.localPosition = Draw.W(palm.center);
-                if (dark) p.Shadow(Draw.Rgba(0, 0, 0, .5f), 0, 4 * k, 7 * k);
-                h._shapes.Add(p);
-                foreach (var (a, b, w) in parts)
-                {
-                    var d = b - a;
-                    var c = ShapeView.Create(hand, "part", new Vector2(d.magnitude + w + grow * 2, w + grow * 2), 4, o)
-                        .Radius(w / 2 + grow).Fill(col);
-                    c.transform.localPosition = Draw.W((a + b) / 2);
-                    c.transform.localRotation = Quaternion.Euler(0, 0, -Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg);
-                    h._shapes.Add(c);
-                }
-            }
+            // Zeyd 2026-10-28: only Codex's glove; the hand drawn from shapes is gone
             h.Apply(0);
             // PM_MESAJ_8: with the drawn glove, the vector arrow and glow go (one hand on screen)
             if (glove != null) arrow.gameObject.SetActive(false);   // the glow stays: Codex's target glow

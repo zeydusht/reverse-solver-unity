@@ -72,5 +72,20 @@ namespace ReverseSolver.Core.Tests
             Assert.That(PlayRow.Json(lost, "TEST_X", "i", "r2"), Does.Contain("\"result\":\"time\"").And.Contain("\"keyif\":-1"));
         }
 
+        [Test]
+        public void ServerBestStarsOnlyRaiseTheSave()
+        {
+            // Zeyd 2026-10-28: an empty browser save gets the player's won levels back from `plays`
+            var store = new MemoryStore();
+            var save = new SaveData(store, () => "install");
+            var log = save.Restore(); log.Restore(new System.Collections.Generic.Dictionary<string, int>(), new System.Collections.Generic.Dictionary<string, int> { ["S42"] = 3 });
+            save.Store(log);
+            int n = save.MergeBest(new System.Collections.Generic.Dictionary<string, int> { ["S41"] = 2, ["S42"] = 1, ["S43"] = 0 });
+            Assert.That(n, Is.EqualTo(1));
+            var again = new SaveData(store, () => "other");
+            Assert.That(again.Best["S41"], Is.EqualTo(2));
+            Assert.That(again.Best["S42"], Is.EqualTo(3), "never lowered");
+            Assert.That(again.Best.ContainsKey("S43"), Is.False, "no star, no win");
+        }
     }
 }

@@ -120,7 +120,8 @@ namespace ReverseSolver.Presentation
                           : !_showSet && TryLevelIndex(host.Query("lv"), out int index) ? index : -1;   // SHOW1: the menu first, its Demo button starts the level
             _awaitingName = askName;
             LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName,
-                           name => { _save.SetPlayer(name); _awaitingName = false; if (_mode == Mode.Menu) Layout(); });   // the profile box shows it
+                           name => { bool fresh = _save.Best.Count == 0; _save.SetPlayer(name); _awaitingName = false; if (_mode == Mode.Menu) Layout();   // the profile box shows it
+                                   if (fresh) StartCoroutine(RecoverProgress(name)); });
         }
 
         /* iOS: the levels saved from GitHub Pages at an earlier launch (Platform.RemoteLevels), when they still parse
@@ -260,13 +261,48 @@ namespace ReverseSolver.Presentation
             _board?.Deal();                                    // web render(true): pieces deal in on a fresh start
         }
 
+        /* Zeyd 2026-10-28: a new browser save (Safari's 7-day clean-up, Chrome or WhatsApp's own browser, another
+           phone) loses the progress, but every win is already a `plays` row under the player's name. When the save is
+           empty and a name is typed, those rows bring the best stars back (anon read, the schema untouched). */
+        System.Collections.IEnumerator RecoverProgress(string name)
+        {
+            var host = Host.Current;
+            if (string.IsNullOrEmpty(host.SupabaseUrl) || string.IsNullOrEmpty(host.AnonKey) || string.IsNullOrEmpty(name)) yield break;
+            string url = host.SupabaseUrl + "/rest/v1/plays?select=level_id,stars&result=eq.win&player=eq." + UnityEngine.Networking.UnityWebRequest.EscapeURL(name);
+            using (var req = UnityEngine.Networking.UnityWebRequest.Get(url))
+            {
+                req.SetRequestHeader("apikey", host.AnonKey);
+                req.SetRequestHeader("Authorization", "Bearer " + host.AnonKey);
+                yield return req.SendWebRequest();
+                if (req.result != UnityEngine.Networking.UnityWebRequest.Result.Success) { if (Host.Debug) Debug.Log("[recover] " + req.error); yield break; }
+                var best = new Dictionary<string, int>();
+                try
+                {
+                    var rows = ReverseSolver.Core.Json.JsonReader.Parse(req.downloadHandler.text);
+                    if (rows.Kind == ReverseSolver.Core.Json.JsonKind.Array)
+                        foreach (var row in rows.Items)
+                            if (row.TryGet("level_id", out var id) && row.TryGet("stars", out var st) && st.Kind == ReverseSolver.Core.Json.JsonKind.Number)
+                                best[id.AsString] = System.Math.Max((int)st.AsNumber, best.TryGetValue(id.AsString, out int b) ? b : 0);
+                }
+                catch (System.Exception) { yield break; }
+                int n = _save.MergeBest(best);
+                if (Host.Debug) Debug.Log($"[recover] {name}: {best.Count} won levels on the server, {n} restored");
+                if (n == 0) yield break;
+                _log = _save.Restore();
+                _progress = new Progress(_log, _set.Levels) { UnlockAll = _progress.UnlockAll };
+                if (_mode == Mode.Menu) Layout();
+            }
+        }
+
         /* SET40 v3 tutorial: the hand on the next solution move and its step text. */
         void ShowTutorialStep()
         {
             if (_board == null || !Tutorial.Step(_session, out var m)) return;
+            // Zeyd 2026-10-28: the hand on level 1's first two moves only, never on level 2
+            int done = _session.Level.Pieces.Count - _session.Board.PresentCount;
+            if (_session.Level.Tutorial != 1 || done >= 2) return;
             var origin = BoardPlacement(_screen, _safe, _session.Level, out _);
             _hand = TutorialHand.Show(_board, _board.PieceViewOf(m.Piece), m, HandOrder, new Rect(-origin, _screen));
-            int done = _session.Level.Pieces.Count - _session.Board.PresentCount;
             if (_session.Level.Tutorial == 1 || done == 0) _bar?.Notice(done == 0 ? Texts.TutorialFirst : Texts.TutorialNext, 2.5f);
         }
 

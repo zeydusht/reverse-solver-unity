@@ -115,6 +115,24 @@ namespace ReverseSolver.Core
             _store.Save();
         }
 
+        /* Zeyd 2026-10-28: best stars recovered from the player's won rows on the server (the browser's own save was
+           empty: another browser, an in-app browser, cleared storage). Only raises; returns how many levels changed. */
+        public int MergeBest(IEnumerable<KeyValuePair<string, int>> best)
+        {
+            int changed = 0;
+            foreach (var kv in best)
+            {
+                if (string.IsNullOrEmpty(kv.Key) || kv.Value <= 0) continue;
+                if (Best.TryGetValue(kv.Key, out int b) && b >= kv.Value) continue;
+                Best[kv.Key] = kv.Value;
+                changed++;
+            }
+            if (changed == 0) return 0;
+            _store.Set(Key("best"), Write(Best));
+            _store.Save();
+            return changed;
+        }
+
         /* An AttemptLog that continues the saved counters. */
         public AttemptLog Restore()
         {

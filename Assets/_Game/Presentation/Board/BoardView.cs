@@ -96,6 +96,9 @@ namespace ReverseSolver.Presentation
             float t = v3 ? Mathf.Max(S * .25f, rim, 8f) : Mathf.Max(7f, S * .16f), ov = v3 ? 0 : S * .06f;
             float gap = v3 ? 0f : t * .5f;          // v3 strips sit right on the board edge
             bool Sealed(Dir d, int lane) => l.Sealed.TryGetValue(d, out var ls) && System.Array.IndexOf(ls, lane) >= 0;
+            // Zeyd 2026-10-28: where two walls meet, the Task 14 elbow (its band is half the 2t tile) sits centred on the
+            // board corner and the strips start where its arms end: one layer, no overlap
+            bool elbows = v3 && Art.T14 && Art.Get("wall-corner") != null;
             foreach (var side in l.Sealed)
             {
                 var lanes = new List<int>(side.Value); lanes.Sort();
@@ -108,8 +111,14 @@ namespace ReverseSolver.Presentation
                     if (v3 && horizontal)
                     {
                         int edgeRow = side.Key == Dir.U ? 0 : l.Height - 1;
-                        if (a == 0 && Sealed(Dir.L, edgeRow)) from = -t - gap;
-                        if (b == l.Width - 1 && Sealed(Dir.R, edgeRow)) to = W + t + gap;
+                        if (a == 0 && Sealed(Dir.L, edgeRow)) from = elbows ? t : -t - gap;
+                        if (b == l.Width - 1 && Sealed(Dir.R, edgeRow)) to = elbows ? W - t : W + t + gap;
+                    }
+                    if (elbows && !horizontal)
+                    {
+                        int edgeCol = side.Key == Dir.L ? 0 : l.Width - 1;
+                        if (a == 0 && Sealed(Dir.U, edgeCol)) from = t;
+                        if (b == l.Height - 1 && Sealed(Dir.D, edgeCol)) to = H - t;
                     }
                     Rect r = side.Key switch
                     {
@@ -145,19 +154,19 @@ namespace ReverseSolver.Presentation
             }
 
             // Task 14 wall corners (the art opens up and right: bottom-left as drawn, the others turned)
-            if (Art.On && Art.T14 && Art.Get("wall-corner") != null)
+            if (elbows)
             {
                 bool Has(Dir d, int lane) => l.Sealed.TryGetValue(d, out var lanes) && System.Array.IndexOf(lanes, lane) >= 0;
                 foreach (var (on, at, rot) in new[]
                 {
-                    (Has(Dir.U, 0) && Has(Dir.L, 0), new Vector2(-t / 2, -t / 2), -90f),
-                    (Has(Dir.U, l.Width - 1) && Has(Dir.R, 0), new Vector2(W + t / 2, -t / 2), 180f),
-                    (Has(Dir.D, l.Width - 1) && Has(Dir.R, l.Height - 1), new Vector2(W + t / 2, H + t / 2), 90f),
-                    (Has(Dir.D, 0) && Has(Dir.L, l.Height - 1), new Vector2(-t / 2, H + t / 2), 0f),
+                    (Has(Dir.U, 0) && Has(Dir.L, 0), new Vector2(0, 0), -90f),
+                    (Has(Dir.U, l.Width - 1) && Has(Dir.R, 0), new Vector2(W, 0), 180f),
+                    (Has(Dir.D, l.Width - 1) && Has(Dir.R, l.Height - 1), new Vector2(W, H), 90f),
+                    (Has(Dir.D, 0) && Has(Dir.L, l.Height - 1), new Vector2(0, H), 0f),
                 })
                 {
                     if (!on) continue;
-                    var c = Art.Place(transform, "wall-corner", new Vector2(t * 1.1f, t * 1.1f), WallOrder + 1);
+                    var c = Art.Place(transform, "wall-corner", new Vector2(t * 2, t * 2), WallOrder + 1);
                     c.transform.localPosition = Draw.W(at);
                     c.transform.localRotation = Quaternion.Euler(0, 0, rot);
                 }
