@@ -74,6 +74,9 @@ Bu rehber, teknik bilgisi olmayan biri içindir. Toplam süre: ilk seferde yakla
 
 Zeyd yeni bir zip gönderdiğinde yalnız **3, 5 ve 6. adımlar** tekrarlanır. Her yeni yüklemede build numarası Zeyd'in tarafında artırılmış olur; aynı numarayla iki kez yüklenemez.
 
+**0.5.1 (build 2), 28 Ekim:** `Builds/ReverseSolver-iOS-0.5.1.zip`. Eski klasörü silip yeni zip'i aç, sonra 3, 5 ve 6. adımlar. 1, 2 ve 4. adımlar ilk seferde yapıldıysa tekrar gerekmez (4'te Team seçili değilse yeniden seç). Bu sürümde: 40 tablo (internetten iner, telefona kaydedilir), İngilizce/Türkçe, yeni kartlar, kalın duvarlar, titreşim (ayarlardan kapatılır).
+Bundan sonraki her zip'te sürüm ya da build numarası bir artar (0.5.2 / 3 …); App Store Connect aynı numarayı iki kez kabul etmez.
+
 ## Sorun çıkarsa
 
 - "No account for team" / "Signing requires a development team": 2. ve 4. adımları tekrar kontrol et.

@@ -157,7 +157,7 @@ namespace ReverseSolver.Presentation
                 AvatarTile(Root, new Vector2(40, hy), 60, Art.AvatarIndex, order + 1, frame: true);   // teal ground, centred Jiggle, gold frame
                 var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? Texts.Player : player, 15, Palette.Navy, true, order: order + 4);
                 name.GetComponent<TMPro.TextMeshPro>().richText = false;
-                name.FitWidth(100, 10);
+                name.FitWidth(84, 9);   // the box's free part right of the avatar frame is ~88 pt
                 name.transform.localPosition = Draw.W(40 + 66 + 12, hy);       // centre of the box's free part (right of the frame)
                 Profile = new Rect(10, hy - 30, 164, 60);
                 if (box != null) _press.Add((Profile, box, "m13-profile-box", "m13-profile-box-pressed", null));

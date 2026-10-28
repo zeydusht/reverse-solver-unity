@@ -86,6 +86,9 @@ Kurallar:
 | Sesler: C seçildi → parça başına kısa C, son parça uzun C, kazanınca dı-dı-dııı fanfarı (/sounds/) | ✅ yayında | |
 | PM_MESAJ_18: 40 tablo her bölümde (Pages'ten, önbellek, menü tablosu, kazanınca 1 sn resim) — önizleme /p18/ | ✅ önizleme · ⏳ kök için Zeyd onayı · ⏳ iOS 0.5.1 | |
 | Kazanma anındaki tam resmin sağ/alt kenar çizgilenmesi | 🔜 | |
+| PM_MESAJ_19: sesler, ayarlar (ses/titreşim/dil), English varsayılan, kısa kartlar, isim girişi, duvar=çerçeve, titreşim — önizleme /p19/ | ✅ | |
+| iOS 0.5.1 (2) zip: Builds/ReverseSolver-iOS-0.5.1.zip | ✅ · ⏳ Mac'ten TestFlight (Zeyd) | |
+| Müzik ayarı (oyunda müzik yok) / dil ayarını telemetride not etme | 🔜 | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

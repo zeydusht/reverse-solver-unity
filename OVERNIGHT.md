@@ -1,3 +1,10 @@
+# Önizleme 19 (PM_MESAJ_19, 28 Ekim): https://zeydusht.github.io/reverse-solver-unity/p19/?set=redesign (Türkçe: &lang=tr) — kök Build 5 değişmedi.
+- iOS 0.5.1 (2) hazır: Builds/ReverseSolver-iOS-0.5.1.zip (304 MB, Xcode 0 hata); 40 tablo + bu tur + titreşim. Mac adımları: docs/MAC_YUKLEME.md → "Sonraki yüklemeler".
+- Yapıldı: parça sesi kaldırıldı (takılma + son parça + fanfar kaldı); Ayarlar: Ses, Titreşim, Dil; varsayılan English; kısa kazanma kartı (👍/👎 çizim, 1–10 çip, yeşil Next level, Play again · Menu); isim girişi krem/lacivert, 12 karakter, kutuya sığar; duvar çerçevenin yerini alıyor.
+- QA: yerel 5/5 + canlı 2/2; 2 dil × 3 boyut ekran görüntüleri docs/qa/2026-10-28-p19 (menü, isim, oyun, kazanma, ayarlar).
+- Kalan: Müzik ayarı yok (oyunda müzik yok); dil ayarı Supabase'e yazılmıyor (şemaya dokunulmadı); titreşim ve iOS isim klavyesi gerçek iPhone'da denenmedi; kazanma resmi kenar çizgilenmesi.
+- 1–10 çip satırı yalnız oyuncu modunda (debug'sız) çıkıyor; ekran görüntüsünde yok, telefonda bak.
+
 # Önizleme 18 (PM_MESAJ_18, 28 Ekim): her bölüm kendi tablosuyla — https://zeydusht.github.io/reverse-solver-unity/p18/?set=redesign
 - Bölüm N → painting-NN (40 tablo). Resimler build'de değil, GitHub Pages /paintings/'ten iniyor; sıradaki bölümün resmi önceden yükleniyor, web'de tarayıcı önbelleği, iOS'ta diske kopya. Resim gelmezse tahta düz mavi açılıyor, oyun beklemiyor.
 - Ana menüdeki büyük altın çerçevede sıradaki bölümün tablosu var (çerçeve aynı). Kazanınca kart açılmadan önce tamamlanmış resim 1 sn görünüyor.
