@@ -624,6 +624,39 @@ async function p19() {
   check('p19', exc === 0, `2 dil x 3 boyut → ${dir}, istisna ${exc}`);
 }
 
+/* --only p20 (preview feedback 2026-10-28): level 1's hand (one glove, gone after two moves), level 2 without a
+   hand, wall corners on 19/25/35/40 and SHOW1, and the progress recovery: a fresh browser, the name TEST_B5 (one
+   S41 win on the server) -> the menu offers Level 2. That page reads Supabase (GET only; nothing is played). */
+async function p20() {
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-p20'));
+  fs.mkdirSync(dir, { recursive: true });
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  let exc = 0, recovered = false;
+  for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) {
+    W = w; H = h;
+    const shot = async (p, name) => fs.writeFileSync(path.join(dir, `${w}x${h}_${name}.png`), await p.png());
+    const tapCard = async p => { for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y); await sleep(500); };
+    let p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lv=${set[0].id}`)); await sleep(2500);
+    await shot(p, 'lv01_0');
+    await p.solve({ ...set[0], solution: set[0].solution.slice(0, 2) }); await sleep(800); await shot(p, 'lv01_2hamle');
+    exc += p.exceptions.length; p.close();
+    for (const n of [2, 19, 25, 35, 40]) {
+      p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lv=${set[n - 1].id}`)); await sleep(2500);
+      await tapCard(p); await sleep(1200); await shot(p, `lv${String(n).padStart(2, '0')}`); exc += p.exceptions.length; p.close();
+    }
+    p = await newPage(); await p.open(`${base}/?set=redesign&painting=1&lv=SHOW1`, { gate: true }); await sleep(2500);
+    await p.tap(W / 2, H - 70); await sleep(1500); await tapCard(p); await sleep(1000); await shot(p, 'show1'); exc += p.exceptions.length; p.close();
+  }
+  W = 390; H = 844;
+  const p = await newPage(); await p.cdp('Network.setBlockedURLs', { urls: [] });
+  await p.open(`${base}/?set=redesign&lang=en`, { gate: true }); await p.name('TEST_B5'); await sleep(5000);
+  fs.writeFileSync(path.join(dir, 'recover_menu.png'), await p.png());
+  recovered = p.supabase.every(m => m === 'GET' || m === 'OPTIONS') && p.supabase.includes('GET');   // OPTIONS: the CORS preflight
+  exc += p.exceptions.length; p.close();
+  W = 375; H = 667;
+  check('p20', exc === 0 && recovered, `3 boyut → ${dir}, istisna ${exc}, Supabase yalnız okuma: ${recovered} (menü Level 2 mi: recover_menu.png)`);
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -670,6 +703,7 @@ async function qa() {
     if (only.includes('show')) await show();
     if (only.includes('paint40')) await paint40();
     if (only.includes('p19')) await p19();
+    if (only.includes('p20')) await p20();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();

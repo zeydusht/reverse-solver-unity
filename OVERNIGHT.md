@@ -1,3 +1,7 @@
+# Önizleme 19 güncellendi (28 Ekim akşam, aynı link /p19/?set=redesign; kök ve iOS dokunulmadı): tek el (Codex eldiveni) yalnız Level 1'in ilk 2 hamlesinde, Level 2'de el yok; duvar köşeleri tek dirsek parçasıyla birleşiyor (19/25/35/40, SHOW1 kontrol; sağ alt köşe hiçbir bölümde yok).
+- İlerleme: her bitişte hemen yazılıyor, bölüm kimliğiyle tutuluyor (sürüm/set değişince silinmiyor), kök ile /br/?set=redesign aynı kaydı kullanıyor; önizleme klasörleri (/p19/) ayrı kayıt. Yedek: tarayıcı kaydı boşsa ve aynı isim girilirse kazanılan bölümler Supabase plays'ten okunup geri geliyor (şema aynı; TEST_B5 ile canlıda doğrulandı → Level 2).
+- Tarayıcılar: Safari, Chrome (iOS) ve WhatsApp içi tarayıcının kayıtları birbirinden ayrı; Safari 7 gün girilmeyen sitenin kaydını silebilir. Üçünde de aynı ismi yazınca ilerleme Supabase'ten gelir. Not: isim parolasız; başkasının ismini yazan onun ilerlemesini görür.
+
 # Önizleme 19 (PM_MESAJ_19, 28 Ekim): https://zeydusht.github.io/reverse-solver-unity/p19/?set=redesign (Türkçe: &lang=tr) — kök Build 5 değişmedi.
 - iOS 0.5.1 (2) hazır: Builds/ReverseSolver-iOS-0.5.1.zip (304 MB, Xcode 0 hata); 40 tablo + bu tur + titreşim. Mac adımları: docs/MAC_YUKLEME.md → "Sonraki yüklemeler".
 - Yapıldı: parça sesi kaldırıldı (takılma + son parça + fanfar kaldı); Ayarlar: Ses, Titreşim, Dil; varsayılan English; kısa kazanma kartı (👍/👎 çizim, 1–10 çip, yeşil Next level, Play again · Menu); isim girişi krem/lacivert, 12 karakter, kutuya sığar; duvar çerçevenin yerini alıyor.
