@@ -1,22 +1,103 @@
+using ReverseSolver.Core;
+
 namespace ReverseSolver.Presentation
 {
-    /* New player-facing texts (SET40 v3, PM_MESAJ_6 §3.4): kept in one place so an English set can
-       replace this class later. Level cards (intro / bintro) carry their own text in the level file. */
+    /* Player-facing text follows the language chosen in settings. */
     public static class Texts
     {
-        public const string TutorialFirst = "Bu parçayı it ve kurtar";
-        public const string TutorialNext = "Şimdi bunu kurtar";
-        public const string HardTitle = "Zor bölüm";
-        public const string HardBody = "Bu bölüm zor, haberin olsun. Süre ilk hamlende başlar.";
-        public const string HardStart = "Başla";
-        // PM_MESAJ_9: profile box, settings, level start card
-        public const string Saved = "Kurtarılan Jiggles: {0}";
-        public const string Settings = "Ayarlar";
-        public const string SoundOn = "Ses: Açık", SoundOff = "Ses: Kapalı", Close = "Kapat";
-        public const string HapticsOn = "Titreşim: Açık", HapticsOff = "Titreşim: Kapalı", Language = "Dil: Türkçe";
-        public const string Level = "Level {0}";
-        public const string Goal = "Tüm Jiggles'ı kurtar";
-        public const string Avatar = "Jiggle'ını seç";
-        public const string Paused = "Durduruldu", Resume = "Devam", Restart = "Yeniden başla", MainMenu = "Ana menü";
+        public static string TutorialFirst => Lang.T("Push this piece to save it", "Bu parçayı it ve kurtar");
+        public static string TutorialNext => Lang.T("Now save this one", "Şimdi bunu kurtar");
+        public static string HardTitle => Lang.T("Hard level", "Zor bölüm");
+        public static string HardBody => Lang.T("This one's tricky! The timer starts on your first move.", "Bu bölüm zor, haberin olsun. Süre ilk hamlende başlar.");
+        public static string HardStart => Lang.T("Start", "Başla");
+        public static string Saved => Lang.T("Jiggles saved: {0}", "Kurtarılan Jiggles: {0}");
+        public static string Settings => Lang.T("Settings", "Ayarlar");
+        public static string SoundOn => Lang.T("Sound: On", "Ses: Açık");
+        public static string SoundOff => Lang.T("Sound: Off", "Ses: Kapalı");
+        public static string Close => Lang.T("Close", "Kapat");
+        public static string HapticsOn => Lang.T("Vibration: On", "Titreşim: Açık");
+        public static string HapticsOff => Lang.T("Vibration: Off", "Titreşim: Kapalı");
+        public static string Language => Lang.T("Language: English", "Dil: Türkçe");
+        public static string Level => Lang.T("Level {0}", "Level {0}");
+        public static string Goal => Lang.T("Save the Jiggles!", "Jiggle'ları kurtar!");
+        public static string Avatar => Lang.T("Choose your Jiggle", "Jiggle'ını seç");
+        public static string Paused => Lang.T("Paused", "Durduruldu");
+        public static string Resume => Lang.T("Continue", "Devam");
+        public static string Restart => Lang.T("Restart", "Yeniden başla");
+        public static string MainMenu => Lang.T("Main menu", "Ana menü");
+        public static string MenuHint => Lang.T("Drag each piece the right way to clear the board.", "Her parçayı doğru yönde sürükleyip tahtayı boşalt.");
+        public static string PlayLevel => Lang.T("Play · Level {0}", "Oyna · Bölüm {0}");
+        public static string Levels => Lang.T("Levels", "Bölümler");
+        public static string Player => Lang.T("Player", "Oyuncu");
+        public static string NamePrompt => Lang.T("Your name", "Adın");
+        public static string TestLevels => Lang.T("Pick any level to test.", "Test için istediğin bölüme atla.");
+        public static string UnlockHint => Lang.T("Beat a level to unlock the next one.", "Bir bölümü geçince sonraki açılır.");
+        public static string SetComplete => Lang.T("Well done! All {0} levels cleared", "Tebrikler, {0} bölüm bitti");
+        public static string PictureComplete => Lang.T("Picture complete!", "Resmi tamamladın");
+        public static string BoardCleared => Lang.T("Board cleared!", "Tahta boşaldı!");
+        public static string BombExploded => Lang.T("The bomb exploded", "Bomba patladı");
+        public static string TimeUp => Lang.T("Time's up", "Süre doldu");
+        public static string WinStats => Lang.T("{0} seconds left, {1} jams.", "{0} saniye kaldı, {1} kez takıldın.");
+        public static string BombHint => Lang.T("Clear the bomb's path before the fuse runs out. The hammer removes it in one move.", "Fitil bitmeden bombanın yolunu açman gerekiyordu. Çekiç onu tek hamlede söker.");
+        public static string TimeHint => Lang.T("{0} pieces left. The clock booster adds 20 seconds.", "{0} gövde kaldı. Saat booster'ı 20 saniye ekler.");
+        public static string NextLevel => Lang.T("Next level", "Sonraki bölüm");
+        public static string Retry => Lang.T("Try again", "Tekrar dene");
+        public static string Congratulations => Lang.T("Well done!", "Tebrikler!");
+        public static string AskFun => Lang.T("Did you like this level?", "Bu bölümü beğendin mi?");
+        public static string Liked => Lang.T("Liked", "Beğendim");
+        public static string Disliked => Lang.T("Disliked", "Beğenmedim");
+        public static string Thanks => Lang.T("Thanks!", "Teşekkürler!");
+        public static string AskHard => Lang.T("How hard was it? 1 very easy · 10 very hard", "Ne kadar zordu? 1 çok kolay · 10 çok zor");
+        public static string AskHardLost => Lang.T("Your rating still counts! How hard was it? (1–10)", "Kaybettin ama puanın önemli: ne kadar zordu? (1–10)");
+        public static string RatingSaved => Lang.T("Saved, thanks!", "Kaydedildi, teşekkürler!");
+        public static string Menu => Lang.T("Menu", "Menü");
+        public static string Demo => Lang.T("This is a demo level.", "Bu bir demo bölüm.");
+        public static string PlayAgain => Lang.T("Play again", "Tekrar oyna");
+        public static string NewBooster => Lang.T("New booster: {0}", "Yeni booster: {0}");
+        public static string GotIt => Lang.T("Got it", "Anladım");
+        public static string Use => Lang.T("Use", "Kullan");
+        public static string Cancel => Lang.T("Cancel", "Vazgeç");
+        public static string NailReleased => Lang.T("The nail came loose", "Çivi kendiliğinden söküldü");
+        public static string BackToEditor => Lang.T("Back to editor", "Editöre dön");
+        public static string Scissors => Lang.T("SCISSORS", "MAKAS");
+        public static string Wand => Lang.T("WAND", "DEĞNEK");
+        public static string Hammer => Lang.T("HAMMER", "ÇEKİÇ");
+        public static string Clock => Lang.T("CLOCK", "SAAT");
+        public static string LockedLevel => Lang.T("LEVEL {0}", "{0}. BÖLÜM");
+        public static string UnlocksAt => Lang.T("Unlocks at level {0}", "{0}. bölümde açılıyor");
+        public static string ScissorsHint => Lang.T("Tap the joint you want to cut", "Kesmek istediğin birleşim noktasına dokun");
+        public static string HammerHint => Lang.T("Tap the piece you want to break", "Kırmak istediğin parçaya dokun");
+        public static string WandFailed => Lang.T("No new layout found. Your wand wasn't used.", "Değnek yeni bir dizilim bulamadı, hakkın harcanmadı");
+        public static string ClockDone => Lang.T("+20 seconds", "+20 saniye");
+        public static string AskWand => Lang.T("Use a wand?", "Değnek kullanılsın mı?");
+        public static string WandBody => Lang.T("Shuffle all the tabs without changing the picture. Which pieces are locked together will change completely. You have {0} left.", "Tahtadaki tüm çıkıntılar yeniden dizilir. Resim değişmez ama hangi parçaların birbirine kilitli olduğu tamamen değişir. Elinde {0} tane kaldı.");
+        public static string AskClock => Lang.T("Use a clock?", "Saat kullanılsın mı?");
+        public static string ClockBody => Lang.T("Add 20 seconds to the timer. You have {0} left.", "Geri sayıma 20 saniye eklenir. Elinde {0} tane kaldı.");
+
+        public static string BoosterName(Booster b) => b == Booster.Scissors ? Scissors : b == Booster.Wand ? Wand : b == Booster.Hammer ? Hammer : Clock;
+
+        public static (string title, string body) BoosterQuestion(BoosterControls bar, Booster b)
+        {
+            var question = bar.Question(b);
+            if (Lang.Tr) return question;
+            // Core owns the stock; its question ends with the remaining count.
+            var count = System.Text.RegularExpressions.Regex.Match(question.body, @"(\d+) tane kaldı\.$");
+            return (b == Booster.Wand ? AskWand : AskClock,
+                    count.Success ? string.Format(b == Booster.Wand ? WandBody : ClockBody, count.Groups[1].Value) : question.body);
+        }
+
+        /* Core keeps its original messages; translate them only at the drawing boundary. */
+        public static string BoosterPrompt(BoosterControls bar)
+        {
+            string prompt = bar.Prompt;
+            if (prompt == BoosterControls.ScissorsHint) return ScissorsHint;
+            if (prompt == BoosterControls.HammerHint) return HammerHint;
+            if (prompt == BoosterControls.WandFailed) return WandFailed;
+            if (prompt == BoosterControls.ClockDone) return ClockDone;
+            foreach (var b in BoosterExt.All)
+                if (prompt == string.Format("{0}. bölümde açılıyor", bar.UnlockLevel(b)))
+                    return string.Format(UnlocksAt, bar.UnlockLevel(b));
+            return prompt;
+        }
     }
 }

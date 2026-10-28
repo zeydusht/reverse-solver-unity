@@ -17,6 +17,7 @@ namespace ReverseSolver.Platform
         [DllImport("__Internal")] static extern float RS_SafeInset(int side);
         [DllImport("__Internal")] static extern void RS_AskName(string obj, string method);
         [DllImport("__Internal")] static extern void RS_WatchVisibility(string obj, string method);
+        [DllImport("__Internal")] static extern void RS_SetLang(string code);
         public const bool InBrowser = true;
 #else
         static void RS_BootReport(string message) => Debug.Log("[boot] " + message);
@@ -25,6 +26,7 @@ namespace ReverseSolver.Platform
         static float RS_SafeInset(int side) => 0f;
         static void RS_AskName(string obj, string method) { }
         static void RS_WatchVisibility(string obj, string method) { }
+        static void RS_SetLang(string code) { }
         public const bool InBrowser = false;
 #endif
 
@@ -34,6 +36,7 @@ namespace ReverseSolver.Platform
         public static float SafeInset(int side) => RS_SafeInset(side);
         public static void AskName(string obj, string method) => RS_AskName(obj, method);
         public static void WatchVisibility(string obj, string method) => RS_WatchVisibility(obj, method);
+        public static void SetLang(string code) => RS_SetLang(code);
     }
 
     /* The page as Presentation sees it, installed before the first scene loads. */
@@ -73,7 +76,7 @@ namespace ReverseSolver.Platform
 #if UNITY_WEBGL && !UNITY_EDITOR
             WebGLInput.captureAllKeyboardInput = true;
 #endif
-            var d = _nameDone; _nameDone = null; d?.Invoke(name);
+            var d = _nameDone; _nameDone = null; d?.Invoke(LaunchPlan.NormalizePlayerName(name));
         }
         internal void Visibility(bool visible) => VisibilityChanged?.Invoke(visible);
 
@@ -99,6 +102,12 @@ namespace ReverseSolver.Platform
                 DontDestroyOnLoad(go);
                 go.AddComponent<Receiver>()._host = host;
             }
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+            void OnEnable() { Lang.Changed += SyncLanguage; SyncLanguage(); }
+            void OnDisable() => Lang.Changed -= SyncLanguage;
+            void SyncLanguage() => WebBridge.SetLang(Lang.Tr ? "tr" : "en");
+#endif
 
             public void OnPlayerName(string name) => _host.NameAnswered(name);
             public void OnVisibility(string state) => _host.Visibility(state != "hidden");

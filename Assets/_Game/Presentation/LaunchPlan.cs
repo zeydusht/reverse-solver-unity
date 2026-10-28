@@ -32,10 +32,18 @@ namespace ReverseSolver.Presentation
             if (askName)
                 askForName(name =>
                 {
-                    nameGiven(name);
+                    nameGiven(NormalizePlayerName(name));
                     if (plan.AfterName >= 0) startLevel(plan.AfterName);   // the level from the link, at full time
                 });
             return plan;
+        }
+
+        public static string NormalizePlayerName(string name)
+        {
+            name = (name ?? "").Trim();
+            if (name.Length <= 12) return name;
+            int length = char.IsHighSurrogate(name[11]) ? 11 : 12;
+            return name.Substring(0, length);
         }
     }
 }

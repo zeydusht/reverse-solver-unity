@@ -115,15 +115,16 @@ namespace ReverseSolver.Presentation
         {
             _rows.Add(y =>
             {
-                if (Art.T15 && !Compact)
+                if (Art.T15)
                 {
                     // Task 15 (as Codex's preview-pause.png): the button at its own 684x336 aspect, never stretched, ~60 % of
                     // the card, centred; cream label, dark rim (green #1E5A0E / teal #0B2A36), a 2 px shadow, 1.3x size
                     string key = primary ? "btn2-primary" : "btn2-secondary";
-                    float bw = Mathf.Min(InnerWidth, _w * .6f), bh = bw * 336f / 684f, by = y + bh / 2;
+                    // PM_MESAJ_19: the compact (feedback) card keeps the same art, smaller
+                    float bw = Mathf.Min(InnerWidth, _w * (Compact ? .5f : .6f)), bh = bw * 336f / 684f, by = y + bh / 2;
                     var art = Art.Place(_content, key, new Vector2(bw, bh), _order + 2);
                     if (art != null) { art.transform.localPosition = Draw.W(0, by); _pressArt.Add((Buttons.Count, art, key + "-pressed")); }
-                    TextView.Create(_content, "label " + id, label, 22, Palette.Cream, true, order: _order + 3)
+                    TextView.Create(_content, "label " + id, label, Compact ? 18 : 22, Palette.Cream, true, order: _order + 3)
                         .Outline(primary ? Draw.Hex("#1E5A0E") : Palette.Navy, .3f).Shadow(Draw.Rgba(0, 0, 0, .55f), 2)
                         .transform.localPosition = Draw.W(0, by - 3);
                     Buttons.Add((new Rect(-bw / 2, y + bh * .1f, bw, bh * .8f), id));
@@ -139,6 +140,83 @@ namespace ReverseSolver.Presentation
                                 order: _order + 3).transform.localPosition = Draw.W(0, cy);
                 Buttons.Add((new Rect(-InnerWidth / 2, y, InnerWidth, ButtonH), id));
                 return ButtonH + 8;
+            });
+            return this;
+        }
+
+        /* PM_MESAJ_19: two small teal Task 15 buttons side by side (Play again · Menu). */
+        public Card ButtonPair(params (string id, string label)[] items)
+        {
+            _rows.Add(y =>
+            {
+                const float gap = 8;
+                int n = items.Length;
+                float bw = (InnerWidth - gap * (n - 1)) / n, bh = bw * 336f / 684f, by = y + bh / 2;
+                for (int i = 0; i < n; i++)
+                {
+                    float x = -InnerWidth / 2 + i * (bw + gap) + bw / 2;
+                    var art = Art.Place(_content, "btn2-secondary", new Vector2(bw, bh), _order + 2);
+                    if (art != null) { art.transform.localPosition = Draw.W(x, by); _pressArt.Add((Buttons.Count, art, "btn2-secondary-pressed")); }
+                    TextView.Create(_content, "label " + items[i].id, items[i].label, 16, Palette.Cream, true, order: _order + 3)
+                        .Outline(Palette.Navy, .3f).transform.localPosition = Draw.W(x, by - 2);
+                    Buttons.Add((new Rect(x - bw / 2, y + bh * .1f, bw, bh * .8f), items[i].id));
+                }
+                return bh + 4;
+            });
+            return this;
+        }
+
+        /* PM_MESAJ_19: like / dislike as two small icon buttons (cream, teal rim) with a drawn thumb, no emoji font. */
+        public Card ThumbRow(string upId, string downId)
+        {
+            _rows.Add(y =>
+            {
+                const float bw = 72, bh = 46, gap = 16;
+                for (int i = 0; i < 2; i++)
+                {
+                    float x = (i == 0 ? -1 : 1) * (bw + gap) / 2, cy = y + bh / 2;
+                    var b = ShapeView.Create(_content, "thumb " + i, new Vector2(bw, bh), 4, _order + 2).Radius(bh / 2)
+                        .Fill(Palette.Cream).Stroke(Palette.Teal, 2.5f).Shadow(Draw.Rgba(11, 42, 54, .25f), 0, 2, 4);
+                    b.transform.localPosition = Draw.W(x, cy);
+                    var icon = new GameObject("icon").transform;
+                    icon.SetParent(_content, false);
+                    icon.localPosition = Draw.W(x, cy);
+                    if (i == 1) icon.localRotation = Quaternion.Euler(0, 0, 180);
+                    void Part(string n, Vector2 size, Vector2 at, float rad, float rot)
+                    {
+                        var p = ShapeView.Create(icon, n, size, 1, _order + 3).Radius(rad).Fill(Palette.TealDark);
+                        p.transform.localPosition = Draw.W(at);
+                        p.transform.localRotation = Quaternion.Euler(0, 0, rot);
+                    }
+                    Part("cuff", new Vector2(5, 13), new Vector2(-10, 4), 1.5f, 0);
+                    Part("fist", new Vector2(14, 13), new Vector2(0, 4), 3.5f, 0);
+                    Part("thumb", new Vector2(6, 12), new Vector2(-1, -6), 3f, -18);
+                    Buttons.Add((new Rect(x - bw / 2, y, bw, bh), i == 0 ? upId : downId));
+                }
+                return bh + 10;
+            });
+            return this;
+        }
+
+        /* PM_MESAJ_19: the 1-10 answer as one row of small cream chips (navy digit, thin teal rim); the chosen one teal. */
+        public Card ChipRow(string idPrefix, int count, int selected = -1)
+        {
+            _rows.Add(y =>
+            {
+                const float gap = 4, h = 32;
+                float cw = (InnerWidth - gap * (count - 1)) / count, cy = y + h / 2;
+                for (int i = 1; i <= count; i++)
+                {
+                    float x = -InnerWidth / 2 + (i - 1) * (cw + gap) + cw / 2;
+                    bool on = i == selected;
+                    var c = ShapeView.Create(_content, "chip " + i, new Vector2(cw, h), 2, _order + 2).Radius(8)
+                        .Fill(on ? Palette.Teal : Palette.Cream).Stroke(Palette.Teal, 1.5f);
+                    c.transform.localPosition = Draw.W(x, cy);
+                    TextView.Create(_content, "chip label " + i, i.ToString(), 14, on ? Palette.Cream : Palette.Navy, true, order: _order + 3)
+                        .transform.localPosition = Draw.W(x, cy);
+                    Buttons.Add((new Rect(x - cw / 2, y - 4, cw, h + 8), idPrefix + i));
+                }
+                return h + 10;
             });
             return this;
         }

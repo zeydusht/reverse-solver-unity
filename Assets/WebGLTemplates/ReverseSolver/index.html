@@ -58,13 +58,21 @@
   .v3 #loader .msg{color:#b3cbca}
   .v3 #loader .track{background:none;border-image:url(TemplateData/v3-progress-track.png) 0 9 fill / 0 3px;height:6px}
   .v3 #loader .fill{background:none;border-image:url(TemplateData/v3-progress-fill.png) 0 9 fill / 0 3px}
-  .v3 #rs-name-in{border:none!important;border-image:url(TemplateData/v3-name-input-normal.png) 33 fill / 11px!important}
-  .v3 #rs-name-go{background:none!important;border-image:url(TemplateData/v3-primary-normal.png) 33 fill / 11px!important}
   .v3 #rotate svg{display:none}
   .v3 #rotate::before{content:"";width:56px;height:56px;background:url(TemplateData/v3-rotate-phone.png) center/contain no-repeat}
-  .v3 div:has(> #rs-name-in){background:none!important;border:none!important;border-image:url(TemplateData/v3-popup-card.png) 54 fill / 18px!important;color:#123f46!important}
-  .v3 div:has(> #rs-name-in) p{color:#3d6266!important}
   #loader .msg{font-size:13px;color:#8fb2b3;max-width:280px;text-align:center;line-height:1.5}
+
+  #rs-name{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
+    padding:26px;background:rgba(8,32,34,.9);touch-action:auto}
+  #rs-name .name-card{max-width:340px;width:100%;background:#F8EBD0;border:1px solid #1C7F8C;
+    border-radius:18px;padding:24px 22px 18px;text-align:center;color:#0B2A36}
+  #rs-name h2{font-size:20px;margin:0 0 6px;color:#1C7F8C}
+  #rs-name p{font-size:13px;color:#0B2A36;line-height:1.55;margin:0 0 18px}
+  #rs-name-in{width:100%;padding:13px;border-radius:11px;border:1px solid #1C7F8C;
+    background:#F8EBD0;color:#0B2A36;font-size:16px;font-family:inherit;margin-bottom:14px;
+    text-align:center;-webkit-user-select:text;user-select:text}
+  #rs-name-go{width:100%;border:none;border-radius:11px;padding:13px;font-size:15px;
+    font-weight:700;background:#1C7F8C;color:#F8EBD0;font-family:inherit;cursor:pointer}
 
   /* Safari cannot lock orientation, so a landscape phone gets a hint instead. */
   #rotate{display:none;align-items:center;justify-content:center;
@@ -219,7 +227,7 @@ window.ltBoot = function (msg) {
 <div id="rotate" class="full">
   <svg viewBox="0 0 24 24" fill="none" stroke="#f0a742" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
     <rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M10.5 18.5h3"/></svg>
-  <div>Telefonu dik tut</div>
+  <div id="rotate-msg">Hold your phone upright</div>
 </div>
 
 <div id="timing"></div>
@@ -239,6 +247,48 @@ window.ltBoot = function (msg) {
   document.addEventListener('touchend', function (e) {   // double-tap zoom
     var now = Date.now(); if (now - lastTouchEnd < 350) e.preventDefault(); lastTouchEnd = now;
   }, { passive: false });
+</script>
+
+<script>
+  function rsTr() {
+    try { return localStorage.getItem('rs_lang') === 'tr'; } catch (_) { return false; }
+  }
+  window.rsUpdateLanguage = function () {
+    var tr = rsTr(), input = document.getElementById('rs-name-in');
+    document.getElementById('rotate-msg').textContent = tr ? 'Telefonu dik tut' : 'Hold your phone upright';
+    if (!input) return;
+    document.getElementById('rs-name-copy').textContent = tr
+      ? 'Playtest sürümü. Adını yaz, sonuçlar bu isimle kaydedilsin.'
+      : 'Playtest version. Enter your name to save your results.';
+    input.placeholder = tr ? 'Adın' : 'Your name';
+    input.setAttribute('aria-label', input.placeholder);
+    document.getElementById('rs-name-go').textContent = tr ? 'Başla' : 'Start';
+  };
+  window.rsAskName = function (done) {
+    if (document.getElementById('rs-name')) return;
+    var veil = document.createElement('div');
+    veil.id = 'rs-name';
+    veil.innerHTML = '<div class="name-card"><h2>Reverse Solver</h2><p id="rs-name-copy"></p>' +
+      '<input id="rs-name-in" autocomplete="off" maxlength="12">' +
+      '<button id="rs-name-go" type="button"></button></div>';
+    document.body.appendChild(veil);
+    window.rsUpdateLanguage();
+    var input = document.getElementById('rs-name-in');
+    var go = function () {
+      var v = input.value.trim().slice(0, 12);
+      if (/[\uD800-\uDBFF]$/.test(v)) v = v.slice(0, -1);
+      if (!v) { input.focus(); return; }
+      veil.remove();
+      done(v);
+    };
+    document.getElementById('rs-name-go').onclick = go;
+    var own = function (e) { e.stopPropagation(); };
+    input.addEventListener('keydown', function (e) { e.stopPropagation(); if (e.key === 'Enter') go(); });
+    input.addEventListener('keypress', own);
+    input.addEventListener('keyup', own);
+    setTimeout(function () { input.focus(); }, 50);
+  };
+  window.rsUpdateLanguage();
 </script>
 
 <script src="Build/{{{ LOADER_FILENAME }}}"></script>
@@ -277,7 +327,7 @@ window.ltBoot = function (msg) {
     };
 #endif
   }).catch(function (message) {
-    document.getElementById('msg').textContent = 'Oyun yüklenemedi: ' + message;
+    document.getElementById('msg').textContent = (rsTr() ? 'Oyun yüklenemedi: ' : 'Could not load the game: ') + message;
   });
 </script>
 </body>

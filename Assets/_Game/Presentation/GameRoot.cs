@@ -318,7 +318,7 @@ namespace ReverseSolver.Presentation
         void OnEvent(GameEvent e)
         {
             if (_zeydbotSet) RecordMove(e);
-            if (e.Kind == EventKind.ValveReleased) _bar?.Notice("Çivi kendiliğinden söküldü", 1.6f);   // web says "söktü"; PM: grammar fix
+            if (e.Kind == EventKind.ValveReleased) _bar?.Notice(Texts.NailReleased, 1.6f);   // web says "söktü"; PM: grammar fix
             if (e.Kind == EventKind.PieceRemoved)
             {
                 _tutorialDone = true;                          // web clearTutorial() in flyOut and the hammer
@@ -513,7 +513,7 @@ namespace ReverseSolver.Presentation
 
         void ShowResult() =>
             OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
-                PlayOverride.Active ? "Editöre dön" : $"Tebrikler, {_set.Levels.Count} bölüm bitti",
+                PlayOverride.Active ? Texts.BackToEditor : string.Format(Texts.SetComplete, _set.Levels.Count),
                 _images.Get(_session.Level.Image),          // G1-b: only a picture that really arrived
                 _askFun, _funAnswered, _zeydbotSet, _hardAnswered, _showSet));
 

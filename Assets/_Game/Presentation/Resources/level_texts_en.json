@@ -1,0 +1,121 @@
+{
+  "S43": {
+    "intro": {
+      "title": "Nailed piece",
+      "body": "Make 5 moves to loosen the nail. The number drops with each move. At zero, the piece is free.",
+      "tip": "Remove the other pieces first and the nail will come loose."
+    }
+  },
+  "S44": {
+    "bintro": {
+      "title": "Scissors",
+      "body": "Scissors cut the joint between two pieces, leaving a flat edge. Nothing catches there anymore, so a stuck piece can slide free.",
+      "tip": "Tap the scissors, then tap the orange dot you want to cut."
+    }
+  },
+  "S45": {
+    "intro": {
+      "title": "Bomb piece",
+      "body": "Remove this bomb within 23 moves. The number drops with each move. If it reaches zero, the level ends.",
+      "tip": "Find the pieces blocking the bomb's path and remove them first."
+    }
+  },
+  "S20": {
+    "bintro": {
+      "title": "Wand",
+      "body": "The wand shuffles the tabs without changing the picture. The board stays the same, but which pieces are locked together changes completely.",
+      "tip": "Use it when you are stuck to open new ways out."
+    }
+  },
+  "S48": {
+    "intro": {
+      "title": "Chained pair",
+      "body": "Two pieces with matching colored rings are chained together and move as one. Both need a clear path in the same direction.",
+      "tip": "Follow the chain and free both ends."
+    }
+  },
+  "S52": {
+    "intro": {
+      "title": "Sealed edge",
+      "body": "An edge with red stripes is a wall. No pieces can leave that way.",
+      "tip": "There are fewer exits now. Try dragging pieces in another direction."
+    }
+  },
+  "S13": {
+    "bintro": {
+      "title": "Clock",
+      "body": "The clock adds 20 seconds to the timer.",
+      "tip": "A quick fix when time is running out."
+    }
+  },
+  "S27": {
+    "bintro": {
+      "title": "Hammer",
+      "body": "The hammer removes any piece, even if it is locked. It can remove a nailed piece or a bomb in a single move.",
+      "tip": "Tap the hammer, then tap the piece you want to break."
+    }
+  },
+  "L03": {
+    "bintro": {
+      "title": "Scissors",
+      "body": "Scissors cut the joint between two pieces, leaving a flat edge. Nothing catches there anymore, so a stuck piece can slide free.",
+      "tip": "Tap the scissors, then tap the orange dot you want to cut."
+    }
+  },
+  "L05": {
+    "intro": {
+      "title": "Nailed piece",
+      "body": "A piece with a number is nailed down and cannot move. The number drops with each move. At zero, the nail comes loose and the piece is free.",
+      "tip": "For now, you have to wait. The hammer unlocks at level 9 and can remove it instantly."
+    }
+  },
+  "L06": {
+    "bintro": {
+      "title": "Wand",
+      "body": "The wand shuffles the tabs without changing the picture. The board stays the same, but which pieces are locked together changes completely.",
+      "tip": "Use it when you are stuck to open new ways out."
+    }
+  },
+  "L09": {
+    "bintro": {
+      "title": "Hammer",
+      "body": "The hammer removes any piece, even if it is locked. It can remove a nailed piece or a bomb in a single move.",
+      "tip": "Tap the hammer, then tap the piece you want to break."
+    }
+  },
+  "L11": {
+    "intro": {
+      "title": "Chained pair",
+      "body": "Two pieces with matching colored rings are chained together and move as one. Both need a clear path in the same direction at the same time.",
+      "tip": "They may be at opposite ends of the board. Follow the chain."
+    }
+  },
+  "L12": {
+    "bintro": {
+      "title": "Clock",
+      "body": "The clock adds 20 seconds to the timer.",
+      "tip": "A quick fix when time is running out."
+    }
+  },
+  "L21": {
+    "intro": {
+      "title": "Bomb piece",
+      "body": "The number on the bomb is its fuse and drops with each move. If it reaches zero, the level ends. Look for pieces that clear the bomb's path, rather than just any free piece.",
+      "tip": "The hammer removes a bomb in a single move too."
+    }
+  },
+  "L31": {
+    "intro": {
+      "title": "Sealed edge",
+      "body": "An edge with red stripes is a wall. No pieces can leave that way. A piece stops when it hits the wall.",
+      "tip": "With fewer exits, you may need to drag pieces farther."
+    }
+  },
+  "SHOW1": {
+    "intro": {
+      "title": "Demo",
+      "body": "Slide the pieces out and save the bomb before it explodes.",
+      "tip": ""
+    }
+  }
+}

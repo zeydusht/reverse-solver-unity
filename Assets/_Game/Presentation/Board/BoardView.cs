@@ -90,7 +90,11 @@ namespace ReverseSolver.Presentation
             // PM_MESAJ_13 (preview): ~20 % of the cell, thick sparse #D9332B / white bands, thin dark rim; consecutive
             // lanes are one strip and top/bottom strips run over the corner when the side next to it is sealed there
             bool v3 = Art.On;
-            float t = v3 ? Mathf.Max(8f, S * .20f) : Mathf.Max(7f, S * .16f), ov = v3 ? 0 : S * .06f;
+            // PM_MESAJ_19 §5: on the new look a wall takes the place of the gold frame on its lanes: ~25 % of a cell
+            // thick, at least the frame's outer band, laid over that band (the gold no longer shows under it)
+            float rim = frameArt != null ? band * .7f : 0f;
+            float t = v3 ? Mathf.Max(S * .25f, rim, 8f) : Mathf.Max(7f, S * .16f), ov = v3 ? 0 : S * .06f;
+            float gap = v3 ? 0f : t * .5f;          // v3 strips sit right on the board edge
             bool Sealed(Dir d, int lane) => l.Sealed.TryGetValue(d, out var ls) && System.Array.IndexOf(ls, lane) >= 0;
             foreach (var side in l.Sealed)
             {
@@ -104,16 +108,23 @@ namespace ReverseSolver.Presentation
                     if (v3 && horizontal)
                     {
                         int edgeRow = side.Key == Dir.U ? 0 : l.Height - 1;
-                        if (a == 0 && Sealed(Dir.L, edgeRow)) from = -t * 1.5f;
-                        if (b == l.Width - 1 && Sealed(Dir.R, edgeRow)) to = W + t * 1.5f;
+                        if (a == 0 && Sealed(Dir.L, edgeRow)) from = -t - gap;
+                        if (b == l.Width - 1 && Sealed(Dir.R, edgeRow)) to = W + t + gap;
                     }
                     Rect r = side.Key switch
                     {
-                        Dir.U => new Rect(from, -t * 1.5f, to - from, t),
-                        Dir.D => new Rect(from, H + t * .5f, to - from, t),
-                        Dir.L => new Rect(-t * 1.5f, from, t, to - from),
-                        _ => new Rect(W + t * .5f, from, t, to - from)
+                        Dir.U => new Rect(from, -t - gap, to - from, t),
+                        Dir.D => new Rect(from, H + gap, to - from, t),
+                        Dir.L => new Rect(-t - gap, from, t, to - from),
+                        _ => new Rect(W + gap, from, t, to - from)
                     };
+                    // a soft dark shadow under the strip so it stands apart from the painting and the blue pieces
+                    if (v3)
+                    {
+                        var sh = ShapeView.Create(transform, "WallShadow", r.size + new Vector2(2, 2), 8, WallOrder - 1)
+                            .Radius(3).Fill(Draw.Rgba(3, 14, 16, .5f)).Shadow(Draw.Rgba(0, 0, 0, .45f), 0, 2, 6);
+                        sh.transform.localPosition = Draw.W(r.center + new Vector2(0, 2));
+                    }
                     // Task 14 red-white strip: 96x48 tile (band 90 % of its height) repeated along the lane
                     var ws = v3 && Art.T14 ? Art.Get("wall-stripe") : null;
                     if (ws != null)
@@ -139,10 +150,10 @@ namespace ReverseSolver.Presentation
                 bool Has(Dir d, int lane) => l.Sealed.TryGetValue(d, out var lanes) && System.Array.IndexOf(lanes, lane) >= 0;
                 foreach (var (on, at, rot) in new[]
                 {
-                    (Has(Dir.U, 0) && Has(Dir.L, 0), new Vector2(-t, -t), -90f),
-                    (Has(Dir.U, l.Width - 1) && Has(Dir.R, 0), new Vector2(W + t, -t), 180f),
-                    (Has(Dir.D, l.Width - 1) && Has(Dir.R, l.Height - 1), new Vector2(W + t, H + t), 90f),
-                    (Has(Dir.D, 0) && Has(Dir.L, l.Height - 1), new Vector2(-t, H + t), 0f),
+                    (Has(Dir.U, 0) && Has(Dir.L, 0), new Vector2(-t / 2, -t / 2), -90f),
+                    (Has(Dir.U, l.Width - 1) && Has(Dir.R, 0), new Vector2(W + t / 2, -t / 2), 180f),
+                    (Has(Dir.D, l.Width - 1) && Has(Dir.R, l.Height - 1), new Vector2(W + t / 2, H + t / 2), 90f),
+                    (Has(Dir.D, 0) && Has(Dir.L, l.Height - 1), new Vector2(-t / 2, H + t / 2), 0f),
                 })
                 {
                     if (!on) continue;

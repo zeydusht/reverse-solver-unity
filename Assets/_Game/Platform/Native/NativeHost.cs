@@ -68,7 +68,7 @@ namespace ReverseSolver.Platform
             public void AskName(Action<string> done)
             {
                 _done = done;
-                _kb = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, false, false, "Adın");
+                _kb = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, false, false, Texts.NamePrompt, 12);
             }
 
             void Update()
@@ -77,9 +77,8 @@ namespace ReverseSolver.Platform
                 if (_kb.status == TouchScreenKeyboard.Status.Done || _kb.status == TouchScreenKeyboard.Status.Canceled ||
                     _kb.status == TouchScreenKeyboard.Status.LostFocus)
                 {
-                    string name = (_kb.text ?? "").Trim();
-                    if (name.Length == 0) { _kb = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, false, false, "Adın"); return; }
-                    if (name.Length > 40) name = name.Substring(0, 40);
+                    string name = LaunchPlan.NormalizePlayerName(_kb.text);
+                    if (name.Length == 0) { _kb = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, false, false, Texts.NamePrompt, 12); return; }
                     var d = _done; _done = null; _kb = null; d(name);
                 }
             }

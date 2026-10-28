@@ -13,7 +13,6 @@ namespace ReverseSolver.Presentation
     public sealed class BoosterBar
     {
         public const float Height = 97f, PromptH = 17f;
-        static readonly string[] Names = { "MAKAS", "DEĞNEK", "ÇEKİÇ", "SAAT" };   // fixed: no culture-dependent ToUpper
 
         readonly Transform _root;
         readonly TextView _prompt;
@@ -76,7 +75,7 @@ namespace ReverseSolver.Presentation
                 s.Lock.localPosition = Draw.W(bc);
                 if (!Art.T14) Icons.Draw("lock", s.Lock, 13, order + 4);
                 // .bst-name: 9px, letter-spacing .16em, uppercase, muted
-                s.Name = TextView.Create(_root, "name", Names[(int)b], 9, Draw.Hex("#8fb2b3"), order: order);
+                s.Name = TextView.Create(_root, "name", Texts.BoosterName(b), 9, Draw.Hex("#8fb2b3"), order: order);
                 s.Name.GetComponent<TextMeshPro>().characterSpacing = 16;
                 s.Name.transform.localPosition = Draw.W(cx, cy + 30 + 5 + 6);
                 if (Art.On) s.Name.gameObject.SetActive(false);                  // PM_MESAJ_13: no names under the buttons
@@ -97,14 +96,14 @@ namespace ReverseSolver.Presentation
 
         public void Refresh(BoosterControls bar, GameSession session)
         {
-            _prompt.Text = !string.IsNullOrEmpty(bar.Prompt) ? bar.Prompt
+            _prompt.Text = !string.IsNullOrEmpty(bar.Prompt) ? Texts.BoosterPrompt(bar)
                          : Time.unscaledTime < _noticeUntil ? _notice : "";
             foreach (var s in _slots)
             {
                 var state = bar.StateOf(s.B);
                 bool on = bar.Armed == s.B;
                 bool fresh = bar.IsFresh(s.B) && state == BoosterButton.Ready && !on;
-                string key = $"{state}|{on}|{fresh}|{session.Stock(s.B)}";
+                string key = $"{state}|{on}|{fresh}|{session.Stock(s.B)}|{Lang.Tr}";
                 if (key == s.Key) continue;
                 s.Key = key;
 
@@ -133,7 +132,7 @@ namespace ReverseSolver.Presentation
                 if (Art.On) s.Badge.Fill(locked ? Palette.TealDark : Palette.Red);   // PALETTE: coral stock badge, dark teal when locked
                 else s.Badge.Gradient(locked ? Draw.Hex("#6b7479") : Draw.Hex("#63c2ef"), locked ? Draw.Hex("#3f474b") : Draw.Hex("#2f8fd6"));
                 s.Badge.SkinAs(locked ? "booster-badge-lock" : "booster-badge-stock");
-                s.Name.Text = locked ? $"{bar.UnlockLevel(s.B)}. BÖLÜM" : Names[(int)s.B];
+                s.Name.Text = locked ? string.Format(Texts.LockedLevel, bar.UnlockLevel(s.B)) : Texts.BoosterName(s.B);
 
                 bool wasFresh = s.Fresh;
                 s.Fresh = fresh;

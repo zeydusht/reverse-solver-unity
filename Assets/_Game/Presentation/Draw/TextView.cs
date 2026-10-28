@@ -89,5 +89,21 @@ namespace ReverseSolver.Presentation
 
         /* Width of the laid-out text in points. */
         public float Width => _t.GetPreferredValues().x;
+
+        /* Fit profile names without wrapping, then shorten at the minimum size. */
+        public TextView FitWidth(float widthPt, float minSizePt)
+        {
+            while (Width > widthPt && _t.fontSize > minSizePt * PointToFontSize)
+                _t.fontSize = Mathf.Max(minSizePt * PointToFontSize, _t.fontSize - PointToFontSize);
+            if (Width <= widthPt) return this;
+            string full = Text;
+            var starts = System.Globalization.StringInfo.ParseCombiningCharacters(full);
+            for (int i = starts.Length - 1; i >= 0; i--)
+            {
+                Text = full.Substring(0, starts[i]) + "…";
+                if (Width <= widthPt) break;
+            }
+            return this;
+        }
     }
 }

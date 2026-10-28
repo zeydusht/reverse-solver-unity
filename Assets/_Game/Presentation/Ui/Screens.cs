@@ -74,12 +74,12 @@ namespace ReverseSolver.Presentation
 
                 TextView.Create(Root, "title", "Reverse Solver", 34, Draw.Hex("#eaf3f2"), order: order)
                     .transform.localPosition = Draw.W(cx, cy - 64);
-                TextView.Create(Root, "sub", "Her parçayı doğru yönde sürükleyip tahtayı boşalt.", 13, Draw.Hex("#8fb2b3"), false, order: order)
+                TextView.Create(Root, "sub", Texts.MenuHint, 13, Draw.Hex("#8fb2b3"), false, order: order)
                     .transform.localPosition = Draw.W(cx, cy - 30);
 
                 float w = Mathf.Min(296f, screen.x - 80f);
-                Play = Button(Root, new Vector2(cx, cy + 30), w, $"Oyna · Bölüm {nextNumber}", true, order);
-                Levels = Button(Root, new Vector2(cx, cy + 30 + 46 + 10), w, "Bölümler", false, order);
+                Play = Button(Root, new Vector2(cx, cy + 30), w, string.Format(Texts.PlayLevel, nextNumber), true, order);
+                Levels = Button(Root, new Vector2(cx, cy + 30 + 46 + 10), w, Texts.Levels, false, order);
             }
 
             // ---- Codex Task 13 menu (approved 2026-10-26; bottom navigation hidden until its screens exist) ----
@@ -155,7 +155,9 @@ namespace ReverseSolver.Presentation
                 // header: avatar (tap: choose a Jiggle) + profile box with the name centred, Jiggles counter, settings
                 var box = Sprite("m13-profile-box", new Vector2(40 + 66, hy), new Vector2(132, 46), order, sliced: true);
                 AvatarTile(Root, new Vector2(40, hy), 60, Art.AvatarIndex, order + 1, frame: true);   // teal ground, centred Jiggle, gold frame
-                var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? "Oyuncu" : player, 15, Palette.Navy, true, order: order + 4);
+                var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? Texts.Player : player, 15, Palette.Navy, true, order: order + 4);
+                name.GetComponent<TMPro.TextMeshPro>().richText = false;
+                name.FitWidth(100, 10);
                 name.transform.localPosition = Draw.W(40 + 66 + 12, hy);       // centre of the box's free part (right of the frame)
                 Profile = new Rect(10, hy - 30, 164, 60);
                 if (box != null) _press.Add((Profile, box, "m13-profile-box", "m13-profile-box-pressed", null));
@@ -178,7 +180,7 @@ namespace ReverseSolver.Presentation
                 float bw = Mathf.Min(228f, w - 130f), bh = bw * 112f / 228f;
                 float x0 = (w - bw) / 2, cy = screen.y - safe.w - 22 - bh / 2;   // centred; the Levels shortcut is gone (Zeyd)
                 var play = Sprite("level-button", new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
-                var label = TextView.Create(Root, "play", playLabel ?? $"Level {next}", bh * .34f, Palette.Cream, false, order: order + 2)
+                var label = TextView.Create(Root, "play", playLabel ?? string.Format(Texts.Level, next), bh * .34f, Palette.Cream, false, order: order + 2)
                     .Font(Lilita).Outline(Draw.Hex("#1E5C0E"), .22f);
                 label.transform.localPosition = Draw.W(x0 + bw / 2, cy - 2);
                 Play = new Rect(x0, cy - bh / 2, bw, bh);
@@ -217,8 +219,8 @@ namespace ReverseSolver.Presentation
                 int rows = Mathf.CeilToInt(levels.Count / 5f);
                 float gap = 9f;
                 float cellW = (Card.InnerWidth - gap * 4) / 5f;
-                Card.Title("Bölümler")
-                    .Body(progress.UnlockAll ? "Test için istediğin bölüme atla." : "Bir bölümü geçince sonraki açılır.")
+                Card.Title(Texts.Levels)
+                    .Body(progress.UnlockAll ? Texts.TestLevels : Texts.UnlockHint)
                     .Custom(rows * (cellW + gap) - gap + 18, (root, y, w, o) =>
                     {
                         for (int i = 0; i < levels.Count; i++)
@@ -248,7 +250,7 @@ namespace ReverseSolver.Presentation
                             _cells.Add((new Rect(center.x - cellW / 2, center.y - cellW / 2, cellW, cellW), i));
                         }
                     })
-                    .Button("close", "Kapat", false)
+                    .Button("close", Texts.Close, false)
                     .Finish();
                 // cell rects are relative to the card's centre line and top
                 for (int i = 0; i < _cells.Count; i++)
@@ -283,21 +285,22 @@ namespace ReverseSolver.Presentation
            two buttons (fun_up / fun_down) above the usual ones, on the won attempt or after the
            third loss; the retry button stays where it is. thanked: the answer was given. */
         public static Card Result(Transform parent, Vector2 screen, GameSession s, bool isLast, int order,
-                                  string lastLabel = "Tebrikler, 40 bölüm bitti", Texture picture = null,
+                                  string lastLabel = null, Texture picture = null,
                                   bool askFun = false, bool thanked = false, bool askHard = false, bool hardAnswered = false, bool demo = false)
         {
+            lastLabel ??= string.Format(Texts.SetComplete, 40);
             bool won = s.Outcome == Outcome.Win;
             int stars = s.Stars;
             bool withPicture = ShowsPicture(s, picture);
-            string title = withPicture ? "Resmi tamamladın"
-                : won ? "Tahta boşaldı" : s.Outcome == Outcome.Bomb ? "Bomba patladı" : "Süre doldu";
-            string sub = won ? $"{s.TimeLeft} saniye kaldı, {s.Jams} kez takıldın."
-                : s.Outcome == Outcome.Bomb ? "Fitil bitmeden bombanın yolunu açman gerekiyordu. Çekiç onu tek hamlede söker."
-                : $"{s.Board.PresentCount} gövde kaldı. Saat booster'ı 20 saniye ekler.";
-            string primary = won ? (isLast ? lastLabel : "Sonraki bölüm") : "Tekrar dene";
+            string title = withPicture ? Texts.PictureComplete
+                : won ? Texts.BoardCleared : s.Outcome == Outcome.Bomb ? Texts.BombExploded : Texts.TimeUp;
+            string sub = won ? string.Format(Texts.WinStats, s.TimeLeft, s.Jams)
+                : s.Outcome == Outcome.Bomb ? Texts.BombHint
+                : string.Format(Texts.TimeHint, s.Board.PresentCount);
+            string primary = won ? (isLast ? lastLabel : Texts.NextLevel) : Texts.Retry;
             string primaryId = won ? (isLast ? "menu" : "next") : "retry";
 
-            if (demo && won) title = "Tebrikler!";   // the banner is short; the demo line goes into the card
+            if (demo && won) title = Texts.Congratulations;   // the banner is short; the demo line goes into the card
             var card = new Card(parent, screen, order, "Result") { Compact = askFun && !thanked || askHard && !hardAnswered };
             // preview art (#8, #9): victory / defeat scene when the level has no picture of its own
             if (!withPicture && !Art.T14) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
@@ -333,25 +336,25 @@ namespace ReverseSolver.Presentation
                 })
                 .Body(sub);
             if (askFun && !thanked)
-                card.Body("Bu bölümü beğendin mi?", sizePt: 13, gapAfter: 8)
-                    .ButtonRow(("fun_up", "Beğendim"), ("fun_down", "Beğenmedim"));
-            if (askFun && thanked) card.Body("Teşekkürler!", sizePt: 13, gapAfter: 8);
+                card.Body(Texts.AskFun, sizePt: 13, gapAfter: 8)
+                    .ButtonRow(("fun_up", Texts.Liked), ("fun_down", Texts.Disliked));
+            if (askFun && thanked) card.Body(Texts.Thanks, sizePt: 13, gapAfter: 8);
             // ZeydBot: optional 1-10 difficulty (1 çok kolay, 10 çok zor); the row waits for it or for the next button
             if (askHard && !hardAnswered)
                 // on a loss too (PM 2026-10-20): Zeyd skipped it after losses, the text says the answer counts
-                card.Body(won ? "Ne kadar zordu? 1 çok kolay · 10 çok zor" : "Kaybettin ama puanın önemli: ne kadar zordu? (1–10)", sizePt: 13, gapAfter: 8)
+                card.Body(won ? Texts.AskHard : Texts.AskHardLost, sizePt: 13, gapAfter: 8)
                     .ButtonRow(("hard_1", "1"), ("hard_2", "2"), ("hard_3", "3"), ("hard_4", "4"), ("hard_5", "5"))
                     .ButtonRow(("hard_6", "6"), ("hard_7", "7"), ("hard_8", "8"), ("hard_9", "9"), ("hard_10", "10"));
-            if (askHard && hardAnswered) card.Body("Kaydedildi, teşekkürler!", sizePt: 13, gapAfter: 8);
+            if (askHard && hardAnswered) card.Body(Texts.RatingSaved, sizePt: 13, gapAfter: 8);
             // ZeydBot, on a loss (PM 2026-10-21: Z34's bomb row came without the answer, retry was tapped first):
             // the retry buttons wait for the 1-10 answer; Menü stays
-            if (askHard && !hardAnswered && !won) return card.Button("menu", "Menü", false).Finish();
+            if (askHard && !hardAnswered && !won) return card.Button("menu", Texts.Menu, false).Finish();
             // PM_MESAJ_17 demo level: one button, "Tekrar oyna"; the win says it was a demo
-            if (demo) { if (won) card.Body("Bu bir demo bölüm.", null, 16); return card.Button("retry", won ? "Tekrar oyna" : primary, true).Button("menu", "Ana menü", false).Finish(); }
+            if (demo) { if (won) card.Body(Texts.Demo, null, 16); return card.Button("retry", won ? Texts.PlayAgain : primary, true).Button("menu", Texts.MainMenu, false).Finish(); }
             // QA 2026-10-26: on a loss the primary is already "Tekrar dene"; the second retry button only doubled it
             card.Button(primaryId, primary, true);
-            if (won || !Art.On) card.Button("retry", "Tekrar oyna", false);
-            return card.Button("menu", "Menü", false).Finish();
+            if (won || !Art.On) card.Button("retry", Texts.PlayAgain, false);
+            return card.Button("menu", Texts.Menu, false).Finish();
         }
 
         // ---- obstacle / booster introduction (web #introVeil) -----------------------------
@@ -360,17 +363,17 @@ namespace ReverseSolver.Presentation
         {
             if (l.BoosterIntro == null && l.Intro == null) return Art.On ? StartCard(parent, screen, l, order) : HardWarning(parent, screen, order);
             bool booster = l.BoosterIntro != null;
-            var info = booster ? l.BoosterIntro : l.Intro;
+            var info = LevelTexts.Get(l, booster);
             string icon = booster ? info.Id : (info.Icon ?? "hammer");
             var c = new Card(parent, screen, order, "Intro");
             if (!booster) Picture(c, "intro-" + (icon == "hammer" ? "nail" : icon));   // preview art (#5)
             // the nail card's icon is the hammer in the web data; with the preview art it shows the nail itself
             string glyph = !booster && icon == "hammer" && Art.Get("icon-nail") != null ? "nail" : icon;
             c.Icon((t, size, o) => Icons.Draw(glyph, t, size, o))
-                .Title(booster ? "Yeni booster: " + info.Title : info.Title)
+                .Title(booster ? string.Format(Texts.NewBooster, info.Title) : info.Title)
                 .Body(info.Body ?? "", gapAfter: string.IsNullOrEmpty(info.Tip) ? 18 : 6);
             if (!string.IsNullOrEmpty(info.Tip)) c.Body(info.Tip, Draw.Hex("#f0a742"));
-            return c.Button("ok", "Anladım", true).Finish();
+            return c.Button("ok", Texts.GotIt, true).Finish();
         }
 
         /* PM_MESAJ_9 win polish: earned stars grow in one after another, with a burst; confetti on a win. */
@@ -497,13 +500,13 @@ namespace ReverseSolver.Presentation
 
         public static Card Ask(Transform parent, Vector2 screen, BoosterControls bar, Booster b, int order)
         {
-            var (title, body) = bar.Question(b);
+            var (title, body) = Texts.BoosterQuestion(bar, b);
             return new Card(parent, screen, order, "Ask")
                 .Icon((t, size, o) => Icons.Draw(b.Id(), t, size, o))
                 .Title(title)
                 .Body(body)
-                .Button("yes", "Kullan", true)
-                .Button("no", "Vazgeç", false)
+                .Button("yes", Texts.Use, true)
+                .Button("no", Texts.Cancel, false)
                 .Finish();
         }
     }
