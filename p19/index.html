@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<!-- Ana ekrana eklenince tarayici cubugu olmadan, uygulama gibi acilir -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Reverse Solver">
+<meta name="theme-color" content="#0e2a2e">
+<link rel="apple-touch-icon" href="TemplateData/icon-180.png">
+<link rel="icon" href="TemplateData/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<script>
+  // SET40 v3 preview (?set=redesign): the approved blue icon; the live page keeps the old one until Build 5
+  if (!/[?&]set=(classic|zeydbot|designs|levels)\b/.test(location.search)) {   // Build 5: the new look everywhere but the old sets
+    document.querySelector('link[rel="apple-touch-icon"]').href = 'TemplateData/icon-v3-180.png';
+    document.querySelector('link[rel="icon"]').href = 'TemplateData/icon-v3-32.png';
+    // #24 / #25 (Codex MissingScreens): loading and name screens in the new look
+    document.documentElement.classList.add('v3');
+    document.addEventListener('DOMContentLoaded', function () {
+      var img = document.querySelector('#loader img'); if (img) img.src = 'TemplateData/icon-v3-192.png';
+    });
+  }
+</script>
+<title>Reverse Solver</title>
+
+<style>
+  /* Safe area insets are for the game's UI only (read back through
+     WebBridge.jslib). The canvas itself always covers the whole screen. */
+  :root{
+    --sat:env(safe-area-inset-top); --sar:env(safe-area-inset-right);
+    --sab:env(safe-area-inset-bottom); --sal:env(safe-area-inset-left);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  /* Same colour as the camera clear colour (synced by WebBuild), so the strip
+     iOS leaves below the canvas at the home indicator is invisible. */
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:#06171A}
+  body{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;
+    font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;color:#eaf3f2}
+  .full{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%}
+  #unity-canvas{display:block;outline:none;background:#06171A;touch-action:none}
+
+  #loader{display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:18px;background:linear-gradient(178deg,#1c565c 0%,#123c42 46%,#0a2226 100%);
+    transition:opacity .25s}
+  #loader.done{opacity:0;pointer-events:none}
+  #loader img{width:96px;height:96px;border-radius:22px}
+  #loader .track{width:180px;height:6px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
+  #loader .fill{height:100%;width:0;background:#f0a742;transition:width .15s}
+  .v3 #loader{background:#0b252a url(TemplateData/v3-loader-bg.png) center/cover no-repeat}
+  .v3 #loader .msg{color:#b3cbca}
+  .v3 #loader .track{background:none;border-image:url(TemplateData/v3-progress-track.png) 0 9 fill / 0 3px;height:6px}
+  .v3 #loader .fill{background:none;border-image:url(TemplateData/v3-progress-fill.png) 0 9 fill / 0 3px}
+  .v3 #rotate svg{display:none}
+  .v3 #rotate::before{content:"";width:56px;height:56px;background:url(TemplateData/v3-rotate-phone.png) center/contain no-repeat}
+  #loader .msg{font-size:13px;color:#8fb2b3;max-width:280px;text-align:center;line-height:1.5}
+
+  #rs-name{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
+    padding:26px;background:rgba(8,32,34,.9);touch-action:auto}
+  #rs-name .name-card{max-width:340px;width:100%;background:#F8EBD0;border:1px solid #1C7F8C;
+    border-radius:18px;padding:24px 22px 18px;text-align:center;color:#0B2A36}
+  #rs-name h2{font-size:20px;margin:0 0 6px;color:#1C7F8C}
+  #rs-name p{font-size:13px;color:#0B2A36;line-height:1.55;margin:0 0 18px}
+  #rs-name-in{width:100%;padding:13px;border-radius:11px;border:1px solid #1C7F8C;
+    background:#F8EBD0;color:#0B2A36;font-size:16px;font-family:inherit;margin-bottom:14px;
+    text-align:center;-webkit-user-select:text;user-select:text}
+  #rs-name-go{width:100%;border:none;border-radius:11px;padding:13px;font-size:15px;
+    font-weight:700;background:#1C7F8C;color:#F8EBD0;font-family:inherit;cursor:pointer}
+
+  /* Safari cannot lock orientation, so a landscape phone gets a hint instead. */
+  #rotate{display:none;align-items:center;justify-content:center;
+    flex-direction:column;gap:14px;background:#0e2a2e;z-index:10;font-size:15px;text-align:center;padding:24px}
+  #rotate svg{width:56px;height:56px}
+  @media (orientation:landscape) and (max-height:500px){ #rotate{display:flex} }
+
+  /* TEMPORARY load-time breakdown, remove once startup is tuned. */
+  #timing{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top) + 8px);z-index:30;
+    background:rgba(4,20,22,.92);border:1px solid rgba(255,255,255,.18);border-radius:12px;
+    padding:10px 12px;font:11px/1.5 ui-monospace,Menlo,monospace;color:#cfe6e5;white-space:pre;
+    overflow:auto;max-height:70vh;display:none;user-select:text;-webkit-user-select:text}
+  #timing b{color:#f0a742;font-weight:600}
+</style>
+
+<script>
+/* ===========================================================================
+   Load-time breakdown, shown with ?debug=1 (with the game's boot check and
+   FPS line). Must run before the Unity loader so it can wrap what the loader
+   uses:
+     - download: Resource Timing entries for Build/*
+     - JS decompression (gzip/Brotli): the loader inflates in a blob: Web Worker, so
+       wrapping Worker times each postMessage -> reply
+     - wasm: wrapping WebAssembly.instantiate/compile (+Streaming)
+     - engine init: from the later of wasm ready / last decompression until
+       createUnityInstance resolves
+   =========================================================================== */
+var LT = { dec: [], wasm: [], end: 0, shown: /[?&]debug=1/.test(location.search) };
+(function () {
+  var NativeWorker = window.Worker;
+  if (NativeWorker) {
+    var Wrapped = function (url, opts) {
+      var w = new NativeWorker(url, opts);
+      if (String(url).indexOf('blob:') === 0) {
+        var post = w.postMessage, pending = {};
+        w.postMessage = function (msg) {
+          if (msg && msg.compressed)
+            pending[msg.id] = { start: performance.now(), inB: msg.compressed.byteLength };
+          return post.apply(w, arguments);
+        };
+        // Registered before the loader assigns onmessage, so this runs first
+        // and the end time excludes whatever the loader does with the result.
+        w.addEventListener('message', function (e) {
+          var d = e.data, p = d && pending[d.id];
+          if (!p || !d.decompressed) return;
+          LT.dec.push({ start: p.start, end: performance.now(), inB: p.inB, outB: d.decompressed.byteLength });
+          delete pending[d.id];
+        });
+      }
+      return w;
+    };
+    Wrapped.prototype = NativeWorker.prototype;
+    window.Worker = Wrapped;
+  }
+  ['instantiateStreaming', 'instantiate', 'compileStreaming', 'compile'].forEach(function (k) {
+    var f = WebAssembly && WebAssembly[k];
+    if (!f) return;
+    WebAssembly[k] = function () {
+      var s = performance.now();
+      return f.apply(WebAssembly, arguments).then(function (r) {
+        LT.wasm.push({ k: k, start: s, end: performance.now(), ok: true }); return r;
+      }, function (err) {
+        LT.wasm.push({ k: k, start: s, end: performance.now(), ok: false }); throw err;
+      });
+    };
+  });
+})();
+
+function ltReport() {
+  var s = function (ms) { return (ms / 1000).toFixed(2); };
+  var mb = function (b) { return (b / 1048576).toFixed(1) + ' MB'; };
+  var pad = function (t, n) { t = String(t); while (t.length < n) t += ' '; return t; };
+  var kind = function (url) {
+    var m = /\.(loader\.js|framework\.js|wasm|data)/.exec(url); return m ? m[1].replace('.js', '') : url;
+  };
+  var res = performance.getEntriesByType('resource').filter(function (e) { return /\/Build\//.test(e.name); });
+  var out = [], dlStart = Infinity, dlEnd = 0, dlBytes = 0, nativeGz = false;
+
+  out.push('<b>Yükleme süreleri</b> (saniye, sayfa açılışından itibaren)');
+  out.push('');
+  out.push('<b>İndirme</b>');
+  res.forEach(function (e) {
+    var bytes = e.encodedBodySize || e.transferSize || 0;
+    // Only the Unity files count: hosts like GitHub Pages gzip loader.js on
+    // their own, which says nothing about how the .unityweb files arrive.
+    if (/\.unityweb/.test(e.name) && e.decodedBodySize && e.encodedBodySize &&
+        e.decodedBodySize > e.encodedBodySize * 1.2) nativeGz = true;
+    if (!/loader/.test(e.name)) { dlStart = Math.min(dlStart, e.startTime); dlEnd = Math.max(dlEnd, e.responseEnd); dlBytes += bytes; }
+    out.push('  ' + pad(kind(e.name), 10) + pad(bytes ? mb(bytes) : '?', 9) + s(e.startTime) + ' → ' + s(e.responseEnd) +
+             '  (' + s(e.responseEnd - e.startTime) + ')');
+  });
+  if (dlEnd) out.push('  toplam    ' + pad(mb(dlBytes), 9) + s(dlStart) + ' → ' + s(dlEnd) + '  (' + s(dlEnd - dlStart) + ')');
+
+  out.push('');
+  out.push('<b>JS ile açma</b> (gzip/Brotli, tek worker, sırayla)');
+  var decEnd = 0, decSum = 0;
+  LT.dec.forEach(function (d) {
+    decEnd = Math.max(decEnd, d.end); decSum += d.end - d.start;
+    out.push('  ' + pad(mb(d.inB) + ' → ' + mb(d.outB), 20) + s(d.start) + ' → ' + s(d.end) + '  (' + s(d.end - d.start) + ')');
+  });
+  out.push(LT.dec.length ? '  toplam iş süresi ' + s(decSum)
+                         : '  yok: tarayıcı açtı (Content-Encoding) ya da sıkıştırma kapalı');
+  out.push('  Unity dosyalarını tarayıcı mı açtı: ' + (nativeGz ? 'evet (Content-Encoding)' : 'hayır, JS açtı'));
+
+  out.push('');
+  out.push('<b>Wasm derleme + başlatma</b>');
+  var wasmEnd = 0;
+  LT.wasm.forEach(function (w) {
+    if (w.ok) wasmEnd = Math.max(wasmEnd, w.end);
+    out.push('  ' + pad(w.k + (w.ok ? '' : ' (başarısız)'), 26) + s(w.start) + ' → ' + s(w.end) + '  (' + s(w.end - w.start) + ')');
+  });
+
+  var initStart = Math.max(wasmEnd, decEnd, dlEnd);
+  out.push('');
+  out.push('<b>Motor başlatma</b>   ' + s(initStart) + ' → ' + s(LT.end) + '  (' + s(LT.end - initStart) + ')');
+  out.push('<b>Toplam</b>           ' + s(LT.end));
+  out.push('');
+  out.push('<b>Açılış kontrolü</b>  ' + (LT.boot || 'bekleniyor…'));
+  out.push('');
+  out.push(navigator.standalone ? 'mod: ana ekran (standalone)' : 'mod: tarayıcı');
+  out.push('kapatmak için dokun');
+
+  LT.reported = true;
+  var box = document.getElementById('timing');
+  box.innerHTML = out.join('\n');
+  if (LT.shown) box.style.display = 'block';
+  box.onclick = function () { box.style.display = 'none'; };
+  try { console.log(box.textContent); } catch (_) {}
+}
+
+/* Called by WebBridge.jslib once the game has checked its level file. May
+   arrive before or after the panel is drawn. */
+window.ltBoot = function (msg) {
+  LT.boot = msg;
+  if (LT.reported) {
+    var box = document.getElementById('timing'), open = box.style.display === 'block';
+    ltReport();
+    if (!open) box.style.display = 'none';
+  }
+};
+</script>
+</head>
+<body>
+<canvas id="unity-canvas" class="full" tabindex="-1"></canvas>
+
+<div id="loader" class="full">
+  <img src="TemplateData/icon-192.png" alt="">
+  <div class="track"><div class="fill" id="fill"></div></div>
+  <div class="msg" id="msg"></div>
+</div>
+
+<div id="rotate" class="full">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#f0a742" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M10.5 18.5h3"/></svg>
+  <div id="rotate-msg">Hold your phone upright</div>
+</div>
+
+<div id="timing"></div>
+
+
+<script>
+  /* No page scroll, rubber-banding or zoom while dragging pieces. iOS Safari
+     ignores user-scalable=no, so pinch (gesturestart) and multi-finger moves
+     are cancelled here; touch-action:none covers single-finger panning. */
+  document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
+  document.addEventListener('touchmove', function (e) { if (e.touches.length > 1 || e.target === document.getElementById('unity-canvas')) e.preventDefault(); }, { passive: false });
+  var lastTouchEnd = 0;
+  document.addEventListener('touchend', function (e) {   // double-tap zoom
+    var now = Date.now(); if (now - lastTouchEnd < 350) e.preventDefault(); lastTouchEnd = now;
+  }, { passive: false });
+</script>
+
+<script>
+  function rsTr() {
+    try { return localStorage.getItem('rs_lang') === 'tr'; } catch (_) { return false; }
+  }
+  window.rsUpdateLanguage = function () {
+    var tr = rsTr(), input = document.getElementById('rs-name-in');
+    document.getElementById('rotate-msg').textContent = tr ? 'Telefonu dik tut' : 'Hold your phone upright';
+    if (!input) return;
+    document.getElementById('rs-name-copy').textContent = tr
+      ? 'Playtest sürümü. Adını yaz, sonuçlar bu isimle kaydedilsin.'
+      : 'Playtest version. Enter your name to save your results.';
+    input.placeholder = tr ? 'Adın' : 'Your name';
+    input.setAttribute('aria-label', input.placeholder);
+    document.getElementById('rs-name-go').textContent = tr ? 'Başla' : 'Start';
+  };
+  window.rsAskName = function (done) {
+    if (document.getElementById('rs-name')) return;
+    var veil = document.createElement('div');
+    veil.id = 'rs-name';
+    veil.innerHTML = '<div class="name-card"><h2>Reverse Solver</h2><p id="rs-name-copy"></p>' +
+      '<input id="rs-name-in" autocomplete="off" maxlength="12">' +
+      '<button id="rs-name-go" type="button"></button></div>';
+    document.body.appendChild(veil);
+    window.rsUpdateLanguage();
+    var input = document.getElementById('rs-name-in');
+    var go = function () {
+      var v = input.value.trim().slice(0, 12);
+      if (/[\uD800-\uDBFF]$/.test(v)) v = v.slice(0, -1);
+      if (!v) { input.focus(); return; }
+      veil.remove();
+      done(v);
+    };
+    document.getElementById('rs-name-go').onclick = go;
+    var own = function (e) { e.stopPropagation(); };
+    input.addEventListener('keydown', function (e) { e.stopPropagation(); if (e.key === 'Enter') go(); });
+    input.addEventListener('keypress', own);
+    input.addEventListener('keyup', own);
+    setTimeout(function () { input.focus(); }, 50);
+  };
+  window.rsUpdateLanguage();
+</script>
+
+<script src="Build/539354515067898bfae7190dece2bedd.loader.js"></script>
+<script>
+  var canvas = document.getElementById('unity-canvas');
+  createUnityInstance(canvas, {
+    arguments: [],
+    dataUrl: "Build/a74371cf50e3ffd670d23e9bc817bcdd.data.unityweb",
+    frameworkUrl: "Build/c81a921d683c29141c8b1f9bddf7cc51.framework.js.unityweb",
+    codeUrl: "Build/f3414c6376aaef507ce2a61300d3601b.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "zeydusht",
+    productName: "Reverse Solver",
+    productVersion: "0.5.1",
+    // iPhones report 3; rendering a 2D board at 3x costs fill rate for no visible gain.
+    devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
+  }, function (p) {
+    document.getElementById('fill').style.width = Math.round(p * 100) + '%';
+  }).then(function (unityInstance) {
+    LT.end = performance.now();
+    document.getElementById('loader').classList.add('done');
+    setTimeout(ltReport, 50);
+  }).catch(function (message) {
+    document.getElementById('msg').textContent = (rsTr() ? 'Oyun yüklenemedi: ' : 'Could not load the game: ') + message;
+  });
+</script>
+</body>
+</html>
