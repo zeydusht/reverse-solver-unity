@@ -680,6 +680,37 @@ async function music() {
   W = 375; H = 667;
 }
 
+/* --only chain (PM_MESAJ_20): the chain on painted boards, levels 24 and 40 and SHOW1 at 3 phone sizes, plus level
+   40 with a chained piece held mid-drag (the chain and its locks must travel with it). Debug pages, nothing sent. */
+async function chain() {
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-chain'));
+  fs.mkdirSync(dir, { recursive: true });
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  let exc = 0;
+  for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) {
+    W = w; H = h;
+    const shot = async (p, name) => fs.writeFileSync(path.join(dir, `${w}x${h}_${name}.png`), await p.png());
+    const tapCard = async p => { for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y); await sleep(500); };
+    for (const n of [24, 40]) {
+      const l = set[n - 1];
+      const p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lv=${l.id}`)); await sleep(2500);
+      await tapCard(p); await sleep(1500); await shot(p, `lv${n}`);
+      const ci = l.pieces.findIndex(pc => pc.length > 1);
+      if (n === 40 && ci >= 0) {
+        const pl = placement(l), c = l.pieces[ci][0], x0 = pl.x + (c[0] + .5) * pl.cell, y0 = pl.y + (c[1] + .5) * pl.cell;
+        await p.touch('touchStart', x0, y0);
+        for (let k = 1; k <= 6; k++) { await p.touch('touchMove', x0 + k * 3, y0); await sleep(16); }
+        await sleep(300); await shot(p, `lv${n}_surukle`); await p.touch('touchEnd', x0 + 18, y0);
+      }
+      exc += p.exceptions.length; p.close();
+    }
+    const p = await newPage(); await p.open(`${base}/?set=redesign&painting=1&lv=SHOW1`, { gate: true }); await sleep(2500);
+    await p.tap(W / 2, H - 70); await sleep(1500); await tapCard(p); await sleep(1000); await shot(p, 'show1'); exc += p.exceptions.length; p.close();
+  }
+  W = 375; H = 667;
+  check('chain', exc === 0, `3 boyut → ${dir}, istisna ${exc}`);
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -728,6 +759,7 @@ async function qa() {
     if (only.includes('p19')) await p19();
     if (only.includes('p20')) await p20();
     if (only.includes('music')) await music();
+    if (only.includes('chain')) await chain();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();

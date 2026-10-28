@@ -20,14 +20,24 @@ namespace ReverseSolver.Presentation
 
             if (Art.Get("chain-repeat") != null)
             {
-                // tile 96x48 px = 32x16 pt, scaled to a band of 0.24 cell, repeated along the chain
-                float ks = s * .24f / 16f;
+                // PM_MESAJ_20: on a painting the thin teal chain got lost: about twice as thick (0.46 cell band), the
+                // links dark navy, a 3 pt cream rim around them and a soft shadow along it and under the locks.
+                // Tile 96x48 px = 32x16 pt repeated along the chain; the links fill ~2/3 of the tile's height.
+                float band = s * .46f, ks = band / 16f, rim = band * .67f + 6f;
+                var under = ShapeView.Create(root, "chain rim", new Vector2(len + 6f, rim), 8, order - 1)
+                    .Radius(rim / 2).Fill(Palette.Cream).Shadow(Draw.Rgba(0, 0, 0, .4f), 0, 2, 6);
+                Place(under.transform, (a + b) / 2, ang);
                 var strip = Art.Place(root, "chain-repeat", new Vector2(len / ks, 16f), order, tiled: true);
                 strip.transform.localScale = new Vector3(ks, ks, 1);
+                strip.color = new Color(.42f, .36f, .42f);          // teal art x this = dark navy (#0B2A36-ish), shading kept
                 Place(strip.transform, (a + b) / 2, ang);
                 foreach (var e in new[] { a, b })
                 {
-                    var end = Art.Place(root, "chain-end", new Vector2(s * .45f, s * .45f) * (Art.T14 ? 1.45f : 1.6f), order + 2);   // the lock itself ~45 % of the cell (art has a margin)
+                    float lk = s * .45f * (Art.T14 ? 1.45f : 1.6f);   // the lock itself ~45 % of the cell (art has a margin)
+                    var sh = ShapeView.Create(root, "lock shadow", new Vector2(s * .5f, s * .5f), 10, order + 1)
+                        .Radius(s * .25f).Fill(Draw.Rgba(0, 0, 0, .28f)).Shadow(Draw.Rgba(0, 0, 0, .3f), 0, 0, 8);
+                    Place(sh.transform, e + new Vector2(0, s * .08f), 0);
+                    var end = Art.Place(root, "chain-end", new Vector2(lk, lk), order + 2);
                     Place(end.transform, e, 0);
                 }
                 return;

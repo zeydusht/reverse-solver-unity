@@ -13,7 +13,8 @@ namespace ReverseSolver.Presentation
     {
         // sorting: tray < slots < pieces < chained pieces < walls < lifted piece
         const int TrayOrder = 0, SlotOrder = 5, PieceOrder = 100, PieceStride = 12, ChainedBoost = 600,
-                  WallOrder = 1300, LiftOrder = 1500, BadgeOrder = 1800;
+                  WallOrder = 1300, LiftOrder = 1500, BadgeOrder = 1800,
+                  ChainOrder = 1292;   // PM_MESAJ_20: piece < chain < obstacle (walls, badges) < counter; above every piece (max ~1288)
 
         public GameSession Session { get; private set; }
         public float Cell { get; private set; }
@@ -155,7 +156,7 @@ namespace ReverseSolver.Presentation
                 _pieces[i] = pv;
                 if (chained)
                     ChainView.Build(pv.transform, Center(cells[0]), Center(cells[1]), S,
-                                    ChainView.Tints[chainNo++ % ChainView.Tints.Length], pv.SortingOrder + 1);
+                                    ChainView.Tints[chainNo++ % ChainView.Tints.Length], ChainOrder);
                 if (Session.NailAt(i) > 0)
                 {
                     var n = new NailBadge(pv.transform, pv.FirstCellCenter, S, BadgeOrder + i * 4) { Count = Session.NailAt(i) };
