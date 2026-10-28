@@ -53,10 +53,24 @@ namespace ReverseSolver.EditorTools
             ApplySettings();
             var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
             if (Directory.Exists(Out)) Directory.Delete(Out, true);
-            var r = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            // background music: the Vorbis clip only in this build (the web streams the MP3 from Pages)
+            const string music = "Assets/_Game/Presentation/Resources/Music/music.ogg";
+            Directory.CreateDirectory(Path.GetDirectoryName(music));
+            AssetDatabase.CopyAsset("Assets/Audio/Music/music.ogg", music);
+            var imp = (AudioImporter)AssetImporter.GetAtPath(music);
+            var ios = imp.GetOverrideSampleSettings(BuildTargetGroup.iOS);
+            ios.compressionFormat = AudioCompressionFormat.Vorbis; ios.quality = .5f; ios.loadType = AudioClipLoadType.Streaming;
+            imp.SetOverrideSampleSettings(BuildTargetGroup.iOS, ios);
+            imp.SaveAndReimport();
+            UnityEditor.Build.Reporting.BuildReport r;
+            try
             {
-                scenes = scenes, locationPathName = Out, target = BuildTarget.iOS, options = BuildOptions.None
-            });
+                r = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+                {
+                    scenes = scenes, locationPathName = Out, target = BuildTarget.iOS, options = BuildOptions.None
+                });
+            }
+            finally { AssetDatabase.DeleteAsset(music); AssetDatabase.DeleteAsset(Path.GetDirectoryName(music).Replace('\\', '/')); }
             Debug.Log($"[ios] build {r.summary.result}: {Out}, {r.summary.totalErrors} hata, {r.summary.totalTime}");
             if (r.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded) EditorApplication.Exit(1);
         }

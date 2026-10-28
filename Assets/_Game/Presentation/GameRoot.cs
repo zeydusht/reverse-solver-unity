@@ -88,6 +88,7 @@ namespace ReverseSolver.Presentation
 
         void Start()
         {
+            Music.Start(this);                                 // the menu and the levels share one loop
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
             _images = LevelImages.Create();
             _cam = Camera.main;
@@ -329,8 +330,9 @@ namespace ReverseSolver.Presentation
             return n;
         }
 
-        void OpenSettings() => OpenCard("settings", new Card(_world, _screen, CardOrder, "Settings").Title(Texts.Settings)
+        void OpenSettings() => OpenCard("settings", new Card(_world, _screen, CardOrder, "Settings") { Compact = true }.Title(Texts.Settings)
             .Button("sound", Art.Muted ? Texts.SoundOff : Texts.SoundOn, false)
+            .Button("music", Music.On ? Texts.MusicOn : Texts.MusicOff, false)
             .Button("haptics", Haptics.On ? Texts.HapticsOn : Texts.HapticsOff, false)
             .Button("lang", Texts.Language, false)
             .Button("close", Texts.Close, true).Finish());
@@ -387,7 +389,7 @@ namespace ReverseSolver.Presentation
             _boosters?.Disarm();
             if (e.Outcome == Outcome.Quit) return;
             if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
-            if (e.Outcome == Outcome.Win) Haptics.Play(Haptics.Kind.Success);
+            if (e.Outcome == Outcome.Win) { Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s
             _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
             // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
             if (e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
@@ -669,6 +671,7 @@ namespace ReverseSolver.Presentation
                     string sid = _card.HitButton(pt);
                     if (sid == "sound") { Art.Muted = !Art.Muted; OpenSettings(); }
                     else if (sid == "haptics") { Haptics.On = !Haptics.On; OpenSettings(); }
+                    else if (sid == "music") { Music.On = !Music.On; OpenSettings(); }
                     else if (sid == "lang") { Lang.Tr = !Lang.Tr; CloseCard(); Layout(); OpenSettings(); }
                     else if (sid != null) CloseCard();
                     return;

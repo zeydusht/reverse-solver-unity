@@ -88,7 +88,8 @@ Kurallar:
 | Kazanma anındaki tam resmin sağ/alt kenar çizgilenmesi | 🔜 | |
 | PM_MESAJ_19: sesler, ayarlar (ses/titreşim/dil), English varsayılan, kısa kartlar, isim girişi, duvar=çerçeve, titreşim — önizleme /p19/ | ✅ | |
 | iOS 0.5.1 (2) zip: Builds/ReverseSolver-iOS-0.5.1.zip | ✅ · ⏳ Mac'ten TestFlight (Zeyd) | |
-| Müzik ayarı (oyunda müzik yok) / dil ayarını telemetride not etme | 🔜 | |
+| Arka plan müziği (music-c, akışla, Ayarlar → Müzik) | ✅ önizleme · iOS zip bekliyor | |
+| Dil ayarını telemetride not etme | 🔜 | |
 | Önizleme geri bildirimi: tek tutorial eli, duvar köşe dirseği, ilerleme yedeği (plays'ten geri getirme) — /p19/ | ✅ | |
 | iOS 0.5.1 zip'i yeniden üret (bu düzeltmelerle) | ⏳ Zeyd "iOS'u ver" deyince | |
 | ZeydBot v2 | ⛔ setten sonra | |

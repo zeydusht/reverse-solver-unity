@@ -15,6 +15,8 @@ namespace ReverseSolver.Presentation
         public static string SoundOn => Lang.T("Sound: On", "Ses: Açık");
         public static string SoundOff => Lang.T("Sound: Off", "Ses: Kapalı");
         public static string Close => Lang.T("Close", "Kapat");
+        public static string MusicOn => Lang.T("Music: On", "Müzik: Açık");
+        public static string MusicOff => Lang.T("Music: Off", "Müzik: Kapalı");
         public static string HapticsOn => Lang.T("Vibration: On", "Titreşim: Açık");
         public static string HapticsOff => Lang.T("Vibration: Off", "Titreşim: Kapalı");
         public static string Language => Lang.T("Language: English", "Dil: Türkçe");

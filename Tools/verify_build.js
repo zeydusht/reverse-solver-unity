@@ -657,6 +657,29 @@ async function p20() {
   check('p20', exc === 0 && recovered, `3 boyut → ${dir}, istisna ${exc}, Supabase yalnız okuma: ${recovered} (menü Level 2 mi: recover_menu.png)`);
 }
 
+/* --only music: the background music starts on the first touch (streamed MP3 from Pages, looped from its first
+   sound for 57.6 s), the settings switch silences it, and a win ducks it. Reads window.rsMusic. */
+async function music() {
+  W = 390; H = 844;
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  // before any touch, on a visitor's page (the debug page's load panel is clicked by the script itself)
+  const q = await newPage(); await q.open(`${base}/?set=redesign`, { gate: true }); await sleep(3000);
+  const before = await q.ev(`(function(){var M=window.rsMusic; return M ? {playing: !!M.playing, ctx: !!M.ctx} : null;})()`); q.close();
+  const p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lv=${set[0].id}`)); await sleep(1500);
+  const st = () => p.ev(`(function(){var M=window.rsMusic; if(!M) return null; return {ctx: M.ctx ? M.ctx.state : null, playing: !!M.playing,
+    start: M.src ? +M.src.loopStart.toFixed(4) : null, len: M.src ? +(M.src.loopEnd - M.src.loopStart).toFixed(3) : null,
+    gain: M.gain ? +M.gain.gain.value.toFixed(3) : null};})()`);
+  await p.tap(W / 2, H * .85); await sleep(6000);
+  const after = await st();
+  await p.solve(set[0]); await sleep(1500);
+  const ducked = await st(); await sleep(3500);
+  const back = await st();
+  const exc = p.exceptions.length; p.close();
+  const ok = before && !before.playing && !before.ctx && after && after.playing && Math.abs(after.len - 57.6) < .01 && ducked.gain < .2 && back.gain > .3 && exc === 0;
+  check('music', ok, `dokunmadan önce çalmıyor: ${before && !before.playing}; sonra ${JSON.stringify(after)}; kazanınca kısık ${ducked && ducked.gain}, sonra ${back && back.gain}; istisna ${exc}`);
+  W = 375; H = 667;
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -704,6 +727,7 @@ async function qa() {
     if (only.includes('paint40')) await paint40();
     if (only.includes('p19')) await p19();
     if (only.includes('p20')) await p20();
+    if (only.includes('music')) await music();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();
