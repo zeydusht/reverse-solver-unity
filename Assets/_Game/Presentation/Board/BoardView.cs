@@ -193,6 +193,7 @@ namespace ReverseSolver.Presentation
         Texture _image;
         float _imageMix;
         public bool HasImage => _image != null;
+        public Texture Image => _image;
 
         public PieceView PieceViewOf(int piece) => _pieces.TryGetValue(piece, out var p) ? p : null;
 

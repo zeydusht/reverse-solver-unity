@@ -53,6 +53,7 @@ namespace ReverseSolver.Presentation
         bool _introOpen;
         bool _designSet;              // playing designs.json (?debug=1&set=designs)
         bool _zeydbotSet;             // playing zeydbot.json (?set=zeydbot): every move is recorded and sent
+        bool _paintSet;               // PM_MESAJ_18: SET40 v3 shows painting-NN on level N (fetched from Pages)
         bool _showSet;                // lv=SHOW1 (PM_MESAJ_17): the investor demo level alone, no menu, no name gate
         TelemetryQueue _moveQueue;
         TelemetrySender _moveSender;
@@ -143,12 +144,13 @@ namespace ReverseSolver.Presentation
                 if (show != null) { _showSet = true; _newArt = Art.On = true; return LevelParser.Parse(show.text); }
             }
             Art.On = false;                                    // static: no domain reload between Play sessions
+            _paintSet = false;
             switch (SetChoice.For(Host.Debug, Host.Current.Query("set"), HasLevels(designs), HasLevels(redesign), SetFlags.RedesignDefault, HasLevels(zeydbot)))
             {
                 case SetChoice.Kind.Zeydbot: _zeydbotSet = true; return LevelParser.Parse(zeydbot.text);
                 case SetChoice.Kind.Designs: _designSet = true; return LevelParser.Parse(designs.text);
                 // SET40 (PM_MESAJ_5): recorded like the ZeydBot set (moves, 1-10), also when the flag makes it the default
-                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; _newArt = Art.On = true; return LevelParser.Parse(RedesignJson());
+                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; _newArt = Art.On = _paintSet = true; return LevelParser.Parse(RedesignJson());
                 default: return LevelParser.Parse(levels.text);
             }
         }
@@ -233,8 +235,8 @@ namespace ReverseSolver.Presentation
             _index = Mathf.Clamp(index, 0, _set.Levels.Count - 1);
             var level = _set.Levels[_index];
             // G1: this level's picture and the next one's; let go of the rest
-            string nextImage = _index + 1 < _set.Levels.Count ? _set.Levels[_index + 1].Image : null;
-            _images.KeepOnly(level.Image, nextImage);
+            string nextImage = ImageOf(_index + 1);
+            _images.KeepOnly(ImageOf(_index), nextImage);
             _images.Get(nextImage);
             SendPendingFun();                                  // G8: a won row never waits past the next level
             _funAnswered = false;
@@ -344,6 +346,24 @@ namespace ReverseSolver.Presentation
             if (e.Outcome == Outcome.Quit) return;
             if (e.Outcome == Outcome.Bomb) Flash(Draw.Hex("#e8674c"), .45f);   // bomb: red flash + swell
             _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
+            // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
+            if (e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
+        }
+
+        /* The level's picture: its own (G1) or, in SET40 v3, painting-NN for level N (manifest order). */
+        string ImageOf(int index) =>
+            index < 0 || index >= _set.Levels.Count ? null : _set.Levels[index].Image ?? (_paintSet ? $"painting-{index + 1:00}" : null);
+
+        /* The whole picture over the emptied board, as one flat-edged piece. */
+        void ShowFinishedPicture(bool pop)
+        {
+            var lv = _session.Level;
+            float c = _board.Cell;
+            var holder = new GameObject("finished").transform;
+            holder.SetParent(_board.transform, false);
+            holder.localPosition = Draw.W(lv.Width * c / 2, lv.Height * c / 2);
+            PicturePiece.Create(holder, _board.Image, new Vector2(lv.Width * c, lv.Height * c), 1250);
+            if (pop) Tweens.Run(holder, .3f, t => { if (holder != null) holder.localScale = Vector3.one * Mathf.Lerp(.9f, 1f, 1 - (1 - t) * (1 - t)); });
         }
 
         // ---- layout -----------------------------------------------------------------------
@@ -374,6 +394,13 @@ namespace ReverseSolver.Presentation
             if (_mode == Mode.Menu)
             {
                 _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null);
+                // PM_MESAJ_18: the corridor's big frame shows the painting the next level frees
+                if (_paintSet && _newArt)
+                {
+                    var menu = _menu;
+                    var pic = _images.Get(ImageOf(_progress.Next()), t => { if (_menu == menu) menu.SetPainting(t); });
+                    if (pic != null) _menu.SetPainting(pic);
+                }
             }
             else
             {
@@ -381,20 +408,22 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_session.Level.Number);
                 var origin = BoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin);
-                // PM_MESAJ_16 B: painted-board test on level 7 with ?set=redesign&painting=1 (Kit81 mask unchanged)
-                if (Art.On && (_session.Level.Number == 7 || _showSet) && (Host.Current.Query("painting") == "1" || _showSet))
+                // Zeyd 2026-10-26 chose the thick dark navy edge (#06161D, 1.5x rim, 80 % cream band, soft halo) for painted boards
+                Shader.SetGlobalFloat("_RSEdge", _showSet || _paintSet ? 1 : 0);
+                if (_showSet)
                 {
-                    // Zeyd 2026-10-26 chose the thick dark navy edge (#06161D, 1.5x rim, 80 % cream band, soft halo)
-                    Shader.SetGlobalFloat("_RSEdge", 1);
                     var paint = Art.Texture("painting-test-01");
                     if (paint != null) _board.SetImage(paint);
                 }
-                if (_session.Level.Image != null)
+                // PM_MESAJ_18: SET40 v3 levels wear their own painting; until (or unless) it arrives the board is plain
+                string image = _showSet ? null : ImageOf(_index);
+                if (image != null)
                 {
                     var board = _board;
-                    var ready = _images.Get(_session.Level.Image, t => { if (board != null && _board == board) board.SetImage(t, .25f); });
+                    var ready = _images.Get(image, t => { if (board != null && _board == board) board.SetImage(t, .25f); });
                     if (ready != null) _board.SetImage(ready);
                 }
+                if (_session.IsOver && _session.Outcome == Outcome.Win && _paintSet && _board.Image != null) ShowFinishedPicture(false);
                 _hand = null;
                 bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active;
                 if (_session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))

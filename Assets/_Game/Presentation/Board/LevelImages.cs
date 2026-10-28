@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -26,8 +27,15 @@ namespace ReverseSolver.Presentation
 
         public static LevelImages Create() => new GameObject("LevelImages").AddComponent<LevelImages>();
 
+        /* PM_MESAJ_18: the SET40 v3 paintings live on GitHub Pages, never in the build; the iOS app keeps a copy. */
+        public const string PaintingsUrl = "https://zeydusht.github.io/reverse-solver-unity/paintings/";
+        static bool Remote(string image) => image.StartsWith("painting-");
+        static string CachePath(string image) => Path.Combine(Application.persistentDataPath, "paintings", image + ".jpg");
+        static bool DiskCache => Application.platform == RuntimePlatform.IPhonePlayer;
+
         public static string Url(string image)
         {
+            if (Remote(image)) return PaintingsUrl + image + ".jpg";
             string path = $"{Application.streamingAssetsPath}/{Folder}/{image}";
             return path.Contains("://") ? path : new Uri(path).AbsoluteUri;   // editor and desktop: a file path (spaces escaped)
         }
@@ -55,30 +63,33 @@ namespace ReverseSolver.Presentation
 
         IEnumerator Fetch(string image)
         {
-            using (var req = UnityWebRequest.Get(Url(image)))
+            byte[] data = null;
+            bool disk = DiskCache && Remote(image);
+            if (disk) try { if (File.Exists(CachePath(image))) data = File.ReadAllBytes(CachePath(image)); } catch (Exception) { data = null; }
+            if (data == null)
+                using (var req = UnityWebRequest.Get(Url(image)))
+                {
+                    yield return req.SendWebRequest();
+                    if (req.result == UnityWebRequest.Result.Success) data = req.downloadHandler.data;
+                    else if (Host.Debug) Debug.Log($"[image] {image}: {req.error}");
+                    if (data != null && disk)
+                        try { Directory.CreateDirectory(Path.GetDirectoryName(CachePath(image))); File.WriteAllBytes(CachePath(image), data); }
+                        catch (Exception) { }
+                }
+            var callbacks = _waiting[image];
+            _waiting.Remove(image);
+            var tex = data == null ? null : new Texture2D(2, 2, TextureFormat.RGB24, false);
+            if (tex == null || !tex.LoadImage(data, true))                      // true: no CPU copy kept
             {
-                yield return req.SendWebRequest();
-                var callbacks = _waiting[image];
-                _waiting.Remove(image);
-                if (req.result != UnityWebRequest.Result.Success)
-                {
-                    _failed.Add(image);
-                    if (Host.Debug) Debug.Log($"[image] {image}: {req.error}");
-                    yield break;
-                }
-                var tex = new Texture2D(2, 2, TextureFormat.RGB24, false);
-                if (!tex.LoadImage(req.downloadHandler.data, true))           // true: no CPU copy kept
-                {
-                    Destroy(tex);
-                    _failed.Add(image);
-                    if (Host.Debug) Debug.Log($"[image] {image}: not a picture");
-                    yield break;
-                }
-                tex.wrapMode = TextureWrapMode.Clamp;
-                tex.name = image;
-                _ready[image] = tex;
-                foreach (var cb in callbacks) cb(tex);
+                if (tex != null) Destroy(tex);
+                _failed.Add(image);
+                if (Host.Debug && data != null) Debug.Log($"[image] {image}: not a picture");
+                yield break;
             }
+            tex.wrapMode = TextureWrapMode.Clamp;
+            tex.name = image;
+            _ready[image] = tex;
+            foreach (var cb in callbacks) cb(tex);
         }
 
         void OnDestroy()

@@ -55,6 +55,7 @@ namespace ReverseSolver.Presentation
                     float k = Mathf.Max(screen.x / art.rect.width, screen.y / art.rect.height);
                     bg.transform.localScale = new Vector3(k, k, 1);
                     bg.transform.localPosition = Draw.W(screen.x / 2, screen.y / 2);
+                    _bg = bg;
                     Task13(screen, safe, nextNumber, order, player, saved, stars, playLabel);
                     return;
                 }
@@ -122,6 +123,31 @@ namespace ReverseSolver.Presentation
             }
 
             static TMPro.TMP_FontAsset Lilita => Resources.Load<TMPro.TMP_FontAsset>("Fonts/Lilita");
+
+            SpriteRenderer _bg, _painting;
+
+            /* PM_MESAJ_18: a painting inside the corridor's big gold frame. The opening (menu_bg pixels, y down) has
+               upright sides and a top and bottom in perspective; the picture is centre-cropped to the opening's
+               bounding box and its sprite outline cut to the opening, the frame itself untouched. */
+            public void SetPainting(Texture2D tex)
+            {
+                if (_bg == null || tex == null) return;
+                if (_painting != null) Object.Destroy(_painting.gameObject);
+                var q = new[] { new Vector2(349, 296), new Vector2(662, 359), new Vector2(663, 832), new Vector2(348, 815) };
+                const float x0 = 348, x1 = 663, y0 = 296, y1 = 832;
+                float bw = x1 - x0, bh = y1 - y0, s = Mathf.Min(tex.width / bw, tex.height / bh), rw = bw * s, rh = bh * s;
+                var sp = UnityEngine.Sprite.Create(tex, new Rect((tex.width - rw) / 2, (tex.height - rh) / 2, rw, rh), new Vector2(.5f, .5f),
+                                       s * _bg.sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect);
+                var v = new Vector2[4];
+                for (int i = 0; i < 4; i++) v[i] = new Vector2(Mathf.Clamp((q[i].x - x0) * s, 0, rw), Mathf.Clamp((y1 - q[i].y) * s, 0, rh));
+                sp.OverrideGeometry(v, new ushort[] { 0, 1, 2, 0, 2, 3 });
+                _painting = new GameObject("painting").AddComponent<SpriteRenderer>();
+                _painting.transform.SetParent(_bg.transform, false);
+                _painting.sprite = sp;
+                _painting.sortingOrder = _bg.sortingOrder + 1;
+                var size = _bg.sprite.rect.size;
+                _painting.transform.localPosition = new Vector3((x0 + x1) / 2 - size.x / 2, size.y / 2 - (y0 + y1) / 2) / _bg.sprite.pixelsPerUnit;
+            }
 
             void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel)
             {
