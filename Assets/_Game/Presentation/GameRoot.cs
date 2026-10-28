@@ -120,7 +120,7 @@ namespace ReverseSolver.Presentation
                           : !_showSet && TryLevelIndex(host.Query("lv"), out int index) ? index : -1;   // SHOW1: the menu first, its Demo button starts the level
             _awaitingName = askName;
             LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName,
-                           name => { _save.SetPlayer(name); _awaitingName = false; });
+                           name => { _save.SetPlayer(name); _awaitingName = false; if (_mode == Mode.Menu) Layout(); });   // the profile box shows it
         }
 
         /* iOS: the levels saved from GitHub Pages at an earlier launch (Platform.RemoteLevels), when they still parse
@@ -138,6 +138,9 @@ namespace ReverseSolver.Presentation
         LevelSet ChooseSet()
         {
             // PM_MESAJ_17: lv=SHOW1 opens the demo level by itself, with the new look and the painting
+            // PM_MESAJ_19: ?lang=en|tr sets the language (shared links, QA); otherwise the saved choice, English first
+            string lang = Host.Current.Query("lang");
+            if (lang == "tr" || lang == "en") Lang.Tr = lang == "tr";
             if (Host.Current.Query("lv") == "SHOW1")
             {
                 var show = Resources.Load<TextAsset>("show");

@@ -336,15 +336,22 @@ namespace ReverseSolver.Presentation
                 })
                 .Body(sub);
             if (askFun && !thanked)
-                card.Body(Texts.AskFun, sizePt: 13, gapAfter: 8)
-                    .ButtonRow(("fun_up", Texts.Liked), ("fun_down", Texts.Disliked));
+            {
+                card.Body(Texts.AskFun, sizePt: 13, gapAfter: 8);
+                // PM_MESAJ_19: two small drawn thumbs instead of two wide buttons
+                if (Art.T15) card.ThumbRow("fun_up", "fun_down");
+                else card.ButtonRow(("fun_up", Texts.Liked), ("fun_down", Texts.Disliked));
+            }
             if (askFun && thanked) card.Body(Texts.Thanks, sizePt: 13, gapAfter: 8);
             // ZeydBot: optional 1-10 difficulty (1 çok kolay, 10 çok zor); the row waits for it or for the next button
             if (askHard && !hardAnswered)
                 // on a loss too (PM 2026-10-20): Zeyd skipped it after losses, the text says the answer counts
-                card.Body(won ? Texts.AskHard : Texts.AskHardLost, sizePt: 13, gapAfter: 8)
-                    .ButtonRow(("hard_1", "1"), ("hard_2", "2"), ("hard_3", "3"), ("hard_4", "4"), ("hard_5", "5"))
-                    .ButtonRow(("hard_6", "6"), ("hard_7", "7"), ("hard_8", "8"), ("hard_9", "9"), ("hard_10", "10"));
+            {
+                card.Body(won ? Texts.AskHard : Texts.AskHardLost, sizePt: 13, gapAfter: 8);
+                if (Art.T15) card.ChipRow("hard_", 10);                // PM_MESAJ_19: one row of small cream chips
+                else card.ButtonRow(("hard_1", "1"), ("hard_2", "2"), ("hard_3", "3"), ("hard_4", "4"), ("hard_5", "5"))
+                         .ButtonRow(("hard_6", "6"), ("hard_7", "7"), ("hard_8", "8"), ("hard_9", "9"), ("hard_10", "10"));
+            }
             if (askHard && hardAnswered) card.Body(Texts.RatingSaved, sizePt: 13, gapAfter: 8);
             // ZeydBot, on a loss (PM 2026-10-21: Z34's bomb row came without the answer, retry was tapped first):
             // the retry buttons wait for the 1-10 answer; Menü stays
@@ -353,6 +360,8 @@ namespace ReverseSolver.Presentation
             if (demo) { if (won) card.Body(Texts.Demo, null, 16); return card.Button("retry", won ? Texts.PlayAgain : primary, true).Button("menu", Texts.MainMenu, false).Finish(); }
             // QA 2026-10-26: on a loss the primary is already "Tekrar dene"; the second retry button only doubled it
             card.Button(primaryId, primary, true);
+            // PM_MESAJ_19: a shorter win card, Play again · Menu side by side under the green button
+            if (won && Art.T15) return card.ButtonPair(("retry", Texts.PlayAgain), ("menu", Texts.Menu)).Finish();
             if (won || !Art.On) card.Button("retry", Texts.PlayAgain, false);
             return card.Button("menu", Texts.Menu, false).Finish();
         }

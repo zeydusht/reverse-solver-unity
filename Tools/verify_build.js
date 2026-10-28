@@ -600,6 +600,30 @@ async function paint40() {
   check('paint40', exc === 0, `3 boyut → ${dir}, istisna ${exc}`);
 }
 
+/* --only p19 (PM_MESAJ_19): menu, name gate, game, win card and settings at 3 phone sizes, in English and Turkish
+   (?lang=). The gate and the menu as a new visitor sees them; the rest on debug pages (nothing sent). */
+async function p19() {
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-p19'));
+  fs.mkdirSync(dir, { recursive: true });
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  let exc = 0;
+  for (const lang of ['en', 'tr'])
+    for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) {
+      W = w; H = h;
+      const shot = async (p, name) => fs.writeFileSync(path.join(dir, `${lang}_${w}x${h}_${name}.png`), await p.png());
+      const tapCard = async p => { for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y); await sleep(500); };
+      let p = await newPage(); await p.open(`${base}/?set=redesign&lang=${lang}`, { gate: true }); await sleep(1500);
+      await shot(p, '1_isim'); await p.name('Zeynep Yılmaz12345'); await sleep(2500); await shot(p, '2_menu');
+      await p.tap(W - 39, 38); await sleep(800); await shot(p, '5_ayarlar'); exc += p.exceptions.length; p.close();
+      p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lang=${lang}&lv=${set[29].id}`)); await sleep(2500);
+      await tapCard(p); await sleep(1200); await shot(p, '3_oyun'); exc += p.exceptions.length; p.close();
+      p = await newPage(); await p.open(dbg(`${base}/?set=redesign&lang=${lang}&lv=${set[0].id}`)); await sleep(2500);
+      await p.solve(set[0]); await sleep(3200); await shot(p, '4_kazanma'); exc += p.exceptions.length; p.close();
+    }
+  W = 375; H = 667;
+  check('p19', exc === 0, `2 dil x 3 boyut → ${dir}, istisna ${exc}`);
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -645,6 +669,7 @@ async function qa() {
     if (only.includes('qa')) await qa();
     if (only.includes('show')) await show();
     if (only.includes('paint40')) await paint40();
+    if (only.includes('p19')) await p19();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();
