@@ -291,7 +291,10 @@ namespace ReverseSolver.Presentation
         }
 
         void OpenSettings() => OpenCard("settings", new Card(_world, _screen, CardOrder, "Settings").Title(Texts.Settings)
-            .Button("sound", Art.Muted ? Texts.SoundOff : Texts.SoundOn, false).Button("close", Texts.Close, true).Finish());
+            .Button("sound", Art.Muted ? Texts.SoundOff : Texts.SoundOn, false)
+            .Button("haptics", Haptics.On ? Texts.HapticsOn : Texts.HapticsOff, false)
+            .Button("lang", Texts.Language, false)
+            .Button("close", Texts.Close, true).Finish());
 
         AudioSource _audio;
         void PlaySound(string key)
@@ -323,9 +326,9 @@ namespace ReverseSolver.Presentation
                 if (_session.Level.Tutorial > 0) ShowTutorialStep();
             }
             // Codex sounds (preview art only; silent when Art is off)
-            // Zeyd 27 Oct: a short pop per piece, the whole sparkle on the last one, then the "dı-dı-dııı" win fanfare
-            if (e.Kind == EventKind.PieceRemoved) PlaySound(_session.Board.PresentCount == 0 ? "popfull" : "pop");
-            else if (e.Kind == EventKind.Jammed) PlaySound("piece");
+            // PM_MESAJ_19: no sound per piece; the jam keeps its knock; the last piece gets the whole sparkle, then the fanfare
+            if (e.Kind == EventKind.PieceRemoved) { if (_session.Board.PresentCount == 0) PlaySound("popfull"); }
+            else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Light); }
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
             if (e.Kind != EventKind.Finished) return;
@@ -344,7 +347,8 @@ namespace ReverseSolver.Presentation
             _drag?.Cancel();
             _boosters?.Disarm();
             if (e.Outcome == Outcome.Quit) return;
-            if (e.Outcome == Outcome.Bomb) Flash(Draw.Hex("#e8674c"), .45f);   // bomb: red flash + swell
+            if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
+            if (e.Outcome == Outcome.Win) Haptics.Play(Haptics.Kind.Success);
             _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
             // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
             if (e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
@@ -625,6 +629,8 @@ namespace ReverseSolver.Presentation
                 {
                     string sid = _card.HitButton(pt);
                     if (sid == "sound") { Art.Muted = !Art.Muted; OpenSettings(); }
+                    else if (sid == "haptics") { Haptics.On = !Haptics.On; OpenSettings(); }
+                    else if (sid == "lang") { Lang.Tr = !Lang.Tr; CloseCard(); Layout(); OpenSettings(); }
                     else if (sid != null) CloseCard();
                     return;
                 }

@@ -13,6 +13,7 @@ namespace ReverseSolver.Presentation
         public const string Saved = "Kurtarılan Jiggles: {0}";
         public const string Settings = "Ayarlar";
         public const string SoundOn = "Ses: Açık", SoundOff = "Ses: Kapalı", Close = "Kapat";
+        public const string HapticsOn = "Titreşim: Açık", HapticsOff = "Titreşim: Kapalı", Language = "Dil: Türkçe";
         public const string Level = "Level {0}";
         public const string Goal = "Tüm Jiggles'ı kurtar";
         public const string Avatar = "Jiggle'ını seç";
