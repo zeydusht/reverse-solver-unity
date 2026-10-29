@@ -7,6 +7,7 @@ namespace ReverseSolver.Presentation
     public static class ChainView
     {
         public static readonly string[] Tints = { "#ffcc4d", "#5fe0d0", "#ff8fb8", "#9ecbff" };
+        static readonly string[] V3Colours = { "altin", "turkuaz", "mor", "mercan" };
 
         public static void Build(Transform parent, Vector2 a, Vector2 b, float s, string tintHex, int order)
         {
@@ -18,25 +19,37 @@ namespace ReverseSolver.Presentation
             float ang = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             float disc = s * .33f;
 
+            // Codex Task 17 (PM_MESAJ_20): coloured v3 chains, the pairs of a level gold, teal, purple, coral in turn; the
+            // link and both locks share the colour (and the lock's sign: star, drop, moon, heart). Codex's measures: the
+            // 128x64 px tile is 21.7 % of a cell tall (about 19 % visible, its cream halo included) and repeats every
+            // 43.4 %; the 160 px lock is 65 % of a cell, hung from its ring at (0.50, 0.83). No tint, no extra rim.
+            string colour = V3Colours[Mathf.Max(0, System.Array.IndexOf(Tints, tintHex)) % V3Colours.Length];
+            if (Art.Get("chain-link-v3-" + colour) != null)
+            {
+                const float tileW = 128f / 3f, tileH = 64f / 3f;          // sprite units (Resources/Art: 3 px per unit)
+                float ks = s * .217143f / tileH;
+                var strip = Art.Place(root, "chain-link-v3-" + colour, new Vector2(len / ks, tileH), order, tiled: true);
+                strip.transform.localScale = new Vector3(ks, ks, 1);
+                Place(strip.transform, (a + b) / 2, ang);
+                float lk = s * .65f;
+                foreach (var e in new[] { a, b })
+                {
+                    var end = Art.Place(root, "chain-lock-v3-" + colour, new Vector2(lk, lk), order + 2);
+                    Place(end.transform, e + new Vector2(0, lk * (.83125f - .5f)), 0);   // the ring on the chain's end
+                }
+                return;
+            }
+
             if (Art.Get("chain-repeat") != null)
             {
-                // PM_MESAJ_20: on a painting the thin teal chain got lost: about twice as thick (0.46 cell band), the
-                // links dark navy, a 3 pt cream rim around them and a soft shadow along it and under the locks.
-                // Tile 96x48 px = 32x16 pt repeated along the chain; the links fill ~2/3 of the tile's height.
-                float band = s * .46f, ks = band / 16f, rim = band * .67f + 6f;
-                var under = ShapeView.Create(root, "chain rim", new Vector2(len + 6f, rim), 8, order - 1)
-                    .Radius(rim / 2).Fill(Palette.Cream).Shadow(Draw.Rgba(0, 0, 0, .4f), 0, 2, 6);
-                Place(under.transform, (a + b) / 2, ang);
+                // Task 14 chain (fallback when the v3 art is missing): tile 96x48 px = 32x16 pt, 0.24 cell band
+                float ks = s * .24f / 16f;
                 var strip = Art.Place(root, "chain-repeat", new Vector2(len / ks, 16f), order, tiled: true);
                 strip.transform.localScale = new Vector3(ks, ks, 1);
-                strip.color = new Color(.42f, .36f, .42f);          // teal art x this = dark navy (#0B2A36-ish), shading kept
                 Place(strip.transform, (a + b) / 2, ang);
                 foreach (var e in new[] { a, b })
                 {
                     float lk = s * .45f * (Art.T14 ? 1.45f : 1.6f);   // the lock itself ~45 % of the cell (art has a margin)
-                    var sh = ShapeView.Create(root, "lock shadow", new Vector2(s * .5f, s * .5f), 10, order + 1)
-                        .Radius(s * .25f).Fill(Draw.Rgba(0, 0, 0, .28f)).Shadow(Draw.Rgba(0, 0, 0, .3f), 0, 0, 8);
-                    Place(sh.transform, e + new Vector2(0, s * .08f), 0);
                     var end = Art.Place(root, "chain-end", new Vector2(lk, lk), order + 2);
                     Place(end.transform, e, 0);
                 }

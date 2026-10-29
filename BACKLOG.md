@@ -92,9 +92,9 @@ Kurallar:
 | Dil ayarını telemetride not etme | 🔜 | |
 | PM_MESAJ_20 zincir görünürlüğü (geçici, kodla): 2x kalın, lacivert, krem kenar, gölge; katman parça < zincir < engel < sayaç | ✅ yayında | |
 | SET40 v4 önerisi (docs/SET40_V4.md) | ⏳ Zeyd onayı | |
-| PM_MESAJ_20: Codex Task17 chain-link-v3 / chain-lock-v3 ile değiştir | ⏳ Task17 bekleniyor | |
+| PM_MESAJ_20: Codex Task17 renkli zincirler | ✅ yayında | |
 | Önizleme geri bildirimi: tek tutorial eli, duvar köşe dirseği, ilerleme yedeği (plays'ten geri getirme) — /p19/ | ✅ | |
-| iOS 0.5.1 zip'i yeniden üret (bu düzeltmelerle) | ⏳ Zeyd "iOS'u ver" deyince | |
+| iOS 0.5.1 (3) zip, 29 Ekim 15:31 | ✅ · ⏳ Zeyd Mac'ten TestFlight | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)

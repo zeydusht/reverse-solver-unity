@@ -1,3 +1,8 @@
+# iOS 0.5.1 (3) HAZIR — 29 Ekim 15:31: Builds/ReverseSolver-iOS-0.5.1.zip (305 MB). Zeyd sabah: Mac'e götür, docs/MAC_YUKLEME.md → "Sonraki yüklemeler" (3, 5, 6. adımlar).
+- İçinde: 40 tablo, PM_19'un tamamı (English varsayılan + Türkçe; Ayarlar: ses/müzik/titreşim/dil; kart tuşları; isim girişi; duvar), tek tutorial eli, ilerleme kaydı + Supabase'ten geri getirme, arka plan müziği C (Vorbis, yalnız iOS'ta), renkli zincirler (Task17), titreşim (UIImpactFeedbackGenerator).
+- Xcode projesi kontrol edildi: com.zeydtekin.reversesolver, 0.5.1 (3), iOS 15+, ITSAppUsesNonExemptEncryption=false, 0 hata. Bölümler Pages'teki onaylı SET40 v3'ten iner (Pages dosyası yereldeki v3 ile birebir aynı; v4 yayında değil).
+- Renkli zincirler önizlemede de yayında (/p19/?set=redesign): her bölümde çiftler sırayla altın, turkuaz, mor, mercan; canlıda doğrulandı.
+
 # Zincir görünürlüğü (PM_MESAJ_20) yayında: /p19/?set=redesign. Zincir 2 kat kalın, lacivert, krem kenarlı, gölgeli; parça < zincir < engel < sayaç; canlıda doğrulandı.
 # SET40 v4 önerisi hazır (yayında DEĞİL): docs/SET40_V4.md. 7 👎 bölüm çıkıyor, 8–18 3→5'e çıkıyor, 23 uyarılı, 37 → Z25, 39↔40. Zeyd onayı bekleniyor.
 

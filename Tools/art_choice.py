@@ -106,6 +106,9 @@ for src, dst in (('booster-badge-v2', 'booster-badge'), ('wall-repeat-v3', 'wall
                  ('avatar-green', 'avatar-green'), ('avatar-purple', 'avatar-purple'), ('jiggle-counter-icon', 'jiggle-counter'),
                  ('painting-test-01', 'painting-test-01')):
     files[dst + '.png'] = T15 + src + '.png'
+# Codex Task 17 (PM_MESAJ_20): coloured v3 chains, links and locks per pair (gold, teal, purple, coral)
+for c in ('altin', 'turkuaz', 'mor', 'mercan'):
+    for k in ('link', 'lock'): files[f'chain-{k}-v3-{c}.png'] = A + f'Gameplay/Task17/chain-{k}-v3-{c}.png'
 for n in ('hud-moves-pill', 'hud-time-pill', 'hud-time-pill-urgent'): borders[n + '.png'] = [84, 84, 84, 84]
 for n in ('btn2-primary', 'btn2-primary-pressed', 'btn2-secondary', 'btn2-secondary-pressed'): borders[n + '.png'] = [92, 92, 92, 92]
 # Big sprites whose sides are not multiples of 4 cannot be block-compressed (WebGL keeps them raw, MBs each):

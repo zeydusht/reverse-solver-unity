@@ -74,7 +74,8 @@ Bu rehber, teknik bilgisi olmayan biri içindir. Toplam süre: ilk seferde yakla
 
 Zeyd yeni bir zip gönderdiğinde yalnız **3, 5 ve 6. adımlar** tekrarlanır. Her yeni yüklemede build numarası Zeyd'in tarafında artırılmış olur; aynı numarayla iki kez yüklenemez.
 
-**0.5.1 (build 2), 28 Ekim:** `Builds/ReverseSolver-iOS-0.5.1.zip`. Eski klasörü silip yeni zip'i aç, sonra 3, 5 ve 6. adımlar. 1, 2 ve 4. adımlar ilk seferde yapıldıysa tekrar gerekmez (4'te Team seçili değilse yeniden seç). Bu sürümde: 40 tablo (internetten iner, telefona kaydedilir), İngilizce/Türkçe, yeni kartlar, kalın duvarlar, titreşim (ayarlardan kapatılır).
+**0.5.1 (build 3), 29 Ekim:** `Builds/ReverseSolver-iOS-0.5.1.zip`. Mac'te eski `ReverseSolver-iOS-0.5.0` klasörünü sil, yeni zip'i aç, sonra yalnız **3, 5 ve 6. adımlar**. 1, 2 ve 4. adımlar ilk seferde yapıldıysa tekrar gerekmez; 4'te Team seçili değilse yeniden seç. Sürüm 0.5.1, build 3 projede hazır, Xcode'da değiştirme.
+Bu sürümde: 40 tablo (internetten iner, telefona kaydedilir), İngilizce varsayılan + Türkçe, Ayarlar (ses, müzik, titreşim, dil), yeni kart tuşları ve isim girişi, kalın duvarlar, tek tutorial eli, ilerleme kaydı + isimle geri getirme, arka plan müziği, renkli zincirler, titreşim. Bölümler GitHub Pages'teki onaylı SET40 v3'ten gelir.
 Bundan sonraki her zip'te sürüm ya da build numarası bir artar (0.5.2 / 3 …); App Store Connect aynı numarayı iki kez kabul etmez.
 
 ## Sorun çıkarsa
