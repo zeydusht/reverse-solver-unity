@@ -1,3 +1,6 @@
+# Zincir görünürlüğü (PM_MESAJ_20) yayında: /p19/?set=redesign. Zincir 2 kat kalın, lacivert, krem kenarlı, gölgeli; parça < zincir < engel < sayaç; canlıda doğrulandı.
+# SET40 v4 önerisi hazır (yayında DEĞİL): docs/SET40_V4.md. 7 👎 bölüm çıkıyor, 8–18 3→5'e çıkıyor, 23 uyarılı, 37 → Z25, 39↔40. Zeyd onayı bekleniyor.
+
 # Arka plan müziği (music-c) önizlemede: /p19/?set=redesign. Web'de build'e girmiyor; Pages /music/music.mp3 (0,92 MB, 128 kbps) ilk dokunuşta akışla başlıyor, 57,6 sn boşluksuz döngü (MP3 baş sessizliği atlanıyor), %35 seviye, kazanınca 2 sn kısılıyor, Ayarlar → Müzik aç/kapat. Canlıda doğrulandı (verify music). iOS: Vorbis ogg yalnız iOS build'ine giriyor; zip üretilmedi, cihazda denenmedi.
 
 # Önizleme 19 güncellendi (28 Ekim akşam, aynı link /p19/?set=redesign; kök ve iOS dokunulmadı): tek el (Codex eldiveni) yalnız Level 1'in ilk 2 hamlesinde, Level 2'de el yok; duvar köşeleri tek dirsek parçasıyla birleşiyor (19/25/35/40, SHOW1 kontrol; sağ alt köşe hiçbir bölümde yok).

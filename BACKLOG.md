@@ -90,7 +90,8 @@ Kurallar:
 | iOS 0.5.1 (2) zip: Builds/ReverseSolver-iOS-0.5.1.zip | ✅ · ⏳ Mac'ten TestFlight (Zeyd) | |
 | Arka plan müziği (music-c, akışla, Ayarlar → Müzik) | ✅ önizleme · iOS zip bekliyor | |
 | Dil ayarını telemetride not etme | 🔜 | |
-| PM_MESAJ_20 zincir görünürlüğü (geçici, kodla): 2x kalın, lacivert, krem kenar, gölge; katman parça < zincir < engel < sayaç | ✅ yerelde · ⏳ yayın Zeyd "bitti" deyince | |
+| PM_MESAJ_20 zincir görünürlüğü (geçici, kodla): 2x kalın, lacivert, krem kenar, gölge; katman parça < zincir < engel < sayaç | ✅ yayında | |
+| SET40 v4 önerisi (docs/SET40_V4.md) | ⏳ Zeyd onayı | |
 | PM_MESAJ_20: Codex Task17 chain-link-v3 / chain-lock-v3 ile değiştir | ⏳ Task17 bekleniyor | |
 | Önizleme geri bildirimi: tek tutorial eli, duvar köşe dirseği, ilerleme yedeği (plays'ten geri getirme) — /p19/ | ✅ | |
 | iOS 0.5.1 zip'i yeniden üret (bu düzeltmelerle) | ⏳ Zeyd "iOS'u ver" deyince | |
