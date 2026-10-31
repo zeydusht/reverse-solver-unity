@@ -33,6 +33,7 @@ namespace ReverseSolver.Core
                 .Field("level_id", r.LevelId)
                 .Field("row_id", rowId);
             if (r.Fun.HasValue) w.Field("keyif", r.Fun.Value);
+            TelemetryMeta.Plays(w);                                                 // cohort, platform, device_id, app_version (docs/sql/009)
             if (r.Hardness.HasValue) w.Field("zorluk_puani", r.Hardness.Value);   // docs/sql/007; only ZeydBot sessions     // docs/sql/004_keyif.sql; absent while AskFun is off
             return w.EndObject().ToString();
         }

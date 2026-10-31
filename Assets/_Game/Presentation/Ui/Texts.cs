@@ -52,6 +52,13 @@ namespace ReverseSolver.Presentation
         public static string AskHard => Lang.T("How hard was it? 1 very easy · 10 very hard", "Ne kadar zordu? 1 çok kolay · 10 çok zor");
         public static string AskHardLost => Lang.T("Your rating still counts! How hard was it? (1–10)", "Kaybettin ama puanın önemli: ne kadar zordu? (1–10)");
         public static string RatingSaved => Lang.T("Saved, thanks!", "Kaydedildi, teşekkürler!");
+        public static string SkipRating => Lang.T("Skip", "Geç");
+        // PM_MESAJ_25: one question per cohort, after the name
+        public static string AskProfileTitle => Lang.T("One question", "Tek bir soru");
+        public static string AskProfile => Lang.T("Do you play puzzle games like this one?", "Bu tür bulmaca oyunlarını oynar mısın?");
+        public static string ProfileNever => Lang.T("Never", "Hiç");
+        public static string ProfileSometimes => Lang.T("Sometimes", "Ara sıra");
+        public static string ProfileOften => Lang.T("Often", "Sık");
         public static string Menu => Lang.T("Menu", "Menü");
         public static string Demo => Lang.T("This is a demo level.", "Bu bir demo bölüm.");
         public static string PlayAgain => Lang.T("Play again", "Tekrar oyna");

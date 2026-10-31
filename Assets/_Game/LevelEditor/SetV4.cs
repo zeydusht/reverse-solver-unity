@@ -58,5 +58,31 @@ namespace ReverseSolver.LevelEditor
                 string.Join(",\n    ", set.Levels.Where(l => json.ContainsKey(l.Id)).Select(l => json[l.Id])) + "\n  ]\n}\n", new UTF8Encoding(false));
             Log($"ölçüldü: {set.Levels.Count} bölüm, kazanılan {json.Count} → {outp}.csv");
         }
+
+        /* PM_MESAJ_25 check (?c=ic): a move list that loses -rsLevel (default S45) to its bomb: free pieces other than
+           the bombs, taken in board order, until the fuse runs out. Written to Logs/veri/bomb_loss.json for verify_build.
+
+             bash Tools/unity_batch.sh method ReverseSolver.LevelEditor.SetV4.BombLoss [-rsLevel S45] */
+        public static void BombLoss()
+        {
+            string id = ZeydSet.Arg("-rsLevel", "S45");
+            var l = LevelParser.Parse(File.ReadAllText("Assets/_Game/Levels/redesign.json")).Levels.First(x => x.Id == id);
+            var s = new GameSession(l, 1, "bombloss", new Mulberry32(1));
+            var moves = new List<string>();
+            while (!s.IsOver)
+            {
+                bool moved = false;
+                for (int p = 0; p < l.Pieces.Count && !moved; p++)
+                {
+                    if (l.Bombs.ContainsKey(p)) continue;
+                    foreach (Dir d in new[] { Dir.U, Dir.D, Dir.L, Dir.R })
+                        if (s.TryExit(p, d) == CommandResult.Ok) { moves.Add($"{{\"piece\":{p},\"dir\":\"{d}\"}}"); moved = true; break; }
+                }
+                if (!moved) break;
+            }
+            Directory.CreateDirectory("Logs/veri");
+            File.WriteAllText("Logs/veri/bomb_loss.json", $"{{\"id\":\"{id}\",\"outcome\":\"{s.Outcome}\",\"solution\":[{string.Join(",", moves)}]}}\n", new UTF8Encoding(false));
+            Log($"{id}: {moves.Count} hamle → {s.Outcome}");
+        }
     }
 }

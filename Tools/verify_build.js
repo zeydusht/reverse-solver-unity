@@ -411,7 +411,7 @@ async function redesign() {
 
 /* --send only: a ZeydBot attempt end to end on Z03 (no debug, sends as the TEST player): one touch that
    snaps back, a pause / resume, the stored solution, the first 1-10 button; then moves must hold a touch
-   row with hold_ms and pause + resume rows, and the plays row a zorluk_puani. */
+   row with hold_ms, start + hide + show rows (PM_MESAJ_25), and the plays row a zorluk_puani. */
 async function zeydsend() {
   const file = path.join(ROOT, 'Assets/_Game/Levels/zeydbot.json');
   const set = JSON.parse(fs.readFileSync(file, 'utf8')).levels;
@@ -442,8 +442,8 @@ async function zeydsend() {
   if (r) mv = await (await fetch(`${SUPA}/rest/v1/moves?row_id=eq.${r.row_id}&select=kind,hold_ms,move_no&order=move_no`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json();
   const kinds = k => mv.filter(x => x.kind === k).length;
   const touchOk = mv.some(x => x.kind === 'touch' && x.hold_ms > 0);
-  const ok = !!r && r.result === 'win' && r.zorluk_puani != null && touchOk && kinds('pause') >= 1 && kinds('resume') >= 1 && kinds('exit') === l.solution.length;
-  check('zeydsend', ok, r ? `Z03 ${r.result}, zorluk_puani ${r.zorluk_puani}, moves: exit ${kinds('exit')}/${l.solution.length}, touch ${kinds('touch')} (hold_ms ${(mv.find(x => x.kind === 'touch') || {}).hold_ms}), pause ${kinds('pause')}, resume ${kinds('resume')}` : 'Z03 satırı gelmedi');
+  const ok = !!r && r.result === 'win' && r.zorluk_puani != null && touchOk && kinds('hide') >= 1 && kinds('show') >= 1 && kinds('start') === 1 && kinds('exit') === l.solution.length;   // PM_MESAJ_25: hide/show, start
+  check('zeydsend', ok, r ? `Z03 ${r.result}, zorluk_puani ${r.zorluk_puani}, moves: exit ${kinds('exit')}/${l.solution.length}, touch ${kinds('touch')} (hold_ms ${(mv.find(x => x.kind === 'touch') || {}).hold_ms}), start ${kinds('start')}, hide ${kinds('hide')}, show ${kinds('show')}` : 'Z03 satırı gelmedi');
   p.close();
 }
 
@@ -485,6 +485,51 @@ async function m5(p) {
   const ok = !gateAgain && quit.length === 1 && quit[0].result === 'quit' && r2.length === r1.length && new Set(r2.map(r => r.row_id)).size === r2.length;
   check('m5', ok, `yenilemede isim ${gateAgain ? 'yeniden soruldu' : 'kaldı'}, bırakma satırı ${quit.length} (${quit.map(q => q.level_id + ' ' + q.result).join(', ')}), debug kazancı ${r2.length - r1.length} satır, row_id tekil ${new Set(r2.map(r => r.row_id)).size === r2.length}`);
   p.close();
+}
+
+/* --send --only cohortic (PM_MESAJ_25 step 8): one browser profile as IC_KONTROL (not TEST_: v_attempts leaves those
+   out), ?c=ic only on the first link. S41 won (+ profile question, 1-10), S50 lost to the bomb (Logs/veri/bomb_loss.json,
+   SetV4.BombLoss), S42 one move then pause -> menu (quit), S43 two moves then the tab goes away (abandoned). */
+async function cohortic() {
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const lv = id => set.find(x => x.id === id), name = 'IC_KONTROL', p = await newPage();
+  const bomb = JSON.parse(fs.readFileSync(path.join(ROOT, 'Logs/veri/bomb_loss.json'), 'utf8'));
+  const scan = async () => {                        // one tap on the first thing that changes the picture
+    await sleep(3000); let prev = await p.png();
+    for (let y = Math.round(H * .25); y < H * .9; y += 12) { await p.tap(W / 2, y); const now = await p.png(); if (Buffer.compare(now, prev) !== 0) break; prev = now; }
+    await sleep(1200);
+  };
+  const intro = async () => { for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y); };
+  await p.open(`${base}/?set=redesign&c=ic&lv=S41`, { gate: true });
+  await p.name(name); await sleep(1500);
+  await scan();                                     // profile: the first button down the card
+  await intro(); await p.solve(lv('S41')); await sleep(2500);
+  await scan();                                     // 1-10
+  await sleep(16000);
+  await p.open(`${base}/?set=redesign&lv=${bomb.id}`, { gate: true }); await sleep(4000);   // no c=: the cohort stays
+  await intro(); await p.solve({ ...lv(bomb.id), solution: bomb.solution }); await sleep(2500);
+  await scan();
+  await sleep(16000);
+  await p.open(`${base}/?set=redesign&lv=S42`, { gate: true }); await sleep(4000);
+  await intro(); await p.solve({ ...lv('S42'), solution: lv('S42').solution.slice(0, 1) }); await sleep(800);
+  await p.tap(W - 36, 33); await sleep(800);
+  for (let y = Math.round(H * .85); y > H * .4; y -= 14) await p.tap(W / 2, y);
+  await sleep(16000);
+  await p.open(`${base}/?set=redesign&lv=S43`, { gate: true }); await sleep(4000);
+  await intro(); await p.solve({ ...lv('S43'), solution: lv('S43').solution.slice(0, 2) });
+  await sleep(17000);                               // the 15 s send
+  await p.cdp('Page.navigate', { url: 'about:blank' }); await sleep(4000);
+  p.close();
+  const get = async q => (await (await fetch(`${SUPA}/rest/v1/${q}`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json());
+  const pl = await get(`plays?player=eq.${name}&select=level_id,result,attempt,cohort,platform,device_id,app_version,zorluk_puani,row_id&order=created_at`);
+  const mv = await get(`moves?player=eq.${name}&select=row_id,level_id,move_no,kind,dir,cohort,device_id&order=created_at`);
+  console.log('PLAYS ' + JSON.stringify(pl));
+  console.log('MOVES ' + JSON.stringify(mv.map(m => `${m.level_id}#${m.move_no}:${m.kind}${m.dir ? '/' + m.dir : ''}:${m.cohort}`)));
+  const kinds = new Set(mv.map(m => m.kind));
+  const ok = pl.some(r => r.result === 'win') && pl.some(r => r.result === 'bomb') && pl.some(r => r.result === 'quit') &&
+             pl.every(r => r.cohort === 'ic' && r.platform && r.device_id && r.app_version) && ['start', 'quit', 'exit'].every(k => kinds.has(k)) &&
+             mv.some(m => m.level_id === 'S43') && !pl.some(r => r.level_id === 'S43');
+  check('cohortic', ok, `plays ${pl.map(r => r.level_id + ':' + r.result + (r.zorluk_puani != null ? '/' + r.zorluk_puani : '')).join(' ')}; moves kinds ${[...kinds].join(',')}; S43 yarıda: ${mv.filter(m => m.level_id === 'S43').length} hamle satırı`);
 }
 
 /* --send only (PM_MESAJ_14): pause -> "Ana menü" on S45 after one move ends the attempt as a quit row. */
@@ -782,6 +827,7 @@ async function qa() {
     if (send && only.includes('zeydlosssend')) await zeydlosssend();
     if (send && only.includes('redesignsend')) await redesignsend();
     if (send && only.includes('pausequit')) await pausequit();
+    if (send && only.includes('cohortic')) await cohortic();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
   finally {

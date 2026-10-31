@@ -16,6 +16,7 @@ namespace ReverseSolver.Core
                 .Field("attempt", attempt).Field("move_no", moveNo).Field("kind", kind).Field("piece", piece).Field("dir", dir)
                 .Field("t_ms", tMs).Field("think_ms", thinkMs).Field("time_left", timeLeft).Field("fuses", fuses);
             if (holdMs.HasValue) w.Field("hold_ms", holdMs.Value);     // touch: how long the piece was held (docs/sql/007)
+            TelemetryMeta.Moves(w);                                    // cohort, device_id (docs/sql/009)
             return w.EndObject().ToString();
         }
     }

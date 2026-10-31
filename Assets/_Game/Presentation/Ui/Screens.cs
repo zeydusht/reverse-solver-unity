@@ -351,6 +351,7 @@ namespace ReverseSolver.Presentation
                 if (Art.T15) card.ChipRow("hard_", 10);                // PM_MESAJ_19: one row of small cream chips
                 else card.ButtonRow(("hard_1", "1"), ("hard_2", "2"), ("hard_3", "3"), ("hard_4", "4"), ("hard_5", "5"))
                          .ButtonRow(("hard_6", "6"), ("hard_7", "7"), ("hard_8", "8"), ("hard_9", "9"), ("hard_10", "10"));
+                card.Button("hard_skip", Texts.SkipRating, false);   // PM_MESAJ_25: one tap past it
             }
             if (askHard && hardAnswered) card.Body(Texts.RatingSaved, sizePt: 13, gapAfter: 8);
             // ZeydBot, on a loss (PM 2026-10-21: Z34's bomb row came without the answer, retry was tapped first):

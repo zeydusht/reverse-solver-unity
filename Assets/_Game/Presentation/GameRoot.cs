@@ -52,6 +52,7 @@ namespace ReverseSolver.Presentation
         BoosterControls _boosters;
         bool _introOpen;
         bool _designSet;              // playing designs.json (?debug=1&set=designs)
+        bool _redesignSet;            // SET40 (redesign.json): 1-10 only with a cohort (PM_MESAJ_25)
         bool _zeydbotSet;             // playing zeydbot.json (?set=zeydbot): every move is recorded and sent
         bool _paintSet;               // PM_MESAJ_18: SET40 v3 shows painting-NN on level N (fetched from Pages)
         bool _showSet;                // lv=SHOW1 (PM_MESAJ_17): the investor demo level alone, no menu, no name gate
@@ -104,6 +105,13 @@ namespace ReverseSolver.Presentation
             bool send = host.SendEnabled && !Host.Debug && !Application.isEditor;
             var sender = new TelemetrySender(queue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send);
             _telemetry = new TelemetryLog(_save, queue, sender, newId);
+            // PM_MESAJ_25: cohort from the link (?c=pt1), kept on the device for the next visit without it
+            string cohort = TelemetryMeta.CleanCohort(host.Query("c"));
+            if (cohort != null) { host.Store.Set("rs_cohort", cohort); host.Store.Save(); }
+            else cohort = TelemetryMeta.CleanCohort(host.Store.Get("rs_cohort"));
+            TelemetryMeta.Current = new TelemetryMeta { Cohort = cohort, DeviceId = _save.Install, Platform = PlatformName(), AppVersion = AppVersion() };
+            _profileQueue = new TelemetryQueue(host.Store, "profiles");
+            _profileSender = new TelemetrySender(_profileQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "player_profiles?on_conflict=cohort,player,device_id");
             if (_zeydbotSet)
             {
                 _moveQueue = new TelemetryQueue(host.Store, "moves");
@@ -122,7 +130,58 @@ namespace ReverseSolver.Presentation
             _awaitingName = askName;
             LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName,
                            name => { bool fresh = _save.Best.Count == 0; _save.SetPlayer(name); _awaitingName = false; if (_mode == Mode.Menu) Layout();   // the profile box shows it
-                                   if (fresh) StartCoroutine(RecoverProgress(name)); });
+                                   if (fresh) StartCoroutine(RecoverProgress(name));
+                                   AskProfile(); });
+            if (!askName) AskProfile();
+            _profileSender.Flush();
+        }
+
+        // ---- PM_MESAJ_25: who plays (cohort, device, platform, version; one profile question) --------
+
+        TelemetryQueue _profileQueue;
+        TelemetrySender _profileSender;
+
+        static string PlatformName() =>
+            Application.platform == RuntimePlatform.IPhonePlayer ? "ios"
+            : Application.platform == RuntimePlatform.Android ? "android"
+            : Application.platform == RuntimePlatform.WebGLPlayer && Application.isMobilePlatform ? "mobile-web" : "desktop";
+
+        static string AppVersion() => (Application.platform == RuntimePlatform.IPhonePlayer ? "ios-" : "web-") + BuildStamp.Value;
+
+        string Cohort => TelemetryMeta.Current?.Cohort;
+        string ProfileKey => "rs_profile_" + Cohort;
+
+        /* Once per cohort on this device, right after the name: "Do you play puzzle games like this?" */
+        void AskProfile()
+        {
+            if (Cohort == null || _showSet || string.IsNullOrEmpty(_save.Player) || Host.Current.Store.Get(ProfileKey) != null) return;
+            OpenCard("profile", new Card(_world, _screen, CardOrder, "Profile") { Compact = true }.Title(Texts.AskProfileTitle)
+                .Body(Texts.AskProfile, sizePt: 14, gapAfter: 8)
+                .Button("exp_0", Texts.ProfileNever, false)
+                .Button("exp_1", Texts.ProfileSometimes, false)
+                .Button("exp_2", Texts.ProfileOften, false).Finish());
+        }
+
+        void AnswerProfile(int exp)
+        {
+            Host.Current.Store.Set(ProfileKey, exp.ToString());
+            Host.Current.Store.Save();
+            var m = TelemetryMeta.Current;
+            if (_telemetry.Enabled) _profileQueue.Add(m.Cohort + "|" + _save.Player + "|" + m.DeviceId, ProfileRow.Json(m.Cohort, _save.Player, m.DeviceId, m.Platform, exp));
+            _profileSender.Flush();
+            CloseCard();
+        }
+
+        /* 1-10 after a level: SET40 with a cohort asks once per level (win or loss, "Skip" allowed); without a cohort
+           SET40 does not ask; the ZeydBot set asks after every attempt, as before. */
+        bool AskHardNow(string levelId) =>
+            _redesignSet ? Cohort != null && Host.Current.Store.Get("rs_hard_" + Cohort + "_" + levelId) == null : _zeydbotSet;
+
+        void HardAsked(string levelId)
+        {
+            if (!_redesignSet || Cohort == null) return;
+            Host.Current.Store.Set("rs_hard_" + Cohort + "_" + levelId, "1");
+            Host.Current.Store.Save();
         }
 
         /* iOS: the levels saved from GitHub Pages at an earlier launch (Platform.RemoteLevels), when they still parse
@@ -155,7 +214,7 @@ namespace ReverseSolver.Presentation
                 case SetChoice.Kind.Zeydbot: _zeydbotSet = true; return LevelParser.Parse(zeydbot.text);
                 case SetChoice.Kind.Designs: _designSet = true; return LevelParser.Parse(designs.text);
                 // SET40 (PM_MESAJ_5): recorded like the ZeydBot set (moves, 1-10), also when the flag makes it the default
-                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; _newArt = Art.On = _paintSet = true; return LevelParser.Parse(RedesignJson());
+                case SetChoice.Kind.Redesign: _zeydbotSet = !Host.Debug; _redesignSet = true; _newArt = Art.On = _paintSet = true; return LevelParser.Parse(RedesignJson());
                 default: return LevelParser.Parse(levels.text);
             }
         }
@@ -168,7 +227,9 @@ namespace ReverseSolver.Presentation
             else if (e.Kind == EventKind.Jammed) kind = "jam";
             else if (e.Kind == EventKind.BoosterUsed && e.Booster != Booster.Hammer) kind = e.Booster.ToString().ToLowerInvariant();
             else return;
-            WriteMove(kind, e.Piece, e.Kind == EventKind.PieceRemoved && !e.ByHammer ? e.Dir.ToString() : null);
+            string dir = e.Kind == EventKind.PieceRemoved && !e.ByHammer ? e.Dir.ToString()
+                       : e.Kind == EventKind.Jammed ? _drag?.Direction?.ToString() : null;   // jam: the way it was pulled (null: a press on a nail)
+            WriteMove(kind, e.Piece, dir);
         }
 
         /* One moves row; touch rows carry how long the piece was held. Pause / resume and touches do not
@@ -178,11 +239,13 @@ namespace ReverseSolver.Presentation
             if (_moveQueue == null || _session == null) return;
             float now = Time.unscaledTime;
             var fuses = string.Join(";", System.Linq.Enumerable.Select(_session.Bombs, b => b.Key + ":" + b.Value));
-            _moveQueue.Add(_rowId + "-" + (++_moveNo), MoveRow.Json(_rowId, _save.Player, _session.Level.Id, _session.Level.Version, _session.Attempt,
-                _moveNo, kind, piece, dir, (int)((now - _moveT0) * 1000), (int)((now - _moveLast) * 1000), _session.TimeLeft, fuses, holdMs));
-            bool action = kind != "touch" && kind != "pause" && kind != "resume";
+            int no = kind == "start" ? 0 : ++_moveNo;                  // start: move_no 0 (PM_MESAJ_25)
+            _moveQueue.Add(_rowId + "-" + no, MoveRow.Json(_rowId, _save.Player, _session.Level.Id, _session.Level.Version, _session.Attempt,
+                no, kind, piece, dir, (int)((now - _moveT0) * 1000), (int)((now - _moveLast) * 1000), _session.TimeLeft, fuses, holdMs));
+            bool action = kind != "touch" && kind != "hide" && kind != "show" && kind != "start" && kind != "quit";
             if (action) _moveLast = now;
-            if (kind == "pause") _moveSender?.Flush();
+            // sent on hide, on quit and every 10 rows, so a closed tab loses at most the last few (PM_MESAJ_25)
+            if (kind == "hide" || kind == "quit" || no % 10 == 0) _moveSender?.Flush();
         }
 
         static bool HasLevels(TextAsset file)
@@ -205,7 +268,7 @@ namespace ReverseSolver.Presentation
 
         void OnVisibility(bool visible)
         {
-            if (_zeydbotSet && _mode == Mode.Playing && _session != null && !_session.IsOver) WriteMove(visible ? "resume" : "pause", -1, null);
+            if (_zeydbotSet && _mode == Mode.Playing && _session != null && !_session.IsOver) WriteMove(visible ? "show" : "hide", -1, null);
             if (visible) _telemetry.PageVisible(_mode == Mode.Playing ? _session : null, _rowId);
             else
             {
@@ -220,7 +283,7 @@ namespace ReverseSolver.Presentation
         void LeaveLevel()
         {
             if (_session == null) return;
-            if (!_session.IsOver) _session.Quit();          // OnEvent logs the quit row
+            if (!_session.IsOver) { WriteMove("quit", -1, null); _session.Quit(); }   // OnEvent logs the quit row
             _session.EventRaised -= OnEvent;
         }
 
@@ -246,7 +309,7 @@ namespace ReverseSolver.Presentation
             SendPendingFun();                                  // G8: a won row never waits past the next level
             _funAnswered = false;
             _askFun = false;
-            _hardAnswered = false;
+            _hardAnswered = _askHard = false;
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
             _rowId = _telemetry.NewRowId();
             _save.Store(_log);                                 // the attempt counter, before anything can go wrong
@@ -254,6 +317,7 @@ namespace ReverseSolver.Presentation
             _boosters = new BoosterControls(_session);
             _moveT0 = _moveLast = Time.unscaledTime;
             _moveNo = 0;
+            WriteMove("start", -1, null);                     // PM_MESAJ_25: an attempt that never ends still shows up
             _mode = Mode.Playing;
             _endAt = -1;
             // web loadLevel(i): the intro shows on a level's first start, not on retries
@@ -381,8 +445,10 @@ namespace ReverseSolver.Presentation
             bool ask = !_showSet && SetFlags.AskFun && FunAsk.ShouldAsk(e.Outcome, _save.LossesOf(levelId), _save.WasFunAsked(levelId));
             if (SetFlags.AskFun && (e.Outcome == Outcome.Time || e.Outcome == Outcome.Bomb)) _save.RecordLoss(levelId);
             _askFun = ask;
+            _askHard = e.Outcome != Outcome.Quit && !_showSet && AskHardNow(levelId);
+            if (_askHard) HardAsked(levelId);                       // asked once per level (cohort), answered or skipped
             if (ask) { _save.MarkFunAsked(levelId); _pendingFun = (_session.Record, _rowId); }
-            else if (_zeydbotSet && e.Outcome != Outcome.Quit) _pendingFun = (_session.Record, _rowId);   // waits for the 1-10 answer
+            else if (_askHard) _pendingFun = (_session.Record, _rowId);   // waits for the 1-10 answer
             else _telemetry.Finished(_session.Record, _rowId);
             if (Host.Debug) Debug.Log("[attempt] " + _session.Record);
             _drag?.Cancel();
@@ -556,12 +622,12 @@ namespace ReverseSolver.Presentation
             OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
                 PlayOverride.Active ? Texts.BackToEditor : string.Format(Texts.SetComplete, _set.Levels.Count),
                 _images.Get(_session.Level.Image),          // G1-b: only a picture that really arrived
-                _askFun, _funAnswered, _zeydbotSet, _hardAnswered, _showSet));
+                _askFun, _funAnswered, _askHard, _hardAnswered, _showSet));
 
         // ---- G8: the 👍/👎 answer (SetFlags.AskFun) -------------------------------------------
 
         (AttemptRecord record, string rowId)? _pendingFun;
-        bool _funAnswered, _askFun, _hardAnswered;
+        bool _funAnswered, _askFun, _hardAnswered, _askHard;
 
         /* The held row goes out, with the answer when there is one. */
         void SendPendingFun(int? answer = null)
@@ -664,6 +730,13 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
+            if (_card != null && _cardKind == "profile")            // PM_MESAJ_25: over the menu or a level
+            {
+                string pid = _card.HitButton(pt);
+                if (pid != null && pid.StartsWith("exp_")) AnswerProfile(pid[4] - '0');
+                return;
+            }
+
             if (_mode == Mode.Menu)
             {
                 if (_card != null && _cardKind == "settings")
@@ -713,9 +786,9 @@ namespace ReverseSolver.Presentation
                         CloseCard();
                         break;
                     case "result":
-                        if (id.StartsWith("hard_") && int.TryParse(id.Substring(5), out int hard))
+                        if (id == "hard_skip" || id.StartsWith("hard_") && int.TryParse(id.Substring(5), out int _))
                         {
-                            if (_pendingFun != null) _pendingFun.Value.record.Hardness = hard;
+                            if (_pendingFun != null && id != "hard_skip") _pendingFun.Value.record.Hardness = int.Parse(id.Substring(5));
                             SendPendingFun();
                             _hardAnswered = true;
                             ShowResult();
@@ -725,7 +798,7 @@ namespace ReverseSolver.Presentation
                         {
                             // Build 5: the row also waits for the 1-10 answer (both go in one row)
                             int fun = id == "fun_up" ? 1 : -1;
-                            if (_zeydbotSet && !_hardAnswered && _pendingFun != null) _pendingFun.Value.record.Fun = fun;
+                            if (_askHard && !_hardAnswered && _pendingFun != null) _pendingFun.Value.record.Fun = fun;
                             else SendPendingFun(fun);
                             _funAnswered = true;
                             ShowResult();
