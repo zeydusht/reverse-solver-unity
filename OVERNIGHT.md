@@ -1,3 +1,7 @@
+# Zincir kilidi hücre ortasında + iOS 0.5.1 (4) (PM_MESAJ_22, 31 Ekim): önizleme https://zeydusht.github.io/reverse-solver-unity/p19/?set=redesign
+- Kilidin yuvarlak gövdesi hücre merkezinde, hücrenin %45'i genişliğinde; zincir merkezden merkeze gövdeye giriyor. 40, 24, SHOW1 üç boyutta kontrol edildi (yatay + çapraz; bu bölümlerde altın ve turkuaz çift var, mor/mercan aynı kodla çiziliyor). Açılış 40/40, canlı adreste de geçti. Kök Build 5'e dokunulmadı.
+- iOS: Builds/ReverseSolver-iOS-0.5.1.zip — 31 Ekim 2026 19:30, 305 MB, 0.5.1 (4), Xcode build 0 hata. Commitlenmemiş koridor kazanma animasyonu işi build'e girmedi (build süresince kenara alındı, sonra geri kondu).
+
 # Masaüstü 9:16 alan yayında (PM_MESAJ_21, 31 Ekim): https://zeydusht.github.io/reverse-solver-unity/p19/?set=redesign (ayrıca /br/, /gz/, /p18/; yalnız index.html, kök yönlendirme ve oyun dosyaları aynı).
 - Sonuç: masaüstü Chrome'da (gerçek GPU, fare) 1280×800, 1000×1000, 700×900 ve açıkken 1280×800→900×700 yeniden boyutlandırmada oyun ortada 9:16, yanlar #0B2A36, çizim çözünürlüğü = alan (bulanık değil); Level 1 her boyutta fareyle sürüklenerek çözüldü, tıklama kayması yok. 420 px dar pencerede ve telefonda blok devreye girmiyor (SHOW1 telefon kontrolü geçti).
 
