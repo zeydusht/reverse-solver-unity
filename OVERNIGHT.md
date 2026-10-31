@@ -1,3 +1,6 @@
+# Masaüstü 9:16 alan yayında (PM_MESAJ_21, 31 Ekim): https://zeydusht.github.io/reverse-solver-unity/p19/?set=redesign (ayrıca /br/, /gz/, /p18/; yalnız index.html, kök yönlendirme ve oyun dosyaları aynı).
+- Sonuç: masaüstü Chrome'da (gerçek GPU, fare) 1280×800, 1000×1000, 700×900 ve açıkken 1280×800→900×700 yeniden boyutlandırmada oyun ortada 9:16, yanlar #0B2A36, çizim çözünürlüğü = alan (bulanık değil); Level 1 her boyutta fareyle sürüklenerek çözüldü, tıklama kayması yok. 420 px dar pencerede ve telefonda blok devreye girmiyor (SHOW1 telefon kontrolü geçti).
+
 # iOS 0.5.1 (3) HAZIR — 29 Ekim 15:31: Builds/ReverseSolver-iOS-0.5.1.zip (305 MB). Zeyd sabah: Mac'e götür, docs/MAC_YUKLEME.md → "Sonraki yüklemeler" (3, 5, 6. adımlar).
 - İçinde: 40 tablo, PM_19'un tamamı (English varsayılan + Türkçe; Ayarlar: ses/müzik/titreşim/dil; kart tuşları; isim girişi; duvar), tek tutorial eli, ilerleme kaydı + Supabase'ten geri getirme, arka plan müziği C (Vorbis, yalnız iOS'ta), renkli zincirler (Task17), titreşim (UIImpactFeedbackGenerator).
 - Xcode projesi kontrol edildi: com.zeydtekin.reversesolver, 0.5.1 (3), iOS 15+, ITSAppUsesNonExemptEncryption=false, 0 hata. Bölümler Pages'teki onaylı SET40 v3'ten iner (Pages dosyası yereldeki v3 ile birebir aynı; v4 yayında değil).
