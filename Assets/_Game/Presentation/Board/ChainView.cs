@@ -37,7 +37,7 @@ namespace ReverseSolver.Presentation
                 foreach (var e in new[] { a, b })
                 {
                     var end = Art.Place(root, "chain-lock-v3-" + colour, new Vector2(lk, lk), order + 2);
-                    Place(end.transform, e + new Vector2(0, lk * (110.5f - 80f) / 160f), 0);
+                    Place(end.transform, e - new Vector2(0, lk * (110.5f - 80f) / 160f), 0);   // layout is y-down
                 }
                 return;
             }

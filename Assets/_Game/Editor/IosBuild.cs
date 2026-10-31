@@ -12,7 +12,7 @@ namespace ReverseSolver.EditorTools
          bash Tools/unity_batch.sh method ReverseSolver.EditorTools.IosBuild.Build -buildTarget iOS */
     public static class IosBuild
     {
-        public const string BundleId = "com.zeydtekin.reversesolver", Version = "0.5.1", BuildNumber = "3", Out = "Builds/iOS";
+        public const string BundleId = "com.zeydtekin.reversesolver", Version = "0.5.1", BuildNumber = "4", Out = "Builds/iOS";
         const string Icon = "Assets/Art/Icon/Exports/2-market-mavi-1024.png";   // the approved app icon
 
         public static void ApplySettings()
