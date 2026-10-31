@@ -376,6 +376,20 @@ async function redesign() {
   const file = path.join(ROOT, 'Assets/_Game/Levels/redesign.json');
   const set = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')).levels : [];
   if (!set.length) { check('redesign', true, 'redesign.json boş: atlandı'); return; }
+  const rlv = opt('rlv', '');   // --rlv S47,S18: play these instead of the first level, card shot per level
+  if (rlv) {
+    for (const id of rlv.split(',')) {
+      const l = set.find(x => x.id === id), q = await newPage();
+      await q.open(dbg(`${base}/?set=redesign&lv=${id}`));
+      for (let y = Math.round(H * .45); y < H * .8; y += 18) await q.tap(W / 2, y);
+      await q.solve(l); await sleep(2500);
+      const img = readPng(await q.png()); fs.writeFileSync(path.join(out, `rlv_${id}.png`), await q.png());
+      let card = 0; for (let y = 0; y < img.h; y++) { const [r, g, b] = img.at(img.w >> 1, y); if ((Math.abs(r - 20) < 6 && Math.abs(g - 72) < 6 && Math.abs(b - 76) < 6) || (r > 238 && g > 228 && b > 200 && b < 240)) card++; }
+      check('redesign ' + id, card > 60 && q.exceptions.length === 0, `${id} lv ${l.lv} v${l.version} kayıtlı çözümle oynandı: sonuç kartı ${card > 60 ? 'var' : 'yok'}, istisna ${q.exceptions.length}`);
+      q.close();
+    }
+    return;
+  }
   const l = set[0], p = await newPage();
   await p.open(dbg(`${base}/?set=redesign&lv=${l.id}`));
   for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);   // an intro card, if any

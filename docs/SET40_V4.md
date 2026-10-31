@@ -1,4 +1,4 @@
-# SET40 v4 — önerilen sıralama (29 Ekim 2026, YAYINDA DEĞİL)
+# SET40 v4 — sıralama (29 Ekim 2026; 31 Ekim önizlemede: /p19/?set=redesign, kök değil)
 
 Kaynak: Zeyd'in `deneme1` oyunu (Supabase plays, 40 bölüm, 1–10 zorluk puanı ve 👍/👎). Zeyd onaylayınca uygulanır ve yayınlanır.
 
@@ -14,7 +14,7 @@ Kaynak: Zeyd'in `deneme1` oyunu (Supabase plays, 40 bölüm, 1–10 zorluk puan�
 "Zeyd puanı" o slottaki **eski** bölümün `deneme1` puanıdır. "ZeydBot tahmini" **yeni** bölüm içindir:
 - **ölçüldü (deneme1):** Zeyd bu bölümü bu oyunda oynadı.
 - **ölçüldü (Z oturumu):** Zeyd aynı bölümü ZeydBot setinde `ddd` adıyla oynadı.
-- **ölçülmedi:** Bölüm yeniden ayarlanacak (`*`), tahmin ayardan sonra bot ve FunSim ile çıkar.
+- **`*` (31 Ekim, ayarlandı):** tahmin = FunSim ilk deneme + rastgele oyuncu oranından Zeyd'in 37 bilinen puanına uydurulan doğru (ortalama hata ±1,4), bombalı bölümlerdeki +1,1 sapma düşülerek. Dondurulmuş ZeydBot v1 bu bölümleri ayırt edemedi (hepsine 2,2–2,7; Zeyd'in 1 ve 5 verdiği referanslara da). Ölçüm: `Logs/setv4/`, araç `SetV4.Measure`, `Tools/set40_v4.py`, set `Tools/make_set40_v4.py`. Benzerlik en yüksek %57 (S06–S50).
 
 | Bölüm | Eski id | Yeni id | Zeyd puanı | ZeydBot tahmini | Hedef | Not |
 |---|---|---|---|---|---|---|
@@ -25,16 +25,16 @@ Kaynak: Zeyd'in `deneme1` oyunu (Supabase plays, 40 bölüm, 1–10 zorluk puan�
 | 5 | S44 | S44 | 1 | 1 (deneme1) | 2 | makas |
 | 6 | S45 | S45 | 2 | 2 (deneme1) | 2 | bomba tanıtımı |
 | 7 | S46 | S46 | 1 | 1 (deneme1) | 2–3 | |
-| 8 | S47 | S47* | 1 | ölçülmedi | 3 | 2 bombanın fitili kısalır (29/35 → ~16/20) |
-| 9 | S20 | S20* | 2 | ölçülmedi (~3) | 3 | değnek; fitil 12 → 10 |
+| 8 | S47 | S47* | 1 | 3,5 (FunSim %47) | 3 | 2 bombanın fitili 35/29 → 24/20 |
+| 9 | S20 | S20* | 2 | 3,1 (FunSim %65) | 3 | değnek; fitil 12 → 7 (10'da %77, 2 puan kalıyordu) |
 | 10 | S48 👎 | Z24 | 1 | 3 (Z oturumu) | 3 | zincir tanıtım kartı Z24'e taşınır (duvarsız) |
 | 11 | S49 👎 | S21 (=Z19) | 1 | 3 (Z oturumu) | 3–4 | duvarsız |
-| 12 | S50 | S51* | 1 | ölçülmedi | 3–4 | fitil 15 → ~10 |
+| 12 | S50 | S51* | 1 | 4,2 (FunSim %37) | 3–4 | fitil 15 → 10 + 1 bomba (fitil 21); fitil tek başına işlemedi (7'de bile %93) |
 | 13 | S51 | S34 (=Z22) | 1 | 5 (deneme1) | 4 | 33'ten öne alınır (duvarsız) |
 | 14 | S52 | Z21 | 1 | 3 (Z oturumu) | 3–4 | duvar tanıtım kartı Z21'e taşınır |
 | 15 | S13 | S13 | 4 | 4 (deneme1) | 4 | saat |
 | 16 | S17 | Z04 | 2 | 3 (Z oturumu) | 4 | |
-| 17 | S10 | S18* | 1 | ölçülmedi | 4–5 | +1 bomba |
+| 17 | S10 | S18* | 1 | 4,7 (FunSim %24) | 4–5 | +1 bomba (fitil 17) |
 | 18 | S18 | S22 (=Z15) | 2 | 5 (deneme1) | 5 | 21'den öne alınır |
 | 19 | S28 | S28 | 9 | 9 (deneme1) | 7–9 | zor uyarısı |
 | 20 | S24 | S24 | 7 | 7 (deneme1) | 6 | |
@@ -43,12 +43,12 @@ Kaynak: Zeyd'in `deneme1` oyunu (Supabase plays, 40 bölüm, 1–10 zorluk puan�
 | 23 | S27 | S27 + zor uyarısı | 9 | 9 (deneme1) | 7–8 | çekiç tanıtımı yerinde kalır, uyarı kartı eklenir |
 | 24 | S14 | S14 | 4 | 4 (deneme1) | 4–5 | |
 | 25 | S35 | S35 | 10 | 10 (deneme1) | 8 | zor uyarısı |
-| 26 | S26 👎 | S17* | 1 | ölçülmedi | 3–4 | nefes; +1 bomba |
-| 27 | S25 👎 | S10* | 3 | ölçülmedi | 3–4 | nefes; +1 bomba |
-| 28 | S30 👎 | S50* | 1 | ölçülmedi | 3 | nefes; +1 bomba |
-| 29 | S11 👎 | S52* | 1 | ölçülmedi | 3 | nefes; +1 bomba |
+| 26 | S26 👎 | S17* | 1 | 3,9 (FunSim %41) | 3–4 | nefes; +1 bomba (fitil 19) |
+| 27 | S25 👎 | S10* | 3 | 3,8 (FunSim %38) | 3–4 | nefes; +1 bomba (fitil 17) |
+| 28 | S30 👎 | S50* | 1 | 3,6 (FunSim %48) | 3 | nefes; +1 bomba (fitil 18) |
+| 29 | S11 👎 | S52* | 1 | 3,5 (FunSim %51) | 3 | nefes; +1 bomba (fitil 14) |
 | 30 | S37 | S37 | 10 | 10 (deneme1) | 8–9 | zor uyarısı |
-| 31 | S23 👎 | S08* | 1 | ölçülmedi | 3–4 | nefes; +1 bomba |
+| 31 | S23 👎 | S08* | 1 | 3,8 (FunSim %39) | 3–4 | nefes; +1 bomba (fitil 18) |
 | 32 | S31 | S31 | 9 | 9 (deneme1) | 7–8 | |
 | 33 | S34 | S39 (=Z29) | 5 | 6 (Z oturumu) / 8,5 (v2) | 7 | |
 | 34 | S32 | S32 | 8 | 8 (deneme1) | 7–8 | |
