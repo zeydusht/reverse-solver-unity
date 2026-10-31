@@ -31,11 +31,13 @@ namespace ReverseSolver.Presentation
                 var strip = Art.Place(root, "chain-link-v3-" + colour, new Vector2(len / ks, tileH), order, tiled: true);
                 strip.transform.localScale = new Vector3(ks, ks, 1);
                 Place(strip.transform, (a + b) / 2, ang);
-                float lk = s * .65f;
+                // PM_MESAJ_22: the lock's round body (114 px wide, centred at x 80, y 110.5 from the top of the 160 px
+                // sprite) sits on the cell centre and is 45 % of a cell wide; the chain runs centre to centre into it
+                float lk = s * .45f * 160f / 114f;
                 foreach (var e in new[] { a, b })
                 {
                     var end = Art.Place(root, "chain-lock-v3-" + colour, new Vector2(lk, lk), order + 2);
-                    Place(end.transform, e + new Vector2(0, lk * (.83125f - .5f)), 0);   // the ring on the chain's end
+                    Place(end.transform, e + new Vector2(0, lk * (110.5f - 80f) / 160f), 0);
                 }
                 return;
             }
