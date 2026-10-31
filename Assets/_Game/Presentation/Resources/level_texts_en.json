@@ -117,5 +117,19 @@
       "body": "Slide the pieces out and save the bomb before it explodes.",
       "tip": ""
     }
+  },
+  "Z24": {
+    "intro": {
+      "title": "Chained pair",
+      "body": "Two pieces with matching colored rings are chained together and move as one. Both need a clear path in the same direction.",
+      "tip": "Follow the chain and free both ends."
+    }
+  },
+  "Z21": {
+    "intro": {
+      "title": "Sealed edge",
+      "body": "An edge with red stripes is a wall. No pieces can leave that way.",
+      "tip": "There are fewer exits now. Try dragging pieces in another direction."
+    }
   }
 }
