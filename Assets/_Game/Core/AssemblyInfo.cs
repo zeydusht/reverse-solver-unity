@@ -7,3 +7,5 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("ReverseSolver.Editor")]
 // The level editor's model builds LevelData directly (editor only, never in a build).
 [assembly: InternalsVisibleTo("ReverseSolver.Editing")]
+// Veri sistemi (PM_MESAJ_25): the replay and the bot Monte Carlo branch a session (editor only, never in a build).
+[assembly: InternalsVisibleTo("ReverseSolver.LevelEditor")]
