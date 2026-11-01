@@ -1,0 +1,32 @@
+{
+ "load": {},
+ "files": [],
+ "fps": {
+  "Bölüm 1": {
+   "median": 59.9,
+   "p95": 59.2,
+   "worst": 58.5
+  },
+  "Bölüm 30": {
+   "median": 59.9,
+   "p95": 58.8,
+   "worst": 58.5
+  },
+  "Koridor": {
+   "median": 59.9,
+   "p95": 58.8,
+   "worst": 57.5
+  },
+  "Koleksiyon kaydırma": {
+   "median": 59.9,
+   "p95": 58.8,
+   "worst": 12
+  }
+ },
+ "mem": {
+  "peak": {
+   "js": 6.3,
+   "wasm": 114.1
+  }
+ }
+}

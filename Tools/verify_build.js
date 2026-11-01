@@ -804,6 +804,159 @@ async function p20menu() {
   check('p20menu', exc === 0, `${n} görüntü → ${dir}, istisna ${exc}`);
 }
 // tap points (pt) of the p20 menus, read off the 375x812 design and the first shots
+/* --only perf (PM_MESAJ_28 B2): load time to the menu and from the menu to a playable level 1 under three networks
+   (CPU x4), total download and the 10 biggest files, FPS (level 1, level 30, corridor, collection flick) and peak
+   memory (JS heap + wasm memory). Only measures; -> docs/qa/<date>-perf.json and the console. */
+async function perf() {
+  W = 390; H = 844;
+  const dir = path.join(ROOT, 'docs/qa', new Date().toLocaleDateString('sv') + '-perf'); fs.mkdirSync(dir, { recursive: true });
+  const hook = `(function(){var M=WebAssembly.Memory;window.__mem=[];WebAssembly.Memory=function(d){var m=new M(d);window.__mem.push(m);return m};WebAssembly.Memory.prototype=M.prototype;
+    var I=WebAssembly.instantiate;WebAssembly.instantiate=function(){return I.apply(this,arguments).then(function(r){try{var e=(r.instance||r).exports;for(var k in e)if(e[k] instanceof M)window.__mem.push(e[k])}catch(_){}return r})};
+    var S=WebAssembly.instantiateStreaming;if(S)WebAssembly.instantiateStreaming=function(){return S.apply(this,arguments).then(function(r){try{var e=r.instance.exports;for(var k in e)if(e[k] instanceof M)window.__mem.push(e[k])}catch(_){}return r})};})()`;
+  const memNow = async p => {
+    const m = (await p.cdp('Performance.getMetrics')).result.metrics.find(x => x.name === 'JSHeapUsedSize');
+    const w = await p.ev(`(window.__mem||[]).reduce(function(a,m){return Math.max(a,m.buffer.byteLength)},0)`);
+    return { js: +(m.value / 1048576).toFixed(1), wasm: +(w / 1048576).toFixed(1) };
+  };
+  const nets = { 'Hızlı 4G': [9e6, 60], 'Yavaş 4G': [1.6e6, 150], '3G': [.75e6, 300] };
+  const out = { load: {}, files: [], fps: {}, mem: {} };
+  const only1 = opt('net', ''), doFps = opt('fps', '1') === '1';
+  for (const [name, [bps, lat]] of Object.entries(nets)) {
+    if (only1 !== '' && Object.keys(nets).indexOf(name) !== +only1) continue;   // --net 0|1|2
+    const p = await newPage(); const files = new Map();
+    await p.cdp('Performance.enable');
+    await p.cdp('Network.setCacheDisabled', { cacheDisabled: true });
+    await p.cdp('Network.emulateNetworkConditions', { offline: false, latency: lat, downloadThroughput: bps / 8, uploadThroughput: bps / 8 });
+    await p.cdp('Emulation.setCPUThrottlingRate', { rate: 4 });
+    await p.cdp('Page.addScriptToEvaluateOnNewDocument', { source: hook });
+    const t0 = Date.now();
+    await p.cdp('Page.navigate', { url: dbg(`${base}/?set=redesign&hud=0&player=TEST_PERF&lang=tr`) });
+    let menu = null;
+    while (Date.now() - t0 < 280000) { await sleep(500); menu = await p.ev(`window.LT && LT.end ? LT.end : null`); if (menu) break; }
+    if (!menu) { out.load[name] = { menu: null, note: '280 sn içinde açılmadı, atlandı' }; p.close(); continue; }
+    await sleep(2500);
+    await p.ev(`(function(){var b=document.getElementById('timing'); if (b) b.style.display='none'})()`);
+    await sleep(500);
+    const lv0 = Date.now(); p.logs.length = 0;
+    await p.tap(W / 2, H - 158);                                         // the Level button
+    let ready = null;
+    while (Date.now() - lv0 < 60000) { await sleep(100); if (p.logs.some(l => l.includes('[level-ready]'))) { ready = (Date.now() - lv0) / 1000; break; } }
+    const res = await p.ev(`performance.getEntriesByType('resource').map(function(e){return [e.name.split('/').pop().split('?')[0], e.transferSize||e.encodedBodySize||0]})`);
+    out.load[name] = { menu: +(menu / 1000).toFixed(1), level1: ready, mb: +(res.reduce((a, r) => a + r[1], 0) / 1048576).toFixed(2) };
+    if (name === 'Hızlı 4G') { out.files = res.sort((a, b) => b[1] - a[1]).slice(0, 10).map(([n, b]) => [n, +(b / 1048576).toFixed(2)]); out.mem.afterLoad = await memNow(p); }
+    console.log(`perf ${name}: menü ${out.load[name].menu} sn, bölüm 1 +${ready} sn, ${out.load[name].mb} MB`);
+    p.close();
+  }
+  if (!doFps) { const f = path.join(dir, 'perf_' + (only1 || 'all') + '.json'); fs.writeFileSync(f, JSON.stringify(out, null, 1)); check('perf', true, JSON.stringify(out.load)); W = 375; H = 667; return; }
+  // FPS and memory on the real GPU, no throttling
+  const sample = async (p, ms, act) => {
+    await p.ev(`window.__f=[];window.__fo=true;(function f(t){if(!window.__fo)return;window.__f.push(t);requestAnimationFrame(f)})(performance.now())`);
+    const t0 = Date.now(); let i = 0;
+    while (Date.now() - t0 < ms) { await act(i++); }
+    const iv = await p.ev(`(function(){window.__fo=false;var f=window.__f,d=[];for(var i=1;i<f.length;i++)d.push(f[i]-f[i-1]);return d})()`);
+    const s = iv.slice().sort((a, b) => a - b), f = v => +(1000 / v).toFixed(1);
+    return s.length ? { median: f(s[s.length >> 1]), p95: f(s[Math.floor(s.length * .95)]), worst: f(s[s.length - 1]) } : null;
+  };
+  const drag = async (p, i) => { const cx = W / 2, cy = H / 2 - 20, a = i / 20; await p.touch(i ? 'touchMove' : 'touchStart', cx + 14 * Math.sin(a), cy + 10 * Math.cos(a)); await sleep(16); };
+  let peak = { js: 0, wasm: 0 };
+  const keep = m => { peak = { js: Math.max(peak.js, m.js), wasm: Math.max(peak.wasm, m.wasm) }; };
+  for (const [name, q] of [['Bölüm 1', 'lv=1'], ['Bölüm 30', 'lv=30']]) {
+    const p = await newPage(); await p.cdp('Performance.enable'); await p.cdp('Page.addScriptToEvaluateOnNewDocument', { source: hook });
+    await p.open(dbg(`${base}/?set=redesign&hud=0&player=TEST_PERF&${q}`));
+    for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);   // intro card / tutorial
+    out.fps[name] = await sample(p, 8000, i => drag(p, i)); await p.touch('touchEnd');
+    keep(await memNow(p)); fs.writeFileSync(path.join(dir, `fps_${name.replace(' ', '')}.png`), await p.png()); p.close();
+  }
+  {
+    const p = await newPage(); await p.cdp('Performance.enable'); await p.cdp('Page.addScriptToEvaluateOnNewDocument', { source: hook });
+    await p.open(dbg(`${base}/?set=redesign&hud=0&player=TEST_PERF&won=40&corridor=1`));
+    out.fps['Koridor'] = await sample(p, 3500, () => sleep(50));
+    await sleep(1500);
+    await p.tap(tabX(0, 1), H - 30); await sleep(1000);
+    out.fps['Koleksiyon kaydırma'] = await sample(p, 6000, async i => {
+      const up = i % 2 === 0, y0 = up ? 640 : 300, y1 = up ? 300 : 640;
+      await p.touch('touchStart', W / 2, y0); for (let k = 1; k <= 6; k++) { p.touch('touchMove', W / 2, y0 + (y1 - y0) * k / 6); await sleep(16); }
+      await p.touch('touchEnd'); await sleep(900);
+    });
+    keep(await memNow(p)); p.close();
+  }
+  out.mem.peak = peak;
+  fs.writeFileSync(path.join(dir, 'perf.json'), JSON.stringify(out, null, 1));
+  check('perf', true, Object.entries(out.load).map(([k, v]) => `${k}: menü ${v.menu} sn, +bölüm1 ${v.level1} sn`).join(' | ') +
+    ' · FPS ' + Object.entries(out.fps).map(([k, v]) => `${k} ${v ? v.median : '-'}`).join(', ') + ` · tepe bellek JS ${peak.js} MB, wasm ${peak.wasm} MB → ${dir}`);
+  W = 375; H = 667;
+}
+
+/* --only ftue (PM_MESAJ_28 B1): a first-time player on a clean device at 390x844 (touch), cohort ic: loader, name,
+   profile, tutorial, levels 1-6, a bomb loss, its 1-10, then the menu tabs, settings and a replay from the levels map.
+   One shot per step -> docs/qa/<date>-ftue/. Sends rows (TEST_ name) only with --send. */
+async function ftue() {
+  W = 390; H = 844;
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const bomb = JSON.parse(fs.readFileSync(path.join(ROOT, 'Logs/veri/bomb_loss.json'), 'utf8'));
+  const dir = path.join(ROOT, 'docs/qa', new Date().toLocaleDateString('sv') + '-ftue'); fs.mkdirSync(dir, { recursive: true });
+  const p = await newPage(); let n = 0;
+  const shot = async name => { fs.writeFileSync(path.join(dir, `${String(++n).padStart(2, '0')}_${name}.png`), await p.png()); };
+  const scan = async () => {
+    await sleep(2500); let prev = await p.png();
+    for (let y = Math.round(H * .25); y < H * .9; y += 12) { await p.tap(W / 2, y); const now = await p.png(); if (Buffer.compare(now, prev) !== 0) break; prev = now; }
+    await sleep(1200);
+  };
+  const intro = async () => { for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y); };
+  const lang = opt('lang', 'tr'), part = +opt('part', '1');
+  n = (part - 1) * 30;                                                      // shot numbers stay in order across parts
+  const card = async name => {                                              // the intro card, then the obstacle spotlight
+    await sleep(800); await shot(name + '_kart');
+    let prev = await p.png();
+    for (let y = Math.round(H * .5); y < H * .85; y += 16) { await p.tap(W / 2, y); await sleep(250); const now = await p.png(); if (Buffer.compare(now, prev) !== 0) break; prev = now; }
+    await sleep(900); await shot(name + '_spot');
+    await p.tap(W / 2, H * .5); await sleep(900);
+  };
+  if (part > 1) {
+    await p.cdp('Page.navigate', { url: `${base}/?set=redesign&c=ic&lang=${lang}` });
+    for (let i = 0; i < 120; i++) { await sleep(1000); if (await p.ev(`!!document.getElementById('rs-name') || !!(window.LT && LT.end)`)) break; }
+    await sleep(1500); await p.name(opt('player', 'TEST_FTUE')); await sleep(2500); await scan();
+  }
+  if (part === 1) {
+  await p.cdp('Page.navigate', { url: `${base}/?set=redesign&c=ic&lang=${lang}` });
+  await sleep(1500); await shot('yukleme');
+  for (let i = 0; i < 120; i++) { await sleep(1000); if (await p.ev(`!!document.getElementById('rs-name') || !!(window.LT && LT.end)`)) break; }
+  await sleep(1500); await shot('isim');
+  await p.name(opt('player', 'TEST_FTUE')); await sleep(2500); await shot('profil_sorusu');
+  await scan(); await shot('menu_ilk');
+  await p.tap(W / 2, H - 158); await sleep(2500); await shot('b1_acilis');
+  const l1 = set[0];
+  await p.solve({ ...l1, solution: l1.solution.slice(0, 1) }); await sleep(600); await shot('b1_egitim_adim2');
+  await p.solve({ ...l1, solution: l1.solution.slice(1, 2) }); await sleep(900); await shot('b1_kural_karti');
+  await p.tap(W / 2, H / 2); await sleep(900); await shot('b1_serbest');
+  await p.solve({ ...l1, solution: l1.solution.slice(2) }); await sleep(2500); await shot('b1_kazanma');
+  await scan(); await shot('b1_sonrasi');
+  }
+  for (let i = part === 1 ? 1 : part === 2 ? 3 : 6; i < (part === 1 ? 3 : 6); i++) {
+    const l = set[i];
+    await p.cdp('Page.navigate', { url: `${base}/?set=redesign&lv=${l.id}&lang=${lang}` }); await sleep(7000);
+    await card(`b${i + 1}`);
+    await p.solve(l); await sleep(2500); await shot(`b${i + 1}_kazanma`);
+    await scan(); await sleep(1500);
+  }
+  if (part === 2) {
+  await p.cdp('Page.navigate', { url: `${base}/?set=redesign&lv=${bomb.id}&lang=${lang}` }); await sleep(7000);
+  await intro(); await p.solve({ ...set.find(x => x.id === bomb.id), solution: bomb.solution }); await sleep(2500); await shot('kayip');
+  await scan(); await shot('kayip_1_10');
+  await scan(); await shot('kayip_sonrasi');
+  }
+  if (part === 3) {
+  await p.cdp('Page.navigate', { url: `${base}/?set=redesign&lang=${lang}` }); await sleep(7000); await shot('menu_ev');
+  for (const [i, name] of [[1, 'koleksiyon'], [2, 'jiggles'], [3, 'basarilar']]) { await p.tap(tabX(i === 1 ? 0 : i - 1, i), H - 30); await sleep(1000); await shot('menu_' + name); }
+  await p.tap(tabX(3, 0), H - 30); await sleep(1000);
+  await p.tap(...P20.settings(W, H)); await sleep(1000); await shot('ayarlar'); await p.tap(...P20.settingsClose(W, H)); await sleep(800);
+  await p.tap(...P20.levels(W, H)); await sleep(1500); await shot('bolumler');
+  await scan(); await shot('bolumler_tekrar_oyna');
+  }
+  const exc = p.exceptions.length; p.close(); W = 375; H = 667;
+  check('ftue', exc === 0, `${n} görüntü → ${dir}, istisna ${exc}`);
+}
+
 const tabX = (sel, i) => { let x = 0; for (let j = 0; j < i; j++) x += (j === sel ? 2 : 1); return W * (x + (i === sel ? 1 : .5)) / 5; };
 const P20 = {
   settings: (w, h) => [w - 40, 49], profile: (w, h) => [50, 49], levels: (w, h) => [(w - 228) / 2 - 29, h - 158], back: (w, h) => [30, 38],
@@ -847,7 +1000,10 @@ async function replay() {
   for (let y = Math.round(H * .25); y < H * .9; y += 12) await p.tap(W / 2, y + 0);   // the profile question
   for (let k = 0; k < 2; k++) {
     if (k) { await p.open(`${base}/?set=redesign&lv=S41`, { gate: true }); await sleep(4000); }
-    await intro(); await p.solve(l); await sleep(18000);
+    // PM_MESAJ_28 tutorial: two guided moves, the rule card (a tap), then the rest
+    await intro(); await p.solve({ ...l, solution: l.solution.slice(0, 2) }); await sleep(900);
+    await p.tap(W / 2, H / 2); await sleep(900);
+    await p.solve({ ...l, solution: l.solution.slice(2) }); await sleep(18000);
   }
   await p.cdp('Page.navigate', { url: 'about:blank' }); await sleep(3000); p.close();
   const rows = await (await fetch(`${SUPA}/rest/v1/plays?player=eq.${name}&select=level_id,result,attempt,cohort,platform,device_id,app_version&order=created_at`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json();
@@ -971,6 +1127,8 @@ async function qa() {
     if (only.includes('corridor')) await corridor();
     if (only.includes('p20menu')) await p20menu();
     if (only.includes('flick')) await flick();
+    if (only.includes('perf')) await perf();
+    if (only.includes('ftue')) await ftue();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();

@@ -5,6 +5,23 @@ namespace ReverseSolver.Presentation
     /* Player-facing text follows the language chosen in settings. */
     public static class Texts
     {
+        // Source copy: docs/i18n/en.md, Tutorial.
+        public static string TutorialDrag(Dir dir) => dir switch
+        {
+            Dir.L => Lang.T("Drag the piece to the left", "Parçayı sola sürükle"),
+            Dir.R => Lang.T("Drag the piece to the right", "Parçayı sağa sürükle"),
+            Dir.U => Lang.T("Drag the piece up", "Parçayı yukarı sürükle"),
+            _ => Lang.T("Drag the piece down", "Parçayı aşağı sürükle")
+        };
+        public static string TutorialCopy(string key) => key switch
+        {
+            "rule" => Lang.T("Pull every piece out\nwithout hitting other pieces!", "Tüm parçaları diğer parçalara\nçarpmadan dışarı çek!"),
+            "nail" => Lang.T("Nails count down when other pieces leave.", "Diğer parçalar çıktıkça çivi sayacı azalır."),
+            "bomb" => Lang.T("Free the bomb before its fuse runs out!", "Fitili bitmeden bombayı çıkar!"),
+            "chain" => Lang.T("Chained pieces leave together. Clear both paths.", "Zincirli parçalar birlikte çıkar. İkisinin de yolunu aç."),
+            "wall" => Lang.T("Pieces can't pass through red-white walls.", "Parçalar kırmızı-beyaz duvardan geçemez."),
+            _ => ""
+        };
         public static string MyAvatar => Lang.T("My avatar", "Avatarım");
         public static string ProfileTitle => Lang.T("Profile", "Profil");
         public static string ChangeAvatar => Lang.T("Change avatar", "Avatarı değiştir");

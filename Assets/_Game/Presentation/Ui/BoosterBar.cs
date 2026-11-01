@@ -18,6 +18,8 @@ namespace ReverseSolver.Presentation
         readonly TextView _prompt;
         readonly List<Slot> _slots = new List<Slot>();
 
+        public void ShowTutorial(bool showing) => _root.gameObject.SetActive(!showing);
+
         sealed class Slot
         {
             public Booster B;

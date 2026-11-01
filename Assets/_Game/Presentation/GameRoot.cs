@@ -66,6 +66,14 @@ namespace ReverseSolver.Presentation
         bool _newArt;                 // SET40 v3 preview: the corridor menu art (live set keeps the old menu)
         bool _tutorialDone;           // web tutDone: first removal anywhere ends the hand for this visit
         TutorialHand _hand;
+        TutorialScript _tutorialScript;
+        List<TutorialStep> _tutorialSteps = new List<TutorialStep>();
+        int _tutorialAt;
+        TutorialSpotlight _spotlight;
+        Move _tutorialMove;
+        float _tutorialUntil = -1;
+        Vector2 _tutorialPress;
+        bool TutorialActive => _mode == Mode.Playing && _session != null && !_session.IsOver && _tutorialAt < _tutorialSteps.Count;
         LevelImages _images;          // G1: level pictures, fetched when a level opens
         readonly HashSet<string> _introSeen = new HashSet<string>();
 
@@ -155,6 +163,7 @@ namespace ReverseSolver.Presentation
             }
             // web name gate: once per browser; the HTML input sits over the canvas
             if (_showSet && string.IsNullOrEmpty(_save.Player)) _save.SetPlayer("SHOW");   // demo visitors are tagged SHOW
+            _debugCorridor = Host.Debug && host.Query("corridor") == "1";   // PM_MESAJ_28 B2: the corridor once over the menu, for FPS
             if (Host.Debug && !string.IsNullOrEmpty(host.Query("player"))) _save.SetPlayer(host.Query("player"));   // PM_MESAJ_26 QA: a long name
             bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug && !_showSet;
             int requested = PlayOverride.Active ? PlayOverride.Index
@@ -353,9 +362,13 @@ namespace ReverseSolver.Presentation
             _mode = Mode.Playing;
             _endAt = -1;
             // web loadLevel(i): the intro shows on a level's first start, not on retries
-            _introOpen = Screens.HasIntro(level) && _introSeen.Add(level.Id);
+            bool firstVisit = !_introSeen.Contains(level.Id);
+            _introOpen = Screens.HasIntro(level) && firstVisit;
+            _introSeen.Add(level.Id);
+            ResetScriptedTutorial(firstVisit);
             Layout();
             _board?.Deal();                                    // web render(true): pieces deal in on a fresh start
+            if (Host.Debug) Debug.Log("[level-ready] " + level.Id);   // PM_MESAJ_28 B2: verify_build --only perf times this
         }
 
         /* Zeyd 2026-10-28: a new browser save (Safari's 7-day clean-up, Chrome or WhatsApp's own browser, another
@@ -391,16 +404,74 @@ namespace ReverseSolver.Presentation
             }
         }
 
-        /* SET40 v3 tutorial: the hand on the next solution move and its step text. */
+        void ResetScriptedTutorial(bool firstVisit)
+        {
+            _tutorialScript ??= TutorialScript.Load();
+            _tutorialSteps = _redesignSet && !PlayOverride.Active ? _tutorialScript.ForSlot(_index + 1, firstVisit) : new List<TutorialStep>();
+            _tutorialAt = 0;
+            _tutorialUntil = -1;
+        }
+
+        /* Scripted SET40 steps, with the old hand retained for other tutorials. */
         void ShowTutorialStep()
         {
+            if (_redesignSet && !PlayOverride.Active && _tutorialScript.ForSlot(_index + 1, true).Count > 0)
+            {
+                ShowScriptedTutorial();
+                return;
+            }
             if (_board == null || !Tutorial.Step(_session, out var m)) return;
-            // Zeyd 2026-10-28: the hand on level 1's first two moves only, never on level 2
+            // Zeyd 2026-10-28: the hand on level 1's first two moves only, never on level 2 (tutorial 2)
             int done = _session.Level.Pieces.Count - _session.Board.PresentCount;
             if (_session.Level.Tutorial != 1 || done >= 2) return;
             var origin = BoardPlacement(_screen, _safe, _session.Level, out _);
             _hand = TutorialHand.Show(_board, _board.PieceViewOf(m.Piece), m, HandOrder, new Rect(-origin, _screen));
             if (_session.Level.Tutorial == 1 || done == 0) _bar?.Notice(done == 0 ? Texts.TutorialFirst : Texts.TutorialNext, 2.5f);
+        }
+
+        void ShowScriptedTutorial()
+        {
+            if (_spotlight != null) Destroy(_spotlight.gameObject);
+            _spotlight = null;
+            _bar?.ShowTutorial(TutorialActive && !_introOpen);
+            if (_introOpen || _board == null) return;
+            while (TutorialActive)
+            {
+                var step = _tutorialSteps[_tutorialAt];
+                bool valid = step.tur == "kural" || (step.tur == "goster" && TutorialScript.ObstacleOf(_session.Level, step.engel, out _, out _));
+                if (step.tur == "surukle")
+                    valid = TutorialScript.MoveOf(_session.Level, step, out _tutorialMove) &&
+                        (_tutorialUntil >= 0 || (_session.Board.IsPresent(_tutorialMove.Piece) && _session.NailAt(_tutorialMove.Piece) == 0 && _session.Probe(_tutorialMove.Piece, _tutorialMove.Dir).Exit));
+                if (valid)
+                {
+                    _spotlight = TutorialSpotlight.Show(_world, _screen, _board, step, _tutorialMove);
+                    if (_tutorialUntil >= 0) _spotlight.Success();
+                    return;
+                }
+                Debug.LogWarning($"Tutorial: skipped slot {_index + 1}, step {step.adim} (missing target or invalid move).");
+                _tutorialAt++;
+            }
+            _bar?.ShowTutorial(false);
+        }
+
+        void NextScriptedTutorial()
+        {
+            _tutorialAt++;
+            _tutorialUntil = -1;
+            ShowScriptedTutorial();
+        }
+
+        // Run before DragModel.Move: even probing a wrong direction must not record a jam.
+        bool RejectTutorialDirection(Vector2 pt)
+        {
+            if (!TutorialActive || _tutorialUntil >= 0 || _tutorialSteps[_tutorialAt].tur != "surukle" || !_drag.Active) return false;
+            var delta = pt - _tutorialPress;
+            if (!TutorialScript.WrongDirection(_tutorialMove.Dir, _drag.Direction, delta.x, delta.y, out var dir)) return false;
+            int piece = _drag.Piece;
+            _drag.Cancel();
+            _board.TutorialShake(piece, dir);
+            _spotlight?.Restart();
+            return true;
         }
 
         void MenuAction(Vector2 pt)
@@ -567,7 +638,12 @@ namespace ReverseSolver.Presentation
             {
                 _tutorialDone = true;                          // web clearTutorial() in flyOut and the hammer
                 if (_hand != null) { _hand.Remove(); _hand = null; }
-                if (_session.Level.Tutorial > 0) ShowTutorialStep();
+                if (TutorialActive && _tutorialSteps[_tutorialAt].tur == "surukle" && e.Piece == _tutorialMove.Piece)
+                {
+                    _tutorialUntil = Time.unscaledTime + .3f;
+                    _spotlight?.Success();
+                }
+                else if (_session.Level.Tutorial > 0) ShowTutorialStep();
             }
             // Codex sounds (preview art only; silent when Art is off)
             // PM_MESAJ_19: no sound per piece; the jam keeps its knock; the last piece gets the whole sparkle, then the fanfare
@@ -711,7 +787,7 @@ namespace ReverseSolver.Presentation
                                               new Rect(-origin, _screen));
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder);
-                if (_session.Level.Tutorial > 0) ShowTutorialStep();
+                if (_session.Level.Tutorial > 0 || TutorialActive) ShowTutorialStep();
                 if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder));
                 else if (_session.IsOver && _endAt < 0) ShowResult();
                 RefreshPlaying();
@@ -864,13 +940,25 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Playing)
             {
+                if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil) NextScriptedTutorial();
                 // the clock runs only while the board is actually in play
-                if (!_session.IsOver && !_introOpen && _card == null && _list == null) _session.Tick(Time.unscaledDeltaTime);
+                if (!_session.IsOver && !_introOpen && !TutorialActive && _card == null && _list == null) _session.Tick(Time.unscaledDeltaTime);
                 if (_endAt > 0 && Time.unscaledTime >= _endAt) { _endAt = -1; ShowResult(); }
                 RefreshPlaying();
             }
+            if (_debugCorridor && _mode == Mode.Menu && Time.unscaledTime > 2 && _corridor == null)
+            {
+                _debugCorridor = false;
+                float at = Time.unscaledTime;
+                _corridor = CorridorTransition.Play(_screen, CorridorOrder, _images.Get(ImageOf(0)), _images.Get(ImageOf(1)), () =>
+                {
+                    Debug.Log($"[corridor-end] {Time.unscaledTime - at:0.00} s");
+                    _corridor = null;
+                });
+            }
             if (_debug != null) UpdateDebug();
         }
+        bool _debugCorridor;
 
         /* Focus lost mid-drag: the piece leaves if it was already past the exit
            point, otherwise it springs back (PRODUCT.md K1). */
@@ -930,11 +1018,13 @@ namespace ReverseSolver.Presentation
             if (p.press.wasPressedThisFrame) Press(pt);
             else if (p.press.isPressed && _drag != null && _drag.Active)
             {
+                if (RejectTutorialDirection(pt)) return;
                 _drag.Move(pt.x, pt.y, Time.unscaledTimeAsDouble);
                 _board.ShowDrag(_drag);
             }
             if (p.press.wasReleasedThisFrame && _drag != null && _drag.Active)
             {
+                if (RejectTutorialDirection(pt)) return;
                 var lim = _drag.Limit;
                 // a touch the system took away (edge swipe, notification) ends as a cancel, not a release
                 var touch = Touchscreen.current;
@@ -1003,7 +1093,7 @@ namespace ReverseSolver.Presentation
                 if (id == null) return;
                 switch (_cardKind)
                 {
-                    case "intro": _introOpen = false; CloseCard(); break;
+                    case "intro": _introOpen = false; CloseCard(); ShowScriptedTutorial(); break;
                     case "pause":                                   // the attempt ends as a quit when left (LeaveLevel)
                         CloseCard();
                         if (id == "restart") StartLevel(_index);
@@ -1038,6 +1128,19 @@ namespace ReverseSolver.Presentation
                         else if (!PlayCorridor(true)) ShowMenu();          // PM_MESAJ_24B: after a win the menu comes through the corridor too
                         break;
                 }
+                return;
+            }
+
+            if (TutorialActive)
+            {
+                if (_tutorialUntil >= 0) return;
+                var step = _tutorialSteps[_tutorialAt];
+                if (step.tur != "surukle") { NextScriptedTutorial(); return; }
+                int target = _board.GrabAt(pt, out bool tutorialOutside);
+                if (target != _tutorialMove.Piece) { _spotlight?.Restart(); return; }
+                _tutorialPress = pt;
+                if (_drag.Press(target, pt.x, pt.y, Time.unscaledTimeAsDouble, tutorialOutside))
+                { _board.ShowDrag(_drag); _pressAt = Time.unscaledTime; }
                 return;
             }
 
@@ -1139,6 +1242,8 @@ namespace ReverseSolver.Presentation
             _boosters = new BoosterControls(_session);
             _mode = state == "menu" ? Mode.Menu : Mode.Playing;
             _introOpen = state == "intro";
+            ResetScriptedTutorial(true);
+            if (state != "" && state != "intro") _tutorialSteps.Clear();
             _endAt = -1;
             switch (state)
             {

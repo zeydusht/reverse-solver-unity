@@ -226,6 +226,22 @@ namespace ReverseSolver.Presentation
             }, () => { if (pv != null) pv.SetOffset(Vector2.zero); });
         }
 
+        // Presentation-only rejection: no session command, sound, haptic or jam.
+        public void TutorialShake(int piece, Dir direction)
+        {
+            SetBlocker(-1);
+            _dragged = -1;
+            if (!_pieces.TryGetValue(piece, out var pv)) return;
+            Tweens.Kill(pv);
+            pv.SetLift(0);
+            pv.SortingOrder = HomeOrder(piece);
+            var axis = new Vector2(direction.Dx(), direction.Dy());
+            Tweens.Run(pv, .25f, t =>
+            {
+                if (pv != null) pv.SetOffset(axis * (Mathf.Sin(t * Mathf.PI * 6) * 3 * (1 - t)));
+            }, () => { if (pv != null) pv.SetOffset(Vector2.zero); });
+        }
+
         /* .pc.popped: a freed piece flashes bright with an amber glow, .5s ease. */
         void Popped(int piece)
         {

@@ -1,0 +1,58 @@
+{
+ "load": {
+  "Hızlı 4G": {
+   "menu": 17.9,
+   "level1": 0.733,
+   "mb": 15.37
+  }
+ },
+ "files": [
+  [
+   "17e5f2b416bdd329e675eaf5ea4c8ade.data.unityweb",
+   9.63
+  ],
+  [
+   "8f9754e4838ffca418abd6f81e9f2705.wasm.unityweb",
+   5.18
+  ],
+  [
+   "v3-loader-bg.png",
+   0.2
+  ],
+  [
+   "2a7a83e499cdc0b60b76d94073dd4d4d.loader.js",
+   0.11
+  ],
+  [
+   "icon-v3-192.png",
+   0.09
+  ],
+  [
+   "b0867bd8938084ca51bcc761f108b9a4.framework.js.unityweb",
+   0.07
+  ],
+  [
+   "icon-192.png",
+   0.04
+  ],
+  [
+   "icon-192.png",
+   0.04
+  ],
+  [
+   "icon-v3-32.png",
+   0
+  ],
+  [
+   "v3-progress-fill.png",
+   0
+  ]
+ ],
+ "fps": {},
+ "mem": {
+  "afterLoad": {
+   "js": 7.2,
+   "wasm": 114.1
+  }
+ }
+}

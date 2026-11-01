@@ -48,7 +48,7 @@ namespace ReverseSolver.EditorTools
         public static void BuildTitle()
         {
             var font = AssetDatabase.LoadAssetAtPath<Font>(Dir + "Nunito-Black.ttf");
-            var fa = TMP_FontAsset.CreateFontAsset(font, 72, 14, GlyphRenderMode.SDFAA, 2048, 1024, AtlasPopulationMode.Dynamic, false);
+            var fa = TMP_FontAsset.CreateFontAsset(font, 56, 11, GlyphRenderMode.SDFAA, 1024, 1024, AtlasPopulationMode.Dynamic, false);
             var chars = new System.Text.StringBuilder("çÇğĞıİöÖşŞüÜâÂîÎûÛ·…’‘“”–—");
             for (char c = ' '; c <= '~'; c++) chars.Append(c);
             fa.TryAddCharacters(chars.ToString(), out string missing);
