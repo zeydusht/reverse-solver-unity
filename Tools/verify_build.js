@@ -771,6 +771,62 @@ async function chain() {
   check('chain', exc === 0, `3 boyut → ${dir}, istisna ${exc}`);
 }
 
+/* --only p20menu (PM_MESAJ_26): every menu tab and card at 375x667, 390x844 and 430x932, both languages, with a long
+   name, as if 12 levels were won (?won=12, debug only); plus 0 and 40 won at 390x844. Shots -> docs/qa/<date>-p20. */
+async function p20menu() {
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-p20'));
+  fs.mkdirSync(dir, { recursive: true });
+  let exc = 0, n = 0;
+  const tab = async (p, i) => { await p.tap(W * (i + .5) / 4, H - 30); await sleep(900); };
+  const runs = [];
+  for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) for (const lang of ['tr', 'en']) runs.push([w, h, lang, 12]);
+  runs.push([390, 844, 'tr', 0], [390, 844, 'tr', 40]);
+  for (const [w, h, lang, won] of runs) {
+    W = w; H = h;
+    const shot = async (p, name) => { fs.writeFileSync(path.join(dir, `${lang}_${w}x${h}_won${won}_${name}.png`), await p.png()); n++; };
+    const p = await newPage();
+    await p.open(dbg(`${base}/?set=redesign&lang=${lang}&won=${won}&player=${encodeURIComponent('Zeynep Yılmazoğlu')}`));
+    await sleep(2500); await p.tap(W / 2, H * .3); await sleep(500);              // the debug load-time panel
+    await shot(p, '1_ev');
+    await p.tap(...P20.settings(W, H)); await sleep(900); await shot(p, '7_ayarlar'); await p.tap(...P20.close(W, H)); await sleep(700);
+    await p.tap(...P20.levels(W, H)); await sleep(1200); await shot(p, '8_bolumler'); await p.tap(...P20.back(W, H)); await sleep(900);
+    await tab(p, 1); await shot(p, '2_koleksiyon');
+    await p.tap(...P20.cell(W, H)); await sleep(1200); await shot(p, '3_tablo_detay'); await p.tap(...P20.close(W, H)); await sleep(700);
+    await tab(p, 2); await shot(p, '4_jiggles');
+    await tab(p, 3); await shot(p, '5_basarilar');
+    await tab(p, 0); await sleep(300);
+    await p.tap(...P20.profile(W, H)); await sleep(1000); await shot(p, '6_profil'); await p.tap(...P20.close(W, H)); await sleep(600);
+    exc += p.exceptions.length; p.close();
+  }
+  W = 375; H = 667;
+  check('p20menu', exc === 0, `${n} görüntü → ${dir}, istisna ${exc}`);
+}
+// tap points (pt) of the p20 menus, read off the 375x812 design and the first shots
+const P20 = {
+  settings: (w, h) => [w - 42, 77], profile: (w, h) => [90, 77], levels: (w, h) => [53, h - 201], back: (w, h) => [36, 77],
+  cell: (w, h) => [w / 2 - 110, 220], close: (w, h) => [w / 2 + 135, h / 2 - 255],
+};
+
+/* --send --only replay (PM_MESAJ_26): one browser profile (cohort ic) wins S41, then plays it again from the
+   menu path; plays must hold attempt 1 and attempt 2 with cohort, device_id, platform and app_version. */
+async function replay() {
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const l = set.find(x => x.id === 'S41'), name = opt('icname', 'IC_REPLAY'), p = await newPage();
+  const intro = async () => { for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y); };
+  await p.open(`${base}/?set=redesign&c=ic&lv=S41`, { gate: true }); await p.name(name); await sleep(1500);
+  for (let y = Math.round(H * .25); y < H * .9; y += 12) await p.tap(W / 2, y + 0);   // the profile question
+  for (let k = 0; k < 2; k++) {
+    if (k) { await p.open(`${base}/?set=redesign&lv=S41`, { gate: true }); await sleep(4000); }
+    await intro(); await p.solve(l); await sleep(18000);
+  }
+  await p.cdp('Page.navigate', { url: 'about:blank' }); await sleep(3000); p.close();
+  const rows = await (await fetch(`${SUPA}/rest/v1/plays?player=eq.${name}&select=level_id,result,attempt,cohort,platform,device_id,app_version&order=created_at`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json();
+  console.log('PLAYS ' + JSON.stringify(rows));
+  const s41 = rows.filter(r => r.level_id === 'S41');
+  const ok = s41.some(r => r.attempt === 1) && s41.some(r => r.attempt === 2) && rows.every(r => r.cohort === 'ic' && r.platform && r.device_id && /^web-p20/.test(r.app_version || ''));
+  check('replay', ok, `S41 denemeleri ${s41.map(r => r.attempt + ':' + r.result).join(' ')}; ${rows[0] ? rows[0].app_version : '-'}`);
+}
+
 /* --only corridor (PM_MESAJ_24): win -> Next -> the corridor slide -> next level. Levels 1, 15 and 39 at phone,
    desktop and narrow sizes (shots at the start, middle and end of the slide, no #00ff00 anywhere, bay 2 not the
    dark placeholder at the end), level 40's end card (no slide), level 1 -> 2 on a slow network from the first byte (the next painting
@@ -883,6 +939,7 @@ async function qa() {
     if (only.includes('music')) await music();
     if (only.includes('chain')) await chain();
     if (only.includes('corridor')) await corridor();
+    if (only.includes('p20menu')) await p20menu();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();
@@ -892,6 +949,7 @@ async function qa() {
     if (send && only.includes('redesignsend')) await redesignsend();
     if (send && only.includes('pausequit')) await pausequit();
     if (send && only.includes('cohortic')) await cohortic();
+    if (send && only.includes('replay')) await replay();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
   finally {

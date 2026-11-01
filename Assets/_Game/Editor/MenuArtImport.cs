@@ -31,12 +31,25 @@ namespace ReverseSolver.EditorTools
                 a.spritePixelsPerUnit = 3;
                 a.mipmapEnabled = false;
                 a.maxTextureSize = 1024;
+                if (assetPath.Contains("/t20-"))
+                {
+                    a.wrapMode = UnityEngine.TextureWrapMode.Clamp;
+                    a.alphaIsTransparency = true;
+                    a.maxTextureSize = 2048;
+                    a.spritePixelsPerUnit = assetPath.Contains("/t20-scene-") ? 1 : 3;
+                    a.filterMode = UnityEngine.FilterMode.Bilinear;
+                    a.spritePivot = assetPath.Contains("-standing.png") || assetPath.EndsWith("/t20-levels-path-repeat.png")
+                        ? new UnityEngine.Vector2(.5f, 0) : new UnityEngine.Vector2(.5f, .5f);
+                    if (assetPath.EndsWith("/t20-levels-path-repeat.png"))
+                        a.wrapModeV = UnityEngine.TextureWrapMode.Repeat;
+                }
                 a.textureCompression = TextureImporterCompression.Compressed;
                 a.crunchedCompression = true;
                 a.compressionQuality = 60;
                 var st = new TextureImporterSettings();
                 a.ReadTextureSettings(st);
                 st.spriteMeshType = UnityEngine.SpriteMeshType.FullRect;    // needed for sliced drawing
+                if (assetPath.Contains("/t20-")) st.spriteAlignment = (int)UnityEngine.SpriteAlignment.Custom;
                 a.SetTextureSettings(st);
                 if (assetPath.EndsWith("skin-body.png")) { a.wrapMode = UnityEngine.TextureWrapMode.Repeat; a.crunchedCompression = false; }
                 if (assetPath.EndsWith("/popup-card.png")) a.maxTextureSize = 2048;   // 972x1200 stays block-aligned (1024 would rescale it to 830 px)

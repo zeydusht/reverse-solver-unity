@@ -40,6 +40,8 @@ namespace ReverseSolver.Presentation
         LevelSet _set;
         AttemptLog _log;
         SaveData _save;
+        PlayStats _stats;
+        bool _previewWins;
         TelemetryLog _telemetry;
         string _rowId;                 // row_id of the attempt in play
         bool _awaitingName;
@@ -75,6 +77,22 @@ namespace ReverseSolver.Presentation
         Card _card;                  // the one open card: result, intro or question
         string _cardKind;
         Screens.Menu _menu;
+        MenuTab _tab = MenuTab.Home;
+        bool _levelsMapOpen;
+        MenuTabs _tabs;
+        CollectionScreen _collection;
+        LevelsMap _levelsMap;
+        PaintingDetail _paintingDetail;
+        MenuSettings _menuSettings;
+        JigglesScreen _jiggles;
+        AchievementsScreen _achievements;
+        ProfileCard _profileCard;
+        float _jigglesOffset, _achievementsOffset;
+        float _collectionOffset;
+        float? _mapOffset;
+        bool _menuPointer, _menuDragging, _tabAnimating;
+        Vector2 _menuPointerStart, _menuPointerLast;
+        MenuScroll ActiveMenuScroll => _menuSettings != null || _paintingDetail != null || _profileCard != null || _card != null ? null : _levelsMap?.Scroll ?? _collection?.Scroll ?? _jiggles?.Scroll ?? _achievements?.Scroll;
         CorridorTransition _corridor;  // PM_MESAJ_24: the slide to the next level's painting, over everything
         Screens.LevelList _list;
         TextView _debug;
@@ -101,6 +119,8 @@ namespace ReverseSolver.Presentation
             System.Func<string> newId = () => System.Guid.NewGuid().ToString("N");
             var host = Host.Current;
             _save = new SaveData(host.Store, newId);
+            _stats = PlayStats.Load(host.Store);
+            _stats.ImportLegacy(_save);
             _log = _save.Restore();
             var queue = new TelemetryQueue(host.Store);
             bool send = host.SendEnabled && !Host.Debug && !Application.isEditor;
@@ -123,8 +143,19 @@ namespace ReverseSolver.Presentation
 
             // every level open for the test links (set= in the address), not when the flag makes SET40 the playtest default
             _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug || (_zeydbotSet && !string.IsNullOrEmpty(host.Query("set"))) };
+            // PM_MESAJ_26 QA (debug only): ?won=N shows the menus as if the first N levels were won (memory only, never saved)
+            if (Host.Debug && int.TryParse(host.Query("won"), out int won))
+            {
+                _previewWins = true;
+                var best = new System.Collections.Generic.Dictionary<string, int>();
+                for (int w = 0; w < won && w < _set.Levels.Count; w++) best[_set.Levels[w].Id] = 3;
+                _log = new AttemptLog();
+                _log.Restore(new System.Collections.Generic.Dictionary<string, int>(), best);
+                _progress = new Progress(_log, _set.Levels);
+            }
             // web name gate: once per browser; the HTML input sits over the canvas
             if (_showSet && string.IsNullOrEmpty(_save.Player)) _save.SetPlayer("SHOW");   // demo visitors are tagged SHOW
+            if (Host.Debug && !string.IsNullOrEmpty(host.Query("player"))) _save.SetPlayer(host.Query("player"));   // PM_MESAJ_26 QA: a long name
             bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug && !_showSet;
             int requested = PlayOverride.Active ? PlayOverride.Index
                           : !_showSet && TryLevelIndex(host.Query("lv"), out int index) ? index : -1;   // SHOW1: the menu first, its Demo button starts the level
@@ -275,7 +306,7 @@ namespace ReverseSolver.Presentation
             {
                 SendPendingFun();                                 // a closing tab must not lose the won row
                 _telemetry.PageHidden(_mode == Mode.Playing ? _session : null, _rowId);
-                _save.Store(_log);
+                if (!_previewWins) _save.Store(_log);
             }
         }
 
@@ -313,7 +344,7 @@ namespace ReverseSolver.Presentation
             _hardAnswered = _askHard = false;
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
             _rowId = _telemetry.NewRowId();
-            _save.Store(_log);                                 // the attempt counter, before anything can go wrong
+            if (!_previewWins) _save.Store(_log);                                 // the attempt counter, before anything can go wrong
             _session.EventRaised += OnEvent;
             _boosters = new BoosterControls(_session);
             _moveT0 = _moveLast = Time.unscaledTime;
@@ -374,10 +405,113 @@ namespace ReverseSolver.Presentation
 
         void MenuAction(Vector2 pt)
         {
+            if (Art.On)
+            {
+                if (_profileCard != null) { ProfileAction(_profileCard.Hit(pt)); return; }
+                if (_menuSettings != null) { SettingsAction(_menuSettings.Hit(pt)); return; }
+                if (_paintingDetail != null)
+                {
+                    string action = _paintingDetail.Hit(pt);
+                    if (action == "replay") { int index = _paintingDetail.Index; _paintingDetail.Destroy(); _paintingDetail = null; StartLevel(index); }
+                    else if (action == "close") { _paintingDetail.Destroy(); _paintingDetail = null; }
+                    return;
+                }
+                int tab = _tabs?.Hit(pt) ?? -1;
+                if (tab >= 0)
+                {
+                    if (_tabAnimating) return;
+                    RememberMenuScroll(); _tabAnimating = true;
+                    _tabs.Press(tab, () => { _tabAnimating = false; if (_mode != Mode.Menu) return; _tab = (MenuTab)tab; _levelsMapOpen = false; Layout(); });
+                    return;
+                }
+                if (_tabs != null && pt.y >= _tabs.Top - 24) return;
+                if (_levelsMap != null)
+                {
+                    int hit = _levelsMap.Hit(pt);
+                    if (hit == -2) { RememberMenuScroll(); _levelsMapOpen = false; Layout(); }
+                    else if (hit >= 0) StartLevel(hit);
+                    return;
+                }
+                if (_collection != null)
+                {
+                    int hit = _collection.Hit(pt);
+                    if (hit >= 0) _paintingDetail = new PaintingDetail(_world, _screen, hit, _images, CardOrder, i => _stats.Of(_set.Levels[i].Id)?.BestWinSeconds);
+                    return;
+                }
+                if (_jiggles != null)
+                {
+                    int avatar = _jiggles.Hit(pt);
+                    if (avatar >= 0) { Art.AvatarIndex = avatar; RememberMenuScroll(); Layout(); }
+                    return;
+                }
+            }
+            if (_menu == null) return;
             if (_menu.Settings.Contains(pt)) OpenSettings();
-            else if (_menu.Profile.Contains(pt) && Art.On) OpenCard("avatar", Screens.Avatars(_world, _screen, CardOrder));
+            else if (_menu.Profile.Contains(pt) && Art.On) OpenPlayerProfile();
             else if (_menu.Play.Contains(pt)) StartLevel(_progress.Next());
-            else if (_menu.Levels.Contains(pt)) OpenList();
+            else if (_menu.Levels.Contains(pt))
+            {
+                if (Art.On) { _levelsMapOpen = true; _mapOffset = null; Layout(); }
+                else OpenList();
+            }
+        }
+
+        void RememberMenuScroll()
+        {
+            if (_collection != null) _collectionOffset = _collection.Scroll.Offset;
+            if (_levelsMap != null) _mapOffset = _levelsMap.Scroll.Offset;
+            if (_jiggles != null) _jigglesOffset = _jiggles.Scroll.Offset;
+            if (_achievements != null) _achievementsOffset = _achievements.Scroll.Offset;
+        }
+
+        AchievementProgress[] CurrentAchievements() => Achievements.Compute(_set.Levels, _progress.Won, _stats, _save);
+
+        void OpenPlayerProfile()
+        {
+            int played = 0, first = 0;
+            for (int i = 0; i < _set.Levels.Count; i++)
+            {
+                string id = _set.Levels[i].Id;
+                if (_log.AttemptsOf(id) > 0) played++;
+                if (_stats.FirstTry(id, _progress.Won(i), _save)) first++;
+            }
+            string[] values = { $"{_progress.Next() + 1}/{_set.Levels.Count}", Texts.Count(SavedJiggles()), Texts.Minutes(_stats.TotalSeconds / 60),
+                played == 0 ? "—" : $"{first * 100 / played}%", $"{Achievements.Completed(CurrentAchievements())}/9",
+                _stats.WinCount == 0 ? "—" : Texts.Seconds(_stats.SumLeftOnWins / _stats.WinCount) };
+            _profileCard?.Destroy();
+            _profileCard = new ProfileCard(_world, _screen, _save.Player, values, CardOrder);
+        }
+
+        void ProfileAction(string action)
+        {
+            if (action == null) return;
+            _profileCard.Destroy(); _profileCard = null;
+            if (action == "avatar") { RememberMenuScroll(); _tab = MenuTab.Jiggles; _levelsMapOpen = false; Layout(); }
+            else if (action == "name")
+            {
+                _awaitingName = true;
+                Host.Current.AskName(name =>
+                {
+                    _save.SetPlayer(name); _awaitingName = false;
+                    if (_mode == Mode.Menu) { Layout(); OpenPlayerProfile(); }
+                });
+            }
+        }
+
+        void SettingsAction(string id)
+        {
+            if (id == null) return;
+            if (id == "privacy") { Application.OpenURL(MenuSettings.PrivacyUrl); return; }
+            if (id == "contact") { Application.OpenURL(MenuSettings.ContactUrl); return; }
+            if (id == "sound") Art.Muted = !Art.Muted;
+            else if (id == "music") Music.On = !Music.On;
+            else if (id == "haptics") Haptics.On = !Haptics.On;
+            else if (id == "tr" || id == "en")
+            {
+                Lang.Tr = id == "tr"; RememberMenuScroll(); Layout(); OpenSettings(); return;
+            }
+            _menuSettings.Destroy(); _menuSettings = null;
+            if (id != "close") OpenSettings();
         }
 
         int TotalStars()
@@ -395,12 +529,16 @@ namespace ReverseSolver.Presentation
             return n;
         }
 
-        void OpenSettings() => OpenCard("settings", new Card(_world, _screen, CardOrder, "Settings") { Compact = true }.Title(Texts.Settings)
+        void OpenSettings()
+        {
+            if (Art.On) { _menuSettings?.Destroy(); _menuSettings = new MenuSettings(_world, _screen, CardOrder); return; }
+            OpenCard("settings", new Card(_world, _screen, CardOrder, "Settings") { Compact = true }.Title(Texts.Settings)
             .Button("sound", Art.Muted ? Texts.SoundOff : Texts.SoundOn, false)
             .Button("music", Music.On ? Texts.MusicOn : Texts.MusicOff, false)
             .Button("haptics", Haptics.On ? Texts.HapticsOn : Texts.HapticsOff, false)
             .Button("lang", Texts.Language, false)
             .Button("close", Texts.Close, true).Finish());
+        }
 
         AudioSource _audio;
         void PlaySound(string key)
@@ -439,7 +577,12 @@ namespace ReverseSolver.Presentation
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
             if (e.Kind != EventKind.Finished) return;
             _log.Add(_session.Record);
-            _save.Store(_log);
+            if (!_previewWins)
+            {
+                _stats.Add(_session.Record, _session.Level.TimerSeconds);
+                _stats.Save(Host.Current.Store);
+            }
+            if (!_previewWins) _save.Store(_log);
             // G8: the attempt that gets the 👍/👎 question waits for the answer (or the card closing)
             // before its row goes; asked once per level, on the win or after the third loss
             string levelId = _session.Level.Id;
@@ -493,9 +636,13 @@ namespace ReverseSolver.Presentation
            old world must be gone before the next one is drawn. */
         void Build(bool immediate = false)
         {
+            RememberMenuScroll();
             if (_world != null) { if (immediate) DestroyImmediate(_world.gameObject); else Destroy(_world.gameObject); }
             _world = new GameObject("World").transform;
             _card = null; _cardKind = null; _menu = null; _list = null; _board = null; _hud = null; _bar = null;
+            _tabs = null; _collection = null; _levelsMap = null; _paintingDetail = null; _menuSettings = null;
+            _jiggles = null; _achievements = null; _profileCard = null;
+            _menuPointer = _menuDragging = _tabAnimating = false;
             _jointsShown = false;
 
             _cam.orthographic = true;
@@ -505,9 +652,30 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Menu)
             {
-                _menu = new Screens.Menu(_world, _screen, _safe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null);
+                var menuSafe = _safe;
+                if (Art.On)
+                {
+                    menuSafe.y = Mathf.Max(44, menuSafe.y);
+                    var achievements = CurrentAchievements();
+                    int completed = Achievements.Completed(achievements);
+                    int.TryParse(Host.Current.Store.Get("rs_ach_seen"), out int seen);
+                    if (_tab == MenuTab.Trophies && !_levelsMapOpen)
+                    {
+                        if (!_previewWins && completed != seen) { Host.Current.Store.Set("rs_ach_seen", completed.ToString()); Host.Current.Store.Save(); }
+                        seen = completed;
+                    }
+                    _tabs = new MenuTabs(_world, _screen, _safe, _tab, BarOrder + 100, Mathf.Max(0, completed - seen));
+                    float bottom = _tabs.Top - 28;
+                    if (_levelsMapOpen) _levelsMap = new LevelsMap(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, _images, HudOrder, _mapOffset);
+                    else if (_tab == MenuTab.Collection) _collection = new CollectionScreen(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, _images, HudOrder, _collectionOffset);
+                    else if (_tab == MenuTab.Jiggles) _jiggles = new JigglesScreen(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, HudOrder, _jigglesOffset);
+                    else if (_tab == MenuTab.Trophies) _achievements = new AchievementsScreen(_world, _screen, menuSafe.y, bottom, achievements, HudOrder, _achievementsOffset);
+                    menuSafe.w = _screen.y - bottom;
+                }
+                if (!Art.On || (!_levelsMapOpen && _tab == MenuTab.Home))
+                    _menu = new Screens.Menu(_world, _screen, menuSafe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null);
                 // PM_MESAJ_18: the corridor's big frame shows the painting the next level frees
-                if (_paintSet && _newArt)
+                if (_paintSet && _newArt && _menu != null)
                 {
                     var menu = _menu;
                     var pic = _images.Get(ImageOf(_progress.Next()), t => { if (_menu == menu) menu.SetPainting(t); });
@@ -721,6 +889,29 @@ namespace ReverseSolver.Presentation
             Vector2 px = p.position.ReadValue();
             var pt = new Vector2(px.x / _dpr, _screen.y - px.y / _dpr);    // layout points, y down
 
+            if (_mode == Mode.Menu && Art.On)
+            {
+                if (p.press.wasPressedThisFrame)
+                {
+                    _menuPointer = true; _menuDragging = false; _menuPointerStart = _menuPointerLast = pt;
+                }
+                var scroll = ActiveMenuScroll;
+                if (_menuPointer && p.press.isPressed && scroll != null && scroll.Contains(_menuPointerStart))
+                {
+                    if (!_menuDragging && Mathf.Abs(pt.y - _menuPointerStart.y) >= 8) _menuDragging = true;
+                    if (_menuDragging) scroll.Move(pt.y - _menuPointerLast.y);
+                    _menuPointerLast = pt;
+                }
+                if (p.press.wasReleasedThisFrame && _menuPointer)
+                {
+                    _menuPointer = false;
+                    bool cancelled = Touchscreen.current != null && p == Touchscreen.current && Touchscreen.current.primaryTouch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Canceled;
+                    if (!_menuDragging && !cancelled && Vector2.Distance(pt, _menuPointerStart) < 8) Press(pt);
+                    RememberMenuScroll();
+                }
+                return;
+            }
+
             if (p.press.wasPressedThisFrame) Press(pt);
             else if (p.press.isPressed && _drag != null && _drag.Active)
             {
@@ -776,15 +967,9 @@ namespace ReverseSolver.Presentation
                     else if (sid != null) CloseCard();
                     return;
                 }
-                if (_card != null && _cardKind == "avatar")
-                {
-                    string aid = _card.HitButton(pt);
-                    if (aid != null && aid.StartsWith("av")) { Art.AvatarIndex = aid[2] - '0'; CloseCard(); Layout(); }
-                    else if (aid != null) CloseCard();
-                    return;
-                }
                 // Task 13: the pressed look shows for a moment before the menu acts
-                if (_menu.Press(pt)) { var at = pt; Tweens.Run(_menu, .12f, _ => { }, () => { if (_mode == Mode.Menu) MenuAction(at); }); return; }
+                if (Art.On && (_menuSettings != null || _paintingDetail != null || _profileCard != null || _menu == null || (_tabs?.Hit(pt) ?? -1) >= 0)) { MenuAction(pt); return; }
+                if (_menu != null && _menu.Press(pt)) { var at = pt; Tweens.Run(_menu, .12f, _ => { }, () => { if (_mode == Mode.Menu) MenuAction(at); }); return; }
                 MenuAction(pt);
                 return;
             }

@@ -23,7 +23,9 @@ namespace ReverseSolver.Presentation
         /* The avatar sprite for slot i (Codex's own file when present, else the tinted placeholder). */
         public static SpriteRenderer Avatar(Transform parent, int i, Vector2 size, int order)
         {
-            var r = Place(parent, AvatarKeys[i], size, order);
+            var r = Place(parent, "t20-" + AvatarKeys[i], size, order);
+            if (r != null) return r;
+            r = Place(parent, AvatarKeys[i], size, order);
             if (r != null) return r;
             r = Place(parent, "m13-profile-avatar", size, order);
             if (r != null) r.color = AvatarTints[i];

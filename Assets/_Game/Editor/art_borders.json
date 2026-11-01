@@ -274,5 +274,233 @@
 92,
 92,
 92
+],
+"t20-title-plaque.png": [
+108,
+54,
+108,
+54
+],
+"t20-achievement-tile.png": [
+48,
+50,
+51,
+48
+],
+"t20-stat-tile.png": [
+36,
+37,
+37,
+36
+],
+"t20-counter-pill.png": [
+48,
+36,
+48,
+36
+],
+"t20-button-secondary.png": [
+60,
+51,
+61,
+48
+],
+"t20-button-secondary-pressed.png": [
+60,
+51,
+61,
+48
+],
+"t20-button-small.png": [
+48,
+36,
+51,
+36
+],
+"t20-button-small-pressed.png": [
+48,
+36,
+51,
+36
+],
+"t20-name-band.png": [
+48,
+38,
+50,
+36
+],
+"t20-progress-track.png": [
+24,
+18,
+26,
+18
+],
+"t20-progress-fill.png": [
+18,
+12,
+18,
+12
+],
+"t20-toggle-on-track.png": [
+36,
+30,
+37,
+30
+],
+"t20-toggle-on-track-pressed.png": [
+36,
+30,
+37,
+30
+],
+"t20-toggle-off-track.png": [
+36,
+30,
+37,
+30
+],
+"t20-toggle-off-track-pressed.png": [
+36,
+30,
+37,
+30
+],
+"t20-language-left-selected.png": [
+48,
+38,
+50,
+36
+],
+"t20-language-left-selected-pressed.png": [
+48,
+38,
+50,
+36
+],
+"t20-language-right-selected.png": [
+48,
+38,
+50,
+36
+],
+"t20-language-right-selected-pressed.png": [
+48,
+38,
+50,
+36
+],
+"t20-modal-panel.png": [
+84,
+84,
+86,
+84
+],
+"t20-portrait-frame.png": [
+26,
+26,
+27,
+26
+],
+"t20-portrait-frame-pressed.png": [
+26,
+26,
+27,
+26
+],
+"t20-portrait-frame-large.png": [
+26,
+26,
+26,
+26
+],
+"t20-portrait-frame-large-pressed.png": [
+26,
+26,
+26,
+26
+],
+"t20-milestone-picture-frame.png": [
+26,
+26,
+28,
+26
+],
+"t20-milestone-picture-frame-pressed.png": [
+26,
+26,
+28,
+26
+],
+"t20-button-primary.png": [
+72,
+61,
+75,
+60
+],
+"t20-button-primary-pressed.png": [
+72,
+61,
+75,
+60
+],
+"t20-profile-name-box.png": [
+60,
+36,
+61,
+36
+],
+"t20-profile-name-box-pressed.png": [
+60,
+36,
+61,
+36
+],
+"t20-hud-jiggle-pill.png": [
+48,
+30,
+50,
+30
+],
+"t20-nav-bar-base.png": [
+36,
+30,
+39,
+30
+],
+"t20-nav-slot-normal.png": [
+24,
+26,
+27,
+24
+],
+"t20-nav-slot-normal-pressed.png": [
+24,
+26,
+27,
+24
+],
+"t20-nav-slot-selected.png": [
+24,
+26,
+27,
+24
+],
+"t20-nav-slot-selected-pressed.png": [
+24,
+26,
+27,
+24
+],
+"t20-color-count-pill.png": [
+24,
+18,
+24,
+18
+],
+"t20-milestone-rail.png": [
+24,
+18,
+24,
+18
 ]
 }

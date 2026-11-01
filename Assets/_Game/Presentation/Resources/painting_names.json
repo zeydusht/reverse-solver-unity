@@ -1,0 +1,204 @@
+{
+  "paintings": [
+    {
+      "level": 1,
+      "tr": "Çiçekli sahil köyü",
+      "en": "Çiçekli sahil köyü"
+    },
+    {
+      "level": 2,
+      "tr": "Renkli balıkçı limanı",
+      "en": "Renkli balıkçı limanı"
+    },
+    {
+      "level": 3,
+      "tr": "Teraslı zeytinlik",
+      "en": "Teraslı zeytinlik"
+    },
+    {
+      "level": 4,
+      "tr": "Fener koyu",
+      "en": "Fener koyu"
+    },
+    {
+      "level": 5,
+      "tr": "Begonvilli sokak",
+      "en": "Begonvilli sokak"
+    },
+    {
+      "level": 6,
+      "tr": "Limon bahçesi",
+      "en": "Limon bahçesi"
+    },
+    {
+      "level": 7,
+      "tr": "Kemerli su yolu",
+      "en": "Kemerli su yolu"
+    },
+    {
+      "level": 8,
+      "tr": "Seramik avlusu",
+      "en": "Seramik avlusu"
+    },
+    {
+      "level": 9,
+      "tr": "Üzüm terasları",
+      "en": "Üzüm terasları"
+    },
+    {
+      "level": 10,
+      "tr": "Çamlıklı saklı koy",
+      "en": "Çamlıklı saklı koy"
+    },
+    {
+      "level": 11,
+      "tr": "Çiçekli orman şelalesi",
+      "en": "Çiçekli orman şelalesi"
+    },
+    {
+      "level": 12,
+      "tr": "Dere kenarında değirmen",
+      "en": "Dere kenarında değirmen"
+    },
+    {
+      "level": 13,
+      "tr": "Mantar ormanı",
+      "en": "Mantar ormanı"
+    },
+    {
+      "level": 14,
+      "tr": "Lavanta tarlası",
+      "en": "Lavanta tarlası"
+    },
+    {
+      "level": 15,
+      "tr": "Nilüferli göl evi",
+      "en": "Nilüferli göl evi"
+    },
+    {
+      "level": 16,
+      "tr": "Elma bahçesi",
+      "en": "Elma bahçesi"
+    },
+    {
+      "level": 17,
+      "tr": "Dere üzerindeki ahşap köprü",
+      "en": "Dere üzerindeki ahşap köprü"
+    },
+    {
+      "level": 18,
+      "tr": "Kır çiçekli çiftlik",
+      "en": "Kır çiçekli çiftlik"
+    },
+    {
+      "level": 19,
+      "tr": "Salkım söğütlü gölet",
+      "en": "Salkım söğütlü gölet"
+    },
+    {
+      "level": 20,
+      "tr": "Çiçekli orman serası",
+      "en": "Çiçekli orman serası"
+    },
+    {
+      "level": 21,
+      "tr": "Karlı köy meydanı",
+      "en": "Karlı köy meydanı"
+    },
+    {
+      "level": 22,
+      "tr": "Dağ yamacında kulübe",
+      "en": "Dağ yamacında kulübe"
+    },
+    {
+      "level": 23,
+      "tr": "Buz pateni göleti",
+      "en": "Buz pateni göleti"
+    },
+    {
+      "level": 24,
+      "tr": "Kuzey ışıklı vadi",
+      "en": "Kuzey ışıklı vadi"
+    },
+    {
+      "level": 25,
+      "tr": "Karlı vadide tren köprüsü",
+      "en": "Karlı vadide tren köprüsü"
+    },
+    {
+      "level": 26,
+      "tr": "Donmuş şelale bahçesi",
+      "en": "Donmuş şelale bahçesi"
+    },
+    {
+      "level": 27,
+      "tr": "Dağ teleferik durağı",
+      "en": "Dağ teleferik durağı"
+    },
+    {
+      "level": 28,
+      "tr": "Karlı teras bahçesi",
+      "en": "Karlı teras bahçesi"
+    },
+    {
+      "level": 29,
+      "tr": "Işıklı buz mağarası",
+      "en": "Işıklı buz mağarası"
+    },
+    {
+      "level": 30,
+      "tr": "Zirvedeki gözlemevi",
+      "en": "Zirvedeki gözlemevi"
+    },
+    {
+      "level": 31,
+      "tr": "Fener festivali",
+      "en": "Fener festivali"
+    },
+    {
+      "level": 32,
+      "tr": "Yıldızlı küçük hisar",
+      "en": "Yıldızlı küçük hisar"
+    },
+    {
+      "level": 33,
+      "tr": "Sihirli kütüphane",
+      "en": "Sihirli kütüphane"
+    },
+    {
+      "level": 34,
+      "tr": "Balon şehri",
+      "en": "Balon şehri"
+    },
+    {
+      "level": 35,
+      "tr": "Ay ışıklı nilüfer köşkü",
+      "en": "Ay ışıklı nilüfer köşkü"
+    },
+    {
+      "level": 36,
+      "tr": "Büyülü gök küresi salonu",
+      "en": "Büyülü gök küresi salonu"
+    },
+    {
+      "level": 37,
+      "tr": "Uçan adalar şelalesi",
+      "en": "Uçan adalar şelalesi"
+    },
+    {
+      "level": 38,
+      "tr": "Işıklı iksir atölyesi",
+      "en": "Işıklı iksir atölyesi"
+    },
+    {
+      "level": 39,
+      "tr": "Kont'un büyülü bahçesi",
+      "en": "Kont'un büyülü bahçesi"
+    },
+    {
+      "level": 40,
+      "tr": "Kont'un görkemli şatosu",
+      "en": "Kont'un görkemli şatosu"
+    }
+  ]
+}

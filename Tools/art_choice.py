@@ -2,6 +2,7 @@
 The A/B choice lives ONLY here: change a letter in CHOICE (or run with one letter for all: python Tools/art_choice.py B),
 then rebuild. #10/#11 have one version. Run: python Tools/art_choice.py"""
 import os, shutil, sys
+import uuid
 
 CHOICE = {'button': 'A', 'hand': 'A', 'intro': 'A', 'hard': 'A', 'frame': 'A', 'victory': 'A', 'defeat': 'A', 'board': 'A', 'audio': 'A'}
 if len(sys.argv) > 1: CHOICE = {k: sys.argv[1].upper() for k in CHOICE}
@@ -111,6 +112,20 @@ for c in ('altin', 'turkuaz', 'mor', 'mercan'):
     for k in ('link', 'lock'): files[f'chain-{k}-v3-{c}.png'] = A + f'Gameplay/Task17/chain-{k}-v3-{c}.png'
 for n in ('hud-moves-pill', 'hud-time-pill', 'hud-time-pill-urgent'): borders[n + '.png'] = [84, 84, 84, 84]
 for n in ('btn2-primary', 'btn2-primary-pressed', 'btn2-secondary', 'btn2-secondary-pressed'): borders[n + '.png'] = [92, 92, 92, 92]
+# Task20 uses actual L,T,R,B, unlike the older manifests above. Preserve its exact dimensions.
+t20 = json.load(open(A + 'Menu/Task20/manifest.json', encoding='utf-8-sig'))
+for it in t20:
+    if it.get('isRuntime') is False or it.get('category') == 'preview': continue
+    name = 't20-' + it['file']
+    files[name] = A + 'Menu/Task20/' + it['file']
+    l, t, r, b = it.get('sliceLTRB') or [0, 0, 0, 0]
+    if l or t or r or b: borders[name] = [l, b, r, t]
+# Painting titles stay separate from the remotely downloaded pictures.
+names = []
+for batch in range(1, 5):
+    for p in json.load(open(A + f'Paintings/manifest-batch-{batch}.json', encoding='utf-8-sig'))['paintings']:
+        names.append({'level': p['level'], 'tr': p.get('nameTr', p['theme']), 'en': p.get('nameEn', p.get('themeEn', p['theme']))})
+json.dump({'paintings': names}, open('Assets/_Game/Presentation/Resources/painting_names.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 # Big sprites whose sides are not multiples of 4 cannot be block-compressed (WebGL keeps them raw, MBs each):
 # pad them with transparent pixels at the right/bottom to a multiple of 4 and move the right/bottom 9-slice border
 import struct, zlib
@@ -146,7 +161,7 @@ PAD = {}
 for dst, src in files.items():
     if not src.endswith('.png') or not os.path.exists(src): continue
     w, h = png_size(src)
-    if w * h >= 300 * 300 and (w % 4 or h % 4):
+    if (w * h >= 300 * 300 or dst.startswith('t20-')) and (w % 4 or h % 4):
         PAD[dst] = ((-w) % 4, (-h) % 4)
         if dst in borders: borders[dst] = [borders[dst][0], borders[dst][1] + PAD[dst][1], borders[dst][2] + PAD[dst][0], borders[dst][3]]
 json.dump(borders, open('Assets/_Game/Editor/art_borders.json', 'w'), indent=0)
@@ -155,6 +170,63 @@ for dst, s in files.items():
     if not os.path.exists(s): print('EKSİK', s); continue
     if dst in PAD: pad_png(s, OUT + dst, *PAD[dst])
     else: shutil.copyfile(s, OUT + dst)      # copyfile: keeps the destination .meta (import settings)
+# Stable initial import settings even when the art sync runs without a licensed Unity Editor.
+for it in t20:
+    if it.get('isRuntime') is False or it.get('category') == 'preview': continue
+    path = OUT + 't20-' + it['file'] + '.meta'
+    if os.path.exists(path): continue
+    l, t, r, b = it.get('sliceLTRB') or [0, 0, 0, 0]
+    px, py = it.get('pivot', [.5, .5])
+    guid = uuid.uuid5(uuid.NAMESPACE_URL, 'reverse-solver/' + path).hex
+    with open(path, 'w', encoding='utf-8') as meta:
+        meta.write(f'''fileFormatVersion: 2
+guid: {guid}
+TextureImporter:
+  serializedVersion: 13
+  internalIDToNameTable: []
+  externalObjects: {{}}
+  mipmaps:
+    enableMipMap: 0
+    sRGBTexture: 1
+  isReadable: 0
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    wrapU: 1
+    wrapV: {0 if it['file'] == 'levels-path-repeat.png' else 1}
+    wrapW: 1
+  nPOTScale: 0
+  maxTextureSize: 2048
+  spriteMode: 1
+  spriteMeshType: 0
+  alignment: 9
+  spritePivot: {{x: {px}, y: {py}}}
+  spritePixelsToUnits: {1 if it['file'].startswith('scene-') else 3}
+  spriteBorder: {{x: {l}, y: {b}, z: {r}, w: {t}}}
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  textureType: 8
+  textureShape: 1
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    crunchedCompression: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites: []
+    outline: []
+    physicsShape: []
+    bones: []
+    secondaryTextures: []
+    nameFileIdTable: {{}}
+  userData:
+  assetBundleName:
+  assetBundleVariant:
+''')
 # not used by the game (pressed states, replaced sets, HTML-only copies): kept out of Resources so the build stays small
 UNUSED = ['booster-bar', 'm13-bottom-nav', 'm13-nav-active', 'm13-nav-home', 'm13-nav-collection', 'm13-nav-jiggles', 'm13-nav-trophy', 'settings-row-on', 'settings-row-off', 'switch-on', 'switch-off', 'sound-on', 'sound-off', 'close-normal', 'close-pressed',
           'rating-normal', 'rating-pressed', 'rating-selected', 'thumb-up-normal', 'thumb-up-pressed', 'thumb-up-selected',

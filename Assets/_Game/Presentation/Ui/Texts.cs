@@ -5,6 +5,33 @@ namespace ReverseSolver.Presentation
     /* Player-facing text follows the language chosen in settings. */
     public static class Texts
     {
+        public static string MyAvatar => Lang.T("My avatar", "Avatarım");
+        public static string ProfileTitle => Lang.T("Profile", "Profil");
+        public static string ChangeAvatar => Lang.T("Change avatar", "Avatarı değiştir");
+        public static string Count(int n) => n.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo(Lang.Tr ? "tr-TR" : "en-US"));
+        public static string SavedTotal(int n) => Lang.T($"{Count(n)} Jiggles saved", $"{Count(n)} Jiggle kurtarıldı");
+        public static string Milestone(int i) => Lang.T(new[] { "Frame", "Badge", "Portrait" }[i], new[] { "Çerçeve", "Rozet", "Portre" }[i]);
+        public static string Minutes(int n) => Lang.T($"{n} min", $"{n} dk");
+        public static string Seconds(int n) => Lang.T($"{n} sec", $"{n} sn");
+        public static string ProfileStat(int i) => Lang.T(
+            new[] { "Level", "Saved Jiggles", "Total time", "First try", "Achievements", "Average time left" }[i],
+            new[] { "Bölüm", "Kurtarılan Jiggle", "Toplam süre", "İlk denemede", "Başarı", "Ortalama kalan süre" }[i]);
+        public static string AchievementName(int i) => Lang.T(
+            new[] { "First Painting", "Collector", "Museum Owner", "Bomb Expert", "Cool Head", "Flawless", "Fast Fingers", "Chain Breaker", "Defy the Baron" }[i],
+            new[] { "İlk Tablo", "Koleksiyoncu", "Müze Sahibi", "Bomba İmha Uzmanı", "Soğukkanlı", "Hatasız", "Hızlı Parmaklar", "Zincir Kıran", "Baron'a Kafa Tut" }[i]);
+        public static string AchievementCondition(int i) => Lang.T(
+            new[] { "Win 1 level", "Win 10 levels", "Win 40 levels", "Win 10 bomb levels on your first try", "Win with less than 3 seconds left", "Win with no jams", "Win 10 levels with at least half the time left", "Save 25 chained pieces in won levels", "Win all 7 hard levels" }[i],
+            new[] { "1 bölüm kazan", "10 bölüm kazan", "40 bölüm kazan", "Bombalı 10 bölümü ilk denemede kazan", "Kalan süre 3 sn altında kazan", "Hiç sıkışmadan kazan", "10 bölümü en az yarı süre kalırken kazan", "Kazanılan bölümlerde 25 zincirli parça kurtar", "7 zor bölümün hepsini kazan" }[i]);
+        public static string Tab(int index) => index == 0 ? Lang.T("Home", "Ev") : index == 1 ? Lang.T("Collection", "Koleksiyon") : index == 2 ? "Jiggles" : Lang.T("Achievements", "Başarılar");
+        public static string CollectionNext => Lang.T("Next", "Sıradaki");
+        public static string CollectionLevel => Lang.T("Level {0}", "Bölüm {0}");
+        public static string CollectionEarned => Lang.T("Earned in Level {0}", "Bölüm {0}'de kazanıldı");
+        public static string CollectionReplay => Lang.T("Play again", "Tekrar oyna");
+        public static string CollectionDetail => Lang.T("Painting details", "Tablo detayı");
+        public static string SettingsRow(int index) => index == 0 ? Lang.T("Sound", "Ses") : index == 1 ? Lang.T("Music", "Müzik") : Lang.T("Vibration", "Titreşim");
+        public static string SettingsLanguage => Lang.T("Language", "Dil");
+        public static string SettingsPrivacy => Lang.T("Privacy", "Gizlilik");
+        public static string SettingsContact => Lang.T("Contact us", "Bize yaz");
         public static string TutorialFirst => Lang.T("Push this piece to save it", "Bu parçayı it ve kurtar");
         public static string TutorialNext => Lang.T("Now save this one", "Şimdi bunu kurtar");
         public static string HardTitle => Lang.T("Hard level", "Zor bölüm");

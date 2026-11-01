@@ -93,6 +93,7 @@ Kurallar:
 | Dil ayarını telemetride not etme | 🔜 | |
 | PM_MESAJ_20 zincir görünürlüğü (geçici, kodla): 2x kalın, lacivert, krem kenar, gölge; katman parça < zincir < engel < sayaç | ✅ yayında | |
 | Veri sistemi Faz 1 (kohort, cihaz, start/hide/quit, 1–10, profil) yayında /p19/; Faz 2 (yeniden oynatıcı, botlar, Monte Carlo, geri test, dongu.py) hazır (PM_MESAJ_25) | ✅ | v1 tabanları geçemedi; PM yükleyip dondurur |
+| Koridor Ana menü yolu (PM_MESAJ_24B) /p19/ + menü ekranları A+B (PM_MESAJ_26) /p20/ | ✅ | iPhone'da bakılmadı; süre istatistikleri bu sürümden itibaren |
 | Koridor geçişi (PM_MESAJ_24): kazan → 1–10/👍👎 → Devam → N'nin tablosundan N+1'inkine kayma (tek şerit, video yok, +242 KB), dokununca atla; /p19/ | ✅ | iPhone'da bakılmadı; 15→16 betikte kararsız (oyun değil) |
 | SET40 v4 (docs/SET40_V4.md): 9 bölüm ayarlandı, /p19/?set=redesign önizlemede (PM_MESAJ_23) | ✅ önizlemede | kök ve /levels/redesign.json (iOS) Zeyd'in "kökü güncelle"siyle |
 | PM_MESAJ_20: Codex Task17 renkli zincirler | ✅ yayında | |
