@@ -788,7 +788,7 @@ async function corridor() {
     const k = Math.min(Math.max(img.w / 780, img.h / 1688), 1.3 * img.h / 1688), [r, g, b] = img.at(Math.round(img.w / 2 + 1.75 * k), Math.round(img.h / 2 - 257 * k));
     return Math.abs(r - 38) < 12 && Math.abs(g - 30) < 12 && Math.abs(b - 26) < 12 ? 'yer tutucu' : 'tablo';
   };
-  const play = async (n, tag, slow) => {
+  const play = async (n, tag, slow, menu) => {   // menu: the card's Menu button, tapped again 0.1 s later (the card waits .12 s, so the slide is .0-.1 s old)
     const l = set[n - 1], p = await newPage();
     // slow: 1.5 MB/s and 150 ms from the first byte, so the next painting comes in while this level is played
     if (slow) { await p.cdp('Network.setCacheDisabled', { cacheDisabled: true }); await p.cdp('Network.emulateNetworkConditions', { offline: false, latency: 150, downloadThroughput: 1.5e6, uploadThroughput: 1.5e6 }); }
@@ -797,7 +797,7 @@ async function corridor() {
     if (opt('probe', '')) for (let i = 0; i < 4; i++) { await sleep(700); fs.writeFileSync(path.join(dir, `${W}x${H}_${tag}_probe${i}.png`), await p.png()); }
     await p.solve(l); await sleep(3000);
     let started = false, t0 = 0;
-    for (let y = Math.round(H * .4); y < H * .97 && !started; y += 14) { t0 = Date.now(); await p.tap(W / 2, y); await sleep(120); started = p.logs.some(x => /\[corridor\]/.test(x)); }
+    for (let i = 0, y; (y = Math.round(H * (menu ? .63 : .4)) + 14 * i) < H * (menu ? .85 : .97) && !started; i++) { t0 = Date.now(); await p.tap(menu ? W * .69 : W / 2, y); if (menu) { await sleep(100); await p.tap(W * .69, y); } await sleep(120); started = p.logs.some(x => /\[corridor\]/.test(x)); }
     const res = { started, exc: 0, green: 0, end: '', at: [] };
     if (started) {
       const shots = [];                                   // slide: fade .25 + hold .35 + 3 s; the shot times are kept
@@ -805,11 +805,12 @@ async function corridor() {
         await sleep(Math.max(0, t0 + t - Date.now())); res.at.push(Date.now() - t0);
         const buf = await p.png(); fs.writeFileSync(path.join(dir, `${W}x${H}_${tag}_${name}.png`), buf); shots.push(readPng(buf));
       }
-      res.green = shots.slice(0, 3).reduce((a, i) => a + green(i), 0); res.end = res.at[2] < 3550 ? bay2(shots[2]) : 'geç çekildi'; res.after = !wall(shots[3]); res.log = (p.logs.find(x => /\[corridor\]/.test(x)) || '').replace(/.*\[corridor\] /, '');
+      res.green = shots.slice(0, 3).reduce((a, i) => a + green(i), 0); res.end = res.at[2] < 3550 ? bay2(shots[2]) : 'geç çekildi'; res.after = !wall(shots[3]); res.log = (p.logs.find(x => /\[corridor\]/.test(x)) || '').replace(/.*\[corridor\] /, ''); res.dur = parseFloat((p.logs.find(x => /\[corridor-end\]/.test(x)) || '').replace(/.*\[corridor-end\] /, '').replace(',', '.')) || 0;
     } else fs.writeFileSync(path.join(dir, `${W}x${H}_${tag}_kart.png`), await p.png());
+    fs.writeFileSync(path.join(dir, `${W}x${H}_${tag}_log.txt`), p.logs.filter(x => /corridor/.test(x)).join(' | '));
     res.exc = p.exceptions.length; p.close(); return res;
   };
-  const play2 = async (n, tag, slow) => { const r = await play(n, tag, slow); return r.started || n === 40 ? r : play(n, tag, slow); };   // the scripted solve misses now and then (swiftshader)
+  const play2 = async (n, tag, slow, menu) => { const r = await play(n, tag, slow, menu); return r.started || n === 40 ? r : play(n, tag, slow, menu); };   // the scripted solve misses now and then (swiftshader)
   let ok = true; const notes = [];
   for (const [w, h] of [[375, 667], [390, 844], [900, 640], [320, 720]]) {
     W = w; H = h;
@@ -820,6 +821,11 @@ async function corridor() {
     }
   }
   W = 375; H = 667;
+  for (const n of (opt('menus', '') ? opt('menus').split(',').filter(x => x !== 'none').map(Number) : [1, 15])) {   // PM_MESAJ_24B: win -> Ana menü
+    const r = await play2(n, `lv${n}_menu`, false, true);
+    const good = r.started && /menü/.test(r.log || '') && r.green === 0 && r.end !== 'yer tutucu' && r.dur >= 3.5 && r.exc === 0;
+    ok = ok && good; notes.push(`${n}→menü: ${r.started ? `${r.log}, yeşil ${r.green}, süre ${r.dur} sn (erken dokunuş ${r.dur >= 3.5 ? 'atlatmadı' : 'ATLATTI'})` : 'koridor BAŞLAMADI'}, istisna ${r.exc}`);
+  }
   const last = await play(40, 'lv40');
   ok = ok && !last.started && last.exc === 0; notes.push(`40: ${last.started ? 'koridor OYNADI (olmamalı)' : 'bitiş kartı, koridor yok'}`);
   const slow = await play2(1, 'lv1_yavas', true);

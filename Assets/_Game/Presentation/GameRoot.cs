@@ -628,15 +628,22 @@ namespace ReverseSolver.Presentation
         /* PM_MESAJ_24: win -> (1-10, 👍/👎) -> Next -> corridor slide -> next level. Only in the painting set;
            the last level has no Next, so its end card is unchanged. The next painting was asked for at StartLevel;
            if it is still on its way the dark aperture waits and it fades in when it lands. */
-        bool PlayCorridor()
+        bool PlayCorridor(bool toMenu)
         {
             if (!_paintSet || !_newArt || _showSet || PlayOverride.Active || _index + 1 >= _set.Levels.Count) return false;
+            if (_session == null || _session.Outcome != Outcome.Win) return false;          // a lost level goes on as before
             int next = _index + 1;
             CorridorTransition c = null;
+            float startedAt = Time.unscaledTime;
             var nextPic = _images.Get(ImageOf(next), t => { if (c != null) c.SetNext(t); });
-            c = CorridorTransition.Play(_screen, CorridorOrder, _images.Get(ImageOf(_index)), nextPic, () => { _corridor = null; StartLevel(next); });
+            c = CorridorTransition.Play(_screen, CorridorOrder, _images.Get(ImageOf(_index)), nextPic, () =>
+            {
+                if (Host.Debug) Debug.Log($"[corridor-end] {Time.unscaledTime - startedAt:0.00} s");
+                _corridor = null;
+                if (toMenu) ShowMenu(); else StartLevel(next);
+            });
             if (c == null) return false;
-            if (Host.Debug) Debug.Log($"[corridor] {ImageOf(_index)} -> {ImageOf(next)} {(nextPic != null ? "hazır" : "bekleniyor")}");
+            if (Host.Debug) Debug.Log($"[corridor] {ImageOf(_index)} -> {ImageOf(next)} {(nextPic != null ? "hazır" : "bekleniyor")}{(toMenu ? " menü" : "")}");
             CloseCard();
             _corridor = c;
             return true;
@@ -825,9 +832,9 @@ namespace ReverseSolver.Presentation
                             break;
                         }
                         SendPendingFun();
-                        if (id == "next") { if (!PlayCorridor()) StartLevel(_index + 1); }
+                        if (id == "next") { if (!PlayCorridor(false)) StartLevel(_index + 1); }
                         else if (id == "retry") StartLevel(_index);
-                        else ShowMenu();
+                        else if (!PlayCorridor(true)) ShowMenu();          // PM_MESAJ_24B: after a win the menu comes through the corridor too
                         break;
                 }
                 return;

@@ -11,7 +11,7 @@ namespace ReverseSolver.Presentation
        A tap skips; `done` runs once, when the slide ends or is skipped, and the overlay then fades away. */
     public sealed class CorridorTransition : MonoBehaviour
     {
-        public const float FadeIn = .25f, Hold = .35f, Slide = 3f, FadeOut = .3f;
+        public const float FadeIn = .25f, Hold = .35f, Slide = 3f, FadeOut = .3f, SkipAfter = .3f;
         const float ViewW = 780, ViewH = 1688, Period = 862.25f, Grow = 1.012f, Late = .25f, MaxCrop = 1.3f;
         // bay 1's inner corners at the first frame (strip px, y down): top-left, top-right, bottom-right, bottom-left
         static readonly Vector2[] Bay = { new Vector2(208.3f, 291.2f), new Vector2(585.6f, 332.9f), new Vector2(576.9f, 882.2f), new Vector2(196.2f, 865.7f) };
@@ -72,8 +72,8 @@ namespace ReverseSolver.Presentation
             AddPainting(next, Period, Time.unscaledTime - _start > .05f);   // late: a short fade over the dark placeholder
         }
 
-        /* Skip: the next screen comes now. */
-        public void Skip() { if (!Finished) End(); }
+        /* Skip: the next screen comes now; only a new touch, not the one that pressed Next or Menu (PM_MESAJ_24B). */
+        public void Skip() { if (!Finished && Time.unscaledTime - _start >= SkipAfter) End(); }
 
         void End()
         {
