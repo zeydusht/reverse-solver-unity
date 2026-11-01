@@ -14,7 +14,7 @@ namespace ReverseSolver.Presentation
             float w = Mathf.Min(330, screen.x - 30), h = Mathf.Min(560, screen.y - 60), top = c.y - h / 2;
             MenuUi.Sprite(Root, "modal-panel", c, new Vector2(w, h), order + 1, true);
             MenuUi.Sprite(Root, "title-plaque", new Vector2(c.x, top + 32), new Vector2(w - 40, 55), order + 2, true);
-            MenuUi.Label(Root, Texts.ProfileTitle, new Vector2(c.x, top + 32), 28, order + 3);
+            MenuUi.Banner(Root, Texts.ProfileTitle, new Vector2(c.x, top + 32), 28, order + 3);
             _close = MenuUi.Button(Root, "button-close", null, new Vector2(c.x + w / 2 - 21, top + 22), Vector2.one * 36, order + 5);
             float avSize = Mathf.Min(94, h * .17f), avY = top + 66 + avSize / 2;
             JigglesScreen.Avatar(Root, Art.AvatarIndex, new Vector2(c.x, avY), avSize, order + 2, true);

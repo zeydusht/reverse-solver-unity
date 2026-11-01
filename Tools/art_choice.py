@@ -120,6 +120,13 @@ for it in t20:
     files[name] = A + 'Menu/Task20/' + it['file']
     l, t, r, b = it.get('sliceLTRB') or [0, 0, 0, 0]
     if l or t or r or b: borders[name] = [l, b, r, t]
+t21 = json.load(open(A + 'Menu/Task21/manifest.json', encoding='utf-8-sig'))
+for it in t21:
+    if it.get('isRuntime') is False or not it['file'].endswith('.png'): continue
+    name = 't21-' + it['file']
+    files[name] = A + 'Menu/Task21/' + it['file']
+    l, t, r, b = it.get('sliceLTRB') or [0, 0, 0, 0]
+    if l or t or r or b: borders[name] = [l, b, r, t]
 # Painting titles stay separate from the remotely downloaded pictures.
 names = []
 for batch in range(1, 5):
@@ -161,7 +168,7 @@ PAD = {}
 for dst, src in files.items():
     if not src.endswith('.png') or not os.path.exists(src): continue
     w, h = png_size(src)
-    if (w * h >= 300 * 300 or dst.startswith('t20-')) and (w % 4 or h % 4):
+    if (w * h >= 300 * 300 or dst.startswith(('t20-', 't21-'))) and (w % 4 or h % 4):
         PAD[dst] = ((-w) % 4, (-h) % 4)
         if dst in borders: borders[dst] = [borders[dst][0], borders[dst][1] + PAD[dst][1], borders[dst][2] + PAD[dst][0], borders[dst][3]]
 json.dump(borders, open('Assets/_Game/Editor/art_borders.json', 'w'), indent=0)
@@ -171,11 +178,12 @@ for dst, s in files.items():
     if dst in PAD: pad_png(s, OUT + dst, *PAD[dst])
     else: shutil.copyfile(s, OUT + dst)      # copyfile: keeps the destination .meta (import settings)
 # Stable initial import settings even when the art sync runs without a licensed Unity Editor.
-for it in t20:
+for prefix, it in [('t20-', it) for it in t20] + [('t21-', it) for it in t21]:
     if it.get('isRuntime') is False or it.get('category') == 'preview': continue
-    path = OUT + 't20-' + it['file'] + '.meta'
+    path = OUT + prefix + it['file'] + '.meta'
     if os.path.exists(path): continue
     l, t, r, b = it.get('sliceLTRB') or [0, 0, 0, 0]
+    l, b, r, t = borders.get(prefix + it['file'], [l, b, r, t])
     px, py = it.get('pivot', [.5, .5])
     guid = uuid.uuid5(uuid.NAMESPACE_URL, 'reverse-solver/' + path).hex
     with open(path, 'w', encoding='utf-8') as meta:
@@ -212,8 +220,9 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     textureFormat: -1
-    textureCompression: 0
-    crunchedCompression: 0
+    textureCompression: {1 if prefix == 't21-' else 0}
+    crunchedCompression: {1 if prefix == 't21-' else 0}
+    compressionQuality: 60
     overridden: 0
   spriteSheet:
     serializedVersion: 2

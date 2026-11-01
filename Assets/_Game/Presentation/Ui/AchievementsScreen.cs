@@ -11,7 +11,7 @@ namespace ReverseSolver.Presentation
             MenuUi.Scene(root, "achievements", screen, order - 10);
             MenuUi.Title(root, screen, top, Texts.Tab(3), order + 30);
             MenuUi.Sprite(root, "counter-pill", new Vector2(screen.x / 2, top + 88), new Vector2(96, 36), order + 30, true);
-            MenuUi.Label(root, $"{Achievements.Completed(achievements)} / 9", new Vector2(screen.x / 2, top + 88), 19, order + 31, true);
+            MenuUi.Banner(root, $"{Achievements.Completed(achievements)} / 9", new Vector2(screen.x / 2, top + 88), 19, order + 31);
             float start = top + 120, w = Mathf.Min(365, screen.x - 24), pitch = 108;
             Scroll = new MenuScroll(root, start, bottom, achievements.Length * pitch);
             string[] keys = { "first-picture", "collector", "museum", "bomb", "hourglass", "flawless", "speed", "chain", "baron-hat" };

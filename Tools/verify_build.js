@@ -688,7 +688,7 @@ async function p19() {
    hand, wall corners on 19/25/35/40 and SHOW1, and the progress recovery: a fresh browser, the name TEST_B5 (one
    S41 win on the server) -> the menu offers Level 2. That page reads Supabase (GET only; nothing is played). */
 async function p20() {
-  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-p20'));
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-p20b'));
   fs.mkdirSync(dir, { recursive: true });
   const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
   let exc = 0, recovered = false;
@@ -774,21 +774,23 @@ async function chain() {
 /* --only p20menu (PM_MESAJ_26): every menu tab and card at 375x667, 390x844 and 430x932, both languages, with a long
    name, as if 12 levels were won (?won=12, debug only); plus 0 and 40 won at 390x844. Shots -> docs/qa/<date>-p20. */
 async function p20menu() {
-  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-p20'));
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-p20b'));
   fs.mkdirSync(dir, { recursive: true });
   let exc = 0, n = 0;
-  const tab = async (p, i) => { await p.tap(W * (i + .5) / 4, H - 30); await sleep(900); };
+  // tab bar v3 (PM_MESAJ_27 B): the selected slot is twice as wide as the others
+  let cur = 0;
+  const tab = async (p, i) => { await p.tap(tabX(cur, i), H - 30); cur = i; await sleep(900); };
   const runs = [];
   for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) for (const lang of ['tr', 'en']) runs.push([w, h, lang, 12]);
   runs.push([390, 844, 'tr', 0], [390, 844, 'tr', 40]);
   for (const [w, h, lang, won] of runs) {
     W = w; H = h;
     const shot = async (p, name) => { fs.writeFileSync(path.join(dir, `${lang}_${w}x${h}_won${won}_${name}.png`), await p.png()); n++; };
-    const p = await newPage();
-    await p.open(dbg(`${base}/?set=redesign&lang=${lang}&won=${won}&player=${encodeURIComponent('Zeynep Yılmazoğlu')}`));
+    const p = await newPage(); cur = 0;
+    await p.open(dbg(`${base}/?set=redesign&hud=0&lang=${lang}&won=${won}&player=${encodeURIComponent('Zeynep Yılmazoğlu')}`));
     await sleep(2500); await p.tap(W / 2, H * .3); await sleep(500);              // the debug load-time panel
     await shot(p, '1_ev');
-    await p.tap(...P20.settings(W, H)); await sleep(900); await shot(p, '7_ayarlar'); await p.tap(...P20.close(W, H)); await sleep(700);
+    await p.tap(...P20.settings(W, H)); await sleep(900); await shot(p, '7_ayarlar'); await p.tap(...P20.settingsClose(W, H)); await sleep(700);
     await p.tap(...P20.levels(W, H)); await sleep(1200); await shot(p, '8_bolumler'); await p.tap(...P20.back(W, H)); await sleep(900);
     await tab(p, 1); await shot(p, '2_koleksiyon');
     await p.tap(...P20.cell(W, H)); await sleep(1200); await shot(p, '3_tablo_detay'); await p.tap(...P20.close(W, H)); await sleep(700);
@@ -802,10 +804,38 @@ async function p20menu() {
   check('p20menu', exc === 0, `${n} görüntü → ${dir}, istisna ${exc}`);
 }
 // tap points (pt) of the p20 menus, read off the 375x812 design and the first shots
+const tabX = (sel, i) => { let x = 0; for (let j = 0; j < i; j++) x += (j === sel ? 2 : 1); return W * (x + (i === sel ? 1 : .5)) / 5; };
 const P20 = {
-  settings: (w, h) => [w - 42, 77], profile: (w, h) => [90, 77], levels: (w, h) => [53, h - 201], back: (w, h) => [36, 77],
-  cell: (w, h) => [w / 2 - 110, 220], close: (w, h) => [w / 2 + 135, h / 2 - 255],
+  settings: (w, h) => [w - 40, 49], profile: (w, h) => [50, 49], levels: (w, h) => [(w - 228) / 2 - 29, h - 158], back: (w, h) => [30, 38],
+  settingsClose: (w, h) => [w / 2 + Math.min(329, w - 30) / 2 - 4, h / 2 - Math.min(500, h - 100) / 2 + 4],
+  cell: (w, h) => [w / 2 - 110, 180], close: (w, h) => [w / 2 + 135, h / 2 - 255],
 };
+
+/* --only flick (PM_MESAJ_27 A2): a fast touch flick on the Collection list (40 won, 390x844); the list must travel at
+   least one screen height. Reads the game's "[scroll] v .. pt/s, .. pt, .. s" line (debug only). */
+async function flick() {
+  W = 390; H = 844;
+  const p = await newPage();
+  await p.open(dbg(`${base}/?set=redesign&won=40&hud=0`));
+  await sleep(2500); await p.tap(W / 2, H * .3); await sleep(500);
+  await p.tap(tabX(0, 1), H - 30); await sleep(1000);
+  const results = [];
+  for (const [y0, y1] of [[640, 300], [300, 640]]) {
+    await p.touch('touchStart', W / 2, y0);
+    // a real flick: the moves go out without waiting for each reply, spread over ~100 ms
+    const moves = [];
+    for (let i = 1; i <= 6; i++) { moves.push(p.touch('touchMove', W / 2, y0 + (y1 - y0) * i / 6)); await sleep(16); }
+    await Promise.all(moves);
+    await p.touch('touchEnd'); await sleep(3000);
+    const line = p.logs.filter(l => l.includes('[scroll]')).pop() || '';
+    const m = line.match(/v (-?\d+) pt\/s, (-?\d+) pt, ([\d.]+) s/);
+    results.push(m ? { v: +m[1], pt: +m[2], s: +m[3] } : null);
+    p.logs.length = 0;
+  }
+  const ok = results.every(r => r && Math.abs(r.pt) >= H);
+  check('flick', ok, results.map(r => r ? `${r.v} pt/s → ${r.pt} pt, ${r.s} s` : 'günlük yok').join(' | ') + `, ekran ${H} pt`);
+  p.close(); W = 375; H = 667;
+}
 
 /* --send --only replay (PM_MESAJ_26): one browser profile (cohort ic) wins S41, then plays it again from the
    menu path; plays must hold attempt 1 and attempt 2 with cohort, device_id, platform and app_version. */
@@ -940,6 +970,7 @@ async function qa() {
     if (only.includes('chain')) await chain();
     if (only.includes('corridor')) await corridor();
     if (only.includes('p20menu')) await p20menu();
+    if (only.includes('flick')) await flick();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();

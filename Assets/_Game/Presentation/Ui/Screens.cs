@@ -109,13 +109,13 @@ namespace ReverseSolver.Presentation
 
             /* A Jiggle avatar on a teal radial ground (#1C7F8C centre -> #0F4F5A edge) filling the gold frame's opening;
                the Jiggle ~85 % of the opening, centred, clear of the frame. */
-            public static void AvatarTile(Transform root, Vector2 c, float size, int index, int order, bool frame)
+            public static void AvatarTile(Transform root, Vector2 c, float size, int index, int order, bool frame, bool round = false)
             {
                 float inner = size * .8f;
-                ShapeView.Create(root, "avatarGround", new Vector2(inner, inner), 2, order).Radius(inner * .2f)
+                ShapeView.Create(root, "avatarGround", new Vector2(inner, inner), 2, order).Radius(round ? inner / 2 : inner * .2f)
                     .Radial(Palette.Teal, Vector4.Lerp(Palette.Teal, Palette.TealDark, .5f), Palette.TealDark, new Vector4(.5f, .5f, .75f, .75f))
                     .transform.localPosition = Draw.W(c);
-                var a = Art.Avatar(root, index, new Vector2(inner * .85f, inner * .85f), order + 1);
+                var a = Art.Avatar(root, index, Vector2.one * (round ? 48 : inner * .85f), order + 1);
                 if (a != null) a.transform.localPosition = Draw.W(c);
                 if (!frame) return;
                 var f = Art.Place(root, "m13-profile-frame", new Vector2(size, size), order + 2);
@@ -152,6 +152,32 @@ namespace ReverseSolver.Presentation
             void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel)
             {
                 float w = screen.x, top = safe.y, hy = top + 34;
+                if (Art.On)
+                {
+                    hy = top + 45;
+                    var ac = new Vector2(53, hy);
+                    AvatarTile(Root, ac, 66.25f, Art.AvatarIndex, order + 1, frame: false, round: true);
+                    MenuUi.Sprite21(Root, "profile-square-frame", ac, Vector2.one * 90, order + 3);
+                    float gx = w - 34, counterRight = gx - 31, counterWidth = Mathf.Min(102, w * .272f);
+                    float plateLeft = 101, plateMax = Mathf.Max(70, counterRight - counterWidth - 13 - plateLeft);
+                    var name = MenuUi.Label(Root, string.IsNullOrEmpty(player) ? Texts.Player : player, Vector2.zero, 15, order + 5);
+                    name.GetComponent<TMPro.TextMeshPro>().richText = false;
+                    float plateWidth = Mathf.Clamp(name.Width + 20, 70, plateMax);
+                    MenuUi.Sprite21(Root, "profile-name-plate", new Vector2(plateLeft + plateWidth / 2, hy), new Vector2(plateWidth, 42), order + 2, true);
+                    // Keep the whole name legible, including long Turkish names, without truncating it.
+                    if (name.Width > plateWidth - 16) name.SizePt = 15 * (plateWidth - 16) / name.Width;
+                    name.transform.localPosition = Draw.W(plateLeft + plateWidth / 2, hy);
+                    Profile = new Rect(8, top, plateLeft + plateWidth - 8, 90);
+                    MenuUi.Sprite21(Root, "counter-pill-v2", new Vector2(counterRight - counterWidth / 2, hy), new Vector2(counterWidth, 30), order + 2, true);
+                    var tok = Art.Place(Root, "jiggle-counter", Vector2.one * 46, order + 3);
+                    if (tok != null) tok.transform.localPosition = Draw.W(counterRight - counterWidth + 12, hy);
+                    MenuUi.Label(Root, saved.ToString(), new Vector2(counterRight - (counterWidth - 38) / 2 - 4, hy), 18, order + 4, true, counterWidth - 42, true);
+                    var gear = Sprite("m13-settings-button", new Vector2(gx, hy), Vector2.one * 48, order + 2);
+                    Settings = new Rect(gx - 24, hy - 24, 48, 48);
+                    if (gear != null) _press.Add((Settings, gear, "m13-settings-button", "m13-settings-button-pressed", null));
+                }
+                else
+                {
                 // header: avatar (tap: profile) + profile box with the name centred, Jiggles counter, settings
                 var box = Sprite("m13-profile-box", new Vector2(40 + 66, hy), new Vector2(132, 46), order, sliced: true);
                 AvatarTile(Root, new Vector2(40, hy), 60, Art.AvatarIndex, order + 1, frame: true);   // teal ground, centred Jiggle, gold frame
@@ -173,16 +199,20 @@ namespace ReverseSolver.Presentation
                 var tok = Art.T15 ? Art.Place(Root, "jiggle-counter", new Vector2(40, 40), order + 1)
                                   : Art.Avatar(Root, Art.AvatarIndex, new Vector2(36, 36), order + 1);   // Jiggles counter (PM_MESAJ_16)
                 if (tok != null) tok.transform.localPosition = Draw.W(px - pw / 2 + 14, hy);
-                var st = TextView.Create(Root, "jiggles", saved.ToString(), 18, Palette.Navy, true, order: order + 2)
-                    .Font(Resources.Load<TMPro.TMP_FontAsset>("Fonts/Counter"));
+                var st = TextView.Create(Root, "jiggles", saved.ToString(), 18, Palette.Navy, true, order: order + 2);
+                if (Art.On) st.Banner(TextView.OnTeal);
+                else st.Font(Resources.Load<TMPro.TMP_FontAsset>("Fonts/Counter"));
                 st.transform.localPosition = Draw.W(px + 14, hy);
+
+                }
 
                 // bottom: big Level button and the Levels shortcut, above the safe area
                 float bw = Mathf.Min(228f, w - 130f), bh = bw * 112f / 228f;
-                float x0 = (w - bw) / 2, cy = screen.y - safe.w - 22 - bh / 2;
+                float x0 = (w - bw) / 2, cy = screen.y - safe.w - (Art.On ? 16 : 22) - bh / 2;
                 var play = Sprite("level-button", new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
-                var label = TextView.Create(Root, "play", playLabel ?? string.Format(Texts.Level, next), bh * .34f, Palette.Cream, false, order: order + 2)
-                    .Font(Lilita).Outline(Draw.Hex("#1E5C0E"), .22f);
+                var label = TextView.Create(Root, "play", playLabel ?? string.Format(Texts.Level, next), bh * .34f, Palette.Cream, false, order: order + 2);
+                if (Art.On) label.Banner(TextView.OnGreen).FitWidth(bw - 40, 12);
+                else label.Font(Lilita).Outline(Draw.Hex("#1E5C0E"), .22f);
                 label.transform.localPosition = Draw.W(x0 + bw / 2, cy - 2);
                 Play = new Rect(x0, cy - bh / 2, bw, bh);
                 if (play != null) _press.Add((Play, play, "level-button", "level-button-pressed", label.transform));
@@ -197,7 +227,23 @@ namespace ReverseSolver.Presentation
                 }
 
 
+                if (Art.On && _bg != null) FitFrame(screen, hy + 36, cy - bh / 2 - 8);
                 // PM_MESAJ_16: no "Jiggles rescued" bar on the menu
+            }
+
+            /* PM_MESAJ_27 A1: the corridor scales up so its big gold frame (menu_bg px, y down) fills the room between
+               the header and the Level button, never below cover-fit and never past the screen's sides. */
+            void FitFrame(Vector2 screen, float top, float bottom)
+            {
+                var size = _bg.sprite.rect.size;
+                const float fx0 = 280, fx1 = 712, fy0 = 223, fy1 = 919;
+                float cover = Mathf.Max(screen.x / size.x, screen.y / size.y);
+                float k = Mathf.Max(cover, Mathf.Min((bottom - top) / (fy1 - fy0), (screen.x - 16) / (fx1 - fx0)));
+                float cx = screen.x / 2 - ((fx0 + fx1) / 2 - size.x / 2) * k, cy = (top + bottom) / 2 - ((fy0 + fy1) / 2 - size.y / 2) * k;
+                cx = Mathf.Clamp(cx, screen.x - size.x / 2 * k, size.x / 2 * k);
+                cy = Mathf.Clamp(cy, screen.y - size.y / 2 * k, size.y / 2 * k);
+                _bg.transform.localScale = new Vector3(k, k, 1);
+                _bg.transform.localPosition = Draw.W(cx, cy);
             }
         }
 

@@ -90,7 +90,7 @@ namespace ReverseSolver.Presentation
         float _jigglesOffset, _achievementsOffset;
         float _collectionOffset;
         float? _mapOffset;
-        bool _menuPointer, _menuDragging, _tabAnimating;
+        bool _menuPointer, _menuDragging, _menuStopTap, _tabAnimating;
         Vector2 _menuPointerStart, _menuPointerLast;
         MenuScroll ActiveMenuScroll => _menuSettings != null || _paintingDetail != null || _profileCard != null || _card != null ? null : _levelsMap?.Scroll ?? _collection?.Scroll ?? _jiggles?.Scroll ?? _achievements?.Scroll;
         CorridorTransition _corridor;  // PM_MESAJ_24: the slide to the next level's painting, over everything
@@ -458,10 +458,10 @@ namespace ReverseSolver.Presentation
 
         void RememberMenuScroll()
         {
-            if (_collection != null) _collectionOffset = _collection.Scroll.Offset;
-            if (_levelsMap != null) _mapOffset = _levelsMap.Scroll.Offset;
-            if (_jiggles != null) _jigglesOffset = _jiggles.Scroll.Offset;
-            if (_achievements != null) _achievementsOffset = _achievements.Scroll.Offset;
+            if (_collection != null) _collectionOffset = _collection.Scroll.Resting;
+            if (_levelsMap != null) _mapOffset = _levelsMap.Scroll.Resting;
+            if (_jiggles != null) _jigglesOffset = _jiggles.Scroll.Resting;
+            if (_achievements != null) _achievementsOffset = _achievements.Scroll.Resting;
         }
 
         AchievementProgress[] CurrentAchievements() => Achievements.Compute(_set.Levels, _progress.Won, _stats, _save);
@@ -655,7 +655,7 @@ namespace ReverseSolver.Presentation
                 var menuSafe = _safe;
                 if (Art.On)
                 {
-                    menuSafe.y = Mathf.Max(44, menuSafe.y);
+                    menuSafe.y += 4;   // PM_MESAJ_27 A1: the header from the safe top + 8 pt (its 60 pt tiles centre 34 pt below)
                     var achievements = CurrentAchievements();
                     int completed = Achievements.Completed(achievements);
                     int.TryParse(Host.Current.Store.Get("rs_ach_seen"), out int seen);
@@ -670,7 +670,7 @@ namespace ReverseSolver.Presentation
                     else if (_tab == MenuTab.Collection) _collection = new CollectionScreen(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, _images, HudOrder, _collectionOffset);
                     else if (_tab == MenuTab.Jiggles) _jiggles = new JigglesScreen(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, HudOrder, _jigglesOffset);
                     else if (_tab == MenuTab.Trophies) _achievements = new AchievementsScreen(_world, _screen, menuSafe.y, bottom, achievements, HudOrder, _achievementsOffset);
-                    menuSafe.w = _screen.y - bottom;
+                    menuSafe.w = _screen.y - _tabs.Top;   // Home: the Level button sits 16 pt above the bar
                 }
                 if (!Art.On || (!_levelsMapOpen && _tab == MenuTab.Home))
                     _menu = new Screens.Menu(_world, _screen, menuSafe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null);
@@ -717,7 +717,7 @@ namespace ReverseSolver.Presentation
                 RefreshPlaying();
             }
 
-            if (Host.Debug)
+            if (Host.Debug && Host.Current.Query("hud") != "0")   // ?hud=0: clean QA shots
             {
                 _debug = TextView.Create(_world, "debug", "", 11, Draw.Hex("#8fb2b3"), false,
                                          TMPro.TextAlignmentOptions.Left, DebugOrder);
@@ -891,24 +891,39 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Menu && Art.On)
             {
+                // PM_MESAJ_27 A2: a touch on a moving list only stops it; under 10 pt of travel is a tap
+                var scroll = ActiveMenuScroll;
+                float now = Time.unscaledTime;
                 if (p.press.wasPressedThisFrame)
                 {
                     _menuPointer = true; _menuDragging = false; _menuPointerStart = _menuPointerLast = pt;
+                    _menuStopTap = false;
+                    if (scroll != null && scroll.Contains(pt)) { _menuStopTap = scroll.Moving; scroll.Grab(pt.y, now); }
                 }
-                var scroll = ActiveMenuScroll;
-                if (_menuPointer && p.press.isPressed && scroll != null && scroll.Contains(_menuPointerStart))
+                bool scrolling = _menuPointer && scroll != null && scroll.Held;
+                if (scrolling && p.press.isPressed)
                 {
-                    if (!_menuDragging && Mathf.Abs(pt.y - _menuPointerStart.y) >= 8) _menuDragging = true;
-                    if (_menuDragging) scroll.Move(pt.y - _menuPointerLast.y);
+                    if (!_menuDragging && Mathf.Abs(pt.y - _menuPointerStart.y) >= 10) _menuDragging = true;
+                    scroll.Drag(_menuDragging ? pt.y : _menuPointerStart.y, now);
                     _menuPointerLast = pt;
                 }
                 if (p.press.wasReleasedThisFrame && _menuPointer)
                 {
                     _menuPointer = false;
+                    if (scrolling) scroll.Release(_menuDragging ? now : -1);
                     bool cancelled = Touchscreen.current != null && p == Touchscreen.current && Touchscreen.current.primaryTouch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Canceled;
-                    if (!_menuDragging && !cancelled && Vector2.Distance(pt, _menuPointerStart) < 8) Press(pt);
+                    if (!_menuDragging && !_menuStopTap && !cancelled && Vector2.Distance(pt, _menuPointerStart) < 10) Press(pt);
                     RememberMenuScroll();
                 }
+                var mouse = Mouse.current;
+                if (mouse != null && scroll != null && !_menuPointer)
+                {
+                    float wheel = mouse.scroll.ReadValue().y;
+                    // browsers report pixels (~100 a notch) or lines (1-3); either way about 60 pt a notch
+                    float a = Mathf.Abs(wheel), d = a <= 3 ? a * 40 : Mathf.Min(a, 240) * .5f;
+                    if (wheel != 0) scroll.Wheel(-Mathf.Sign(wheel) * d);
+                }
+                scroll?.Tick(Time.unscaledDeltaTime);
                 return;
             }
 
@@ -967,6 +982,7 @@ namespace ReverseSolver.Presentation
                     else if (sid != null) CloseCard();
                     return;
                 }
+                if (Art.On && _menuSettings != null && _menuSettings.Press(pt, () => { if (_mode == Mode.Menu) MenuAction(pt); })) return;
                 // Task 13: the pressed look shows for a moment before the menu acts
                 if (Art.On && (_menuSettings != null || _paintingDetail != null || _profileCard != null || _menu == null || (_tabs?.Hit(pt) ?? -1) >= 0)) { MenuAction(pt); return; }
                 if (_menu != null && _menu.Press(pt)) { var at = pt; Tweens.Run(_menu, .12f, _ => { }, () => { if (_mode == Mode.Menu) MenuAction(at); }); return; }

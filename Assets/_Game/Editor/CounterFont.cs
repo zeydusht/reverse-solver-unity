@@ -42,6 +42,23 @@ namespace ReverseSolver.EditorTools
             Save(fa, "Fredoka");
         }
 
+        /* Nunito Black (OFL, Resources/Fonts/OFL-Nunito.txt) for menu banners (PM_MESAJ_27 A3): every Turkish letter.
+           Wide padding so the thick outline and the shadow fit in the SDF.
+             bash Tools/unity_batch.sh method ReverseSolver.EditorTools.CounterFont.BuildTitle */
+        public static void BuildTitle()
+        {
+            var font = AssetDatabase.LoadAssetAtPath<Font>(Dir + "Nunito-Black.ttf");
+            var fa = TMP_FontAsset.CreateFontAsset(font, 72, 14, GlyphRenderMode.SDFAA, 2048, 1024, AtlasPopulationMode.Dynamic, false);
+            var chars = new System.Text.StringBuilder("çÇğĞıİöÖşŞüÜâÂîÎûÛ·…’‘“”–—");
+            for (char c = ' '; c <= '~'; c++) chars.Append(c);
+            fa.TryAddCharacters(chars.ToString(), out string missing);
+            if (!string.IsNullOrEmpty(missing)) Debug.Log("[font] Title eksik: " + missing);
+            // the banner's outline + shadow variant must reach the build (shader_feature keywords are stripped otherwise)
+            fa.material.EnableKeyword("OUTLINE_ON"); fa.material.EnableKeyword("UNDERLAY_ON");
+            fa.material.SetColor("_UnderlayColor", new Color(0, 0, 0, 0));   // plain labels in this font: no shadow
+            Save(fa, "Title");
+        }
+
         static void Save(TMP_FontAsset fa, string name)
         {
             fa.atlasPopulationMode = AtlasPopulationMode.Static;

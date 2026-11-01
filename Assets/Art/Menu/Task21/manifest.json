@@ -1,0 +1,1129 @@
+[
+  {
+    "file": "tab-icon-home-normal.png",
+    "use": "home sekme ikonu; normal",
+    "width": 165,
+    "height": 147,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "f025c10c162d3235e998bbfdb5b891e3cf9d60a2de7878c2f22219597d1cc1af",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-icon-home-selected-large.png",
+    "use": "home sekme ikonu; selected-large",
+    "width": 206,
+    "height": 184,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "selected-large",
+    "sha256": "0bef400f9701d9cb6830a4aade0c41cb6699a2979d6fe7c9f0108e57c171f99f",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-icon-collection-normal.png",
+    "use": "collection sekme ikonu; normal",
+    "width": 184,
+    "height": 147,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "14c825c93288ca499512bfff2f36772ba420b104540f7e75f691de2600a9362e",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-icon-collection-selected-large.png",
+    "use": "collection sekme ikonu; selected-large",
+    "width": 230,
+    "height": 184,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "selected-large",
+    "sha256": "ddae08274a6e6f377c6d40207cc8e186815e9330d99e50567be6b986909520a9",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-icon-jiggles-normal.png",
+    "use": "jiggles sekme ikonu; normal",
+    "width": 238,
+    "height": 147,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "1c334f1abc5bd24d7387d1622fa8dbf08f5a21c147f0076880dc283a87b8ee8f",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-icon-jiggles-selected-large.png",
+    "use": "jiggles sekme ikonu; selected-large",
+    "width": 297,
+    "height": 184,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "selected-large",
+    "sha256": "4f48f84f99db28e5ec388d02ec438b327332ef20128a0cdb14682cf4bd72e6f8",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-icon-trophy-normal.png",
+    "use": "trophy sekme ikonu; normal",
+    "width": 158,
+    "height": 147,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "97c0f9238dc65e9c17d122fe3381440500f25e2b7dd33f14bce80a4ea37f2967",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-icon-trophy-selected-large.png",
+    "use": "trophy sekme ikonu; selected-large",
+    "width": 197,
+    "height": 184,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "selected-large",
+    "sha256": "8b3c5a5ee3e4aa2e389fe34fd744325f1ad2b1bacc25cd1c645b7a7d431257d3",
+    "isRuntime": true
+  },
+  {
+    "file": "tabbar-bg.png",
+    "use": "Tam ekran alt çubuk, alt güvenli alan dahil",
+    "width": 1125,
+    "height": 258,
+    "sliceLTRB": [
+      1,
+      10,
+      1,
+      1
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": false,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "c6998c64e8c1dceffab0ce77b1f5930345c32f11fd77699a360e5cf85f034fa6",
+    "category": "flat-ui",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-slot.png",
+    "use": "Normal yuva; 75pt",
+    "width": 225,
+    "height": 248,
+    "sliceLTRB": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": false,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "2cecf9d8af758e9a1774b6e3c45c1c7187587297f36f4e96eef1584bcdeb10ac",
+    "category": "flat-ui",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-slot-selected.png",
+    "use": "Seçili yuva; 150pt",
+    "width": 450,
+    "height": 248,
+    "sliceLTRB": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": false,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "05d8f750b0352fcf74eb2a64490b00d637299d7261e2e446d79c43bd1e3fe848",
+    "category": "flat-ui",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-divider.png",
+    "use": "Yuva ayırıcı",
+    "width": 3,
+    "height": 248,
+    "sliceLTRB": [
+      0,
+      1,
+      0,
+      1
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": false,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "cada6ed9b1207cbe84c248c07c2727e0800d5af953926f2bd8ebbb7b75c9b522",
+    "category": "flat-ui",
+    "isRuntime": true
+  },
+  {
+    "file": "tab-badge.png",
+    "use": "Boş kırmızı bildirim rozeti",
+    "width": 57,
+    "height": 57,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "a35aacede5c69fc8a5b6cc2543d7505da3185044626d9c3506ee684e1ff493b6",
+    "isRuntime": true
+  },
+  {
+    "file": "profile-square-frame.png",
+    "use": "90pt kare profil çerçevesi",
+    "width": 270,
+    "height": 270,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "80c3550d6fe801a498ef2f01d30df9ad9623bdbfbcaa2fc1c5c092df457b1d5a",
+    "innerRectPx": [
+      48,
+      48,
+      174,
+      174
+    ],
+    "isRuntime": true
+  },
+  {
+    "file": "profile-name-plate.png",
+    "use": "Ayrı koyu isim plaketi",
+    "width": 360,
+    "height": 126,
+    "sliceLTRB": [
+      45,
+      40,
+      45,
+      40
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "0f17f8d18ccde8f8a24e76e025fe31e5634d67dda722ab514e8447136eee647d",
+    "isRuntime": true
+  },
+  {
+    "file": "counter-pill-v2.png",
+    "use": "Krem sayaç; soldaki ikon ayrı",
+    "width": 420,
+    "height": 120,
+    "sliceLTRB": [
+      54,
+      39,
+      54,
+      39
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "31aafbc110b05399dd1dd8dea374bf9ae6a13d27d2f33a5d85cb0d216539dcc0",
+    "isRuntime": true
+  },
+  {
+    "file": "avatar-ring.png",
+    "use": "Avatar seçimi avatar-ring",
+    "width": 180,
+    "height": 180,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "08aa522c38218ce1cb88f5b1151875c085b3cdc99021b113b0eac651012588a3",
+    "innerDiameterPx": 132,
+    "isRuntime": true
+  },
+  {
+    "file": "avatar-ring-selected.png",
+    "use": "Avatar seçimi avatar-ring-selected",
+    "width": 180,
+    "height": 180,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "2781db740e8a803bb7955ebc0bfd8fc3d8e4960d9b75c43c54f9475b28e0e44a",
+    "innerDiameterPx": 132,
+    "isRuntime": true
+  },
+  {
+    "file": "check-badge.png",
+    "use": "Avatar seçimi check-badge",
+    "width": 48,
+    "height": 48,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "24209d17db32888e106dde17a545437c2fc38b0c7ef82f6624b633f28ec07fed",
+    "innerDiameterPx": null,
+    "isRuntime": true
+  },
+  {
+    "file": "avatar-ring-mask.png",
+    "use": "132px iç çap daire alfa maskesi",
+    "width": 180,
+    "height": 180,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "5e7da078144bdf5c3798aa87532049aefefb096b72f0da7cb425422235f9ef99",
+    "isRuntime": true
+  },
+  {
+    "file": "avatar-blue-round.png",
+    "use": "İç çapın %78 boyunda maskeli avatar",
+    "width": 180,
+    "height": 180,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "b578db02fccaeea02b88f531934b83410d57301536c3c9a249d3708209b35802",
+    "contentDiameterPx": 103,
+    "ringInnerDiameterPx": 132,
+    "isRuntime": true
+  },
+  {
+    "file": "avatar-pink-round.png",
+    "use": "İç çapın %78 boyunda maskeli avatar",
+    "width": 180,
+    "height": 180,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "9d2a2189ebfc079e8b944bb6d20540a6f0ca67c96635dab66da5eba80208f3f1",
+    "contentDiameterPx": 103,
+    "ringInnerDiameterPx": 132,
+    "isRuntime": true
+  },
+  {
+    "file": "avatar-red-round.png",
+    "use": "İç çapın %78 boyunda maskeli avatar",
+    "width": 180,
+    "height": 180,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "608c89bd932d22776f46c8cbb9c1186916fb9bca6ff35c494c0ca3e1782b48c0",
+    "contentDiameterPx": 103,
+    "ringInnerDiameterPx": 132,
+    "isRuntime": true
+  },
+  {
+    "file": "avatar-green-round.png",
+    "use": "İç çapın %78 boyunda maskeli avatar",
+    "width": 180,
+    "height": 180,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "341ceb415c399dfa5ea90a8af8b2e34764529ccc9a27ea922ca4a08ad0cbf78e",
+    "contentDiameterPx": 103,
+    "ringInnerDiameterPx": 132,
+    "isRuntime": true
+  },
+  {
+    "file": "avatar-purple-round.png",
+    "use": "İç çapın %78 boyunda maskeli avatar",
+    "width": 180,
+    "height": 180,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "9124a9adb3d5c00cb4f99668495c16c899bf9c80ef904e470581bbc80c409307",
+    "contentDiameterPx": 103,
+    "ringInnerDiameterPx": 132,
+    "isRuntime": true
+  },
+  {
+    "file": "milestone-medal-frame.png",
+    "use": "Bağımsız ulaşılmış madalyon",
+    "width": 156,
+    "height": 156,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "8975d015b50f961250ca7505767baf2af0fe5c0a8679f2c6d8834dbd8314b552",
+    "isRuntime": true
+  },
+  {
+    "file": "milestone-medal-frame-locked.png",
+    "use": "Soluk ve kilitli bağımsız madalyon",
+    "width": 156,
+    "height": 156,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "locked",
+    "sha256": "4d4fc6588e5f003aa27b21e0ff71778b4c26027ec66ef667d1550f37cb913a5b",
+    "isRuntime": true
+  },
+  {
+    "file": "milestone-medal-badge.png",
+    "use": "Bağımsız ulaşılmış madalyon",
+    "width": 156,
+    "height": 156,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "f89dc48b0fc56997dc2863460bf9fd6e3716092c86eeb6bc804de4ada1f2974c",
+    "isRuntime": true
+  },
+  {
+    "file": "milestone-medal-badge-locked.png",
+    "use": "Soluk ve kilitli bağımsız madalyon",
+    "width": 156,
+    "height": 156,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "locked",
+    "sha256": "bf151c3319d46dbed1351b28f3c12f4e4d60830e153f406e559f5ceec283f374",
+    "isRuntime": true
+  },
+  {
+    "file": "milestone-medal-portrait.png",
+    "use": "Bağımsız ulaşılmış madalyon",
+    "width": 156,
+    "height": 156,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "1c7fc1c3c02fd59a00657ba10ae306fa0b8af94b5835f747aea421e11f9de108",
+    "isRuntime": true
+  },
+  {
+    "file": "milestone-medal-portrait-locked.png",
+    "use": "Soluk ve kilitli bağımsız madalyon",
+    "width": 156,
+    "height": 156,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "locked",
+    "sha256": "067b20e20ccfc723af30e270b58695b778339772a0d3e41d03572d2dcf21cbeb",
+    "isRuntime": true
+  },
+  {
+    "file": "milestone-dots.png",
+    "use": "Kısa noktalı bağlantı; yatay ray yok",
+    "width": 210,
+    "height": 18,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "6e1fbeb925fc7ab05384efae23412f23361464f7bdddc2ae828f8527fb168422",
+    "isRuntime": true
+  },
+  {
+    "file": "settings-panel.png",
+    "use": "Ayarlar settings-panel",
+    "width": 987,
+    "height": 1500,
+    "sliceLTRB": [
+      45,
+      45,
+      45,
+      45
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "5d1aa7e561cd54fa6d2544ca824f3390c39bfa2c4405da3e491473acd49b5fd7",
+    "isRuntime": true
+  },
+  {
+    "file": "settings-row.png",
+    "use": "Ayarlar settings-row",
+    "width": 897,
+    "height": 195,
+    "sliceLTRB": [
+      38,
+      38,
+      38,
+      38
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "a83551240a654337ba2fa7f2bcd7e7efe77bc5d3018ce8ded00bb78192629ae9",
+    "isRuntime": true
+  },
+  {
+    "file": "settings-icon-btn.png",
+    "use": "Ayarlar settings-icon-btn",
+    "width": 162,
+    "height": 162,
+    "sliceLTRB": [
+      35,
+      35,
+      35,
+      35
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": true,
+    "state": "normal",
+    "sha256": "f20b20d2cb301e87bf8b98253fc64ddb1d047b2b6edfd0897c69c215bdf9e6a3",
+    "isRuntime": true
+  },
+  {
+    "file": "settings-icon-btn-pressed.png",
+    "use": "Ayarlar settings-icon-btn; basılı",
+    "width": 162,
+    "height": 162,
+    "sliceLTRB": [
+      35,
+      35,
+      35,
+      35
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": true,
+    "state": "pressed",
+    "sha256": "6adcb7a5c9641ec6d9c5fdd4214ae990a923ca21b6806dfc1bc47df08bfc8f3d",
+    "normalFile": "settings-icon-btn.png",
+    "pressOffsetPx": [
+      0,
+      6
+    ],
+    "pressScaleY": 0.9629629629629629,
+    "isRuntime": true
+  },
+  {
+    "file": "icon-privacy.png",
+    "use": "Ayarlar icon-privacy",
+    "width": 102,
+    "height": 114,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "d5bb9b8eaeb01c678b4e016cf989e4e89232f7bf4a056afd023715cb5ad43a1c",
+    "isRuntime": true
+  },
+  {
+    "file": "icon-mail.png",
+    "use": "Ayarlar icon-mail",
+    "width": 114,
+    "height": 96,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "a09989e6b6a6597d01844ffbd6120de602dad1ece7f2aa65d30acd929e00378b",
+    "isRuntime": true
+  },
+  {
+    "file": "settings-icon-disc.png",
+    "use": "Ayarlar settings-icon-disc",
+    "width": 132,
+    "height": 132,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "ab67fd2edb0f78792e9f2671c442586c15828e2380421a22f8ddb968f9c1522a",
+    "isRuntime": true
+  },
+  {
+    "file": "settings-symbol-sound.png",
+    "use": "Koyu daire üstünde bağımsız sound sembolü",
+    "width": 72,
+    "height": 72,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "05ae6bb84cb5ad840c04102e9f8f3789c90831bab2e6d1da8f410438e6dd3557",
+    "isRuntime": true
+  },
+  {
+    "file": "settings-symbol-music.png",
+    "use": "Koyu daire üstünde bağımsız music sembolü",
+    "width": 72,
+    "height": 72,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "458327f32fb9cea52591e60ea281ed8615b115d15e8ace634c0bf51a89c47d80",
+    "isRuntime": true
+  },
+  {
+    "file": "settings-symbol-vibration.png",
+    "use": "Koyu daire üstünde bağımsız vibration sembolü",
+    "width": 72,
+    "height": 72,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 3,
+    "pixelsPerUnit": 3,
+    "transparent": true,
+    "isInteractive": false,
+    "state": "normal",
+    "sha256": "fd60a84ab50d5f68c2327577991872ab7cd0bf21e6cc174e879a24bf31f4363a",
+    "isRuntime": true
+  },
+  {
+    "file": "onizleme.png",
+    "use": "İnceleme önizlemesi; runtime değil",
+    "width": 1125,
+    "height": 812,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": false,
+    "isRuntime": false,
+    "category": "preview",
+    "state": "reference",
+    "sha256": "16efa1cfc5f759c26a7b7e25d2a82838b551196e585f2ccb135eeaaf077a1e7e"
+  },
+  {
+    "file": "Preview/01-ev.png",
+    "use": "İnceleme önizlemesi; runtime değil",
+    "width": 1125,
+    "height": 2436,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": false,
+    "isRuntime": false,
+    "category": "preview",
+    "state": "reference",
+    "sha256": "e1bca870e2cd06701aedf26399bf9d2f44649bb2a00d1bc92e9538134e00f9c3"
+  },
+  {
+    "file": "Preview/03-jiggles.png",
+    "use": "İnceleme önizlemesi; runtime değil",
+    "width": 1125,
+    "height": 2436,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": false,
+    "isRuntime": false,
+    "category": "preview",
+    "state": "reference",
+    "sha256": "ec7c6bfffcf632088664fc9ab2a9f6888cfefa9deb30fc69f87d14907c46c223"
+  },
+  {
+    "file": "Preview/04-sekme-durumlari.png",
+    "use": "İnceleme önizlemesi; runtime değil",
+    "width": 1125,
+    "height": 2436,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": false,
+    "isRuntime": false,
+    "category": "preview",
+    "state": "reference",
+    "sha256": "ad8a720a5d824f21ac1ada8b080d3f0a4ac9b3ad237f56e625a00689b4628108"
+  },
+  {
+    "file": "Preview/06-ayarlar.png",
+    "use": "İnceleme önizlemesi; runtime değil",
+    "width": 1125,
+    "height": 2436,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": false,
+    "isRuntime": false,
+    "category": "preview",
+    "state": "reference",
+    "sha256": "9ff131a034072d8e40a1b2544134cd8d9b25c252f0ed6cbc9ddeee6c5ce67555"
+  },
+  {
+    "file": "Preview/sprites-kontak.png",
+    "use": "Sprite inceleme paftası",
+    "width": 1260,
+    "height": 1020,
+    "sliceLTRB": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "scale": 1,
+    "transparent": false,
+    "isRuntime": false,
+    "category": "preview",
+    "state": "reference",
+    "sha256": "fdefbc3c49da19608e846e20a611618b79f0378ebb5925c3a36bfd9b6a8668e9"
+  }
+]

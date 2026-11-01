@@ -43,6 +43,30 @@ namespace ReverseSolver.Presentation
         }
         Vector4 _color;
 
+        public static readonly Vector4 OnGreen = Draw.Hex("#1E4D05"), OnTeal = Draw.Hex("#0B2A36");
+        static TMP_FontAsset _title;
+        public static TMP_FontAsset TitleFont => _title != null ? _title : (_title = Resources.Load<TMP_FontAsset>("Fonts/Title"));
+
+        /* PM_MESAJ_27 A3: menu banners in Nunito Black, cream-to-yellow fill, thick dark outline, soft shadow below. */
+        public TextView Banner(Vector4 outline)
+        {
+            Font(TitleFont);
+            Color = Vector4.one;
+            _t.enableVertexGradient = true;
+            Color32 top = new Color32(255, 255, 255, 255), bottom = new Color32(255, 241, 176, 255);
+            _t.colorGradient = new VertexGradient(top, top, bottom, bottom);
+            Outline(outline, .3f);
+            var m = _t.fontMaterial;
+            m.SetFloat(ShaderUtilities.ID_FaceDilate, .28f);   // the outline straddles the edge: grow the face so it stays full
+            m.EnableKeyword("UNDERLAY_ON");
+            m.SetColor("_UnderlayColor", new Color(0, 0, 0, .5f));
+            m.SetFloat("_UnderlayOffsetY", -.6f);
+            m.SetFloat("_UnderlayDilate", .3f);
+            m.SetFloat("_UnderlaySoftness", .1f);
+            _t.UpdateMeshPadding();
+            return this;
+        }
+
         public static TextView Create(Transform parent, string name, string text, float sizePt, Vector4 color,
                                       bool bold = true, TextAlignmentOptions align = TextAlignmentOptions.Center, int order = 0)
         {
