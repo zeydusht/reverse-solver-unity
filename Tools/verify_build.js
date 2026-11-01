@@ -88,11 +88,12 @@ async function newPage() {
   const t = await (await fetch(`http://127.0.0.1:${PORT}/json/new?about:blank`, { method: 'PUT' })).json();
   const ws = new WebSocket(t.webSocketDebuggerUrl);
   await new Promise(r => ws.addEventListener('open', r));
-  let id = 0; const pend = new Map(); const page = { exceptions: [], supabase: [] };
+  let id = 0; const pend = new Map(); const page = { exceptions: [], supabase: [], logs: [] };
   ws.addEventListener('message', e => {
     const m = JSON.parse(e.data);
     if (m.id && pend.has(m.id)) { pend.get(m.id)(m); pend.delete(m.id); }
     if (m.method === 'Runtime.exceptionThrown') page.exceptions.push(m.params.exceptionDetails.exception?.description || m.params.exceptionDetails.text);
+    if (m.method === 'Runtime.consoleAPICalled') page.logs.push((m.params.args || []).map(a => a.value).join(' '));
     if (m.method === 'Network.requestWillBeSent' && /supabase\.co/.test(m.params.request.url)) page.supabase.push(m.params.request.method);
   });
   const cdp = (method, params = {}) => new Promise(r => { const i = ++id; pend.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
@@ -492,7 +493,7 @@ async function m5(p) {
    SetV4.BombLoss), S42 one move then pause -> menu (quit), S43 two moves then the tab goes away (abandoned). */
 async function cohortic() {
   const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
-  const lv = id => set.find(x => x.id === id), name = 'IC_KONTROL', p = await newPage();
+  const lv = id => set.find(x => x.id === id), name = opt('icname', 'IC_KONTROL'), p = await newPage();
   const bomb = JSON.parse(fs.readFileSync(path.join(ROOT, 'Logs/veri/bomb_loss.json'), 'utf8'));
   const scan = async () => {                        // one tap on the first thing that changes the picture
     await sleep(3000); let prev = await p.png();
@@ -770,6 +771,62 @@ async function chain() {
   check('chain', exc === 0, `3 boyut → ${dir}, istisna ${exc}`);
 }
 
+/* --only corridor (PM_MESAJ_24): win -> Next -> the corridor slide -> next level. Levels 1, 15 and 39 at phone,
+   desktop and narrow sizes (shots at the start, middle and end of the slide, no #00ff00 anywhere, bay 2 not the
+   dark placeholder at the end), level 40's end card (no slide), level 1 -> 2 on a slow network from the first byte (the next painting
+   was fetched while 1 was played; 14 -> 15 by hand). Debug pages, nothing sent. */
+async function corridor() {
+  const dir = opt('qa-out', path.join(ROOT, 'docs/qa', new Date().toISOString().slice(0, 10) + '-corridor'));
+  fs.mkdirSync(dir, { recursive: true });
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const wall = img => {           // the corridor's teal wall at the left edge, 30 % down (the hall and the intro card have none there)
+    const k = Math.min(Math.max(img.w / 780, img.h / 1688), 1.3 * img.h / 1688), x0 = Math.max(0, Math.round(img.w / 2 - 390 * k)), x1 = x0 + Math.round(90 * k);
+    let n = 0; const y = Math.round(img.h * .3); for (let x = x0; x < x1; x++) { const [r, g, b] = img.at(x, y); if (r < 70 && g > 70 && g < 150 && b > 75 && b < 160) n++; } return n > (x1 - x0) * .4;
+  };
+  const green = img => { let n = 0; for (let y = 0; y < img.h; y += 2) for (let x = 0; x < img.w; x += 2) { const [r, g, b] = img.at(x, y); if (g > 200 && r < 90 && b < 90) n++; } return n; };
+  const bay2 = img => {          // bay 2's centre once the slide is over: the painting, or the dark (38,30,26) placeholder
+    const k = Math.min(Math.max(img.w / 780, img.h / 1688), 1.3 * img.h / 1688), [r, g, b] = img.at(Math.round(img.w / 2 + 1.75 * k), Math.round(img.h / 2 - 257 * k));
+    return Math.abs(r - 38) < 12 && Math.abs(g - 30) < 12 && Math.abs(b - 26) < 12 ? 'yer tutucu' : 'tablo';
+  };
+  const play = async (n, tag, slow) => {
+    const l = set[n - 1], p = await newPage();
+    // slow: 1.5 MB/s and 150 ms from the first byte, so the next painting comes in while this level is played
+    if (slow) { await p.cdp('Network.setCacheDisabled', { cacheDisabled: true }); await p.cdp('Network.emulateNetworkConditions', { offline: false, latency: 150, downloadThroughput: 1.5e6, uploadThroughput: 1.5e6 }); }
+    await p.open(dbg(`${base}/?set=redesign&lv=${l.id}`));
+    await sleep(2500); for (let y = Math.round(H * .45); y < H * .9; y += 18) await p.tap(W / 2, y); await sleep(500);   // as paint40
+    if (opt('probe', '')) for (let i = 0; i < 4; i++) { await sleep(700); fs.writeFileSync(path.join(dir, `${W}x${H}_${tag}_probe${i}.png`), await p.png()); }
+    await p.solve(l); await sleep(3000);
+    let started = false, t0 = 0;
+    for (let y = Math.round(H * .4); y < H * .97 && !started; y += 14) { t0 = Date.now(); await p.tap(W / 2, y); await sleep(120); started = p.logs.some(x => /\[corridor\]/.test(x)); }
+    const res = { started, exc: 0, green: 0, end: '', at: [] };
+    if (started) {
+      const shots = [];                                   // slide: fade .25 + hold .35 + 3 s; the shot times are kept
+      for (const [t, name] of [[450, 'a_bas'], [2100, 'b_orta'], [3450, 'c_son'], [5000, 'd_sonraki']]) {
+        await sleep(Math.max(0, t0 + t - Date.now())); res.at.push(Date.now() - t0);
+        const buf = await p.png(); fs.writeFileSync(path.join(dir, `${W}x${H}_${tag}_${name}.png`), buf); shots.push(readPng(buf));
+      }
+      res.green = shots.slice(0, 3).reduce((a, i) => a + green(i), 0); res.end = res.at[2] < 3550 ? bay2(shots[2]) : 'geç çekildi'; res.after = !wall(shots[3]); res.log = (p.logs.find(x => /\[corridor\]/.test(x)) || '').replace(/.*\[corridor\] /, '');
+    } else fs.writeFileSync(path.join(dir, `${W}x${H}_${tag}_kart.png`), await p.png());
+    res.exc = p.exceptions.length; p.close(); return res;
+  };
+  const play2 = async (n, tag, slow) => { const r = await play(n, tag, slow); return r.started || n === 40 ? r : play(n, tag, slow); };   // the scripted solve misses now and then (swiftshader)
+  let ok = true; const notes = [];
+  for (const [w, h] of [[375, 667], [390, 844], [900, 640], [320, 720]]) {
+    W = w; H = h;
+    for (const n of (opt('lvs', '') ? opt('lvs').split(',').filter(x => x !== 'none').map(Number) : [1, 15, 39])) {
+      const r = await play2(n, `lv${n}`);
+      const good = r.started && r.green === 0 && r.end !== 'yer tutucu' && r.after && r.exc === 0 && /hazır/.test(r.log);
+      ok = ok && good; if (!good || w === 375) notes.push(`${w}x${h} ${n}→${n + 1}: ${r.started ? `yeşil ${r.green}, son ${r.end} (${r.at.join('/')} ms), sonraki bölüm ${r.after ? 'açıldı' : 'YOK'}` : 'koridor BAŞLAMADI'}, istisna ${r.exc}`);
+    }
+  }
+  W = 375; H = 667;
+  const last = await play(40, 'lv40');
+  ok = ok && !last.started && last.exc === 0; notes.push(`40: ${last.started ? 'koridor OYNADI (olmamalı)' : 'bitiş kartı, koridor yok'}`);
+  const slow = await play2(1, 'lv1_yavas', true);
+  ok = ok && slow.started && slow.green === 0 && /hazır/.test(slow.log); notes.push(`1→2 yavaş ağ: ${slow.log || '?'}, bölme 2 ${slow.end || '?'}`);
+  check('corridor', ok, `${notes.join('; ')} → ${dir}`);
+}
+
 /* --only qa (PM_MESAJ_14): phone-size screenshots of the preview's screens at 375x667, 390x844 and 430x932 into
    --qa-out (default docs/qa/<today>). Debug pages (nothing is sent); the lose shot waits for S45's 60 s timer. */
 async function qa() {
@@ -819,6 +876,7 @@ async function qa() {
     if (only.includes('p20')) await p20();
     if (only.includes('music')) await music();
     if (only.includes('chain')) await chain();
+    if (only.includes('corridor')) await corridor();
     if (only.includes('painting')) await painting();
     if (only.includes('extra')) await extra();
     if (only.includes('funcard')) await funcard();

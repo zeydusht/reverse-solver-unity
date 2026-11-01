@@ -27,7 +27,7 @@ namespace ReverseSolver.Presentation
         // plays.client: the web build or the iOS app (TestFlight)
         public static readonly string Client = Application.platform == RuntimePlatform.IPhonePlayer ? "unity-ios" : "unity-web";
         const float BodyPad = 4f, StripBottom = 6f, BottomReserve = BoosterBar.PromptH + BoosterBar.Height, MaxCell = 78f;
-        const int HandOrder = 1400, HudOrder = 3000, BarOrder = 3200, CardOrder = 5000, FlashOrder = 4500, DebugOrder = 6000;
+        const int HandOrder = 1400, HudOrder = 3000, BarOrder = 3200, CardOrder = 5000, FlashOrder = 4500, CorridorOrder = 5600, DebugOrder = 6000;
 
         [SerializeField] TextAsset levels;
         [SerializeField] TextAsset designs;          // level editor output; only with ?debug=1&set=designs
@@ -75,6 +75,7 @@ namespace ReverseSolver.Presentation
         Card _card;                  // the one open card: result, intro or question
         string _cardKind;
         Screens.Menu _menu;
+        CorridorTransition _corridor;  // PM_MESAJ_24: the slide to the next level's painting, over everything
         Screens.LevelList _list;
         TextView _debug;
         Vector2Int _screenPx;
@@ -624,6 +625,23 @@ namespace ReverseSolver.Presentation
                 _images.Get(_session.Level.Image),          // G1-b: only a picture that really arrived
                 _askFun, _funAnswered, _askHard, _hardAnswered, _showSet));
 
+        /* PM_MESAJ_24: win -> (1-10, 👍/👎) -> Next -> corridor slide -> next level. Only in the painting set;
+           the last level has no Next, so its end card is unchanged. The next painting was asked for at StartLevel;
+           if it is still on its way the dark aperture waits and it fades in when it lands. */
+        bool PlayCorridor()
+        {
+            if (!_paintSet || !_newArt || _showSet || PlayOverride.Active || _index + 1 >= _set.Levels.Count) return false;
+            int next = _index + 1;
+            CorridorTransition c = null;
+            var nextPic = _images.Get(ImageOf(next), t => { if (c != null) c.SetNext(t); });
+            c = CorridorTransition.Play(_screen, CorridorOrder, _images.Get(ImageOf(_index)), nextPic, () => { _corridor = null; StartLevel(next); });
+            if (c == null) return false;
+            if (Host.Debug) Debug.Log($"[corridor] {ImageOf(_index)} -> {ImageOf(next)} {(nextPic != null ? "hazır" : "bekleniyor")}");
+            CloseCard();
+            _corridor = c;
+            return true;
+        }
+
         // ---- G8: the 👍/👎 answer (SetFlags.AskFun) -------------------------------------------
 
         (AttemptRecord record, string rowId)? _pendingFun;
@@ -721,6 +739,8 @@ namespace ReverseSolver.Presentation
 
         void Press(Vector2 pt)
         {
+            if (_corridor != null) { _corridor.Skip(); return; }   // a tap skips the slide
+
             // level list (over menu or game)
             if (_list != null)
             {
@@ -805,7 +825,7 @@ namespace ReverseSolver.Presentation
                             break;
                         }
                         SendPendingFun();
-                        if (id == "next") StartLevel(_index + 1);
+                        if (id == "next") { if (!PlayCorridor()) StartLevel(_index + 1); }
                         else if (id == "retry") StartLevel(_index);
                         else ShowMenu();
                         break;

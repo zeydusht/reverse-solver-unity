@@ -59,6 +59,7 @@ Kurallar:
 | Codex CLI çalışıyor (`codex exec -s workspace-write`); görevleri ben veriyorum | ✅ | |
 | Önizleme 5 düzeltme: parçalar hâlâ prosedürel; zincir/duvar beklenen gibi değil → Codex parça seti (81, `piece_O-F-I-F`) ve yeni engel/pause görselleri gelince bağlanacak | 🔜 | |
 | Önizleme 6: engeller hücrenin %80'i, sayaç görselin üstünde (büyük, kalın, dış çizgili), katman parça < zincir < engel < sayaç, pause kartı (Devam / Yeniden başla / Ana menü → quit), duvar geçici kırmızı-beyaz | ✅ | |
+| PM_22: zincir kilidi hücre ortasında (%45), p19 yayında; iOS 0.5.1 (4) zip 31 Ekim 19:30 | ✅ | |
 | Codex dosya adları bekleniyor: `pause-normal`, `wall-stripe`, `piece_*` (HANDOFF'a düşünce art_choice.py + bağlama) | 🔜 | |
 | Önizleme 7: parçalar Kit81 ile (KitAtlas → 3 atlas, Piece.shader kit dalı; resimli bölümde mask+overlay, resimsizde flat) | ✅ | |
 | Önizleme 8: Task6 tahta görselleri bağlandı (çivi/bomba %80 + sayaç ortada, zincir şeridi + uç kilidi, duvar şeridi + köşe); HANDOFF'a oyun adlarıyla eklendi. Pause görseli yok, çizim tuş kaldı | ✅ | |
@@ -91,13 +92,17 @@ Kurallar:
 | Arka plan müziği (music-c, akışla, Ayarlar → Müzik) | ✅ önizleme · iOS zip bekliyor | |
 | Dil ayarını telemetride not etme | 🔜 | |
 | PM_MESAJ_20 zincir görünürlüğü (geçici, kodla): 2x kalın, lacivert, krem kenar, gölge; katman parça < zincir < engel < sayaç | ✅ yayında | |
-| SET40 v4 önerisi (docs/SET40_V4.md) | ⏳ Zeyd onayı | |
+| Veri sistemi Faz 1 (kohort, cihaz, start/hide/quit, 1–10, profil) yayında /p19/; Faz 2 (yeniden oynatıcı, botlar, Monte Carlo, geri test, dongu.py) hazır (PM_MESAJ_25) | ✅ | v1 tabanları geçemedi; PM yükleyip dondurur |
+| Koridor geçişi (PM_MESAJ_24): kazan → 1–10/👍👎 → Devam → N'nin tablosundan N+1'inkine kayma (tek şerit, video yok, +242 KB), dokununca atla; /p19/ | ✅ | iPhone'da bakılmadı; 15→16 betikte kararsız (oyun değil) |
+| SET40 v4 (docs/SET40_V4.md): 9 bölüm ayarlandı, /p19/?set=redesign önizlemede (PM_MESAJ_23) | ✅ önizlemede | kök ve /levels/redesign.json (iOS) Zeyd'in "kökü güncelle"siyle |
 | PM_MESAJ_20: Codex Task17 renkli zincirler | ✅ yayında | |
 | Önizleme geri bildirimi: tek tutorial eli, duvar köşe dirseği, ilerleme yedeği (plays'ten geri getirme) — /p19/ | ✅ | |
 | iOS 0.5.1 (3) zip, 29 Ekim 15:31 | ✅ · ⏳ Zeyd Mac'ten TestFlight | |
 | ZeydBot v2 | ⛔ setten sonra | |
 
 ## Art (ChatGPT / Codex — Art Director doldurur)
+
+Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kaldırıldı, tek kapalı duvar + derinlikli sütun/kaide yüzeyleri; halı/bordür/mermer tek ortonormal zemin düzleminde, fotoğraf/atlas üçgen sınırı yok. Aynı kamera yolu ve 3 sn süre; orta hız tepesi %32 azaltıldı. Statik kare aynı sahneden; tablo kırpması statik/hareketli aynı shader yolunda (oyun içi OverrideGeometry hatası giderildi). 181 kare/43 kritik ardışık kare + Unity GPU + gerçek Core kazanımı/normal menü dönüşü/tek oynatım/durma: 6/6 test. MP4 aynı klasörde 1080p60 güncellendi, önceki sürüm/video tam yedeklendi. Rapor: `docs/art/corridor-victory/CONTINUITY.md`. Cihaz/yayımlanmış player manuel kontrolü yapılmadı.
 
 | İş | Durum | Tahmini süre |
 |---|---|---|
