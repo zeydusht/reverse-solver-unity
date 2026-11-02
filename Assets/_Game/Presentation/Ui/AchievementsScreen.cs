@@ -23,7 +23,13 @@ namespace ReverseSolver.Presentation
                 MenuUi.Sprite(cell, "achievement-" + keys[i], new Vector2(-w / 2 + 43, 0), Vector2.one * 70, order + 1);
                 float left = -w / 2 + 86, tw = w - 126, cx = left + tw / 2;
                 MenuUi.Label(cell, Texts.AchievementName(i), new Vector2(cx, -29), 19, order + 2, true, tw);
-                MenuUi.Label(cell, Texts.AchievementCondition(i), new Vector2(cx, -3), 13, order + 2, true, tw);
+                var condition = MenuUi.Label(cell, Texts.AchievementCondition(i), new Vector2(cx, -3), 13, order + 2, true);
+                var tmp = condition.GetComponent<TMPro.TextMeshPro>();
+                tmp.textWrappingMode = TMPro.TextWrappingModes.Normal;
+                tmp.rectTransform.sizeDelta = new Vector2(tw, 38);
+                tmp.enableAutoSizing = true;
+                tmp.fontSizeMin = 12 * TextView.PointToFontSize;
+                tmp.fontSizeMax = 13 * TextView.PointToFontSize;
                 MenuUi.Sprite(cell, "progress-track", new Vector2(cx, 27), new Vector2(tw, 20), order + 1, true);
                 float fill = (tw - 8) * a.Value / a.Target;
                 if (fill > 0) MenuUi.Sprite(cell, "progress-fill", new Vector2(left + 4 + fill / 2, 27), new Vector2(fill, 12), order + 2, true);

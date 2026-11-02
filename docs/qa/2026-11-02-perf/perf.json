@@ -14,18 +14,18 @@
   },
   "Koridor": {
    "median": 59.9,
-   "p95": 58.8,
-   "worst": 57.5
+   "p95": 59.2,
+   "worst": 58.8
   },
   "Koleksiyon kaydırma": {
    "median": 59.9,
-   "p95": 58.8,
-   "worst": 12
+   "p95": 58.5,
+   "worst": 15
   }
  },
  "mem": {
   "peak": {
-   "js": 6.3,
+   "js": 6.4,
    "wasm": 114.1
   }
  }

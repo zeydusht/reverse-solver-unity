@@ -76,7 +76,12 @@ namespace ReverseSolver.Presentation
             }
             return false;
         }
-        void Add(string id, string key, string label, Vector2 c, Vector2 size, int order) => _buttons.Add((MenuUi.Button(Root, key, label, c, size, order), id));
+        void Add(string id, string key, string label, Vector2 c, Vector2 size, int order)
+        {
+            MenuUi.Button(Root, key, label, c, size, order);
+            var hitSize = new Vector2(Mathf.Max(44, size.x), Mathf.Max(44, size.y));
+            _buttons.Add((new Rect(c - hitSize / 2, hitSize), id));
+        }
         public string Hit(Vector2 pt) { foreach (var b in _buttons) if (b.rect.Contains(pt)) return b.id; return null; }
         public void Destroy() { Tweens.Kill(this); if (Root != null) Object.Destroy(Root.gameObject); }
     }

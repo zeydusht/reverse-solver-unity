@@ -1,0 +1,9 @@
+# P20-E kısa rapor
+
+- Uygulandı: sonuç kartı sırası, 2×5 ve ≥44 pt puan kutuları, son seçimden 0,3 sn sonra tek `Rate(n, null)` çağrısı, metin bağlantısı Geç, kayıpta yıldız satırının kaldırılması; eğitim çizimleri; yazı/dokunma alanları; haritada Oyna balonu; TR/EN metinler.
+- Değişen dosyalar: `Presentation/GameRoot.cs`, `Presentation/Board/TutorialSpotlight.cs`, `Presentation/Ui/{Screens,Card,Texts,AchievementsScreen,LevelsMap,MenuSettings,ProfileCard,CollectionScreen}.cs` (hepsi `Assets/_Game/` altında), `Assets/WebGLTemplates/ReverseSolver/index.html`, `docs/i18n/en.md`, bu rapor.
+- Çivi: `Core/Session/GameSession.cs` içindeki `Remove → TickNails` kontrol edildi. Başarılı çıkış/çekiç bir hamledir; takılma sayacı azaltmaz. PM metni aynen kullanıldı; kart ve spotlight `Texts.NailBody` üzerinden aynı cümleyi gösterir. Tüm çıkabilir parçalar çiviliyse mevcut emniyet açılması da geçerlidir.
+- Tek slot listesi: `Screens.IntroSlots` = **1, 3, 5, 6, 9, 10, 14, 15, 19, 23, 25, 30, 35, 36, 38**. Mevcut ilk ziyaret kuralı korundu. Kart/eğitim yoksa ilk karede; varsa kapanınca sayaç ilerler.
+- Yerleşim varsayımı: 375 pt genişlikte puan kutuları 51×44 pt. Sonuç soruları açıkken dekoratif resimler gizlenir, kazanma yıldızları kalır; sorular bitince resimler geri gelir. Ana tuş tam genişliktedir. Seçim beklerken ilerleme tuşuna basılırsa geçiş 0,3 sn dolunca yapılır; başka puana dokunmak süreyi yeniler ve bekleyen geçişi iptal eder. Geç bekleyen seçimi iptal eder.
+- Kontrol: 10 değişen C# dosyasında Roslyn/C# 9 sözdizimi kontrolü **0 hata**; hedef dosyalarda `git diff --check` temiz. Unity derlemesi, EditMode testleri ve cihazda görsel/dokunma kontrolü çalıştırılmadı; kullanıcıya bırakıldı. Sözdizimi kontrolü Unity derlemesi yerine geçmez.
+- Core, Platform, bölüm verileri/süreleri, telemetri gönderim akışı, ana ekran Task13 yerleşimi ve sekme ikon ölçüleri değiştirilmedi. Commit atılmadı.

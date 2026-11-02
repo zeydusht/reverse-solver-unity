@@ -265,6 +265,7 @@ async function card() {
   const p = await newPage(), d01 = designs.find(v => v.id === 'D01');
   await p.open(dbg(`${base}/?set=designs&lv=D01`));
   await sleep(1500);                                   // the picture arrives after the board
+  for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);   // PM_MESAJ_29: slot 1 start card
   await p.solve(d01);
   await sleep(2500);
   const buf = await p.png(); fs.writeFileSync(path.join(out, 'card_D01_375x667.png'), buf);
@@ -394,7 +395,11 @@ async function redesign() {
   const l = set[0], p = await newPage();
   await p.open(dbg(`${base}/?set=redesign&lv=${l.id}`));
   for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);   // an intro card, if any
-  await p.solve(l);
+  if (l.tutorial === 1) {                              // PM_MESAJ_28 tutorial: two guided moves, the rule card, the rest
+    await p.solve({ ...l, solution: l.solution.slice(0, 2) }); await sleep(900);
+    await p.tap(W / 2, H / 2); await sleep(900);
+    await p.solve({ ...l, solution: l.solution.slice(2) });
+  } else await p.solve(l);
   await sleep(2500);
   const buf = await p.png(); fs.writeFileSync(path.join(out, `redesign_${l.id}.png`), buf);
   const img = readPng(buf);
@@ -990,6 +995,55 @@ async function flick() {
   p.close(); W = 375; H = 667;
 }
 
+/* --send --only rating (PM_MESAJ_29 1): the plays row goes when the level ends, the 1-10 answer follows through
+   rpc/set_rating. Three fresh profiles (the question is asked once per level): (a) S41 won, tab closed without an
+   answer; (b) S41 won, 7; (c) S50 lost to the bomb, 3. Card shots in docs/qa/<date>-rating; the chip spots come from
+   --chip7 x,y and --chip3 x,y (390x844, read off the first card shot). */
+async function rating() {
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const l = set.find(x => x.id === 'S41'), bomb = JSON.parse(fs.readFileSync(path.join(ROOT, 'Logs/veri/bomb_loss.json'), 'utf8'));
+  const tag = opt('icname', 'IC_P29'), dir = path.join(ROOT, 'docs/qa', new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10) + '-rating'), xy = k => opt(k, '').split(',').map(Number);
+  fs.mkdirSync(dir, { recursive: true });
+  const intro = async p => { for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y); };
+  const tutorialWin = async p => {
+    await intro(p); await p.solve({ ...l, solution: l.solution.slice(0, 2) }); await sleep(900);
+    await p.tap(W / 2, H / 2); await sleep(900);
+    await p.solve({ ...l, solution: l.solution.slice(2) });
+  };
+  const start = async (name, lv) => {
+    const p = await newPage();
+    await p.open(`${base}/?set=redesign&c=ic&lv=${lv}`, { gate: true }); await p.name(name); await sleep(1500);
+    for (let y = Math.round(H * .25); y < H * .9; y += 12) await p.tap(W / 2, y);   // the profile question
+    await sleep(1000);
+    return p;
+  };
+  const parts = opt('rparts', 'abc');
+  let p;
+  // (a) win, no answer, the tab goes 3 s after the card
+  if (parts.includes('a')) { p = await start(tag + 'A', 'S41'); await tutorialWin(p); await sleep(5500);
+  fs.writeFileSync(path.join(dir, 'a_kart.png'), await p.png());
+  await p.cdp('Page.navigate', { url: 'about:blank' }); await sleep(3000); p.close(); }
+  // (b) win, 7
+  if (parts.includes('b')) { p = await start(tag + 'B', 'S41'); await tutorialWin(p); await sleep(5500);
+  const [x7, y7] = xy('chip7'); await p.tap(x7, y7); await sleep(400);
+  fs.writeFileSync(path.join(dir, 'b_7_secildi.png'), await p.png()); await sleep(2500);
+  fs.writeFileSync(path.join(dir, 'b_sonra.png'), await p.png());
+  await p.cdp('Page.navigate', { url: 'about:blank' }); await sleep(3000); p.close(); }
+  // (c) bomb loss, 3
+  if (parts.includes('c')) { p = await start(tag + 'C', bomb.id); await intro(p); await p.solve({ ...set.find(x => x.id === bomb.id), solution: bomb.solution }); await sleep(3500);
+  fs.writeFileSync(path.join(dir, 'c_kayip_kart.png'), await p.png());
+  const [x3, y3] = xy('chip3'); await p.tap(x3, y3); await sleep(2500);
+  await p.cdp('Page.navigate', { url: 'about:blank' }); await sleep(3000); p.close(); }
+  await sleep(4000);
+  const get = async q => (await (await fetch(`${SUPA}/rest/v1/${q}`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json());
+  const rows = await get(`plays?player=in.(${tag}A,${tag}B,${tag}C)&select=player,level_id,result,attempt,zorluk_puani,keyif,cohort,app_version,row_id,created_at&order=created_at`);
+  console.log('PLAYS ' + JSON.stringify(rows));
+  const of = n => rows.filter(r => r.player === tag + n);
+  const a = of('A').some(r => r.result === 'win'), b = of('B').some(r => r.result === 'win' && r.zorluk_puani === 7),
+        c = of('C').some(r => r.result === 'bomb' && r.zorluk_puani === 3);
+  check('rating', a && b && c, `(a) cevapsız kazanma satırı ${a ? 'var' : 'YOK'} · (b) 7 ${b ? 'var' : 'YOK'} · (c) kayıp 3 ${c ? 'var' : 'YOK'}`);
+}
+
 /* --send --only replay (PM_MESAJ_26): one browser profile (cohort ic) wins S41, then plays it again from the
    menu path; plays must hold attempt 1 and attempt 2 with cohort, device_id, platform and app_version. */
 async function replay() {
@@ -1138,6 +1192,7 @@ async function qa() {
     if (send && only.includes('redesignsend')) await redesignsend();
     if (send && only.includes('pausequit')) await pausequit();
     if (send && only.includes('cohortic')) await cohortic();
+    if (send && only.includes('rating')) await rating();
     if (send && only.includes('replay')) await replay();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }

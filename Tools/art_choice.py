@@ -113,9 +113,45 @@ for c in ('altin', 'turkuaz', 'mor', 'mercan'):
 for n in ('hud-moves-pill', 'hud-time-pill', 'hud-time-pill-urgent'): borders[n + '.png'] = [84, 84, 84, 84]
 for n in ('btn2-primary', 'btn2-primary-pressed', 'btn2-secondary', 'btn2-secondary-pressed'): borders[n + '.png'] = [92, 92, 92, 92]
 # Task20 uses actual L,T,R,B, unlike the older manifests above. Preserve its exact dimensions.
+MENU_ART = {f'scene-{key}.png': colour for key, colour in {
+    'achievements': '#381B15', 'collection': '#1C2525', 'home': '#1C1917',
+    'jiggles': '#302D26', 'levels': '#3B3125'}.items()}
+MENU_ART['levels-path-repeat.png'] = None
+
+def sync_menu_art(filename):
+    from PIL import Image
+    folder = 'Assets/StreamingAssets/MenuArt/'
+    os.makedirs(folder, exist_ok=True)
+    stem = 't20-' + os.path.splitext(filename)[0]
+    path = folder + stem + ('.jpg' if filename.startswith('scene-') else '.png')
+    source = A + 'Menu/Task20/' + filename
+    if filename.startswith('scene-'):
+        with Image.open(source) as image:
+            # Match the existing Resources padding, flattening alpha onto the scene's dark tone.
+            assert image.height == 1844 and image.width in (853, 856), source
+            flat = Image.new('RGB', (856, 1844), MENU_ART[filename])
+            rgba = image.convert('RGBA')
+            flat.paste(rgba, (0, 0), rgba.getchannel('A'))
+            flat.save(path, quality=82)
+    else:
+        shutil.copyfile(source, path)
+    for asset, is_folder in [(folder.rstrip('/'), True), (path, False)]:
+        meta_path = asset + '.meta'
+        if not os.path.exists(meta_path):
+            guid = uuid.uuid5(uuid.NAMESPACE_URL, 'reverse-solver/' + asset).hex
+            with open(meta_path, 'w', encoding='utf-8') as meta:
+                meta.write(f'fileFormatVersion: 2\nguid: {guid}\n' + ('folderAsset: yes\n' if is_folder else '') +
+                           'DefaultImporter:\n  externalObjects: {}\n  userData: \n  assetBundleName: \n  assetBundleVariant: \n')
+    for suffix in ('.png', '.png.meta'):
+        old = OUT + stem + suffix
+        if os.path.exists(old): os.remove(old)
+
 t20 = json.load(open(A + 'Menu/Task20/manifest.json', encoding='utf-8-sig'))
 for it in t20:
     if it.get('isRuntime') is False or it.get('category') == 'preview': continue
+    if it['file'] in MENU_ART:
+        sync_menu_art(it['file'])
+        continue
     name = 't20-' + it['file']
     files[name] = A + 'Menu/Task20/' + it['file']
     l, t, r, b = it.get('sliceLTRB') or [0, 0, 0, 0]
@@ -171,15 +207,26 @@ for dst, src in files.items():
     if (w * h >= 300 * 300 or dst.startswith(('t20-', 't21-'))) and (w % 4 or h % 4):
         PAD[dst] = ((-w) % 4, (-h) % 4)
         if dst in borders: borders[dst] = [borders[dst][0], borders[dst][1] + PAD[dst][1], borders[dst][2] + PAD[dst][0], borders[dst][3]]
+# PM_MESAJ_29 4.1: the HUD pills are drawn ~120x56 pt; keep 2x that (PPU 2 in MenuArtImport), sides a multiple of 4
+# so they compress (366x210 stayed raw RGBA, 300 KB each). Borders scale with the picture.
+SCALE = {'hud-moves-pill.png': 2 / 3, 'hud-time-pill.png': 2 / 3, 'hud-time-pill-urgent.png': 2 / 3}
+for dst, k in SCALE.items():
+    if dst in borders: borders[dst] = [round(b * k) for b in borders[dst]]
 json.dump(borders, open('Assets/_Game/Editor/art_borders.json', 'w'), indent=0)
 os.makedirs(OUT + 'audio', exist_ok=True)
 for dst, s in files.items():
     if not os.path.exists(s): print('EKSİK', s); continue
-    if dst in PAD: pad_png(s, OUT + dst, *PAD[dst])
+    if dst in SCALE:
+        from PIL import Image
+        im = Image.open(s)
+        w, h = (round(im.width * SCALE[dst] / 4) * 4, round(im.height * SCALE[dst] / 4) * 4)
+        im.resize((w, h), Image.LANCZOS).save(OUT + dst, optimize=True)
+    elif dst in PAD: pad_png(s, OUT + dst, *PAD[dst])
     else: shutil.copyfile(s, OUT + dst)      # copyfile: keeps the destination .meta (import settings)
 # Stable initial import settings even when the art sync runs without a licensed Unity Editor.
 for prefix, it in [('t20-', it) for it in t20] + [('t21-', it) for it in t21]:
     if it.get('isRuntime') is False or it.get('category') == 'preview': continue
+    if prefix == 't20-' and it['file'] in MENU_ART: continue
     path = OUT + prefix + it['file'] + '.meta'
     if os.path.exists(path): continue
     l, t, r, b = it.get('sliceLTRB') or [0, 0, 0, 0]

@@ -124,6 +124,36 @@ namespace ReverseSolver.Core.Tests
 
         // ---- 3: sending -------------------------------------------------------------
 
+        /* PM_MESAJ_29: the plays row goes when the level ends; a later 1-10 / 👍 answer goes to rpc/set_rating
+           as one object, and only after the row has left the queue (the function updates an existing row). */
+        [Test]
+        public void RatingFollowsItsRow()
+        {
+            var store = new MemoryStore();
+            var save = new SaveData(store, NewId);
+            var queue = new TelemetryQueue(store);
+            var http = new FakeHttp();
+            var sender = new TelemetrySender(queue, http, "https://example.supabase.co", "sb_publishable_test", true);
+            var ratingQueue = new TelemetryQueue(store, "ratings");
+            var ratings = new TelemetrySender(ratingQueue, http, "https://example.supabase.co", "sb_publishable_test", true, "rpc/set_rating");
+            var log = new TelemetryLog(save, queue, sender, NewId, ratingQueue, ratings);
+
+            http.Statuses.Enqueue(0); http.Statuses.Enqueue(0);         // offline: the row stays (tried again by Rate)
+            log.Finished(new AttemptRecord { LevelId = "L01", Result = "win" }, "row-1");
+            log.Rate("row-1", 7, null);
+            Assert.That(http.Calls.Count, Is.EqualTo(2));
+            Assert.That(http.Calls.TrueForAll(c => c.url.Contains("/plays")));
+            Assert.That(ratingQueue.Rows.Count, Is.EqualTo(1));
+
+            log.Flush();                                                // online again: row first, then the rating
+            Assert.That(http.Calls.Count, Is.EqualTo(4));
+            Assert.That(http.Calls[2].url, Does.Contain("/rest/v1/plays"));
+            Assert.That(http.Calls[3].url, Is.EqualTo("https://example.supabase.co/rest/v1/rpc/set_rating"));
+            Assert.That(http.Calls[3].body, Is.EqualTo("{\"p_row_id\":\"row-1\",\"p_zorluk\":7}"));
+            Assert.That(http.Calls[2].body, Does.Not.Contain("zorluk_puani"));
+            Assert.That(ratingQueue.Rows.Count, Is.EqualTo(0));
+        }
+
         /* ZeydBot 2026-10-19: rows with different keys (a touch row has hold_ms, a pause row not) never share
            a request, or PostgREST refuses the whole batch. */
         [Test]

@@ -68,6 +68,7 @@ namespace ReverseSolver.Presentation
             MenuUi.Sprite(Root, "title-plaque", new Vector2(c.x, top + 42), new Vector2(w - 68, 55), order + 3, true);
             MenuUi.Banner(Root, Texts.CollectionDetail, new Vector2(c.x, top + 42), 25, order + 4, w - 92);
             _close = MenuUi.Button(Root, "button-close", null, new Vector2(c.x + w / 2 - 23, top + 24), Vector2.one * 36, order + 10);
+            _close = new Rect(_close.center - Vector2.one * 22, Vector2.one * 44);
             float ph = Mathf.Min(260, h - 280), py = top + 88 + ph / 2;
             MenuUi.Sprite(Root, "portrait-placeholder", new Vector2(c.x, py), new Vector2(ph * .75f, ph), order + 2);
             MenuUi.Painting(Root, images, index, new Vector2(c.x, py), new Vector2(ph * .7f, ph * .9333f), order + 3);

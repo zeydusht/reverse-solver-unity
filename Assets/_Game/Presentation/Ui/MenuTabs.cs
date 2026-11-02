@@ -43,8 +43,7 @@ namespace ReverseSolver.Presentation
 
         public static void Scene(Transform root, string key, Vector2 screen, int order)
         {
-            var r = Sprite(root, "scene-" + key, screen / 2, screen, order);
-            if (r != null) r.transform.localScale = new Vector3(screen.x / r.sprite.bounds.size.x, screen.y / r.sprite.bounds.size.y, 1);
+            SceneRegion(root, key, screen, 0, screen.y, order, true);
         }
 
         // Opaque slices of the same stationary scene cover scrolling art and text at the viewport edges.
@@ -57,16 +56,34 @@ namespace ReverseSolver.Presentation
 
         static void SceneSlice(Transform root, string key, Vector2 screen, float from, float to, int order)
         {
-            var source = Art.Get("t20-scene-" + key);
-            if (source == null || to <= from) return;
-            var rect = source.rect;
-            var crop = new Rect(rect.x, rect.y + rect.height * (1 - to / screen.y), rect.width, rect.height * (to - from) / screen.y);
-            var sprite = UnityEngine.Sprite.Create(source.texture, crop, new Vector2(.5f, .5f), 1);
-            var r = new GameObject("viewport-cover").AddComponent<SpriteRenderer>();
-            r.transform.SetParent(root, false); r.sprite = sprite; r.sortingOrder = order;
-            r.transform.localPosition = Draw.W(screen.x / 2, (from + to) / 2);
-            r.transform.localScale = new Vector3(screen.x / crop.width, (to - from) / crop.height, 1);
-            r.gameObject.AddComponent<MenuPainting>().Owned = sprite;
+            SceneRegion(root, key, screen, from, to, order, false);
+        }
+
+        static void SceneRegion(Transform root, string key, Vector2 screen, float from, float to, int order, bool fade)
+        {
+            if (to <= from) return;
+            var fallback = ShapeView.Create(root, "scene-colour", new Vector2(screen.x, to - from), 0, order).Fill(MenuArt.Background(key));
+            fallback.transform.localPosition = Draw.W(screen.x / 2, (from + to) / 2);
+            Action<Sprite> show = source =>
+            {
+                if (root == null || fallback == null) return;
+                var rect = source.rect;
+                var crop = new Rect(rect.x, rect.y + rect.height * (1 - to / screen.y), rect.width, rect.height * (to - from) / screen.y);
+                var sprite = fade ? source : UnityEngine.Sprite.Create(source.texture, crop, new Vector2(.5f, .5f), 1);
+                var r = new GameObject(fade ? "scene-" + key : "viewport-cover").AddComponent<SpriteRenderer>();
+                r.transform.SetParent(fallback.transform, false); r.sprite = sprite; r.sortingOrder = order + (fade ? 1 : 0);
+                r.transform.localScale = new Vector3(screen.x / crop.width, (to - from) / crop.height, 1);
+                if (!fade)
+                {
+                    r.gameObject.AddComponent<MenuPainting>().Owned = sprite;
+                    fallback.GetComponent<MeshRenderer>().enabled = false;
+                    return;
+                }
+                r.color = new Color(1, 1, 1, 0);
+                Tweens.Run(r, .2f, t => { if (r != null) r.color = new Color(1, 1, 1, t); });
+            };
+            var ready = MenuArt.Instance.Get("t20-scene-" + key + ".jpg", show);
+            if (ready != null) show(ready);
         }
 
         public static void Title(Transform root, Vector2 screen, float top, string title, int order)
@@ -127,7 +144,7 @@ namespace ReverseSolver.Presentation
                 _weights[i] = i == _selected ? 1 : 0;
                 _slots[i] = MenuUi.Sprite21(root, "tab-slot", Vector2.zero, Vector2.one, order + 1, true);
                 _icons[i] = MenuUi.Sprite21(root, "tab-icon-" + _keys[i] + "-normal", Vector2.zero, Vector2.one, order + 3);
-                _labels[i] = MenuUi.Banner(root, Texts.Tab(i), Vector2.zero, 17, order + 5, screen.x * .4f - 12);
+                _labels[i] = MenuUi.Banner(root, Texts.Tab(i), Vector2.zero, 15, order + 5, screen.x * .4f - 12);
                 if (i > 0) _dividers[i - 1] = MenuUi.Sprite21(root, "tab-divider", Vector2.zero, Vector2.one, order + 2, true);
             }
             if (TrophyBadge > 0)
@@ -150,7 +167,8 @@ namespace ReverseSolver.Presentation
                     _slots[i].size = new Vector2(width, slotHeight);
                     _slots[i].transform.localPosition = Draw.W(cx, slotTop + slotHeight / 2);
                 }
-                float height = Mathf.Lerp(49, 184f / 3, active), y = Top + Mathf.Lerp(3, -33, active);
+                // PM_MESAJ_29: the selected icon rises at most a quarter of its height over the bar
+                float height = Mathf.Lerp(49, 56, active), y = Top + Mathf.Lerp(3, -14, active);
                 var icon = _icons[i];
                 if (icon != null)
                 {
@@ -160,7 +178,7 @@ namespace ReverseSolver.Presentation
                     icon.transform.localPosition = Draw.W(cx, y + height / 2);
                 }
                 _labels[i].Alpha = active;
-                _labels[i].transform.localPosition = Draw.W(cx, Top + 39);
+                _labels[i].transform.localPosition = Draw.W(cx, Top + 50);
                 if (i > 0 && _dividers[i - 1] != null)
                 {
                     _dividers[i - 1].size = new Vector2(4f / 3, slotHeight);
@@ -178,7 +196,7 @@ namespace ReverseSolver.Presentation
         }
         public int Hit(Vector2 pt)
         {
-            if (pt.y < Top - 33 || pt.y > _bottom || pt.x < 0 || pt.x >= _width) return -1;
+            if (pt.y < Top - 14 || pt.y > _bottom || pt.x < 0 || pt.x >= _width) return -1;
             for (int i = 0; i < 4; i++) if (pt.x < _edges[i + 1]) return i;
             return -1;
         }

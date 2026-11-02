@@ -1,18 +1,18 @@
 {
  "load": {
   "Hızlı 4G": {
-   "menu": 17.9,
-   "level1": 0.733,
-   "mb": 15.37
+   "menu": 20.3,
+   "level1": 0.911,
+   "mb": 13.83
   }
  },
  "files": [
   [
-   "17e5f2b416bdd329e675eaf5ea4c8ade.data.unityweb",
-   9.63
+   "5ab86de46abd4591802024b54e5375c1.data.unityweb",
+   8.1
   ],
   [
-   "8f9754e4838ffca418abd6f81e9f2705.wasm.unityweb",
+   "1e537fe3644abad92aba25716827d248.wasm.unityweb",
    5.18
   ],
   [
@@ -20,7 +20,7 @@
    0.2
   ],
   [
-   "2a7a83e499cdc0b60b76d94073dd4d4d.loader.js",
+   "de1c92f1d88a9b9c108dae0584698947.loader.js",
    0.11
   ],
   [
@@ -28,7 +28,7 @@
    0.09
   ],
   [
-   "b0867bd8938084ca51bcc761f108b9a4.framework.js.unityweb",
+   "a396a8c8fa87d9223d33e2315eaf278d.framework.js.unityweb",
    0.07
   ],
   [
@@ -51,7 +51,7 @@
  "fps": {},
  "mem": {
   "afterLoad": {
-   "js": 7.2,
+   "js": 7.6,
    "wasm": 114.1
   }
  }

@@ -17,7 +17,7 @@ Player-facing English equivalents for the current UI constants and level `intro`
 | Level / field | Turkish | English |
 |---|---|---|
 | 3 `intro.title` | Çivili parça | Nailed Piece |
-| 3 `intro.body` | Çiviyi sökmek için 5 hamle yapman gerekiyor. Sayı her hamlende bir azalır, sıfırda parça serbest kalır. | You need to make 5 moves to remove the nail. The number drops with each move; when it reaches zero, the piece is freed. |
+| 3 `intro.body` | Çivili parçanın sayacı her hamlende 1 azalır. 0 olunca parça serbest kalır. | A nailed piece's counter drops by 1 with every move. At 0, the piece is free. |
 | 3 `intro.tip` | Önce diğer parçaları çıkar, çivi kendiliğinden sökülür. | Free the other pieces first; the nail will come off on its own. |
 | 5 `bintro.title` | Makas | Scissors |
 | 5 `bintro.body` | Makas iki parça arasındaki birleşimi keser ve o kenar dümdüz olur. Kesilen yerde artık hiçbir şey takılmaz, sıkışmış parça serbest kalır. | Scissors cut the connection between two pieces, making that edge straight. Nothing can catch on a cut edge, so the stuck piece is freed. |
@@ -52,9 +52,19 @@ Canonical copy for `Texts.TutorialDrag` / `Texts.TutorialCopy`. Rule line breaks
 | `drag.U` | Parçayı yukarı sürükle | Drag the piece up |
 | `drag.D` | Parçayı aşağı sürükle | Drag the piece down |
 | `rule` | Tüm parçaları diğer parçalara çarpmadan dışarı çek! | Pull every piece out without hitting other pieces! |
-| `nail` | Diğer parçalar çıktıkça çivi sayacı azalır. | Nails count down when other pieces leave. |
+| `nail` | Çivili parçanın sayacı her hamlende 1 azalır. 0 olunca parça serbest kalır. | A nailed piece's counter drops by 1 with every move. At 0, the piece is free. |
 | `bomb` | Fitili bitmeden bombayı çıkar! | Free the bomb before its fuse runs out! |
 | `chain` | Zincirli parçalar birlikte çıkar. İkisinin de yolunu aç. | Chained pieces leave together. Clear both paths. |
 | `wall` | Parçalar kırmızı-beyaz duvardan geçemez. | Pieces can't pass through red-white walls. |
 
 Rule check (P20-D): nail counters decrease on successful removals (with a safety release if all free pieces are pinned); the nail sentence makes that trigger explicit. Bomb fuses also count removals, not seconds. Chained cells are one rigid piece and must clear both corridors in the same direction. Red-white sealed lanes block passage. No Core changes.
+## P20-E UI copy
+
+| Key | TR | EN |
+|---|---|---|
+| `Texts.Level` | Bölüm {0} | Level {0} |
+| `Texts.HardBody` | Zor bölüm! Acele etme, önce bak. | Tough level! Look before you pull. |
+| `Texts.Play` | Oyna | Play |
+| Name screen | Deneme sürümü. Adını yaz, sonuçlar bu isimle kaydedilsin. | Playtest version. Enter your name to save your results. |
+
+P20-E: "every move" means a successful piece removal (hammer included); jams do not decrement nails. Intro and spotlight both use `Texts.NailBody`. The safety valve can also free a nail when every geometrically free piece is pinned.

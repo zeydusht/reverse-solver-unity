@@ -20,7 +20,7 @@ namespace ReverseSolver.EditorTools
                 k.wrapMode = UnityEngine.TextureWrapMode.Clamp;
                 k.textureCompression = TextureImporterCompression.Compressed;
                 k.crunchedCompression = true;
-                k.compressionQuality = 70;
+                k.compressionQuality = 50;   // PM_MESAJ_29 4.2: 2048 px is already the drawn size (cell ~137 px); lighter crunch
                 return;
             }
             if (assetPath.Contains("Presentation/Resources/Art/"))
@@ -61,6 +61,8 @@ namespace ReverseSolver.EditorTools
                 if (m.Success)
                     a.spriteBorder = new UnityEngine.Vector4(int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value),
                                                              int.Parse(m.Groups[3].Value), int.Parse(m.Groups[4].Value));
+                if (assetPath.EndsWith("/hud-moves-pill.png") || assetPath.EndsWith("/hud-time-pill.png") || assetPath.EndsWith("/hud-time-pill-urgent.png"))
+                    a.spritePixelsPerUnit = 2;   // PM_MESAJ_29: art_choice.py keeps them at 2x their drawn size
                 if (assetPath.EndsWith("/button.png")) a.spriteBorder = new UnityEngine.Vector4(126, 42, 126, 42);
                 return;
             }

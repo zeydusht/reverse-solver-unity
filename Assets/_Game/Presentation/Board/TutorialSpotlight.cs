@@ -80,7 +80,7 @@ namespace ReverseSolver.Presentation
                 if (move.Dir == Dir.D) y1 = v._end.y - board.Origin.y;
                 hole = new Rect(board.Origin + new Vector2(x0 - 3, y0 - 3), new Vector2(x1 - x0 + 6, y1 - y0 + 6));
                 v.Veil(screen, hole, false);
-                v.Arrow(v._start, v._end, Mathf.Min(16, s * .24f));
+                v.Arrow(v._start, v._end, Mathf.Min(24, s * .36f));
                 v._finger = new GameObject("FingerPivot").transform;
                 v._finger.SetParent(v.transform, false);
                 // Pivot is the fingertip. Rotate the wrist and the artwork together.
@@ -115,17 +115,19 @@ namespace ReverseSolver.Presentation
             return split < 0 ? text : text.Substring(0, split) + "\n" + text.Substring(split + 1);
         }
 
-        void Arrow(Vector2 from, Vector2 to, float width)
+        void Arrow(Vector2 from, Vector2 to, float width, bool rule = false)
         {
             var d = (to - from).normalized;
             var n = new Vector2(-d.y, d.x);
-            float head = Mathf.Min(width * 1.5f, Vector2.Distance(from, to) * .5f);
+            float head = Mathf.Max(18, width * 1.5f);
+            if (Vector2.Distance(from, to) < head) from = to - d * head;
             var baseAt = to - d * head;
-            var color = Draw.Rgba(255, 233, 151, .55f);
+            var color = rule ? Palette.Navy : Draw.Rgba(255, 233, 151, 1);
+            int arrowOrder = Order + 7;
             var shaft = Box("ArrowShaft", new Rect((from + baseAt) / 2 - new Vector2(Vector2.Distance(from, baseAt), width) / 2,
-                new Vector2(Vector2.Distance(from, baseAt), width)), color, Order + 2, 2);
+                new Vector2(Vector2.Distance(from, baseAt), width)), color, arrowOrder, 2);
             shaft.transform.localRotation = Quaternion.Euler(0, 0, -Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg);
-            _polygons.Add(SolidView.Polygon(transform, "ArrowHead", new[] { to, baseAt + n * width, baseAt - n * width }, color, Order + 2));
+            _polygons.Add(SolidView.Polygon(transform, "ArrowHead", new[] { to, baseAt + n * width, baseAt - n * width }, color, arrowOrder));
         }
 
         void Rule(Vector2 screen)
@@ -140,11 +142,16 @@ namespace ReverseSolver.Presentation
             {
                 var p = center + new Vector2(-w * .27f, 15 + i * 58);
                 Box("MiniPiece", new Rect(p - Vector2.one * 13, Vector2.one * 26), Draw.Hex("#47b9cf"), Order + 3, 5);
-                Arrow(p + new Vector2(20, 0), p + new Vector2(w * .36f, 0), 7);
+                Arrow(p + new Vector2(20, 0), p + new Vector2(w * .36f, 0), 7, true);
                 if (i == 1) Box("Blocker", new Rect(p + new Vector2(w * .25f, -13), Vector2.one * 26), Draw.Hex("#ed7461"), Order + 4, 5);
                 var mark = center + new Vector2(w * .34f, 15 + i * 58);
                 if (i == 0 && MenuUi.Sprite(transform, "icon-green-check", mark, Vector2.one * 28, Order + 5) != null) continue;
-                MenuUi.Label(transform, i == 0 ? "✓" : "×", mark, 28, Order + 5).Color = Draw.Hex(i == 0 ? "#3e9a51" : "#d9412f");
+                if (i == 0) MenuUi.Label(transform, "✓", mark, 32, Order + 8).Color = Draw.Hex("#3e9a51");
+                else for (int k = 0; k < 2; k++)
+                {
+                    var stroke = Box("RedCross", new Rect(mark - new Vector2(18, 3), new Vector2(36, 6)), Draw.Hex("#d9412f"), Order + 8, 2);
+                    stroke.transform.localRotation = Quaternion.Euler(0, 0, k == 0 ? 45 : -45);
+                }
             }
         }
 

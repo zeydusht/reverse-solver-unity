@@ -133,7 +133,9 @@ namespace ReverseSolver.Presentation
             var queue = new TelemetryQueue(host.Store);
             bool send = host.SendEnabled && !Host.Debug && !Application.isEditor;
             var sender = new TelemetrySender(queue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send);
-            _telemetry = new TelemetryLog(_save, queue, sender, newId);
+            var ratingQueue = new TelemetryQueue(host.Store, "ratings");
+            var ratings = new TelemetrySender(ratingQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "rpc/set_rating");
+            _telemetry = new TelemetryLog(_save, queue, sender, newId, ratingQueue, ratings);
             // PM_MESAJ_25: cohort from the link (?c=pt1), kept on the device for the next visit without it
             string cohort = TelemetryMeta.CleanCohort(host.Query("c"));
             if (cohort != null) { host.Store.Set("rs_cohort", cohort); host.Store.Save(); }
@@ -313,7 +315,6 @@ namespace ReverseSolver.Presentation
             if (visible) _telemetry.PageVisible(_mode == Mode.Playing ? _session : null, _rowId);
             else
             {
-                SendPendingFun();                                 // a closing tab must not lose the won row
                 _telemetry.PageHidden(_mode == Mode.Playing ? _session : null, _rowId);
                 if (!_previewWins) _save.Store(_log);
             }
@@ -330,7 +331,8 @@ namespace ReverseSolver.Presentation
 
         void ShowMenu()
         {
-            SendPendingFun();
+            CommitPendingHard();
+            _rated = null;
             LeaveLevel();
             _session = null;
             if (PlayOverride.Exit != null) { PlayOverride.Exit(); return; }   // back to the level editor
@@ -347,7 +349,8 @@ namespace ReverseSolver.Presentation
             string nextImage = ImageOf(_index + 1);
             _images.KeepOnly(ImageOf(_index), nextImage);
             _images.Get(nextImage);
-            SendPendingFun();                                  // G8: a won row never waits past the next level
+            CommitPendingHard();
+            _rated = null;                                     // answers come only while the result card is open
             _funAnswered = false;
             _askFun = false;
             _hardAnswered = _askHard = false;
@@ -667,9 +670,10 @@ namespace ReverseSolver.Presentation
             _askFun = ask;
             _askHard = e.Outcome != Outcome.Quit && !_showSet && AskHardNow(levelId);
             if (_askHard) HardAsked(levelId);                       // asked once per level (cohort), answered or skipped
-            if (ask) { _save.MarkFunAsked(levelId); _pendingFun = (_session.Record, _rowId); }
-            else if (_askHard) _pendingFun = (_session.Record, _rowId);   // waits for the 1-10 answer
-            else _telemetry.Finished(_session.Record, _rowId);
+            if (ask) _save.MarkFunAsked(levelId);
+            // PM_MESAJ_29: the row goes now, empty answers; the 1-10 and 👍/👎 fill it later (rpc/set_rating)
+            _rated = ask || _askHard ? (_session.Record, _rowId) : null;
+            _telemetry.Finished(_session.Record, _rowId);
             if (Host.Debug) Debug.Log("[attempt] " + _session.Record);
             _drag?.Cancel();
             _boosters?.Disarm();
@@ -757,6 +761,8 @@ namespace ReverseSolver.Presentation
                     var pic = _images.Get(ImageOf(_progress.Next()), t => { if (_menu == menu) menu.SetPainting(t); });
                     if (pic != null) _menu.SetPainting(pic);
                 }
+                MenuArt.Busy = () => this != null && _mode == Mode.Playing;
+                MenuArt.Instance.Preload();
             }
             else
             {
@@ -863,11 +869,16 @@ namespace ReverseSolver.Presentation
             _cardKind = null;
         }
 
-        void ShowResult() =>
-            OpenCard("result", Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
+        void ShowResult()
+        {
+            _card?.Destroy();
+            _card = null;
+            _cardKind = "result";
+            _card = Screens.Result(_world, _screen, _session, _index == _set.Levels.Count - 1, CardOrder,
                 PlayOverride.Active ? Texts.BackToEditor : string.Format(Texts.SetComplete, _set.Levels.Count),
                 _images.Get(_session.Level.Image),          // G1-b: only a picture that really arrived
-                _askFun, _funAnswered, _askHard, _hardAnswered, _showSet));
+                _askFun, _funAnswered, _askHard, _hardAnswered, _showSet, _pendingHard);
+        }
 
         /* PM_MESAJ_24: win -> (1-10, 👍/👎) -> Next -> corridor slide -> next level. Only in the painting set;
            the last level has no Next, so its end card is unchanged. The next painting was asked for at StartLevel;
@@ -895,17 +906,36 @@ namespace ReverseSolver.Presentation
 
         // ---- G8: the 👍/👎 answer (SetFlags.AskFun) -------------------------------------------
 
-        (AttemptRecord record, string rowId)? _pendingFun;
+        (AttemptRecord record, string rowId)? _rated;
         bool _funAnswered, _askFun, _hardAnswered, _askHard;
+        int _pendingHard = -1;
+        float _hardDue;
+        string _pendingResultAction;
 
-        /* The held row goes out, with the answer when there is one. */
-        void SendPendingFun(int? answer = null)
+        void NavigateResult(string id)
         {
-            if (_pendingFun == null) return;
-            var (record, rowId) = _pendingFun.Value;
-            _pendingFun = null;
-            if (answer.HasValue) record.Fun = answer;          // a 👍/👎 given earlier stays on the record
-            _telemetry.Finished(record, rowId);
+            if (id == "next") { if (!PlayCorridor(false)) StartLevel(_index + 1); }
+            else if (id == "retry") StartLevel(_index);
+            else if (!PlayCorridor(true)) ShowMenu();
+        }
+
+        void CommitPendingHard()
+        {
+            if (_pendingHard < 1) return;
+            int answer = _pendingHard;
+            _pendingHard = -1;
+            Rate(answer, null);
+            _hardAnswered = true;
+        }
+
+        /* An answer on the result card fills the already sent row. */
+        void Rate(int? hardness, int? fun)
+        {
+            if (_rated == null) return;
+            var (record, rowId) = _rated.Value;
+            if (hardness.HasValue) record.Hardness = hardness;
+            if (fun.HasValue) record.Fun = fun;
+            _telemetry.Rate(rowId, hardness, fun);
         }
 
         void RefreshPlaying()
@@ -936,6 +966,16 @@ namespace ReverseSolver.Presentation
                 return;
             }
             if (!_awaitingName) HandlePointer();
+            if (_pendingHard > 0 && Time.unscaledTime >= _hardDue)
+            {
+                CommitPendingHard();
+                if (_cardKind == "result")
+                {
+                    string action = _pendingResultAction;
+                    _pendingResultAction = null;
+                    if (action == null) ShowResult(); else NavigateResult(action);
+                }
+            }
             if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); _moveSender?.Flush(); }
 
             if (_mode == Mode.Playing)
@@ -1106,9 +1146,13 @@ namespace ReverseSolver.Presentation
                     case "result":
                         if (id == "hard_skip" || id.StartsWith("hard_") && int.TryParse(id.Substring(5), out int _))
                         {
-                            if (_pendingFun != null && id != "hard_skip") _pendingFun.Value.record.Hardness = int.Parse(id.Substring(5));
-                            SendPendingFun();
-                            _hardAnswered = true;
+                            if (id == "hard_skip") { _pendingHard = -1; _pendingResultAction = null; _hardAnswered = true; }
+                            else
+                            {
+                                _pendingResultAction = null;
+                                _pendingHard = int.Parse(id.Substring(5));
+                                _hardDue = Time.unscaledTime + .3f;
+                            }
                             ShowResult();
                             break;
                         }
@@ -1116,16 +1160,13 @@ namespace ReverseSolver.Presentation
                         {
                             // Build 5: the row also waits for the 1-10 answer (both go in one row)
                             int fun = id == "fun_up" ? 1 : -1;
-                            if (_askHard && !_hardAnswered && _pendingFun != null) _pendingFun.Value.record.Fun = fun;
-                            else SendPendingFun(fun);
+                            Rate(null, fun);
                             _funAnswered = true;
                             ShowResult();
                             break;
                         }
-                        SendPendingFun();
-                        if (id == "next") { if (!PlayCorridor(false)) StartLevel(_index + 1); }
-                        else if (id == "retry") StartLevel(_index);
-                        else if (!PlayCorridor(true)) ShowMenu();          // PM_MESAJ_24B: after a win the menu comes through the corridor too
+                        if (_pendingHard > 0) _pendingResultAction = id;
+                        else NavigateResult(id);
                         break;
                 }
                 return;

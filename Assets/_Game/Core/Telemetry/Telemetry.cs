@@ -161,8 +161,12 @@ namespace ReverseSolver.Core
         readonly string _url;
         readonly Dictionary<string, string> _headers;
 
+        readonly bool _single;
+
         public bool Enabled { get; }
         public bool Busy { get; private set; }
+        /* Called when a successful send has emptied the queue (the ratings wait for their rows). */
+        public Action Drained;
         public int Calls { get; private set; }
         public int Sent { get; private set; }
         public int LastStatus { get; private set; } = -1;
@@ -177,12 +181,13 @@ namespace ReverseSolver.Core
             string baseUrl = (supabaseUrl ?? "").Trim().TrimEnd('/');
             if (baseUrl.EndsWith("/rest/v1")) baseUrl = baseUrl.Substring(0, baseUrl.Length - "/rest/v1".Length);
             _url = baseUrl + "/rest/v1/" + table;
+            _single = table.StartsWith("rpc/");     // a function call takes one object, not an array of rows
             _headers = new Dictionary<string, string>
             {
                 ["Content-Type"] = "application/json",
                 ["apikey"] = anonKey ?? "",
                 ["Authorization"] = "Bearer " + anonKey,
-                ["Prefer"] = "resolution=ignore-duplicates,return=minimal"
+                ["Prefer"] = _single ? "return=minimal" : "resolution=ignore-duplicates,return=minimal"
             };
         }
 
@@ -205,10 +210,15 @@ namespace ReverseSolver.Core
             if (!Enabled || Busy || _queue.Rows.Count == 0) return;
             // PostgREST refuses a bulk insert whose rows do not share their keys (a touch row has hold_ms, a pause row
             // not; an answered row has zorluk_puani): a batch is the run of rows with the same keys as the first
-            var batch = SameKeys(_queue.Take(Batch));
-            var w = new JsonWriter().BeginArray();
-            foreach (var e in batch) w.Raw(e.Row);
-            string body = w.EndArray().ToString();
+            var batch = _single ? _queue.Take(1) : SameKeys(_queue.Take(Batch));
+            string body;
+            if (_single) body = batch[0].Row;
+            else
+            {
+                var w = new JsonWriter().BeginArray();
+                foreach (var e in batch) w.Raw(e.Row);
+                body = w.EndArray().ToString();
+            }
             Busy = true;
             Calls++;
             _transport.Post(_url, _headers, body, status =>
@@ -219,6 +229,7 @@ namespace ReverseSolver.Core
                 {
                     _queue.Accept(batch);
                     Sent += batch.Count;
+                    if (_queue.Rows.Count == 0) Drained?.Invoke();
                     Flush();
                 }
                 else if (status >= 400 && status < 500 && status != 408 && status != 429)

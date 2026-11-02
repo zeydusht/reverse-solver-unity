@@ -1,3 +1,11 @@
+# Ara durum — PM_MESAJ_29 (2 Kasım 17:20, bilgisayar kapandıktan sonra)
+- **Yayın:** p20 hâlâ PM_28 sürümünde (gh-pages 47fc380). `web-p20-2026-11-02` henüz yayınlanmadı; 09:24 / 09:44 Supabase satırları (IC_P29LA kazanma, IC_P29LC bomba) bu bilgisayardaki yerel kopyadan.
+- **1 Veri:** kod bitti (satır bölüm biter bitmez gider, 1–10 ve 👍/👎 `rpc/set_rating` ile; puanlar ayrı kuyrukta, satır sunucuya varmadan gitmez). Test 24/24. Yerelde (a) GEÇTİ: cevapsız kazanmanın satırı geldi (IC_P29LA). (b) ve (c) yerel koşusu 09:45'te bu makineden Supabase'e bağlantı kopunca satır üretemedi (bağlantı 17:15'te geri geldi). Canlı (a)(b)(c) kaldı.
+- **2 Ev:** bitti (kapak sığdırma: halı görünür, tablo ~%45; seçili sekme ikonu %25 taşar, Level tuşu 14 pt yukarıda; "Bölümler" 12 pt). Görüntüyle kontrol edildi.
+- **3 FTUE:** bitti (Codex P20-E + düzeltmeler). Codex'in "süre ilk karede başlar" değişikliği geri alındı (süre ilk hamlede, PM #7). Bölüm başı kartı: verideki tanıtım/booster/zor bölümler + PM listesi, eğitim bölümünde kart yok. Sonuç kartı: ana tuş üstte (kompakt kartta da büyük yeşil), 2×5 kutu (51×44 pt), kayıpta yıldız yok, "Geç" en altta metin.
+- **4 Performans:** HUD hapları 2× boyut + sıkıştırma, kit crunch 50, menü sahneleri build dışı (StreamingAssets, sekme açılınca ya da menüde 10 sn sonra iner), yükleme ekranı yüzde + "İlk açılış biraz sürebilir…". İlk indirme 15,37 → 14,11 MB. Lilita (yeni sette de kullanılıyor) ve level-cell (eski ekran, emin değilim) bırakıldı.
+- **Kalan:** 3 ağ ölçümü (Hızlı 4G 20,3 sn ölçüldü; diğerleri bilgisayar kapanınca kayboldu), commit, p20 yayını, canlı veri testi, son rapor.
+
 # Gece raporu — PM_MESAJ_28 (2 Kasım): https://zeydusht.github.io/reverse-solver-unity/p20/?set=redesign — p19, kök, redesign.json, bölümler, iOS dokunulmadı.
 
 - **0 (dosyada "0" bölümü yoktu; PM_27'nin kalanı olarak alındı):** Ayarlar anahtarları artık görünüyor (satır karosunun altında kalıyordu). Kaydırma yavaşlaması PM'in 0,135'i: fırlatma testi 1.712 pt/s → 807 pt / 2,2 sn (hedef ≥ 844 pt, sınırın hemen altı; betik CDP ile daha hızlı fırlatamıyor).

@@ -1,4 +1,5 @@
 using System;
+using ReverseSolver.Core.Json;
 
 namespace ReverseSolver.Core
 {
@@ -21,15 +22,22 @@ namespace ReverseSolver.Core
         readonly TelemetryQueue _queue;
         readonly TelemetrySender _sender;
         readonly Func<string> _newId;
+        readonly TelemetryQueue _ratingQueue;
+        readonly TelemetrySender _ratings;
         bool _hidden;
 
         public bool Enabled => _sender.Enabled;
         public TelemetryQueue Queue => _queue;
         public TelemetrySender Sender => _sender;
 
-        public TelemetryLog(SaveData save, TelemetryQueue queue, TelemetrySender sender, Func<string> newId)
+        /* ratings: rpc/set_rating (docs/sql/012). The 1-10 and 👍/👎 answers fill an already sent row;
+           they go only once the plays queue is empty, so the row is on the server first. */
+        public TelemetryLog(SaveData save, TelemetryQueue queue, TelemetrySender sender, Func<string> newId,
+                            TelemetryQueue ratingQueue = null, TelemetrySender ratings = null)
         {
             _save = save; _queue = queue; _sender = sender; _newId = newId;
+            _ratingQueue = ratingQueue; _ratings = ratings;
+            if (_ratings != null) _sender.Drained = FlushRatings;
         }
 
         public string NewRowId() => _newId();
@@ -40,6 +48,22 @@ namespace ReverseSolver.Core
             _queue.Remove(rowId);        // a provisional quit from an earlier hide, if any
             _queue.Add(rowId, PlayRow.Json(record, _save.Player, _save.Install, rowId));
             Flush();
+        }
+
+        /* PM_MESAJ_29: the row went when the level ended; an answer given later fills its empty column. */
+        public void Rate(string rowId, int? hardness, int? fun)
+        {
+            if (!Enabled || _ratings == null || (hardness == null && fun == null)) return;
+            var w = new JsonWriter().BeginObject().Field("p_row_id", rowId);
+            if (hardness.HasValue) w.Field("p_zorluk", hardness.Value);
+            if (fun.HasValue) w.Field("p_keyif", fun.Value);
+            _ratingQueue.Add(rowId + (hardness.HasValue ? ":h" : ":f"), w.EndObject().ToString());
+            Flush();
+        }
+
+        void FlushRatings()
+        {
+            if (!_hidden && _ratings != null && _queue.Rows.Count == 0 && !_sender.Busy) _ratings.Flush();
         }
 
         public void PageHidden(GameSession open, string rowId)
@@ -58,7 +82,9 @@ namespace ReverseSolver.Core
 
         public void Flush()
         {
-            if (!_hidden) _sender.Flush();
+            if (_hidden) return;
+            _sender.Flush();
+            FlushRatings();
         }
     }
 }

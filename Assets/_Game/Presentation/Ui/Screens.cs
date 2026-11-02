@@ -208,7 +208,8 @@ namespace ReverseSolver.Presentation
 
                 // bottom: big Level button and the Levels shortcut, above the safe area
                 float bw = Mathf.Min(228f, w - 130f), bh = bw * 112f / 228f;
-                float x0 = (w - bw) / 2, cy = screen.y - safe.w - (Art.On ? 16 : 22) - bh / 2;
+                // PM_MESAJ_29: 12 pt clear of the selected tab icon that rises over the bar
+                float x0 = (w - bw) / 2, cy = screen.y - safe.w - (Art.On ? 28 : 22) - bh / 2;
                 var play = Sprite("level-button", new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
                 var label = TextView.Create(Root, "play", playLabel ?? string.Format(Texts.Level, next), bh * .34f, Palette.Cream, false, order: order + 2);
                 if (Art.On) label.Banner(TextView.OnGreen).FitWidth(bw - 40, 12);
@@ -222,28 +223,11 @@ namespace ReverseSolver.Presentation
                     var lc = new Vector2(x0 - 29, cy);
                     var levels = Sprite("t20-button-levels", lc, Vector2.one * 44, order);
                     Levels = new Rect(lc.x - 22, lc.y - 22, 44, 44);
-                    MenuUi.Label(Root, Texts.Levels, lc + new Vector2(0, 33), 11, order + 2, width: 70);
+                    MenuUi.Label(Root, Texts.Levels, lc + new Vector2(0, 33), 12, order + 2, width: 70);
                     if (levels != null) _press.Add((Levels, levels, "t20-button-levels", "t20-button-levels-pressed", null));
                 }
 
-
-                if (Art.On && _bg != null) FitFrame(screen, hy + 36, cy - bh / 2 - 8);
                 // PM_MESAJ_16: no "Jiggles rescued" bar on the menu
-            }
-
-            /* PM_MESAJ_27 A1: the corridor scales up so its big gold frame (menu_bg px, y down) fills the room between
-               the header and the Level button, never below cover-fit and never past the screen's sides. */
-            void FitFrame(Vector2 screen, float top, float bottom)
-            {
-                var size = _bg.sprite.rect.size;
-                const float fx0 = 280, fx1 = 712, fy0 = 223, fy1 = 919;
-                float cover = Mathf.Max(screen.x / size.x, screen.y / size.y);
-                float k = Mathf.Max(cover, Mathf.Min((bottom - top) / (fy1 - fy0), (screen.x - 16) / (fx1 - fx0)));
-                float cx = screen.x / 2 - ((fx0 + fx1) / 2 - size.x / 2) * k, cy = (top + bottom) / 2 - ((fy0 + fy1) / 2 - size.y / 2) * k;
-                cx = Mathf.Clamp(cx, screen.x - size.x / 2 * k, size.x / 2 * k);
-                cy = Mathf.Clamp(cy, screen.y - size.y / 2 * k, size.y / 2 * k);
-                _bg.transform.localScale = new Vector3(k, k, 1);
-                _bg.transform.localPosition = Draw.W(cx, cy);
             }
         }
 
@@ -342,7 +326,7 @@ namespace ReverseSolver.Presentation
            third loss; the retry button stays where it is. thanked: the answer was given. */
         public static Card Result(Transform parent, Vector2 screen, GameSession s, bool isLast, int order,
                                   string lastLabel = null, Texture picture = null,
-                                  bool askFun = false, bool thanked = false, bool askHard = false, bool hardAnswered = false, bool demo = false)
+                                  bool askFun = false, bool thanked = false, bool askHard = false, bool hardAnswered = false, bool demo = false, int selectedHard = -1)
         {
             lastLabel ??= string.Format(Texts.SetComplete, 40);
             bool won = s.Outcome == Outcome.Win;
@@ -359,10 +343,10 @@ namespace ReverseSolver.Presentation
             if (demo && won) title = Texts.Congratulations;   // the banner is short; the demo line goes into the card
             var card = new Card(parent, screen, order, "Result") { Compact = askFun && !thanked || askHard && !hardAnswered };
             // preview art (#8, #9): victory / defeat scene when the level has no picture of its own
-            if (!withPicture && !Art.T14) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
-            if (!won && Art.T14) Picture(card, s.Outcome == Outcome.Bomb ? "loss-reason-bomb" : "loss-reason-time", 80);   // Task 14 loss reason
+            if (!card.Compact && !withPicture && !Art.T14) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
+            if (!card.Compact && !won && Art.T14) Picture(card, s.Outcome == Outcome.Bomb ? "loss-reason-bomb" : "loss-reason-time", 80);   // Task 14 loss reason
             card.Title(title);
-            if (withPicture)
+            if (withPicture && !card.Compact)
             {
                 // the whole picture, as wide as the card allows and never taller than PictureMaxHeight
                 float aspect = (float)picture.width / Mathf.Max(1, picture.height);
@@ -374,8 +358,7 @@ namespace ReverseSolver.Presentation
                     p.transform.localPosition = Draw.W(0, y + PictureTopGap + ph / 2);
                 });
             }
-            card = card
-                .Custom(32 + 16, (root, y, w, o) =>
+            if (won) card.Custom(32 + (card.Compact ? 4 : 16), (root, y, w, o) =>
                 {
                     // .stars: 32px, gap 9; .off at .2 opacity
                     for (int i = 0; i < 3; i++)
@@ -389,8 +372,18 @@ namespace ReverseSolver.Presentation
                             i < stars ? Draw.Hex("#f0a742") : Draw.Rgba(255, 255, 255, .2f), o);
                         star.transform.localPosition = Draw.W((i - 1) * 41, y + 16);
                     }
-                })
-                .Body(sub);
+                });
+            card.Body(sub, gapAfter: card.Compact ? 6 : 18);
+            if (demo && won) card.Body(Texts.Demo, null, 16);
+            card.Button(demo ? "retry" : primaryId, demo && won ? Texts.PlayAgain : primary, true);
+            // ZeydBot: optional 1-10 difficulty (1 çok kolay, 10 çok zor); the row waits for it or for the next button
+            if (askHard && !hardAnswered)
+                // on a loss too (PM 2026-10-20): Zeyd skipped it after losses, the text says the answer counts
+            {
+                card.Body(won ? Texts.AskHard : Texts.AskHardLost, sizePt: 13, gapAfter: 8);
+                card.ChipRow("hard_", 10, selectedHard);
+            }
+            if (askHard && hardAnswered) card.Body(Texts.RatingSaved, sizePt: 13, gapAfter: 8);
             if (askFun && !thanked)
             {
                 card.Body(Texts.AskFun, sizePt: 13, gapAfter: 8);
@@ -399,35 +392,22 @@ namespace ReverseSolver.Presentation
                 else card.ButtonRow(("fun_up", Texts.Liked), ("fun_down", Texts.Disliked));
             }
             if (askFun && thanked) card.Body(Texts.Thanks, sizePt: 13, gapAfter: 8);
-            // ZeydBot: optional 1-10 difficulty (1 çok kolay, 10 çok zor); the row waits for it or for the next button
-            if (askHard && !hardAnswered)
-                // on a loss too (PM 2026-10-20): Zeyd skipped it after losses, the text says the answer counts
+            if (demo) card.Button("menu", Texts.MainMenu, false);
+            else if (won && Art.T15) card.ButtonPair(("retry", Texts.PlayAgain), ("menu", Texts.Menu));
+            else
             {
-                card.Body(won ? Texts.AskHard : Texts.AskHardLost, sizePt: 13, gapAfter: 8);
-                if (Art.T15) card.ChipRow("hard_", 10);                // PM_MESAJ_19: one row of small cream chips
-                else card.ButtonRow(("hard_1", "1"), ("hard_2", "2"), ("hard_3", "3"), ("hard_4", "4"), ("hard_5", "5"))
-                         .ButtonRow(("hard_6", "6"), ("hard_7", "7"), ("hard_8", "8"), ("hard_9", "9"), ("hard_10", "10"));
-                card.Button("hard_skip", Texts.SkipRating, false);   // PM_MESAJ_25: one tap past it
+                if (won || !Art.On) card.Button("retry", Texts.PlayAgain, false);
+                card.Button("menu", Texts.Menu, false);
             }
-            if (askHard && hardAnswered) card.Body(Texts.RatingSaved, sizePt: 13, gapAfter: 8);
-            // ZeydBot, on a loss (PM 2026-10-21: Z34's bomb row came without the answer, retry was tapped first):
-            // the retry buttons wait for the 1-10 answer; Menü stays
-            if (askHard && !hardAnswered && !won) return card.Button("menu", Texts.Menu, false).Finish();
-            // PM_MESAJ_17 demo level: one button, "Tekrar oyna"; the win says it was a demo
-            if (demo) { if (won) card.Body(Texts.Demo, null, 16); return card.Button("retry", won ? Texts.PlayAgain : primary, true).Button("menu", Texts.MainMenu, false).Finish(); }
-            // QA 2026-10-26: on a loss the primary is already "Tekrar dene"; the second retry button only doubled it
-            card.Button(primaryId, primary, true);
-            // PM_MESAJ_19: a shorter win card, Play again · Menu side by side under the green button
-            if (won && Art.T15) return card.ButtonPair(("retry", Texts.PlayAgain), ("menu", Texts.Menu)).Finish();
-            if (won || !Art.On) card.Button("retry", Texts.PlayAgain, false);
-            return card.Button("menu", Texts.Menu, false).Finish();
+            if (askHard && !hardAnswered) card.TextLink("hard_skip", Texts.SkipRating);
+            return card.Finish();
         }
 
         // ---- obstacle / booster introduction (web #introVeil) -----------------------------
 
         public static Card Intro(Transform parent, Vector2 screen, LevelData l, int order)
         {
-            if (l.BoosterIntro == null && l.Intro == null) return Art.On ? StartCard(parent, screen, l, order) : HardWarning(parent, screen, order);
+            if (l.BoosterIntro == null && l.Intro == null) return StartCard(parent, screen, l, order);
             bool booster = l.BoosterIntro != null;
             var info = LevelTexts.Get(l, booster);
             string icon = booster ? info.Id : (info.Icon ?? "hammer");
@@ -436,9 +416,11 @@ namespace ReverseSolver.Presentation
             // the nail card's icon is the hammer in the web data; with the preview art it shows the nail itself
             string glyph = !booster && icon == "hammer" && Art.Get("icon-nail") != null ? "nail" : icon;
             c.Icon((t, size, o) => Icons.Draw(glyph, t, size, o))
-                .Title(booster ? string.Format(Texts.NewBooster, info.Title) : info.Title)
-                .Body(info.Body ?? "", gapAfter: string.IsNullOrEmpty(info.Tip) ? 18 : 6);
+                .Title(string.Format(Texts.Level, l.Number))
+                .Body(booster ? string.Format(Texts.NewBooster, info.Title) : info.Title, gapAfter: 6)
+                .Body(!booster && (icon == "hammer" || icon == "nail") ? Texts.NailBody : info.Body ?? "", gapAfter: string.IsNullOrEmpty(info.Tip) ? 18 : 6);
             if (!string.IsNullOrEmpty(info.Tip)) c.Body(info.Tip, Draw.Hex("#f0a742"));
+            if (l.Hard) c.Body(Texts.HardBody);
             return c.Button("ok", Texts.GotIt, true).Finish();
         }
 
@@ -493,7 +475,12 @@ namespace ReverseSolver.Presentation
             });
         }
 
-        public static bool HasIntro(LevelData l) => l.BoosterIntro != null || l.Intro != null || l.Hard || Art.On && l.Tutorial == 0;
+        // P20-E: the sole list of first-visit start-card slots.
+        static readonly int[] IntroSlots = { 1, 3, 5, 6, 9, 10, 14, 15, 19, 23, 25, 30, 35, 36, 38 };
+        // PM_MESAJ_29 3.4: a level's own intro / booster / hard flag always shows it; the slot list adds the rest,
+        // never on a tutorial level (the guided steps open it)
+        public static bool HasIntro(LevelData l) => l.BoosterIntro != null || l.Intro != null || l.Hard ||
+                                                    Art.On && l.Tutorial == 0 && System.Array.IndexOf(IntroSlots, l.Number) >= 0;
 
         /* PM_MESAJ_9 level start card (preview art only): "Level X" ribbon (gold on hard levels), the goal, the
            level's obstacles, the hard warning when flagged, Başla. The timer still starts on the first move. */
@@ -527,7 +514,7 @@ namespace ReverseSolver.Presentation
                     for (int i = 0; i < obstacles.Count; i++)
                         Art.Icon(root, "icon-" + obstacles[i], new Vector2((i - (obstacles.Count - 1) / 2f) * (isz + 8), y + isz / 2), isz, o + 2);
                 });
-            if (l.Hard) c.Body(Texts.HardBody, Art.T14 ? Palette.Coral : Draw.Hex("#f0a742"), Art.T14 ? 12 : 13);   // coral reads on the cream card
+            if (l.Hard) c.Body(Texts.HardBody, Art.T14 ? Palette.Coral : Draw.Hex("#f0a742"), 13);   // coral reads on the cream card
             return c.Button("ok", Texts.HardStart, true).Finish();
         }
 

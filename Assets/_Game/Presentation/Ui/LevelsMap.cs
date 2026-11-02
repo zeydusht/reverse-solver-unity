@@ -14,21 +14,33 @@ namespace ReverseSolver.Presentation
             MenuUi.Scene(root, "levels", screen, order - 10);
             MenuUi.Title(root, screen, top, Texts.Levels, order + 30);
             _back = MenuUi.Button(root, "button-back", null, new Vector2(30, top + 34), Vector2.one * 38, order + 32);
+            _back = new Rect(_back.center - Vector2.one * 22, Vector2.one * 44);
             const float pitch = 76;
             float start = top + 90, height = levels.Count * pitch + 120;
             Scroll = new MenuScroll(root, start, bottom, height);
             MenuUi.Viewport(root, "levels", screen, start, bottom, order + 20);
             // Each repeat is 256 x 512 pt, centred on the same vertical path.
-            for (float y = start + 256; y < start + height + 256; y += 512)
+            var pathRoot = Scroll.Root;
+            System.Action<Sprite> showPath = sprite =>
             {
-                var path = MenuUi.Sprite(Scroll.Root, "levels-path-repeat", new Vector2(screen.x / 2, y + 256), new Vector2(256, 512), order);
-                if (path != null) { path.drawMode = SpriteDrawMode.Tiled; path.size = new Vector2(256, 512); path.transform.localScale = Vector3.one; }
-            }
+                if (pathRoot == null) return;
+                for (float y = start + 256; y < start + height + 256; y += 512)
+                {
+                    var path = new GameObject("levels-path-repeat").AddComponent<SpriteRenderer>();
+                    path.transform.SetParent(pathRoot, false);
+                    path.transform.localPosition = Draw.W(screen.x / 2, y + 256);
+                    path.sprite = sprite; path.sortingOrder = order;
+                    path.drawMode = SpriteDrawMode.Tiled; path.tileMode = SpriteTileMode.Continuous;
+                    path.size = new Vector2(256, 512); path.transform.localScale = Vector3.one;
+                }
+            };
+            var pathSprite = MenuArt.Instance.Get("t20-levels-path-repeat.png", showPath);
+            if (pathSprite != null) showPath(pathSprite);
             for (int i = 0; i < levels.Count; i++)
             {
                 bool current = i == progress.Next(), open = progress.Open(i), won = progress.Won(i), hard = levels[i].Hard;
                 float x = screen.x / 2 + (i % 2 == 0 ? -64 : 64), y = start + 90 + (levels.Count - 1 - i) * pitch;
-                var cell = Scroll.Cell(x, y, current ? 76 : 44);
+                var cell = Scroll.Cell(x, y, current ? 108 : 44);
                 string key = hard ? (open ? "node-hard-open" : "node-hard-locked") : current ? "node-current" : won ? "node-complete" : "node-locked";
                 if (current) MenuUi.Sprite(cell, "node-glow", Vector2.zero, Vector2.one * 94, order + 1);
                 MenuUi.Sprite(cell, key, Vector2.zero, Vector2.one * (current ? 66 : 54), order + 2);
@@ -36,6 +48,11 @@ namespace ReverseSolver.Presentation
                 {
                     var avatar = Art.Avatar(cell, Art.AvatarIndex, Vector2.one * 38, order + 4);
                     if (avatar != null) avatar.transform.localPosition = Draw.W(0, -53);
+                    var bubbleAt = new Vector2(0, -88);
+                    ShapeView.Create(cell, "PlayBubble", new Vector2(70, 36), 2, order + 6).Radius(14)
+                        .Fill(Draw.Hex("#3e9a51")).transform.localPosition = Draw.W(bubbleAt);
+                    MenuUi.Label(cell, Texts.Play, bubbleAt, 14, order + 7);
+                    _nodes.Add((new Rect(x - 35, y - 110, 70, 44), i));
                 }
                 if (hard && open) MenuUi.Sprite(cell, "baron-head", new Vector2(25, -20), Vector2.one * 30, order + 4);
                 MenuUi.Label(cell, (i + 1).ToString(), new Vector2(0, open || won ? 0 : 25), 20, order + 5, current);

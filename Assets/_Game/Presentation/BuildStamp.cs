@@ -4,6 +4,6 @@ namespace ReverseSolver.Presentation
        every published build. */
     public static class BuildStamp
     {
-        public const string Value = "p20-2026-11-01b";
+        public const string Value = "p20-2026-11-02";
     }
 }
