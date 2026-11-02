@@ -15,6 +15,9 @@ namespace ReverseSolver.Presentation
         Vector2 _start, _end;
         float _phase, _success = -1;
         ShapeView _flash;
+        TextView _instruction;
+        float _instructionWidth;
+        bool _stuck;
 
         ShapeView Box(string name, Rect r, Vector4 color, int order = Order, float radius = 0)
         {
@@ -247,10 +250,7 @@ namespace ReverseSolver.Presentation
             }
             v.Veil(screen, holes);
             v._end = v._start;
-            v._finger = new GameObject("TapFinger").transform;
-            v._finger.SetParent(v.transform, false);
-            v._glove = Art.Place(v._finger, "hand-swipe", Vector2.one * 80, Order + 6);
-            if (v._glove != null) v._glove.transform.localPosition = Draw.W(0, 34);
+            v.Finger(80);
             var label = TextView.Create(v.transform, "Instruction", Texts.TutorialCopy(step.metinAnahtari).Length > 48 ? Wrap(Texts.TutorialCopy(step.metinAnahtari)) : Texts.TutorialCopy(step.metinAnahtari), 24,
                 Palette.Cream, order: 3350).Banner(TextView.OnTeal).FitWidth(screen.x - 32, 14);
             label.transform.localPosition = Draw.W(screen.x / 2, Mathf.Min(button.yMin - 38, board.Origin.y + board.Size.y + 38));
@@ -264,7 +264,7 @@ namespace ReverseSolver.Presentation
             v.transform.SetParent(parent, false);
             if (step.tur == "kural") { v.Rule(screen); return v; }
             float s = board.Cell;
-            if (step.tur == "surukle")
+            if (step.tur == "surukle" || step.tur == "hata")
             {
                 var cells = board.Session.Level.Pieces[move.Piece];
                 float x0 = float.MaxValue, y0 = float.MaxValue, x1 = 0, y1 = 0;
@@ -282,13 +282,7 @@ namespace ReverseSolver.Presentation
                 v._end = new Vector2(Mathf.Clamp(v._end.x + outward.x, 12, screen.x - 12), Mathf.Clamp(v._end.y + outward.y, 12, screen.y - 12));
                 v.Veil(screen, DragHoles(board.Origin, s, cells, move.Dir, v._end));
                 v.Arrow(v._start, v._end, Mathf.Min(24, s * .36f));
-                v._finger = new GameObject("FingerPivot").transform;
-                v._finger.SetParent(v.transform, false);
-                // Pivot is the fingertip. Rotate the wrist and the artwork together.
-                float angle = move.Dir == Dir.U ? 0 : move.Dir == Dir.R ? -90 : move.Dir == Dir.D ? 180 : 90;
-                v._finger.localRotation = Quaternion.Euler(0, 0, angle);
-                v._glove = Art.Place(v._finger, "hand-swipe", Vector2.one * s * 1.4f, Order + 6);
-                if (v._glove != null) v._glove.transform.localPosition = Draw.W(0, s * .6f);
+                v.Finger(s * 1.4f);
                 v._flash = v.Box("Success", new Rect(v._start - Vector2.one * s * .55f, Vector2.one * s * 1.1f), Draw.Rgba(255, 241, 176, .65f), Order + 3, s * .15f);
                 v._flash.Alpha(0);
                 v.Animate(0);
@@ -297,12 +291,24 @@ namespace ReverseSolver.Presentation
             {
                 v.Veil(screen, ObstacleHoles(board, step));
             }
-            string text = step.tur == "surukle" ? Texts.TutorialDrag(move.Dir) : Texts.TutorialCopy(step.metinAnahtari);
+            string text = step.tur == "hata" ? Texts.TutorialErrorDrag(move.Dir)
+                : step.tur == "surukle" ? Texts.TutorialDrag(move.Dir) : Texts.TutorialCopy(step.metinAnahtari);
             // Replace the booster row while the tutorial owns input. Wrap long obstacle copy first.
             if (text.Length > 48) text = Wrap(text);
             var label = TextView.Create(v.transform, "Instruction", text, 24, Palette.Cream, order: 3350).Banner(TextView.OnTeal).FitWidth(screen.x - 32, 14);
             label.transform.localPosition = Draw.W(screen.x / 2, Mathf.Min(screen.y - 60, board.Origin.y + board.Size.y + 65));
+            v._instruction = label;
+            v._instructionWidth = screen.x - 32;
             return v;
+        }
+
+        void Finger(float size)
+        {
+            _finger = new GameObject("FingerPivot").transform;
+            _finger.SetParent(transform, false);
+            _glove = Art.Place(_finger, "hand-swipe", Vector2.one * size, Order + 6);
+            // The upright sprite's fingertip is at (150, 15) in its 288px canvas.
+            if (_glove != null) _glove.transform.localPosition = Draw.W(-size * 6 / 288, size * 129 / 288);
         }
 
         static string Wrap(string text)
@@ -351,11 +357,25 @@ namespace ReverseSolver.Presentation
             }
         }
 
+        public void Stuck()
+        {
+            _stuck = true;
+            if (_finger != null) _finger.gameObject.SetActive(false);
+            foreach (var s in _shapes) if (s != null) s.Alpha(0);
+            foreach (var p in _polygons) if (p != null) p.Alpha(0);
+            if (_instruction != null)
+            {
+                _instruction.Text = Wrap(Texts.TutorialCopy("stuck"));
+                _instruction.FitWidth(_instructionWidth, 14);
+            }
+        }
+
         public void Restart() { _phase = 0; Animate(0); }
         public void Success() { _success = 0; if (_finger != null) _finger.gameObject.SetActive(false); }
 
         void Update()
         {
+            if (_stuck) return;
             if (_success >= 0)
             {
                 _success += Time.unscaledDeltaTime;
@@ -375,8 +395,9 @@ namespace ReverseSolver.Presentation
         {
             if (_finger == null) return;
             float drag = Mathf.SmoothStep(0, 1, Mathf.Clamp01((phase - .2f) / .6f));
-            _finger.localPosition = Draw.W(Vector2.Lerp(_start, _end, drag) + new Vector2(0, -10 * (1 - Mathf.Clamp01(phase / .15f))));
-            _finger.localScale = Vector3.one * (phase < .2f ? Mathf.Lerp(1, .9f, phase / .2f) : .9f);
+            float lift = Mathf.Clamp01((phase - .8f) / .2f);
+            _finger.localPosition = Draw.W(Vector2.Lerp(_start, _end, drag) + new Vector2(0, -10 * (1 - Mathf.Clamp01(phase / .15f)) - 10 * lift));
+            _finger.localScale = Vector3.one * (phase < .2f ? Mathf.Lerp(1, .9f, phase / .2f) : Mathf.Lerp(.9f, 1, lift));
             if (_glove != null) _glove.color = new Color(1, 1, 1, 1 - Mathf.Clamp01((phase - .8f) / .2f));
         }
     }

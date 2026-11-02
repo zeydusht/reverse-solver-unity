@@ -41,7 +41,7 @@ namespace ReverseSolver.Presentation
                 bool current = i == progress.Next(), open = progress.Open(i), won = progress.Won(i), hard = levels[i].Hard;
                 float x = screen.x / 2 + (i % 2 == 0 ? -64 : 64), y = start + 90 + (levels.Count - 1 - i) * pitch;
                 var cell = Scroll.Cell(x, y, current ? 108 : 44);
-                string key = hard ? (open ? "node-hard-open" : "node-hard-locked") : current ? "node-current" : won ? "node-complete" : "node-locked";
+                string key = hard ? (open ? "node-hard-open" : "node-hard-locked") : current ? "node-current" : won ? "node-complete" : open ? "node-current" : "node-locked";
                 if (current) MenuUi.Sprite(cell, "node-glow", Vector2.zero, Vector2.one * 94, order + 1);
                 MenuUi.Sprite(cell, key, Vector2.zero, Vector2.one * (current ? 66 : 54), order + 2);
                 if (current)
@@ -56,12 +56,6 @@ namespace ReverseSolver.Presentation
                 }
                 if (hard && open) MenuUi.Sprite(cell, "baron-head", new Vector2(25, -20), Vector2.one * 30, order + 4);
                 MenuUi.Label(cell, (i + 1).ToString(), new Vector2(0, open || won ? 0 : 25), 20, order + 5, current);
-                if ((i + 1) % 10 == 0)
-                {
-                    var at = new Vector2(i % 2 == 0 ? 66 : -66, 0);
-                    if (won) MenuUi.Painting(cell, images, i, at, new Vector2(30, 40), order + 1);
-                    MenuUi.Sprite(cell, "milestone-picture-frame", at, new Vector2(42, 56), order + 3);
-                }
                 if (open || won) _nodes.Add((new Rect(x - 33, y - 33, 66, 66), i));
             }
             float currentY = start + 90 + (levels.Count - 1 - progress.Next()) * pitch;

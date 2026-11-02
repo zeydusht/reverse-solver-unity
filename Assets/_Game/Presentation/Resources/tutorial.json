@@ -1,7 +1,7 @@
 { "steps": [
   { "slot": 1, "adim": 1, "tur": "surukle", "parca": 3, "metinAnahtari": "drag" },
-  { "slot": 1, "adim": 2, "tur": "surukle", "parca": 6, "metinAnahtari": "drag" },
-  { "slot": 1, "adim": 3, "tur": "kural", "metinAnahtari": "rule" },
+  { "slot": 1, "adim": 2, "tur": "hata", "parca": 6, "metinAnahtari": "error_drag" },
+  { "slot": 1, "adim": 3, "tur": "surukle", "parca": 6, "metinAnahtari": "drag" },
   { "slot": 3, "adim": 1, "tur": "goster", "engel": "nail", "metinAnahtari": "nail" },
   { "slot": 6, "adim": 1, "tur": "goster", "engel": "bomb", "metinAnahtari": "bomb" },
   { "slot": 10, "adim": 1, "tur": "goster", "engel": "chain", "metinAnahtari": "chain" },

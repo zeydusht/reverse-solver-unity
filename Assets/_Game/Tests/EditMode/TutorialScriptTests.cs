@@ -165,8 +165,36 @@ namespace ReverseSolver.Core.Tests
                 Assert.That(session.Jams, Is.Zero);
             }
             var first = Script().ForSlot(1, true);
-            Assert.That(first.Select(s => s.tur), Is.EqualTo(new[] { "surukle", "surukle", "kural" }));
+            Assert.That(first.Select(s => s.tur), Is.EqualTo(new[] { "surukle", "hata", "surukle" }));
             Assert.That((first[1].parca, levels.Levels[0].Solution[1].Dir), Is.EqualTo((6, Dir.D)));
+            Assert.That(first[2].parca, Is.EqualTo(first[1].parca));
+        }
+
+        [Test]
+        public void S41ErrorDirectionReallyBlocksAndDoesNotCountAsAJam()
+        {
+            var level = Levels().Levels.First(l => l.Id == "S41");
+            var session = new GameSession(level, 1, "test", new Mulberry32(1));
+            var first = level.Solution[0];
+            Assert.That(session.TryExit(first.Piece, first.Dir), Is.EqualTo(CommandResult.Ok));
+            var step = Script().ForSlot(1, true)[1];
+            Assert.That(TutorialScript.ErrorMove(session, step, out var error), Is.True);
+            Assert.That(error.Piece, Is.EqualTo(level.Solution[1].Piece));
+            Assert.That(error.Dir, Is.EqualTo(Dir.R), "first blocked direction in R, L, U, D order");
+            Assert.That(error.Dir, Is.Not.EqualTo(level.Solution[1].Dir));
+            Assert.That(session.Probe(error.Piece, error.Dir).Exit, Is.False);
+
+            session.TutorialMove = true;
+            var drag = new DragModel(new SessionDragTarget(session), 60);
+            Assert.That(drag.Press(error.Piece, 0, 0), Is.True);
+            drag.Move(error.Dir.Dx() * 1000, error.Dir.Dy() * 1000);
+            Assert.That(session.Events.Last().Kind, Is.EqualTo(EventKind.Jammed));
+            Assert.That((session.Moves, session.Jams), Is.EqualTo((1, 0)));
+            Assert.That(drag.Release(out _, out _), Is.EqualTo(DragRelease.SnappedBack));
+            session.TutorialMove = false;
+            Assert.That(session.TryExit(error.Piece, level.Solution[1].Dir), Is.EqualTo(CommandResult.Ok));
+            session.RecordJam(level.Solution[2].Piece);
+            Assert.That(session.Jams, Is.EqualTo(1), "ordinary jams still count after training");
         }
 
         [Test]
@@ -196,7 +224,7 @@ namespace ReverseSolver.Core.Tests
         }
 
         [Test]
-        public void RetryRepeatsDragsAndRuleButDoesNotRepeatObstacleIntro()
+        public void RetryRepeatsDragsAndErrorButDoesNotRepeatObstacleIntro()
         {
             var script = Script();
             Assert.That(script.ForSlot(1, false).Count, Is.EqualTo(3));

@@ -112,6 +112,8 @@ namespace ReverseSolver.Core
         /* PM_MESAJ_30: the guided first use of a booster. Its next use is free: no stock spent, not counted in the
            record (b_* stays a count of the player's own uses), the clock does not start; the Used event still goes. */
         public Booster? FreeUse { get; set; }
+        // Guided jams still raise the visual event without counting as player mistakes.
+        public bool TutorialMove { get; set; }
         public int Used(Booster b) => _used[(int)b];
 
         /* Locked while the level number is below the booster's unlock level. */
@@ -147,8 +149,7 @@ namespace ReverseSolver.Core
         {
             if (IsOver) return CommandResult.GameOver;
             if (!IsPiece(piece)) return CommandResult.NoSuchPiece;
-            Jams++;
-            ClockStarted = true;
+            if (!TutorialMove) { Jams++; ClockStarted = true; }
             Raise(GameEvent.Jam(piece));
             return CommandResult.Ok;
         }

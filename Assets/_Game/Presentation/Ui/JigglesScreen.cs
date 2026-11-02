@@ -23,7 +23,7 @@ namespace ReverseSolver.Presentation
             if (icon != null) icon.transform.localPosition = Draw.W(ix, top + 88);
             float start = top + 116, w = Mathf.Min(360, screen.x - 20), sh = w * 816 / 1080;
             float shelfY = start + sh / 2;
-            Scroll = new MenuScroll(root, start, bottom, sh + 250);
+            Scroll = new MenuScroll(root, start, bottom, sh + 230);
             var shelf = Scroll.Cell(screen.x / 2, shelfY, sh / 2);
             MenuUi.Sprite(shelf, "jiggles-shelf", Vector2.zero, new Vector2(w, sh), order);
             for (int i = 0; i < 5; i++)
@@ -43,17 +43,29 @@ namespace ReverseSolver.Presentation
                 _avatars[i] = new Rect(screen.x / 2 + x - size / 2, ay + 4 - size / 2, size, size);
             }
             float my = ay + 107;
-            var milestones = Scroll.Cell(screen.x / 2, my, 74);
-            for (int i = 0; i < 2; i++)
-                MenuUi.Sprite21(milestones, "milestone-dots", new Vector2(screen.x * ((127 + i * 120) / 375f - .5f), 0), new Vector2(70 * screen.x / 375, 6), order);
-            string[] keys = { "frame", "badge", "portrait" }; int[] targets = { 500, 1000, 2000 };
-            for (int i = 0; i < 3; i++)
+            var bar = Scroll.Cell(screen.x / 2, my, 64);
+            int target = total > 2000 ? 5000 : 2000;
+            int[] ticks = target == 2000 ? new[] { 500, 1000 } : new[] { 2000, 3500 };
+            var numbers = System.Globalization.CultureInfo.GetCultureInfo("tr-TR");
+            float bw = screen.x * .85f, left = -bw / 2, fill = (bw - 8) * Mathf.Clamp01((float)total / target);
+            MenuUi.Banner(bar, $"{total.ToString("N0", numbers)} / {target.ToString("N0", numbers)}", new Vector2(0, -44), 23, order + 3, bw - 12);
+            var track = Art.Place(bar, "m13-progress-track", new Vector2(bw, 28), order, true);
+            if (track != null) track.transform.localPosition = Draw.W(0, 20);
+            if (fill > 0)
             {
-                float x = screen.x * ((67 + i * 120) / 375f - .5f);
-                MenuUi.Sprite21(milestones, "milestone-medal-" + keys[i] + (total < targets[i] ? "-locked" : ""), new Vector2(x, 0), Vector2.one * 52, order + 1);
-                MenuUi.Label(milestones, Texts.Count(targets[i]), new Vector2(x, 42), 19, order + 2, true);
-                MenuUi.Label(milestones, Texts.Milestone(i), new Vector2(x, 65), 17, order + 2, true, w * .31f);
+                var filled = Art.Place(bar, "m13-progress-fill", new Vector2(fill, 20), order + 1, true);
+                if (filled != null) filled.transform.localPosition = Draw.W(left + 4 + fill / 2, 20);
             }
+            for (int i = 0; i < ticks.Length; i++)
+            {
+                float x = left + 4 + (bw - 8) * ticks[i] / target;
+                var color = total >= ticks[i] ? Palette.GoldGlow : Draw.Hex("#857D69");
+                var tick = ShapeView.Create(bar, "progress-tick", new Vector2(3, 9), 0, order + 2).Fill(color);
+                tick.transform.localPosition = Draw.W(x, 0);
+                var label = MenuUi.Label(bar, ticks[i].ToString("N0", numbers), new Vector2(x, -17), 12, order + 2, width: bw * .22f);
+                label.Color = color;
+            }
+            MenuUi.Sprite21(bar, "milestone-medal-portrait" + (total < target ? "-locked" : ""), new Vector2(bw / 2, 20), Vector2.one * 34, order + 3);
             MenuUi.Viewport(root, "jiggles", screen, start, bottom, order + 20);
             Scroll.Set(offset);
         }

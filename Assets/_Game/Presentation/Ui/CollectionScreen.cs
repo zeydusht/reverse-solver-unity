@@ -21,23 +21,34 @@ namespace ReverseSolver.Presentation
             Scroll = new MenuScroll(root, start, bottom, Mathf.CeilToInt(levels.Count / 3f) * pitch);
             MenuUi.Viewport(root, "collection", screen, start, bottom, order + 20);
             float gap = Mathf.Min(112, (screen.x - 24) / 3);
+            int next = progress.Next();
             for (int i = 0; i < levels.Count; i++)
             {
                 float x = screen.x / 2 + (i % 3 - 1) * gap, y = start + 61 + i / 3 * pitch;
                 int index = i;
-                var cell = Scroll.Cell(x, y, 67, progress.Won(i)
+                bool current = !progress.Won(i) && i == next;
+                bool unlocked = progress.UnlockAll || progress.Won(i) || current;
+                var cell = Scroll.Cell(x, y, 67, unlocked
                     ? t => MenuUi.Painting(t, images, index, new Vector2(0, -5), new Vector2(69, 92), order + 1)
                     : (Action<Transform>)null);
                 MenuUi.Sprite(cell, "portrait-placeholder", new Vector2(0, -5), new Vector2(81, 108), order);
-                if (!progress.Won(i) && i != progress.Next()) MenuUi.Sprite(cell, "icon-lock", new Vector2(0, -5), Vector2.one * 28, order + 2);
-                if (!progress.Won(i) && i == progress.Next())
+                if (!unlocked) MenuUi.Sprite(cell, "icon-lock", new Vector2(0, -5), Vector2.one * 28, order + 2);
+                if (current)
                     ShapeView.Create(cell, "next-highlight", new Vector2(85, 112), 3, order + 2).Radius(8)
                         .Fill(Vector4.zero).Stroke(Draw.Hex("#ffe47e"), 2).transform.localPosition = Draw.W(0, -5);
                 var frame = MenuUi.Sprite(cell, "portrait-frame", new Vector2(0, -5), new Vector2(81, 108), order + 3);
-                if (!progress.Won(i) && i == progress.Next() && frame != null) frame.color = new Color(1, 1, .6f);
+                if (current && frame != null) frame.color = new Color(1, 1, .6f);
                 if (levels[i].Hard) MenuUi.Sprite(cell, "hard-corner-flag", new Vector2(27, -39), new Vector2(27, 30), order + 4);
-                MenuUi.Label(cell, !progress.Won(i) && i == progress.Next() ? Texts.CollectionNext : string.Format(Texts.CollectionLevel, i + 1), new Vector2(0, 59), 14, order + 5, width: gap - 4);
-                if (progress.Won(i)) _cells.Add((new Rect(x - 41, y - 59, 82, 126), i));
+                if (current)
+                {
+                    float ribbonWidth = Mathf.Min(78, gap - 4);
+                    var ribbonAt = new Vector2(0, -49);
+                    ShapeView.Create(cell, "next-ribbon", new Vector2(ribbonWidth, 20), 2, order + 6).Radius(4)
+                        .Fill(Draw.Hex("#0B3A44")).Stroke(Draw.Hex("#ffe47e"), 1).transform.localPosition = Draw.W(ribbonAt);
+                    MenuUi.Banner(cell, Texts.CollectionNext, ribbonAt, 12, order + 7, ribbonWidth - 8);
+                }
+                MenuUi.Label(cell, string.Format(Texts.CollectionLevel, i + 1), new Vector2(0, 59), 14, order + 5, width: gap - 4);
+                if (unlocked) _cells.Add((new Rect(x - 41, y - 59, 82, 126), i));
             }
             Scroll.Set(offset);
         }

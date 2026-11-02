@@ -42,6 +42,22 @@ namespace ReverseSolver.Presentation
             return false;
         }
 
+        // Try the requested solution piece first, then the later solution pieces.
+        public static bool ErrorMove(GameSession session, TutorialStep step, out Move move)
+        {
+            bool reached = false;
+            foreach (var correct in session.Level.Solution)
+            {
+                if (correct.Piece == step.parca) reached = true;
+                if (!reached || !session.Board.IsPresent(correct.Piece) || session.NailAt(correct.Piece) > 0) continue;
+                foreach (var dir in new[] { Dir.R, Dir.L, Dir.U, Dir.D })
+                    if (dir != correct.Dir && !session.Probe(correct.Piece, dir).Exit)
+                    { move = new Move(correct.Piece, dir); return true; }
+            }
+            move = default;
+            return false;
+        }
+
         public static bool BoosterOf(string id, out Booster booster)
         {
             foreach (var b in BoosterExt.All) if (b.Id() == id) { booster = b; return true; }

@@ -156,8 +156,9 @@ namespace ReverseSolver.Presentation
             host.VisibilityChanged += OnVisibility;
             _telemetry.Flush();                               // rows left from an earlier visit
 
-            // every level open for the test links (set= in the address), not when the flag makes SET40 the playtest default
-            _progress = new Progress(_log, _set.Levels) { UnlockAll = Host.Debug || (_zeydbotSet && !string.IsNullOrEmpty(host.Query("set"))) };
+            // Explicit unlock links are for internal testing or debug only; pt1 always keeps progression locks.
+            bool unlock = host.Query("unlock") == "1" && cohort != "pt1" && (cohort == "ic" || Host.Debug);
+            _progress = new Progress(_log, _set.Levels) { UnlockAll = cohort != "pt1" && (unlock || Host.Debug || (_zeydbotSet && !string.IsNullOrEmpty(host.Query("set")))) };
             // PM_MESAJ_26 QA (debug only): ?won=N shows the menus as if the first N levels were won (memory only, never saved)
             if (Host.Debug && int.TryParse(host.Query("won"), out int won))
             {
@@ -166,7 +167,7 @@ namespace ReverseSolver.Presentation
                 for (int w = 0; w < won && w < _set.Levels.Count; w++) best[_set.Levels[w].Id] = 3;
                 _log = new AttemptLog();
                 _log.Restore(new System.Collections.Generic.Dictionary<string, int>(), best);
-                _progress = new Progress(_log, _set.Levels);
+                _progress = new Progress(_log, _set.Levels) { UnlockAll = unlock };
             }
             // web name gate: once per browser; the HTML input sits over the canvas
             if (_showSet && string.IsNullOrEmpty(_save.Player)) _save.SetPlayer("SHOW");   // demo visitors are tagged SHOW
@@ -425,6 +426,7 @@ namespace ReverseSolver.Presentation
                 (!TutorialScript.BoosterOf(step.booster, out var b) || _inventory == null || _inventory.Trained(b) || !_session.IsUnlocked(b)));
             _tutorialAt = 0;
             _tutorialUntil = -1;
+            _session.TutorialMove = false;
         }
 
         /* Scripted SET40 steps, with the old hand retained for other tutorials. */
@@ -458,6 +460,17 @@ namespace ReverseSolver.Presentation
                 if (step.tur == "surukle")
                     valid = TutorialScript.MoveOf(_session.Level, step, out _tutorialMove) &&
                         (_tutorialUntil >= 0 || (_session.Board.IsPresent(_tutorialMove.Piece) && _session.NailAt(_tutorialMove.Piece) == 0 && _session.Probe(_tutorialMove.Piece, _tutorialMove.Dir).Exit));
+                if (step.tur == "hata")
+                {
+                    valid = _tutorialUntil >= 0 || TutorialScript.ErrorMove(_session, step, out _tutorialMove);
+                    if (valid && _tutorialAt + 1 < _tutorialSteps.Count && _tutorialSteps[_tutorialAt + 1].tur == "surukle")
+                    {
+                        var next = _tutorialSteps[_tutorialAt + 1];
+                        _tutorialSteps[_tutorialAt + 1] = new TutorialStep { slot = next.slot, adim = next.adim,
+                            tur = next.tur, parca = _tutorialMove.Piece, metinAnahtari = next.metinAnahtari };
+                    }
+                }
+                _session.TutorialMove = valid && step.tur == "hata";
                 if (TutorialScript.BoosterOf(step.booster, out var booster))
                 {
                     if (step.tur == "booster")
@@ -474,7 +487,10 @@ namespace ReverseSolver.Presentation
                     _spotlight = boosterStep
                         ? TutorialSpotlight.ShowBooster(_world, _screen, _board, step, _bar.RectOf(booster), _boosterTarget, _boosterJoint)
                         : TutorialSpotlight.Show(_world, _screen, _board, step, _tutorialMove);
-                    if (_tutorialUntil >= 0) _spotlight.Success();
+                    if (_tutorialUntil >= 0)
+                    {
+                        if (step.tur == "hata") _spotlight.Stuck(); else _spotlight.Success();
+                    }
                     return;
                 }
                 Debug.LogWarning($"Tutorial: skipped slot {_index + 1}, step {step.adim} (missing target or invalid move).");
@@ -485,6 +501,13 @@ namespace ReverseSolver.Presentation
 
         void NextScriptedTutorial()
         {
+            if (_drag.Active)
+            {
+                var limit = _drag.Limit;
+                var result = _drag.Release(out int piece, out var dir);
+                _board.EndDrag(piece, result, dir, limit.Cells);
+            }
+            _session.TutorialMove = false;
             _tutorialAt++;
             _tutorialUntil = -1;
             ShowScriptedTutorial();
@@ -493,7 +516,8 @@ namespace ReverseSolver.Presentation
         // Run before DragModel.Move: even probing a wrong direction must not record a jam.
         bool RejectTutorialDirection(Vector2 pt)
         {
-            if (!TutorialActive || _tutorialUntil >= 0 || _tutorialSteps[_tutorialAt].tur != "surukle" || !_drag.Active) return false;
+            if (!TutorialActive || _tutorialUntil >= 0 ||
+                (_tutorialSteps[_tutorialAt].tur != "surukle" && _tutorialSteps[_tutorialAt].tur != "hata") || !_drag.Active) return false;
             var delta = pt - _tutorialPress;
             if (!TutorialScript.WrongDirection(_tutorialMove.Dir, _drag.Direction, delta.x, delta.y, out var dir)) return false;
             int piece = _drag.Piece;
@@ -535,7 +559,11 @@ namespace ReverseSolver.Presentation
                 if (_collection != null)
                 {
                     int hit = _collection.Hit(pt);
-                    if (hit >= 0) _paintingDetail = new PaintingDetail(_world, _screen, hit, _images, CardOrder, i => _stats.Of(_set.Levels[i].Id)?.BestWinSeconds);
+                    if (hit >= 0)
+                    {
+                        if (!_progress.Won(hit) && hit == _progress.Next()) StartLevel(hit);
+                        else _paintingDetail = new PaintingDetail(_world, _screen, hit, _images, CardOrder, i => _stats.Of(_set.Levels[i].Id)?.BestWinSeconds);
+                    }
                     return;
                 }
                 if (_jiggles != null)
@@ -661,8 +689,14 @@ namespace ReverseSolver.Presentation
 
         void OnEvent(GameEvent e)
         {
-            if (_zeydbotSet) RecordMove(e);
+            if (_zeydbotSet && !(e.Kind == EventKind.Jammed && _session.TutorialMove)) RecordMove(e);
             if (e.Kind == EventKind.Jammed || (e.Kind == EventKind.PieceRemoved && !e.ByHammer)) _tutorialClockHold = false;
+            if (e.Kind == EventKind.Jammed && TutorialActive && _tutorialSteps[_tutorialAt].tur == "hata" &&
+                _tutorialUntil < 0 && e.Piece == _tutorialMove.Piece)
+            {
+                _tutorialUntil = Time.unscaledTime + 2f;
+                _spotlight?.Stuck();
+            }
             if (e.Kind == EventKind.TimeAdded) _hud?.ShowTimeBonus(e.Value);
             if (_inventory != null && e.Kind == EventKind.BoosterUsed)
             {
@@ -1100,6 +1134,7 @@ namespace ReverseSolver.Presentation
             if (p.press.wasPressedThisFrame) Press(pt);
             else if (p.press.isPressed && _drag != null && _drag.Active)
             {
+                if (TutorialActive && _tutorialUntil >= 0) return;
                 if (RejectTutorialDirection(pt)) return;
                 _drag.Move(pt.x, pt.y, Time.unscaledTimeAsDouble);
                 _board.ShowDrag(_drag);
@@ -1216,11 +1251,15 @@ namespace ReverseSolver.Presentation
 
             if (TutorialActive)
             {
-                if (_tutorialUntil >= 0) return;
+                if (_tutorialUntil >= 0)
+                {
+                    if (_tutorialSteps[_tutorialAt].tur == "hata") NextScriptedTutorial();
+                    return;
+                }
                 var step = _tutorialSteps[_tutorialAt];
                 if (step.tur == "booster" || step.tur == "booster_hedef")
                 { TapTutorialBooster(pt, step); return; }
-                if (step.tur != "surukle") { NextScriptedTutorial(); return; }
+                if (step.tur != "surukle" && step.tur != "hata") { NextScriptedTutorial(); return; }
                 int target = _board.GrabAt(pt, out bool tutorialOutside);
                 if (target != _tutorialMove.Piece) { _spotlight?.Restart(); return; }
                 _tutorialPress = pt;
