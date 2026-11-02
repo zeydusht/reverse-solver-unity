@@ -251,7 +251,7 @@ namespace ReverseSolver.Presentation
             }
             v.Veil(screen, holes);
             v._end = v._start;
-            v.Finger(80);
+            v.Finger(board.Cell * 1.85f);
             var label = TextView.Create(v.transform, "Instruction", Texts.TutorialCopy(step.metinAnahtari).Length > 48 ? Wrap(Texts.TutorialCopy(step.metinAnahtari)) : Texts.TutorialCopy(step.metinAnahtari), 24,
                 Palette.Cream, order: 3350).Banner(TextView.OnTeal).FitWidth(screen.x - 32, 14);
             label.transform.localPosition = Draw.W(screen.x / 2, Mathf.Min(button.yMin - 38, board.Origin.y + board.Size.y + 38));
@@ -283,7 +283,7 @@ namespace ReverseSolver.Presentation
                 v._end = new Vector2(Mathf.Clamp(v._end.x + outward.x, 12, screen.x - 12), Mathf.Clamp(v._end.y + outward.y, 12, screen.y - 12));
                 v.Veil(screen, DragHoles(board.Origin, s, cells, move.Dir, v._end));
                 v.Arrow(v._start, v._end, Mathf.Min(24, s * .36f));
-                v.Finger(s * 1.4f);
+                v.Finger(s * 1.85f);   // PM_MESAJ_36: about 1.3 cells wide
                 v._flash = v.Box("Success", new Rect(v._start - Vector2.one * s * .55f, Vector2.one * s * 1.1f), Draw.Rgba(255, 241, 176, .65f), Order + 3, s * .15f);
                 v._flash.Alpha(0);
                 v.Animate(0);
@@ -307,11 +307,11 @@ namespace ReverseSolver.Presentation
         {
             _finger = new GameObject("FingerPivot").transform;
             _finger.SetParent(transform, false);
-            // PM_MESAJ_34: the back of the hand (hand-back, 256x360, fingertip at (128, 4)); never rotated
-            _glove = Art.Place(_finger, "hand-back", Vector2.one * size, Order + 6) ?? Art.Place(_finger, "hand-swipe", Vector2.one * size, Order + 6);
+            // PM_MESAJ_36: the gloved back of the hand (hand-glove-back, 256x360, fingertip at (128, 4)); never rotated
+            _glove = Art.Place(_finger, "hand-glove-back", Vector2.one * size, Order + 6) ?? Art.Place(_finger, "hand-swipe", Vector2.one * size, Order + 6);
             if (_glove != null) _glove.transform.localPosition = Draw.W(0, size * 176 / 360);
             _up = _glove != null ? _glove.sprite : null;
-            _down = Art.Get("hand-back-press") ?? _up;
+            _down = Art.Get("hand-glove-back-press") ?? _up;
         }
 
         static string Wrap(string text)

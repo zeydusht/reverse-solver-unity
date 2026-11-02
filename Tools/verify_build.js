@@ -525,6 +525,51 @@ async function ic33() {
   check('ic33', ok, `plays ${pl.map(r => `${r.level_id} v${r.level_version} ${r.result} jams ${r.jams}`).join('; ')}; S41 moves jam satırı ${mv.filter(m => m.kind === 'jam').length}`);
 }
 
+/* --only baron (PM_MESAJ_36): the opening cards of the hard levels 19 and 23 (c=ic&unlock=1, debug), one shot per
+   card until the board shows; --baron-tag names the shots (eski/yeni). Shots in docs/qa/<date>-dort. */
+async function baron() {
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const dir = path.join(ROOT, 'docs/qa', new Date().toLocaleDateString('sv') + '-dort'); fs.mkdirSync(dir, { recursive: true });
+  const tag = opt('baron-tag', 'yeni'), counts = [];
+  W = 390; H = 844;
+  for (const slot of [19, 23]) {
+    const l = set[slot - 1], p = await newPage();
+    const light = async () => { const img = readPng(await p.png()); let s = 0, n = 0;
+      for (let y = .3; y < .8; y += .05) for (let x = .2; x < .8; x += .05) { s += img.at(Math.round(img.w * x), Math.round(img.h * y)).slice(0, 3).reduce((a, b) => a + b, 0); n++; } return s / n; };
+    await p.open(dbg(`${base}/?set=redesign&c=ic&unlock=1&lv=${l.id}&lang=tr`)); await sleep(4000);
+    let k = 0;
+    for (; k < 4; k++) {
+      const open = await light();
+      fs.writeFileSync(path.join(dir, `${tag}_b${slot}_${k + 1}.png`), await p.png());
+      if (open < 200) break;                           // no cream card: the board (or a dark tutorial veil)
+      for (let y = Math.round(H * .45); y < H * .9; y += 14) { await p.tap(W / 2, y); await sleep(350); if (await light() < open * .8) break; }
+      await sleep(1500);
+    }
+    counts.push(`${slot}: ${k} kart`); p.close();
+  }
+  W = 375; H = 667;
+  check('baron', true, `${tag} ${counts.join(', ')} → ${dir}`);
+}
+
+/* --only evbar (PM_MESAJ_36): Home's top bar with a short and a long name, and the levels map, at three sizes. */
+async function evbar() {
+  const dir = path.join(ROOT, 'docs/qa', new Date().toLocaleDateString('sv') + '-dort'); fs.mkdirSync(dir, { recursive: true });
+  let n = 0, exc = 0;
+  for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) {
+    W = w; H = h;
+    for (const [tag, name] of [['kisa', 'Ali'], ['uzun', 'Zeynep Yılmazoğlu Karaman']]) {
+      const p = await newPage();
+      await p.open(dbg(`${base}/?set=redesign&hud=0&lang=tr&won=12&player=${encodeURIComponent(name)}`));
+      await sleep(2500); await p.tap(W / 2, H * .3); await sleep(800);
+      fs.writeFileSync(path.join(dir, `${w}x${h}_ev_${tag}.png`), await p.png()); n++;
+      if (tag === 'kisa') { await p.tap(...P20.levels(W, H)); await sleep(1200); fs.writeFileSync(path.join(dir, `${w}x${h}_harita.png`), await p.png()); n++; }
+      exc += p.exceptions.length; p.close();
+    }
+  }
+  W = 375; H = 667;
+  check('evbar', exc === 0, `${n} görüntü → ${dir}, istisna ${exc}`);
+}
+
 async function cohortic() {
   const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
   const lv = id => set.find(x => x.id === id), name = opt('icname', 'IC_KONTROL'), p = await newPage();
@@ -1369,6 +1414,8 @@ async function qa() {
     if (send && only.includes('pausequit')) await pausequit();
     if (send && only.includes('cohortic')) await cohortic();
     if (send && only.includes('ic33')) await ic33();
+    if (only.includes('baron')) await baron();
+    if (only.includes('evbar')) await evbar();
     if (send && only.includes('rating')) await rating();
     if (send && only.includes('booster')) await booster();
     if (only.includes('spot')) await spot();

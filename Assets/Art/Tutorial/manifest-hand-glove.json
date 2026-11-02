@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "reference": "Assets/_Game/Presentation/Resources/Art/hand-swipe.png",
+  "generation_mode": "built-in image_gen",
+  "pixel_coordinates": "Top-left origin; x right, y down. Fingertip anchor is shared by both frames.",
+  "pivot_coordinates": "Bottom-left origin; x right, y up. Normalized pivot = (x / width, 1 - y / height).",
+  "press_scale": 0.92,
+  "prompts": {
+    "normal": "Same reference cream softly glossy glove and teal cuff with gold band; back of hand facing viewer, three dorsal seams, index straight up, other fingers curled, thumb at side; transparent background; no skin, nails or motion arc.",
+    "press": "Same glove, material, cuff, lighting and dorsal view; gently flex distal index fingertip for press; scale to 92 percent around the shared fingertip anchor."
+  },
+  "files": [
+    {
+      "file": "hand-glove-back-v1.png",
+      "width": 256,
+      "height": 360,
+      "format": "PNG RGBA",
+      "scale_relative_to_normal": 1.0,
+      "fingertip_px": { "x": 128, "y": 4 },
+      "pivot_normalized": { "x": 0.5, "y": 0.9888888889 }
+    },
+    {
+      "file": "hand-glove-back-v1-press.png",
+      "width": 256,
+      "height": 360,
+      "format": "PNG RGBA",
+      "scale_relative_to_normal": 0.92,
+      "fingertip_px": { "x": 128, "y": 4 },
+      "pivot_normalized": { "x": 0.5, "y": 0.9888888889 }
+    }
+  ]
+}

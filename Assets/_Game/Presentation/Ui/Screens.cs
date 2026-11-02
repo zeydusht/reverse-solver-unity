@@ -115,7 +115,7 @@ namespace ReverseSolver.Presentation
                 ShapeView.Create(root, "avatarGround", new Vector2(inner, inner), 2, order).Radius(round ? inner / 2 : inner * .2f)
                     .Radial(Palette.Teal, Vector4.Lerp(Palette.Teal, Palette.TealDark, .5f), Palette.TealDark, new Vector4(.5f, .5f, .75f, .75f))
                     .transform.localPosition = Draw.W(c);
-                var a = Art.Avatar(root, index, Vector2.one * (round ? 48 : inner * .85f), order + 1);
+                var a = Art.Avatar(root, index, Vector2.one * (inner * .85f), order + 1);
                 if (a != null) a.transform.localPosition = Draw.W(c);
                 if (!frame) return;
                 var f = Art.Place(root, "m13-profile-frame", new Vector2(size, size), order + 2);
@@ -155,25 +155,34 @@ namespace ReverseSolver.Presentation
                 if (Art.On)
                 {
                     hy = top + 45;
-                    var ac = new Vector2(53, hy);
-                    AvatarTile(Root, ac, 66.25f, Art.AvatarIndex, order + 1, frame: false, round: true);
-                    MenuUi.Sprite21(Root, "profile-square-frame", ac, Vector2.one * 90, order + 3);
-                    float gx = w - 34, counterRight = gx - 31, counterWidth = Mathf.Min(102, w * .272f);
-                    float plateLeft = 101, plateMax = Mathf.Max(70, counterRight - counterWidth - 13 - plateLeft);
-                    var name = MenuUi.Label(Root, string.IsNullOrEmpty(player) ? Texts.Player : player, Vector2.zero, 15, order + 5);
+                    const float avatarSize = 62, overlap = 8, gap = 10, gearSize = 48;
+                    const float counterIconSize = 46, counterIconInset = 12;
+                    float left = Mathf.Max(8, safe.x), right = Mathf.Max(10, safe.z);
+                    var ac = new Vector2(left + avatarSize / 2, hy);
+                    // The square frame's opening is about 67% of its size; centre both ground and portrait there.
+                    AvatarTile(Root, ac, avatarSize * .84f, Art.AvatarIndex, order + 3, frame: false, round: true);
+                    MenuUi.Sprite21(Root, "profile-square-frame", ac, Vector2.one * avatarSize, order + 5);
+                    float gx = w - right - gearSize / 2, counterRight = gx - gearSize / 2 - gap;
+                    float counterWidth = Mathf.Min(102, w * .272f), counterLeft = counterRight - counterWidth;
+                    // Equal visible gaps, including the icon's 11 pt overhang to the left of the pill.
+                    float plateLeft = left + avatarSize - overlap;
+                    float plateRight = counterLeft - (counterIconSize / 2 - counterIconInset) - gap;
+                    float plateWidth = plateRight - plateLeft, plateHeight = 34;
+                    MenuUi.Sprite21(Root, "profile-name-plate", new Vector2((plateLeft + plateRight) / 2, hy), new Vector2(plateWidth, plateHeight), order + 2, true);
+                    float textLeft = plateLeft + overlap + 8, textWidth = plateRight - 8 - textLeft;
+                    var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? Texts.Player : player, 15, Palette.Cream, false,
+                        align: TMPro.TextAlignmentOptions.Left, order: order + 3).Banner(TextView.OnTeal);
                     name.GetComponent<TMPro.TextMeshPro>().richText = false;
-                    float plateWidth = Mathf.Clamp(name.Width + 20, 70, plateMax);
-                    MenuUi.Sprite21(Root, "profile-name-plate", new Vector2(plateLeft + plateWidth / 2, hy), new Vector2(plateWidth, 42), order + 2, true);
-                    // Keep the whole name legible, including long Turkish names, without truncating it.
-                    if (name.Width > plateWidth - 16) name.SizePt = 15 * (plateWidth - 16) / name.Width;
-                    name.transform.localPosition = Draw.W(plateLeft + plateWidth / 2, hy);
-                    Profile = new Rect(8, top, plateLeft + plateWidth - 8, 90);
+                    name.GetComponent<TMPro.TextMeshPro>().rectTransform.sizeDelta = new Vector2(textWidth, plateHeight);
+                    name.FitWidth(textWidth, 11);
+                    name.transform.localPosition = Draw.W(textLeft + textWidth / 2, hy);
+                    Profile = new Rect(left, hy - avatarSize / 2, plateRight - left, avatarSize);
                     MenuUi.Sprite21(Root, "counter-pill-v2", new Vector2(counterRight - counterWidth / 2, hy), new Vector2(counterWidth, 30), order + 2, true);
-                    var tok = Art.Place(Root, "jiggle-counter", Vector2.one * 46, order + 3);
-                    if (tok != null) tok.transform.localPosition = Draw.W(counterRight - counterWidth + 12, hy);
+                    var tok = Art.Place(Root, "jiggle-counter", Vector2.one * counterIconSize, order + 3);
+                    if (tok != null) tok.transform.localPosition = Draw.W(counterLeft + counterIconInset, hy);
                     MenuUi.Label(Root, saved.ToString(), new Vector2(counterRight - (counterWidth - 38) / 2 - 4, hy), 18, order + 4, true, counterWidth - 42, true);
-                    var gear = Sprite("m13-settings-button", new Vector2(gx, hy), Vector2.one * 48, order + 2);
-                    Settings = new Rect(gx - 24, hy - 24, 48, 48);
+                    var gear = Sprite("m13-settings-button", new Vector2(gx, hy), Vector2.one * gearSize, order + 2);
+                    Settings = new Rect(gx - gearSize / 2, hy - gearSize / 2, gearSize, gearSize);
                     if (gear != null) _press.Add((Settings, gear, "m13-settings-button", "m13-settings-button-pressed", null));
                 }
                 else
@@ -407,6 +416,8 @@ namespace ReverseSolver.Presentation
 
         public static Card Intro(Transform parent, Vector2 screen, LevelData l, int order)
         {
+            // Hard levels get one opening card; booster training follows through tutorial.json.
+            if (l.Hard) return HardWarning(parent, screen, order);
             if (l.BoosterIntro == null && l.Intro == null) return StartCard(parent, screen, l, order);
             bool booster = l.BoosterIntro != null;
             var info = LevelTexts.Get(l, booster);
@@ -518,7 +529,7 @@ namespace ReverseSolver.Presentation
             return c.Button("ok", Texts.HardStart, true).Finish();
         }
 
-        /* SET40 v3: the "zor bölüm" warning (a level with the hard flag and no other card). The timer
+        /* SET40 v3: the sole opening card for a level with the hard flag. The timer
            still starts on the first move, after "Başla". */
         public static Card HardWarning(Transform parent, Vector2 screen, int order) =>
             Picture(new Card(parent, screen, order, "Intro"), "hard")                     // preview art (#6)
