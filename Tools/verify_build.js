@@ -395,10 +395,10 @@ async function redesign() {
   const l = set[0], p = await newPage();
   await p.open(dbg(`${base}/?set=redesign&lv=${l.id}`));
   for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);   // an intro card, if any
-  if (l.tutorial === 1) {                              // PM_MESAJ_28 tutorial: two guided moves, the rule card, the rest
-    await p.solve({ ...l, solution: l.solution.slice(0, 2) }); await sleep(900);
-    await p.tap(W / 2, H / 2); await sleep(900);
-    await p.solve({ ...l, solution: l.solution.slice(2) });
+  if (l.tutorial === 1) {                              // PM_MESAJ_33 tutorial: guided move, guided jam (2nd piece to the right), the rest
+    await p.solve({ ...l, solution: l.solution.slice(0, 1) }); await sleep(900);
+    await p.solve({ ...l, solution: [{ piece: l.solution[1].piece, dir: 'R' }] }); await sleep(2800);
+    await p.solve({ ...l, solution: l.solution.slice(1) });
   } else await p.solve(l);
   await sleep(2500);
   const buf = await p.png(); fs.writeFileSync(path.join(out, `redesign_${l.id}.png`), buf);
@@ -496,6 +496,35 @@ async function m5(p) {
 /* --send --only cohortic (PM_MESAJ_25 step 8): one browser profile as IC_KONTROL (not TEST_: v_attempts leaves those
    out), ?c=ic only on the first link. S41 won (+ profile question, 1-10), S50 lost to the bomb (Logs/veri/bomb_loss.json,
    SetV4.BombLoss), S42 one move then pause -> menu (quit), S43 two moves then the tab goes away (abandoned). */
+/* --send --only ic33 (PM_MESAJ_32/33): a fresh ic profile plays level 1 (with the guided jam), 10 and 14 (unlock=1)
+   for real; Supabase: plays level_version 2 for Z24/Z21, jams 0 for S41 and no jam row in its moves. */
+async function ic33() {
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const lv = id => set.find(x => x.id === id), name = opt('icname', 'IC_PM33'), p = await newPage();
+  const light = async () => { const img = readPng(await p.png()); let s = 0, n = 0;
+    for (let y = .3; y < .8; y += .05) for (let x = .2; x < .8; x += .05) { s += img.at(Math.round(img.w * x), Math.round(img.h * y)).slice(0, 3).reduce((a, b) => a + b, 0); n++; } return s / n; };
+  const close = async () => { await sleep(3000); const open = await light();   // a cream card (profile, intro, 1-10): tap down until it goes
+    for (let y = Math.round(H * .4); y < H * .9; y += 14) { await p.tap(W / 2, y); await sleep(350); if (await light() < open * .8) break; } await sleep(1000); };
+  const l1 = lv('S41');
+  await p.open(`${base}/?set=redesign&c=ic&unlock=1&lv=S41`, { gate: true });
+  await p.name(name); await sleep(2000); await close();
+  await p.solve({ ...l1, solution: l1.solution.slice(0, 1) }); await sleep(900);
+  await p.solve({ ...l1, solution: [{ piece: l1.solution[1].piece, dir: 'R' }] }); await sleep(2800);
+  await p.solve({ ...l1, solution: l1.solution.slice(1) }); await sleep(2500); await close();
+  for (const id of ['Z24', 'Z21']) {
+    await p.open(`${base}/?set=redesign&c=ic&unlock=1&lv=${id}`, { gate: true }); await sleep(3000); await close();
+    await p.solve(lv(id)); await sleep(2500); await close();
+  }
+  await sleep(17000); await p.cdp('Page.navigate', { url: 'about:blank' }); await sleep(4000); p.close();
+  const get = async q => (await (await fetch(`${SUPA}/rest/v1/${q}`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json());
+  const pl = await get(`plays?player=eq.${name}&select=level_id,level_version,result,jams,cohort&order=created_at`);
+  const mv = await get(`moves?player=eq.${name}&level_id=eq.S41&select=kind&order=created_at`);
+  console.log('PLAYS ' + JSON.stringify(pl));
+  const v = id => pl.find(r => r.level_id === id), s41 = v('S41');
+  const ok = ['Z24', 'Z21'].every(id => v(id) && v(id).level_version === 2) && s41 && s41.jams === 0 && !mv.some(m => m.kind === 'jam');
+  check('ic33', ok, `plays ${pl.map(r => `${r.level_id} v${r.level_version} ${r.result} jams ${r.jams}`).join('; ')}; S41 moves jam satırı ${mv.filter(m => m.kind === 'jam').length}`);
+}
+
 async function cohortic() {
   const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
   const lv = id => set.find(x => x.id === id), name = opt('icname', 'IC_KONTROL'), p = await newPage();
@@ -1085,6 +1114,61 @@ async function spot() {
   check('spot', true, `${lines.length} görüntü → ${dir} (ton: ton.txt)`);
 }
 
+async function son() {
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const dir = path.join(ROOT, 'docs/qa', new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10) + '-son');
+  fs.mkdirSync(dir, { recursive: true });
+  let exc = 0, n = 0;
+  const shot = async (p, name) => { fs.writeFileSync(path.join(dir, name + '.png'), await p.png()); n++; };
+  W = 390; H = 844;
+  const l = set.find(x => x.id === 'S41'), p = await newPage();
+  await p.open(dbg(base + '/?set=redesign&lv=S41&lang=tr')); await sleep(4500); await shot(p, 'b1_adim1');
+  await p.solve({ ...l, solution: l.solution.slice(0, 1) }); await sleep(1500); await shot(p, 'b1_adim2');
+  await p.solve({ ...l, solution: [{ piece: 6, dir: 'R' }] });
+  const start = Date.now(), times = [0, 300, 600, 1000, 1500];
+  for (const [i, ms] of times.entries()) {
+    await sleep(Math.max(0, start + ms - Date.now())); await shot(p, `b1_seq_${i}`);
+  }
+  await sleep(2500); await shot(p, 'b1_adim3');
+  exc += p.exceptions.length; p.close();
+
+  for (const [id, name] of [['Z24', 'b10'], ['Z21', 'b14']]) {
+    const p = await newPage();
+    const light = async () => { const img = readPng(await p.png()); let s = 0, n = 0;
+      for (let y = .3; y < .8; y += .05) for (let x = .2; x < .8; x += .05) { s += img.at(Math.round(img.w * x), Math.round(img.h * y)).slice(0, 3).reduce((a, b) => a + b, 0); n++; } return s / n; };
+    const scan = async (from, to, step) => {
+      await sleep(2500); const open = await light();
+      for (let y = Math.round(H * from); y < H * to; y += step) { await p.tap(W / 2, y); await sleep(400); if (await light() < open * .75) break; }
+      await sleep(1200);
+    };
+    await p.open(dbg(`${base}/?set=redesign&c=ic&unlock=1&lv=${id}&lang=tr`)); await sleep(3000);
+    await scan(.45, .85, 14); await shot(p, name);
+    exc += p.exceptions.length; p.close();
+  }
+
+  let cur = 0;
+  const tab = async (p, i) => { await p.tap(tabX(cur, i), H - 30); cur = i; await sleep(900); };
+  for (const [w, h] of [[375, 667], [390, 844], [430, 932]]) {
+    W = w; H = h;
+    const p = await newPage(); cur = 0;
+    await p.open(dbg(`${base}/?set=redesign&hud=0&lang=tr&won=12&player=${encodeURIComponent('Zeynep Yılmazoğlu')}`));
+    await sleep(2500); await p.tap(W / 2, H * .3); await sleep(500);
+    await p.tap(...P20.levels(W, H)); await sleep(1200); await shot(p, `${w}x${h}_harita`); await p.tap(...P20.back(W, H)); await sleep(900);
+    await tab(p, 1); await shot(p, `${w}x${h}_koleksiyon`);
+    await p.tap(...P20.cell(W, H)); await sleep(1200); await p.tap(...P20.close(W, H)); await sleep(700);
+    await tab(p, 2); await shot(p, `${w}x${h}_jiggles`);
+    exc += p.exceptions.length; p.close();
+    // 4 won: the next painting (level 5, "Sıradaki") is on the first screen of the collection
+    const q = await newPage(); cur = 0;
+    await q.open(dbg(`${base}/?set=redesign&hud=0&lang=tr&won=4&player=${encodeURIComponent('Zeynep Yılmazoğlu')}`));
+    await sleep(2500); await q.tap(W / 2, H * .3); await sleep(500);
+    await tab(q, 1); await shot(q, `${w}x${h}_koleksiyon_siradaki`);
+    exc += q.exceptions.length; q.close();
+  }
+  W = 375; H = 667;
+  check('son', exc === 0, n + ' görüntü → ' + dir);
+}
+
 /* --send --only booster (PM_MESAJ_30): fresh profiles (cohort ic) open the booster levels 5 (scissors), 9 (wand),
    15 (clock), 23 (hammer): the button step, the target step (tap on the lit spot), the effect; then pause -> menu
    (a quit row). Level 10: the chain spotlight. Shots in docs/qa/<date>-booster; Supabase: moves booster rows,
@@ -1284,9 +1368,11 @@ async function qa() {
     if (send && only.includes('redesignsend')) await redesignsend();
     if (send && only.includes('pausequit')) await pausequit();
     if (send && only.includes('cohortic')) await cohortic();
+    if (send && only.includes('ic33')) await ic33();
     if (send && only.includes('rating')) await rating();
     if (send && only.includes('booster')) await booster();
     if (only.includes('spot')) await spot();
+    if (only.includes("son")) await son();
     if (send && only.includes('replay')) await replay();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
