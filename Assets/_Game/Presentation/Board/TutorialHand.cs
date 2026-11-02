@@ -68,12 +68,9 @@ namespace ReverseSolver.Presentation
             float rot = m.Dir == Dir.U ? 0 : m.Dir == Dir.R ? 90 : m.Dir == Dir.D ? 180 : 270;
             arrow.localRotation = Quaternion.Euler(0, 0, -rot);
             // preview art (#4): the glove, fingertip (upper-left quadrant) on the piece, nudging with the arrow
-            var glove = Art.Place(h._move, "hand-swipe", new Vector2(S * 1.4f, S * 1.4f), order + 6);
-            if (glove != null)
-            {
-                // PM_MESAJ_8: upright (finger up, wrist down) until Codex's vertical export; fingertip on the piece
-                glove.transform.localPosition = Draw.W((cell.X + .5f) * S, (cell.Y + .5f) * S + S * .6f);
-            }
+            var glove = Art.Place(h._move, "hand-back", new Vector2(S * 1.4f, S * 1.4f), order + 6);
+            // PM_MESAJ_34: the back of the hand, upright, fingertip (128, 4 of 256x360) on the piece
+            if (glove != null) glove.transform.localPosition = Draw.W((cell.X + .5f) * S, (cell.Y + .5f) * S + S * 1.4f * 176 / 360);
             float u = S * .68f / 24f;
             Vector2 A(float x, float y) => new Vector2((x - 12) * u, (y - 12) * u);
             var halo = ShapeView.Create(arrow, "halo", new Vector2(S * .5f, S * .5f), 16, order)

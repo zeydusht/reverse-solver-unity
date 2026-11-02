@@ -12,6 +12,7 @@ namespace ReverseSolver.Presentation
         readonly List<SolidView> _polygons = new List<SolidView>();
         Transform _finger;
         SpriteRenderer _glove;
+        Sprite _up, _down;
         Vector2 _start, _end;
         float _phase, _success = -1;
         ShapeView _flash;
@@ -306,9 +307,11 @@ namespace ReverseSolver.Presentation
         {
             _finger = new GameObject("FingerPivot").transform;
             _finger.SetParent(transform, false);
-            _glove = Art.Place(_finger, "hand-swipe", Vector2.one * size, Order + 6);
-            // The upright sprite's fingertip is at (150, 15) in its 288px canvas.
-            if (_glove != null) _glove.transform.localPosition = Draw.W(-size * 6 / 288, size * 129 / 288);
+            // PM_MESAJ_34: the back of the hand (hand-back, 256x360, fingertip at (128, 4)); never rotated
+            _glove = Art.Place(_finger, "hand-back", Vector2.one * size, Order + 6) ?? Art.Place(_finger, "hand-swipe", Vector2.one * size, Order + 6);
+            if (_glove != null) _glove.transform.localPosition = Draw.W(0, size * 176 / 360);
+            _up = _glove != null ? _glove.sprite : null;
+            _down = Art.Get("hand-back-press") ?? _up;
         }
 
         static string Wrap(string text)
@@ -398,7 +401,9 @@ namespace ReverseSolver.Presentation
             float lift = Mathf.Clamp01((phase - .8f) / .2f);
             _finger.localPosition = Draw.W(Vector2.Lerp(_start, _end, drag) + new Vector2(0, -10 * (1 - Mathf.Clamp01(phase / .15f)) - 10 * lift));
             _finger.localScale = Vector3.one * (phase < .2f ? Mathf.Lerp(1, .9f, phase / .2f) : Mathf.Lerp(.9f, 1, lift));
-            if (_glove != null) _glove.color = new Color(1, 1, 1, 1 - Mathf.Clamp01((phase - .8f) / .2f));
+            if (_glove == null) return;
+            _glove.color = new Color(1, 1, 1, 1 - Mathf.Clamp01((phase - .8f) / .2f));
+            _glove.sprite = phase >= .1f && phase < .8f ? _down : _up;   // pressed while the fingertip is on the glass
         }
     }
 }

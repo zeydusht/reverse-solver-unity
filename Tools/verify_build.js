@@ -1124,7 +1124,7 @@ async function son() {
   const l = set.find(x => x.id === 'S41'), p = await newPage();
   await p.open(dbg(base + '/?set=redesign&lv=S41&lang=tr')); await sleep(4500); await shot(p, 'b1_adim1');
   await p.solve({ ...l, solution: l.solution.slice(0, 1) }); await sleep(1500); await shot(p, 'b1_adim2');
-  await p.solve({ ...l, solution: [{ piece: 6, dir: 'R' }] });
+  await p.solve({ ...l, solution: [{ piece: 8, dir: 'R' }] });
   const start = Date.now(), times = [0, 300, 600, 1000, 1500];
   for (const [i, ms] of times.entries()) {
     await sleep(Math.max(0, start + ms - Date.now())); await shot(p, `b1_seq_${i}`);

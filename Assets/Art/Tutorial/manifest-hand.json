@@ -1,0 +1,42 @@
+﻿{
+    "schema_version":  1,
+    "pixel_coordinates":  "Origin at top-left; x right, y down; fingertip is the top-center of the index-finger outline.",
+    "pivot_coordinates":  "Origin at bottom-left; x right, y up; pivot equals fingertip: x_px/width, 1-y_px/height.",
+    "canvas":  "Both frames use the same transparent 256x360 canvas and fingertip anchor.",
+    "press_scale":  "Uniform 0.92 image scale relative to normal, plus a slight distal index-finger bend.",
+    "generation_mode":  "built-in image_gen",
+    "prompts":  {
+                    "normal":  "Dorsal-view tutorial hand; visible index nail and knuckles, three curled fingers, side thumb, light ivory skin, teal cuff, thick navy outline, soft shading, glossy casual mobile-game style, transparent background.",
+                    "press":  "Edit the same hand: preserve identity, dorsal view, colors and shading; gently bend only the index fingertip for a tap. Export at 92% scale."
+                },
+    "files":  [
+                  {
+                      "file":  "hand-back-v1.png",
+                      "width":  256,
+                      "height":  360,
+                      "scale_relative_to_normal":  1,
+                      "fingertip_px":  {
+                                           "x":  128,
+                                           "y":  4
+                                       },
+                      "pivot_normalized":  {
+                                               "x":  0.5,
+                                               "y":  0.98888889
+                                           }
+                  },
+                  {
+                      "file":  "hand-back-v1-press.png",
+                      "width":  256,
+                      "height":  360,
+                      "scale_relative_to_normal":  0.92,
+                      "fingertip_px":  {
+                                           "x":  128,
+                                           "y":  4
+                                       },
+                      "pivot_normalized":  {
+                                               "x":  0.5,
+                                               "y":  0.98888889
+                                           }
+                  }
+              ]
+}

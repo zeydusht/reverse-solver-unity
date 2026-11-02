@@ -166,7 +166,7 @@ namespace ReverseSolver.Core.Tests
             }
             var first = Script().ForSlot(1, true);
             Assert.That(first.Select(s => s.tur), Is.EqualTo(new[] { "surukle", "hata", "surukle" }));
-            Assert.That((first[1].parca, levels.Levels[0].Solution[1].Dir), Is.EqualTo((6, Dir.D)));
+            Assert.That((first[1].parca, levels.Levels[0].Solution[1].Dir), Is.EqualTo((8, Dir.D)));   // PM_MESAJ_34: the bottom-right corner piece
             Assert.That(first[2].parca, Is.EqualTo(first[1].parca));
         }
 
@@ -179,6 +179,9 @@ namespace ReverseSolver.Core.Tests
             Assert.That(session.TryExit(first.Piece, first.Dir), Is.EqualTo(CommandResult.Ok));
             var step = Script().ForSlot(1, true)[1];
             Assert.That(TutorialScript.ErrorMove(session, step, out var error), Is.True);
+            // PM_MESAJ_34: the bottom-right corner piece; to the right it catches on the tab of the piece above
+            int corner = level.Pieces.ToList().FindIndex(c => c.Length == 1 && c[0].X == level.Width - 1 && c[0].Y == level.Height - 1);
+            Assert.That(error.Piece, Is.EqualTo(corner));
             Assert.That(error.Piece, Is.EqualTo(level.Solution[1].Piece));
             Assert.That(error.Dir, Is.EqualTo(Dir.R), "first blocked direction in R, L, U, D order");
             Assert.That(error.Dir, Is.Not.EqualTo(level.Solution[1].Dir));
