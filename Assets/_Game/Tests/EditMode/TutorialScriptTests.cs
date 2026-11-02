@@ -58,20 +58,90 @@ namespace ReverseSolver.Core.Tests
         }
 
         [Test]
-        public void MissingBoosterTargetIsExplicitAndMaskSubtractsOverlappingHolesOnce()
+        public void MissingBoosterTargetIsExplicit()
         {
             var session = new GameSession(Levels().Levels[0], 1, "test", new Mulberry32(1));
             foreach (var m in session.Level.Solution) session.Board.Remove(m.Piece);
             Assert.That(TutorialScript.BoosterTarget(session, Booster.Scissors, out _, out _), Is.False);
             Assert.That(TutorialScript.BoosterTarget(session, Booster.Hammer, out _, out _), Is.False);
-            var holes = new System.Collections.Generic.List<UnityEngine.Rect> {
-                new UnityEngine.Rect(10, 10, 40, 40), new UnityEngine.Rect(30, 30, 40, 40) };
-            var mask = TutorialSpotlight.VeilRects(new UnityEngine.Vector2(100, 100), holes);
-            for (int y = 0; y < 100; y++) for (int x = 0; x < 100; x++)
+        }
+
+        [TestCase(Dir.L)]
+        [TestCase(Dir.R)]
+        [TestCase(Dir.U)]
+        [TestCase(Dir.D)]
+        public void DragMaskOpensCellsAndOnePathWithoutAdjacentLanes(Dir direction)
+        {
+            var origin = new UnityEngine.Vector2(30, 100);
+            var cells = new[] { new Cell(1, 1), new Cell(2, 1), new Cell(1, 2) };
+            var end = direction switch
             {
-                var point = new UnityEngine.Vector2(x + .5f, y + .5f);
-                Assert.That(mask.Count(r => r.Contains(point)), Is.EqualTo(holes.Any(r => r.Contains(point)) ? 0 : 1));
+                Dir.L => new UnityEngine.Vector2(3, 220),
+                Dir.R => new UnityEngine.Vector2(384, 220),
+                Dir.U => new UnityEngine.Vector2(150, 46),
+                _ => new UnityEngine.Vector2(150, 514)
+            };
+            var holes = TutorialSpotlight.DragHoles(origin, 60, cells, direction, end);
+            Assert.That(holes.Count, Is.EqualTo(cells.Length + 1));
+            for (int i = 0; i < cells.Length; i++)
+            {
+                Assert.That(holes[i].Center, Is.EqualTo(origin + new UnityEngine.Vector2((cells[i].X + .5f) * 60, (cells[i].Y + .5f) * 60)));
+                Assert.That(holes[i].Size, Is.EqualTo(UnityEngine.Vector2.one * 60));
+                Assert.That(holes[i].Radius, Is.EqualTo(10.8f).Within(.001f));
             }
+            var path = holes.Last();
+            var rect = new UnityEngine.Rect(path.Center - path.Size / 2, path.Size);
+            if (direction.IsVertical())
+            {
+                Assert.That(rect.xMin, Is.EqualTo(90));
+                Assert.That(rect.xMax, Is.EqualTo(210));
+                Assert.That(direction == Dir.U ? rect.yMin : rect.yMax, Is.EqualTo(end.y));
+                Assert.That(direction == Dir.U ? rect.yMax : rect.yMin, Is.EqualTo(direction == Dir.U ? 160 : 280));
+            }
+            else
+            {
+                Assert.That(rect.yMin, Is.EqualTo(160));
+                Assert.That(rect.yMax, Is.EqualTo(280));
+                Assert.That(direction == Dir.L ? rect.xMin : rect.xMax, Is.EqualTo(end.x));
+                Assert.That(direction == Dir.L ? rect.xMax : rect.xMin, Is.EqualTo(direction == Dir.L ? 90 : 210));
+            }
+        }
+
+        [Test]
+        public void ChainSelectionMinimizesCrossingsAndBreaksTiesByFirstPiece()
+        {
+            var level = Levels().Levels[9];
+            var pieces = new System.Collections.Generic.List<Cell[]>();
+            level.Pieces = pieces;
+            pieces.Add(new[] { new Cell(0, 0), new Cell(2, 2) });
+            pieces.Add(new[] { new Cell(2, 0), new Cell(0, 2) });
+            pieces.Add(new[] { new Cell(3, 0), new Cell(3, 2) });
+            pieces.Add(new[] { new Cell(4, 0), new Cell(4, 2) });
+            Assert.That(TutorialSpotlight.ChainPiece(level), Is.EqualTo(2));
+            pieces.RemoveRange(2, 2);
+            Assert.That(TutorialSpotlight.ChainPiece(level), Is.Zero);
+        }
+
+        [Test]
+        public void ChainMaskOpensOnlySelectedCellsAndOneFourteenPointStrip()
+        {
+            var level = Levels().Levels[9];
+            int piece = TutorialSpotlight.ChainPiece(level);
+            Assert.That(piece, Is.GreaterThanOrEqualTo(0));
+            var cells = level.Pieces[piece];
+            var origin = new UnityEngine.Vector2(30, 100);
+            var holes = TutorialSpotlight.ChainHoles(origin, 60, level);
+            Assert.That(holes.Count, Is.EqualTo(cells.Length + 1));
+            for (int i = 0; i < cells.Length; i++)
+                Assert.That(holes[i].Center, Is.EqualTo(origin + new UnityEngine.Vector2((cells[i].X + .5f) * 60, (cells[i].Y + .5f) * 60)));
+            var strip = holes.Last();
+            var delta = holes[1].Center - holes[0].Center;
+            Assert.That(strip.Center, Is.EqualTo((holes[0].Center + holes[1].Center) / 2));
+            Assert.That(strip.Size.x, Is.EqualTo(delta.magnitude).Within(.001f));
+            Assert.That(strip.Size.y, Is.EqualTo(14));
+            Assert.That(strip.Angle, Is.EqualTo(UnityEngine.Mathf.Atan2(delta.y, delta.x)).Within(.001f));
+            Assert.That(holes.Count, Is.LessThanOrEqualTo(16));
+            Assert.That(TutorialSpotlight.ChainHoles(origin, 60, Levels().Levels[0]), Is.Empty);
         }
 
         [Test]

@@ -1044,6 +1044,44 @@ async function rating() {
   check('rating', a && b && c, `(a) cevapsız kazanma satırı ${a ? 'var' : 'YOK'} · (b) 7 ${b ? 'var' : 'YOK'} · (c) kayıp 3 ${c ? 'var' : 'YOK'}`);
 }
 
+/* --only spot (PM_MESAJ_31): the tutorial veil at 390x844 and 375x667 (debug, no sending): level 1 (two drag
+   steps), 3, 6, 10, 14 (obstacle spotlight), 5 (scissors: button, target). Shots in docs/qa/<date>-spot; the veil
+   tone at 5 fixed spots (sum of RGB) is printed per shot. */
+async function spot() {
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const dir = path.join(ROOT, 'docs/qa', new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10) + '-spot');
+  fs.mkdirSync(dir, { recursive: true });
+  const lines = [];
+  for (const [w, h] of [[390, 844], [375, 667]]) {
+    W = w; H = h;
+    for (const slot of opt('slots', '1,3,6,10,14,5').split(',').map(Number)) {
+      const l = set[slot - 1], p = await newPage();
+      const shot = async name => {
+        const buf = await p.png(); fs.writeFileSync(path.join(dir, `${w}x${h}_b${slot}_${name}.png`), buf);
+        const img = readPng(buf), pts = [[.06, .2], [.94, .35], [.5, .975], [.06, .62], [.94, .8]];
+        lines.push(`${w}x${h} b${slot} ${name}: ` + pts.map(([x, y]) => img.at(Math.round(img.w * x), Math.round(img.h * y)).slice(0, 3).reduce((a, b) => a + b, 0)).join(' '));
+      };
+      const scan = async (from, to, step) => {
+        await sleep(2500); let prev = await p.png();
+        for (let y = Math.round(H * from); y < H * to; y += step) { await p.tap(W / 2, y); await sleep(250); const now = await p.png(); if (Buffer.compare(now, prev) !== 0) break; prev = now; }
+        await sleep(1200);
+      };
+      await p.open(dbg(`${base}/?set=redesign&lv=${l.id}&lang=tr`)); await sleep(3000);
+      if (slot === 1) {
+        await sleep(1500); await shot('1');
+        await p.solve({ ...l, solution: l.solution.slice(0, 1) }); await sleep(1500); await shot('2');
+      } else {
+        await scan(.45, .85, 14); await shot('1');
+        if (slot === 5) { await p.tap(77 * W / 375, H - 65); await sleep(1500); await shot('2'); }
+      }
+      p.close();
+    }
+  }
+  W = 375; H = 667;
+  fs.writeFileSync(path.join(dir, 'ton.txt'), lines.join(String.fromCharCode(10)) + String.fromCharCode(10));
+  check('spot', true, `${lines.length} görüntü → ${dir} (ton: ton.txt)`);
+}
+
 /* --send --only booster (PM_MESAJ_30): fresh profiles (cohort ic) open the booster levels 5 (scissors), 9 (wand),
    15 (clock), 23 (hammer): the button step, the target step (tap on the lit spot), the effect; then pause -> menu
    (a quit row). Level 10: the chain spotlight. Shots in docs/qa/<date>-booster; Supabase: moves booster rows,
@@ -1245,6 +1283,7 @@ async function qa() {
     if (send && only.includes('cohortic')) await cohortic();
     if (send && only.includes('rating')) await rating();
     if (send && only.includes('booster')) await booster();
+    if (only.includes('spot')) await spot();
     if (send && only.includes('replay')) await replay();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
