@@ -1,3 +1,26 @@
+# PM_MESAJ_30 yayında (2 Kasım 18:55): https://zeydusht.github.io/reverse-solver-unity/p20/?set=redesign — booster eğitimi + envanter + çoklu spotlight. gh-pages 3f6bdc3, commit f69f9d7. p19, kök, redesign.json, bölümler, iOS dokunulmadı.
+
+**Canlı ?c=ic kontrolü (Supabase'den):**
+| Bölüm | Görülen | plays.b_* | moves |
+|---|---|---|---|
+| 5 makas | tuş adımı → eklem hedefi (2 hücre aydınlık) → kesildi → stok 3 | 0 ✅ | scissors 1 |
+| 9 değnek (yerel) | tuş adımı → karıştırma → stok 3 | 0 ✅ | wand 1 |
+| 15 saat | tuş → +20 sn (0:50 → 1:10, "+20 sn" yazısı) → stok 3; ikinci (normal) kullanım onay kartıyla → stok **2** | b_clock 1 (yalnız normal kullanım) ✅ | clock 2 |
+| 23 çekiç (yerel) | tuş → çivili parça hedefi → çıktı → stok 3 | 0 ✅ | hammer 1 |
+| 10 zincir | iki zincirli parça + aradaki zincir + çıkış yolu birlikte aydınlık | — | — |
+Görüntüler: `docs/qa/2026-11-02-booster/`. Testler 581/583 (2 atlanan, 0 kalan).
+
+**Veri notu (PM):** 5, 9, 15, 23'te eğitimini tamamlamamış herkes aynı ücretsiz yardımı alır (booster etkisi tahtada gerçekten uygulanır). Eğitim kullanımı `moves`'ta normal booster satırı, `plays.b_*`'a eklenmez. Ücretsiz kullanım süreyi başlatmaz (çekiç dahil).
+
+**Envanter:** yerel kayıt `rs_boosters`, `BoosterStart = 3` (BoosterInventory.cs). Eğitim kullanımından sonra stok 3, her kullanımda −1, bölümler arası taşınır; stok 0 tuş gri + "0". Kayıtsız eski ilerlemede geçilmiş açılış bölümleri için başlangıç 3.
+
+**PM kararı bekliyor:**
+- Değnek koda göre hedef almıyor (tüm eklemleri karıştırır): hedef adımı yok, tuşa dokunmak yeterli.
+- Makas koddaki gerçek etkisi "iki parça arasındaki çıkıntılı eklemi düzleştirir" (zincir kesmez): metin "Parçaları ayırmak için eklemi kes" / "Tap the joint to cut it".
+- Doğrudan bölüm linkiyle (ör. ?lv=S13) açan yeni profilde önceki booster'ların stoğu 0 (eğitimleri yapılmadığı için). Normal sırayla oynayan oyuncuda sorun yok.
+- Bölüm 10 spotlight'ı yalnız ilk zincir çiftini gösteriyor (bölümde 3 çift var).
+- Sürüm etiketi PM_29 ile aynı (`web-p20-2026-11-02`); iki build veride ayrılamaz, ayrım için tarih/saat (18:50 sonrası = PM_30).
+
 # PM_MESAJ_29 yayında (2 Kasım): https://zeydusht.github.io/reverse-solver-unity/p20/?set=redesign — sürüm `web-p20-2026-11-02`, gh-pages b628cbd, commit ba2de6d. p19, kök, redesign.json, bölümler, iOS dokunulmadı.
 
 **1 Veri — canlı ?c=ic, Supabase'den (2 Kasım 17:34–17:37):**
