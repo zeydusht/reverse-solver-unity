@@ -511,7 +511,7 @@ async function ic33() {
   await p.solve({ ...l1, solution: l1.solution.slice(0, 1) }); await sleep(900);
   await p.solve({ ...l1, solution: [{ piece: l1.solution[1].piece, dir: 'R' }] }); await sleep(2800);
   await p.solve({ ...l1, solution: l1.solution.slice(1) }); await sleep(2500); await close();
-  for (const id of ['Z24', 'Z21']) {
+  for (const id of opt('iclv', 'Z24,Z21').split(',').filter(Boolean)) {   // --iclv '' plays level 1 only
     await p.open(`${base}/?set=redesign&c=ic&unlock=1&lv=${id}`, { gate: true }); await sleep(3000); await close();
     await p.solve(lv(id)); await sleep(2500); await close();
   }
@@ -521,7 +521,7 @@ async function ic33() {
   const mv = await get(`moves?player=eq.${name}&level_id=eq.S41&select=kind&order=created_at`);
   console.log('PLAYS ' + JSON.stringify(pl));
   const v = id => pl.find(r => r.level_id === id), s41 = v('S41');
-  const ok = ['Z24', 'Z21'].every(id => v(id) && v(id).level_version === 2) && s41 && s41.jams === 0 && !mv.some(m => m.kind === 'jam');
+  const ok = opt('iclv', 'Z24,Z21').split(',').filter(Boolean).every(id => v(id) && v(id).level_version === 2) && s41 && s41.jams === 0 && !mv.some(m => m.kind === 'jam');
   check('ic33', ok, `plays ${pl.map(r => `${r.level_id} v${r.level_version} ${r.result} jams ${r.jams}`).join('; ')}; S41 moves jam satırı ${mv.filter(m => m.kind === 'jam').length}`);
 }
 

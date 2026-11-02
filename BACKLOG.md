@@ -98,6 +98,7 @@ Kurallar:
 | Booster eğitimi 5/9/15/23 + envanter (BoosterStart 3) + çoklu spotlight (PM_MESAJ_30) /p20/ | ✅ yayında | PM kararı bekleyenler OVERNIGHT'ta |
 | Eğitim karartması tek maske (shader, yumuşak yuvarlak delikler) + bölüm 10 tek zincir çifti (PM_MESAJ_31) /p20/ | ✅ yayında | QA docs/qa/2026-11-02-spot |
 | Tanıtım 10 (Z24) ve 14 (Z21) sadeleştirme v2 (PM_MESAJ_32) + bölüm 1 hatalı adım, dik el, unlock=1, koleksiyon sıradaki, Jiggles çubuğu, harita işaretleri (PM_MESAJ_33) /p20/ | ✅ yayında | QA docs/qa/2026-11-02-son |
+| Bölüm 1 eğitimi: elin sırtı (Codex hand-back-v1 + basılı kare) + adım 2–3 sağ alt parça (PM_MESAJ_34) /p20/ | ✅ yayında | QA docs/qa/2026-11-03-el |
 | p20 menü revizyonu A+B (PM_MESAJ_27): alt çubuk v3, üst bar, Nunito Black banner stili, ataletli kaydırma, Task21 parçaları /p20/ | ✅ yayında | Ayarlar anahtar zemini + fırlatma mesafesi düzeltildi, sonraki build'de yayına girecek |
 | Koridor Ana menü yolu (PM_MESAJ_24B) /p19/ + menü ekranları A+B (PM_MESAJ_26) /p20/ | ✅ | iPhone'da bakılmadı; süre istatistikleri bu sürümden itibaren |
 | Koridor geçişi (PM_MESAJ_24): kazan → 1–10/👍👎 → Devam → N'nin tablosundan N+1'inkine kayma (tek şerit, video yok, +242 KB), dokununca atla; /p19/ | ✅ | iPhone'da bakılmadı; 15→16 betikte kararsız (oyun değil) |
