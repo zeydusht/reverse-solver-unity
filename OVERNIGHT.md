@@ -1,10 +1,30 @@
-# Ara durum — PM_MESAJ_29 (2 Kasım 17:20, bilgisayar kapandıktan sonra)
-- **Yayın:** p20 hâlâ PM_28 sürümünde (gh-pages 47fc380). `web-p20-2026-11-02` henüz yayınlanmadı; 09:24 / 09:44 Supabase satırları (IC_P29LA kazanma, IC_P29LC bomba) bu bilgisayardaki yerel kopyadan.
-- **1 Veri:** kod bitti (satır bölüm biter bitmez gider, 1–10 ve 👍/👎 `rpc/set_rating` ile; puanlar ayrı kuyrukta, satır sunucuya varmadan gitmez). Test 24/24. Yerelde (a) GEÇTİ: cevapsız kazanmanın satırı geldi (IC_P29LA). (b) ve (c) yerel koşusu 09:45'te bu makineden Supabase'e bağlantı kopunca satır üretemedi (bağlantı 17:15'te geri geldi). Canlı (a)(b)(c) kaldı.
-- **2 Ev:** bitti (kapak sığdırma: halı görünür, tablo ~%45; seçili sekme ikonu %25 taşar, Level tuşu 14 pt yukarıda; "Bölümler" 12 pt). Görüntüyle kontrol edildi.
-- **3 FTUE:** bitti (Codex P20-E + düzeltmeler). Codex'in "süre ilk karede başlar" değişikliği geri alındı (süre ilk hamlede, PM #7). Bölüm başı kartı: verideki tanıtım/booster/zor bölümler + PM listesi, eğitim bölümünde kart yok. Sonuç kartı: ana tuş üstte (kompakt kartta da büyük yeşil), 2×5 kutu (51×44 pt), kayıpta yıldız yok, "Geç" en altta metin.
-- **4 Performans:** HUD hapları 2× boyut + sıkıştırma, kit crunch 50, menü sahneleri build dışı (StreamingAssets, sekme açılınca ya da menüde 10 sn sonra iner), yükleme ekranı yüzde + "İlk açılış biraz sürebilir…". İlk indirme 15,37 → 14,11 MB. Lilita (yeni sette de kullanılıyor) ve level-cell (eski ekran, emin değilim) bırakıldı.
-- **Kalan:** 3 ağ ölçümü (Hızlı 4G 20,3 sn ölçüldü; diğerleri bilgisayar kapanınca kayboldu), commit, p20 yayını, canlı veri testi, son rapor.
+# PM_MESAJ_29 yayında (2 Kasım): https://zeydusht.github.io/reverse-solver-unity/p20/?set=redesign — sürüm `web-p20-2026-11-02`, gh-pages b628cbd, commit ba2de6d. p19, kök, redesign.json, bölümler, iOS dokunulmadı.
+
+**1 Veri — canlı ?c=ic, Supabase'den (2 Kasım 17:34–17:37):**
+| Test | Oyuncu | Satır |
+|---|---|---|
+| (a) kazan, 1–10 cevapsız, sekme kapandı | IC_P29LIVEA | S41 win attempt 1, zorluk_puani null ✅ |
+| (b) kazan, 7 | IC_P29LIVEB | S41 win, zorluk_puani **7** ✅ |
+| (c) bomba kaybı, 3 | IC_P29LIVEC | S50 bomb, zorluk_puani **3** ✅ |
+Akış: satır bölüm biter bitmez gider (cevaplar boş), 1–10 / 👍/👎 `rpc/set_rating` ile; puanlar ayrı yerel kuyrukta, kendi satırı sunucuya varmadan gitmez; gönderilemeyenler sonraki açılışta. Davetler için veri engeli kalktı.
+
+**4 Yükleme (CPU ×4, 390×844, açılıştan menüye):**
+| Ağ | Önce (PM_28) | Sonra | Menü → Bölüm 1 |
+|---|---|---|---|
+| Hızlı 4G | 17,9 sn | 20,3 sn | 0,9 sn |
+| Yavaş 4G | 83,8 sn | 76,3 sn | 0,9 sn |
+| 3G | 175,6 sn | 157,9 sn | 1,0 sn |
+İndirme 15,37 → 13,83 MB (data 9,63 → 8,49). FPS 59,9 (Bölüm 1, 30, koridor, koleksiyon), bellek JS 6,4 MB / wasm 114 MB. Hızlı 4G'de fark yok (ölçüm gürültüsü ±2–3 sn; indirme orada süreyi belirlemiyor). Uygulananlar: HUD hapları 2× + sıkıştırma, kit crunch 50 (2048 zaten çizim boyu, küçültülmedi), menü sahneleri build dışı (StreamingAssets/MenuArt; sekme açılınca ya da menüde 10 sn sonra iner, bölüm oynanırken inmez), yükleme ekranı % + "İlk açılış biraz sürebilir…". Lilita yeni sette de kullanılıyor, level-cell eski ekranda olabilir: ikisi bırakıldı.
+
+**2 Ev / 3 FTUE:** halı görünür, tablo ~%45, seçili sekme %25 taşar, Level tuşu 14 pt yukarıda. Sonuç kartı: büyük yeşil ana tuş üstte, 2×5 kutu (≥ 44 pt, 0,3 sn sonra kayıt), "Geç" en altta metin, kayıpta yıldız yok. Çivi metni PM'inki (kod: çivi her başarılı çıkışta 1 azalır, takılma azaltmaz). Bölüm başı kartı yalnız tanıtım/booster/zor bölümlerde; eğitim bölümünde yok. Haritada "Oyna" balonu. Yazılar ≥ 13 pt, dokunma kutuları 44 pt.
+
+**Sorunlar / notlar:**
+- Codex süreyi "ilk karede başlar"a çevirmişti → geri alındı (süre ilk hamlede, PM #7).
+- İlk sahne ön yüklemesi açılışta yapılınca Hızlı 4G 30 sn'ye, Bölüm 1 geçişi 4,9 sn'ye çıktı → 10 sn gecikme + sekme açılınca indirme ile düzeldi.
+- Testler 576/579 (2 atlanan); FunSim süre testi bu makinede 2,7 sn (sınır 2 sn), kodu değişmedi, değişken bir test.
+- Tasarım kartı (debug set) başlık–çerçeve 7 pt (sınır 8).
+- Bir build ~7 saat sürdü (bilgisayar uykuda/kapandı); 09:45–17:15 arası bu makineden Supabase'e bağlantı yoktu.
+- Haritadan tekrar oynama betikle doğrulanmadı (balon görüntüde var).
 
 # Gece raporu — PM_MESAJ_28 (2 Kasım): https://zeydusht.github.io/reverse-solver-unity/p20/?set=redesign — p19, kök, redesign.json, bölümler, iOS dokunulmadı.
 
