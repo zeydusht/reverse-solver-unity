@@ -15,6 +15,12 @@ namespace ReverseSolver.Presentation
         };
         public static string TutorialCopy(string key) => key switch
         {
+            "tap_scissors" => Lang.T("Tap the scissors", "Makası seç"),
+            "tap_wand" => Lang.T("Tap the wand", "Değneği seç"),
+            "tap_clock" => Lang.T("Tap the clock", "Saate dokun"),
+            "tap_hammer" => Lang.T("Tap the hammer", "Çekici seç"),
+            "target_scissors" => Lang.T("Tap the joint to cut it", "Parçaları ayırmak için eklemi kes"),
+            "target_hammer" => Lang.T("Tap a piece to knock it out", "Parçayı çıkarmak için ona dokun"),
             "rule" => Lang.T("Pull every piece out\nwithout hitting other pieces!", "Tüm parçaları diğer parçalara\nçarpmadan dışarı çek!"),
             "nail" => NailBody,
             "bomb" => Lang.T("Free the bomb before its fuse runs out!", "Fitili bitmeden bombayı çıkar!"),

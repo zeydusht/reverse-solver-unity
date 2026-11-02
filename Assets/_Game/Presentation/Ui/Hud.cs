@@ -125,6 +125,20 @@ namespace ReverseSolver.Presentation
                 .transform.localPosition = Draw.W(c + new Vector2(7.5f, -4.5f));
         }
 
+        public void ShowTimeBonus(int seconds)
+        {
+            var label = TextView.Create(_root, "TimeBonus", "+" + Texts.Seconds(seconds), 22, Palette.Cream, order: 3400)
+                .Banner(TextView.OnTeal);
+            var start = _clock.transform.localPosition + new Vector3(0, 24, 0);
+            label.transform.localPosition = start;
+            Tweens.Run(label, .8f, t =>
+            {
+                if (label == null) return;
+                label.transform.localPosition = start + new Vector3(0, 28 * t, 0);
+                label.Alpha = 1 - t;
+            }, () => { if (label != null) Object.Destroy(label.gameObject); });
+        }
+
         public void SetLevel(int number) { _level.Text = number.ToString(); if (Art.On) _level.SizePt = number >= 100 ? 15 : 20; }
         public void SetLeft(int n) => _left.Text = n.ToString();
 

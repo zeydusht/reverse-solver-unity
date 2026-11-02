@@ -84,7 +84,7 @@ namespace ReverseSolver.Core
             Level = o.Level; Attempt = o.Attempt; Client = o.Client; _random = o._random;
             Board = o.Board.Clone();
             TimeLeft = o.TimeLeft; ElapsedSeconds = o.ElapsedSeconds; Moves = o.Moves; Jams = o.Jams;
-            ClockOnFirstMove = o.ClockOnFirstMove; ClockStarted = o.ClockStarted;
+            ClockOnFirstMove = o.ClockOnFirstMove; ClockStarted = o.ClockStarted; FreeUse = o.FreeUse;
             ValveCount = o.ValveCount; Outcome = o.Outcome; Record = o.Record;
             _nails = new Dictionary<int, int>(o._nails);
             _bombs = new SortedDictionary<int, int>(o._bombs);
@@ -105,6 +105,13 @@ namespace ReverseSolver.Core
         public IReadOnlyDictionary<int, int> Nails => _nails;
         public IReadOnlyDictionary<int, int> Bombs => _bombs;
         public int Stock(Booster b) => _stock[(int)b];
+
+        /* PM_MESAJ_30: the player's inventory replaces the level's table (set before the first command). */
+        public void SetStock(Booster b, int n) => _stock[(int)b] = Math.Max(0, n);
+
+        /* PM_MESAJ_30: the guided first use of a booster. Its next use is free: no stock spent, not counted in the
+           record (b_* stays a count of the player's own uses), the clock does not start; the Used event still goes. */
+        public Booster? FreeUse { get; set; }
         public int Used(Booster b) => _used[(int)b];
 
         /* Locked while the level number is below the booster's unlock level. */
@@ -152,8 +159,10 @@ namespace ReverseSolver.Core
             var check = CanUse(Booster.Hammer);
             if (check != CommandResult.Ok) return check;
             if (!IsPiece(piece)) return CommandResult.NoSuchPiece;
+            bool free = FreeUse == Booster.Hammer, started = ClockStarted;
             Spend(Booster.Hammer);
             Remove(piece, Dir.U, byHammer: true);
+            if (free) ClockStarted = started;           // the guided use never starts the clock
             return CommandResult.Ok;
         }
 
@@ -331,12 +340,13 @@ namespace ReverseSolver.Core
         {
             if (IsOver) return CommandResult.GameOver;
             if (!IsUnlocked(b)) return CommandResult.Locked;
-            if (_stock[(int)b] <= 0) return CommandResult.OutOfStock;
+            if (_stock[(int)b] <= 0 && FreeUse != b) return CommandResult.OutOfStock;
             return CommandResult.Ok;
         }
 
         void Spend(Booster b)
         {
+            if (FreeUse == b) { FreeUse = null; Raise(GameEvent.Used(b)); return; }
             ClockStarted = true;
             _stock[(int)b]--;
             _used[(int)b]++;

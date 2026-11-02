@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace ReverseSolver.Presentation
 {
-    // Screen coordinates (points, y down). Above every board badge, below HUD/cards.
+    // Screen coordinates (points, y down). Above board and HUD, below instruction/cards.
     public sealed class TutorialSpotlight : MonoBehaviour
     {
-        const int Order = 2400;
+        const int Order = 3300;
         readonly List<ShapeView> _shapes = new List<ShapeView>();
         readonly List<SolidView> _polygons = new List<SolidView>();
         Transform _finger;
@@ -24,31 +24,147 @@ namespace ReverseSolver.Presentation
             return s;
         }
 
+        // Horizontal bands subtract the UNION of apertures, so overlapping holes never darken one another.
+        public static List<Rect> VeilRects(Vector2 screen, List<Rect> holes)
+        {
+            var ys = new List<float> { 0, screen.y };
+            foreach (var h in holes) { ys.Add(Mathf.Clamp(h.yMin, 0, screen.y)); ys.Add(Mathf.Clamp(h.yMax, 0, screen.y)); }
+            ys.Sort();
+            var result = new List<Rect>();
+            for (int i = 1; i < ys.Count; i++)
+            {
+                float top = ys[i - 1], bottom = ys[i];
+                if (bottom <= top) continue;
+                var spans = new List<Rect>();
+                foreach (var h in holes) if (h.yMin < bottom && h.yMax > top) spans.Add(h);
+                spans.Sort((x, y) => x.xMin.CompareTo(y.xMin));
+                float cursor = 0;
+                foreach (var h in spans)
+                {
+                    float left = Mathf.Clamp(h.xMin, 0, screen.x), right = Mathf.Clamp(h.xMax, 0, screen.x);
+                    if (left > cursor) result.Add(new Rect(cursor, top, left - cursor, bottom - top));
+                    cursor = Mathf.Max(cursor, right);
+                }
+                if (cursor < screen.x) result.Add(new Rect(cursor, top, screen.x - cursor, bottom - top));
+            }
+            return result;
+        }
+
+        static void Rounded(List<Rect> holes, Rect r, float radius)
+        {
+            radius = Mathf.Min(radius, Mathf.Min(r.width, r.height) / 2);
+            for (float y = r.yMin; y < r.yMax; y += 3)
+            {
+                float end = Mathf.Min(y + 3, r.yMax), mid = (y + end) / 2;
+                float dy = Mathf.Max(r.yMin + radius - mid, mid - (r.yMax - radius));
+                float inset = dy > 0 ? radius - Mathf.Sqrt(Mathf.Max(0, radius * radius - dy * dy)) : 0;
+                holes.Add(new Rect(r.xMin + inset, y, r.width - 2 * inset, end - y));
+            }
+        }
+
+        void Veil(Vector2 screen, List<Rect> holes)
+        {
+            foreach (var r in VeilRects(screen, holes)) Box("VeilBand", r, Draw.Rgba(0, 0, 0, .6f));
+        }
         void Veil(Vector2 screen, Rect hole, bool rounded)
         {
-            hole = Rect.MinMaxRect(Mathf.Clamp(hole.xMin, 0, screen.x), Mathf.Clamp(hole.yMin, 0, screen.y),
-                Mathf.Clamp(hole.xMax, 0, screen.x), Mathf.Clamp(hole.yMax, 0, screen.y));
-            var black = Draw.Rgba(0, 0, 0, .6f);
-            Box("Top", new Rect(0, 0, screen.x, hole.yMin), black);
-            Box("Bottom", new Rect(0, hole.yMax, screen.x, screen.y - hole.yMax), black);
-            Box("Left", new Rect(0, hole.yMin, hole.xMin, hole.height), black);
-            Box("Right", new Rect(hole.xMax, hole.yMin, screen.x - hole.xMax, hole.height), black);
-            if (!rounded) return;
-            float r = 9;
-            // Four small corner wedges round the aperture without dimming its interior.
-            for (int k = 0; k < 4; k++)
+            var holes = new List<Rect>();
+            if (rounded) Rounded(holes, hole, 9); else holes.Add(hole);
+            Veil(screen, holes);
+        }
+
+        static Rect CellRect(BoardView board, Cell c, float pad = 6) => new Rect(
+            board.Origin + new Vector2(c.X * board.Cell - pad, c.Y * board.Cell - pad), Vector2.one * (board.Cell + pad * 2));
+
+        static List<Rect> ObstacleHoles(BoardView board, TutorialStep step)
+        {
+            var holes = new List<Rect>();
+            var level = board.Session.Level;
+            float s = board.Cell;
+            TutorialScript.ObstacleOf(level, step.engel, out var cell, out _);
+            if (step.engel == "wall")
             {
-                float sx = k % 2 == 0 ? 1 : -1, sy = k < 2 ? 1 : -1;
-                var corner = new Vector2(sx > 0 ? hole.xMin : hole.xMax, sy > 0 ? hole.yMin : hole.yMax);
-                var c = corner + new Vector2(sx * r, sy * r);
-                var pts = new List<Vector2> { corner };
-                for (int j = 0; j <= 12; j++)
-                {
-                    float a = j * Mathf.PI / 24;
-                    pts.Add(c - new Vector2(sx * r * Mathf.Cos(a), sy * r * Mathf.Sin(a)));
-                }
-                _polygons.Add(SolidView.Polygon(transform, "RoundedCorner", pts, black, Order));
+                foreach (var wall in level.Sealed)
+                    foreach (int lane in wall.Value)
+                    {
+                        var c = wall.Key.IsVertical() ? new Cell(lane, wall.Key == Dir.U ? 0 : level.Height - 1)
+                            : new Cell(wall.Key == Dir.L ? 0 : level.Width - 1, lane);
+                        var center = CellRect(board, c, 0).center + new Vector2(wall.Key.Dx(), wall.Key.Dy()) * s * .6f;
+                        holes.Add(new Rect(center - Vector2.one * (s / 2 + 8), Vector2.one * (s + 16)));
+                    }
+                return holes;
             }
+            int piece = board.Session.Board.PieceAt(cell);
+            if (piece < 0) return holes;
+            var cells = level.Pieces[piece];
+            foreach (var c in cells) Rounded(holes, CellRect(board, c), 9);
+            // Badge/fuse can extend above the first cell. Circle approximation includes its counter.
+            var badge = CellRect(board, cells[0], s * .18f);
+            if (step.engel == "nail" || step.engel == "bomb") Rounded(holes, badge, badge.width / 2);
+            if (step.engel == "chain")
+            {
+                // A chained pair is represented by two cells of ONE logical piece.
+                var c0 = CellRect(board, cells[0], s * .16f).center;
+                var c1 = CellRect(board, cells[1], s * .16f).center;
+                const float width = 12;
+                int count = Mathf.Max(1, Mathf.CeilToInt(Vector2.Distance(c0, c1) / (width / 2)));
+                for (int k = 0; k <= count; k++)
+                {
+                    var center = Vector2.Lerp(c0, c1, k / (float)count);
+                    Rounded(holes, new Rect(center - Vector2.one * width, Vector2.one * width * 2), width);
+                }
+                foreach (var m in level.Solution) if (m.Piece == piece)
+                {
+                    foreach (var c in cells)
+                    {
+                        var r = CellRect(board, c);
+                        if (m.Dir == Dir.L) r.xMin = board.Origin.x - 6;
+                        if (m.Dir == Dir.R) r.xMax = board.Origin.x + board.Size.x + 6;
+                        if (m.Dir == Dir.U) r.yMin = board.Origin.y - 6;
+                        if (m.Dir == Dir.D) r.yMax = board.Origin.y + board.Size.y + 6;
+                        holes.Add(r);
+                    }
+                    break;
+                }
+            }
+            return holes;
+        }
+
+        public static TutorialSpotlight ShowBooster(Transform parent, Vector2 screen, BoardView board,
+            TutorialStep step, Rect button, int piece, (int x, int y, bool vertical) joint)
+        {
+            var v = new GameObject("BoosterTutorialSpotlight").AddComponent<TutorialSpotlight>();
+            v.transform.SetParent(parent, false);
+            var holes = new List<Rect>();
+            if (step.tur == "booster")
+            {
+                Rounded(holes, button, 16);
+                v._start = button.center;
+            }
+            else if (step.booster == "scissors")
+            {
+                var a = new Cell(joint.x, joint.y);
+                var b = new Cell(joint.x - (joint.vertical ? 1 : 0), joint.y - (joint.vertical ? 0 : 1));
+                Rounded(holes, CellRect(board, a), 9); Rounded(holes, CellRect(board, b), 9);
+                v._start = board.Origin + new Vector2((joint.x + (joint.vertical ? 0 : .5f)) * board.Cell,
+                    (joint.y + (joint.vertical ? .5f : 0)) * board.Cell);
+            }
+            else
+            {
+                foreach (var c in board.Session.Level.Pieces[piece]) Rounded(holes, CellRect(board, c), 9);
+                v._start = CellRect(board, board.Session.Level.Pieces[piece][0]).center;
+            }
+            v.Veil(screen, holes);
+            v._end = v._start;
+            v._finger = new GameObject("TapFinger").transform;
+            v._finger.SetParent(v.transform, false);
+            v._glove = Art.Place(v._finger, "hand-swipe", Vector2.one * 80, Order + 6);
+            if (v._glove != null) v._glove.transform.localPosition = Draw.W(0, 34);
+            var label = TextView.Create(v.transform, "Instruction", Texts.TutorialCopy(step.metinAnahtari).Length > 48 ? Wrap(Texts.TutorialCopy(step.metinAnahtari)) : Texts.TutorialCopy(step.metinAnahtari), 24,
+                Palette.Cream, order: 3350).Banner(TextView.OnTeal).FitWidth(screen.x - 32, 14);
+            label.transform.localPosition = Draw.W(screen.x / 2, Mathf.Min(button.yMin - 38, board.Origin.y + board.Size.y + 38));
+            v.Animate(0);
+            return v;
         }
 
         public static TutorialSpotlight Show(Transform parent, Vector2 screen, BoardView board, TutorialStep step, Move move)
@@ -94,12 +210,7 @@ namespace ReverseSolver.Presentation
             }
             else
             {
-                TutorialScript.ObstacleOf(board.Session.Level, step.engel, out var c, out var side);
-                var center = board.Origin + new Vector2((c.X + .5f) * s, (c.Y + .5f) * s);
-                // Include the wall strip outside the boundary, rather than illuminating only a piece.
-                if (side.HasValue) center += new Vector2(side.Value.Dx(), side.Value.Dy()) * s * .6f;
-                hole = new Rect(center - Vector2.one * (s / 2 + 6), Vector2.one * (s + 12));
-                v.Veil(screen, hole, true);
+                v.Veil(screen, ObstacleHoles(board, step));
             }
             string text = step.tur == "surukle" ? Texts.TutorialDrag(move.Dir) : Texts.TutorialCopy(step.metinAnahtari);
             // Replace the booster row while the tutorial owns input. Wrap long obstacle copy first.
@@ -163,7 +274,8 @@ namespace ReverseSolver.Presentation
             if (_success >= 0)
             {
                 _success += Time.unscaledDeltaTime;
-                float fade = 1 - Mathf.Clamp01((_success - .1f) / .2f);
+                float fade = 1 - Mathf.Clamp01(_success / .2f);
+                foreach (var label in GetComponentsInChildren<TextView>()) label.Alpha = fade;
                 foreach (var s in _shapes) if (s != null && s != _flash) s.Alpha(fade);
                 foreach (var p in _polygons) if (p != null) p.Alpha(fade);
                 if (_flash != null) { _flash.Alpha(Mathf.Sin(Mathf.Clamp01(_success / .3f) * Mathf.PI)); _flash.transform.localScale = Vector3.one * (1 + _success); }

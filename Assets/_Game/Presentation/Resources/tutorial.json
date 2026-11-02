@@ -5,5 +5,11 @@
   { "slot": 3, "adim": 1, "tur": "goster", "engel": "nail", "metinAnahtari": "nail" },
   { "slot": 6, "adim": 1, "tur": "goster", "engel": "bomb", "metinAnahtari": "bomb" },
   { "slot": 10, "adim": 1, "tur": "goster", "engel": "chain", "metinAnahtari": "chain" },
-  { "slot": 14, "adim": 1, "tur": "goster", "engel": "wall", "metinAnahtari": "wall" }
+  { "slot": 14, "adim": 1, "tur": "goster", "engel": "wall", "metinAnahtari": "wall" },
+  { "slot": 5, "adim": 1, "tur": "booster", "booster": "scissors", "metinAnahtari": "tap_scissors" },
+  { "slot": 5, "adim": 2, "tur": "booster_hedef", "booster": "scissors", "metinAnahtari": "target_scissors" },
+  { "slot": 9, "adim": 1, "tur": "booster", "booster": "wand", "metinAnahtari": "tap_wand" },
+  { "slot": 15, "adim": 1, "tur": "booster", "booster": "clock", "metinAnahtari": "tap_clock" },
+  { "slot": 23, "adim": 1, "tur": "booster", "booster": "hammer", "metinAnahtari": "tap_hammer" },
+  { "slot": 23, "adim": 2, "tur": "booster_hedef", "booster": "hammer", "metinAnahtari": "target_hammer" }
 ] }

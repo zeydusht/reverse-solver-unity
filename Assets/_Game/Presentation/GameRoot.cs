@@ -52,6 +52,11 @@ namespace ReverseSolver.Presentation
         GameSession _session;
         DragModel _drag;
         BoosterControls _boosters;
+        BoosterInventory _inventory;
+        Booster? _trainingUse;
+        int _boosterTarget = -1;
+        (int x, int y, bool vertical) _boosterJoint;
+        bool _tutorialClockHold;
         bool _introOpen;
         bool _designSet;              // playing designs.json (?debug=1&set=designs)
         bool _redesignSet;            // SET40 (redesign.json): 1-10 only with a cohort (PM_MESAJ_25)
@@ -357,6 +362,11 @@ namespace ReverseSolver.Presentation
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
             _rowId = _telemetry.NewRowId();
             if (!_previewWins) _save.Store(_log);                                 // the attempt counter, before anything can go wrong
+            _trainingUse = null;
+            _tutorialClockHold = false;
+            _inventory = _redesignSet ? new BoosterInventory(Host.Current.Store, level,
+                i => i >= 0 && i < _set.Levels.Count && _progress.Won(i)) : null;
+            _inventory?.Apply(_session);
             _session.EventRaised += OnEvent;
             _boosters = new BoosterControls(_session);
             _moveT0 = _moveLast = Time.unscaledTime;
@@ -411,6 +421,8 @@ namespace ReverseSolver.Presentation
         {
             _tutorialScript ??= TutorialScript.Load();
             _tutorialSteps = _redesignSet && !PlayOverride.Active ? _tutorialScript.ForSlot(_index + 1, firstVisit) : new List<TutorialStep>();
+            _tutorialSteps.RemoveAll(step => (step.tur == "booster" || step.tur == "booster_hedef") &&
+                (!TutorialScript.BoosterOf(step.booster, out var b) || _inventory == null || _inventory.Trained(b) || !_session.IsUnlocked(b)));
             _tutorialAt = 0;
             _tutorialUntil = -1;
         }
@@ -436,7 +448,8 @@ namespace ReverseSolver.Presentation
         {
             if (_spotlight != null) Destroy(_spotlight.gameObject);
             _spotlight = null;
-            _bar?.ShowTutorial(TutorialActive && !_introOpen);
+            bool boosterStep = TutorialActive && (_tutorialSteps[_tutorialAt].tur == "booster" || _tutorialSteps[_tutorialAt].tur == "booster_hedef");
+            _bar?.ShowTutorial(TutorialActive && !_introOpen && !boosterStep);
             if (_introOpen || _board == null) return;
             while (TutorialActive)
             {
@@ -445,9 +458,22 @@ namespace ReverseSolver.Presentation
                 if (step.tur == "surukle")
                     valid = TutorialScript.MoveOf(_session.Level, step, out _tutorialMove) &&
                         (_tutorialUntil >= 0 || (_session.Board.IsPresent(_tutorialMove.Piece) && _session.NailAt(_tutorialMove.Piece) == 0 && _session.Probe(_tutorialMove.Piece, _tutorialMove.Dir).Exit));
+                if (TutorialScript.BoosterOf(step.booster, out var booster))
+                {
+                    if (step.tur == "booster")
+                    {
+                        valid = true;
+                        // Preview the free use at zero stock without altering persistent inventory.
+                        if (_tutorialUntil < 0) _session.FreeUse = booster;
+                    }
+                    else if (step.tur == "booster_hedef")
+                        valid = _tutorialUntil >= 0 || TutorialScript.BoosterTarget(_session, booster, out _boosterTarget, out _boosterJoint);
+                }
                 if (valid)
                 {
-                    _spotlight = TutorialSpotlight.Show(_world, _screen, _board, step, _tutorialMove);
+                    _spotlight = boosterStep
+                        ? TutorialSpotlight.ShowBooster(_world, _screen, _board, step, _bar.RectOf(booster), _boosterTarget, _boosterJoint)
+                        : TutorialSpotlight.Show(_world, _screen, _board, step, _tutorialMove);
                     if (_tutorialUntil >= 0) _spotlight.Success();
                     return;
                 }
@@ -636,6 +662,22 @@ namespace ReverseSolver.Presentation
         void OnEvent(GameEvent e)
         {
             if (_zeydbotSet) RecordMove(e);
+            if (e.Kind == EventKind.Jammed || (e.Kind == EventKind.PieceRemoved && !e.ByHammer)) _tutorialClockHold = false;
+            if (e.Kind == EventKind.TimeAdded) _hud?.ShowTimeBonus(e.Value);
+            if (_inventory != null && e.Kind == EventKind.BoosterUsed)
+            {
+                if (_trainingUse == e.Booster)
+                {
+                    _inventory.Complete(e.Booster);
+                    _session.SetStock(e.Booster, _inventory.Stock(e.Booster));
+                    _trainingUse = null;
+                    // Core's hammer Remove starts its clock. Hold presentation ticks until a normal move.
+                    _tutorialClockHold = true;
+                    _tutorialUntil = Time.unscaledTime + .2f;
+                    _spotlight?.Success();
+                }
+                else { _inventory.Spend(e.Booster); _tutorialClockHold = false; }
+            }
             if (e.Kind == EventKind.ValveReleased) _bar?.Notice(Texts.NailReleased, 1.6f);   // web says "söktü"; PM: grammar fix
             if (e.Kind == EventKind.PieceRemoved)
             {
@@ -788,7 +830,7 @@ namespace ReverseSolver.Presentation
                 if (_session.IsOver && _session.Outcome == Outcome.Win && _paintSet && _board.Image != null) ShowFinishedPicture(false);
                 _hand = null;
                 bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active;
-                if (_session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
+                if (!TutorialActive && _session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
                     _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
                                               new Rect(-origin, _screen));
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
@@ -943,7 +985,7 @@ namespace ReverseSolver.Presentation
             if (_hud == null) return;
             _hud.SetLeft(_session.Board.PresentCount);
             _hud.SetTime(_session.TimeLeft);
-            _bar.Refresh(_boosters, _session);
+            _bar.Refresh(_boosters, _session, TutorialActive);
             bool wantJoints = _boosters.Armed == Booster.Scissors && !_session.IsOver;
             if (wantJoints && !_jointsShown) _board.ShowJoints(_boosters.Joints());
             if (!wantJoints && _jointsShown) _board.HideJoints();
@@ -982,7 +1024,7 @@ namespace ReverseSolver.Presentation
             {
                 if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil) NextScriptedTutorial();
                 // the clock runs only while the board is actually in play
-                if (!_session.IsOver && !_introOpen && !TutorialActive && _card == null && _list == null) _session.Tick(Time.unscaledDeltaTime);
+                if (!_session.IsOver && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null) _session.Tick(Time.unscaledDeltaTime);
                 if (_endAt > 0 && Time.unscaledTime >= _endAt) { _endAt = -1; ShowResult(); }
                 RefreshPlaying();
             }
@@ -1176,6 +1218,8 @@ namespace ReverseSolver.Presentation
             {
                 if (_tutorialUntil >= 0) return;
                 var step = _tutorialSteps[_tutorialAt];
+                if (step.tur == "booster" || step.tur == "booster_hedef")
+                { TapTutorialBooster(pt, step); return; }
                 if (step.tur != "surukle") { NextScriptedTutorial(); return; }
                 int target = _board.GrabAt(pt, out bool tutorialOutside);
                 if (target != _tutorialMove.Piece) { _spotlight?.Restart(); return; }
@@ -1221,6 +1265,63 @@ namespace ReverseSolver.Presentation
             piece = _board.GrabAt(pt, out bool outside);
             if (piece >= 0 && _session.NailAt(piece) > 0) _board.Clang(piece);     // web: pinned, refuse and say so
             if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) { _board.ShowDrag(_drag); _pressAt = Time.unscaledTime; }
+        }
+
+        void TapTutorialBooster(Vector2 pt, TutorialStep step)
+        {
+            if (!TutorialScript.BoosterOf(step.booster, out var b)) return;
+            if (step.tur == "booster")
+            {
+                if (_bar.Hit(pt) != b) { _spotlight?.Restart(); return; }
+                _session.FreeUse = b;
+                if (b == Booster.Scissors || b == Booster.Hammer)
+                {
+                    if (!TutorialScript.BoosterTarget(_session, b, out _boosterTarget, out _boosterJoint))
+                    {
+                        Debug.LogWarning($"Tutorial: slot {_index + 1} {b} has no target; target step skipped.");
+                        _session.FreeUse = null;
+                        // No effect is possible: leave training incomplete, skip this attempt's target step.
+                        _tutorialAt++;
+                        NextScriptedTutorial();
+                        return;
+                    }
+                    // BoosterControls rejects zero stock before arming; lend one only during selection.
+                    int stock = _session.Stock(b);
+                    _session.SetStock(b, System.Math.Max(1, stock));
+                    _boosters.Tap(b);
+                    _session.SetStock(b, stock);
+                    NextScriptedTutorial();
+                }
+                else
+                {
+                    _trainingUse = b;
+                    var result = b == Booster.Wand ? _session.UseWand() : _session.UseClock();
+                    if (result != CommandResult.Ok)
+                    {
+                        _trainingUse = null;
+                        _bar.Notice(Texts.BoosterPrompt(_boosters), 1.6f);
+                        _spotlight?.Restart();
+                        Debug.LogWarning($"Tutorial: {b} failed ({result}); tap again to retry.");
+                    }
+                }
+            }
+            else
+            {
+                if (b == Booster.Scissors)
+                {
+                    var joint = _board.JointAt(pt);
+                    if (!joint.HasValue || joint.Value != _boosterJoint) { _spotlight?.Restart(); return; }
+                    _trainingUse = b;
+                    _boosters.TapJoint(_boosterJoint.x, _boosterJoint.y, _boosterJoint.vertical);
+                }
+                else
+                {
+                    if (_board.PieceAt(pt) != _boosterTarget) { _spotlight?.Restart(); return; }
+                    _trainingUse = b;
+                    _boosters.TapPiece(_boosterTarget);
+                }
+            }
+            RefreshPlaying();
         }
 
         void OpenList()

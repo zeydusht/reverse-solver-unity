@@ -96,13 +96,14 @@ namespace ReverseSolver.Presentation
             _noticeUntil = Time.unscaledTime + seconds;
         }
 
-        public void Refresh(BoosterControls bar, GameSession session)
+        /* quiet: a tutorial spotlight is up with its own line; the bar's prompt would sit under it (PM_MESAJ_30) */
+        public void Refresh(BoosterControls bar, GameSession session, bool quiet = false)
         {
-            _prompt.Text = !string.IsNullOrEmpty(bar.Prompt) ? Texts.BoosterPrompt(bar)
+            _prompt.Text = quiet ? "" : !string.IsNullOrEmpty(bar.Prompt) ? Texts.BoosterPrompt(bar)
                          : Time.unscaledTime < _noticeUntil ? _notice : "";
             foreach (var s in _slots)
             {
-                var state = bar.StateOf(s.B);
+                var state = session.FreeUse == s.B && session.IsUnlocked(s.B) ? BoosterButton.Ready : bar.StateOf(s.B);
                 bool on = bar.Armed == s.B;
                 bool fresh = bar.IsFresh(s.B) && state == BoosterButton.Ready && !on;
                 string key = $"{state}|{on}|{fresh}|{session.Stock(s.B)}|{Lang.Tr}";
@@ -116,8 +117,11 @@ namespace ReverseSolver.Presentation
                 else { top = Draw.Hex("#6ecbf5"); bottom = Draw.Hex("#2b86cf"); }
                 s.Face.Gradient(top, bottom);
                 if (Art.T14)
-                    // Task 14: one combined sprite per state (icon included), no tints
+                {
+                    // Task 14: one combined sprite per state (icon included); PM_MESAJ_30: an empty one is greyed
                     s.Face.SkinAs($"booster-{s.B.Id()}-" + (on ? "pressed" : state == BoosterButton.Locked ? "locked" : state == BoosterButton.Out ? "zero" : "normal"));
+                    s.Face.Tint(state == BoosterButton.Out && !on ? new Color(.5f, .52f, .54f) : Color.white);
+                }
                 else if (Art.Get("booster-button") != null)
                     // Codex Task 10: one round button for every state, told apart by tone (locked grey, out dimmed, active warm)
                     s.Face.Tint(on ? Palette.C(Palette.GoldGlow) : state == BoosterButton.Locked ? Palette.C(Palette.TealDark) * 2.2f
@@ -149,6 +153,8 @@ namespace ReverseSolver.Presentation
             Tweens.Run(s, 1.3f, t => s.Face.Glow(Draw.Rgba(240, 167, 66, .9f * Mathf.Sin(t * Mathf.PI)), 20),
                        () => { if (s.Fresh && s.Face != null) Pulse(s); });
         }
+
+        public Rect RectOf(Booster b) => _slots.Find(s => s.B == b).Rect;
 
         public Booster? Hit(Vector2 pt)
         {

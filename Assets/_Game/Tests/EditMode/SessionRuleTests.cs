@@ -115,6 +115,24 @@ namespace ReverseSolver.Core.Tests
             Assert.That(s.ElapsedSeconds, Is.Zero, "the clock booster does not count as played time");
         }
 
+        /* PM_MESAJ_30: the guided first use is free and leaves the record's booster count and the clock alone. */
+        [Test]
+        public void FreeUseSpendsNothing()
+        {
+            var s = New("L12");
+            s.SetStock(Booster.Clock, 0);
+            Assert.That(s.UseClock(), Is.EqualTo(CommandResult.OutOfStock));
+            s.FreeUse = Booster.Clock;
+            int before = s.TimeLeft;
+            Assert.That(s.UseClock(), Is.EqualTo(CommandResult.Ok));
+            Assert.That(s.TimeLeft, Is.EqualTo(before + 20));
+            Assert.That(s.Stock(Booster.Clock), Is.Zero);
+            Assert.That(s.Used(Booster.Clock), Is.Zero);
+            Assert.That(s.FreeUse, Is.Null);
+            Assert.That(s.ClockStarted, Is.False);
+            Assert.That(s.UseClock(), Is.EqualTo(CommandResult.OutOfStock));
+        }
+
         [Test]
         public void HammerWorksOnNailedPieces()
         {

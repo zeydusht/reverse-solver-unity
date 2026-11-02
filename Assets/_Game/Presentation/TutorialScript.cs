@@ -9,7 +9,7 @@ namespace ReverseSolver.Presentation
     public sealed class TutorialStep
     {
         public int slot, adim, parca;
-        public string tur, engel, metinAnahtari;
+        public string tur, engel, booster, metinAnahtari;
     }
 
     [Serializable]
@@ -39,6 +39,43 @@ namespace ReverseSolver.Presentation
             foreach (var candidate in level.Solution)
                 if (candidate.Piece == step.parca) { move = candidate; return true; }
             move = default;
+            return false;
+        }
+
+        public static bool BoosterOf(string id, out Booster booster)
+        {
+            foreach (var b in BoosterExt.All) if (b.Id() == id) { booster = b; return true; }
+            booster = default;
+            return false;
+        }
+
+        // Authored solution order, then stable board order for candidates absent from the solution.
+        public static bool BoosterTarget(GameSession session, Booster booster, out int piece,
+            out (int x, int y, bool vertical) joint)
+        {
+            piece = -1; joint = default;
+            var order = new List<int>();
+            foreach (var m in session.Level.Solution)
+                if (session.Board.IsPresent(m.Piece) && !order.Contains(m.Piece)) order.Add(m.Piece);
+            for (int p = 0; p < session.Level.Pieces.Count; p++)
+                if (session.Board.IsPresent(p) && !order.Contains(p)) order.Add(p);
+            if (booster == Booster.Hammer)
+            {
+                foreach (int p in order) if (session.NailAt(p) > 0) { piece = p; return true; }
+                if (order.Count > 0) { piece = order[0]; return true; }
+            }
+            if (booster == Booster.Scissors)
+                foreach (int p in order)
+                    for (int y = 0; y < session.Level.Height; y++)
+                        for (int x = 0; x < session.Level.Width; x++)
+                            foreach (bool vertical in new[] { true, false })
+                            {
+                                if (!session.IsCuttable(x, y, vertical)) continue;
+                                var a = new Cell(x, y);
+                                var b = new Cell(x - (vertical ? 1 : 0), y - (vertical ? 0 : 1));
+                                if (session.Board.PieceAt(a) != p && session.Board.PieceAt(b) != p) continue;
+                                piece = p; joint = (x, y, vertical); return true;
+                            }
             return false;
         }
 

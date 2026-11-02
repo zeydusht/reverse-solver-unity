@@ -11,6 +11,70 @@ namespace ReverseSolver.Core.Tests
         static LevelSet Levels() => LevelParser.Parse(File.ReadAllText("Assets/_Game/Levels/redesign.json"));
 
         [Test]
+        public void BoosterTrainingUsesUnlockSlotsAndApplicableSolutionTargets()
+        {
+            var levels = Levels();
+            var buttons = Script().steps.Where(s => s.tur == "booster").ToArray();
+            Assert.That(buttons.Select(s => s.slot), Is.EqualTo(new[] { 5, 9, 15, 23 }));
+            foreach (var step in buttons)
+            {
+                Assert.That(TutorialScript.BoosterOf(step.booster, out var b), Is.True);
+                var level = levels.Levels[step.slot - 1];
+                Assert.That(level.Unlock[b.Id()], Is.EqualTo(step.slot));
+                var session = new GameSession(level, 1, "test", new Mulberry32(1));
+                bool target = TutorialScript.BoosterTarget(session, b, out int piece, out var joint);
+                var targetSteps = Script().ForSlot(step.slot, true).Where(s => s.tur == "booster_hedef").ToArray();
+                if (b == Booster.Wand || b == Booster.Clock) { Assert.That(targetSteps, Is.Empty); continue; }
+                Assert.That(targetSteps.Length, Is.EqualTo(1));
+                if (!target) { Assert.That(piece, Is.EqualTo(-1), "missing targets are explicitly skipped"); continue; }
+                session.SetStock(b, 0);
+                session.FreeUse = b;
+                var result = b == Booster.Scissors ? session.UseScissors(joint.x, joint.y, joint.vertical) : session.UseHammer(piece);
+                Assert.That(result, Is.EqualTo(CommandResult.Ok));
+                Assert.That(session.Used(b), Is.Zero);
+                Assert.That(session.Stock(b), Is.Zero);
+                if (b == Booster.Scissors) Assert.That(session.IsCuttable(joint.x, joint.y, joint.vertical), Is.False);
+                else Assert.That(session.Board.IsPresent(piece), Is.False);
+            }
+        }
+
+        [Test]
+        public void InventoryPersistsConsumptionAndGrantsTrainingStockOnlyOnce()
+        {
+            var store = new MemoryStore();
+            var level = Levels().Levels[22];
+            var inventory = new BoosterInventory(store, level, _ => false);
+            foreach (var b in BoosterExt.All) Assert.That(inventory.Stock(b), Is.Zero);
+            inventory.Complete(Booster.Scissors);
+            inventory.Spend(Booster.Scissors);
+            inventory.Complete(Booster.Scissors);
+            var restored = new BoosterInventory(store, level, _ => true);
+            Assert.That(restored.Trained(Booster.Scissors), Is.True);
+            Assert.That(restored.Stock(Booster.Scissors), Is.EqualTo(BoosterInventory.BoosterStart - 1));
+            Assert.That(restored.Stock(Booster.Hammer), Is.Zero, "existing save is never refilled by progress");
+            var migrated = new BoosterInventory(new MemoryStore(), level, i => i < 14);
+            Assert.That(migrated.Stock(Booster.Scissors), Is.EqualTo(BoosterInventory.BoosterStart));
+            Assert.That(migrated.Stock(Booster.Clock), Is.Zero);
+        }
+
+        [Test]
+        public void MissingBoosterTargetIsExplicitAndMaskSubtractsOverlappingHolesOnce()
+        {
+            var session = new GameSession(Levels().Levels[0], 1, "test", new Mulberry32(1));
+            foreach (var m in session.Level.Solution) session.Board.Remove(m.Piece);
+            Assert.That(TutorialScript.BoosterTarget(session, Booster.Scissors, out _, out _), Is.False);
+            Assert.That(TutorialScript.BoosterTarget(session, Booster.Hammer, out _, out _), Is.False);
+            var holes = new System.Collections.Generic.List<UnityEngine.Rect> {
+                new UnityEngine.Rect(10, 10, 40, 40), new UnityEngine.Rect(30, 30, 40, 40) };
+            var mask = TutorialSpotlight.VeilRects(new UnityEngine.Vector2(100, 100), holes);
+            for (int y = 0; y < 100; y++) for (int x = 0; x < 100; x++)
+            {
+                var point = new UnityEngine.Vector2(x + .5f, y + .5f);
+                Assert.That(mask.Count(r => r.Contains(point)), Is.EqualTo(holes.Any(r => r.Contains(point)) ? 0 : 1));
+            }
+        }
+
+        [Test]
         public void EveryDragUsesTheSolutionAndReallyExitsAfterPreviousSteps()
         {
             var levels = Levels();

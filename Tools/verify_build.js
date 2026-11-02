@@ -1044,6 +1044,57 @@ async function rating() {
   check('rating', a && b && c, `(a) cevapsız kazanma satırı ${a ? 'var' : 'YOK'} · (b) 7 ${b ? 'var' : 'YOK'} · (c) kayıp 3 ${c ? 'var' : 'YOK'}`);
 }
 
+/* --send --only booster (PM_MESAJ_30): fresh profiles (cohort ic) open the booster levels 5 (scissors), 9 (wand),
+   15 (clock), 23 (hammer): the button step, the target step (tap on the lit spot), the effect; then pause -> menu
+   (a quit row). Level 10: the chain spotlight. Shots in docs/qa/<date>-booster; Supabase: moves booster rows,
+   plays b_* 0. --bparts 5,9,15,23,10 picks levels. */
+async function booster() {
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const tag = opt('icname', 'IC_P30'), parts = opt('bparts', '5,9,15,23,10').split(',').map(Number);
+  const dir = path.join(ROOT, 'docs/qa', new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10) + '-booster');
+  fs.mkdirSync(dir, { recursive: true });
+  const btn = { 5: 0, 9: 1, 23: 2, 15: 3 };                            // bar order: scissors, wand, hammer, clock
+  const lit = async p => {                                            // centre of the bright spot between HUD and bar
+    const img = readPng(await p.png()); let sx = 0, sy = 0, n = 0;
+    for (let y = Math.round(img.h * .15); y < img.h * .68; y += 2) for (let x = 0; x < img.w; x += 2) {
+      const [r, g, b] = img.at(x, y); if (r + g + b > 330 && !(r > 225 && g > 225 && b > 225)) { sx += x; sy += y; n++; } }   // not the white glove
+    return n ? [sx / n / 2, sy / n / 2, n] : null;
+  };
+  const shot = async (p, name) => fs.writeFileSync(path.join(dir, name + '.png'), await p.png());
+  for (const slot of parts) {
+    const l = set[slot - 1], name = `${tag}_${slot}`, p = await newPage();
+    await p.open(`${base}/?set=redesign&c=ic&lv=${l.id}`, { gate: true }); await p.name(name); await sleep(1500);
+    const scan = async (from, to, step) => {        // tap down the screen until the picture changes (one card closed)
+      await sleep(2500); let prev = await p.png();
+      for (let y = Math.round(H * from); y < H * to; y += step) { await p.tap(W / 2, y); await sleep(250); const now = await p.png(); if (Buffer.compare(now, prev) !== 0) break; prev = now; }
+      await sleep(1200);
+    };
+    await scan(.25, .9, 12); await shot(p, `b${slot}_0a`);   // profile question (or the start card when none)
+    await scan(.45, .85, 14); await shot(p, `b${slot}_0b`);  // the start card (or the obstacle spotlight)
+    await sleep(800); await shot(p, `b${slot}_1_tus`);
+    if (slot in btn) {
+      await p.tap([77, 150, 222, 295][btn[slot]] * W / 375, H - 65); await sleep(1500); await shot(p, `b${slot}_2_hedef`);
+      if (slot === 5 || slot === 23) { const c = await lit(p); if (c) await p.tap(c[0], c[1]); await sleep(1800); }
+      await shot(p, `b${slot}_3_etki`);
+      if (slot === 15) {                              // a normal use: 3 -> 2 (through the confirm card, if any)
+        await p.tap(295 * W / 375, H - 65); await sleep(1000); await shot(p, `b15_4_onay`);
+        await scan(.4, .85, 14); await sleep(1000); await shot(p, `b15_5_stok`);
+      }
+    }
+    await p.tap(W - 36, 33); await sleep(800);                          // pause -> menu: the attempt ends as quit
+    for (let y = Math.round(H * .85); y > H * .4; y -= 14) await p.tap(W / 2, y);
+    await sleep(17000); await p.cdp('Page.navigate', { url: 'about:blank' }); await sleep(2000); p.close();
+  }
+  const get = async q => (await (await fetch(`${SUPA}/rest/v1/${q}`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json());
+  const pl = await get(`plays?player=like.${tag}_*&select=player,level_id,result,b_scissors,b_wand,b_hammer,b_clock&order=created_at`);
+  const mv = await get(`moves?player=like.${tag}_*&select=player,level_id,move_no,kind,dir&order=created_at`);
+  console.log('PLAYS ' + JSON.stringify(pl));
+  console.log('MOVES ' + JSON.stringify(mv.map(m => `${m.player}:${m.kind}${m.dir ? '/' + m.dir : ''}`)));
+  // the guided use is not counted; level 15's second clock use is the player's own (b_clock 1)
+  const ok = pl.length > 0 && pl.every(r => !r.b_scissors && !r.b_wand && !r.b_hammer && r.b_clock === (r.level_id === set[14].id ? 1 : 0));
+  check('booster', ok, `plays ${pl.map(r => `${r.level_id} b_*=${r.b_scissors}${r.b_wand}${r.b_hammer}${r.b_clock}`).join(' ')}; moves ${mv.filter(m => ['scissors', 'wand', 'hammer', 'clock'].includes(m.kind)).map(m => m.player.split('_').pop() + ':' + m.kind).join(' ')}`);
+}
+
 /* --send --only replay (PM_MESAJ_26): one browser profile (cohort ic) wins S41, then plays it again from the
    menu path; plays must hold attempt 1 and attempt 2 with cohort, device_id, platform and app_version. */
 async function replay() {
@@ -1193,6 +1244,7 @@ async function qa() {
     if (send && only.includes('pausequit')) await pausequit();
     if (send && only.includes('cohortic')) await cohortic();
     if (send && only.includes('rating')) await rating();
+    if (send && only.includes('booster')) await booster();
     if (send && only.includes('replay')) await replay();
     if (send && only.includes('a6b')) { const p = await a6b(); if (only.includes('m5')) await m5(p); else p.close(); }
   } catch (e) { check('çalıştırma', false, e.stack || String(e)); }
