@@ -1061,9 +1061,12 @@ async function spot() {
         const img = readPng(buf), pts = [[.06, .2], [.94, .35], [.5, .975], [.06, .62], [.94, .8]];
         lines.push(`${w}x${h} b${slot} ${name}: ` + pts.map(([x, y]) => img.at(Math.round(img.w * x), Math.round(img.h * y)).slice(0, 3).reduce((a, b) => a + b, 0)).join(' '));
       };
+      // the intro card is cream and animates, so stop when the mean brightness drops (card closed), not on any change
+      const light = async () => { const img = readPng(await p.png()); let s = 0, n = 0;
+        for (let y = .3; y < .8; y += .05) for (let x = .2; x < .8; x += .05) { s += img.at(Math.round(img.w * x), Math.round(img.h * y)).slice(0, 3).reduce((a, b) => a + b, 0); n++; } return s / n; };
       const scan = async (from, to, step) => {
-        await sleep(2500); let prev = await p.png();
-        for (let y = Math.round(H * from); y < H * to; y += step) { await p.tap(W / 2, y); await sleep(250); const now = await p.png(); if (Buffer.compare(now, prev) !== 0) break; prev = now; }
+        await sleep(2500); const open = await light();
+        for (let y = Math.round(H * from); y < H * to; y += step) { await p.tap(W / 2, y); await sleep(400); if (await light() < open * .75) break; }
         await sleep(1200);
       };
       await p.open(dbg(`${base}/?set=redesign&lv=${l.id}&lang=tr`)); await sleep(3000);

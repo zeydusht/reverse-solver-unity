@@ -96,6 +96,7 @@ Kurallar:
 | Yeni eğitim (PM_MESAJ_28 A) /p20/ + FTUE/performans raporu (B, docs/FTUE_PERF_RAPOR.md) | ✅ yayında | veri sorunu PM_MESAJ_29 ile çözüldü |
 | Davet öncesi düzeltmeler (PM_MESAJ_29: veri set_rating, Ev halı, FTUE kararları, ilk indirme 13,8 MB) /p20/ | ✅ yayında | canlı (a)(b)(c) geçti |
 | Booster eğitimi 5/9/15/23 + envanter (BoosterStart 3) + çoklu spotlight (PM_MESAJ_30) /p20/ | ✅ yayında | PM kararı bekleyenler OVERNIGHT'ta |
+| Eğitim karartması tek maske (shader, yumuşak yuvarlak delikler) + bölüm 10 tek zincir çifti (PM_MESAJ_31) /p20/ | ✅ yayında | QA docs/qa/2026-11-02-spot |
 | p20 menü revizyonu A+B (PM_MESAJ_27): alt çubuk v3, üst bar, Nunito Black banner stili, ataletli kaydırma, Task21 parçaları /p20/ | ✅ yayında | Ayarlar anahtar zemini + fırlatma mesafesi düzeltildi, sonraki build'de yayına girecek |
 | Koridor Ana menü yolu (PM_MESAJ_24B) /p19/ + menü ekranları A+B (PM_MESAJ_26) /p20/ | ✅ | iPhone'da bakılmadı; süre istatistikleri bu sürümden itibaren |
 | Koridor geçişi (PM_MESAJ_24): kazan → 1–10/👍👎 → Devam → N'nin tablosundan N+1'inkine kayma (tek şerit, video yok, +242 KB), dokununca atla; /p19/ | ✅ | iPhone'da bakılmadı; 15→16 betikte kararsız (oyun değil) |

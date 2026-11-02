@@ -1,3 +1,6 @@
+# PM_MESAJ_31 yayında (2 Kasım 20:50): /p20/ — eğitim karartması tek shader maskesi (%60, 7 pt yumuşak, yuvarlak delik), bölüm 10'da yalnız bir zincir çifti + zincir şeridi. gh-pages 44e51c2, commit 71a25a4. Testler 587/589 (2 atlanan). Yerel: boot/namekeys/k1/fps/redesign/zeydbot GEÇTİ, card KALDI (eski), m5 GEÇTİ, a6b KALDI (eski, kökte L02 bekliyor). Canlı p20: boot/k1/redesign GEÇTİ.
+- QA: docs/qa/2026-11-02-spot (16 görüntü, 390×844 + 375×667; ton.txt 5 nokta): bant/dikiş yok, aydınlık alan yalnız listelenen şekiller. Ton farkları örtü altındaki resimden (örtü saydam). Not: build 6,4 dk sürdü (5 dk sınırını aştı ama tamamlandı); iPhone'da denenmedi.
+
 # PM_MESAJ_30 yayında (2 Kasım 18:55): https://zeydusht.github.io/reverse-solver-unity/p20/?set=redesign — booster eğitimi + envanter + çoklu spotlight. gh-pages 3f6bdc3, commit f69f9d7. p19, kök, redesign.json, bölümler, iOS dokunulmadı.
 
 **Canlı ?c=ic kontrolü (Supabase'den):**
