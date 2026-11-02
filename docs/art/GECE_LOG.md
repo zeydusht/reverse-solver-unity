@@ -1,0 +1,60 @@
+# Task22 gece günlüğü — 3 Kasım 2026
+
+## Başlangıç
+- CODEX_TASK22.md baştan sona, STIL_REHBERI_RM.md ve PALETTE.md okundu. Yazma sınırı: yalnız Assets/Art/Redesign_T22 ve docs/art. Silme, taşıma, yeniden adlandırma, git, Unity ve build yok.
+- karar: Yeni 2026-11-03-tam dizini başlangıçta yok; 2 Kasım FTUE/son/spot/booster ve 1 Kasım p20b görüntüleri esas alınacak. Teslim öncesi yeni tam tur dizini tekrar kontrol edilecek.
+- karar: Canlı oyuna web erişimi denendi, araç erişemedi; görevin izin verdiği ekran görüntüsü denetimiyle devam edilecek. Canlı oynanmış gibi sonuç yazılmayacak.
+- karar: Telefon ekranındaki piksel ölçüsü UX için yaklaşık pt kabul edilecek; gerçek dokunma hedefleri koddan ayrıca okunacak, görsel boyut ile hit alanı ayrılacak.
+- Sırada: kaynak ekran envanteri ve dört ayrı bakışla inceleme; ardından bütün yüksek/orta çizim bulgularının numaralı teslimi ve kanıtlı temizlik listesi.
+
+## 2026-11-03T00:22+03:00
+- Stil turu kaynakları ve 22 bağımsız çizim işi kaydedildi. Task19D/20/21 ve özgün stil referansları görsel olarak karşılaştırıldı.
+- karar: Onaylı nesne ve tuş bitmaplerini koruyan yerel UI çizim/export yöntemi kullanılacak; yeni karakter üretilmeyecek, Royal Match pikselleri hiçbir çıktıya alınmayacak.
+- karar: Zincir/duvar ve bazı booster kartlarının yeni modal görüntüsü yok; en yeni ilgili öğretim ekranı öncesi olarak kullanılacak ve NOT.md içinde “modal öncesi değil, ilgili öğretim bağlamı” diye belirtilecek. Eski süre/pause kareleri tarihleriyle işaretlenecek.
+
+2026-11-03 00:25 — karar: Eşzamanlı başka yazara ait prepare.py/jobs.json ve günlük değişiklikleri görüldü. Bunları korumak için imagegen adayları 101+ numaralarla ve inceleme-ai.html ile ayrılıyor; ana raporlara bağlantı eklenerek birleştirilecek. Mevcut ChipRow hesabı doğrulandı: 375 pt için 51×44 pt; eski tek sıra güncel hata sayılmayacak.
+
+## 2026-11-03T00:25+03:00 — dört turun kayıtları
+- Stil, UX, tutarlılık ve ilk oyuncu turları ayrı tablolarla DENETIM_2026-11-03.md içine yazıldı; tüm istenen ekranlar kapsam matrisinde.
+- karar: Sonradan bulunan 2 Kasım rating kareleri en güncel kazanma/kayıp kanıtı olarak alındı. Tek sıra ölçek sorunu kapalı; yeni çizim yalnız yüzey/durum ailesini iyileştiriyor.
+- karar: Jiggles kodunda PM_MESAJ_33 ilerleme işlevini açıkça istiyor. Daha eski Task21 madalyon yönüyle çelişkiyi işlevi koruyarak çözüyorum: yeni kısa kapsül + okunur eşikler; veri/ödül sistemi değişmeyecek.
+- karar: 40. bölüm final modalı görülmediği için uydurma önce/sonra üretilmeyecek; terminal akışın eksik görsel kanıtı yüksek kod/QA işi olarak PM’ye yazıldı.
+
+## 2026-11-03T00:37+03:00 — yeni tam tur geldi
+- 2026-11-03-tam oluştu; 375 ve 390 kaynakları incelendi. Süre kaybı, pause, zor giriş ve ayarlar için eski kaynaklar yenileriyle değiştiriliyor.
+- karar: Tam turdaki 05_kazanma adlı kare gerçekte eğitim sahnesi; dosya adına güvenip kazanma diye kullanmıyorum. En güncel geçerli sonuç kanıtı rating kaydı olarak kalıyor. lv40 karesi de oyun tahtası, final sonucu değil.
+- İkinci denemede ana yeşil tuşun onaylı en/boyu korundu; puan sorusu ve üç yıldız kazanma taslağında geri korundu, hayali yeni eylem kaldırıldı. Son yerleşim/arka plan temizliği üçüncü ve son denemede.
+
+## 2026-11-03T00:39+03:00 — dört turun kayıtları
+- Stil, UX, tutarlılık ve ilk oyuncu turları ayrı tablolarla DENETIM_2026-11-03.md içine yazıldı; tüm istenen ekranlar kapsam matrisinde.
+- karar: Sonradan bulunan 2 Kasım rating kareleri en güncel kazanma/kayıp kanıtı olarak alındı. Tek sıra ölçek sorunu kapalı; yeni çizim yalnız yüzey/durum ailesini iyileştiriyor.
+- karar: Jiggles kodunda PM_MESAJ_33 ilerleme işlevini açıkça istiyor. Daha eski Task21 madalyon yönüyle çelişkiyi işlevi koruyarak çözüyorum: yeni kısa kapsül + okunur eşikler; veri/ödül sistemi değişmeyecek.
+- karar: 40. bölüm final modalı görülmediği için uydurma önce/sonra üretilmeyecek; terminal akışın eksik görsel kanıtı yüksek kod/QA işi olarak PM’ye yazıldı.
+
+## 2026-11-03T00:47+03:00 — dört turun kayıtları
+- Stil, UX, tutarlılık ve ilk oyuncu turları ayrı tablolarla DENETIM_2026-11-03.md içine yazıldı; tüm istenen ekranlar kapsam matrisinde.
+- karar: Sonradan bulunan 2 Kasım rating kareleri en güncel kazanma/kayıp kanıtı olarak alındı. Tek sıra ölçek sorunu kapalı; yeni çizim yalnız yüzey/durum ailesini iyileştiriyor.
+- karar: Jiggles kodunda PM_MESAJ_33 ilerleme işlevini açıkça istiyor. Daha eski Task21 madalyon yönüyle çelişkiyi işlevi koruyarak çözüyorum: yeni kısa kapsül + okunur eşikler; veri/ödül sistemi değişmeyecek.
+- karar: 40. bölüm final modalı görülmediği için uydurma önce/sonra üretilmeyecek; terminal akışın eksik görsel kanıtı yüksek kod/QA işi olarak PM’ye yazıldı.
+
+## 2026-11-03T00:54+03:00 — son kontrol ve kararlar
+- karar: İlk “piksel≈pt” varsayımı düzeltildi: kaynaklar @2x/@3x olabilir; UX hesapları mantıksal375/390 pt ve kod ölçülerinden yapıldı. PNG fiziksel pikseli doğrudan pt sayılmadı.
+- Son tam turdaki TR375/TR390 menüler ve won40 Ev/Koleksiyon/harita da incelendi. Kapanmış Level→Bölüm farkı düşük kayıt; balon kırpılması ve tamamlanma dili iki yeni kod/metin bulgusu.
+- karar: 101–113 bağımsız ek adaylar değiştirilmeden tek inceleme sayfasına eklendi. Ek rapordaki39 tekrar ana toplamı şişirmedi; üç benzersiz doğrulanmış kod konusu U18/T09/T10'a alındı.
+- Teknik kontrol:150 aday PNG,35 aile ve36 önce/sonra. Ana130 PNG alfa/@3x/hash/slice; ek20 PNG alfa/@3x/hash geçti. Ana kaynak havuzundaki3.082 dosya değişmedi/eksilmedi. HTML yerel dosya hedefleri ve JS sözdizimi kontrol edildi; browser/Unity testi iddia edilmiyor.
+- karar: Son temizlik kanıtları eşzamanlı taslak raporlardan ayrı `temizlik-final-*` dosyalarında donduruldu. Erişilemeyen10 dizin belirsiz/kalmalı; bilinmeyen baytlar kazanıma eklenmedi. Klasör tabloları recursive olduğundan toplanmaz.
+
+## Sabah teslim özeti — A / B / C
+- **A:** Dört ayrı tur tamamlandı: **63 kayıt; 10 yüksek / 38 orta / 15 düşük.** Düşük kayıtların bir kısmı uygunluk/kapanmış sorun notudur; yeni hata sayısı değildir. Rapor: `docs/art/DENETIM_2026-11-03.md`.
+- **B:** Yüksek/orta22 çizim işinin tamamı01–22 klasörlerinde. Ek101–113 ailesiyle birlikte35 seçilebilir aile,150 şeffaf @3x PNG adayı,36 önce/sonra görüntüsü. Her ana işte NOT.md ve telefon önizlemeleri var. İlk iki deneme korunur; yeni tasarım yönü en çok3 deneme.
+- **Tek inceleme sayfası:** `Assets/Art/Redesign_T22/inceleme.html`. Numaralar seçilebilir ve kopyalanabilir; oyuna yazmaz. Ayrı AI sayfası tarihçe olarak korunur ama bütün önce/sonralar ana sayfada da vardır.
+- **C:** 8043 okunabilir dosya, erişilebilir/eksik işaretli1641 klasör kaydı; Assets içinde2749 metin ve326 runtime içerik kopyası kontrol edildi. **25.595 MB güvenle kaldırılabilir cache + 1573.027 MB dış arşivleme adayı = 1598.622 MB koşullu potansiyel. Gerçekte kazanılan0 MB.** Rapor: `docs/art/TEMIZLIK_ONERI.md`; sabit kanıt kopyası `docs/art/TEMIZLIK_T22_KANITLI.md`.
+- **Kanıt sınırı:** Yeni tam turda gerçek40 kazanma modalı yok; won40 menü/40/40 koleksiyon durumu incelendi. Ayrı intro modalı olmayan öğelerde en yeni ilgili öğretim bağlamı açıkça etiketlendi. Eğitim eli değişmedi.
+- **Kurallar:** Yalnız Assets/Art/Redesign_T22 ve docs/art yazıldı. Silme, taşıma, yeniden adlandırma, git, Unity, build yok. C#, Assets/_Game, sahne, prefab ve eski sanat PNG'lerine yazılmadı. Korunan kaynakların hash kanıtı `task22/original-art-check.json`.
+
+### Zeyd'in karar vermesi gereken en önemli5 madde
+1. Sonuç ailesi:01/03/04/05 ve02 kutuları mı;101/102/103 ve113 boyalı alternatifleri mi? Ana yeşil eylem ve mevcut soru akışı korunmalı.
+2. Tanıtım/uyarı:06–14 nesne odaklı sade set mi;104 ortak boyalı kabuk ve105 Baron alternatifi mi?
+3. İlk giriş:15/16/17 ile106/107/108 arasında yükleme/isim/soru yönü; anketin zamanlaması ayrı ürün kararı.
+4. Ayar/harita/koleksiyon/Jiggles:18–22 ile109–112 alternatifleri. Özellikle22 mevcut PM33 ilerleme işlevini korur;112 madalyon yönü işlev değişikliği kararı ister.
+5. Temizlik: Önce25.595 MB yeniden üretilebilir cache; ardından1573.027 MB tarihçe dış arşivleme listesini PM ile seç. Aynı diske taşıma alan kazandırmaz; bu görev hiçbirini uygulamadı.
