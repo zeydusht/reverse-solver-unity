@@ -31,7 +31,7 @@ namespace ReverseSolver.EditorTools
                 a.spritePixelsPerUnit = 3;
                 a.mipmapEnabled = false;
                 a.maxTextureSize = 1024;
-                if (assetPath.Contains("/t20-") || assetPath.Contains("/t21-"))
+                if (assetPath.Contains("/t20-") || assetPath.Contains("/t21-") || assetPath.Contains("/t23-"))
                 {
                     a.wrapMode = UnityEngine.TextureWrapMode.Clamp;
                     a.alphaIsTransparency = true;
@@ -49,7 +49,7 @@ namespace ReverseSolver.EditorTools
                 var st = new TextureImporterSettings();
                 a.ReadTextureSettings(st);
                 st.spriteMeshType = UnityEngine.SpriteMeshType.FullRect;    // needed for sliced drawing
-                if (assetPath.Contains("/t20-") || assetPath.Contains("/t21-")) st.spriteAlignment = (int)UnityEngine.SpriteAlignment.Custom;
+                if (assetPath.Contains("/t20-") || assetPath.Contains("/t21-") || assetPath.Contains("/t23-")) st.spriteAlignment = (int)UnityEngine.SpriteAlignment.Custom;
                 a.SetTextureSettings(st);
                 if (assetPath.EndsWith("skin-body.png")) { a.wrapMode = UnityEngine.TextureWrapMode.Repeat; a.crunchedCompression = false; }
                 if (assetPath.EndsWith("/popup-card.png")) a.maxTextureSize = 2048;   // 972x1200 stays block-aligned (1024 would rescale it to 830 px)

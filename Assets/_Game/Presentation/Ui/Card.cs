@@ -18,6 +18,15 @@ namespace ReverseSolver.Presentation
         readonly float _w;
         readonly List<System.Func<float, float>> _rows = new List<System.Func<float, float>>();
         readonly Transform _content;
+        readonly string _t23;
+        public bool T23 => _t23 != null;
+
+        TextView CardText(Transform parent, string name, string text, float sizePt, Vector4 color,
+                          bool bold = true, TextAlignmentOptions align = TextAlignmentOptions.Center, int order = 0)
+        {
+            var view = TextView.Create(parent, name, text, sizePt, color, bold, align, order);
+            return T23 ? view.Font(TextView.TitleFont) : view;
+        }
 
         public const float Pad = 22f;
         public static float ButtonH => Art.T14 ? 52f : 46f;   // Task 14 buttons have 28 pt rounded ends
@@ -26,11 +35,13 @@ namespace ReverseSolver.Presentation
         /* Codex's popup card is cream: texts drawn for the dark card switch to dark ink there. */
         public static Vector4 Ink(Vector4 onDark, string onCream) => Art.Get("popup-card") != null ? Draw.Hex(onCream) : onDark;
 
-        public Card(Transform parent, Vector2 screen, int order, string name = "Card")
+        public Card(Transform parent, Vector2 screen, int order, string name = "Card", string artFamily = null)
         {
             _screen = screen;
             _order = order;
-            _w = Mathf.Min(340f, screen.x - 52f);
+            string family = artFamily ?? (name == "Pause" ? Art.T23Pause : null);
+            _t23 = family != null && Art.Get(family + "-panel") != null ? family : null;
+            _w = T23 ? Mathf.Min(335f, screen.x - 40f) : Mathf.Min(340f, screen.x - 52f);
             Root = new GameObject(name).transform;
             Root.SetParent(parent, false);
             ShapeView.Create(Root, "veil", screen, 0, order).Radius(0).Fill(Draw.Rgba(8, 32, 34, .9f))
@@ -60,6 +71,8 @@ namespace ReverseSolver.Presentation
         string _banner;
         /* Cards with questions (👍/👎, 1-10) use the compact Task 14 buttons so they fit a 375x667 phone. */
         public bool Compact;
+        // Both feedback questions can be visible together; retain every action at phone height.
+        public bool Dense;
         readonly List<(int index, SpriteRenderer sr, string pressed)> _pressArt = new List<(int, SpriteRenderer, string)>();
 
         /* The pressed sprite of the Task 15 button under pt (true when there is one); the caller acts a moment later. */
@@ -77,10 +90,10 @@ namespace ReverseSolver.Presentation
 
         public Card Title(string text)
         {
-            if (Art.T14) { _banner = text; return this; }
+            if (T23 || Art.T14) { _banner = text; return this; }
             _rows.Add(y =>
             {
-                TextView.Create(_content, "title", text, 20, Ink(Draw.Hex("#eaf3f2"), "#0B2A36"), order: _order + 2)
+                CardText(_content, "title", text, 20, Ink(Draw.Hex("#eaf3f2"), "#0B2A36"), order: _order + 2)
                     .transform.localPosition = Draw.W(0, y + 12);
                 return 24 + 6;
             });
@@ -91,8 +104,9 @@ namespace ReverseSolver.Presentation
         {
             _rows.Add(y =>
             {
+                if (T23 && Compact) gapAfter = Mathf.Min(gapAfter, 2);
                 sizePt = Mathf.Max(13, sizePt);
-                var t = TextView.Create(_content, "body", text, sizePt, color ?? Ink(Draw.Hex("#8fb2b3"), "#0F4F5A"), false, order: _order + 2);
+                var t = CardText(_content, "body", text, sizePt, color ?? (T23 ? Draw.Hex("#0F4F5A") : Ink(Draw.Hex("#8fb2b3"), "#0F4F5A")), false, order: _order + 2);
                 var tmp = t.GetComponent<TextMeshPro>();
                 tmp.textWrappingMode = TextWrappingModes.Normal;
                 tmp.alignment = TextAlignmentOptions.Top;
@@ -116,6 +130,25 @@ namespace ReverseSolver.Presentation
         {
             _rows.Add(y =>
             {
+                if (T23)
+                {
+                    float width = Dense ? 128 : _t23 == Art.T23Pause ? 198 : primary ? 204 : 160;
+                    width = Mathf.Min(width, InnerWidth);
+                    float spriteHeight = width * 112f / 228f;
+                    string spriteKey = _t23 + (primary ? "-button-primary" : "-button-secondary");
+                    var sprite = Art.Place(_content, spriteKey, new Vector2(width, spriteHeight), _order + 2);
+                    if (sprite != null)
+                    {
+                        sprite.transform.localPosition = Draw.W(0, y + spriteHeight / 2);
+                        _pressArt.Add((Buttons.Count, sprite, spriteKey + "-pressed"));
+                    }
+                    CardText(_content, "label " + id, label, Compact ? 16 : primary ? 20 : 17, Palette.Cream, order: _order + 3)
+                        .Outline(primary ? Draw.Hex("#1E5A0E") : Palette.Navy, .3f)
+                        .transform.localPosition = Draw.W(0, y + spriteHeight / 2 - 3);
+                    float hitHeight = Mathf.Max(44, spriteHeight * .8f);
+                    Buttons.Add((new Rect(-width / 2, y + (spriteHeight - hitHeight) / 2, width, hitHeight), id));
+                    return spriteHeight + (_t23 == Art.T23Pause ? 13 : Compact ? 2 : 4);
+                }
                 if (Art.T15)   // PM_MESAJ_29 3.1: the compact (1-10) card too; its main button stays the big green one
                 {
                     // Task 15 (as Codex's preview-pause.png): the button at its own 684x336 aspect, never stretched, ~60 % of
@@ -125,7 +158,7 @@ namespace ReverseSolver.Presentation
                     float bw = Mathf.Min(InnerWidth, _w * (Compact ? .5f : .6f)), bh = bw * 336f / 684f, by = y + bh / 2;
                     var art = Art.Place(_content, key, new Vector2(bw, bh), _order + 2);
                     if (art != null) { art.transform.localPosition = Draw.W(0, by); _pressArt.Add((Buttons.Count, art, key + "-pressed")); }
-                    TextView.Create(_content, "label " + id, label, Compact ? 18 : 22, Palette.Cream, true, order: _order + 3)
+                    CardText(_content, "label " + id, label, Compact ? 18 : 22, Palette.Cream, true, order: _order + 3)
                         .Outline(primary ? Draw.Hex("#1E5A0E") : Palette.Navy, .3f).Shadow(Draw.Rgba(0, 0, 0, .55f), 2)
                         .transform.localPosition = Draw.W(0, by - 3);
                     Buttons.Add((new Rect(-bw / 2, y + bh * .1f, bw, bh * .8f), id));
@@ -138,7 +171,7 @@ namespace ReverseSolver.Presentation
                 else b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1);
                 b.Skin(primary ? "primary-normal" : "secondary-normal");
                 b.transform.localPosition = Draw.W(0, cy);
-                TextView.Create(_content, "label " + id, label, 15, Art.T14 ? Palette.Cream : primary ? Palette.Or(Draw.Hex("#33220a"), Palette.Navy) : Ink(Draw.Hex("#8fb2b3"), "#0B2A36"),
+                CardText(_content, "label " + id, label, 15, Art.T14 ? Palette.Cream : primary ? Palette.Or(Draw.Hex("#33220a"), Palette.Navy) : Ink(Draw.Hex("#8fb2b3"), "#0B2A36"),
                                 order: _order + 3).transform.localPosition = Draw.W(0, cy);
                 Buttons.Add((new Rect(-InnerWidth / 2, y, InnerWidth, height), id));
                 return height + 8;
@@ -157,11 +190,13 @@ namespace ReverseSolver.Presentation
                 for (int i = 0; i < n; i++)
                 {
                     float x = -InnerWidth / 2 + i * (bw + gap) + bw / 2;
-                    var art = Art.Place(_content, "btn2-secondary", new Vector2(bw, bh), _order + 2);
-                    if (art != null) { art.transform.localPosition = Draw.W(x, by); _pressArt.Add((Buttons.Count, art, "btn2-secondary-pressed")); }
-                    TextView.Create(_content, "label " + items[i].id, items[i].label, 16, Palette.Cream, true, order: _order + 3)
+                    string key = T23 ? _t23 + "-button-secondary" : "btn2-secondary";
+                    var art = Art.Place(_content, key, new Vector2(bw, bh), _order + 2);
+                    if (art != null) { art.transform.localPosition = Draw.W(x, by); _pressArt.Add((Buttons.Count, art, key + "-pressed")); }
+                    CardText(_content, "label " + items[i].id, items[i].label, 16, Palette.Cream, true, order: _order + 3)
                         .Outline(Palette.Navy, .3f).transform.localPosition = Draw.W(x, by - 2);
-                    Buttons.Add((new Rect(x - bw / 2, y + bh * .1f, bw, bh * .8f), items[i].id));
+                    float hitH = T23 ? Mathf.Max(44, bh * .8f) : bh * .8f;
+                    Buttons.Add((new Rect(x - bw / 2, y + (bh - hitH) / 2, bw, hitH), items[i].id));
                 }
                 return bh + 4;
             });
@@ -195,7 +230,7 @@ namespace ReverseSolver.Presentation
                     Part("thumb", new Vector2(6, 12), new Vector2(-1, -6), 3f, -18);
                     Buttons.Add((new Rect(x - bw / 2, y, bw, bh), i == 0 ? upId : downId));
                 }
-                return bh + 10;
+                return bh + (T23 && Compact ? 2 : 10);
             });
             return this;
         }
@@ -205,22 +240,26 @@ namespace ReverseSolver.Presentation
         {
             _rows.Add(y =>
             {
-                const float gap = 6, h = 44;
+                float gap = T23 ? 7 : 6;
+                const float h = 44;
                 int columns = Mathf.Min(5, count);
-                float cw = (InnerWidth - gap * (columns - 1)) / columns;
+                float cw = T23 ? 50 : (InnerWidth - gap * (columns - 1)) / columns;
+                float width = columns * cw + (columns - 1) * gap;
+                float step = T23 ? 50 : h + gap;
                 for (int i = 1; i <= count; i++)
                 {
-                    float rowY = y + (i - 1) / columns * (h + gap), cy = rowY + h / 2;
-                    float x = -InnerWidth / 2 + (i - 1) % columns * (cw + gap) + cw / 2;
+                    float rowY = y + (i - 1) / columns * step, cy = rowY + h / 2;
+                    float x = -width / 2 + (i - 1) % columns * (cw + gap) + cw / 2;
                     bool on = i == selected;
                     var c = ShapeView.Create(_content, "chip " + i, new Vector2(cw, h), 2, _order + 2).Radius(8)
                         .Fill(on ? Palette.Teal : Palette.Cream).Stroke(Palette.Teal, 1.5f);
                     c.transform.localPosition = Draw.W(x, cy);
-                    TextView.Create(_content, "chip label " + i, i.ToString(), 14, on ? Palette.Cream : Palette.Navy, true, order: _order + 3)
+                    if (T23) c.Skin(on ? Art.T23RatingSelected : Art.T23RatingNormal, false);
+                    CardText(_content, "chip label " + i, i.ToString(), T23 ? 18 : 14, on ? Palette.Cream : Palette.Navy, true, order: _order + 3)
                         .transform.localPosition = Draw.W(x, cy);
                     Buttons.Add((new Rect(x - cw / 2, rowY, cw, h), idPrefix + i));
                 }
-                return Mathf.CeilToInt((float)count / columns) * (h + gap) + 4;
+                return (Mathf.CeilToInt((float)count / columns) - 1) * step + h + (T23 ? 4 : gap + 4);
             });
             return this;
         }
@@ -229,7 +268,7 @@ namespace ReverseSolver.Presentation
         {
             _rows.Add(y =>
             {
-                TextView.Create(_content, "link " + id, label, 13, Ink(Palette.Cream, "#0B2A36"), false, order: _order + 3)
+                CardText(_content, "link " + id, label, 13, T23 ? Palette.Navy : Ink(Palette.Cream, "#0B2A36"), false, order: _order + 3)
                     .transform.localPosition = Draw.W(0, y + 22);
                 Buttons.Add((new Rect(-InnerWidth / 2, y, InnerWidth, 44), id));
                 return 44;
@@ -251,7 +290,7 @@ namespace ReverseSolver.Presentation
                     var b = ShapeView.Create(_content, "btn " + items[i].id, new Vector2(bw, ButtonH), 2, _order + 2).Radius(11);
                     b.Fill(new Vector4(0, 0, 0, 0)).Stroke(Draw.Rgba(255, 255, 255, .22f), 1).Skin("secondary-normal");
                     b.transform.localPosition = Draw.W(x + bw / 2, cy);
-                    TextView.Create(_content, "label " + items[i].id, items[i].label, 15, Art.T14 ? Palette.Cream : Ink(Draw.Hex("#8fb2b3"), "#0B2A36"), order: _order + 3)
+                    CardText(_content, "label " + items[i].id, items[i].label, 15, Art.T14 ? Palette.Cream : Ink(Draw.Hex("#8fb2b3"), "#0B2A36"), order: _order + 3)
                         .transform.localPosition = Draw.W(x + bw / 2, cy);
                     Buttons.Add((new Rect(x, y, bw, ButtonH), items[i].id));
                 }
@@ -263,17 +302,17 @@ namespace ReverseSolver.Presentation
         /* Lays the rows out, centres the card on screen and converts button rects to screen points. */
         public Card Finish()
         {
-            float y = Art.T14 ? (Compact ? 88 : 96) : 24;                                        // Task 14: rows start under the 80 pt banner
+            float y = T23 ? (Compact ? 72 : 82) : Art.T14 ? (Compact ? 88 : 96) : 24;                                        // Task 14: rows start under the 80 pt banner
             foreach (var row in _rows) y += row(y);
-            float h = y + 18 - 8 + (Art.T14 ? (Compact ? 14 : 30) : Art.Get("popup-card") != null ? 18 : 0);   // the panel's rim needs room under the last button
+            float h = T23 ? y + 12 : y + 18 - 8 + (Art.T14 ? (Compact ? 14 : 30) : Art.Get("popup-card") != null ? 18 : 0);   // the panel's rim needs room under the last button
             float top = (_screen.y - h) / 2;
             _content.localPosition = Draw.W(_screen.x / 2, top);
             // .card: #14484c, 1px rgba(255,255,255,.16), radius 18
             ShapeView.Create(Root, "card", new Vector2(_w, h), 4, _order + 1)
-                .Radius(18).Fill(Draw.Hex("#14484c")).Stroke(Draw.Rgba(255, 255, 255, .16f), 1).Skin("popup-card")
+                .Radius(18).Fill(Draw.Hex("#14484c")).Stroke(Draw.Rgba(255, 255, 255, .16f), 1).Skin(T23 ? _t23 + "-panel" : "popup-card")
                 .transform.localPosition = Draw.W(_screen.x / 2, top + h / 2);
             // preview art (#7): 9-sliced frame over the panel's edge, under the content
-            var frame = Art.Get("popup-card") != null ? null : Art.Place(Root, "frame", new Vector2(_w + 8, h + 8), _order + 1, sliced: true);
+            var frame = T23 || Art.Get("popup-card") != null ? null : Art.Place(Root, "frame", new Vector2(_w + 8, h + 8), _order + 1, sliced: true);
             if (frame != null) frame.transform.localPosition = Draw.W(_screen.x / 2, top + h / 2, -1);
             for (int i = 0; i < Buttons.Count; i++)
             {
@@ -281,8 +320,8 @@ namespace ReverseSolver.Presentation
                 Buttons[i] = (new Rect(r.x + _screen.x / 2, r.y + top, r.width, r.height), id);
             }
             if (_banner != null)
-                TextView.Create(Root, "title", _banner, 21, Palette.Cream, true, order: _order + 3).Outline(Palette.Navy, .2f)
-                    .transform.localPosition = Draw.W(_screen.x / 2, top + 40);
+                CardText(Root, "title", _banner, 21, Palette.Cream, true, order: _order + 3).Outline(Palette.Navy, .2f)
+                    .transform.localPosition = Draw.W(_screen.x / 2, top + (T23 ? 35 : 40));
             Height = h;
             Top = top;
             return this;

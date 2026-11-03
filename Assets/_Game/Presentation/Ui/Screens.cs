@@ -361,17 +361,23 @@ namespace ReverseSolver.Presentation
             string primaryId = won ? (isLast ? "menu" : "next") : "retry";
 
             if (demo && won) title = Texts.Congratulations;   // the banner is short; the demo line goes into the card
-            var card = new Card(parent, screen, order, "Result") { Compact = askFun && !thanked || askHard && !hardAnswered };
+            var card = new Card(parent, screen, order, "Result", won ? Art.T23Win : s.Outcome == Outcome.Bomb ? Art.T23LossBomb : Art.T23LossTime)
+            {
+                Compact = askFun && !thanked || askHard && !hardAnswered,
+                Dense = askFun && askHard && !thanked && !hardAnswered
+            };
             // preview art (#8, #9): victory / defeat scene when the level has no picture of its own
-            if (!card.Compact && !withPicture && !Art.T14) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
-            if (!card.Compact && !won && Art.T14) Picture(card, s.Outcome == Outcome.Bomb ? "loss-reason-bomb" : "loss-reason-time", 80);   // Task 14 loss reason
+            if (!card.T23 && !card.Compact && !withPicture && !Art.T14) Picture(card, won ? "victory" : s.Outcome == Outcome.Bomb ? "defeat-bomb" : "defeat-time", 120);
+            if (card.T23 && !won) Picture(card, (s.Outcome == Outcome.Bomb ? Art.T23LossBomb : Art.T23LossTime) + "-loss-reason", card.Compact ? 44 : 66);
+            else if (!card.Compact && !won && Art.T14) Picture(card, s.Outcome == Outcome.Bomb ? "loss-reason-bomb" : "loss-reason-time", 80);   // Task 14 loss reason
             card.Title(title);
             if (withPicture && !card.Compact)
             {
                 // the whole picture, as wide as the card allows and never taller than PictureMaxHeight
                 float aspect = (float)picture.width / Mathf.Max(1, picture.height);
                 float pw = card.InnerWidth, ph = pw / aspect;
-                if (ph > PictureMaxHeight) { ph = PictureMaxHeight; pw = ph * aspect; }
+                float pictureMax = card.T23 ? (demo ? 110 : 160) : PictureMaxHeight;
+                if (ph > pictureMax) { ph = pictureMax; pw = ph * aspect; }
                 card.Custom(PictureTopGap + ph + 14, (root, y, w, o) =>
                 {
                     var p = PicturePiece.Create(root, picture, new Vector2(pw, ph), o);
@@ -408,12 +414,12 @@ namespace ReverseSolver.Presentation
             {
                 card.Body(Texts.AskFun, sizePt: 13, gapAfter: 8);
                 // PM_MESAJ_19: two small drawn thumbs instead of two wide buttons
-                if (Art.T15) card.ThumbRow("fun_up", "fun_down");
+                if (card.T23 || Art.T15) card.ThumbRow("fun_up", "fun_down");
                 else card.ButtonRow(("fun_up", Texts.Liked), ("fun_down", Texts.Disliked));
             }
             if (askFun && thanked) card.Body(Texts.Thanks, sizePt: 13, gapAfter: 8);
             if (demo) card.Button("menu", Texts.MainMenu, false);
-            else if (won && Art.T15) card.ButtonPair(("retry", Texts.PlayAgain), ("menu", Texts.Menu));
+            else if (won && (card.T23 || Art.T15)) card.ButtonPair(("retry", Texts.PlayAgain), ("menu", Texts.Menu));
             else
             {
                 if (won || !Art.On) card.Button("retry", Texts.PlayAgain, false);
@@ -490,7 +496,7 @@ namespace ReverseSolver.Presentation
             if (s == null) return c;
             float h = height > 0 ? height : c.InnerWidth * s.bounds.size.y / s.bounds.size.x;
             float w = height > 0 ? Mathf.Min(c.InnerWidth, h * s.bounds.size.x / s.bounds.size.y) : c.InnerWidth;
-            return c.Custom(h + 10, (root, y, cw, o) =>
+            return c.Custom(h + (c.T23 && c.Compact ? 4 : 10), (root, y, cw, o) =>
             {
                 var r = Art.Place(root, key, new Vector2(w, h), o + 2);
                 r.transform.localPosition = Draw.W(0, y + h / 2);

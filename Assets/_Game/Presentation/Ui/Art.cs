@@ -47,6 +47,12 @@ namespace ReverseSolver.Presentation
         }
 
         public static Sprite Get(string key) => Load<Sprite>(key);
+        public const string T23Win = "t23-win";
+        public const string T23LossBomb = "t23-loss-bomb";
+        public const string T23LossTime = "t23-loss-time";
+        public const string T23Pause = "t23-pause";
+        public const string T23RatingNormal = "t23-rating-normal";
+        public const string T23RatingSelected = "t23-rating-selected";
         /* Codex Task 14 in-game set present (cards with a title banner, combined booster buttons, icon pills). */
         public static bool T14 => Get("loss-reason-bomb") != null;
         /* Codex Task 15 present (HUD pills without baked icons, short tall card buttons, Jiggles counter icon). */
