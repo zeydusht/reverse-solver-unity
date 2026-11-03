@@ -25,7 +25,7 @@ namespace ReverseSolver.Presentation
         public LevelsMap(Transform root, Vector2 screen, float top, float bottom, IReadOnlyList<LevelData> levels, Progress progress, LevelImages images, int order, float? offset)
         {
             MenuUi.Scene(root, "levels", screen, order - 10);
-            MenuUi.Title(root, screen, top, Texts.Levels, order + 30);
+            MenuUi.Title(root, screen, top, Texts.Levels, order + 30, heading: true);
             _back = MenuUi.Button(root, BackSprite, null, new Vector2(30, top + 34), Vector2.one * 38, order + 32);
             _back = new Rect(_back.center - Vector2.one * 22, Vector2.one * 44);
             const float pitch = 76;
@@ -76,7 +76,8 @@ namespace ReverseSolver.Presentation
                     if (MenuUi.Sprite(cell, PlayBubbleSprite, bubbleAt, new Vector2(84, 44), order + 6) == null)
                         ShapeView.Create(cell, "PlayBubble", new Vector2(84, 44), 2, order + 6).Radius(14)
                             .Fill(Draw.Hex("#3e9a51")).transform.localPosition = Draw.W(bubbleAt);
-                    MenuUi.Label(cell, Texts.Play, bubbleAt + new Vector2(0, -2), 16, order + 7);
+                    TextView.Create(cell, "play", Texts.Play, 20, Palette.Cream, false, order: order + 7).Heading(TextView.RimGreen).FitWidth(70, 14)
+                        .transform.localPosition = Draw.W(bubbleAt + new Vector2(0, -3));
                     _nodes.Add((new Rect(x - 42, y - 116, 84, 44), i));
                 }
                 // Baron on top right, lock or tick on bottom right: the two never overlap.

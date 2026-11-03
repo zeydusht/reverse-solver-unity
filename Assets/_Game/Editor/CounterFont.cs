@@ -59,6 +59,21 @@ namespace ReverseSolver.EditorTools
             Save(fa, "Title");
         }
 
+        /* Baloo 2 ExtraBold (OFL, Resources/Fonts/OFL-Baloo2.txt) for card titles and buttons (PM_MESAJ_42):
+           ASCII + Turkish letters only, a static atlas kept small (<= 0.3 MB in the download).
+             bash Tools/unity_batch.sh method ReverseSolver.EditorTools.CounterFont.BuildBaloo */
+        public static void BuildBaloo()
+        {
+            var font = AssetDatabase.LoadAssetAtPath<Font>(Dir + "Baloo2-ExtraBold.ttf");
+            var fa = TMP_FontAsset.CreateFontAsset(font, 48, 9, GlyphRenderMode.SDFAA, 1024, 512, AtlasPopulationMode.Dynamic, false);
+            var chars = new System.Text.StringBuilder("çÇğĞıİöÖşŞüÜâÂîÎûÛ·…’‘“”–—");
+            for (char c = ' '; c <= '~'; c++) chars.Append(c);
+            fa.TryAddCharacters(chars.ToString(), out string missing);
+            if (!string.IsNullOrEmpty(missing)) Debug.Log("[font] Baloo eksik: " + missing);
+            fa.material.EnableKeyword("OUTLINE_ON"); fa.material.EnableKeyword("UNDERLAY_ON");
+            Save(fa, "Baloo");
+        }
+
         static void Save(TMP_FontAsset fa, string name)
         {
             fa.atlasPopulationMode = AtlasPopulationMode.Static;

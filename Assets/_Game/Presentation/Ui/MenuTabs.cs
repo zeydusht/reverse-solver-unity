@@ -86,9 +86,15 @@ namespace ReverseSolver.Presentation
             if (ready != null) show(ready);
         }
 
-        public static void Title(Transform root, Vector2 screen, float top, string title, int order)
+        public static void Title(Transform root, Vector2 screen, float top, string title, int order, bool heading = false)
         {
             Sprite(root, "title-plaque", new Vector2(screen.x / 2, top + 34), new Vector2(240, 60), order, true);
+            if (heading)   // PM_MESAJ_42: Baloo heading style
+            {
+                var t = TextView.Create(root, "banner", title, 28, Palette.Cream, false, order: order + 1).Heading(TextView.RimTeal).FitWidth(220, 19);
+                t.transform.localPosition = Draw.W(screen.x / 2, top + 32);
+                return;
+            }
             Banner(root, title, new Vector2(screen.x / 2, top + 33), 27, order + 1, 220);
         }
 

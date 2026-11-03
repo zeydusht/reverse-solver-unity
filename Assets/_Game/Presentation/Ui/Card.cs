@@ -149,8 +149,10 @@ namespace ReverseSolver.Presentation
                         _pressArt.Add((Buttons.Count, sprite, spriteKey + "-pressed"));
                     }
                     // PM_MESAJ_41: the title's style (>= 20 pt, thin rim, drop shadow); a .3 rim ate the glyphs on iPhone Safari
-                    CardText(_content, "label " + id, label, 20, Palette.Cream, order: _order + 3)
-                        .Outline(primary ? Draw.Hex("#1E5A0E") : Palette.Navy, .15f).Shadow(Draw.Rgba(0, 0, 0, .55f), 2)
+                    // PM_MESAJ_42: Baloo heading style, ~50 % of the button's inner height, fitted down to 70 %
+                    float labelPt = spriteHeight * .3f;
+                    CardText(_content, "label " + id, label, labelPt, Palette.Cream, order: _order + 3)
+                        .Heading(primary ? TextView.RimGreen : TextView.RimTeal).FitWidth(width * .78f, labelPt * .7f)
                         .transform.localPosition = Draw.W(0, y + spriteHeight / 2 - 3);
                     float hitHeight = Mathf.Max(44, spriteHeight * .8f);
                     Buttons.Add((new Rect(-width / 2, y + (spriteHeight - hitHeight) / 2, width, hitHeight), id));
@@ -200,8 +202,9 @@ namespace ReverseSolver.Presentation
                     string key = T23 ? Art.T23Secondary : "btn2-secondary";
                     var art = Art.Place(_content, key, new Vector2(bw, bh), _order + 2);
                     if (art != null) { art.transform.localPosition = Draw.W(x, by); _pressArt.Add((Buttons.Count, art, key + "-pressed")); }
-                    CardText(_content, "label " + items[i].id, items[i].label, T23 ? 20 : 16, Palette.Cream, true, order: _order + 3)
-                        .Outline(Palette.Navy, T23 ? .15f : .3f).Shadow(Draw.Rgba(0, 0, 0, T23 ? .55f : 0), 2).transform.localPosition = Draw.W(x, by - 2);
+                    var pairLabel = CardText(_content, "label " + items[i].id, items[i].label, T23 ? bh * .3f : 16, Palette.Cream, true, order: _order + 3);
+                    if (T23) pairLabel.Heading(TextView.RimTeal).FitWidth(bw * .78f, bh * .21f); else pairLabel.Outline(Palette.Navy, .3f);
+                    pairLabel.transform.localPosition = Draw.W(x, by - 2);
                     float hitH = T23 ? Mathf.Max(44, bh * .8f) : bh * .8f;
                     Buttons.Add((new Rect(x - bw / 2, y + (bh - hitH) / 2, bw, hitH), items[i].id));
                 }
@@ -327,8 +330,11 @@ namespace ReverseSolver.Presentation
                 Buttons[i] = (new Rect(r.x + _screen.x / 2, r.y + top, r.width, r.height), id);
             }
             if (_banner != null)
-                CardText(Root, "title", _banner, 21, Palette.Cream, true, order: _order + 3).Outline(Palette.Navy, .2f)
-                    .transform.localPosition = Draw.W(_screen.x / 2, top + (T23 ? 35 : 40));
+            {
+                var titleView = CardText(Root, "title", _banner, T23 ? 24 : 21, Palette.Cream, true, order: _order + 3);
+                if (T23) titleView.Heading(TextView.RimTeal).FitWidth(_w - 70, 17); else titleView.Outline(Palette.Navy, .2f);
+                titleView.transform.localPosition = Draw.W(_screen.x / 2, top + (T23 ? 35 : 40));
+            }
             Height = h;
             Top = top;
             return this;

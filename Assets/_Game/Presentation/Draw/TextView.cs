@@ -47,6 +47,33 @@ namespace ReverseSolver.Presentation
         static TMP_FontAsset _title;
         public static TMP_FontAsset TitleFont => _title != null ? _title : (_title = Resources.Load<TMP_FontAsset>("Fonts/Title"));
 
+        static TMP_FontAsset _heading;
+        public static TMP_FontAsset HeadingFont => _heading != null ? _heading : (_heading = Resources.Load<TMP_FontAsset>("Fonts/Baloo"));
+        public static readonly Vector4 RimGreen = Draw.Hex("#385018"), RimTeal = Draw.Hex("#0B3E47"), RimRed = Draw.Hex("#5A1414");
+
+        /* PM_MESAJ_42: card titles and buttons, one style everywhere (font_demo_PM.png, row 3): Baloo 2 ExtraBold,
+           #FCFADE -> #F0E6A6 down the glyphs, a thin rim in the button's dark tone (~6 % of the height) and a hard
+           shadow of the same colour ~9 % below. */
+        public TextView Heading(Vector4 rim)
+        {
+            if (HeadingFont == null) return Banner(rim);
+            Font(HeadingFont);
+            Color = Vector4.one;
+            _t.enableVertexGradient = true;
+            Color32 top = new Color32(0xFC, 0xFA, 0xDE, 255), bottom = new Color32(0xF0, 0xE6, 0xA6, 255);
+            _t.colorGradient = new VertexGradient(top, top, bottom, bottom);
+            Outline(rim, .24f);
+            var m = _t.fontMaterial;
+            m.SetFloat(ShaderUtilities.ID_FaceDilate, .2f);   // the rim straddles the edge: keep the face full
+            m.EnableKeyword("UNDERLAY_ON");
+            m.SetColor("_UnderlayColor", new Color(rim.x, rim.y, rim.z, 1));
+            m.SetFloat("_UnderlayOffsetY", -.55f);
+            m.SetFloat("_UnderlayDilate", .44f);
+            m.SetFloat("_UnderlaySoftness", 0f);
+            _t.UpdateMeshPadding();
+            return this;
+        }
+
         /* PM_MESAJ_27 A3: menu banners in Nunito Black, cream-to-yellow fill, thick dark outline, soft shadow below. */
         public TextView Banner(Vector4 outline)
         {

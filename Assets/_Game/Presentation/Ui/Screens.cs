@@ -38,7 +38,7 @@ namespace ReverseSolver.Presentation
             public Rect Play, Levels, Settings, Profile;
 
             public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false,
-                        string player = null, int saved = 0, int stars = 0, string playLabel = null)
+                        string player = null, int saved = 0, int stars = 0, string playLabel = null, bool hard = false)
             {
                 Root = new GameObject("Menu").transform;
                 Root.SetParent(parent, false);
@@ -56,7 +56,7 @@ namespace ReverseSolver.Presentation
                     bg.transform.localScale = new Vector3(k, k, 1);
                     bg.transform.localPosition = Draw.W(screen.x / 2, screen.y / 2);
                     _bg = bg;
-                    Task13(screen, safe, nextNumber, order, player, saved, stars, playLabel);
+                    Task13(screen, safe, nextNumber, order, player, saved, stars, playLabel, hard);
                     return;
                 }
 
@@ -149,7 +149,7 @@ namespace ReverseSolver.Presentation
                 _painting.transform.localPosition = new Vector3((x0 + x1) / 2 - size.x / 2, size.y / 2 - (y0 + y1) / 2) / _bg.sprite.pixelsPerUnit;
             }
 
-            void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel)
+            void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel, bool hard = false)
             {
                 float w = screen.x, top = safe.y, hy = top + 34;
                 if (Art.On)
@@ -220,10 +220,18 @@ namespace ReverseSolver.Presentation
                 // PM_MESAJ_29: 12 pt clear of the selected tab icon that rises over the bar
                 float x0 = (w - bw) / 2, cy = screen.y - safe.w - (Art.On ? 28 : 22) - bh / 2;
                 var play = Sprite("level-button", new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
-                var label = TextView.Create(Root, "play", playLabel ?? string.Format(Texts.Level, next), bh * .34f, Palette.Cream, false, order: order + 2);
-                if (Art.On) label.Banner(TextView.OnGreen).FitWidth(bw - 40, 12);
+                // PM_MESAJ_42: Baloo heading; a hard level adds "Hard level" under it (40 % / 27 % of the inner height)
+                bool second = Art.On && hard && playLabel == null;
+                var label = TextView.Create(Root, "play", playLabel ?? string.Format(Texts.Level, next), bh * (second ? .27f : .34f), Palette.Cream, false, order: order + 2);
+                if (Art.On) label.Heading(TextView.RimGreen).FitWidth(bw - 40, bh * (second ? .19f : .24f));
                 else label.Font(Lilita).Outline(Draw.Hex("#1E5C0E"), .22f);
-                label.transform.localPosition = Draw.W(x0 + bw / 2, cy - 2);
+                label.transform.localPosition = Draw.W(x0 + bw / 2, cy - (second ? bh * .12f : 2));
+                if (second)
+                {
+                    var sub = TextView.Create(Root, "play-hard", Texts.HardTitle, bh * .18f, Palette.Cream, false, order: order + 2)
+                        .Heading(TextView.RimGreen).FitWidth(bw - 50, bh * .13f);
+                    sub.transform.localPosition = Draw.W(x0 + bw / 2, cy + bh * .17f);
+                }
                 Play = new Rect(x0, cy - bh / 2, bw, bh);
                 if (play != null) _press.Add((Play, play, "level-button", "level-button-pressed", label.transform));
 

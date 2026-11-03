@@ -835,7 +835,7 @@ namespace ReverseSolver.Presentation
                     menuSafe.w = _screen.y - _tabs.Top;   // Home: the Level button sits 16 pt above the bar
                 }
                 if (!Art.On || (!_levelsMapOpen && _tab == MenuTab.Home))
-                    _menu = new Screens.Menu(_world, _screen, menuSafe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null);
+                    _menu = new Screens.Menu(_world, _screen, menuSafe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[_progress.Next()].Hard);
                 // PM_MESAJ_18: the corridor's big frame shows the painting the next level frees
                 if (_paintSet && _newArt && _menu != null)
                 {
