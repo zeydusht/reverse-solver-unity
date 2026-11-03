@@ -694,3 +694,153 @@ Kontrol: 19 üretim PNG, 14 Source PNG değişmeden korundu, 109 eski onaylı sa
 | `painting-test-01.png` | `painting-test-01` | Yalnız `?set=redesign&painting=1`, Level 7 |
 | Kullanılmadı | — | Önizlemedeki süslü tahta çerçevesi ve kutulu booster çubuğu (Zeyd) |
 
+<!-- TASK16_BATCH_1_BEGIN -->
+## Task16 — Parti 1 tamamlandı
+
+Üretim: built-in `image_gen`; stil referansı `Gameplay/Task15/painting-test-01.png`. Özgün sahneler; tabloların içinde yazı, logo, insan yüzü, çerçeve ve engel yok.
+
+| Dosya | Bölüm | Tema | Boyut |
+|---|---|---|---|
+| `Assets/Art/Paintings/Source/painting-01.png` / `Assets/Art/Paintings/painting-01.jpg` | 1 | Çiçekli sahil köyü | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 290.413 bayt |
+| `Assets/Art/Paintings/Source/painting-02.png` / `Assets/Art/Paintings/painting-02.jpg` | 2 | Renkli balıkçı limanı | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 290.274 bayt |
+| `Assets/Art/Paintings/Source/painting-03.png` / `Assets/Art/Paintings/painting-03.jpg` | 3 | Teraslı zeytinlik | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 295.022 bayt |
+| `Assets/Art/Paintings/Source/painting-04.png` / `Assets/Art/Paintings/painting-04.jpg` | 4 | Fener koyu | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 298.636 bayt |
+| `Assets/Art/Paintings/Source/painting-05.png` / `Assets/Art/Paintings/painting-05.jpg` | 5 | Begonvilli sokak | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 291.545 bayt |
+| `Assets/Art/Paintings/Source/painting-06.png` / `Assets/Art/Paintings/painting-06.jpg` | 6 | Limon bahçesi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 297.837 bayt |
+| `Assets/Art/Paintings/Source/painting-07.png` / `Assets/Art/Paintings/painting-07.jpg` | 7 | Kemerli su yolu | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 285.390 bayt |
+| `Assets/Art/Paintings/Source/painting-08.png` / `Assets/Art/Paintings/painting-08.jpg` | 8 | Seramik avlusu | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 290.911 bayt |
+| `Assets/Art/Paintings/Source/painting-09.png` / `Assets/Art/Paintings/painting-09.jpg` | 9 | Üzüm terasları | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 298.697 bayt |
+| `Assets/Art/Paintings/Source/painting-10.png` / `Assets/Art/Paintings/painting-10.jpg` | 10 | Çamlıklı saklı koy | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 290.488 bayt |
+| `Assets/Art/Paintings/preview-batch-1.png` | Parti 1 | 10 resimlik inceleme ızgarası | 1580×760 PNG |
+| `Assets/Art/Paintings/preview-board-1.png` | Parti 1 | 6×6 tahta, bir bomba ve bir çivi | 1104×1104 PNG |
+
+Üretim aracının verdiği 1254×1254 kareler kırpılmadan bicubic ile 1536×1536 kaynak ölçüsüne getirildi; bu teslim boyutu yerel üretim çözünürlüğü değildir. Oyun JPG dosyaları özgün üretimden Lanczos ile 1024×1024 küçültüldü, kalite 85 / 4:2:0 / optimize / progressive olarak kodlandı. Yoğun bitki ayrıntılarında 300.000 bayt sınırını sağlamak için yalnız JPG dosyalarında dosya başına kaydedilmiş hafif Gaussian ön filtre kullanıldı; kaynak PNG dosyalarına uygulanmadı.
+
+Promptlar: `docs/art/task16-batch-1-prompts.json`. Dosya ölçüleri, yerel üretim ölçüsü, ön filtre yarıçapı, SHA-256 ve byte ölçümleri: `Assets/Art/Paintings/manifest-batch-1.json` ve `docs/art/reports/task16-batch-1-validation.json`.
+
+Tahta önizlemesi gerçek Task14 bomba ve çivi görsellerini kullanır; bu engeller kaynak/oyun resimlerine gömülmedi. Önizleme kare dilimlidir, canlı oyun testi değildir. C# ve izinli iki klasörün dışındaki proje dosyalarına yazılmadı.
+<!-- TASK16_BATCH_1_END -->
+
+<!-- TASK16_BATCH_2_BEGIN -->
+## Task16 — Parti 2 tamamlandı
+
+Üretim: built-in `image_gen`; stil referansı `Gameplay/Task15/painting-test-01.png`. Özgün sahneler; tabloların içinde yazı, logo, insan yüzü, çerçeve ve engel yok.
+
+| Dosya | Bölüm | Tema | Boyut |
+|---|---|---|---|
+| `Assets/Art/Paintings/Source/painting-11.png` / `Assets/Art/Paintings/painting-11.jpg` | 11 | Çiçekli orman şelalesi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 292.306 bayt |
+| `Assets/Art/Paintings/Source/painting-12.png` / `Assets/Art/Paintings/painting-12.jpg` | 12 | Dere kenarında değirmen | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 295.166 bayt |
+| `Assets/Art/Paintings/Source/painting-13.png` / `Assets/Art/Paintings/painting-13.jpg` | 13 | Mantar ormanı | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 286.563 bayt |
+| `Assets/Art/Paintings/Source/painting-14.png` / `Assets/Art/Paintings/painting-14.jpg` | 14 | Lavanta tarlası | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 285.822 bayt |
+| `Assets/Art/Paintings/Source/painting-15.png` / `Assets/Art/Paintings/painting-15.jpg` | 15 | Nilüferli göl evi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 294.858 bayt |
+| `Assets/Art/Paintings/Source/painting-16.png` / `Assets/Art/Paintings/painting-16.jpg` | 16 | Elma bahçesi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 294.433 bayt |
+| `Assets/Art/Paintings/Source/painting-17.png` / `Assets/Art/Paintings/painting-17.jpg` | 17 | Dere üzerindeki ahşap köprü | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 284.391 bayt |
+| `Assets/Art/Paintings/Source/painting-18.png` / `Assets/Art/Paintings/painting-18.jpg` | 18 | Kır çiçekli çiftlik | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 285.418 bayt |
+| `Assets/Art/Paintings/Source/painting-19.png` / `Assets/Art/Paintings/painting-19.jpg` | 19 | Salkım söğütlü gölet | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 295.301 bayt |
+| `Assets/Art/Paintings/Source/painting-20.png` / `Assets/Art/Paintings/painting-20.jpg` | 20 | Çiçekli orman serası | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 290.659 bayt |
+| `Assets/Art/Paintings/preview-batch-2.png` | Parti 2 | 10 resimlik inceleme ızgarası | 1580×760 PNG |
+| `Assets/Art/Paintings/preview-board-2.png` | Parti 2 | 6×6 tahta, bir bomba ve bir çivi | 1104×1104 PNG |
+
+Üretim aracının verdiği 1254×1254 kareler kırpılmadan bicubic ile 1536×1536 kaynak ölçüsüne getirildi; bu teslim boyutu yerel üretim çözünürlüğü değildir. Oyun JPG dosyaları özgün üretimden Lanczos ile 1024×1024 küçültüldü, kalite 85 / 4:2:0 / optimize / progressive olarak kodlandı. Yoğun bitki ayrıntılarında 300.000 bayt sınırını sağlamak için yalnız JPG dosyalarında dosya başına kaydedilmiş hafif Gaussian ön filtre kullanıldı; kaynak PNG dosyalarına uygulanmadı.
+
+Promptlar: `docs/art/task16-batch-2-prompts.json`. Dosya ölçüleri, yerel üretim ölçüsü, ön filtre yarıçapı, SHA-256 ve byte ölçümleri: `Assets/Art/Paintings/manifest-batch-2.json` ve `docs/art/reports/task16-batch-2-validation.json`.
+
+Tahta önizlemesi gerçek Task14 bomba ve çivi görsellerini kullanır; bu engeller kaynak/oyun resimlerine gömülmedi. Önizleme kare dilimlidir, canlı oyun testi değildir. C# ve izinli iki klasörün dışındaki proje dosyalarına yazılmadı.
+<!-- TASK16_BATCH_2_END -->
+
+<!-- TASK16_BATCH_3_BEGIN -->
+## Task16 — Parti 3 tamamlandı
+
+Üretim: built-in `image_gen`; stil referansı `Gameplay/Task15/painting-test-01.png`. Özgün sahneler; tabloların içinde yazı, logo, insan yüzü, çerçeve ve engel yok.
+
+| Dosya | Bölüm | Tema | Boyut |
+|---|---|---|---|
+| `Assets/Art/Paintings/Source/painting-21.png` / `Assets/Art/Paintings/painting-21.jpg` | 21 | Karlı köy meydanı | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 285.380 bayt |
+| `Assets/Art/Paintings/Source/painting-22.png` / `Assets/Art/Paintings/painting-22.jpg` | 22 | Dağ yamacında kulübe | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 295.908 bayt |
+| `Assets/Art/Paintings/Source/painting-23.png` / `Assets/Art/Paintings/painting-23.jpg` | 23 | Buz pateni göleti | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 298.649 bayt |
+| `Assets/Art/Paintings/Source/painting-24.png` / `Assets/Art/Paintings/painting-24.jpg` | 24 | Kuzey ışıklı vadi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 298.466 bayt |
+| `Assets/Art/Paintings/Source/painting-25.png` / `Assets/Art/Paintings/painting-25.jpg` | 25 | Karlı vadide tren köprüsü | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 292.654 bayt |
+| `Assets/Art/Paintings/Source/painting-26.png` / `Assets/Art/Paintings/painting-26.jpg` | 26 | Donmuş şelale bahçesi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 296.348 bayt |
+| `Assets/Art/Paintings/Source/painting-27.png` / `Assets/Art/Paintings/painting-27.jpg` | 27 | Dağ teleferik durağı | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 287.764 bayt |
+| `Assets/Art/Paintings/Source/painting-28.png` / `Assets/Art/Paintings/painting-28.jpg` | 28 | Karlı teras bahçesi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 291.881 bayt |
+| `Assets/Art/Paintings/Source/painting-29.png` / `Assets/Art/Paintings/painting-29.jpg` | 29 | Işıklı buz mağarası | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 285.428 bayt |
+| `Assets/Art/Paintings/Source/painting-30.png` / `Assets/Art/Paintings/painting-30.jpg` | 30 | Zirvedeki gözlemevi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 289.200 bayt |
+| `Assets/Art/Paintings/preview-batch-3.png` | Parti 3 | 10 resimlik inceleme ızgarası | 1580×760 PNG |
+| `Assets/Art/Paintings/preview-board-3.png` | Parti 3 | 6×6 tahta, bir bomba ve bir çivi | 1104×1104 PNG |
+
+Üretim aracının verdiği 1254×1254 kareler kırpılmadan bicubic ile 1536×1536 kaynak ölçüsüne getirildi; bu teslim boyutu yerel üretim çözünürlüğü değildir. Oyun JPG dosyaları özgün üretimden Lanczos ile 1024×1024 küçültüldü, kalite 85 / 4:2:0 / optimize / progressive olarak kodlandı. Yoğun bitki ayrıntılarında 300.000 bayt sınırını sağlamak için yalnız JPG dosyalarında dosya başına kaydedilmiş hafif Gaussian ön filtre kullanıldı; kaynak PNG dosyalarına uygulanmadı.
+
+Promptlar: `docs/art/task16-batch-3-prompts.json`. Dosya ölçüleri, yerel üretim ölçüsü, ön filtre yarıçapı, SHA-256 ve byte ölçümleri: `Assets/Art/Paintings/manifest-batch-3.json` ve `docs/art/reports/task16-batch-3-validation.json`.
+
+Tahta önizlemesi gerçek Task14 bomba ve çivi görsellerini kullanır; bu engeller kaynak/oyun resimlerine gömülmedi. Önizleme kare dilimlidir, canlı oyun testi değildir. C# ve izinli iki klasörün dışındaki proje dosyalarına yazılmadı.
+<!-- TASK16_BATCH_3_END -->
+
+<!-- TASK16_BATCH_4_BEGIN -->
+## Task16 — Parti 4 tamamlandı
+
+Üretim: built-in `image_gen`; stil referansı `Gameplay/Task15/painting-test-01.png`. Özgün sahneler; tabloların içinde yazı, logo, insan yüzü, çerçeve ve engel yok.
+
+| Dosya | Bölüm | Tema | Boyut |
+|---|---|---|---|
+| `Assets/Art/Paintings/Source/painting-31.png` / `Assets/Art/Paintings/painting-31.jpg` | 31 | Fener festivali | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 288.892 bayt |
+| `Assets/Art/Paintings/Source/painting-32.png` / `Assets/Art/Paintings/painting-32.jpg` | 32 | Yıldızlı küçük hisar | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 296.099 bayt |
+| `Assets/Art/Paintings/Source/painting-33.png` / `Assets/Art/Paintings/painting-33.jpg` | 33 | Sihirli kütüphane | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 293.002 bayt |
+| `Assets/Art/Paintings/Source/painting-34.png` / `Assets/Art/Paintings/painting-34.jpg` | 34 | Balon şehri | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 299.954 bayt |
+| `Assets/Art/Paintings/Source/painting-35.png` / `Assets/Art/Paintings/painting-35.jpg` | 35 | Ay ışıklı nilüfer köşkü | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 294.295 bayt |
+| `Assets/Art/Paintings/Source/painting-36.png` / `Assets/Art/Paintings/painting-36.jpg` | 36 | Büyülü gök küresi salonu | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 287.754 bayt |
+| `Assets/Art/Paintings/Source/painting-37.png` / `Assets/Art/Paintings/painting-37.jpg` | 37 | Uçan adalar şelalesi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 299.288 bayt |
+| `Assets/Art/Paintings/Source/painting-38.png` / `Assets/Art/Paintings/painting-38.jpg` | 38 | Işıklı iksir atölyesi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 298.678 bayt |
+| `Assets/Art/Paintings/Source/painting-39.png` / `Assets/Art/Paintings/painting-39.jpg` | 39 | Kont'un büyülü bahçesi | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 298.684 bayt |
+| `Assets/Art/Paintings/Source/painting-40.png` / `Assets/Art/Paintings/painting-40.jpg` | 40 | Kont'un görkemli şatosu | Kaynak PNG 1536×1536; oyun JPG 1024×1024, kalite 85, 291.020 bayt |
+| `Assets/Art/Paintings/preview-batch-4.png` | Parti 4 | 10 resimlik inceleme ızgarası | 1580×760 PNG |
+| `Assets/Art/Paintings/preview-board-4.png` | Parti 4 | 6×6 tahta, bir bomba ve bir çivi | 1104×1104 PNG |
+
+Üretim aracının verdiği 1254×1254 kareler kırpılmadan bicubic ile 1536×1536 kaynak ölçüsüne getirildi; bu teslim boyutu yerel üretim çözünürlüğü değildir. Oyun JPG dosyaları özgün üretimden Lanczos ile 1024×1024 küçültüldü, kalite 85 / 4:2:0 / optimize / progressive olarak kodlandı. Yoğun bitki ayrıntılarında 300.000 bayt sınırını sağlamak için yalnız JPG dosyalarında dosya başına kaydedilmiş hafif Gaussian ön filtre kullanıldı; kaynak PNG dosyalarına uygulanmadı.
+
+Promptlar: `docs/art/task16-batch-4-prompts.json`. Dosya ölçüleri, yerel üretim ölçüsü, ön filtre yarıçapı, SHA-256 ve byte ölçümleri: `Assets/Art/Paintings/manifest-batch-4.json` ve `docs/art/reports/task16-batch-4-validation.json`.
+
+Tahta önizlemesi gerçek Task14 bomba ve çivi görsellerini kullanır; bu engeller kaynak/oyun resimlerine gömülmedi. Önizleme kare dilimlidir, canlı oyun testi değildir. C# ve izinli iki klasörün dışındaki proje dosyalarına yazılmadı.
+<!-- TASK16_BATCH_4_END -->
+
+<!-- TASK16_COLLECTION_COMPLETE -->
+
+## Task16 — 40 tablo tamamlandı
+
+4 oda × 10 tablo: 40 adet 1536×1536 PNG kaynak, 40 adet 1024×1024 kalite 85 JPG (her biri 300.000 bayt altında), 4 toplu ızgara ve 4 adet 6×6 bomba/çivi önizlemesi teslim edildi. 40. tablo Kont'un görkemli şatosudur; Kont, insan veya yüz görünmez.
+
+Tek katalog: `Assets/Art/Paintings/manifest-collection.json`. 80 kaynak/oyun dosyasının SHA-256 değeri kontrol edildi; fark 0. Son parti öncesindeki 66 sanat dosyası değişmedi. Genel rapor: `docs/art/reports/task16-collection-validation.json`. Üretim promptları dört ayrı `docs/art/task16-batch-N-prompts.json` dosyasındadır. Yerel üretimden 1536 px boyutlandırma ve yalnız JPG ön filtresi notları yukarıdaki parti kayıtlarında ve README içinde korunmuştur.
+
+<!-- TASK17_BEGIN -->
+## Task17 — Resimli tahtada görünür zincir v3
+
+| Dosya | Oyunda nereye | Boyut | Pivot |
+|---|---|---|---|
+| `Assets/Art/Gameplay/Task17/chain-link-v3.png` | Zincir kilitleri arasında tekrarlanan iri demir halka bandı; U Repeat / V Clamp | 128×64 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/chain-lock-v3.png` | Zincir uçlarındaki altın kilit; kalın demir bağlantı halkası | 160×160 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/preview-chain.png` | Tablo 40 ve 24 üzerinde eski/yeni çapraz zincir karşılaştırması | 1120×1320 RGB | Uygulanmaz |
+| `Assets/Art/Gameplay/Task17/preview-repeat.png` | Açık/koyu zeminde tekrar ve kilit yakın görünümü | 1024×290 RGBA | Uygulanmaz |
+
+PALETTE.md renkleri: lacivert demir #0B2A36, altın üst ışığı #FBBA0E, 4 px krem dış hale #F8EBD0. 56 px alpha bandı için sprite tuvali yüksekliği hücrenin %21.7143'ü, görünen kalınlık yaklaşık %19; yatay tekrar adımı %43.4286. Kilit üst halka bağlantısı kaynakta (80,27), Unity normalize (0.50,0.83125). Pivot merkezde kalır. Önizlemede eski/yeni tuval yüksekliği aynıdır.
+
+Kontrol: 128×64 ve 160×160, şeffaf halka açıklığı ve dış alan; X tekrar kenarlarında RGBA farkı 0. Eski iki zincir/kilit kaynağı ve iki tablo hash farkı 0. İki resimde görsel okunurluk incelendi. Kaynak: `docs/art/build-task17.py`; rapor: `docs/art/reports/task17-validation.json`; kullanım: `Assets/Art/Gameplay/Task17/README.md`. Yalnız Task17 ve docs/art yazımı; C#, Unity veya dotnet çalıştırılmadı. Entegrasyon yapılmadı.
+<!-- TASK17_END -->
+
+<!-- TASK17_COLORS_BEGIN -->
+## Task17 — Renkli zincir çiftleri
+
+| Dosya | Oyunda nereye | Boyut | Pivot |
+|---|---|---|---|
+| `Assets/Art/Gameplay/Task17/chain-link-v3-altin.png` | Altın çiftin tekrarlanan zinciri | 128×64 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/chain-lock-v3-altin.png` | Altın çiftin iki uç kilidi; yıldız | 160×160 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/chain-link-v3-turkuaz.png` | Turkuaz çiftin tekrarlanan zinciri | 128×64 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/chain-lock-v3-turkuaz.png` | Turkuaz çiftin iki uç kilidi; damla | 160×160 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/chain-link-v3-mor.png` | Mor çiftin tekrarlanan zinciri | 128×64 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/chain-lock-v3-mor.png` | Mor çiftin iki uç kilidi; hilal ay | 160×160 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/chain-link-v3-mercan.png` | Mercan çiftin tekrarlanan zinciri | 128×64 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/chain-lock-v3-mercan.png` | Mercan çiftin iki uç kilidi; kalp | 160×160 RGBA | 0.50 / 0.50 |
+| `Assets/Art/Gameplay/Task17/preview-chain-colors.png` | Aynı tahtada iki renkli çift; tablo 40 ve 24 | 1120×1060 RGB | Uygulanmaz |
+
+Onaylı v3 geometri ve dosyaları korunur. Halka U Repeat/V Clamp; 4 px krem hale; tuval yüksekliği hücrenin %21.7143'ü, görünür kalınlık yaklaşık %19. Kilit bağlantısı (0.50,0.83125). Dört renk ailesinin mor skalası ve mercan kullanım izni PALETTE.md Task17 ekine yazıldı. Renk körlüğü için her eşleşme hem renk hem ayrı şekille kodlanır.
+
+Üretim: `docs/art/build-task17-colors.py`. Hash/boyut/pivot kayıtları: `Assets/Art/Gameplay/Task17/manifest-colors.json`. Kontrol: `docs/art/reports/task17-colors-validation.json`; dört X tekrar kenarında RGBA farkı 0, onaylı alpha geometri farkı 0, korunan kaynak hash farkı 0. Önizleme görsel olarak incelendi. C#, Unity, dotnet çalıştırılmadı; oyun entegrasyonu yapılmadı.
+<!-- TASK17_COLORS_END -->

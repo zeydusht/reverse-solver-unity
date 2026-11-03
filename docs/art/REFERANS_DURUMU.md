@@ -47,3 +47,5 @@ Diğer eski adaylar ve kullanıcı yüklemeleri silinmedi. Onay durumları kesin
 Yeni Review çıktılarının hiçbiri otomatik olarak kullanıcı onaylı veya aktif ana referans sayılmaz. Karakter tasarımını, stili veya oyun kodunu değiştirmeden değerlendirme için sunulurlar.
 
 İlk paralel grup tamamlandı: ikon 1-safe-area.png, koridor 1-bordo-v02.png / 2.png, Jiggles 1-poz-kontrol.png. Koridor 1.png ilk sürümdür; mavi halısı nedeniyle bordo v02 incelemede tercih edilir. Bütün yeni sürümler korunur. İkon ajanı yedeği ikinci kez bağımsız doğruladı: kalan 47 özgün dosya değişmemiştir. 24 Ekim üretim dosyaları, seçili kaynakların üzerine yazılmaz ve `Assets/Art/ProductionReview.html` içinden incelenir.
+
+26 Ekim 2026: `Assets/Art/UI/PlayButton/menu-play-button-v2.png` ve basılı eşinin son image_gen restorasyonu Zeyd tarafından onaylandı ("sonunda çok beğendim"). Aktif menü UI sanat dayanağıdır; Task13 paketine birebir kopyası alınır. Koruma yedeği: `docs/art/backups/menu-anchor-approved-20261026-v01.zip`, SHA-256 manifesti aynı klasörde. Task13'ün yeni çizimleri ayrıca değerlendirmeye sunulur; eski Menu/Task12 dosyaları korunur.

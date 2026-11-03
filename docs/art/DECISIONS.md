@@ -170,3 +170,53 @@
 - Zeyd son renk revizyonu yerine önceki **Assets/Art/Review/Ikon/2-market-mavi-v01.png** dosyasının kalmasını istedi. Bu dosya seçilen/onaylı ikon görselidir; turkuaz/mercan/lavanta karakterler ve mavi hız çizgili fon geçerlidir.
 - Kırmızı/sarı/yeşil v01 aktif seçimden çıkarıldı; silinmedi. Yeni görsel üretilmedi, mevcut PNG'ler değiştirilmedi.
 - İnceleme sayfası ve güncel seçim kayıtları onaylı sürüme yönlendirildi. Gerçek telefon testi, hedef ikon boyutlarına dışa aktarım ve oyuna entegrasyon henüz yapılmadı.
+
+## 26 Ekim 2026 — Level tuşu v2 yeniden çizimi
+
+- Önceki prosedürel v2 Zeyd tarafından reddedildi: oran fazla uzun/ince, renk ve yazı uyumu yetersizdi.
+- Araç: yerleşik image_gen; kaynak `Assets/Art/Reference/level-button-reference.png`. Prompt seti: `docs/art/templates/play-button-v2-restoration.md`.
+- Seçilen kaynaklar `Assets/Art/UI/PlayButton/Source/normal-v2.png` ve `pressed-v2.png`; eski onaylı görseller korunarak yalnız reddedilen v2 dosyaları değiştirildi.
+- Son tuval 684×336, görünen tuş 660×300. Referansın gerçek oranı 247×155; karşılaştırma artık referansı esnetmeden gösterir. Önizleme Lilita One dolgusu referanstan ölçülen #F9F1BA.
+- Durum: Zeyd değerlendirmesi bekleniyor; yüzde benzerlik iddiası yok.
+## 26 Ekim 2026 — Level v2 onayı ve kalan ana menü (Task13)
+
+- Zeyd Level v2 referans restorasyonunu açıkça onayladı: "oh be sonunda çok beğendim". Yeni menü ailesinin sabit sanat dayanağı bu görseldir; önceki incelemeler bu onayla otomatik onaylanmaz.
+- Koruma: docs/art/backups/menu-anchor-approved-20261026-v01.zip + SHA-256 manifesti. Task13 içindeki iki Level PNG canonical ile birebir ve hash kontrolü temizdir.
+- Kullanıcı kalan profil/bar/düğmeleri aynı yüksek görsel kalitede yeniden istedi. Yerleşik image_gen ile 22 yeni kaynak üretildi; ortak sayaç kaynağı profil kutusuna, avatar kaynağı kurtarılan simgesine tekrar kullanılarak 24 üretim sprite'ı, iki birleşik profil düğmesi ve iki korunmuş Level kopyasıyla 28 parçalık set teslim edildi.
+- Yeni ana renkler zorunlu turkuaz-krem-altın ailesindedir; mercan yalnız kalp/bildirimde, onaylı yeşil ana Level tuşunda sürer. Jiggle kimliği canonical v02 kartından alınır. Menü referansındaki özgün karakter ve amblemler kullanılmaz.
+- Kaynaklar ve promptlar: Assets/Art/Menu/Task13/Source/ ve docs/art/templates/menu-task13-prompts.md. İnceleme: Assets/Art/Menu/Task13/index.html; telefon kompozisyonu preview-menu.png, toplu sayfa preview.png. Yeni PNG'ler Zeyd değerlendirmesindedir.
+- Oyun entegrasyonu yapılmadı; Assets/_Game dosyalarına dokunulmadı. Eski Menu/Task12 kaynakları ve onaylı koridor korunur.
+## 26 Ekim 2026 — Task14 oyun ekranı taslak kapısı
+
+- Zeyd oyun içini Task13/Level v2 ailesiyle istedi; çivi, bomba, zincir, Kit81, mevcut sayı fontu ve şato salonu açıkça korundu.
+- Önce 390×844 birleşik ekran taslağı istendi. Bu turda yalnız taslak üretildi; ayrı PNG sprite ve kartlar taslak onayına bağlı.
+- Yerleşik image_gen tam ekran şeffaf UI kompozisyon katmanı üretti. Prompt: docs/art/templates/task14-ingame-draft.md. Kaynak: Gameplay/Task14/Source/ui-overlay.png.
+- Korunan Kit81 flat geometrisi ve mevcut engeller/salon dosyaları mevcut Fredoka SemiBold ile yeniden kompozitlendi. Level7 5×5 kenar düzeni yalnız görsel taslağın başlangıcı; iki boş hücre ve temsilî engel/booster adetleri canlı level değişikliği değildir.
+- Yeni HUD krem alanlı altın çerçeveler ve turkuaz ikonlar; booster tek altın-krem-turkuaz aile; adetli/0/kilitli örnekler; dışa taşan altın köşe süslemeleri ve sağ kapalı kırmızı-beyaz şerit. Tahta frame açıklığına oturtuldu; kaynak Kit81 yeniden çizilmedi.
+- 252 korunan kaynakta hash farkı yok. Taslak Zeyd değerlendirmesinde. Kartların yeşil ana tuşları ve tüm normal/basılı/acil varyantları sonraki onaylı üretim aşamasındadır.
+
+## 26 Ekim 2026 — Task14 revizyon 2 / bağlantı sonrası devam
+
+- Zeyd üst/alt panel ve altın çerçeveyi beğendi. Bunların kaynak UI katmanı korundu; güçlü kırmızı-krem bariyer ve referanstaki oyuncak hacmine yakın dört özgün booster üzerine kompozitlendi. Eski çizimler silinmedi; önceki ekran Source/preview-ingame-v01.png olarak saklandı.
+- Kullanıcı bomba/çivi/zinciri yeniden çizme iznini açıkça verdi. Son mesajdaki üretim kapısı geçerli: önce 390×844 ekran taslağı, onaydan sonra ayrı @3x parçalar ve runtime HANDOFF satırları. Yeni kaynakların Revision2 altında tutulması üretim onayı sayılmaz.
+- Yerleşik image_gen ile 10 ham kaynak üretildi: bomba ilk deneme + kısa fitilli merkez revizyonu, üstten geniş düz çivi başı, kalın zincir tekrar halkası, belirgin kilit ucu, dört booster ve bariyer. Prompt/tool/dosya kayıtları: templates/task14-revision2-prompts.md. Bomba ilk denemesi merkez aşağıda kaldığı için seçilmedi; bomb-centered sürümü taslakta gövde merkezine göre konumlandı.
+- Bomba ve çivi kaynakları rakamsızdır. 12 ve 24 yalnız kompozisyon katmanında; büyük krem alanlar iki hane ile kontrol edildi. preview-details.png içinde 64 px boş/dolu engeller ve boosterlar gösterilir. Kesin 384/96×48/144 px dışa aktarım ve zincir birleşim kontrolü onaydan sonra yapılır.
+- Lilita One, onaylı Level v2 ailesiyle tutarlılık için sayı/etiket önerisi olarak taslakta denendi. Royal Match'in özgün fontu olduğu iddia edilmez. Mevcut TTF ve OFL dosyası TASK14_FONT.md içinde Claude Code'a gösterildi; `_Game` fontu değiştirilmedi.
+- 252 korunan kaynakta hash farkı yok. Panel/çerçeve örnek bölgelerinin eski/yeni piksel kontrolü ve ölçüler reports/task14-revision2-validation.json içinde. Güncel preview-ingame.png Zeyd revizyon onayındadır; tüm Task14 üretimi tamamlandı olarak işaretlenmez.
+
+## 26 Ekim 2026 — Task14 onayı ve final export bitti
+
+- Zeyd Task14 revizyon 2'yi açıkça onayladı ve ayrı @3x sprite üretimini istedi. Bu onayla taslak kapısı geçildi; yeni bir yaratıcı seçim beklenmedi.
+- 61 şeffaf RGBA üretim PNG'si Task14 köküne çıkarıldı. HUD normal/basılı/acil; booster ayrı zemin/ikon/boş rozet ve dört nesne için normal/basılı/kilitli/0; boş frame; merkezli bomba/çivi/zincir/kilit; tekrar duvar ve köşe; dört kart, kaybetme varyantları, üç renk kart tuşu ve basılıları, yıldız durumları teslim edildi. Kart/tuş/sayı metinleri gömülmedi.
+- Kaynak ayırma ve eksik kart/tuş/yıldız/tekrar sanatları yerleşik image_gen ile; teknik alpha temizliği, @3x ölçülendirme, basılı/soluk durumlar ve katman kompozisyonu export-task14.ps1 ile yapıldı. İstemler ve tüm seçilen kaynaklar templates/task14-final-export-prompts.md içinde.
+- Son zorunlu palette bağlı kalındı: kart ana eylemi altın, ikincil turkuaz ve tehlike mercan; önceki yeşil Level dosyasına dokunulmadı. Yumuşak ışık ve degradeler PALETTE.md renklerinin karışımları olarak sınırlandı; sert renk basamakları veren ilk teknik dönüştürme seçilmedi.
+- Kontrol geçti: 61 boyut/@3x/alpha ve 9-slice; frame merkezi tamamen şeffaf; bomba gövde sınırı merkezi (191.5,192), hedef (192,192), yarım piksel raster toleransı; zincir/duvar X uç ve köşe RGBA farkı 0; 252 korunan eski kaynak hash farkı 0. Onaylı preview-ingame.png de v02 kopyasıyla birebir korundu.
+- Lilita One TTF ve OFL lisansı Task14'e birebir kopyalandı. Gerçek cmap kontrolünde ı/ç/ö/ü var; ğ/ş/İ yok. Türkçe fallback ihtiyacı TASK14_FONT.md ve HANDOFF'a yazıldı; fontta değişiklik yapılmadı.
+- HANDOFF her final dosya için kullanım/boyut/9-slice/pivot satırı içerir. manifest.json dosya hashleriyle aynı veriyi taşır; TASK14_EXPORT.md kart eylemi/yerleşim ve katman eşlemelerini anlatır. Dört yeni inceleme sayfası hazır. Yalnız Task14 ve docs/art yazıldı; son kapsam kısıtı nedeniyle BACKLOG bu turda değiştirilmedi. C# ve Assets/_Game entegrasyonu Claude Code'a bırakıldı.
+
+## Task15 — Python final export
+
+- Zeyd bağlantı sonrası hazır Source çizimlerinden devam edilmesini, yeniden çizim yapılmamasını ve Python ile export istedi. Bu tur image_gen çağrısı yapılmadı. Önceki üretim istemleri templates/task15-prompts.md içinde.
+- Yeşil ana tuş onaylı Level v2 normal/basılı dosyalarının birebir kopyasıdır. Diğer final parçalar hazır Source bitmaplerinden kırpma/ölçekleme/alpha temizliği ile üretildi. 19 final PNG ve telefon/kart/64 px incelemeleri hazır.
+- HUD ikonları ayrı, kare tutuldu; hapları esnetirken saat/parça bozulmamalı. Rozet yalnız bir kez çizilir. Yeni kırmızı PALETTE.md v2; mercan yalnız acil süre.
+- Kit81 maskesi ve overlay değiştirilmeden resim UV kompozisyonunda kullanıldı; oyun koduna bağlanmadı. Source ve eski onaylı dosyalar hash ile korundu. Slice/pivot ve minimum ekran ölçüleri TASK15_EXPORT.md içinde.

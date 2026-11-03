@@ -54,3 +54,16 @@ Task15'in açık renk talebidir; bu tablo yalnız Jiggle gövdesi/portresi ve te
 | Mor | `#AF77E8` | `#7546B1` |
 
 Işıklar krem/uyarı beyazına, gölgeler laciverte karışabilir. Resim testinde deniz/gökyüzü için ek resim mavisi `#3C8DD9`, gölgesi `#245A87`; taş ve ahşap mevcut altın–krem–lacivert karışımlarıdır. Degradeler listelenen renklerin yumuşak karışımlarıdır; yeni bağımsız UI altını yoktur.
+
+## Task17 — Onaylı renkli zincir çiftleri
+
+Kullanıcının açık renk kararıdır; bu ek yalnız Task17 zincir/kilit çiftlerine uygulanır. Mercan `#E8574A` bu zincir ailesinde de kullanılabilir; rozet ve duvar kuralları korunur. Mor artık bu zincirlerin UI paletine de dahildir.
+
+| Çift | Ana / ışık | Gölge | Renkten bağımsız işaret |
+|---|---|---|---|
+| Altın | `#FBBA0E` / `#FFF1C2` | `#F38A03`, `#CE5D01` | Beş köşeli yıldız |
+| Turkuaz | `#1C7F8C`; ışık kremle karışır | `#0F4F5A` | Damla |
+| Mor | `#7546B1` / `#AF77E8` | `#3D2858` | Hilal ay |
+| Mercan | `#E8574A`; ışık kremle karışır | `#94160F` | Kalp |
+
+Tüm çiftlerde 4 px krem `#F8EBD0` dış hale ve lacivert `#0B2A36` işaret zemini ortaktır. İşaretler de krem kenarlıdır; eşleşme yalnız renge dayanmaz. Degradeler bu renklerin karışımlarıdır.

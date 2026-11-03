@@ -254,3 +254,7 @@ Bu tablo yukarıdaki grupların alt kırılımıdır; toplam kazanca bir daha ek
 PM dosya listesini kontrol edip Zeyd onayladığında ayrı bir görev uygulanabilir. Bu rapor silme yetkisi veya silme komutu içermez.
 
 Son kanıt kesimi: `task22/temizlik-final-ozet.json`. Sonradan üretilen teslim metadata/kopya tabloları bu tarama anının dışında kalır; hepsi kalmalı teslim dosyalarıdır, kazanç hesabına dahil değildir.
+
+## Son QA sırasında eklenen dosyalar
+
+Dondurulmuş00:51 taramasından sonra oluşan aday sürümü, masaüstü ekran görüntüsü, davranış testi ve izole tarayıcı profilleri [ek CSV](task22/teslim-sonrasi-qa-envanter.csv) içinde dosya başına boyutla listelendi. Bunlar teslim/QA kanıtı olarak **kalmalı** sınıfında tutuldu;25,595 MB güvenli önbellek ve1598,622 MB koşullu potansiyel toplamları artırılmadı. Bu ek de silme önerisinin uygulandığı anlamına gelmez.

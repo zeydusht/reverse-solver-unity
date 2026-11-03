@@ -146,3 +146,70 @@ Ek çizim envanteri (aynı önizleme sayfasında):
 
 Font kaynağı/lisans: [Nunito OFL 1.1](https://github.com/googlefonts/nunito/blob/main/OFL.txt). Var olan `PieceSkin/skin.json` ve procedural 4×4 review korunmuştur; yeni 4c örneğine onay gelene kadar bu mevcut dosyalar değiştirilmez.
 - #20–25 SVG'leri tam ekran örnek; parçaları (düğme, hücre, çubuk) #26+ envanterinde ayrı istenir. #24 isim ve #25 yükleme ekranı önizlemede CSS ile SVG'ye uyduruldu. #21 duraklatma: oyunda duraklat/çık akışı yok, ürün kararı gerekir. #20 bölüm listesi: yeni menüde "Bölümler" düğmesi yok, önizlemede ulaşılamaz.
+
+## Ana menü — onaylı Level tuşuyla aynı sanat dili (Task13)
+
+26 Ekim 2026: Zeyd Level tuşu v2'yi onayladı; kalan ana menü UI yeniden çiziliyor. Tek aday, ayrı şeffaf @3x PNG; yazılar/sayılar ayrı. Çıktı: `Assets/Art/Menu/Task13/`.
+
+| Grup | Kapsam | Durum |
+|---|---|---|
+| Onaylı ana eylem | Level tuşu normal/basılı; kaynakla birebir | ✅ Korundu ve paket içine kopyalandı |
+| Profil ve üst bar | Avatar çerçevesi, Jiggle portresi, profil kutusu, sayaç hapı, ayarlar | 🎨 Normal/basılı PNG seti hazır; Zeyd incelemesi |
+| Sayaç ikonları | Para, kalp, yıldız ve kurtarılan Jiggle simgesi; art parçaları, özellik eklenmez | 🎨 Dört ikon hazır; Zeyd incelemesi |
+| Gezinme | Alt şerit, seçili sekme, koridor/tablolar/Jiggles/başarı ikonları | 🎨 Altı PNG hazır; Zeyd incelemesi |
+| Yardımcı öğeler | İlerleme iz/dolgu, artı, bildirim, bölüm listesi ve basılı durumlar | 🎨 Tamamı hazır; Zeyd incelemesi |
+| İnceleme | Koridor üzerinde menü PNG + HTML + sprite kataloğu/manifest | ✅ 28 sprite, telefon/takım/grup önizlemeleri ve index.html hazır |
+
+<!-- MENU_TASK13_FILES_BEGIN -->
+### Task13 dosya durumu
+
+| Dosya | Ölçü @3x | Durum |
+|---|---|---|
+| `profile-frame.png` | 216×216 | 🎨 Hazır; Zeyd incelemesi |
+| `profile-avatar.png` | 132×132 | 🎨 Hazır; Zeyd incelemesi |
+| `counter-pill.png` | 360×108 | 🎨 Hazır; Zeyd incelemesi |
+| `settings-button.png` | 168×168 | 🎨 Hazır; Zeyd incelemesi |
+| `profile-box.png` | 480×156 | 🎨 Hazır; Zeyd incelemesi |
+| `token-coin.png` | 120×120 | 🎨 Hazır; Zeyd incelemesi |
+| `token-heart.png` | 120×120 | 🎨 Hazır; Zeyd incelemesi |
+| `token-star.png` | 120×120 | 🎨 Hazır; Zeyd incelemesi |
+| `token-jiggle.png` | 120×120 | 🎨 Hazır; Zeyd incelemesi |
+| `nav-home.png` | 180×180 | 🎨 Hazır; Zeyd incelemesi |
+| `nav-collection.png` | 180×180 | 🎨 Hazır; Zeyd incelemesi |
+| `nav-jiggles.png` | 180×180 | 🎨 Hazır; Zeyd incelemesi |
+| `nav-trophy.png` | 180×180 | 🎨 Hazır; Zeyd incelemesi |
+| `progress-track.png` | 1020×120 | 🎨 Hazır; Zeyd incelemesi |
+| `progress-fill.png` | 996×72 | 🎨 Hazır; Zeyd incelemesi |
+| `bottom-nav.png` | 1170×246 | 🎨 Hazır; Zeyd incelemesi |
+| `nav-active.png` | 252×222 | 🎨 Hazır; Zeyd incelemesi |
+| `plus-button.png` | 84×84 | 🎨 Hazır; Zeyd incelemesi |
+| `notification-badge.png` | 72×72 | 🎨 Hazır; Zeyd incelemesi |
+| `levels-button.png` | 192×192 | 🎨 Hazır; Zeyd incelemesi |
+| `profile-box-pressed.png` | 480×156 | 🎨 Hazır; Zeyd incelemesi |
+| `settings-button-pressed.png` | 168×168 | 🎨 Hazır; Zeyd incelemesi |
+| `plus-button-pressed.png` | 84×84 | 🎨 Hazır; Zeyd incelemesi |
+| `profile-frame-pressed.png` | 216×216 | 🎨 Hazır; Zeyd incelemesi |
+| `profile-button.png` | 216×216 | 🎨 Hazır; Zeyd incelemesi |
+| `profile-button-pressed.png` | 216×216 | 🎨 Hazır; Zeyd incelemesi |
+| `menu-play-button.png` | 684×336 | ✅ Onaylı kaynak korunuyor |
+| `menu-play-button-pressed.png` | 684×336 | ✅ Onaylı kaynak korunuyor |
+<!-- MENU_TASK13_FILES_END -->
+## Task14 — onaylandı, final export tamamlandı
+
+| Aşama / grup | Kapsam | Durum |
+|---|---|---|
+| Tam ekran taslak | Revizyon 2, preview-ingame.png korunuyor | ✅ Zeyd onayladı |
+| HUD | Level, hamle, süre/acil, pause; normal/basılı | ✅ @3x export |
+| Booster | Ayrı zemin + 4 ikon + boş rozet; normal/basılı/kilitli/0 birleşikler | ✅ @3x export |
+| Tahta çerçevesi | 1125×1125; 300 px 9-slice; ortası şeffaf | ✅ @3x export |
+| Kartlar | Pause, kazanma, kaybetme/bomba-süre, başlangıç; altın/turkuaz/mercan tuşlar | ✅ @3x export |
+| Duvar | Kırmızı-krem repeat 96×48 + köşe 96×96 | ✅ RGBA kenar eşleşmesi |
+| Engeller | Bomba/çivi 384×384; zincir 96×48 + kilit 144×144; boş sayaç yüzleri | ✅ @3x export |
+| Font | Lilita One + OFL; ı/ç/ö/ü var, ğ/ş/İ yok | ✅ Dosya ve cmap raporu |
+
+61 üretim PNG'si + 4 final inceleme sayfası + font/lisans Task14 kökünde. Boyut/9-slice/pivot HANDOFF.md ve manifest.json içinde; kullanım eşlemeleri TASK14_EXPORT.md içinde. Kontrol geçti: alpha, @3x boyutlar, 9-slice, merkezli bomba, zincir/duvar/köşe RGBA birleşimleri ve 252 korunan kaynakta sıfır hash farkı. Sayılar ve metinler oyun katmanına bırakıldı. C# ve Assets/_Game değiştirilmedi. Son klasör kısıtı gereği BACKLOG.md bu turda değiştirilmedi.
+
+<!-- TASK15_STATUS -->
+## Task15 — bitti
+
+19 final PNG: sıcak kırmızı rozet, kalın duvar repeat/köşe, dolgun boş HUD hapları + ayrı parça/kronometre, yeşil/turkuaz normal-basılan tuşlar, beş 256 px avatar, 64 pt Jiggle sayacı ve 1536 px tablo. Task15/preview.png resimli oyun, pause ve avatar seçimini birlikte gösterir. Tüm ölçü/slice/pivot satırları HANDOFF ve manifestte. Source ve onaylı Task14 korundu; C# değişmedi.

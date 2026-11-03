@@ -32,3 +32,7 @@ Aktif dosya/koruma durumları için REFERANS_DURUMU.md esastır. Açıkça iptal
 - Jiggles: Assets/Art/Characters/Jiggles-reference-v02.png. Saçsız ve kıyafetsiz başlangıç standardı; yeni saç kararı verilmedi. v01 anatomik hata nedeniyle kullanılmaz. Normal yüz ailesi ve ayrı uzuvlar geçerli. Kartın yeni sunumu Zeyd değerlendirmesine açık.
 - Baron: Assets/Art/Characters/Baron-reference-v01.png. Aday 3'ten türetildi; dört görünüş ve dört ifade. Kartın yeni sunumu Zeyd değerlendirmesine açık; karakter seçimi onaylı.
 - Sonraki üretimlerde bu kartlardan ilgili olanı girdi olarak ver; yalnız metinle benzer karakter üretme. Eski adaylar arşivdir. Kartlar 3D model/rig veya teknik sprite değildir.
+
+## 26 Ekim — onaylı ana menü UI dayanağı
+
+Zeyd `UI/PlayButton/menu-play-button-v2.png` son image_gen restorasyonunu açıkça beğendi ve kalan menüyü aynı dille istedi. Bu tuş korunur: 684×336 tuval, 660×300 kalın görünen şekil; sıcak katmanlı altın kenar, yumuşak oyuncak kabartma, koyu yeşil iç çeper ve parlak yeşil ana eylem yüzeyi. Yeşil ana başlat tuşuna özgü kullanıcı seçimidir; diğer menü yüzeylerinde zorunlu turkuaz-krem-altın paleti kullanılır. İnce süsleme, düz vektör benzeri yüzey veya sert siyah kontur eklenmez. Dinamik yazılar ayrı; önizleme Level yazısı referanstan ölçülen #F9F1BA kreminde, koyu yeşil kontur ve hafif gölgeyle gösterilir. Royal Match ekranları yerleşim/işçilik referansıdır; karakter ve amblemlerimiz özgündür.

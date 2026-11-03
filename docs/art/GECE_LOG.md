@@ -58,3 +58,43 @@
 3. İlk giriş:15/16/17 ile106/107/108 arasında yükleme/isim/soru yönü; anketin zamanlaması ayrı ürün kararı.
 4. Ayar/harita/koleksiyon/Jiggles:18–22 ile109–112 alternatifleri. Özellikle22 mevcut PM33 ilerleme işlevini korur;112 madalyon yönü işlev değişikliği kararı ister.
 5. Temizlik: Önce25.595 MB yeniden üretilebilir cache; ardından1573.027 MB tarihçe dış arşivleme listesini PM ile seç. Aynı diske taşıma alan kazandırmaz; bu görev hiçbirini uygulamadı.
+
+## 2026-11-03 01:00 — saat başı ilerleme
+- Ana denetim63 kayıt ve22 zorunlu çizim işi tamam;13 AI alternatifiyle35 aile /36 önce-sonra /150 aday PNG tek sayfada. Sırada son kanıt notlarının sabitlenmesi var.
+- karar: Harita düğümünün ilk altın oranı yaklaşık%13,9 çıktı; ikinci imagegen sürümüyle%7,745'e indi. Eski kaynak silinmeden node.png yanında node-v2.png korundu. Diğer AI adayları aynı sezgisel ölçümde%10 altında.
+- Chrome masaüstü sayfası görsel olarak açıldı. İzole iframe testi1 ve101 seçimini birlikte topladı,35 benzersiz kutu ve375 px içerikte yatay taşma olmaması doğrulandı. Dar ekran doğrudan #i101 headless görüntüsü boş çıktı; o PNG başarılı mobil render kanıtı sayılmadı. Unity/gerçek telefon testi yapılmadı.
+
+## 2026-11-03T01:03+03:00 — teslimi kapatan ek doğrulama
+- Birleşik inceleme35 aile/36 önce-sonra/150 PNG ile PASS. Chrome yerel davranış testinde375 ve390 px içerik genişliği:1 ve101 ortak seçim,35 benzersiz kutu, yatay taşma yok. Masaüstü ekran görüntüsü görsel olarak incelendi. Kanıt: `task22/browser-behavior.json`.
+- AI20 PNG alfa/@3x/hash/slice doğrulaması geçti.11 imagegen çağrısı (10 ilk kaynak +1 düğüm revizyonu), son düğüm altın tahmini%7,745; bütün son AI sprite tahminleri%10 altında. Kaynak ve önceki düğüm PNGsi korundu.
+- karar: Genel Assets başlangıç karşılaştırmasında4 PerformanceTestRunInfo/Settings JSON/meta artık görünmüyor; bunlar izinli çalışma alanımızın dışında ve oturum komutlarıyla silinmedi/değiştirilmedi. Oyun dosyaları geri alınmadı. Onaylı sanat3082 dosya kontrolünde0 değişen/0 eksik.
+- Son teslim sayıları değişmedi:63 ana bulgu (10 yüksek/38 orta/15 düşük),22 ana çizim +13 alternatif; inceleme `Assets/Art/Redesign_T22/inceleme.html`; güvenli cache25,595 MB, dış arşiv1573,027 MB, koşullu potansiyel1598,622 MB, uygulanan temizlik0 MB. Ek41 kontrol satırı ana bulgulara tekrar eklenmedi.
+
+## 2026-11-03T01:19+03:00 — Task23
+- Task23 ve stil/palet rehberi okundu; çalışma yalnız Redesign_T23 ve docs/art içinde. Hiçbir dosya silinmeyecek/taşınmayacak, eğitim eli ve kod değişmeyecek.
+- karar: En az iki anlamlı deneme her aile için DENEMELER/A ve B içinde saklanacak; NIHAI ve ana inceleme sayfası yalnız seçilen sürümü gösterecek.
+- karar: Kullanıcının01:20 merdiven eki öncelikli. İlk okumalarda ek başlığı dosyada henüz görünmedi; düğüm çalışması önce başlatıldı, dosya tekrar okunacak. Güncel düğüm altın, biten turkuaz, kilitli koyu kalacak; kilit büyütülecek.
+
+## 2026-11-03 01:29 — Task23 merdiven önceliği
+- karar: CODEX_TASK23 içindeki01:20 ek başlığı yerel dosyada görünmüyor; aynı tarihli talimat PM_MESAJ_36.md bölüm4'te bulundu. Numara içeride, küçük kilit sağ altta, bitende yeşil tik ve basamağa oturma esas alınıyor. İlk büyük merkez kilitA/B kaynakları saklanacak, yeni rozet düzenine final deneme diye sunulmayacak.
+- karar: PM36 üst bar avatarını60–64pt ve isim plaketini%55 yükseklikte8pt bindirmeyle tarif ediyor. Task23 üst bar cilasında bu güncel ölçü korunacak;90pt avatar dayatılmayacak.
+- Sırada: MerdivenA/B tam sahne karşılaştırması, ardından27 ailenin iki deneme/tek nihai paketlemesi. Eğitim eli ayrı görevin konusu; hiçbir el dosyasına yazılmayacak.
+
+
+## 2026-11-03T07:08+03:00 — Task23 mevcut17 aile teslimi
+
+17 ailenin iki farklı denemesi görsel olarak karşılaştırıldı, tek seçim NIHAI altına alındı; inceleme.html ve T23_KOD_LISTESI.md hazır. Merdiven önceliği tamam: altın güncel düğüm, numara merkezde, kilit sağ altta. RGBA/@3x/ölçü ve kaynak hash kontrolleri geçti. Gerçek Unity testi yapılmadı.
+
+Son kullanıcı talimatı mevcut17 aileyi bitirip Task24’e geçmek olduğundan diğer10 aile tamamlanmış sayılmadı; kod listesinde açıkça belirtildi. A/B ve tüm kaynaklar korundu, silme yok.
+
+
+## 2026-11-03T07:17+03:00 — Task24 pilot kararı
+
+11/21/31 pilotu ve126 kesilmiş parça hazır.11 kesim çizgileri,21 fazla sakin gökyüzü ikinci denemeyle düzeltildi; altışar rastgele parça yeniden incelendi. Yeni yön eski setten daha sade ve tek odaklı; kalan27ye geçiliyor. Paintings hashleri aynı, oyuna bağlama/silme yok.
+
+
+## 2026-11-03T07:44+03:00 — Task24 sabah teslimi
+
+11/21/31 pilotundan sonra kalan27 çizildi: toplam30 yeni tablo,39 üretim/düzeltme.1536px PNG,1024px JPG≤300000bayt, TR/EN manifest, üç eski/yeni şerit ve30 çiftlik inceleme hazır.1260 parça kesildi,180 rastgele örnek görsel incelendi;9 resim ikinci denemeyle düzeltildi. Mevcut Paintings dosyalarının tamamı hash kontrolünde aynı. Gerçek cihaz/oynanış testi yapılmadı.
+
+Task23 son kapsamı mevcut17 aile: NIHAI/inceleme/kod listesi tamam. Koruma karşılaştırmasında4617 dosya aynı,7 dosya oturumda başka faaliyetle değişmiş (iki hand-glove PNG ve TutorialHand/TutorialSpotlight/LevelsMap/Screens/Texts); bu çalışmaların komutları bu dosyalara yazmadı, geri alınmadı. Liste task23/koruma-sonuc.json içinde; eksik dosya yok.
