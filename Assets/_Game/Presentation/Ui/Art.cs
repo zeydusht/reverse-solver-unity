@@ -53,6 +53,12 @@ namespace ReverseSolver.Presentation
         public const string T23Pause = "t23-pause";
         public const string T23RatingNormal = "t23-rating-normal";
         public const string T23RatingSelected = "t23-rating-selected";
+        public const string T23Intro = "t23-intro";
+        public const string T23Profile = "t23-profile";
+        public const string T23Primary = "t23-button-primary";
+        public const string T23Secondary = "t23-button-secondary";
+        public static string T23Panel(string family) =>
+            family == T23LossBomb || family == T23LossTime ? "t23-loss-panel" : family + "-panel";
         /* Codex Task 14 in-game set present (cards with a title banner, combined booster buttons, icon pills). */
         public static bool T14 => Get("loss-reason-bomb") != null;
         /* Codex Task 15 present (HUD pills without baked icons, short tall card buttons, Jiggles counter icon). */

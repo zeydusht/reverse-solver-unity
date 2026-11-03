@@ -439,6 +439,11 @@ namespace ReverseSolver.Presentation
             bool booster = l.BoosterIntro != null;
             var info = LevelTexts.Get(l, booster);
             string icon = booster ? info.Id : (info.Icon ?? "hammer");
+            string scene = !booster && icon == "hammer" ? "nail" : icon;
+            if (Art.Get(Art.T23Intro + "-" + scene) != null)
+                return IntroScene(parent, screen, order, scene,
+                    booster ? string.Format(Texts.NewBooster, info.Title) : info.Title,
+                    Texts.TutorialCopy(scene), Texts.GotIt);
             var c = new Card(parent, screen, order, "Intro");
             if (!booster) Picture(c, "intro-" + (icon == "hammer" ? "nail" : icon));   // preview art (#5)
             // the nail card's icon is the hammer in the web data; with the preview art it shows the nail itself
@@ -514,6 +519,13 @@ namespace ReverseSolver.Presentation
            level's obstacles, the hard warning when flagged, Başla. The timer still starts on the first move. */
         public static Card StartCard(Transform parent, Vector2 screen, LevelData l, int order)
         {
+            if (l.Hard) return HardWarning(parent, screen, order);
+            if (l.Intro != null || l.BoosterIntro != null) return Intro(parent, screen, l, order);
+            string scene = l.Nails.Count > 0 ? "nail" : l.Bombs.Count > 0 ? "bomb" :
+                l.CellCount > l.Pieces.Count ? "chain" : l.Sealed != null && l.Sealed.Count > 0 ? "wall" : null;
+            if (scene != null && Art.Get(Art.T23Intro + "-" + scene) != null)
+                return IntroScene(parent, screen, order, scene, string.Format(Texts.Level, l.Number),
+                    Texts.TutorialCopy(scene), Texts.HardStart);
             var c = new Card(parent, screen, order, "Intro");
             if (Art.T14) c.Title(string.Format(Texts.Level, l.Number));
             else c.Custom(70, (root, y, w, o) =>
@@ -548,8 +560,16 @@ namespace ReverseSolver.Presentation
 
         /* SET40 v3: the sole opening card for a level with the hard flag. The timer
            still starts on the first move, after "Başla". */
+        static Card IntroScene(Transform parent, Vector2 screen, int order, string scene,
+                               string title, string body, string button) =>
+            Picture(new Card(parent, screen, order, "Intro", Art.T23Intro), Art.T23Intro + "-" + scene, 192)
+                .Title(title).Body(body, sizePt: 14, gapAfter: 18, maxLines: 2)
+                .Button("ok", button, true).Finish();
+
         public static Card HardWarning(Transform parent, Vector2 screen, int order) =>
-            Picture(new Card(parent, screen, order, "Intro"), "hard")                     // preview art (#6)
+            Art.Get(Art.T23Intro + "-hard") != null
+                ? IntroScene(parent, screen, order, "hard", Texts.HardTitle, Texts.HardBody, Texts.HardStart)
+                : Picture(new Card(parent, screen, order, "Intro"), "hard")
                 .Title(Texts.HardTitle)
                 .Body(Texts.HardBody, gapAfter: 18)
                 .Button("ok", Texts.HardStart, true).Finish();

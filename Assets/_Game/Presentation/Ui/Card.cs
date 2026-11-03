@@ -39,8 +39,8 @@ namespace ReverseSolver.Presentation
         {
             _screen = screen;
             _order = order;
-            string family = artFamily ?? (name == "Pause" ? Art.T23Pause : null);
-            _t23 = family != null && Art.Get(family + "-panel") != null ? family : null;
+            string family = artFamily ?? (name == "Pause" ? Art.T23Pause : name == "Profile" ? Art.T23Profile : null);
+            _t23 = family != null && Art.Get(Art.T23Panel(family)) != null ? family : null;
             _w = T23 ? Mathf.Min(335f, screen.x - 40f) : Mathf.Min(340f, screen.x - 52f);
             Root = new GameObject(name).transform;
             Root.SetParent(parent, false);
@@ -100,7 +100,7 @@ namespace ReverseSolver.Presentation
             return this;
         }
 
-        public Card Body(string text, Vector4? color = null, float sizePt = 13, float gapAfter = 18)
+        public Card Body(string text, Vector4? color = null, float sizePt = 13, float gapAfter = 18, int maxLines = 0)
         {
             _rows.Add(y =>
             {
@@ -112,6 +112,12 @@ namespace ReverseSolver.Presentation
                 tmp.alignment = TextAlignmentOptions.Top;
                 tmp.rectTransform.sizeDelta = new Vector2(InnerWidth, 10);
                 tmp.ForceMeshUpdate();
+                while (maxLines > 0 && tmp.textInfo.lineCount > maxLines && sizePt > 12)
+                {
+                    sizePt -= .5f;
+                    t.SizePt = sizePt;
+                    tmp.ForceMeshUpdate();
+                }
                 float h = Mathf.Max(sizePt * 1.4f, tmp.preferredHeight);
                 tmp.rectTransform.sizeDelta = new Vector2(InnerWidth, h);
                 t.transform.localPosition = Draw.W(0, y + h / 2);
@@ -132,10 +138,10 @@ namespace ReverseSolver.Presentation
             {
                 if (T23)
                 {
-                    float width = Dense ? 128 : _t23 == Art.T23Pause ? 198 : primary ? 204 : 160;
+                    float width = Dense ? 128 : _t23 == Art.T23Profile ? 190 : _t23 == Art.T23Pause ? 198 : primary ? 204 : 160;
                     width = Mathf.Min(width, InnerWidth);
                     float spriteHeight = width * 112f / 228f;
-                    string spriteKey = _t23 + (primary ? "-button-primary" : "-button-secondary");
+                    string spriteKey = primary ? Art.T23Primary : Art.T23Secondary;
                     var sprite = Art.Place(_content, spriteKey, new Vector2(width, spriteHeight), _order + 2);
                     if (sprite != null)
                     {
@@ -190,7 +196,7 @@ namespace ReverseSolver.Presentation
                 for (int i = 0; i < n; i++)
                 {
                     float x = -InnerWidth / 2 + i * (bw + gap) + bw / 2;
-                    string key = T23 ? _t23 + "-button-secondary" : "btn2-secondary";
+                    string key = T23 ? Art.T23Secondary : "btn2-secondary";
                     var art = Art.Place(_content, key, new Vector2(bw, bh), _order + 2);
                     if (art != null) { art.transform.localPosition = Draw.W(x, by); _pressArt.Add((Buttons.Count, art, key + "-pressed")); }
                     CardText(_content, "label " + items[i].id, items[i].label, 16, Palette.Cream, true, order: _order + 3)
@@ -309,7 +315,7 @@ namespace ReverseSolver.Presentation
             _content.localPosition = Draw.W(_screen.x / 2, top);
             // .card: #14484c, 1px rgba(255,255,255,.16), radius 18
             ShapeView.Create(Root, "card", new Vector2(_w, h), 4, _order + 1)
-                .Radius(18).Fill(Draw.Hex("#14484c")).Stroke(Draw.Rgba(255, 255, 255, .16f), 1).Skin(T23 ? _t23 + "-panel" : "popup-card")
+                .Radius(18).Fill(Draw.Hex("#14484c")).Stroke(Draw.Rgba(255, 255, 255, .16f), 1).Skin(T23 ? Art.T23Panel(_t23) : "popup-card")
                 .transform.localPosition = Draw.W(_screen.x / 2, top + h / 2);
             // preview art (#7): 9-sliced frame over the panel's edge, under the content
             var frame = T23 || Art.Get("popup-card") != null ? null : Art.Place(Root, "frame", new Vector2(_w + 8, h + 8), _order + 1, sliced: true);

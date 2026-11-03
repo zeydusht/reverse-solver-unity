@@ -69,17 +69,27 @@
   .v3 #rotate::before{content:"";width:56px;height:56px;background:url(TemplateData/v3-rotate-phone.png) center/contain no-repeat}
   #loader .msg{font-size:13px;color:#8fb2b3;max-width:280px;text-align:center;line-height:1.5}
 
+  @font-face{font-family:NunitoBlack;src:url(TemplateData/t23-nunito-black.ttf) format('truetype');font-weight:900;font-display:swap}
   #rs-name{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
-    padding:26px;background:rgba(8,32,34,.9);touch-action:auto}
-  #rs-name .name-card{max-width:340px;width:100%;background:#F8EBD0;border:1px solid #1C7F8C;
-    border-radius:18px;padding:24px 22px 18px;text-align:center;color:#0B2A36}
-  #rs-name h2{font-size:20px;margin:0 0 6px;color:#1C7F8C}
-  #rs-name p{font-size:13px;color:#0B2A36;line-height:1.55;margin:0 0 18px}
-  #rs-name-in{width:100%;padding:13px;border-radius:11px;border:1px solid #1C7F8C;
-    background:#F8EBD0;color:#0B2A36;font-size:16px;font-family:inherit;margin-bottom:14px;
+    padding:20px;background:rgba(8,32,34,.9);touch-action:auto;overflow:auto}
+  #rs-name .name-card{position:relative;max-width:335px;width:100%;height:390px;flex-shrink:0;
+    background:url(TemplateData/t23-name-panel.png) center/100% 100% no-repeat;
+    text-align:center;color:#0B2A36;font-family:NunitoBlack,sans-serif;font-weight:900}
+  #rs-name h2{position:absolute;top:20px;left:16px;right:16px;font-size:23px;line-height:30px;margin:0;
+    color:#FFF6D8;text-shadow:0 2px 1px #0B2A36}
+  #rs-name p{position:absolute;top:98px;left:24px;right:24px;font-size:16px;color:#0B2A36;line-height:22px;margin:0}
+  #rs-name-in{position:absolute;top:171px;left:29px;width:calc(100% - 58px);height:58px;padding:12px 18px;
+    border:0;border-radius:18px;background:transparent url(TemplateData/t23-name-name-input.png) center/100% 100% no-repeat;
+    color:#0B2A36;font-size:18px;font-family:inherit;font-weight:900;
     text-align:center;-webkit-user-select:text;user-select:text}
-  #rs-name-go{width:100%;border:none;border-radius:11px;padding:13px;font-size:15px;
-    font-weight:700;background:#1C7F8C;color:#F8EBD0;font-family:inherit;cursor:pointer}
+  #rs-name-in::placeholder{color:#92999E;opacity:1}
+  #rs-name-go{position:absolute;top:262px;left:50%;transform:translateX(-50%);width:210px;height:103.16px;
+    min-height:44px;border:0;padding:0 10px 6px;font-size:20px;font-weight:900;
+    background:transparent url(TemplateData/t23-name-button-primary.png) center/contain no-repeat;
+    color:#FFF6D8;font-family:inherit;cursor:pointer;text-shadow:0 2px 1px #1E5A0E}
+  #rs-name-go:active{background-image:url(TemplateData/t23-name-button-primary-pressed.png)}
+  #rs-name-in:focus-visible,#rs-name-go:focus-visible{outline:3px solid #0B2A36;outline-offset:2px}
+  @media(max-height:430px){#rs-name{align-items:flex-start}}
 
   /* Safari cannot lock orientation, so a landscape phone gets a hint instead. */
   #rotate{display:none;align-items:center;justify-content:center;
@@ -264,9 +274,10 @@ window.ltBoot = function (msg) {
     var tr = rsTr(), input = document.getElementById('rs-name-in');
     document.getElementById('rotate-msg').textContent = tr ? 'Telefonu dik tut' : 'Hold your phone upright';
     if (!input) return;
+    document.querySelector('#rs-name h2').textContent = tr ? 'Hoş geldin!' : 'Welcome!';
     document.getElementById('rs-name-copy').textContent = tr
-      ? 'Playtest sürümü. Adını yaz, sonuçlar bu isimle kaydedilsin.'
-      : 'Playtest version. Enter your name to save your results.';
+      ? 'Adını yaz, sonuçların bu isimle kaydedilsin.'
+      : 'Enter your name to save your results.';
     input.placeholder = tr ? 'Adın' : 'Your name';
     input.setAttribute('aria-label', input.placeholder);
     document.getElementById('rs-name-go').textContent = tr ? 'Başla' : 'Start';

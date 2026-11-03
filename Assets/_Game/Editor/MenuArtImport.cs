@@ -46,6 +46,19 @@ namespace ReverseSolver.EditorTools
                 a.textureCompression = TextureImporterCompression.Compressed;
                 a.crunchedCompression = true;
                 a.compressionQuality = 60;
+                if (assetPath.Contains("/t23-"))
+                {
+                    // Keep the shared panels below popup-card's 2048 px budget.
+                    int limit = assetPath.EndsWith("-panel.png") ? 1024 : 512;
+                    a.maxTextureSize = limit;
+                    a.SetPlatformTextureSettings(new TextureImporterPlatformSettings
+                    {
+                        name = "WebGL", overridden = true, maxTextureSize = limit,
+                        format = TextureImporterFormat.DXT5Crunched,
+                        textureCompression = TextureImporterCompression.Compressed,
+                        crunchedCompression = true, compressionQuality = 50
+                    });
+                }
                 var st = new TextureImporterSettings();
                 a.ReadTextureSettings(st);
                 st.spriteMeshType = UnityEngine.SpriteMeshType.FullRect;    // needed for sliced drawing

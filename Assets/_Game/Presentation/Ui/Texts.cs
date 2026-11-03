@@ -34,6 +34,10 @@ namespace ReverseSolver.Presentation
             "bomb" => Lang.T("Free the bomb before its fuse runs out!", "Fitili bitmeden bombayı çıkar!"),
             "chain" => Lang.T("Chained pieces leave together. Clear both paths.", "Zincirli parçalar birlikte çıkar. İkisinin de yolunu aç."),
             "wall" => Lang.T("Pieces can't pass through red-white walls.", "Parçalar kırmızı-beyaz duvardan geçemez."),
+            "scissors" => TutorialCopy("tap_scissors") + "\n" + ScissorsHint,
+            "hammer" => TutorialCopy("tap_hammer") + "\n" + HammerHint,
+            "wand" => Lang.T("Shuffle the tabs.\nSame picture, new connections.", "Çıkıntıları yeniden dizer.\nResim aynı kalır, kilitler değişir."),
+            "clock" => TutorialCopy("tap_clock") + "\n" + ClockDone,
             _ => ""
         };
         public static string MyAvatar => Lang.T("My avatar", "Avatarım");
@@ -66,7 +70,7 @@ namespace ReverseSolver.Presentation
         public static string TutorialFirst => Lang.T("Push this piece to save it", "Bu parçayı it ve kurtar");
         public static string TutorialNext => Lang.T("Now save this one", "Şimdi bunu kurtar");
         public static string HardTitle => Lang.T("Hard level", "Zor bölüm");
-        public static string HardBody => Lang.T("Take your time, look first.", "Acele etme, önce bak.");
+        public static string HardBody => Lang.T("This one is a bit harder. Take your time, look first.", "Bu bölüm biraz daha zorlu. Acele etme, önce bak.");
         public static string HardStart => Lang.T("Start", "Başla");
         public static string Saved => Lang.T("Jiggles saved: {0}", "Kurtarılan Jiggles: {0}");
         public static string Settings => Lang.T("Settings", "Ayarlar");
@@ -80,7 +84,7 @@ namespace ReverseSolver.Presentation
         public static string Language => Lang.T("Language: English", "Dil: Türkçe");
         public static string Level => Lang.T("Level {0}", "Bölüm {0}");
         public static string Play => Lang.T("Play", "Oyna");
-        public static string NailBody => Lang.T("A nailed piece's counter drops by 1 with every move. At 0, the piece is free.", "Çivili parçanın sayacı her hamlende 1 azalır. 0 olunca parça serbest kalır.");
+        public static string NailBody => Lang.T("Each move lowers the nail counter.\nAt zero, the piece is free.", "Her hamlede çivi sayacı azalır.\nSıfır olunca parça serbest kalır.");
         public static string Goal => Lang.T("Save the Jiggles!", "Jiggle'ları kurtar!");
         public static string Avatar => Lang.T("Choose your Jiggle", "Jiggle'ını seç");
         public static string Paused => Lang.T("Paused", "Durduruldu");
