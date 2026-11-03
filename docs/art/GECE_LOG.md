@@ -103,3 +103,20 @@ Task23 son kapsamı mevcut17 aile: NIHAI/inceleme/kod listesi tamam. Koruma kar�
 ## 2026-11-03T14:58+03:00 — Task25 başlangıcı
 
 A→B→C sırası uygulanıyor. Önce1–10 aynı konularla sade stilde; su bütçesi2/10,1–3 için ek3×3/4×4 test. Mevcut Paintings hashleri kaydedildi, v2 manifest/inceleme karşılaştırmaları Denemeler/T25-oncesi altında kopyalandı. Haftalık kalan kota araçlarda görünmüyor; üretim hataları olursa tamamlanamayan işler kayda geçecek.
+
+
+## 2026-11-03T15:13+03:00 — Task25 A tamam
+
+1–10 yeni stilde dışa aktarıldı; manifest40 kayıt, inceleme40 çift.60 rastgele6×7 parça örneği ve1–3ün75 küçük tahta parçası incelendi.3ün benzer iki mor alt parçası ikinci denemede geniş patikayla ayrıldı. B:21/23/24/30/40 ayrımı ve36/37/40 gece tonları seçildi;40 aynı düzenlemede iki gereksinimi karşılayacak.
+
+
+## 2026-11-03T15:25+03:00 — Task25 B tamam
+
+21/23/24/30/40ın her birinde42 parçanın tamamı görsel incelendi; geniş boş alanlara bulut/kar sırtı/yansıma/iz/gölge sınırları geldi.36/37/40 gerçek gece mavisi ve ay ışığına çekildi;36/37 altışar örnekle kontrol edildi. Konu/kompozisyon korunuyor, eski v2ler Denemeler/T25-B-oncesi altında. Sırada iki kart düzeltmesi.
+
+
+## 2026-11-03T15:31+03:00 — Task25 teslim
+
+A tamam:1–10 yeni stil,40 kayıtlı manifest/inceleme;1–3 küçük tahta75 parça kontrolü ve3 için ikinci deneme. B tamam:21/23/24/30/40ta210 parçanın tamamı incelendi;36/37/40 geceye çekildi, eski sürümler korundu. C tamam: gri Adın/koyu yazılmış isim iki hali ve kolları kavuşturulmuş tek Baron sahnesi.
+
+19 imagegen çağrısı kullanıldı; haftalık kalan limit araçlarda görünmüyor, kota hatası ve yarım kalan iş yok.40PNG/JPG boyut/300KB/hash, eski7 sürüm yedeği, kart sprite hashleri ve bütün inceleme bağlantıları geçti. Mevcut Paintings dosyaları aynı; silme/oyuna bağlama yok. Ayrıntılar T25_TESLIM.md ve task25/teslim-dogrulama.json.
