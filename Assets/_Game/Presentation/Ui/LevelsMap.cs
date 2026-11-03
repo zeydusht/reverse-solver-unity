@@ -6,18 +6,18 @@ namespace ReverseSolver.Presentation
 {
     public sealed class LevelsMap
     {
-        // MenuUi.Sprite adds the t20- prefix; swap map art here when Task23 arrives.
+        // MenuUi.Sprite adds the t20- prefix; node art is the Task23 final set (PM_MESAJ_37).
         const string BackSprite = "button-back";
         const string PathSprite = "t20-levels-path-repeat.png";
-        const string CurrentNodeSprite = "node-current";
-        const string CompleteNodeSprite = "node-complete";
-        const string HardOpenNodeSprite = "node-hard-open";
-        const string LockedBaseSprite = "node-locked-base";
-        const string HardLockedBaseSprite = "node-hard-base";
-        const string GlowSprite = "node-glow";
-        const string HardBadgeSprite = "baron-head";
-        const string LockBadgeSprite = "icon-lock";
-        const string WonBadgeSprite = "icon-green-check";
+        const string CurrentNodeSprite = "t23-node-current";
+        const string CompleteNodeSprite = "t23-node-complete";
+        const string LockedBaseSprite = "t23-node-locked";
+        const string HardLockedBaseSprite = "t23-node-hard-locked";
+        const string ShadowSprite = "t23-node-contact-shadow";
+        const string PlayBubbleSprite = "t23-play-bubble";
+        const string HardBadgeSprite = "t23-hard-marker";
+        const string LockBadgeSprite = "t23-lock-badge";
+        const string WonBadgeSprite = "t23-complete-check";
 
         public readonly MenuScroll Scroll;
         readonly Rect _back;
@@ -56,43 +56,34 @@ namespace ReverseSolver.Presentation
                 var cell = Scroll.Cell(x, y, current ? 108 : 44);
                 bool locked = !open && !won;
                 float diameter = current ? 66 : 54;
-                // Radial alpha makes a soft ellipse without changing the shared shape shader.
-                ShapeView.Create(cell, "NodeStepShadow", new Vector2(diameter * .8f, 9), 1, order + 1).Radius(4.5f)
-                    .Radial(new Vector4(0, 0, 0, .25f), new Vector4(0, 0, 0, .12f), Vector4.zero,
-                        new Vector4(.5f, .5f, .5f, .5f))
-                    .transform.localPosition = Draw.W(0, diameter / 2 + 4.5f);
-                string key = locked ? (hard ? HardLockedBaseSprite : LockedBaseSprite) :
-                    hard ? HardOpenNodeSprite : current ? CurrentNodeSprite : won ? CompleteNodeSprite : CurrentNodeSprite;
-                if (current) MenuUi.Sprite(cell, GlowSprite, Vector2.zero, Vector2.one * 94, order + 1);
-                var node = MenuUi.Sprite(cell, key, Vector2.zero, Vector2.one * diameter, order + 2);
-                if (locked)
+                // The node sits on its step: a soft contact shadow under the coin, no outer glow.
+                MenuUi.Sprite(cell, ShadowSprite, new Vector2(0, diameter / 2 - 2), new Vector2(diameter * .93f, diameter * .24f), order + 1);
+                // A hard level keeps the red rim; when open, its gold or teal coin sits inside the rim.
+                string coin = current ? CurrentNodeSprite : won ? CompleteNodeSprite : CurrentNodeSprite;
+                if (locked) MenuUi.Sprite(cell, hard ? HardLockedBaseSprite : LockedBaseSprite, Vector2.zero, Vector2.one * diameter, order + 2);
+                else if (hard)
                 {
-                    if (node != null) node.color = new Color(.65f, .65f, .65f, 1);
-                    else ShapeView.Create(cell, "LockedNodeBase", Vector2.one * diameter, 1, order + 2)
-                        .Radius(diameter / 2).Fill(Draw.Hex("#48525b"));
+                    MenuUi.Sprite(cell, HardLockedBaseSprite, Vector2.zero, Vector2.one * diameter, order + 2);
+                    MenuUi.Sprite(cell, coin, Vector2.zero, Vector2.one * diameter * .78f, order + 3);
                 }
+                else MenuUi.Sprite(cell, coin, Vector2.zero, Vector2.one * diameter, order + 2);
                 if (current)
                 {
                     var avatar = Art.Avatar(cell, Art.AvatarIndex, Vector2.one * 38, order + 4);
                     if (avatar != null) avatar.transform.localPosition = Draw.W(0, -53);
-                    var bubbleAt = new Vector2(0, -88);
-                    ShapeView.Create(cell, "PlayBubble", new Vector2(70, 36), 2, order + 6).Radius(14)
-                        .Fill(Draw.Hex("#3e9a51")).transform.localPosition = Draw.W(bubbleAt);
-                    MenuUi.Label(cell, Texts.Play, bubbleAt, 14, order + 7);
-                    _nodes.Add((new Rect(x - 35, y - 110, 70, 44), i));
+                    var bubbleAt = new Vector2(0, -94);
+                    if (MenuUi.Sprite(cell, PlayBubbleSprite, bubbleAt, new Vector2(84, 44), order + 6) == null)
+                        ShapeView.Create(cell, "PlayBubble", new Vector2(84, 44), 2, order + 6).Radius(14)
+                            .Fill(Draw.Hex("#3e9a51")).transform.localPosition = Draw.W(bubbleAt);
+                    MenuUi.Label(cell, Texts.Play, bubbleAt + new Vector2(0, -2), 16, order + 7);
+                    _nodes.Add((new Rect(x - 42, y - 116, 84, 44), i));
                 }
-                if (hard && open) MenuUi.Sprite(cell, HardBadgeSprite, new Vector2(25, -20), Vector2.one * 30, order + 4);
+                // Baron on top right, lock or tick on bottom right: the two never overlap.
+                if (hard) MenuUi.Sprite(cell, HardBadgeSprite, new Vector2(diameter * .36f, -diameter * .4f), new Vector2(25, 29), order + 8);
                 MenuUi.Label(cell, (i + 1).ToString(), Vector2.zero, 20, order + 5, current);
-                if (locked || won)
-                {
-                    var badgeAt = Vector2.one * (diameter * .33f);
-                    if (locked)
-                        ShapeView.Create(cell, "LockBadgeBase", Vector2.one * 23, 1, order + 6).Radius(11.5f)
-                            .Fill(Draw.Hex("#24313b")).transform.localPosition = Draw.W(badgeAt);
-                    MenuUi.Sprite(cell, locked ? LockBadgeSprite : WonBadgeSprite, badgeAt,
-                        Vector2.one * 20, order + 7);
-                }
-                if (open || won) _nodes.Add((new Rect(x - 33, y - 33, 66, 66), i));
+                if (locked) MenuUi.Sprite(cell, LockBadgeSprite, Vector2.one * (diameter * .36f), new Vector2(20, 22), order + 7);
+                else if (won) MenuUi.Sprite(cell, WonBadgeSprite, Vector2.one * (diameter * .36f), Vector2.one * 18, order + 7);
+                if (open || won) _nodes.Add((new Rect(x - 33, y - 33, 66, 66), i)); // at least 54 x 54 pt
             }
             float currentY = start + 90 + (levels.Count - 1 - progress.Next()) * pitch;
             Scroll.Set(offset ?? currentY - (start + (bottom - start) * .7f));

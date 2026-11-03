@@ -533,7 +533,6 @@ namespace ReverseSolver.Presentation
            still starts on the first move, after "Başla". */
         public static Card HardWarning(Transform parent, Vector2 screen, int order) =>
             Picture(new Card(parent, screen, order, "Intro"), "hard")                     // preview art (#6)
-                .Icon((t, size, o) => Icons.Draw("bomb", t, size, o))
                 .Title(Texts.HardTitle)
                 .Body(Texts.HardBody, gapAfter: 18)
                 .Button("ok", Texts.HardStart, true).Finish();

@@ -17,8 +17,8 @@ namespace ReverseSolver.Presentation
         {
             Dir.L => Lang.T("Drag this piece to the left", "Bu parçayı sola çek"),
             Dir.R => Lang.T("Drag this piece to the right", "Bu parçayı sağa çek"),
-            Dir.U => Lang.T("Drag this piece to the up", "Bu parçayı yukarı çek"),
-            _ => Lang.T("Drag this piece to the down", "Bu parçayı aşağı çek")
+            Dir.U => Lang.T("Drag this piece up", "Bu parçayı yukarı çek"),
+            _ => Lang.T("Drag this piece down", "Bu parçayı aşağı çek")
         };
         public static string TutorialCopy(string key) => key switch
         {
@@ -66,7 +66,7 @@ namespace ReverseSolver.Presentation
         public static string TutorialFirst => Lang.T("Push this piece to save it", "Bu parçayı it ve kurtar");
         public static string TutorialNext => Lang.T("Now save this one", "Şimdi bunu kurtar");
         public static string HardTitle => Lang.T("Hard level", "Zor bölüm");
-        public static string HardBody => Lang.T("Tough level! Look before you pull.", "Zor bölüm! Acele etme, önce bak.");
+        public static string HardBody => Lang.T("Take your time, look first.", "Acele etme, önce bak.");
         public static string HardStart => Lang.T("Start", "Başla");
         public static string Saved => Lang.T("Jiggles saved: {0}", "Kurtarılan Jiggles: {0}");
         public static string Settings => Lang.T("Settings", "Ayarlar");

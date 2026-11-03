@@ -529,7 +529,7 @@ async function ic33() {
    card until the board shows; --baron-tag names the shots (eski/yeni). Shots in docs/qa/<date>-dort. */
 async function baron() {
   const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
-  const dir = path.join(ROOT, 'docs/qa', new Date().toLocaleDateString('sv') + '-dort'); fs.mkdirSync(dir, { recursive: true });
+  const dir = path.join(ROOT, 'docs/qa', new Date().toLocaleDateString('sv') + opt('baron-dir', '-dort')); fs.mkdirSync(dir, { recursive: true });
   const tag = opt('baron-tag', 'yeni'), counts = [];
   W = 390; H = 844;
   for (const slot of [19, 23]) {
@@ -568,6 +568,26 @@ async function evbar() {
   }
   W = 375; H = 667;
   check('evbar', exc === 0, `${n} görüntü → ${dir}, istisna ${exc}`);
+}
+
+/* --only harita (PM_MESAJ_37): the levels map at its start, middle and end (won=0/18/39: current 1, the hard 19,
+   40) and with c=ic&unlock=1, at 375x667 and 390x844. Shots in docs/qa/<date>-sabah. */
+async function harita() {
+  const dir = path.join(ROOT, 'docs/qa', new Date().toLocaleDateString('sv') + '-sabah'); fs.mkdirSync(dir, { recursive: true });
+  let n = 0, exc = 0;
+  for (const [w, h] of [[375, 667], [390, 844]]) {
+    W = w; H = h;
+    for (const [tag, q] of [['bas', 'won=0'], ['orta', 'won=18'], ['son', 'won=39'], ['ic_unlock', 'c=ic&unlock=1']]) {
+      const p = await newPage();
+      await p.open(dbg(`${base}/?set=redesign&hud=0&lang=tr&${q}`));
+      await sleep(2500); await p.tap(W / 2, H * .3); await sleep(800);
+      await p.tap(...P20.levels(W, H)); await sleep(1500);
+      fs.writeFileSync(path.join(dir, `${w}x${h}_harita_${tag}.png`), await p.png()); n++;
+      exc += p.exceptions.length; p.close();
+    }
+  }
+  W = 375; H = 667;
+  check('harita', exc === 0, `${n} görüntü → ${dir}, istisna ${exc}`);
 }
 
 async function cohortic() {
@@ -1416,6 +1436,7 @@ async function qa() {
     if (send && only.includes('ic33')) await ic33();
     if (only.includes('baron')) await baron();
     if (only.includes('evbar')) await evbar();
+    if (only.includes('harita')) await harita();
     if (send && only.includes('rating')) await rating();
     if (send && only.includes('booster')) await booster();
     if (only.includes('spot')) await spot();
