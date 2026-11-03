@@ -180,8 +180,8 @@ namespace ReverseSolver.Presentation
             LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName,
                            name => { bool fresh = _save.Best.Count == 0; _save.SetPlayer(name); _awaitingName = false; if (_mode == Mode.Menu) Layout();   // the profile box shows it
                                    if (fresh) StartCoroutine(RecoverProgress(name));
-                                   AskProfile(); });
-            if (!askName) AskProfile();
+                                   });
+            // PM_MESAJ_43: the profile question waits for the first win of level 2 or later (NavigateResult)
             _profileSender.Flush();
         }
 
@@ -346,6 +346,17 @@ namespace ReverseSolver.Presentation
             if (PlayOverride.Exit != null) { PlayOverride.Exit(); return; }   // back to the level editor
             _mode = Mode.Menu;
             Layout();
+            AskProfileIfDue();
+        }
+
+        /* PM_MESAJ_43: asked once, after "Next" or "Menu" on the first won level numbered 2 or more. On the next level
+           it covers the intro card, which comes back when the question is answered (AnswerProfile). */
+        bool _profileDue;
+        void AskProfileIfDue()
+        {
+            if (!_profileDue) return;
+            _profileDue = false;
+            AskProfile();
         }
 
         void StartLevel(int index)
@@ -385,6 +396,7 @@ namespace ReverseSolver.Presentation
             Layout();
             _board?.Deal();                                    // web render(true): pieces deal in on a fresh start
             if (Host.Debug) Debug.Log("[level-ready] " + level.Id);   // PM_MESAJ_28 B2: verify_build --only perf times this
+            AskProfileIfDue();
         }
 
         /* Zeyd 2026-10-28: a new browser save (Safari's 7-day clean-up, Chrome or WhatsApp's own browser, another
@@ -998,6 +1010,7 @@ namespace ReverseSolver.Presentation
 
         void NavigateResult(string id)
         {
+            if (id != "retry" && _session != null && _session.Outcome == Outcome.Win && _session.Level.Number >= 2) _profileDue = true;
             if (id == "next") { if (!PlayCorridor(false)) StartLevel(_index + 1); }
             else if (id == "retry") StartLevel(_index);
             else if (!PlayCorridor(true)) ShowMenu();

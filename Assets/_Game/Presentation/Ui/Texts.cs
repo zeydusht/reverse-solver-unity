@@ -119,7 +119,7 @@ namespace ReverseSolver.Presentation
         public static string SkipRating => Lang.T("Skip", "Geç");
         // PM_MESAJ_25: one question per cohort, after the name
         public static string AskProfileTitle => Lang.T("One question", "Tek bir soru");
-        public static string AskProfile => Lang.T("Do you play puzzle games like this one?", "Bu tür bulmaca oyunlarını oynar mısın?");
+        public static string AskProfile => Lang.T("Do you play puzzle games on your phone? (like Candy Crush or Royal Match)", "Telefonda bulmaca oyunları oynar mısın? (Candy Crush, Royal Match gibi)");
         public static string ProfileNever => Lang.T("Never", "Hiç");
         public static string ProfileSometimes => Lang.T("Sometimes", "Ara sıra");
         public static string ProfileOften => Lang.T("Often", "Sık");

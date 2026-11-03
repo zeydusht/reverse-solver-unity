@@ -1,2 +1,2 @@
-oyuncu TEST_P42_DV
+oyuncu TEST_P43_DV
 (a) kart 1, (b) kart 0; S42 win jams 0, exit 16/16, jam satırı 0, türler start/exit; S43 win jams 0, exit 20/20, jam satırı 0, türler start/exit; S06 win jams 0, exit 30/30, jam satırı 0, türler start/exit, ilk exit parça 2 (beklenen 2); istisna 0

@@ -1,3 +1,6 @@
+# PM_MESAJ_43 yayında (3 Kasım ~23:35): /p20/ profil sorusu isimden sonra değil, numarası ≥ 2 olan ilk kazanılan bölümde "Sonraki"/"Menü"ye basınca bir kez (kayıp ya da "Tekrar" sormaz); sonraki bölümde tanıtım kartı cevaptan sonra yeniden açılıyor (PM_40 yolu). Yeni metin TR/EN (Candy Crush, Royal Match). Veri biçimi aynı.
+- Doğrulama: yerel boot + davet GEÇTİ (TEST_P43_DV: S42/S43/S06 jams 0, jam/tut satırı yok; player_profiles satırı geldi, cohort ic, puzzle_exp 1). Soru → çivi kartı sırası ekran görüntüsüyle ayrıca gösterilmedi; iPhone'da denenmedi.
+
 # PM_MESAJ_42 yayında (3 Kasım ~23:00): /p20/ gh-pages 4cef9ed. Baloo 2 ExtraBold (OFL, Resources/Fonts + Assets/Fonts) statik atlas (ASCII + Türkçe, 121 karakter, CounterFont.BuildBaloo); tek stil TextView.Heading(rim): #FCFADE→#F0E6A6 dikey, kontur .24 (yeşil #385018 / turkuaz #0B3E47), aynı renkte bulanıksız gölge. Bağlandı: tüm T23 kart düğmeleri ve başlıkları, Ev "Bölüm X" (zor bölümde 2. satır "Zor bölüm"), Bölümler başlığı, harita "Oyna". Gövde metinleri Nunito.
 - Boyut: 16,33 MB (+0,25 MB, ≤ 0,3). Yerel boot/harita/evbar/baron/davet GEÇTİ. WebKit görüntüsü alınamadı (Playwright WebKit Windows'ta oyunu açamıyor, eski p19 da aynı); Chromium görüntüleri docs/qa/2026-11-03-son-kontrol/chromium_font_*. Bölüm 19 Ev düğmesi (zor 2. satır) ve İngilizce kart görüntüsü alınmadı; iPhone'da Zeyd bakacak.
 
