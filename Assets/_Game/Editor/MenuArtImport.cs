@@ -48,15 +48,15 @@ namespace ReverseSolver.EditorTools
                 a.compressionQuality = 60;
                 if (assetPath.Contains("/t23-"))
                 {
-                    // Keep the shared panels below popup-card's 2048 px budget.
-                    int limit = assetPath.EndsWith("-panel.png") ? 1024 : 512;
+                    // PM_MESAJ_39: the PNGs are padded to multiples of 4, so at their own size they stay block-compressible
+                    const int limit = 2048;   // a smaller cap rescales to odd sizes and the texture ships uncompressed
                     a.maxTextureSize = limit;
                     a.SetPlatformTextureSettings(new TextureImporterPlatformSettings
                     {
                         name = "WebGL", overridden = true, maxTextureSize = limit,
                         format = TextureImporterFormat.DXT5Crunched,
                         textureCompression = TextureImporterCompression.Compressed,
-                        crunchedCompression = true, compressionQuality = 50
+                        crunchedCompression = true, compressionQuality = assetPath.EndsWith("-panel.png") ? 30 : 50   // panels: flat colour, 30 holds up
                     });
                 }
                 var st = new TextureImporterSettings();
