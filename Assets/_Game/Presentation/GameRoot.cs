@@ -219,6 +219,8 @@ namespace ReverseSolver.Presentation
             if (_telemetry.Enabled) _profileQueue.Add(m.Cohort + "|" + _save.Player + "|" + m.DeviceId, ProfileRow.Json(m.Cohort, _save.Player, m.DeviceId, m.Platform, exp));
             _profileSender.Flush();
             CloseCard();
+            // PM_MESAJ_40: the question may have covered a level's intro card; it comes back, never swallowed
+            if (_mode == Mode.Playing && _introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder));
         }
 
         /* 1-10 after a level: SET40 with a cohort asks once per level (win or loss, "Skip" allowed); without a cohort
@@ -689,7 +691,8 @@ namespace ReverseSolver.Presentation
 
         void OnEvent(GameEvent e)
         {
-            if (_zeydbotSet && !(e.Kind == EventKind.Jammed && _session.TutorialMove)) RecordMove(e);
+            if (_zeydbotSet && e.Kind == EventKind.Jammed && _session.TutorialMove) WriteMove("tut", e.Piece, _drag?.Direction?.ToString());
+            else if (_zeydbotSet) RecordMove(e);
             if (e.Kind == EventKind.Jammed || (e.Kind == EventKind.PieceRemoved && !e.ByHammer)) _tutorialClockHold = false;
             if (e.Kind == EventKind.Jammed && TutorialActive && _tutorialSteps[_tutorialAt].tur == "hata" &&
                 _tutorialUntil < 0 && e.Piece == _tutorialMove.Piece)
@@ -741,10 +744,12 @@ namespace ReverseSolver.Presentation
             // G8: the attempt that gets the 👍/👎 question waits for the answer (or the card closing)
             // before its row goes; asked once per level, on the win or after the third loss
             string levelId = _session.Level.Id;
-            bool ask = !_showSet && SetFlags.AskFun && FunAsk.ShouldAsk(e.Outcome, _save.LossesOf(levelId), _save.WasFunAsked(levelId));
+            // PM_MESAJ_41 (Zeyd): no end-of-level rating; the row goes with empty zorluk_puani/keyif, set_rating stays unused
+            const bool askRatings = false;
+            bool ask = askRatings && !_showSet && SetFlags.AskFun && FunAsk.ShouldAsk(e.Outcome, _save.LossesOf(levelId), _save.WasFunAsked(levelId));
             if (SetFlags.AskFun && (e.Outcome == Outcome.Time || e.Outcome == Outcome.Bomb)) _save.RecordLoss(levelId);
             _askFun = ask;
-            _askHard = e.Outcome != Outcome.Quit && !_showSet && AskHardNow(levelId);
+            _askHard = askRatings && e.Outcome != Outcome.Quit && !_showSet && AskHardNow(levelId);
             if (_askHard) HardAsked(levelId);                       // asked once per level (cohort), answered or skipped
             if (ask) _save.MarkFunAsked(levelId);
             // PM_MESAJ_29: the row goes now, empty answers; the 1-10 and 👍/👎 fill it later (rpc/set_rating)
@@ -1044,6 +1049,9 @@ namespace ReverseSolver.Presentation
                 ShowMenu();
                 return;
             }
+            // PM_MESAJ_40: before the clock runs (intro, card, spotlight, any tutorial step) a jam is a 'tut' row, never a jam
+            if (_mode == Mode.Playing && _session != null)
+                _session.TutorialMove = TutorialActive || _introOpen || _card != null || _tutorialClockHold && _session.Moves == 0;
             if (!_awaitingName) HandlePointer();
             if (_pendingHard > 0 && Time.unscaledTime >= _hardDue)
             {
@@ -1175,7 +1183,7 @@ namespace ReverseSolver.Presentation
 
         bool InputGated(Pointer p)
         {
-            object cards = _card ?? (object)_list?.Card;
+            object cards = _card ?? (object)_list?.Card ?? _spotlight;   // PM_MESAJ_40: a spotlight closing gates too
             if (cards != _gateCard)
             {
                 _gateCard = cards;
