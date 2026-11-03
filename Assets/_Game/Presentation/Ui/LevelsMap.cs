@@ -70,7 +70,8 @@ namespace ReverseSolver.Presentation
                 if (current)
                 {
                     var avatar = Art.Avatar(cell, Art.AvatarIndex, Vector2.one * 38, order + 4);
-                    if (avatar != null) avatar.transform.localPosition = Draw.W(0, -53);
+                    // on a hard node the avatar steps left so it clears the Baron badge (top right)
+                    if (avatar != null) avatar.transform.localPosition = Draw.W(hard ? -12 : 0, -53);
                     var bubbleAt = new Vector2(0, -94);
                     if (MenuUi.Sprite(cell, PlayBubbleSprite, bubbleAt, new Vector2(84, 44), order + 6) == null)
                         ShapeView.Create(cell, "PlayBubble", new Vector2(84, 44), 2, order + 6).Radius(14)

@@ -795,6 +795,7 @@ namespace ReverseSolver.Presentation
             RememberMenuScroll();
             if (_world != null) { if (immediate) DestroyImmediate(_world.gameObject); else Destroy(_world.gameObject); }
             _world = new GameObject("World").transform;
+            CancelCardTap();
             _card = null; _cardKind = null; _menu = null; _list = null; _board = null; _hud = null; _bar = null;
             _tabs = null; _collection = null; _levelsMap = null; _paintingDetail = null; _menuSettings = null;
             _jiggles = null; _achievements = null; _profileCard = null;
@@ -940,6 +941,7 @@ namespace ReverseSolver.Presentation
 
         void CloseCard()
         {
+            CancelCardTap();
             _card?.Destroy();
             _card = null;
             _cardKind = null;
@@ -947,6 +949,7 @@ namespace ReverseSolver.Presentation
 
         void ShowResult()
         {
+            CancelCardTap();
             _card?.Destroy();
             _card = null;
             _cardKind = "result";
@@ -1092,13 +1095,14 @@ namespace ReverseSolver.Presentation
             if (p == null) return;
             Vector2 px = p.position.ReadValue();
             var pt = new Vector2(px.x / _dpr, _screen.y - px.y / _dpr);    // layout points, y down
+            bool gated = InputGated(p);
 
             if (_mode == Mode.Menu && Art.On)
             {
                 // PM_MESAJ_27 A2: a touch on a moving list only stops it; under 10 pt of travel is a tap
                 var scroll = ActiveMenuScroll;
                 float now = Time.unscaledTime;
-                if (p.press.wasPressedThisFrame)
+                if (p.press.wasPressedThisFrame && !gated)
                 {
                     _menuPointer = true; _menuDragging = false; _menuPointerStart = _menuPointerLast = pt;
                     _menuStopTap = false;
@@ -1131,7 +1135,7 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
-            if (p.press.wasPressedThisFrame) Press(pt);
+            if (p.press.wasPressedThisFrame) { if (!gated) Press(pt); }
             else if (p.press.isPressed && _drag != null && _drag.Active)
             {
                 if (TutorialActive && _tutorialUntil >= 0) return;
@@ -1155,7 +1159,32 @@ namespace ReverseSolver.Presentation
             }
         }
 
-        bool _cardPressed;   // Task 15 card buttons: the pressed sprite shows before the action
+        // Task 15 card buttons: the pressed sprite shows for .12 s before the action (_cardTap is the pending one)
+        object _cardTap;
+        bool _cardFiring;
+        // PM_MESAJ_38: after a card opens, closes or changes, presses go nowhere until the finger is up and .25 s passed
+        object _gateCard;
+        float _gateUntil;
+        bool _gateRelease;
+
+        void CancelCardTap()
+        {
+            if (_cardTap != null) Tweens.Kill(_cardTap);
+            _cardTap = null;
+        }
+
+        bool InputGated(Pointer p)
+        {
+            object cards = _card ?? (object)_list?.Card;
+            if (cards != _gateCard)
+            {
+                _gateCard = cards;
+                _gateUntil = Time.unscaledTime + .25f;
+                _gateRelease = p.press.isPressed;
+            }
+            if (_gateRelease && !p.press.isPressed) _gateRelease = false;
+            return _cardTap != null || _gateRelease || Time.unscaledTime < _gateUntil;
+        }
 
         void Press(Vector2 pt)
         {
@@ -1199,11 +1228,20 @@ namespace ReverseSolver.Presentation
 
             if (_card != null)
             {
-                if (!_cardPressed && _card.Press(pt))
+                if (!_cardFiring && _card.Press(pt))
                 {
-                    _cardPressed = true;
+                    // PM_MESAJ_38: one action per tap; the callback does nothing if the card changed meanwhile
+                    var key = _cardTap = new object();
+                    var card = _card;
                     var at = pt;
-                    Tweens.Run(_card, .12f, _ => { }, () => { if (_card != null) Press(at); _cardPressed = false; });
+                    Tweens.Run(key, .12f, _ => { }, () =>
+                    {
+                        if (_cardTap != key) return;
+                        _cardTap = null;
+                        if (_card != card) return;
+                        _cardFiring = true;
+                        try { Press(at); } finally { _cardFiring = false; }
+                    });
                     return;
                 }
                 string id = _card.HitButton(pt);

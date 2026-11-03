@@ -264,43 +264,54 @@ namespace ReverseSolver.Presentation
             public LevelList(Transform parent, Vector2 screen, IReadOnlyList<LevelData> levels, Progress progress, int current, int order)
             {
                 _progress = progress;
-                Card = new Card(parent, screen, order, "LevelList");
                 int rows = Mathf.CeilToInt(levels.Count / 5f);
                 float gap = 9f;
-                float cellW = (Card.InnerWidth - gap * 4) / 5f;
-                Card.Title(Texts.Levels)
-                    .Body(progress.UnlockAll ? Texts.TestLevels : Texts.UnlockHint)
-                    .Custom(rows * (cellW + gap) - gap + 18, (root, y, w, o) =>
-                    {
-                        for (int i = 0; i < levels.Count; i++)
+                float cellW = -1;
+                // PM_MESAJ_38 (UX #24): if the card is taller than the screen, the cells shrink and it is built again
+                for (int pass = 0; pass < 2; pass++)
+                {
+                    Card = new Card(parent, screen, order, "LevelList");
+                    if (cellW < 0) cellW = (Card.InnerWidth - gap * 4) / 5f;
+                    float gridX = -(cellW * 5 + gap * 4) / 2;
+                    _cells.Clear();
+                    Card.Title(Texts.Levels)
+                        .Body(progress.UnlockAll ? Texts.TestLevels : Texts.UnlockHint)
+                        .Custom(rows * (cellW + gap) - gap + 18, (root, y, w, o) =>
                         {
-                            int r = i / 5, c = i % 5;
-                            var center = new Vector2(-w / 2 + c * (cellW + gap) + cellW / 2, y + r * (cellW + gap) + cellW / 2);
-                            bool open = progress.Open(i), done = progress.Won(i), now = i == current;
-                            // .sel: radius 11, rgba(255,255,255,.07), 1px rgba(255,255,255,.18)
-                            // .sel.done: amber .18 / .5; .sel.now: 2px amber outline
-                            var cell = ShapeView.Create(root, "sel", new Vector2(cellW, cellW), 4, o).Radius(11)
-                                .Fill(done ? Draw.Rgba(240, 167, 66, .18f) : Draw.Rgba(255, 255, 255, .07f))
-                                .Stroke(now ? Draw.Hex("#f0a742") : done ? Draw.Rgba(240, 167, 66, .5f) : Draw.Rgba(255, 255, 255, .18f), now ? 2 : 1)
-                                .Skin(now ? "level-cell-next" : done ? "level-cell-complete" : open ? "level-cell-open" : "level-cell-locked", false);
-                            cell.transform.localPosition = Draw.W(center);
-                            if (!open) cell.Alpha(.45f);
-                            var label = TextView.Create(root, "n", levels[i].Number.ToString(), 15,
-                                                        now && Art.On ? Palette.Navy : done ? Draw.Hex("#f0a742") : Draw.Hex("#eaf3f2"), order: o + 1);   // the next cell is cream
-                            label.transform.localPosition = Draw.W(center + (open ? Vector2.zero : new Vector2(0, -5)));
-                            if (!open)
+                            for (int i = 0; i < levels.Count; i++)
                             {
-                                label.Alpha = .45f;
-                                var lk = new GameObject("lock").transform;
-                                lk.SetParent(root, false);
-                                lk.localPosition = Draw.W(center + new Vector2(0, 11));
-                                Icons.Draw("lock", lk, 11, o + 1);
+                                int r = i / 5, c = i % 5;
+                                var center = new Vector2(gridX + c * (cellW + gap) + cellW / 2, y + r * (cellW + gap) + cellW / 2);
+                                bool open = progress.Open(i), done = progress.Won(i), now = i == current;
+                                // .sel: radius 11, rgba(255,255,255,.07), 1px rgba(255,255,255,.18)
+                                // .sel.done: amber .18 / .5; .sel.now: 2px amber outline
+                                var cell = ShapeView.Create(root, "sel", new Vector2(cellW, cellW), 4, o).Radius(11)
+                                    .Fill(done ? Draw.Rgba(240, 167, 66, .18f) : Draw.Rgba(255, 255, 255, .07f))
+                                    .Stroke(now ? Draw.Hex("#f0a742") : done ? Draw.Rgba(240, 167, 66, .5f) : Draw.Rgba(255, 255, 255, .18f), now ? 2 : 1)
+                                    .Skin(now ? "level-cell-next" : done ? "level-cell-complete" : open ? "level-cell-open" : "level-cell-locked", false);
+                                cell.transform.localPosition = Draw.W(center);
+                                if (!open) cell.Alpha(.45f);
+                                var label = TextView.Create(root, "n", levels[i].Number.ToString(), 15,
+                                                            now && Art.On ? Palette.Navy : done ? Draw.Hex("#f0a742") : Draw.Hex("#eaf3f2"), order: o + 1);   // the next cell is cream
+                                label.transform.localPosition = Draw.W(center + (open ? Vector2.zero : new Vector2(0, -5)));
+                                if (!open)
+                                {
+                                    label.Alpha = .45f;
+                                    var lk = new GameObject("lock").transform;
+                                    lk.SetParent(root, false);
+                                    lk.localPosition = Draw.W(center + new Vector2(0, 11));
+                                    Icons.Draw("lock", lk, 11, o + 1);
+                                }
+                                _cells.Add((new Rect(center.x - cellW / 2, center.y - cellW / 2, cellW, cellW), i));
                             }
-                            _cells.Add((new Rect(center.x - cellW / 2, center.y - cellW / 2, cellW, cellW), i));
-                        }
-                    })
-                    .Button("close", Texts.Close, false)
-                    .Finish();
+                        })
+                        .Button("close", Texts.Close, false)
+                        .Finish();
+                    float over = Card.Height - (screen.y - 32);
+                    if (over <= 0 || pass == 1) break;
+                    Card.Destroy();
+                    cellW = Mathf.Max(30, cellW - over / rows);
+                }
                 // cell rects are relative to the card's centre line and top
                 for (int i = 0; i < _cells.Count; i++)
                 {

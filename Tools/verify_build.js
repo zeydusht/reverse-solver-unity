@@ -525,6 +525,75 @@ async function ic33() {
   check('ic33', ok, `plays ${pl.map(r => `${r.level_id} v${r.level_version} ${r.result} jams ${r.jams}`).join('; ')}; S41 moves jam satırı ${mv.filter(m => m.kind === 'jam').length}`);
 }
 
+/* --send --only davet (PM_MESAJ_38): card taps never reach the board or a second card. A fresh ic profile (unlock=1):
+   (a) level 2's win cards answered with fast double taps, (b) level 3's intro card ("Anladım") the same, (c) level 4's
+   pause card closed by a tap with a drag on the board right after it. Supabase: each level won, jams 0, exit rows ==
+   solution length, no jam row, and level 4's first exit is its first solution piece (the stray drag went nowhere). */
+async function davet() {
+  const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels;
+  const name = opt('dvname', player + '_DV').slice(0, 12), p = await newPage();   // the name gate keeps 12 characters
+  const dir = path.join(ROOT, 'docs/qa', new Date().toLocaleDateString('sv') + '-davet'); fs.mkdirSync(dir, { recursive: true });
+  const shot = async tag => fs.writeFileSync(path.join(dir, `test_${tag}.png`), await p.png());
+  // a card dims the HUD strip under its veil (open ~110-220, none ~410-445); the painted board fooled a centre test
+  const veiled = async () => { const img = readPng(await p.png()); let s = 0, n = 0;
+    for (let y = .02; y < .09; y += .01) for (let x = .1; x < .95; x += .05) { s += img.at(Math.round(img.w * x), Math.round(img.h * y)).slice(0, 3).reduce((a, b) => a + b, 0); n++; } return s / n < 300; };
+  const dtap = async (x, y) => { for (let i = 0; i < 2; i++) { await p.touch('touchStart', x, y); await sleep(30); await p.touch('touchEnd'); await sleep(50); } };
+  // every cream card on screen gets fast double taps, top to bottom, until the board shows (or a dark veil)
+  const dclose = async tag => { for (let k = 0; k < 6; k++) { if (!await veiled()) return k; await shot(`${tag}_${k + 1}`);
+    for (let y = Math.round(H * .3); y < H * .92; y += 14) { await dtap(W / 2, y); await sleep(300); if (!await veiled()) break; } await sleep(2500); } return 6; };
+  const [l2, l3, l4] = [set[1], set[2], set[3]];
+  await p.open(`${base}/?set=redesign&c=ic&unlock=1&lv=${l2.id}`, { gate: true });
+  await p.name(name); await sleep(2000); await dclose('a_giris');
+  await p.solve(l2); await sleep(2500);
+  const na = await dclose('a_kazanma');                 // win cards -> corridor -> level 3's intro card
+  for (let i = 0; i < 20 && !await veiled(); i++) await sleep(500);   // the corridor slide, then level 3's intro card
+  const nb = await dclose('b_tanitim');
+  await p.solve(l3); await sleep(2500); await dclose('b_kazanma');
+  await p.open(`${base}/?set=redesign&c=ic&unlock=1&lv=${l4.id}`, { gate: true }); await sleep(2000); await dclose('c_giris');
+  const stray = l4.solution[l4.solution.length - 1], pl4 = placement(l4), sc = l4.pieces[stray.piece][0], [ux, uy] = DIR[stray.dir];
+  const sx = pl4.x + (sc[0] + .5) * pl4.cell, sy = pl4.y + (sc[1] + .5) * pl4.cell;
+  await p.tap(W - 36, 33); await sleep(900); await shot('c_duraklat');
+  for (let y = Math.round(H * .35); y < H * .92; y += 14) {    // the first button from the top is "Devam"
+    await p.touch('touchStart', W / 2, y); await sleep(30); await p.touch('touchEnd');
+    await sleep(150);                                    // the .12 s pressed look, then the card is gone: drag at once
+    await p.drag(sx, sy, ux * 120, uy * 120, 80);
+    if (!await veiled()) break;
+  }
+  await shot('c_sonra'); await sleep(1000);
+  await p.solve(l4); await sleep(2500); await shot('c_kazanma');
+  const exc = p.exceptions.length;
+  await sleep(17000); await p.cdp('Page.navigate', { url: 'about:blank' }); await sleep(4000); p.close();
+  const get = async q => (await (await fetch(`${SUPA}/rest/v1/${q}`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json());
+  const pl = await get(`plays?player=eq.${name}&select=row_id,level_id,result,jams&order=created_at`);
+  const out = [], ok = [];
+  for (const l of [l2, l3, l4]) {
+    const r = pl.filter(x => x.level_id === l.id).pop();
+    if (!r) { out.push(`${l.id} satırı yok`); ok.push(false); continue; }
+    const mv = await get(`moves?row_id=eq.${r.row_id}&select=kind,piece,move_no&order=move_no`);
+    const exits = mv.filter(m => m.kind === 'exit'), jams = mv.filter(m => m.kind === 'jam').length;
+    const first = l !== l4 || (exits[0] && exits[0].piece === l.solution[0].piece);
+    ok.push(r.result === 'win' && r.jams === 0 && jams === 0 && exits.length === l.solution.length && first);
+    out.push(`${l.id} ${r.result} jams ${r.jams}, exit ${exits.length}/${l.solution.length}, jam satırı ${jams}, türler ${[...new Set(mv.map(m => m.kind))].join('/')}${l === l4 ? `, ilk exit parça ${exits[0] && exits[0].piece} (beklenen ${l.solution[0].piece})` : ''}`);
+  }
+  const res = `(a) kart ${na}, (b) kart ${nb}; ${out.join('; ')}; istisna ${exc}`;
+  fs.writeFileSync(path.join(dir, 'test_sonuc.txt'), `oyuncu ${name}\n${res}\n`);
+  check('davet', ok.every(Boolean) && exc === 0, `${res} → ${dir}`);
+}
+
+/* --only bolum1 (PM_MESAJ_38): level 1 with c=ic&unlock=1 at 375x667 and 390x844, a shot every 3 s (cards, hand). */
+async function bolum1() {
+  const dir = path.join(ROOT, 'docs/qa', new Date().toLocaleDateString('sv') + '-davet'); fs.mkdirSync(dir, { recursive: true });
+  let exc = 0;
+  for (const [w, h] of [[375, 667], [390, 844]]) {
+    W = w; H = h; const p = await newPage();
+    await p.open(dbg(`${base}/?set=redesign&c=ic&unlock=1&lv=S41&lang=tr`));
+    for (let k = 1; k <= 2; k++) { await sleep(3000); fs.writeFileSync(path.join(dir, `${w}x${h}_bolum1_${k}.png`), await p.png()); }
+    exc += p.exceptions.length; p.close();
+  }
+  W = 375; H = 667;
+  check('bolum1', exc === 0, `4 görüntü → ${dir}, istisna ${exc}`);
+}
+
 /* --only baron (PM_MESAJ_36): the opening cards of the hard levels 19 and 23 (c=ic&unlock=1, debug), one shot per
    card until the board shows; --baron-tag names the shots (eski/yeni). Shots in docs/qa/<date>-dort. */
 async function baron() {
@@ -1434,9 +1503,11 @@ async function qa() {
     if (send && only.includes('pausequit')) await pausequit();
     if (send && only.includes('cohortic')) await cohortic();
     if (send && only.includes('ic33')) await ic33();
+    if (send && only.includes('davet')) await davet();
     if (only.includes('baron')) await baron();
     if (only.includes('evbar')) await evbar();
     if (only.includes('harita')) await harita();
+    if (only.includes('bolum1')) await bolum1();
     if (send && only.includes('rating')) await rating();
     if (send && only.includes('booster')) await booster();
     if (only.includes('spot')) await spot();
