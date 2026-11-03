@@ -100,6 +100,8 @@ Kurallar:
 | Tanıtım 10 (Z24) ve 14 (Z21) sadeleştirme v2 (PM_MESAJ_32) + bölüm 1 hatalı adım, dik el, unlock=1, koleksiyon sıradaki, Jiggles çubuğu, harita işaretleri (PM_MESAJ_33) /p20/ | ✅ yayında | QA docs/qa/2026-11-02-son |
 | Bölüm 1 eğitimi: elin sırtı (Codex hand-back-v1 + basılı kare) + adım 2–3 sağ alt parça (PM_MESAJ_34) /p20/ | ✅ yayında | QA docs/qa/2026-11-03-el |
 | Eldivenli el (sırt, ~1,3 hücre), zor bölümde tek kart, Ev profil hizası, harita düğüm hazırlığı (PM_MESAJ_36) /p20/ | ✅ yayında (Task23 düğümleri bekleniyor) | QA docs/qa/2026-11-03-dort |
+| Task23 harita düğümleri + zor kartı bombasız (PM_MESAJ_37) | ✅ yayında 848fa47 | QA docs/qa/2026-11-03-sabah |
+| Kart tıklama kilidi, LevelList sığıyor, avatar Baron'a binmiyor (PM_MESAJ_38) | ✅ yayında 8ad50da | davet testi GEÇTİ; (b) tanıtım ayrı ölçülemedi; S45'te tanıtım yerine profil sorusu (açık) |
 | p20 menü revizyonu A+B (PM_MESAJ_27): alt çubuk v3, üst bar, Nunito Black banner stili, ataletli kaydırma, Task21 parçaları /p20/ | ✅ yayında | Ayarlar anahtar zemini + fırlatma mesafesi düzeltildi, sonraki build'de yayına girecek |
 | Koridor Ana menü yolu (PM_MESAJ_24B) /p19/ + menü ekranları A+B (PM_MESAJ_26) /p20/ | ✅ | iPhone'da bakılmadı; süre istatistikleri bu sürümden itibaren |
 | Koridor geçişi (PM_MESAJ_24): kazan → 1–10/👍👎 → Devam → N'nin tablosundan N+1'inkine kayma (tek şerit, video yok, +242 KB), dokununca atla; /p19/ | ✅ | iPhone'da bakılmadı; 15→16 betikte kararsız (oyun değil) |
