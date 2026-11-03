@@ -1,3 +1,5 @@
+# PM_MESAJ_44 (4 Kasım ~00:10): WhatsApp önizlemesi canlı — gh-pages 10c9b5e, p20/index.html'e og/twitter/description etiketleri, p20/og-image.jpg (1200×630, canlı 200). Yalnız gh-pages; Unity şablonuna eklenmedi, bir sonraki p20 build'inde index.html'e yeniden eklenmeli.
+
 # PM_MESAJ_43 yayında (3 Kasım ~23:35): /p20/ profil sorusu isimden sonra değil, numarası ≥ 2 olan ilk kazanılan bölümde "Sonraki"/"Menü"ye basınca bir kez (kayıp ya da "Tekrar" sormaz); sonraki bölümde tanıtım kartı cevaptan sonra yeniden açılıyor (PM_40 yolu). Yeni metin TR/EN (Candy Crush, Royal Match). Veri biçimi aynı.
 - Doğrulama: yerel boot + davet GEÇTİ (TEST_P43_DV: S42/S43/S06 jams 0, jam/tut satırı yok; player_profiles satırı geldi, cohort ic, puzzle_exp 1). Soru → çivi kartı sırası ekran görüntüsüyle ayrıca gösterilmedi; iPhone'da denenmedi.
 
