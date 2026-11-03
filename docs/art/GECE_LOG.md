@@ -98,3 +98,8 @@ Son kullanıcı talimatı mevcut17 aileyi bitirip Task24’e geçmek olduğundan
 11/21/31 pilotundan sonra kalan27 çizildi: toplam30 yeni tablo,39 üretim/düzeltme.1536px PNG,1024px JPG≤300000bayt, TR/EN manifest, üç eski/yeni şerit ve30 çiftlik inceleme hazır.1260 parça kesildi,180 rastgele örnek görsel incelendi;9 resim ikinci denemeyle düzeltildi. Mevcut Paintings dosyalarının tamamı hash kontrolünde aynı. Gerçek cihaz/oynanış testi yapılmadı.
 
 Task23 son kapsamı mevcut17 aile: NIHAI/inceleme/kod listesi tamam. Koruma karşılaştırmasında4617 dosya aynı,7 dosya oturumda başka faaliyetle değişmiş (iki hand-glove PNG ve TutorialHand/TutorialSpotlight/LevelsMap/Screens/Texts); bu çalışmaların komutları bu dosyalara yazmadı, geri alınmadı. Liste task23/koruma-sonuc.json içinde; eksik dosya yok.
+
+
+## 2026-11-03T14:58+03:00 — Task25 başlangıcı
+
+A→B→C sırası uygulanıyor. Önce1–10 aynı konularla sade stilde; su bütçesi2/10,1–3 için ek3×3/4×4 test. Mevcut Paintings hashleri kaydedildi, v2 manifest/inceleme karşılaştırmaları Denemeler/T25-oncesi altında kopyalandı. Haftalık kalan kota araçlarda görünmüyor; üretim hataları olursa tamamlanamayan işler kayda geçecek.
