@@ -37,6 +37,7 @@ Son güncelleme: 5 Kasım 2026, 13:00. Yeni sohbette önce bu dosyayı oku, sonr
 - Kullanıcı adı "Zeyd TEKİN" içindeki **İ harfi** Mac imzasında sorun çıkardı. Çözüm betikleri `imza-duzelt.sh` ve `imza-duzelt-2.sh` (Drive'da). Gelecek yüklemelerde Xcode → Archive → Export → bu betikler → `xcrun altool --upload-app` (uygulamaya özel parola gerekir, sonra sil) gerekecek.
 - Bunun için arkadaşın Mac'i kullanıldı (Xcode'dan çıkış yapılıp yapılmadığı belirsiz). Parola silindi.
 - **5 Kasım: 0.5.1 (3) Zeyd'in iPhone'unda çalıştı** (3 ekran kaydı, `Downloads\Mobile Devices`). Bulgular: (1) oyun sabit **30 FPS** (targetFrameRate ayarlı değil, Unity iOS varsayılanı), web 60; (2) titreşim yalnız jam/bomba/kazanmada var, parça çıkarmada yok → "titreşim yok" hissi. İkisi **PM_MESAJ_45**'te (60 FPS + yeni titreşim haritası, sürüm 0.5.2 (5), p20 değişiklikleri dahil). Zeyd ayrıca iPhone Ayarlar → Ses ve Dokunuş → Sistem Dokunuşları açık mı bakacak.
+- **7 Kasım: 0.5.2 (6) hazır** (`Builds/ReverseSolver-iOS-0.5.2.zip`, 299 MB, yüklenmedi). PM_45: iOS'ta 60 FPS (açılış + arka plandan dönüş), yeni titreşim haritası (parça Light, sürükleme/düğme Select, jam Medium, bomba Heavy, kazanma Success, 50 ms aralık). PM_46: Success ve Heavy 50 ms kuralına takılmıyor; son parçada Light yok, yalnız Success. iPhone'da doğrulanmadı.
 
 ## pt1 YAYINDA (4 Kasım 00:00) — en güncel durum
 - Davetler 3–4 Kasım gecesi gönderildi. Link `https://zeydusht.github.io/reverse-solver-unity/p20/?c=pt1` (davetliler 1–2 kişiye iletebilir). İlk gerçek oyuncu: Tolgahan (00:10).
