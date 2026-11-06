@@ -741,7 +741,7 @@ namespace ReverseSolver.Presentation
             }
             // Codex sounds (preview art only; silent when Art is off)
             // PM_MESAJ_19: no sound per piece; the jam keeps its knock; the last piece gets the whole sparkle, then the fanfare
-            if (e.Kind == EventKind.PieceRemoved) { Haptics.Play(Haptics.Kind.Light); if (_session.Board.PresentCount == 0) PlaySound("popfull"); }
+            if (e.Kind == EventKind.PieceRemoved) { if (_session.Board.PresentCount == 0) PlaySound("popfull"); else Haptics.Play(Haptics.Kind.Light); }
             else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Medium); }
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");

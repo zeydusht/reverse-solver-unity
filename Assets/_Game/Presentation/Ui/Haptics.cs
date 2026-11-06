@@ -26,7 +26,8 @@ namespace ReverseSolver.Presentation
         {
             if (!On) return;
             float now = Time.unscaledTime;
-            if (_last >= 0f && now - _last < .05f) return;
+            bool strong = kind == Kind.Heavy || kind == Kind.Success;   // PM_MESAJ_46: never swallowed
+            if (!strong && _last >= 0f && now - _last < .05f) return;
             _last = now;
             RS_Haptic((int)kind);
         }
