@@ -42,12 +42,20 @@ namespace ReverseSolver.Platform
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Install()
         {
+            FrameRate();
             var host = new NativeHost();
             Host.Current = host;
             Runner.Create(host);
             RemoteLevels.Refresh();
         }
 #endif
+
+        /* PM_MESAJ_45: Unity's iOS default is 30 FPS; ask for 60 (no ProMotion 120: battery and heat). Web untouched. */
+        static void FrameRate()
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+        }
 
         /* Keyboard for the name, app pause/resume, coroutines for the remote levels. */
         internal sealed class Runner : MonoBehaviour
@@ -83,7 +91,11 @@ namespace ReverseSolver.Platform
                 }
             }
 
-            void OnApplicationPause(bool paused) => _host?.Visibility(!paused);
+            void OnApplicationPause(bool paused)
+            {
+                if (!paused) FrameRate();
+                _host?.Visibility(!paused);
+            }
         }
     }
 

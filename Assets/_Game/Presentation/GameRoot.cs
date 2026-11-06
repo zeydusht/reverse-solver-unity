@@ -741,8 +741,8 @@ namespace ReverseSolver.Presentation
             }
             // Codex sounds (preview art only; silent when Art is off)
             // PM_MESAJ_19: no sound per piece; the jam keeps its knock; the last piece gets the whole sparkle, then the fanfare
-            if (e.Kind == EventKind.PieceRemoved) { if (_session.Board.PresentCount == 0) PlaySound("popfull"); }
-            else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Light); }
+            if (e.Kind == EventKind.PieceRemoved) { Haptics.Play(Haptics.Kind.Light); if (_session.Board.PresentCount == 0) PlaySound("popfull"); }
+            else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Medium); }
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
             if (e.Kind != EventKind.Finished) return;
@@ -1141,7 +1141,7 @@ namespace ReverseSolver.Presentation
                     _menuPointer = false;
                     if (scrolling) scroll.Release(_menuDragging ? now : -1);
                     bool cancelled = Touchscreen.current != null && p == Touchscreen.current && Touchscreen.current.primaryTouch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Canceled;
-                    if (!_menuDragging && !_menuStopTap && !cancelled && Vector2.Distance(pt, _menuPointerStart) < 10) Press(pt);
+                    if (!_menuDragging && !_menuStopTap && !cancelled && Vector2.Distance(pt, _menuPointerStart) < 10) { Haptics.Play(Haptics.Kind.Select); Press(pt); }
                     RememberMenuScroll();
                 }
                 var mouse = Mouse.current;
@@ -1261,7 +1261,7 @@ namespace ReverseSolver.Presentation
                         _cardTap = null;
                         if (_card != card) return;
                         _cardFiring = true;
-                        try { Press(at); } finally { _cardFiring = false; }
+                        try { Haptics.Play(Haptics.Kind.Select); Press(at); } finally { _cardFiring = false; }
                     });
                     return;
                 }
@@ -1323,7 +1323,7 @@ namespace ReverseSolver.Presentation
                 if (target != _tutorialMove.Piece) { _spotlight?.Restart(); return; }
                 _tutorialPress = pt;
                 if (_drag.Press(target, pt.x, pt.y, Time.unscaledTimeAsDouble, tutorialOutside))
-                { _board.ShowDrag(_drag); _pressAt = Time.unscaledTime; }
+                { _board.ShowDrag(_drag); _pressAt = Time.unscaledTime; Haptics.Play(Haptics.Kind.Select); }
                 return;
             }
 
@@ -1362,7 +1362,7 @@ namespace ReverseSolver.Presentation
             // a press just outside the board takes the nearest edge piece (PRODUCT.md K1)
             piece = _board.GrabAt(pt, out bool outside);
             if (piece >= 0 && _session.NailAt(piece) > 0) _board.Clang(piece);     // web: pinned, refuse and say so
-            if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) { _board.ShowDrag(_drag); _pressAt = Time.unscaledTime; }
+            if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) { _board.ShowDrag(_drag); _pressAt = Time.unscaledTime; Haptics.Play(Haptics.Kind.Select); }
         }
 
         void TapTutorialBooster(Vector2 pt, TutorialStep step)
