@@ -1,6 +1,6 @@
 # Reverse Solver — PROJE DURUMU (PM devir dosyası)
 
-Son güncelleme: 5 Kasım 2026, 13:00. Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
+Son güncelleme: 8 Kasım 2026, 01:45. Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
 
 ## Dosya kuralı
 - Her iş bitince veya Zeyd "değişiklikleri PROJE_DURUMU'na ekle" deyince bu dosyayı güncelle (kısa tut, bitenleri sil, tarihi yenile). Güncelledikten sonra `/clear` hatırlat.
@@ -44,6 +44,7 @@ Son güncelleme: 5 Kasım 2026, 13:00. Yeni sohbette önce bu dosyayı oku, sonr
 - **p20 DONDU** (sürüm `web-p20-2026-11-03`). Yeni işler `p21/`. Kök ve p19'a dokunma.
 - p20'de olanlar (PM_34–44): eldivenli el (arkadan), zor bölümde tek Baron kartı, Ev profil hizası, Task23 harita düğümleri, kart tıklama kilidi (PM_38), 40 yeni tablo (Paintings_v2, Task24/25 stili), Task23 kartları, Baloo 2 ExtraBold başlık/düğme stili (krem-sarı geçiş, koyu kontur, gölge), **bölüm sonu puanlama KALDIRILDI** (zorluk_puani/keyif boş; set_rating kodu duruyor), profil sorusu bölüm 2'yi kazanınca, süre başlamadan dokunuş jam sayılmaz ('tut'), WhatsApp önizleme = oyun ikonu. Boyut 16,33 MB.
 - **Veri temizliği (migration 013):** `v_attempts`/`v_abandoned` şunları dışlar: adında "zeyd" geçen, tek harf tekrarı (dd, zz…), `excluded_players` tablosu, `excluded_devices` (Zeyd'in 7 cihazı), pt1'de 4 Kasım 00:00 öncesi. Yeni test ismi çıkarsa `excluded_players`'a ekle.
+- **Oyuncu tablosu `v_oyuncular`** (migration 014, 7 Kasım): grup, oyuncu, bitirdiği bölüm, dakika, ilk/son giriş. Zeyd Supabase Table Editor'dan bakar. 7 Kasım: pt1'de 29 oyuncu.
 - Takip: `v_funnel`, `v_pred_vs_actual` (run `v0.1-2026-11-02` birincil), `v_model_score`, cohort pt1. Tahminler kazanma oranına dayanıyor (puan artık yok).
 
 ## Limitler ve çalışma düzeni
@@ -58,3 +59,9 @@ Son güncelleme: 5 Kasım 2026, 13:00. Yeni sohbette önce bu dosyayı oku, sonr
 3. p21 adayları: UX_KOD_DENETIM.md'deki orta bulgular, redesign doğrulama aracı (yeni krem kart), ZeydBot, kalan Task23 aileleri (yükleme, HUD cilası, booster çubuğu, 40. bölüm kartı).
 4. TestFlight: Apple vaka 103014067408 (4 Kasım telefon görüşmesi, "48 saat bekle"). **5 Kasım: Zeyd kendini internal tester olarak ekleyebildi.** Sıradaki: iPhone'a 0.5.1 (3) kurulumu, dış grup (Arkadaslar) tekrar denemesi; olmazsa aynı maile cevap (taslak verildi). Not: 0.5.1 (3) eski sürüm (p20 değişiklikleri yok, seviyeler kökteki redesign.json v3) → testçilere iOS dağıtılmadan önce yeni iOS build gerekir (İ imza prosedürü).
 5. Görkem Türk: 3 Kasım'da hatırlatma taslağı verildi ("abi" hitabı); pt1 ilk sonuçlarıyla dönmek daha güçlü.
+6. **Bölüm tasarım okulu (Zeyd fikri, 8 Kasım):** "Bölüm bir hikâye: X'te başlatıp Y'de bitiren yol." Bölüm fabrikası/ajan hiç oyun "tüketmemiş", tanıtım bölümleri zayıf (ör. bomba tanıtımında fitil 25, oyuncu her şeyi çıkarıyor, bomba hâlâ 4'te → tehdit hissedilmiyor; çivi de tam anlaşılmıyor), ileri bölümler iyi ama bazıları birbirine benziyor. PM önerisi (botla Royal Match oynatmak YOK: kullanım şartlarına aykırı, hesap riski, çok pahalı, ajan oynayarak kalıcı öğrenmez):
+   a) Zeyd Royal Match'ten 5–10 bölümü ekran kaydıyla çeker (özellikle yeni engelin ilk geldiği bölümler + 1–2 "hikâyeli" bölüm), proje klasörüne `Assets/Art/References/rm-video/` koyar.
+   b) PM kareleri çıkarıp her bölümü "hikâye kartı"na döker (başlangıç alanı, ilk hamle seçenek sayısı, açılma sırası, engel tanıtımı, tempo, hamle bütçesi) + web araştırması (tanıt-dene-boz-ustalaş kalıbı, match-3 bölüm tasarımı yazıları) → `docs/BOLUM_TASARIM_KITABI.md`.
+   c) Fabrikaya "hikâye kartı" zorunluluğu + simülatör kontrolleri (ör. tanıtımda engel ilk N hamlede gerçek tehdit olmalı: bomba fitili çözüm yolunda ≤ hamle+2).
+   d) p21: 3/6/10/14 tanıtım bölümleri yeniden + Zeyd'in yeni engel fikirleri prototipi ("kilitli bölge": N parça çıkınca açılan alan; alttan çıkan yeni parçalar; görünmeyen bölge). pt1 verisi (p20) bozulmasın diye hepsi p21'de.
+

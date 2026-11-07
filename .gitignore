@@ -66,3 +66,8 @@ Desktop.ini
 # Performance Testing writes these during player builds; a failed build leaves them behind
 /[Aa]ssets/Resources/PerformanceTestRun*
 /[Aa]ssets/Resources.meta
+
+# Level Design screen recordings (never commit)
+Level Design/*.MP4
+Level Design/*.mp4
+Level Design/**/*.mp4
