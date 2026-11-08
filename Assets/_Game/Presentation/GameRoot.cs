@@ -260,6 +260,13 @@ namespace ReverseSolver.Presentation
             }
             Art.On = false;                                    // static: no domain reload between Play sessions
             _paintSet = false;
+            // PM_MESAJ_48: level-agent preview sets (?set=ajan1 …) from Resources/AjanSets/<name>.json; recorded and unlocked like set=zeydbot
+            string setName = Host.Current.Query("set");
+            if (!string.IsNullOrEmpty(setName) && setName.StartsWith("ajan"))
+            {
+                var ajan = Resources.Load<TextAsset>("AjanSets/" + setName);
+                if (ajan != null) { _zeydbotSet = !Host.Debug; _newArt = Art.On = _paintSet = true; return LevelParser.Parse(ajan.text); }
+            }
             switch (SetChoice.For(Host.Debug, Host.Current.Query("set"), HasLevels(designs), HasLevels(redesign), SetFlags.RedesignDefault, HasLevels(zeydbot)))
             {
                 case SetChoice.Kind.Zeydbot: _zeydbotSet = true; return LevelParser.Parse(zeydbot.text);

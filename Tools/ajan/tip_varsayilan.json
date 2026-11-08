@@ -1,0 +1,93 @@
+{
+  "tipler": {
+    "tanitim": {
+      "ilk3_min_secenek": 3,
+      "en_uzun_bogaz_min": 0,
+      "en_uzun_bogaz_max": 1,
+      "bogaz_sayisi_min": 0,
+      "cig_orani_min": 0.35,
+      "kalan_sure_orani": [
+        0.25,
+        0.5
+      ],
+      "bomba_tehdit_adimi_max": 5,
+      "bomba_fitil_max": "earliest+2",
+      "bomba_unutan_kaybetmeli": false,
+      "tuzak_adim_min": 0
+    },
+    "nefes": {
+      "ilk3_min_secenek": 3,
+      "en_uzun_bogaz_min": 0,
+      "en_uzun_bogaz_max": 1,
+      "bogaz_sayisi_min": 0,
+      "cig_orani_min": 0.35,
+      "kalan_sure_orani": [
+        0.3,
+        0.45
+      ],
+      "bomba_tehdit_adimi_max": 999,
+      "bomba_fitil_max": 99,
+      "bomba_unutan_kaybetmeli": false,
+      "tuzak_adim_min": 0
+    },
+    "normal": {
+      "ilk3_min_secenek": 3,
+      "en_uzun_bogaz_min": 2,
+      "en_uzun_bogaz_max": 4,
+      "bogaz_sayisi_min": 1,
+      "cig_orani_min": 0.35,
+      "kalan_sure_orani": [
+        0.15,
+        0.3
+      ],
+      "bomba_tehdit_adimi_max": 999,
+      "bomba_fitil_max": 99,
+      "bomba_unutan_kaybetmeli": false,
+      "tuzak_adim_min": 0
+    },
+    "zor": {
+      "ilk3_min_secenek": 2,
+      "en_uzun_bogaz_min": 5,
+      "en_uzun_bogaz_max": 999,
+      "bogaz_sayisi_min": 1,
+      "cig_orani_min": null,
+      "kalan_sure_orani": [
+        0,
+        0.1
+      ],
+      "bomba_tehdit_adimi_max": 999,
+      "bomba_fitil_max": 99,
+      "bomba_unutan_kaybetmeli": false,
+      "tuzak_adim_min": 0
+    },
+    "super-zor": {
+      "ilk3_min_secenek": 2,
+      "en_uzun_bogaz_min": 5,
+      "en_uzun_bogaz_max": 999,
+      "bogaz_sayisi_min": 1,
+      "cig_orani_min": null,
+      "kalan_sure_orani": [
+        0,
+        0.05
+      ],
+      "bomba_tehdit_adimi_max": 999,
+      "bomba_fitil_max": 99,
+      "bomba_unutan_kaybetmeli": false,
+      "tuzak_adim_min": 0
+    }
+  },
+  "sert_kurallar": {
+    "fitil_adim_sayisindan_kucuk": true,
+    "tanitim_fitil_ek_pay_max": 2,
+    "ilk_hamle_tuzak_orani_max": 0.3,
+    "tanitim_ilk9_siluet_max_exclusive": 0.9,
+    "son30_sure_payi_max": 0.2,
+    "zor_kayip_kalan_parca_medyan_max": 0.2,
+    "tanitim_ilk_hamle_tuzak_orani_max": 0,
+    "tanitim_rastgele_kazanma": [
+      0.15,
+      0.5
+    ],
+    "tanitim_funsim_ilk_deneme_min": 0.65
+  }
+}

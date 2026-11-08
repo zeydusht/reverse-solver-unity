@@ -67,6 +67,7 @@ namespace ReverseSolver.Editing
             {
                 var pick = new Mulberry32(firstSeed + (uint)k);
                 var s = new GameSession(level, 1, "montecarlo", new Mulberry32(firstSeed + (uint)k));
+                int refused = 0;
                 while (!s.IsOver)
                 {
                     free.Clear();
@@ -77,7 +78,8 @@ namespace ReverseSolver.Editing
                     branchSteps++;
                     int piece = free[(int)(pick.NextDouble() * free.Count)];
                     var dirs = TravelRule.ExitDirs(s.Board, piece);
-                    s.TryExit(piece, dirs[(int)(pick.NextDouble() * dirs.Count)]);
+                    // A free piece can still be refused (e.g. a chain whose other end is held); without this guard the run loops forever.
+                    if (s.TryExit(piece, dirs[(int)(pick.NextDouble() * dirs.Count)]) != CommandResult.Ok && ++refused > 200) break;
                 }
                 moves += s.Moves;
                 valves += s.ValveCount;

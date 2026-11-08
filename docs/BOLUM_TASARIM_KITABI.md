@@ -1,6 +1,6 @@
 # BÖLÜM TASARIM KİTABI — Reverse Solver
 
-Sürüm 0.1 · 8 Kasım 2026 · Sahibi: PM. Okuyanlar: bölüm ajanı, Claude Code (fabrika), Zeyd.
+Sürüm 0.2 (SET40 eşikleri işlendi) · 8 Kasım 2026 · Sahibi: PM. Okuyanlar: bölüm ajanı, Claude Code (fabrika), Zeyd.
 
 > **Ana fikir (Zeyd):** Bölüm bir hikâyedir. Oyuncuyu X'te başlatıp Y'de bitiren bir yol. Rastgele bir parça yığını değildir.
 
@@ -178,9 +178,9 @@ Her kuralın yanında fabrikanın ölçeceği **kontrol** var. "Seçenek" = o an
 | # | Kural | Kaynak | Fabrika kontrolü |
 |---|---|---|---|
 | K1 | **Tek anahtar.** Her bölümün bir omurgası var, kartta yazılı. | BO-273, 278 · RM-3473 | Anahtar parça çözüm sırasının %30–70 arasında açılıyor. Açılınca seçenek sayısı en az 2 katına çıkıyor. |
-| K2 | **Hikâye eğrisi.** Seçenek sayısı adım adım çizilince düz olmamalı: dar → genişle → dar (düğüm) → çığ. | BO genel | Eğride en az 1 "boğaz" (seçenek = 1, en az 2 ardışık adım) ve en az 1 "çığ" (son %30'da seçenek en az 3) var. |
-| K3 | **Zincirleme tek parça (Zeyd'in favorisi).** Çok parça görünür ama ilerletebilen yalnız bir tanesi; bu birkaç kez arka arkaya. | Zeyd, Z12 · BO-275 kazı | Zor bölümde art arda seçenek = 1 olan adım sayısı en az 3. Normalde 1–2. Tanıtımda 0–1. |
-| K4 | **Açılış hediyesi.** İlk 2–3 hamle kolay ve tatmin edici. Zorluk sonra gelir. | RM hepsi · BO-276, 278 | İlk 3 adımda seçenek en az 2. İlk hamlede "yanlış" (kilitleyen) seçenek oranı en fazla %30 (zor hariç). |
+| K2 | **Hikâye eğrisi.** Seçenek sayısı adım adım çizilince düz olmamalı: dar → genişle → dar (düğüm) → çığ. | BO genel · SET40 ölçümü | 10. bölümden sonra en az 1 "boğaz" (seçenek = 1, en az 2 ardışık adım). Çığ **göreli**: son %30'da seçenek/kalan parça en az 0,35 (SET40 medyanı 0,42). Zor/super-zor çığ şartından muaf. |
+| K3 | **Zincirleme tek parça (Zeyd'in favorisi).** Çok parça görünür ama ilerletebilen yalnız bir tanesi; bu birkaç kez arka arkaya. | Zeyd, Z12 (en uzun boğaz 10) · BO-275 kazı | En uzun boğaz: tanıtım/nefes en fazla 1, normal 2–4, zor en az 5. Üst sınır yaklaşık 10: 12–14'lük boğaz (32, 34) karar değil "arama" olur, tek başına zorluk kaynağı olmamalı (Zeyd, 21 Ekim). |
+| K4 | **Açılış hediyesi.** İlk 2–3 hamle kolay ve tatmin edici. Zorluk sonra gelir. | RM hepsi · BO-276, 278 · SET40 | İlk 3 adımda seçenek: tanıtım/normal en az 3, zor en az 2. İlk hamlede tuzak oranı en fazla %30. (Kalanlar: 32, 34 tek seçenekle açılıyor.) |
 | K5 | **Çığla bitir.** Son parçalar hızla, art arda çıkar. | BO-273, 274 · RM-3474 | ZeydBot simülasyonunda son %30 parça toplam sürenin en fazla %20'sinde çıkıyor. |
 | K6 | **Süre payı tipe göre.** | BO süreleri · RM hamle payları | Medyan oyuncu botuyla kalan süre: tanıtım/nefes %30–45, normal %15–30, zor %0–10, super-zor kazananların yarısı 5 sn'den az. |
 | K7 | **Neredeyse kaybı.** Zor bölümde kaybeden "az kaldı" demeli. | BO-278 | Kaybeden bot denemelerinde kalan parça oranının medyanı en fazla %20. |
@@ -198,12 +198,25 @@ Nintendo'nun kishōtenketsu yapısı (tanıt, geliştir, bük, bitir) ile BO-277
 
 | Yay bölümü | Ne olur | Kart notu |
 |---|---|---|
-| **Tanıt** (ör. 6) | Engel tek başına. Ekranda başka zorluk yok. İlk 3 hamle içinde **gerçek tehdit**. | Bomba: fitil ≤ çözüm yolundaki ilk N hamle + 2 (PROJE_DURUMU 6c). Oyuncu bombayı yok sayarsa **kaybedebilmeli**. |
+| **Tanıt** (ör. 6) | Engel tek başına. Ekranda başka zorluk yok. Oyuncuya önce **2 serbest hamle** (tahtayı okusun), sonra gerçek tehdit. | Bomba en erken 3–5. adımda çıkabilir, **fitil = en erken çıkış + 2** (tam bu kadar, daha kısa değil). İlk hamlede tuzak 0. Bombayı unutan **kaybeder**, rastgele oynayan %15–50 kazanır, gerçekçi oyuncu modeli ilk denemede en az %65 kazanır. (8 Kasım dersi: fitil 2 + pay 1 → ilk hamlelerin %80'i tuzak, ilk deneme kazanma %21 → tanıtım değil ceza.) |
 | **Geliştir** (7) | Aynı engel 2–3 kez veya daha büyük ölçekte. Bildik bir öğeyle birlikte. | Bomba + duvar. Fitiller farklı uzunlukta, sırayı oyuncu seçer. |
 | **Bük** (8–9) | Engel beklenmedik bir rolde: tehdit değil **anahtar**. | Ör. bomba patlayınca bir duvarı yıkıyor ve yol açıyor. Ya da çivi tam anahtar parçayı tutuyor. |
 | **Bitir / nefes** (10) | Engel geri planda, bölüm ferah. | Sonraki yeni öğeye kadar engel "bilinen alet" olur. |
 
 **Mevcut sorun (Zeyd, 8 Kasım):** bomba tanıtımında fitil 25, oyuncu her şeyi çıkarıyor, bomba hâlâ 4'te → tehdit yok. Bu tarifle tanıtım bölümü **bombayı unutan oyuncuyu kaybettirmeli**. Çivi tanıtımı da aynı şekilde "Bük" adımıyla netleşir: çivi = "bu parça şimdilik çıkmaz, önce şunu çöz".
+
+---
+
+**Bomba sert kuralları (SET40 ölçümü, 8 Kasım):** (1) Fitil her zaman bölümün adım sayısından küçük olmalı. (2) Tanıtımda fitil, bombanın en erken çıkabileceği adım + 2'yi geçmemeli. Bugün kalanlar: **6, 7**, 8, 9, 12, 23, 27, 29, 31. Bölüm 6'da fitil 23 ve bölüm 20 adım, yani bomba hiç tehdit değil.
+
+---
+
+## D2. Kendi verimizden öğrendiklerimiz (SET40 v4 hikâye eğrisi, `docs/analiz/HIKAYE_EGRISI_RAPOR.md`)
+
+1. **Oyunumuzda yanlış hamle yalnız bombadan doğuyor.** Çıkış kuralı tek yönlü: bir parçayı çıkarmak başka bir parçanın yolunu kapatmıyor. Tuzak yalnız 7 bölümde var (19, 25, 30, 32, 33, 34, 38). Sonuç: zorluğun iki kaynağı var, **arama** (boğazda tek parçayı bulmak) ve **bomba** (sıra seçimi). Gerçek "karar" anı yalnız bomba ile geliyor. Yeni mekanikler (E) bu açığı kapatacak şekilde seçilmeli: oyuncuya **seçim** yaptıran şeyler (sıranın önemli olduğu durumlar).
+2. **İlk 9 bölüm aynı eğri:** düz azalan, boğaz yok. Benzerlik listesinin çoğu bu gruptan (1–9 benzerliği 0,95, 2–7 0,94). "Bölümler birbirine benziyor" hissinin sayısal karşılığı bu. Her tanıtım bölümüne D tarifine göre küçük bir "yeni öğe anı" (1 kısa boğaz veya gerçek bomba tehdidi) gerekir.
+3. **Son 10 bölüm hep dar açılıyor** (ilk seçenek 1–4) ve boğazlar çok uzun. 28–29 dışında nefes bölümü yok, bu K11'e aykırı.
+4. **Z12 doğrulandı:** fitil 9, 8. adımda tehdit, 3 boğaz (en uzun 10), sonda seçenek 1–2. Zeyd'in sevdiği his = gerçek bomba tehdidi + uzun zincir. Zor bölüm referansı bu.
 
 ---
 

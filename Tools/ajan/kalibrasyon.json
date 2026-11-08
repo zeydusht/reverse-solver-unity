@@ -1,0 +1,532 @@
+{
+  "source": "Logs\\ajan\\olcum_set40.json",
+  "metric": "ZeydBot v1 kazanan son %30 süre payı; bölüm medyanlarının medyanı",
+  "fallback_note": "genre/zeydbot.kind yoksa bölüm 1–10 tanıtım/kolay, kalanı normal",
+  "fallback_ids": [
+    "S41",
+    "S42",
+    "S43",
+    "S44",
+    "S45",
+    "S46",
+    "S47",
+    "S51",
+    "S50",
+    "S52"
+  ],
+  "levels": [
+    {
+      "id": "S41",
+      "tip": "tanitim",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.37798890554219683,
+        "p25": 0.307217743717922,
+        "p75": 0.4663761680824954
+      }
+    },
+    {
+      "id": "S42",
+      "tip": "tanitim",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.31060336102844505,
+        "p25": 0.2594051406757311,
+        "p75": 0.36687550316633405
+      }
+    },
+    {
+      "id": "S43",
+      "tip": "tanitim",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.2911462830978556,
+        "p25": 0.24533120784446236,
+        "p75": 0.3449740464777235
+      }
+    },
+    {
+      "id": "S06",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.26370385362478527,
+        "p25": 0.23051392193393117,
+        "p75": 0.3067644109144679
+      }
+    },
+    {
+      "id": "S44",
+      "tip": "tanitim",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.2932244518723176,
+        "p25": 0.25715130819498844,
+        "p75": 0.33704512675213233
+      }
+    },
+    {
+      "id": "S45",
+      "tip": "tanitim",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.2875025216168241,
+        "p25": 0.2443846125852227,
+        "p75": 0.3366566009677979
+      }
+    },
+    {
+      "id": "S46",
+      "tip": "tanitim",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.31156549086807905,
+        "p25": 0.27166457485448425,
+        "p75": 0.35543235598309497
+      }
+    },
+    {
+      "id": "S47",
+      "tip": "tanitim",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.27588760875913587,
+        "p25": 0.2427357677856565,
+        "p75": 0.31644878404014287
+      }
+    },
+    {
+      "id": "S20",
+      "tip": "tanitim",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.2837183038285257,
+        "p25": 0.2502639779067012,
+        "p75": 0.3255399506567004
+      }
+    },
+    {
+      "id": "Z24",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.2835923475644714,
+        "p25": 0.2511516940302795,
+        "p75": 0.3116929381758977
+      }
+    },
+    {
+      "id": "S21",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.31002895561102906,
+        "p25": 0.2784977349617243,
+        "p75": 0.3508140943273733
+      }
+    },
+    {
+      "id": "S51",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.29074640191863776,
+        "p25": 0.25782505873850514,
+        "p75": 0.3362961608780498
+      }
+    },
+    {
+      "id": "S34",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.25698345902042596,
+        "p25": 0.22512774388881396,
+        "p75": 0.2897481540747999
+      }
+    },
+    {
+      "id": "Z21",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.29191499776702773,
+        "p25": 0.26382531689046784,
+        "p75": 0.32594473524717615
+      }
+    },
+    {
+      "id": "S13",
+      "tip": "zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 399,
+        "median": 0.3340364206167877,
+        "p25": 0.2981421525204731,
+        "p75": 0.3784230796665443
+      }
+    },
+    {
+      "id": "Z04",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 399,
+        "median": 0.29856093200354356,
+        "p25": 0.2636392445049599,
+        "p75": 0.3333410195756523
+      }
+    },
+    {
+      "id": "S18",
+      "tip": "zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.3246181377336058,
+        "p25": 0.2862281963952243,
+        "p75": 0.3663494079666326
+      }
+    },
+    {
+      "id": "S22",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.27247753614196096,
+        "p25": 0.2373110539998479,
+        "p75": 0.31034259710953627
+      }
+    },
+    {
+      "id": "S28",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 3,
+        "median": 0.3273823921614911,
+        "p25": 0.3107441080510157,
+        "p75": 0.3276552413277124
+      }
+    },
+    {
+      "id": "S24",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.2805759563345716,
+        "p25": 0.245712135295846,
+        "p75": 0.31592527118244684
+      }
+    },
+    {
+      "id": "Z23",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 295,
+        "median": 0.2166105801320151,
+        "p25": 0.19557454600083757,
+        "p75": 0.24295455120702514
+      }
+    },
+    {
+      "id": "S19",
+      "tip": "zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.2426621971787617,
+        "p25": 0.2163815357963763,
+        "p75": 0.27613950143921895
+      }
+    },
+    {
+      "id": "S27",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 399,
+        "median": 0.2537323160581566,
+        "p25": 0.22218419606434883,
+        "p75": 0.2841601714155747
+      }
+    },
+    {
+      "id": "S14",
+      "tip": "zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 399,
+        "median": 0.2870142601050657,
+        "p25": 0.24685987600465928,
+        "p75": 0.3272224382420778
+      }
+    },
+    {
+      "id": "S35",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      }
+    },
+    {
+      "id": "S17",
+      "tip": "zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.30685666588092175,
+        "p25": 0.27009026722176677,
+        "p75": 0.3442647958639963
+      }
+    },
+    {
+      "id": "S10",
+      "tip": "zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.30496857087218854,
+        "p25": 0.27256720632443,
+        "p75": 0.3407485619868492
+      }
+    },
+    {
+      "id": "S50",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.30151942695551925,
+        "p25": 0.26524287563338067,
+        "p75": 0.34442933115323604
+      }
+    },
+    {
+      "id": "S52",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.3020853692524797,
+        "p25": 0.26287598322280414,
+        "p75": 0.3440477980372677
+      }
+    },
+    {
+      "id": "S37",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 9,
+        "median": 0.2849263379397176,
+        "p25": 0.2574825421936179,
+        "p75": 0.29213634429017704
+      }
+    },
+    {
+      "id": "S08",
+      "tip": "normal",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.2937151636440001,
+        "p25": 0.2562677386119198,
+        "p75": 0.335513004304771
+      }
+    },
+    {
+      "id": "S31",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 318,
+        "median": 0.23123702353320202,
+        "p25": 0.20699677284217427,
+        "p75": 0.2611559317789339
+      }
+    },
+    {
+      "id": "S39",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      }
+    },
+    {
+      "id": "S32",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 0,
+        "median": null,
+        "p25": null,
+        "p75": null
+      }
+    },
+    {
+      "id": "S36",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 395,
+        "median": 0.27530460622250713,
+        "p25": 0.24229960504614462,
+        "p75": 0.30894066053487634
+      }
+    },
+    {
+      "id": "S29",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 294,
+        "median": 0.2629975405333793,
+        "p25": 0.23433371426411087,
+        "p75": 0.29822733769096943
+      }
+    },
+    {
+      "id": "Z25",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 400,
+        "median": 0.25845619983369916,
+        "p25": 0.23048272187749347,
+        "p75": 0.29056881101746845
+      }
+    },
+    {
+      "id": "S38",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 287,
+        "median": 0.22150580973261813,
+        "p25": 0.1933165299297637,
+        "p75": 0.24906383849284816
+      }
+    },
+    {
+      "id": "S40",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 357,
+        "median": 0.23967584211286888,
+        "p25": 0.21311459367887006,
+        "p75": 0.2681524114817932
+      }
+    },
+    {
+      "id": "S33",
+      "tip": "super-zor",
+      "source": "ZeydBot v1",
+      "calibrated": false,
+      "tail_time_share": {
+        "n": 208,
+        "median": 0.26640991053407725,
+        "p25": 0.24282762151964285,
+        "p75": 0.29228826268045005
+      }
+    }
+  ],
+  "all": {
+    "n": 37,
+    "median": 0.2870142601050657,
+    "p25": 0.26370385362478527,
+    "p75": 0.3020853692524797
+  },
+  "by_type": {
+    "tanitim": {
+      "n": 8,
+      "median": 0.2921853674850866,
+      "p25": 0.2865564671697495,
+      "p75": 0.31084389348835356
+    },
+    "normal": {
+      "n": 12,
+      "median": 0.2913306998428328,
+      "p25": 0.27855135128641895,
+      "p75": 0.29930055574153747
+    },
+    "zor": {
+      "n": 6,
+      "median": 0.30591261837655515,
+      "p25": 0.2915028377968464,
+      "p75": 0.3201777697704348
+    },
+    "super-zor": {
+      "n": 11,
+      "median": 0.25845619983369916,
+      "p25": 0.23545643282303547,
+      "p75": 0.2708572583782922
+    }
+  },
+  "status": "UYARI"
+}

@@ -111,6 +111,9 @@ namespace ReverseSolver.Generation
         public sealed class Result
         {
             public int Players;
+            // First attempts only; editor-only generation assembly.
+            public readonly List<double> FirstWinTimeLeft = new List<double>();
+            public readonly List<double> FirstLossPieceShare = new List<double>();
             public int Enjoyed, Frustrated, Bored;
             public int WinFirst, WinBy3, NearMiss;
             public int AhaPlayers;
@@ -203,6 +206,11 @@ namespace ReverseSolver.Generation
                     knot |= at.Knot;
                     aha |= at.Aha;
                     if (at.LongestMove > p.Patience) why.Add("sabır aşıldı");
+                    if (a == 1)
+                    {
+                        if (at.Outcome == Outcome.Win) res.FirstWinTimeLeft.Add(at.TimeLeft);
+                        else res.FirstLossPieceShare.Add((double)at.PiecesLeft / level.Pieces.Count);
+                    }
                     if (at.Outcome == Outcome.Win)
                     {
                         won = true; winAttempt = a;
@@ -276,8 +284,10 @@ namespace ReverseSolver.Generation
             int prevFree = -1;
             bool stalled = false;
             var order = new List<int>();
+            int refused = 0;
             while (!s.IsOver)
             {
+                if (++refused > 5000) { at.Outcome = Outcome.Quit; break; }   // loop guard: refused exits/hammers do not advance the game
                 ulong mask = cache.Mask(s.Board);
                 var free = cache.Free(s.Board, mask).Where(x => s.NailAt(x) <= 0).ToList();
                 if (free.Count == 0) { at.Outcome = Outcome.Quit; break; }              // frozen: counts as not won
@@ -358,7 +368,11 @@ namespace ReverseSolver.Generation
                     else if (cone.Count > 0) pick = cone[(int)(rng.NextDouble() * cone.Count)];
                 }
                 var dirs = TravelRule.ExitDirs(s.Board, pick);
-                s.TryExit(pick, dirs[(int)(rng.NextDouble() * dirs.Count)]);
+                // a free piece can still be refused (chain end held); before the first move the clock never starts, so guard the loop
+                if (s.TryExit(pick, dirs[(int)(rng.NextDouble() * dirs.Count)]) != CommandResult.Ok)
+                {
+                    continue;
+                }
                 at.Removed.Add(pick);
             }
             if (at.Outcome != Outcome.Quit) at.Outcome = s.Outcome;

@@ -1,0 +1,76 @@
+{
+  "id": "p21_06",
+  "bolum_no": 6,
+  "tip": "tanitim",
+  "fikir": "Bombayı fark et, yolunu aç ve rahatça bitir.",
+  "sure_sn": 60,
+  "anahtar": "Tek bombanın kısa fitili",
+  "perde1": "İlk üç hamlede en az üç güvenli seçenek.",
+  "perde2": "Bombanın yolunu aç; onu unutmak patlamayla bitsin.",
+  "perde3": "Bomba çıkınca tahta ferahlasın.",
+  "final": "Son yüzde otuzda göreli seçenek oranı en az 0.35.",
+  "yeni_oge": "Bomba tek başına",
+  "sekil_notu": "Dar ve kısa tahta (3x5, 3x6, 6x3): 1–9 bölümlerinin kare/dikdörtgen tahtalarından farklı; az parça, bomba hemen göze çarpar.",
+  "beklenen_oyuncu": "Unutan bot en fazla %10, rastgele bot %15–50, FunSim ilk deneme en az %65 kazanır.",
+  "ilk3_min_secenek": 3,
+  "en_uzun_bogaz_min": 0,
+  "en_uzun_bogaz_max": 1,
+  "bogaz_sayisi_min": 0,
+  "cig_orani_min": 0.35,
+  "kalan_sure_orani": [
+    0.25,
+    0.5
+  ],
+  "bomba_tehdit_adimi_max": 5,
+  "bomba_fitil_max": "earliest+2",
+  "bomba_unutan_kaybetmeli": true,
+  "tuzak_adim_min": 0,
+  "tarif": {
+    "id": "p21_06",
+    "w": 3,
+    "h": 5,
+    "seals": [
+      0,
+      0
+    ],
+    "chains": 0,
+    "nails": 0,
+    "genre": "tanitim",
+    "timer": 60,
+    "bombs": [
+      {
+        "earliest": [
+          3,
+          4
+        ],
+        "margin": 2,
+        "region": "any"
+      }
+    ],
+    "seed_from": 1,
+    "seed_to": 400,
+    "count": 3,
+    "min_open_first": 3,
+    "intro": {
+      "icon": "bomb",
+      "title": "Bombalı parça",
+      "body": "Bu bombayı {F} hamle içinde çıkarmalısın. Sayı her hamlende azalır; sıfıra inerse bölüm biter.",
+      "tip": "Bombanın yolunu açan parçaları bul ve önce onları çıkar."
+    },
+    "bintro": null,
+    "shapes": [
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        6,
+        3
+      ]
+    ]
+  }
+}

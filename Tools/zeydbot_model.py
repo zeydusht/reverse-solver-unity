@@ -115,7 +115,7 @@ def fit_think(moves, levels):
 
 
 # ---------------------------------------------------------------- the bot
-def play(level, feat, paths, trap, think, seed=1):
+def play(level, feat, paths, trap, think, seed=1, samples=None):
     a, b = trap; c, tau, sigma = think
     timer = float(feat[level]['sure_limiti'])
     rng = random.Random(seed)
@@ -125,6 +125,7 @@ def play(level, feat, paths, trap, think, seed=1):
         steps = runs[k % len(runs)]
         lvl = rng.gauss(0, tau)
         t = 0.0; lost = False
+        elapsed = [] if samples is not None else None
         for i, s in enumerate(steps):
             n, r, left = int(s['secenek']), int(s['dogru']), int(s['kalan_parca'])
             if n == 0: break
@@ -133,8 +134,19 @@ def play(level, feat, paths, trap, think, seed=1):
                 t += math.exp(mu + lvl + rng.gauss(0, sigma)) / 1000
             if r < n and rng.random() < sig(a + b * logit((n - r) / n)): lost = True; break
             if t > timer: lost = True; break
+            if elapsed is not None: elapsed.append(t)
         used.append(min(t, timer) / timer)
         if not lost: wins += 1; lefts.append(timer - t)
+        if samples is not None:
+            # Observations only: preserve the frozen model's draws and return value.
+            tail_share = None
+            if not lost:
+                count = math.ceil(len(elapsed) * .3)
+                before_tail = elapsed[-count - 1] if len(elapsed) > count else 0
+                tail_share = (t - before_tail) / max(t, 1e-9)
+            samples.append({'won': not lost, 'time_left': max(0.0, timer - t),
+                            'loss_piece_share': left / max(1, int(steps[0]['kalan_parca'])) if lost else 0,
+                            'tail_time_share': tail_share})
     return wins / SIMS, (sum(lefts) / len(lefts) if lefts else 0.0), sum(used) / len(used)
 
 

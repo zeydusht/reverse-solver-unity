@@ -28,6 +28,26 @@ def curve_similarity(a, b):
     return 1 - math.sqrt(sum((x - y) ** 2 for x, y in zip(normalized(a), normalized(b)))) / math.sqrt(10)
 
 
+def occupancy_mask(level, size=16):
+    """Fixed canvas, one cell per cell, centred; seals occupy border walls."""
+    w, h = level['w'], level['h']
+    if min(w, h) <= 0 or max(w, h) + 2 > size:
+        raise ValueError('Board must fit fixed canvas including border walls')
+    dx, dy = (size - w) // 2, (size - h) // 2
+    mask = {('cell', x + dx, y + dy) for piece in cells_of(level) for x, y in piece}
+    for side, lanes in (level.get('sealed') or {}).items():
+        for lane in lanes:
+            x, y = {'U': (lane, -1), 'D': (lane, h), 'L': (-1, lane), 'R': (w, lane)}[side]
+            mask.add(('wall', x + dx, y + dy))
+    return mask
+
+
+def mask_similarity(a, b):
+    """Jaccard preserving physical dimensions and border walls."""
+    ma, mb = occupancy_mask(a), occupancy_mask(b)
+    return len(ma & mb) / len(ma | mb) if ma | mb else 1.0
+
+
 def curves_main():
     out = Path(__file__).resolve().parents[1] / 'docs/analiz'
     with (out / 'hikaye_egrisi_set40.csv').open(encoding='utf-8-sig', newline='') as stream:
