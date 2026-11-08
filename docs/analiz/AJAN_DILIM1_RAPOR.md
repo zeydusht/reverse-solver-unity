@@ -1,3 +1,4 @@
+PM KARARI GEREKİYOR (ajan2): 07'de FunSim ≥ %50 ile tuzak/tehdit kuralları (R08, R10, R11) birlikte sağlanamıyor. FunSim'i geçen tek aday (07-A, %52,9) tuzaksız. 07 için tuzak bük adımına (8) mı kalsın, yoksa FunSim eşiği mi insin?
 PM KARARI GEREKİYOR: Tanıtımda "rastgele bot %15–50 kazanır" kuralı (R12) "fitil = en erken çıkış + 2" (R10) ile birlikte sağlanamıyor. 45 tanıtım adayının en yükseği %9,8; R12 kalsın mı, UYARI mı olsun, yoksa eşik %1–10'a mı insin?
 
 # Ajan dilim 1 — bomba yayı 6–7 (PM_MESAJ_48 + 48B, 8 Kasım)
@@ -44,3 +45,30 @@ Kitap kontrolleri:
 2. **07'de tuzak ile kazanılabilirlik çatışıyor:** tuzak çıkması için pay dar olmalı, dar pay da FunSim'in kazanma oranını %2–12'ye düşürüyor. SET40'ta 7. bölüm %100, 8. bölüm %47. ZeydBot modeli (Zeyd'in oyunu) 07-A'yı %98 kazanıyor. Kart "normal" tip için FunSim alt sınırı koymuyor. Öneri: normal tipte FunSim ≥ %30, yoksa 07 tipi "zor" olsun.
 3. **R16 / K5:** SET40'ta son %30 parçanın süre payı medyanı 0,29 (tanıtımda 0,29, normalde 0,29, süper zorda 0,26). Oyuncu modelinde hamleler eşit sürdüğü için %20'ye hiçbir bölüm inmiyor. Şimdilik UYARI.
 4. **verify_build** canlı p20'de de 5/7 veriyor (`card` başlık–çerçeve 7 pt; `redesign` S41'de sonuç kartı yok). p21 bunu değiştirmedi, kontroller p20 arayüzünün gerisinde kalmış.
+
+## ajan2 (PM_MESAJ_49, 8 Kasım akşam)
+**Link:** https://zeydusht.github.io/reverse-solver-unity/p21/?set=ajan2&lang=tr. Sıra: 1 = 06-A, 2 = 06-D (finalist), 3 = 07-A, 4 = 07-C (aday). ajan1 aynen duruyor.
+
+| | ajan1 | ajan2 |
+|---|---|---|
+| 06 tahta | 3×5, 3×6 (dikey) | 5×5, 6×5 (kare ±1) |
+| 06 bomba / fitil | 1 bomba, en erken + 2 | 3 bomba (alt/üst/orta), en erken 2–3, fitil 10–16 |
+| 06 süre | 23 / 30 sn | 48 / 58 sn |
+| 06 FunSim ilk deneme | %65 / %64,9 | %92,1 / %94,4 |
+| 06 süreden kayıp | ölçülmedi (Zeyd süreden kaybetti) | %3,0 / %2,8 |
+| 06 unutan bot | kaybeder (6. hamle) | kaybeder (10. / 12. hamle), tanıtımda UYARI |
+| 07 tahta | 5×7, 4×6 | 5×5, 5×6 (2–3 duvar) |
+| 07 süre | 33 / 65 sn | 45 / 45 sn |
+| 07 FunSim ilk deneme | %4,7 | %52,9 / %38,3 |
+| 07 süreden kayıp | — | %3,5 / %8,5 |
+| 07 unutan bot | kaybeder | kaybeder |
+
+- **06:** iki finalist bütün kontrolleri GEÇTİ. Kalan süre oranı yaklaşık 0,50, aralığın üst ucunda.
+- **07: GEÇTİ yok.**
+  - 07-A FunSim ≥ %50'yi sağlıyor ama R08 (tuzaklı adım 0), R10/R11 (fitil geniş) ve R14 (kalan süre %47) KALDI.
+  - 07-C'de ayrıca FunSim %38. 4 adımlık zincir korunamadı (boğaz 1).
+  - Payları daraltan eleştirmen turları FunSim'i %0–10'a düşürdü.
+  - Süreyi 34 sn'ye indirmek süreden kaybı %13–31'e çıkardı.
+- **Tablolar:** 40 tablonun hepsi 1024×1024 kare. Kare tahtada kırpma ya da esneme yok; 6×5 ve 5×6'da tablo hafifçe kırpılabilir (görsel kontrol yapılmadı).
+- **Siluet:** üretici köşe kesme ya da boşluk maskesini desteklemiyor. R15/R22 çeşitlilik şimdilik UYARI ("siluet maskesi yok").
+- **Doğrulama:** testler 588/0 hata. verify_build yerelde 5/7; kalan iki kontrol (card, redesign) p20'deki ile aynı.

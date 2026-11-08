@@ -116,6 +116,8 @@ namespace ReverseSolver.Generation
             public readonly List<double> FirstLossPieceShare = new List<double>();
             public int Enjoyed, Frustrated, Bored;
             public int WinFirst, WinBy3, NearMiss;
+            public int FirstTimeLoss;
+            public double FirstTimeLossRate => Players == 0 ? 0 : (double)FirstTimeLoss / Players;
             public int AhaPlayers;
             public double MedianStars;
             public double Ms;
@@ -208,6 +210,7 @@ namespace ReverseSolver.Generation
                     if (at.LongestMove > p.Patience) why.Add("sabır aşıldı");
                     if (a == 1)
                     {
+                        if (at.Outcome == Outcome.Time) res.FirstTimeLoss++;
                         if (at.Outcome == Outcome.Win) res.FirstWinTimeLeft.Add(at.TimeLeft);
                         else res.FirstLossPieceShare.Add((double)at.PiecesLeft / level.Pieces.Count);
                     }

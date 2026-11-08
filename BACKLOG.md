@@ -151,6 +151,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 
 ## Bitenler (son 3 gün)
 - ✅ PM_45 videolar → `Level Design/kareler/` · PM_47 hikâye eğrisi (`docs/analiz/HIKAYE_EGRISI_RAPOR.md`) · PM_48/48B ajan döngüsü + p21 `?set=ajan1` (bomba yayı 6–7, `docs/analiz/AJAN_DILIM1_RAPOR.md`) — 8 Kasım
+- ✅ PM_49 ajan2: kare tahta, cömert süre, R20/R21; p21 `?set=ajan2` (06 GEÇTİ, 07 aday — PM kararı) — 8 Kasım
 
 - ✅ ZeydBot v1: 30 bölümle kuruldu, oturum 3 sınavını geçti (sıra 0,99)
 - ✅ Tasarımcı ajan yöntemi: Z31–Z40, 10 bölümün 8'i 8+ puan

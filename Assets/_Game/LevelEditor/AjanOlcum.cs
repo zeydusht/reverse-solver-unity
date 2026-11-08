@@ -59,6 +59,7 @@ namespace ReverseSolver.LevelEditor
                 bots.Key("bot_bilincli").BeginObject().Key("won").Value(sp.Verdict == SmartVerdict.Won)
                     .Field("outcome", sp.Verdict.ToString()).Field("moves", sp.Moves.Count).Key("bomb_exits").Raw(bombExits.ToString()).EndObject();
                 bots.Key("funsim").BeginObject().Field("runs", fun.Players).Key("win_rate").Raw(AjanJson.Number(fun.FirstWinRate))
+                    .Key("first_time_loss_rate").Raw(AjanJson.Number(fun.FirstTimeLossRate))
                     .Key("near_miss").Raw(AjanJson.Number(fun.NearMissRate));
                 Distribution(bots, "time_left", fun.FirstWinTimeLeft);
                 Distribution(bots, "loss_piece_share", fun.FirstLossPieceShare);

@@ -11,9 +11,11 @@
         0.5
       ],
       "bomba_tehdit_adimi_max": 5,
-      "bomba_fitil_max": "earliest+2",
+      "bomba_fitil_max": 99,
       "bomba_unutan_kaybetmeli": false,
-      "tuzak_adim_min": 0
+      "tuzak_adim_min": 0,
+      "bomba_fitil_min": "earliest+4",
+      "funsim_ilk_min": 0.9
     },
     "nefes": {
       "ilk3_min_secenek": 3,
@@ -43,7 +45,8 @@
       "bomba_tehdit_adimi_max": 999,
       "bomba_fitil_max": 99,
       "bomba_unutan_kaybetmeli": false,
-      "tuzak_adim_min": 0
+      "tuzak_adim_min": 0,
+      "funsim_ilk_min": 0.3
     },
     "zor": {
       "ilk3_min_secenek": 2,
@@ -78,7 +81,6 @@
   },
   "sert_kurallar": {
     "fitil_adim_sayisindan_kucuk": true,
-    "tanitim_fitil_ek_pay_max": 2,
     "ilk_hamle_tuzak_orani_max": 0.3,
     "tanitim_ilk9_siluet_max_exclusive": 0.9,
     "son30_sure_payi_max": 0.2,
@@ -88,6 +90,19 @@
       0.15,
       0.5
     ],
-    "tanitim_funsim_ilk_deneme_min": 0.65
+    "tanitim_funsim_ilk_deneme_min": 0.9,
+    "tanitim_fitil_ek_pay_min": 4,
+    "tanitim_rastgele_uyari": true,
+    "tanitim_tehdit_uyari": true,
+    "tanitim_ilk_tuzak_uyari": true,
+    "final_temposu_uyari": true,
+    "ogrenme_bolum_max": 10,
+    "ogrenme_sure_kayip_max": {
+      "tanitim": 0.05,
+      "nefes": 0.05,
+      "normal": 0.15
+    },
+    "tahta_boyut_farki_max": 1,
+    "siluet_maskesi_destegi": false
   }
 }

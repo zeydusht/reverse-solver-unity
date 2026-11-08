@@ -1,6 +1,6 @@
 # Reverse Solver — PROJE DURUMU (PM devir dosyası)
 
-Son güncelleme: 8 Kasım 2026, 12:50. Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
+Son güncelleme: 8 Kasım 2026, 19:35. Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
 
 ## Dosya kuralı
 - Her iş bitince veya Zeyd "değişiklikleri PROJE_DURUMU'na ekle" deyince bu dosyayı güncelle (kısa tut, bitenleri sil, tarihi yenile). Güncelledikten sonra `/clear` hatırlat.
@@ -53,6 +53,8 @@ Son güncelleme: 8 Kasım 2026, 12:50. Yeni sohbette önce bu dosyayı oku, sonr
 - Bilgisayar prizde, uyku kapalı olmalı.
 - **Cumartesi yapılacak:** otonom PM döngüsü (PM saatlik uyanır, görev dosyası yazar, Claude Code/Codex işçi, QA ajanı, temizlik ajanı `_silinecek/` klasörüne taşır, akşam özeti). Ayrıca dosya şişmesi: PRODUCT.md (116 KB) ve OVERNIGHT.md (48 KB) arşive bölünecek.
 
+- **Açılış hikâye animasyonu (8 Kasım):** `docs/art/CODEX_TASK26.md` (15–20 sn, 6 sahne: çayır → Baron toplar → çerçeveler → koridor → el tabloyu söker "weee" → "Free them all!" ve koridor zoom'u). Önce storyboard, Zeyd onayı, sonra final sprite + tween (≤2 MB). Hikâye kaynağı `docs/HIKAYE.md`.
+
 ## Açık işler (öncelik sırası)
 1. pt1 takibi: her akşam `v_funnel` + bırakma noktaları + tahmin karşılaştırması. 8 Kasım sonrası rapor + v2.
 2. Cumartesi: otonom sistem kurulumu + temizlik (`docs/art/TEMIZLIK_ONERI.md`: 25,6 MB güvenli cache + 1,57 GB arşiv adayı; Redesign_T22/T23 denemeleri git dışına).
@@ -62,5 +64,7 @@ Son güncelleme: 8 Kasım 2026, 12:50. Yeni sohbette önce bu dosyayı oku, sonr
 6. **Bölüm tasarım okulu (8 Kasım):** "Bölüm bir hikâye." Referans: `Level Design/kareler/` (RM 3473–77, Block Out 273–78). **`docs/BOLUM_TASARIM_KITABI.md` v0.2**: 11 hikâye kartı, K1–K12 kuralları (SET40 eşikleri işlendi), yeni engel tarifi tanıt→geliştir→bük→bitir, bomba sert kuralları, D2 kendi verimiz, ajan planı F1–F6. Bot ile Royal Match oynatmak YOK.
    - PM_47 bitti: hikâye eğrisi ölçümü (`docs/analiz/HIKAYE_EGRISI_RAPOR.md`, `Tools/hikaye_egrisi.py`). Bulgular: tuzak yalnız bombadan geliyor (oyunda karar anı az), 1–9 aynı düz eğri (benzerlik buradan), bomba D kuralını kalanlar 6, 7, 8, 9, 12, 23, 27, 29, 31, son 10 bölümde nefes yok.
    - PM_48/48B bitti (8 Kasım): ajan döngüsü çalışıyor (`Tools/ajan/dongu.py --kart … --uret`). p21 yayında: `p21/?set=ajan1&lang=tr` (06-A/B tanıt, 07-A/B geliştir; eski 6–7'de bomba yok sayılabiliyordu, yenilerde unutan kaybediyor). PM kararı: tanıtımda R12 (rastgele bot %15–50) fitil=k+2 ile çelişiyor; 07-A FunSim %4,7 (normal tip için alt sınır yok). Rapor `docs/analiz/AJAN_DILIM1_RAPOR.md`.
+   - **ajan1 Zeyd notu (8 Kasım 19:23):** tahtalar dikey geldi (kare istiyor), hâlâ tutorial, süreden kaybetti → kitaba "Öğrenme dönemi" (1–10'da kayıp yalnız yeni öğeden, süreden kayıp ≤%5/15) + "Tahta oranı" (kare, çeşitlilik siluetten) + R12/R16 UYARI + normal FunSim ≥%30 eklendi. **Sıradaki: PM_MESAJ_49** → `p21/?set=ajan2` → Zeyd oynar.
+   - PM_49 bitti (8 Kasım): `p21/?set=ajan2&lang=tr` yayında. 06 kare tahta, 3 bomba, FunSim %92–94, süreden kayıp %3: GEÇTİ. 07 aday: FunSim %53 ama tuzaksız. **PM kararı:** 07'de FunSim ≥%50 ile tuzak birlikte sağlanamıyor. Rapor AJAN_DILIM1_RAPOR.md 'ajan2'.
    - **Sıradaki: PM_MESAJ_48** = ajan altyapısı (F3 talimat + F4 eleştirmen + kart JSON + `Tools/ajan/dongu.py`) ve ilk dikey dilim: bomba yayı 6–7 yeniden (p21'de ayrı set, p20/kök'e dokunma). Sonra: Zeyd oynar/onaylar → 3, 10, 14 tanıtımları → kilitli bölge prototipi (öncelik 1 yeni mekanik) → son 10 bölüme nefes.
 

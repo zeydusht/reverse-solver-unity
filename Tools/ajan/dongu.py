@@ -188,14 +188,14 @@ def comparisons(level, signature, candidates):
 
 
 def critique(card, level, measured, metrics, similar, player):
-    """Rules R01..R20 are documented in ELESTIRMEN.md."""
+    """Rules R01..R22 are documented in ELESTIRMEN.md."""
     recipe = card['tarif']
     checks = []
     def check(rule, ok, value, target, field, new, warning=False):
         checks.append(dict(rule=rule, status='UYARI' if warning else ('GEÇTİ' if ok else 'KALDI'), measured=value, target=target,
                            correction=None if ok or warning else dict(field=field, value=new)))
     def new_shape():
-        return next([w, h] for w, h in ((6, 4), (3, 7), (7, 4), (6, 6), (7, 5))
+        return next([w, h] for w, h in ((5, 5), (5, 6), (6, 6), (6, 5))
                     if [w, h] != recipe.get('shapes', [[recipe.get('w'), recipe.get('h')]])[0])
     def tighten_bomb(earlier=False):
         if not recipe['bombs']:
@@ -227,7 +227,8 @@ def critique(card, level, measured, metrics, similar, player):
     trap_limit = 0 if card['tip'] == 'tanitim' else .30
     check('R07 ilk tuzak', float(metrics['ilk_hamle_tuzak_orani']) <= trap_limit,
           float(metrics['ilk_hamle_tuzak_orani']), f'<={trap_limit}', 'bombs[0].region',
-          'bottom' if recipe['bombs'] and recipe['bombs'][0].get('region') != 'bottom' else 'top')
+          'bottom' if recipe['bombs'] and recipe['bombs'][0].get('region') != 'bottom' else 'top',
+          warning=card['tip'] == 'tanitim')
     check('R08 tuzaklı adım', metrics['tuzak_adim'] >= card['tuzak_adim_min'], metrics['tuzak_adim'],
           f">={card['tuzak_adim_min']}", *tighten_bomb())
     exits = {b['p']: b for b in measured['bots']['bot_bilincli']['bomb_exits']}
@@ -237,10 +238,14 @@ def critique(card, level, measured, metrics, similar, player):
         check(f'R09 fitil/adım p{piece}', fuse < metrics['adim_sayisi'], fuse, f"<{metrics['adim_sayisi']}",
               f'bombs[{i}].margin', max(0, metrics['adim_sayisi'] - k - 1))
         intro = card['tip'] == 'tanitim'
-        margin = 2 if intro else card['bomba_fitil_max']
-        check(f'R10 fitil/erken çıkış p{piece}', k >= 1 and (fuse == k + 2 if intro else fuse <= k + margin),
-              dict(fuse=fuse, k=k), 'F==k+2' if intro else f'F<=k+{margin}', f'bombs[{i}].margin', margin,
-              warning=k < 1)
+        margin = 4 if intro else card['bomba_fitil_max']
+        if intro:
+            check(f'R09 tanıtım fitil payı p{piece}', k >= 1 and fuse >= k + margin,
+                  dict(fuse=fuse, k=k), 'F>=k+4; üst sınır yok', f'bombs[{i}].margin', margin,
+                  warning=k < 1)
+        check(f'R10 fitil/erken çıkış p{piece}', k >= 1 and (fuse >= k + margin if intro else fuse <= k + margin),
+              dict(fuse=fuse, k=k), 'F>=k+4' if intro else f'F<=k+{margin}', f'bombs[{i}].margin', margin,
+              warning=intro or k < 1)
     if recipe['bombs']:
         threat = metrics['bomba_tehdit_adimi']
         if threat == '' and level.get('bombs'):
@@ -248,13 +253,14 @@ def critique(card, level, measured, metrics, similar, player):
             # player who ignores the bomb reaches pay 2: min fuse - 2 (D recipe: "tehdit ilk N hamle + 2 içinde").
             threat = max(1, min(int(f) for f in level['bombs'].values()) - 2)
         check('R11 tehdit adımı', threat != '' and threat <= card['bomba_tehdit_adimi_max'], threat,
-              f"<={card['bomba_tehdit_adimi_max']}", *tighten_bomb(earlier=True))
-    if card['bomba_unutan_kaybetmeli'] or (card['tip'] == 'tanitim' and recipe['bombs']):
+              f"<={card['bomba_tehdit_adimi_max']}", *tighten_bomb(earlier=True), warning=card['tip'] == 'tanitim')
+    if card['bomba_unutan_kaybetmeli'] or card['tip'] == 'tanitim':
         for key in ('bot_rastgele_bombasiz', 'bot_bomba_unutan'):
             rate = measured['bots'][key]['win_rate']
             check('R12 ' + key, bool(level.get('bombs')) and (.15 <= rate <= .50 if card['tip'] == 'tanitim' and key == 'bot_rastgele_bombasiz' else rate <= .10), rate,
                   '[0.15, 0.50]' if card['tip'] == 'tanitim' and key == 'bot_rastgele_bombasiz' else '<=0.10',
-                  *tighten_bomb(), warning=key == 'bot_rastgele_bombasiz' and measured['bots'][key].get('runs', 0) < 20)
+                  *tighten_bomb(), warning=card['tip'] == 'tanitim' or
+                  (key == 'bot_rastgele_bombasiz' and measured['bots'][key].get('runs', 0) < 20))
     check('R13 bilinçli bot', measured['bots']['bot_bilincli']['won'], measured['bots']['bot_bilincli']['won'], True,
           'seed_from', recipe['seed_from'] + 400)
     selected, source = remaining_source(level, measured, player)
@@ -270,7 +276,7 @@ def critique(card, level, measured, metrics, similar, player):
           warning=selected.get('n', 0) < 20 or remaining is None or
                   (source == 'FunSim' and measured['bots'].get('funsim', {}).get('calibrated') is False))
     if card['tip'] == 'tanitim':
-        check('R15 ilk9 siluet', similar['intro_max'] < .9, similar['intro_max'], '<0.90', 'w,h', new_shape())
+        check('R15 ilk9 siluet', similar['intro_max'] < .9, similar['intro_max'], '<0.90', 'w,h', new_shape(), warning=True)
     calibration = read(HERE / 'kalibrasyon.json') if (HERE / 'kalibrasyon.json').exists() else {}
     threshold = calibration.get('by_type', {}).get(card['tip'], {}).get('median')
     threshold = threshold if threshold is not None else .20
@@ -283,14 +289,28 @@ def critique(card, level, measured, metrics, similar, player):
     # Check physical intent too; missing bombs must never vacuously pass R09/R10.
     count = len(level.get('bombs') or {})
     check('R18 tarifteki bomba sayısı', count == len(recipe['bombs']), count, len(recipe['bombs']), 'seed_from', recipe['seed_from'] + 400)
-    if card['tip'] == 'tanitim':
+    if card.get('funsim_ilk_min', defaults.get('funsim_ilk_min')) is not None:
         rate = measured['bots'].get('funsim', {}).get('win_rate')
         fun = measured['bots'].get('funsim', {})
         runs = fun.get('runs', fun.get('time_left', {}).get('n', 0) + fun.get('loss_piece_share', {}).get('n', 0))
-        check('R19 FunSim ilk deneme', rate is not None and rate >= .65, rate, '>=0.65',
+        minimum = card.get('funsim_ilk_min', defaults.get('funsim_ilk_min'))
+        if card['tip'] == 'tanitim':
+            minimum = max(defaults['funsim_ilk_min'], minimum)
+        check('R19 FunSim ilk deneme', rate is not None and rate >= minimum, rate, f'>={minimum}',
               'bombs[0].region', 'center', warning=rate is None or runs < 20 or fun.get('calibrated') is False)
-    check('R20 çeşitlilik', similar.get('candidate_max', 0) < .90, similar.get('candidate_max', 0),
-          '<0.90', 'shapes', alternative_shapes(recipe, card['tip']))
+    fun = measured['bots'].get('funsim', {})
+    time_loss = fun.get('first_time_loss_rate')
+    limit = .05 if card['tip'] in ('tanitim', 'nefes') else .15
+    check('R20 süreden kayıp', time_loss is not None and time_loss <= limit, time_loss, f'<={limit}',
+          'timer', min(600, math.ceil(recipe['timer'] * 1.3 / 5) * 5),
+          warning=card['bolum_no'] > 10 or time_loss is None or fun.get('runs', 0) < 20)
+    shapes = recipe.get('shapes', [[recipe.get('w'), recipe.get('h')]])
+    square_shapes = [[min(w, h), min(w, h)] for w, h in shapes]
+    check('R21 tahta oranı', abs(level['w'] - level['h']) <= 1 and all(abs(w - h) <= 1 for w, h in shapes),
+          dict(board=[level['w'], level['h']], shapes=shapes), '|w-h|<=1', 'shapes', square_shapes,
+          warning=card['bolum_no'] > 10)
+    check('R22 çeşitlilik', similar.get('candidate_max', 0) < .90, similar.get('candidate_max', 0),
+          '<0.90', 'shapes', alternative_shapes(recipe, card['tip']), warning=True)
     for c in checks:
         if c['status'] == 'KALDI' and c['rule'].split()[0] in {'R09', 'R10'} and recipe['bombs']:
             index = int(c['correction']['field'].split('[')[1].split(']')[0])
@@ -320,8 +340,7 @@ def remaining_source(level, measured, player):
 
 
 def alternative_shapes(recipe, kind):
-    pool = ([(6, 4), (3, 7), (4, 6), (7, 3), (7, 4), (4, 7)] if kind == 'tanitim'
-            else [(6, 5), (4, 7), (5, 7), (7, 5), (7, 4), (5, 6)])
+    pool = [(5, 5), (6, 6), (5, 6), (6, 5), (7, 7), (6, 7)]
     current = recipe.get('shapes', [[recipe.get('w'), recipe.get('h')]])
     unused = [list(shape) for shape in pool if list(shape) not in current]
     return (unused + [list(shape) for shape in pool if list(shape) in current])[:3]
@@ -437,8 +456,10 @@ def report(card, row):
         lines += [f"En yakın 3 ({kind}): " + '; '.join(f"{r['id']} ({r['set']}): {r[kind]:.3f}" for r in row['similarity'][kind])]
     if card['tip'] == 'tanitim':
         lines.append(f"İlk 1–9 en yakın siluet: {row['similarity']['intro_nearest']} ({row['similarity']['intro_max']:.3f}).")
-    lines += ['', f"Eleştirmen: **{row['decision']}**"]
-    for c in row['checks']:
+    lines += ['', 'siluet maskesi yok: Generator tam dikdörtgen üretir; R15/R22 çeşitlilik UYARI.',
+              f"FunSim ilk deneme süreden kayıp: {fun.get('first_time_loss_rate', 'ölçüm yok')}",
+              '', f"Eleştirmen: **{row['decision']}**"]
+    for c in sorted(row['checks'], key=lambda c: not c['rule'].startswith('R20 ')):
         if c['status'] == 'KALDI':
             fix = c['correction']
             old = recipe_value(row['recipe'], fix['field'])
@@ -506,6 +527,12 @@ def revise(recipe, rows):
     recipe = copy.deepcopy(recipe)
     changed = set()
     seed_recommendation = recipe['seed_to'] + 1
+    # R20 overrides every other timer suggestion across all candidates.
+    time_fixes = [c['correction']['value'] for row in rows for c in row['checks']
+                  if c.get('rule', '').startswith('R20 ') and c.get('correction')]
+    if time_fixes:
+        recipe['timer'] = max(time_fixes)
+        changed.add('timer')
     for row in rows:
         fixes = [fix for check in row['checks'] for fix in (check.get('correction'), check.get('placement')) if fix]
         for fix in fixes:

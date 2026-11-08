@@ -3,74 +3,89 @@
   "bolum_no": 6,
   "tip": "tanitim",
   "fikir": "Bombayı fark et, yolunu aç ve rahatça bitir.",
-  "sure_sn": 60,
-  "anahtar": "Tek bombanın kısa fitili",
+  "sure_sn": 58,
+  "anahtar": "Alt, üst ve ortadaki bombaların sayaçlarını tanı",
   "perde1": "İlk üç hamlede en az üç güvenli seçenek.",
-  "perde2": "Bombanın yolunu aç; onu unutmak patlamayla bitsin.",
+  "perde2": "Bir veya iki parça açarak bombalara ulaş; cömert fitillerle sayacın azaldığını gör.",
   "perde3": "Bomba çıkınca tahta ferahlasın.",
   "final": "Son yüzde otuzda göreli seçenek oranı en az 0.35.",
-  "yeni_oge": "Bomba tek başına",
-  "sekil_notu": "Dar ve kısa tahta (3x5, 3x6, 6x3): 1–9 bölümlerinin kare/dikdörtgen tahtalarından farklı; az parça, bomba hemen göze çarpar.",
-  "beklenen_oyuncu": "Unutan bot en fazla %10, rastgele bot %15–50, FunSim ilk deneme en az %65 kazanır.",
+  "yeni_oge": "Tek engel türü: farklı yerlerde üç bomba",
+  "sekil_notu": "Kareye yakın 5x5, 5x6 ve 6x6 tahtalar; siluet maskesi yok. Süre en büyük tahtada hücre başına 4 sn.",
+  "beklenen_oyuncu": "FunSim ilk deneme en az %90 kazanır; süreden kayıp en fazla %5. Rastgele ve unutan botlar bilgi amaçlıdır.",
   "ilk3_min_secenek": 3,
   "en_uzun_bogaz_min": 0,
   "en_uzun_bogaz_max": 1,
   "bogaz_sayisi_min": 0,
   "cig_orani_min": 0.35,
   "kalan_sure_orani": [
-    0.25,
+    0.3,
     0.5
   ],
   "bomba_tehdit_adimi_max": 5,
-  "bomba_fitil_max": "earliest+2",
-  "bomba_unutan_kaybetmeli": true,
+  "bomba_fitil_max": 99,
+  "bomba_unutan_kaybetmeli": false,
   "tuzak_adim_min": 0,
   "tarif": {
     "id": "p21_06",
-    "w": 3,
+    "w": 5,
     "h": 5,
-    "seals": [
-      0,
-      0
-    ],
+    "seals": 0,
     "chains": 0,
     "nails": 0,
     "genre": "tanitim",
-    "timer": 60,
+    "timer": 58,
     "bombs": [
       {
         "earliest": [
-          3,
-          4
+          2,
+          3
         ],
-        "margin": 2,
-        "region": "any"
+        "margin": 10,
+        "region": "bottom"
+      },
+      {
+        "earliest": [
+          2,
+          3
+        ],
+        "margin": 12,
+        "region": "top"
+      },
+      {
+        "earliest": [
+          2,
+          3
+        ],
+        "margin": 14,
+        "region": "center"
       }
     ],
-    "seed_from": 1,
-    "seed_to": 400,
+    "seed_from": 401,
+    "seed_to": 800,
     "count": 3,
     "min_open_first": 3,
     "intro": {
       "icon": "bomb",
       "title": "Bombalı parça",
-      "body": "Bu bombayı {F} hamle içinde çıkarmalısın. Sayı her hamlende azalır; sıfıra inerse bölüm biter.",
-      "tip": "Bombanın yolunu açan parçaları bul ve önce onları çıkar."
+      "body": "Bombalı parçaları sayıları bitmeden çıkar. Sayı her hamlende azalır; sıfıra inerse bölüm biter. En küçük fitil {F} hamle.",
+      "tip": "Birden çok bomba olabilir. Her birinin yolunu açan parçaları bul ve sayıları izle."
     },
     "bintro": null,
     "shapes": [
       [
-        3,
+        6,
         5
       ],
       [
-        3,
+        5,
         6
       ],
       [
         6,
-        3
+        5
       ]
     ]
-  }
+  },
+  "funsim_ilk_min": 0.9,
+  "bomba_fitil_min": "earliest+4"
 }

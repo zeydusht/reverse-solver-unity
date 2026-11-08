@@ -148,6 +148,16 @@
     },
     "tarif": {
       "$ref": "#/definitions/recipe"
+    },
+    "funsim_ilk_min": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "bomba_fitil_min": {
+      "enum": [
+        "earliest+4"
+      ]
     }
   },
   "definitions": {

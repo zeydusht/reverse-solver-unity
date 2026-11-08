@@ -3,15 +3,15 @@
   "bolum_no": 7,
   "tip": "normal",
   "fikir": "İki farklı fitil arasında duvarı okuyarak sıra seç.",
-  "sure_sn": 65,
+  "sure_sn": 45,
   "anahtar": "Önce kısa fitilli bomba; ardından uzun fitilli bomba",
   "perde1": "İlk üç hamlede en az üç güvenli seçenek.",
   "perde2": "Duvar iki bombanın çıkış sırasını düşündürsün; en az bir tuzaklı adım.",
   "perde3": "Bomba çıkınca tahta ferahlasın.",
   "final": "Son yüzde otuzda göreli seçenek oranı en az 0.35.",
   "yeni_oge": "Farklı fitilli iki bomba + bilinen duvar",
-  "sekil_notu": "6×5, 4×7 ve 5×7; 2–3 mühürle bölünmüş farklı çıkışlar.",
-  "beklenen_oyuncu": "Bilinçli oyuncu kazanır; bombayı yok sayan ve unutan bot en fazla yüzde on kazanır.",
+  "sekil_notu": "Kareye yakın 5x5, 6x6 ve 6x5 tahtalar; siluet maskesi yok. Süre en büyük tahtada hücre başına 4 sn.",
+  "beklenen_oyuncu": "FunSim ilk deneme en az %50 kazanır; süreden kayıp en fazla %15. İki bomba ve mühürlü çıkışlarda doğru sırayı öğrenir; yaklaşık dört adımlık açma zinciri korunur.",
   "ilk3_min_secenek": 3,
   "en_uzun_bogaz_min": 2,
   "en_uzun_bogaz_max": 4,
@@ -22,12 +22,12 @@
     0.3
   ],
   "bomba_tehdit_adimi_max": 8,
-  "bomba_fitil_max": 2,
+  "bomba_fitil_max": 5,
   "bomba_unutan_kaybetmeli": true,
   "tuzak_adim_min": 1,
   "tarif": {
     "id": "p21_07",
-    "w": 6,
+    "w": 5,
     "h": 5,
     "seals": [
       2,
@@ -36,14 +36,14 @@
     "chains": 0,
     "nails": 0,
     "genre": "normal",
-    "timer": 65,
+    "timer": 45,
     "bombs": [
       {
         "earliest": [
           3,
           5
         ],
-        "margin": 3,
+        "margin": 8,
         "region": "any"
       },
       {
@@ -51,7 +51,7 @@
           6,
           9
         ],
-        "margin": 4,
+        "margin": 11,
         "region": "any"
       }
     ],
@@ -61,17 +61,18 @@
     "min_open_first": 3,
     "shapes": [
       [
+        5,
+        5
+      ],
+      [
         6,
         5
       ],
       [
-        4,
-        7
-      ],
-      [
         5,
-        7
+        6
       ]
     ]
-  }
+  },
+  "funsim_ilk_min": 0.5
 }

@@ -1,14 +1,11 @@
 | Tur | Aday | Karar | KALDI | UYARI |
 |---|---|---|---|---|
-| 1 | p21_06_a | RED | R12 bot_rastgele_bombasiz; R14 kalan süre | R14 ZeydBot örneği; R16 final temposu |
-| 1 | p21_06_b | RED | R12 bot_rastgele_bombasiz; R14 kalan süre | R14 ZeydBot örneği; R16 final temposu |
-| 1 | p21_06_c | RED | R12 bot_rastgele_bombasiz; R14 kalan süre; R19 FunSim ilk deneme | R14 ZeydBot örneği; R16 final temposu |
-| 2 | p21_06_t2_a | RED | R12 bot_rastgele_bombasiz; R19 FunSim ilk deneme | R14 ZeydBot örneği; R16 final temposu |
-| 2 | p21_06_t2_b | RED | R12 bot_rastgele_bombasiz; R19 FunSim ilk deneme | R14 ZeydBot örneği; R16 final temposu |
-| 2 | p21_06_t2_c | RED | R12 bot_rastgele_bombasiz; R19 FunSim ilk deneme | R14 ZeydBot örneği; R16 final temposu |
-| 3 | p21_06_t3_a | RED | R11 tehdit adımı; R12 bot_rastgele_bombasiz | R14 ZeydBot örneği; R16 final temposu |
-| 3 | p21_06_t3_b | RED | R12 bot_rastgele_bombasiz; R19 FunSim ilk deneme | R14 ZeydBot örneği; R16 final temposu |
-| 3 | p21_06_t3_c | RED | R12 bot_rastgele_bombasiz; R19 FunSim ilk deneme | R14 ZeydBot örneği; R16 final temposu |
-
-GEÇTİ yok; en az KALDI içeren aday finalist olarak etiketlendi.
-Bu aday örnekleminde tek tek geçen fakat birlikte geçmeyen kural çifti bulunamadı.
+| 1 | p21_06_a | GEÇTİ | — | R07 ilk tuzak; R10 fitil/erken çıkış p1; R10 fitil/erken çıkış p7; R10 fitil/erken çıkış p19; R11 tehdit adımı; R12 bot_rastgele_bombasiz; R12 bot_bomba_unutan; R14 ZeydBot örneği; R15 ilk9 siluet; R16 final temposu; R22 çeşitlilik |
+| 1 | p21_06_b | RED | R19 FunSim ilk deneme | R07 ilk tuzak; R10 fitil/erken çıkış p1; R10 fitil/erken çıkış p19; R10 fitil/erken çıkış p22; R11 tehdit adımı; R12 bot_rastgele_bombasiz; R12 bot_bomba_unutan; R14 ZeydBot örneği; R15 ilk9 siluet; R16 final temposu; R22 çeşitlilik |
+| 1 | p21_06_c | RED | R14 kalan süre; R19 FunSim ilk deneme | R07 ilk tuzak; R10 fitil/erken çıkış p4; R10 fitil/erken çıkış p15; R10 fitil/erken çıkış p18; R11 tehdit adımı; R12 bot_rastgele_bombasiz; R12 bot_bomba_unutan; R14 ZeydBot örneği; R15 ilk9 siluet; R16 final temposu; R22 çeşitlilik |
+| 2 | p21_06_t2_a | RED | R19 FunSim ilk deneme; R20 süreden kayıp | R07 ilk tuzak; R10 fitil/erken çıkış p3; R10 fitil/erken çıkış p10; R10 fitil/erken çıkış p16; R11 tehdit adımı; R12 bot_rastgele_bombasiz; R12 bot_bomba_unutan; R14 ZeydBot örneği; R15 ilk9 siluet; R16 final temposu; R22 çeşitlilik |
+| 2 | p21_06_t2_b | RED | R04 boğaz uzunluğu; R19 FunSim ilk deneme; R20 süreden kayıp | R07 ilk tuzak; R10 fitil/erken çıkış p1; R10 fitil/erken çıkış p2; R10 fitil/erken çıkış p5; R11 tehdit adımı; R12 bot_rastgele_bombasiz; R12 bot_bomba_unutan; R14 ZeydBot örneği; R15 ilk9 siluet; R16 final temposu; R22 çeşitlilik |
+| 2 | p21_06_t2_c | RED | R19 FunSim ilk deneme; R20 süreden kayıp | R07 ilk tuzak; R10 fitil/erken çıkış p1; R10 fitil/erken çıkış p15; R10 fitil/erken çıkış p16; R11 tehdit adımı; R12 bot_rastgele_bombasiz; R12 bot_bomba_unutan; R14 ZeydBot örneği; R15 ilk9 siluet; R16 final temposu; R22 çeşitlilik |
+| 3 | p21_06_t3_a | RED | R14 kalan süre; R19 FunSim ilk deneme | R07 ilk tuzak; R10 fitil/erken çıkış p3; R10 fitil/erken çıkış p5; R10 fitil/erken çıkış p16; R11 tehdit adımı; R12 bot_rastgele_bombasiz; R12 bot_bomba_unutan; R14 ZeydBot örneği; R15 ilk9 siluet; R16 final temposu; R22 çeşitlilik |
+| 3 | p21_06_t3_b | RED | R19 FunSim ilk deneme; R20 süreden kayıp | R07 ilk tuzak; R09 tanıtım fitil payı p1; R10 fitil/erken çıkış p1; R09 tanıtım fitil payı p10; R10 fitil/erken çıkış p10; R09 tanıtım fitil payı p19; R10 fitil/erken çıkış p19; R11 tehdit adımı; R12 bot_rastgele_bombasiz; R12 bot_bomba_unutan; R14 ZeydBot örneği; R15 ilk9 siluet; R16 final temposu; R22 çeşitlilik |
+| 3 | p21_06_t3_c | RED | R14 kalan süre; R19 FunSim ilk deneme; R20 süreden kayıp | R07 ilk tuzak; R09 tanıtım fitil payı p1; R10 fitil/erken çıkış p1; R09 tanıtım fitil payı p7; R10 fitil/erken çıkış p7; R09 tanıtım fitil payı p32; R10 fitil/erken çıkış p32; R11 tehdit adımı; R12 bot_rastgele_bombasiz; R12 bot_bomba_unutan; R14 ZeydBot örneği; R15 ilk9 siluet; R16 final temposu; R22 çeşitlilik |

@@ -51,7 +51,6 @@ namespace ReverseSolver.LevelEditor
                 var earliest = Earliest(c.Level);
                 var requests = AjanJson.Get(r, "bombs").Items;
                 var chosen = new Dictionary<int, int>();
-                var usedK = new HashSet<int>();
                 bool Pick(int i)
                 {
                     if (i == requests.Count) return true;
@@ -78,9 +77,9 @@ namespace ReverseSolver.LevelEditor
                     {
                         int k = earliest[p];
                         int fuse = k + AjanJson.Int(requests[i], "margin");
-                        if (chosen.ContainsKey(p) || usedK.Contains(k) || k < range[0].AsNumber || k > range[1].AsNumber ||
+                        if (chosen.ContainsKey(p) || k < range[0].AsNumber || k > range[1].AsNumber ||
                             c.Level.Nails.ContainsKey(p) || fuse < 1 || fuse > LevelDraft.MaxCount || chosen.Values.Contains(fuse)) continue;
-                        chosen[p] = fuse; usedK.Add(k);
+                        chosen[p] = fuse;
                         if (Pick(i + 1))
                         {
                             // Try every assignment, not just the first geometric match.
@@ -89,7 +88,7 @@ namespace ReverseSolver.LevelEditor
                             var l = bd.ToLevelData();
                             if (SmartPlayer.Play(l).Verdict == SmartVerdict.Won) return true;
                         }
-                        chosen.Remove(p); usedK.Remove(k);
+                        chosen.Remove(p);
                     }
                     return false;
                 }
@@ -108,7 +107,7 @@ namespace ReverseSolver.LevelEditor
                 foreach (int p in chosen.Keys) metadata.Field(p.ToString(CultureInfo.InvariantCulture), earliest[p]);
                 metadata.EndObject().EndObject();
                 var extra = new Dictionary<string, string> { ["ajan"] = metadata.ToString() };
-                string fuse = string.Join(" / ", chosen.Values);
+                string fuse = chosen.Count == 0 ? "" : chosen.Values.Min().ToString(CultureInfo.InvariantCulture);
                 foreach (string key in new[] { "intro", "bintro" })
                     if (r.TryGet(key, out var intro)) extra[key] = AjanJson.Serialize(intro, fuse);
                 output.Add(AjanJson.Overlay(JsonReader.Parse(jw.ToString()), extra));

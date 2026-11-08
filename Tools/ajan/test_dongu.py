@@ -20,7 +20,7 @@ class AgentTests(unittest.TestCase):
         self.measured = dict(solved=True, steps=[dict(unk=[])], bots={
             'bot_bilincli': dict(won=True, bomb_exits=[dict(p=14, earliest=2)]),
             'bot_rastgele_bombasiz': dict(win_rate=.25, runs=1000), 'bot_bomba_unutan': dict(win_rate=0),
-            'funsim': dict(win_rate=.70, runs=100, time_left=dongu.distribution([22.2] * 70),
+            'funsim': dict(win_rate=.90, runs=100, first_time_loss_rate=.05, time_left=dongu.distribution([22.2] * 70),
                            loss_piece_share=dongu.distribution([.2] * 30))})
         self.player = dict(source='ZeydBot v1', calibrated=True, remaining=dict(n=30, median=.37),
                            loss_piece_share=dict(n=0), tail_time_share=None)
@@ -63,14 +63,16 @@ class AgentTests(unittest.TestCase):
 
     def test_unsafe_historical_bomb_fails(self):
         checks = self.checks()
-        for prefix in ('R09', 'R10'):
+        for prefix in ('R09',):
             self.assertTrue(any(c['rule'].startswith(prefix) and c['status'] == 'KALDI' for c in checks))
 
-    def test_intro_random_range_and_forgetful_loss(self):
-        self.measured['bots']['bot_rastgele_bombasiz']['win_rate'] = .11
-        checks = self.checks()
-        self.assertEqual(next(c for c in checks if c['rule'] == 'R12 bot_rastgele_bombasiz')['status'], 'KALDI')
-        self.assertEqual(next(c for c in checks if c['rule'] == 'R12 bot_bomba_unutan')['status'], 'GEÇTİ')
+    def test_intro_bots_always_warn(self):
+        for rate in (0, .11, .25, 1):
+            self.measured['bots']['bot_rastgele_bombasiz']['win_rate'] = rate
+            self.measured['bots']['bot_bomba_unutan']['win_rate'] = rate
+            for c in self.checks():
+                if c['rule'].startswith('R12'):
+                    self.assertEqual(c['status'], 'UYARI')
 
     def test_no_winners_and_unknown_are_warnings(self):
         self.player['remaining']['median'] = None
@@ -95,28 +97,25 @@ class AgentTests(unittest.TestCase):
         self.assertIsNone(dongu.distribution([])['median'])
 
     def test_intro_boundaries_and_warning_never_rejects(self):
-        self.level['bombs'] = {'14': 5}
+        self.level['bombs'] = {'14': 7}
         self.measured['bots']['bot_bilincli']['bomb_exits'] = [dict(p=14, earliest=3)]
         def state(prefix):
             return next(c['status'] for c in self.checks() if c['rule'].startswith(prefix))
-        self.assertEqual(state('R10'), 'GEÇTİ')
-        self.level['bombs']['14'] = 4
-        self.assertEqual(state('R10'), 'KALDI')
-        self.level['bombs']['14'] = 6
-        self.assertEqual(state('R10'), 'KALDI')
-        self.metrics['ilk_hamle_tuzak_orani'] = .01
-        self.assertEqual(state('R07'), 'KALDI')
-        self.measured['bots']['funsim']['win_rate'] = .64
-        self.assertEqual(state('R19'), 'KALDI')
-        self.measured['bots']['funsim']['win_rate'] = .65
-        self.assertEqual(state('R19'), 'GEÇTİ')
+        for fuse in (6, 7, 12):
+            self.level['bombs']['14'] = fuse
+            self.assertEqual(state('R10'), 'UYARI')
+            pay = next(c for c in self.checks() if c['rule'].startswith('R09 ') and 'k' in (c['measured'] if isinstance(c['measured'], dict) else {}))
+            self.assertEqual(pay['correction'] is None, fuse >= 7)
+        self.metrics['ilk_hamle_tuzak_orani'] = .5
+        self.metrics['bomba_tehdit_adimi'] = 99
+        for prefix in ('R07', 'R11', 'R16'):
+            self.assertEqual(state(prefix), 'UYARI')
+        for rate, fails in ((.899, True), (.90, False), (1, False)):
+            self.measured['bots']['funsim']['win_rate'] = rate
+            c = next(c for c in self.checks() if c['rule'].startswith('R19'))
+            self.assertEqual(c['correction'] is not None, fails)
         self.measured['bots']['funsim']['runs'] = 5
         self.assertEqual(state('R19'), 'UYARI')
-        for rate, expected in ((.149, 'KALDI'), (.15, 'GEÇTİ'), (.50, 'GEÇTİ'), (.501, 'KALDI')):
-            self.measured['bots']['bot_rastgele_bombasiz']['win_rate'] = rate
-            self.assertEqual(state('R12 bot_rastgele'), expected)
-        self.assertEqual(dongu.decision([dict(status='GEÇTİ'), dict(status='UYARI')]), 'GEÇTİ')
-        self.assertEqual(dongu.decision([dict(status='UYARI'), dict(status='KALDI')]), 'RED')
 
     def test_remaining_falls_back_to_funsim_and_small_samples_warn(self):
         self.player['remaining'] = dict(n=2, median=.99)
@@ -136,14 +135,75 @@ class AgentTests(unittest.TestCase):
 
     def test_round_diversity_and_concrete_placement(self):
         checks = dongu.critique(self.card, self.level, self.measured, self.metrics,
-                               dict(intro_max=.7, candidate_max=.90), self.player)
-        diversity = next(c for c in checks if c['rule'].startswith('R20'))
-        self.assertEqual(diversity['status'], 'KALDI')
-        revised = dongu.revise(self.card['tarif'], [dict(checks=[diversity])])
-        self.assertEqual(len(revised['shapes']), 3)
-        self.assertNotEqual(revised['shapes'], self.card['tarif']['shapes'])
+                               dict(intro_max=1, candidate_max=1), self.player)
+        for prefix in ('R15', 'R22'):
+            self.assertEqual(next(c for c in checks if c['rule'].startswith(prefix))['status'], 'UYARI')
+        shapes = dongu.alternative_shapes(self.card['tarif'], 'tanitim')
+        self.assertTrue(all(abs(w-h) <= 1 for w,h in shapes))
         text = dongu.placement_note(dict(field='bombs[0].earliest', value=[4, 5]), self.card['tarif'])
-        self.assertIn('3. sıradan 4. sıraya', text)
+        self.assertIn('earliest [4, 5]', text)
+
+    def test_time_loss_limits_and_learning_period(self):
+        for kind, limit in (('tanitim', .05), ('nefes', .05), ('normal', .15)):
+            self.card['tip'] = kind
+            for number in (10, 11):
+                self.card['bolum_no'] = number
+                for rate in (limit, limit + .001):
+                    self.measured['bots']['funsim']['first_time_loss_rate'] = rate
+                    c = next(c for c in self.checks() if c['rule'].startswith('R20 '))
+                    self.assertEqual(c['correction'] is not None, number == 10 and rate > limit)
+                    if number == 11:
+                        self.assertEqual(c['status'], 'UYARI')
+        self.measured['bots']['funsim'].pop('first_time_loss_rate')
+        self.assertEqual(next(c for c in self.checks() if c['rule'].startswith('R20 '))['status'], 'UYARI')
+
+    def test_time_loss_correction_overrides_timer_reduction_in_every_row(self):
+        self.measured['bots']['funsim']['first_time_loss_rate'] = .051
+        c = next(c for c in self.checks() if c['rule'].startswith('R20 '))
+        self.assertEqual(c['correction']['value'], 190)  # ceil(144*1.3/5)*5
+        earlier = dict(rule='R14 remaining', correction=dict(field='timer', value=30))
+        revised = dongu.revise(self.card['tarif'], [dict(checks=[earlier]), dict(checks=[c])])
+        self.assertEqual(revised['timer'], 190)
+
+    def test_board_aspect_checks_candidate_and_all_recipe_shapes(self):
+        self.level.update(w=5, h=6)
+        c = next(c for c in self.checks() if c['rule'].startswith('R21 '))
+        self.assertIsNone(c['correction'])
+        self.card['tarif']['shapes'].append([3, 7])
+        c = next(c for c in self.checks() if c['rule'].startswith('R21 '))
+        self.assertIsNotNone(c['correction'])
+        self.assertTrue(all(abs(w-h) <= 1 for w,h in c['correction']['value']))
+        self.card['bolum_no'] = 11
+        self.assertEqual(next(c for c in self.checks() if c['rule'].startswith('R21 '))['status'], 'UYARI')
+
+    def test_normal_funsim_default_and_card_override(self):
+        self.card = dongu.load_card(dongu.CARDS / 'p21_07.json')
+        for minimum in (None, .50, .20):
+            if minimum is None:
+                self.card.pop('funsim_ilk_min')
+            else:
+                self.card['funsim_ilk_min'] = minimum
+            threshold = .30 if minimum is None else minimum
+            for rate in (threshold - .001, threshold):
+                self.measured['bots']['funsim']['win_rate'] = rate
+                c = next(c for c in self.checks() if c['rule'].startswith('R19 '))
+                self.assertEqual(c['correction'] is not None, rate < threshold)
+
+    def test_updated_card_recipes_and_schema_bounds(self):
+        self.assertEqual(self.card['tarif']['shapes'], [[5, 5], [5, 6], [6, 6]])
+        self.assertEqual([b['region'] for b in self.card['tarif']['bombs']], ['bottom', 'top', 'center'])
+        self.assertTrue(all(b['earliest'] == [2, 3] and 4 <= b['margin'] <= 6
+                            for b in self.card['tarif']['bombs']))
+        self.assertEqual(self.card['bomba_fitil_min'], 'earliest+4')
+        for name in ('p21_06', 'p21_07'):
+            card = dongu.load_card(dongu.CARDS / (name + '.json'))
+            self.assertEqual(card['sure_sn'], 4 * max(w*h for w,h in card['tarif']['shapes']))
+            self.assertEqual(card['sure_sn'], card['tarif']['timer'])
+        schema = dongu.read(dongu.HERE / 'kart_sema.json')
+        for value in (-.01, 1.01):
+            self.card['funsim_ilk_min'] = value
+            with self.assertRaises(ValueError):
+                dongu.validate(self.card, schema, schema['definitions'])
 
     def test_conflicts_require_individual_passes(self):
         rows = [dict(checks=[dict(rule='R07 ilk tuzak', status='GEÇTİ'), dict(rule='R11 tehdit', status='KALDI')]),

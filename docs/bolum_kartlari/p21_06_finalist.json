@@ -5,9 +5,9 @@
       "id": "p21_06_a",
       "version": 1,
       "lv": 40,
-      "w": 3,
+      "w": 6,
       "h": 5,
-      "timer": 60,
+      "timer": 58,
       "boosters": {
         "scissors": 1,
         "wand": 1,
@@ -41,6 +41,24 @@
         ],
         [
           [
+            3,
+            0
+          ]
+        ],
+        [
+          [
+            4,
+            0
+          ]
+        ],
+        [
+          [
+            5,
+            0
+          ]
+        ],
+        [
+          [
             0,
             1
           ]
@@ -59,6 +77,24 @@
         ],
         [
           [
+            3,
+            1
+          ]
+        ],
+        [
+          [
+            4,
+            1
+          ]
+        ],
+        [
+          [
+            5,
+            1
+          ]
+        ],
+        [
+          [
             0,
             2
           ]
@@ -72,6 +108,24 @@
         [
           [
             2,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            4,
+            2
+          ]
+        ],
+        [
+          [
+            5,
             2
           ]
         ],
@@ -90,6 +144,24 @@
         [
           [
             2,
+            3
+          ]
+        ],
+        [
+          [
+            3,
+            3
+          ]
+        ],
+        [
+          [
+            4,
+            3
+          ]
+        ],
+        [
+          [
+            5,
             3
           ]
         ],
@@ -108,6 +180,24 @@
         [
           [
             2,
+            4
+          ]
+        ],
+        [
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            4,
+            4
+          ]
+        ],
+        [
+          [
+            5,
             4
           ]
         ]
@@ -115,32 +205,47 @@
       "vEdge": [
         [
           null,
-          0,
-          0,
-          null
-        ],
-        [
-          null,
+          -1,
           0,
           -1,
+          0,
+          0,
           null
         ],
         [
           null,
+          1,
+          1,
+          -1,
+          0,
+          0,
+          null
+        ],
+        [
+          null,
+          -1,
           -1,
           1,
+          -1,
+          -1,
           null
         ],
         [
           null,
+          1,
           -1,
           1,
+          0,
+          0,
           null
         ],
         [
           null,
           0,
+          1,
           0,
+          0,
+          -1,
           null
         ]
       ],
@@ -148,29 +253,47 @@
         [
           null,
           null,
+          null,
+          null,
+          null,
           null
         ],
         [
           0,
-          1,
-          1
-        ],
-        [
-          1,
-          1,
-          0
-        ],
-        [
+          0,
+          0,
           -1,
           0,
+          -1
+        ],
+        [
+          0,
+          0,
+          0,
+          -1,
+          1,
+          -1
+        ],
+        [
+          0,
+          0,
+          0,
+          -1,
+          0,
+          -1
+        ],
+        [
+          0,
+          0,
+          -1,
+          1,
+          -1,
           0
         ],
         [
-          1,
-          1,
-          0
-        ],
-        [
+          null,
+          null,
+          null,
           null,
           null,
           null
@@ -179,14 +302,22 @@
       "sealed": {},
       "nails": {},
       "bombs": {
-        "4": 6
+        "1": 14,
+        "7": 16,
+        "19": 12
       },
       "colors": [
         0,
         0,
+        1,
+        1,
         0,
         0,
         0,
+        1,
+        1,
+        1,
+        1,
         0,
         1,
         1,
@@ -194,9 +325,18 @@
         1,
         1,
         1,
+        0,
         1,
         1,
-        1
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0
       ],
       "palette": [
         "#e34a3c",
@@ -204,84 +344,145 @@
       ],
       "solution": [
         {
+          "piece": 18,
+          "dir": "L"
+        },
+        {
+          "piece": 19,
+          "dir": "L"
+        },
+        {
+          "piece": 0,
+          "dir": "L"
+        },
+        {
           "piece": 1,
           "dir": "U"
         },
         {
-          "piece": 0,
-          "dir": "U"
+          "piece": 6,
+          "dir": "L"
+        },
+        {
+          "piece": 7,
+          "dir": "L"
         },
         {
           "piece": 2,
-          "dir": "U"
-        },
-        {
-          "piece": 5,
-          "dir": "R"
-        },
-        {
-          "piece": 4,
-          "dir": "U"
+          "dir": "L"
         },
         {
           "piece": 3,
           "dir": "U"
         },
         {
-          "piece": 8,
-          "dir": "R"
-        },
-        {
-          "piece": 7,
-          "dir": "R"
-        },
-        {
-          "piece": 6,
+          "piece": 4,
           "dir": "U"
         },
         {
-          "piece": 11,
-          "dir": "R"
+          "piece": 5,
+          "dir": "U"
         },
         {
-          "piece": 12,
-          "dir": "D"
+          "piece": 8,
+          "dir": "L"
         },
         {
           "piece": 9,
-          "dir": "L"
+          "dir": "U"
         },
         {
           "piece": 10,
           "dir": "U"
         },
         {
-          "piece": 13,
+          "piece": 11,
           "dir": "U"
         },
         {
+          "piece": 12,
+          "dir": "L"
+        },
+        {
+          "piece": 13,
+          "dir": "L"
+        },
+        {
           "piece": 14,
+          "dir": "L"
+        },
+        {
+          "piece": 24,
+          "dir": "U"
+        },
+        {
+          "piece": 25,
+          "dir": "L"
+        },
+        {
+          "piece": 26,
+          "dir": "D"
+        },
+        {
+          "piece": 20,
+          "dir": "L"
+        },
+        {
+          "piece": 27,
+          "dir": "D"
+        },
+        {
+          "piece": 21,
+          "dir": "D"
+        },
+        {
+          "piece": 15,
+          "dir": "L"
+        },
+        {
+          "piece": 16,
+          "dir": "L"
+        },
+        {
+          "piece": 17,
+          "dir": "U"
+        },
+        {
+          "piece": 22,
+          "dir": "U"
+        },
+        {
+          "piece": 23,
+          "dir": "U"
+        },
+        {
+          "piece": 28,
+          "dir": "L"
+        },
+        {
+          "piece": 29,
           "dir": "U"
         }
       ],
       "load": 0,
-      "open": 45,
+      "open": 49,
       "art": "Fabrika",
       "genre": "tanitim",
       "ajan": {
-        "seed": 1,
+        "seed": 401,
         "bomb_k": {
-          "4": 4
+          "19": 2,
+          "1": 2,
+          "7": 2
         }
       },
       "intro": {
         "icon": "bomb",
         "title": "Bombalı parça",
-        "body": "Bu bombayı 6 hamle içinde çıkarmalısın. Sayı her hamlende azalır; sıfıra inerse bölüm biter.",
-        "tip": "Bombanın yolunu açan parçaları bul ve önce onları çıkar."
+        "body": "Bombalı parçaları sayıları bitmeden çıkar. Sayı her hamlende azalır; sıfıra inerse bölüm biter. En küçük fitil 12 hamle.",
+        "tip": "Birden çok bomba olabilir. Her birinin yolunu açan parçaları bul ve sayıları izle."
       },
-      "bintro": null,
-      "etiket": "aday"
+      "bintro": null
     }
   ]
 }
