@@ -8,6 +8,39 @@
 #
 #   python Tools/level_similarity.py <levels.json> [ID ...]      -> matrix (percent) of the given levels
 import json, sys, itertools
+import csv
+import math
+from pathlib import Path
+
+
+def curve_similarity(a, b):
+    """1 - normalized Euclidean distance of two ten-point signatures.
+
+    Each curve is divided by its own maximum; a zero curve stays zero.
+    Accepts either numeric sequences or semicolon-separated CSV signatures.
+    """
+    def normalized(values):
+        values = [float(v) for v in (values.split(';') if isinstance(values, str) else values)]
+        if len(values) != 10 or any(not math.isfinite(v) or v < 0 for v in values):
+            raise ValueError('Curve signature must contain ten finite nonnegative values')
+        peak = max(values) or 1
+        return [v / peak for v in values]
+    return 1 - math.sqrt(sum((x - y) ** 2 for x, y in zip(normalized(a), normalized(b)))) / math.sqrt(10)
+
+
+def curves_main():
+    out = Path(__file__).resolve().parents[1] / 'docs/analiz'
+    with (out / 'hikaye_egrisi_set40.csv').open(encoding='utf-8-sig', newline='') as stream:
+        rows = list(csv.DictReader(stream))
+    pairs = [(int(a['bolum']), int(b['bolum']), curve_similarity(a['egri_imzasi'], b['egri_imzasi']))
+             for a, b in itertools.combinations(rows, 2)]
+    pairs.sort(key=lambda pair: (-pair[2], pair[0], pair[1]))
+    with (out / 'hikaye_benzer10.csv').open('w', encoding='utf-8', newline='') as stream:
+        writer = csv.writer(stream)
+        writer.writerow(['bolum_a', 'bolum_b', 'benzerlik'])
+        for a, b, score in pairs[:10]:
+            writer.writerow([a, b, f'{score:.6f}'])
+            print(f'{a} {b} {score:.6f}')
 
 
 def cells_of(l):
@@ -89,6 +122,9 @@ def similarity(a, b):
 
 
 if __name__ == '__main__':
+    if '--curves' in sys.argv[1:]:
+        curves_main()
+        sys.exit(0)
     L = {l['id']: l for l in json.load(open(sys.argv[1], encoding='utf-8'))['levels']}
     ids = sys.argv[2:] or list(L)
     print('| | ' + ' | '.join(ids) + ' |'); print('|---' * (len(ids) + 1) + '|')

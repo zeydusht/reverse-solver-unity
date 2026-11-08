@@ -1,6 +1,6 @@
 # Reverse Solver — PROJE DURUMU (PM devir dosyası)
 
-Son güncelleme: 8 Kasım 2026, 01:45. Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
+Son güncelleme: 8 Kasım 2026, 03:30. Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
 
 ## Dosya kuralı
 - Her iş bitince veya Zeyd "değişiklikleri PROJE_DURUMU'na ekle" deyince bu dosyayı güncelle (kısa tut, bitenleri sil, tarihi yenile). Güncelledikten sonra `/clear` hatırlat.
@@ -64,4 +64,6 @@ Son güncelleme: 8 Kasım 2026, 01:45. Yeni sohbette önce bu dosyayı oku, sonr
    b) PM kareleri çıkarıp her bölümü "hikâye kartı"na döker (başlangıç alanı, ilk hamle seçenek sayısı, açılma sırası, engel tanıtımı, tempo, hamle bütçesi) + web araştırması (tanıt-dene-boz-ustalaş kalıbı, match-3 bölüm tasarımı yazıları) → `docs/BOLUM_TASARIM_KITABI.md`.
    c) Fabrikaya "hikâye kartı" zorunluluğu + simülatör kontrolleri (ör. tanıtımda engel ilk N hamlede gerçek tehdit olmalı: bomba fitili çözüm yolunda ≤ hamle+2).
    d) p21: 3/6/10/14 tanıtım bölümleri yeniden + Zeyd'in yeni engel fikirleri prototipi ("kilitli bölge": N parça çıkınca açılan alan; alttan çıkan yeni parçalar; görünmeyen bölge). pt1 verisi (p20) bozulmasın diye hepsi p21'de.
+   **8 Kasım durum:** a) bitti (PM_45: `Level Design/kareler/` RM 3473–77, Block Out 273–78). b) bitti: **`docs/BOLUM_TASARIM_KITABI.md` v0.1** (11 hikâye kartı, K1–K12 kuralları + fabrika kontrolleri, yeni engel tarifi tanıt→geliştir→bük→bitir, ajan eğitim planı F1–F6). Önemli bulgu: Block Out 6 bölümün 4'ünde "kilitli bölge" kullanıyor → p21'de öncelik 1. **Sıradaki: PM_MESAJ_47** (hikâye eğrisi ölçümü, SET40 v4, yalnız analiz) → sonra eşikler kalibre, kendi 10 kartımız (F2), ajan talimatı (F3), eleştirmen döngüsü (F4), p21 tanıtım yeniden yapımı + kilitli bölge prototipi.
+   **PM_47 bitti (8 Kasım):** hikâye eğrisi ölçüldü (`docs/analiz/HIKAYE_EGRISI_RAPOR.md`, `Tools/hikaye_egrisi.py`). Bomba tanıtımı 6 ve 7'de bomba yok sayılabiliyor (fitil > adım sayısı). Tuzak yalnız bombadan geliyor. K2 çığ şartı (≥3) oyunumuza uymuyor, 38/40 kalıyor → göreli çığ + zora muafiyet önerildi. K3 eşikleri: tanıtım ≤1, normal 2–4, zor ≥5 (Z12 = 10).
 
