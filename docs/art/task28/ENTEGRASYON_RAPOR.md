@@ -1,6 +1,6 @@
 # PM_MESAJ_52 — Entegrasyon raporu (9 Kasım)
 
-**Durum: build hazır, p21'e YAYINLANMADI.** `verify_build --local` 3/4; kalan `card` (aşağıda). Kaynak değişiklikleri commit edilmedi.
+**Durum: p21'de yayında (9 Kasım, PM_MESAJ_53).** Aşağıdaki ölçümler PM_52 build'ine aittir; yayınlanan sürümün sonuçları en sondaki ektedir.
 
 Vitrin: `p21/?lv=SHOW_ART` menüyü açar, **Demo** düğmesi bölümü başlatır (SHOW1 ile aynı akış). Eski görsel: `&art=eski`.
 Ekran görüntüleri (390×844, build üzerinde): [başlangıç](entegrasyon/vitrin_baslangic.png), [iki hamle sonra](entegrasyon/vitrin_iki_hamle_sonra.png).
@@ -39,3 +39,24 @@ Ekran görüntüleri (390×844, build üzerinde): [başlangıç](entegrasyon/vit
 - Kilit açılma ve zincir kopma karelerinin tek tek görüntüsü: animasyonlar istisnasız çalıştı, ama ekran görüntüsü bittikten sonra alındı.
 - Sürüklemedeki yaylanma gözle görülmedi.
 - Halkalar nötr PNG'nin çarpımla renklendirilmesi; üretim kaydındaki gradyan eşlemesinin birebir karşılığı değil.
+
+## Ek — PM_MESAJ_53 yayını (9 Kasım)
+
+**Sürüm:** kaynak `4621ec21` (`art` dalı, itilmedi), yayın `680cacc6` (gh-pages, yalnız `p21/` değişti). p20, kök ve pt1'e dokunulmadı.
+
+| Kontrol | Sonuç |
+|---|---|
+| EditMode | 598 geçti, 0 kaldı, 2 atlandı |
+| `--local` | **4/4**; başlık–çerçeve 9 pt, kart altı 593 pt (önceki ile aynı). `art=eski` ile `card` da GEÇTİ, 9 pt |
+| Canlı p21, bayraksız | **4/4**; PC'de medyan 59,9 FPS |
+| Canlı vitrin `?lv=SHOW_ART` ve `&art=eski` | İkisi de açıldı, istisna 0 |
+| `--send --player TEST_PM53` | 5/7. KALDI: `a6b` (PRODUCT.md'de eski KALDI) ve `zeydsend` (`zorluk_puani` bekliyor; oyun sonu puanı PM_41 ile kaldırıldı). İkisi de bu işten değil; kontrol beklentileri güncellenmeli |
+
+**Card:** Ölçülen boşluk tanıtım kartında değil, kazanma kartında ("Picture complete!" ile resim çerçevesi) çıkıyor. Resim 2 pt aşağı alındı, altındaki boşluk 2 pt azaltıldı; yazı, kart boyu ve renk aynı.
+
+**Kayıtlar (canlı p21, 390×844 tahta bölgesi):**
+- [Kilit açılma](entegrasyon/kilit_acilma.gif): açılma ve düşme yaklaşık 0,5 sn, kareler görüldü.
+- [Zincir yaylanma](entegrasyon/zincir_yaylanma.gif): uzun zincirde sürükleme ve bırakma.
+- [Çekiçle kopma](entegrasyon/zincir_kopma_cekic.gif): yarım halkalar orta noktada ayrılıp yaklaşık 0,2 sn'de kayboluyor.
+
+**FPS:** Vitrinde `&fps=1` sol üstte, HUD'un altında "FPS x min y" gösterir (saniyede bir güncellenir; varsayılan kapalı). Telefonda ölçüm Zeyd'de.
