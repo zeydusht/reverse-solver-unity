@@ -10,6 +10,7 @@ namespace ReverseSolver.Presentation
     public static class Art
     {
         public static bool On;
+        public static bool T28 = true;
 
         // PM_MESAJ_16: the player's Jiggle avatar, kept in the browser (PlayerPrefs = localStorage on WebGL), never sent.
         // Until Codex's five avatars arrive (Task 15): tinted copies of the approved one (blue, pink, red, green, purple).
@@ -42,7 +43,12 @@ namespace ReverseSolver.Presentation
         static T Load<T>(string key) where T : Object
         {
             if (!On) return null;
-            if (!_cache.TryGetValue(key, out var o)) _cache[key] = o = Resources.Load<T>("Art/" + key);
+            string cacheKey = (T28 ? "yeni/" : "") + key;
+            if (!_cache.TryGetValue(cacheKey, out var o))
+            {
+                o = T28 ? Resources.Load<T>("Art/yeni/" + key) : null;
+                _cache[cacheKey] = o = o != null ? o : Resources.Load<T>("Art/" + key);
+            }
             return o as T;
         }
 

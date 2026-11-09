@@ -36,6 +36,7 @@ namespace ReverseSolver.Platform
         public event Action<bool> VisibilityChanged;
 
         public void AskName(Action<string> done) => Runner.Instance.AskName(done);
+        public void PlayIntro(string parts, string wake, string skip, string ending, bool sound, Action<string> events) => events("done");
         internal void Visibility(bool visible) => VisibilityChanged?.Invoke(visible);
 
 #if UNITY_IOS && !UNITY_EDITOR

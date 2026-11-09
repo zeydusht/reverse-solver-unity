@@ -45,6 +45,9 @@ namespace ReverseSolver.Presentation
         TelemetryLog _telemetry;
         string _rowId;                 // row_id of the attempt in play
         bool _awaitingName;
+        bool _introPlaying, _endingEligible, _endingPlayed;
+        TelemetryQueue _introQueue;
+        TelemetrySender _introSender;
         float _nextFlush;
         Progress _progress;
         Mode _mode = Mode.Menu;
@@ -109,6 +112,8 @@ namespace ReverseSolver.Presentation
         CorridorTransition _corridor;  // PM_MESAJ_24: the slide to the next level's painting, over everything
         Screens.LevelList _list;
         TextView _debug;
+        TextView _fpsLabel;           // PM_MESAJ_53: ?fps=1, a phone FPS readout independent of debug
+        float _fpsLabelAcc, _fpsLabelWorst; int _fpsLabelFrames;
         Vector2Int _screenPx;
         Vector2 _screen;            // points
         Vector4 _safe;              // points: left, top, right, bottom
@@ -121,6 +126,7 @@ namespace ReverseSolver.Presentation
 
         void Start()
         {
+            Art.T28 = Host.Current.Query("art") != "eski";
             Music.Start(this);                                 // the menu and the levels share one loop
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
             _images = LevelImages.Create();
@@ -153,6 +159,15 @@ namespace ReverseSolver.Presentation
                 _moveQueue = new TelemetryQueue(host.Store, "moves");
                 _moveSender = new TelemetrySender(_moveQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "moves?on_conflict=row_id,move_no");
             }
+            _introQueue = new TelemetryQueue(host.Store, "intro");
+            _introSender = new TelemetrySender(_introQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "intro_events?on_conflict=row_id");
+            string introParam = host.Query("intro");
+            bool hasLv = host.Query("lv") != null, hasSet = host.Query("set") != null;
+            bool opening = IntroPlan.ShowOpening(introParam, Host.Debug, _showSet, PlayOverride.Active, hasLv, hasSet,
+                cohort == "pt1", _redesignSet, host.Store.Get("rs_intro_shown") != null, _save.Best.Count > 0);
+            _endingEligible = IntroPlan.EndingEligible(introParam, Host.Debug, _showSet, PlayOverride.Active, hasLv, hasSet,
+                cohort == "pt1", _redesignSet, host.Store.Get("rs_intro_end_shown") != null, _save.Best.ContainsKey(_set.Levels[0].Id));
+            _introSender.Flush();
             host.VisibilityChanged += OnVisibility;
             _telemetry.Flush();                               // rows left from an earlier visit
 
@@ -177,10 +192,20 @@ namespace ReverseSolver.Presentation
             int requested = PlayOverride.Active ? PlayOverride.Index
                           : !_showSet && TryLevelIndex(host.Query("lv"), out int index) ? index : -1;   // SHOW1: the menu first, its Demo button starts the level
             _awaitingName = askName;
-            LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName,
-                           name => { bool fresh = _save.Best.Count == 0; _save.SetPlayer(name); _awaitingName = false; if (_mode == Mode.Menu) Layout();   // the profile box shows it
-                                   if (fresh) StartCoroutine(RecoverProgress(name));
-                                   });
+            System.Action<string> nameGiven = name =>
+            {
+                bool fresh = _save.Best.Count == 0;
+                _save.SetPlayer(name); _awaitingName = false;
+                if (_mode == Mode.Menu) Layout();
+                if (fresh) StartCoroutine(RecoverProgress(name));
+            };
+            if (opening)
+            {
+                System.Action play = () => PlayStory("AB", false, () => { MarkIntro("rs_intro_shown"); StartLevel(0); });
+                if (askName) { ShowMenu(); host.AskName(name => { nameGiven(LaunchPlan.NormalizePlayerName(name)); play(); }); }
+                else play();
+            }
+            else LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName, nameGiven);
             // PM_MESAJ_43: the profile question waits for the first win of level 2 or later (NavigateResult)
             _profileSender.Flush();
         }
@@ -189,6 +214,44 @@ namespace ReverseSolver.Presentation
 
         TelemetryQueue _profileQueue;
         TelemetrySender _profileSender;
+
+        void MarkIntro(string key)
+        {
+            Host.Current.Store.Set(key, "1");
+            Host.Current.Store.Save();
+        }
+
+        void PlayStory(string parts, bool replay, System.Action done)
+        {
+            if (_introPlaying) return;
+            _introPlaying = true;
+            _drag?.Cancel();
+            Host.Current.PlayIntro(parts, Texts.IntroWake, Texts.IntroSkip, Texts.IntroEnding, !Art.Muted, value =>
+            {
+                if (value == "done") { _introPlaying = false; done(); }
+                else RecordIntro(value, replay);
+            });
+        }
+
+        void RecordIntro(string value, bool replay)
+        {
+            string[] fields = value.Split('|');
+            if (fields.Length < 3) return;
+            string ev = fields[0] == "shown" ? "intro_shown" : fields[0] == "skip" ? "intro_skipped"
+                : fields[0] == "wake" ? "intro_wake_tap" : fields[0] == "fail" ? "intro_failed" : null;
+            if (ev == null || !_introSender.Enabled) return;
+            if (!double.TryParse(fields[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double sec)
+                || double.IsNaN(sec) || double.IsInfinity(sec)) sec = 0;
+            string id = System.Guid.NewGuid().ToString("N");
+            var m = TelemetryMeta.Current;
+            var row = new Core.Json.JsonWriter().BeginObject().Field("row_id", id).Field("player", _save.Player)
+                .Field("device_id", m.DeviceId).Field("cohort", m.Cohort).Field("app_version", m.AppVersion)
+                .Field("event", ev).Field("part", fields[1]).Key("sec").Raw(sec.ToString(System.Globalization.CultureInfo.InvariantCulture))
+                .Key("tapped").Value(fields[0] == "wake" && fields.Length > 3 && fields[3] == "1")
+                .Key("replay").Value(replay).EndObject().ToString();
+            _introQueue.Add(id, row);
+            _introSender.Flush();
+        }
 
         static string PlatformName() =>
             Application.platform == RuntimePlatform.IPhonePlayer ? "ios"
@@ -253,9 +316,9 @@ namespace ReverseSolver.Presentation
             // PM_MESAJ_19: ?lang=en|tr sets the language (shared links, QA); otherwise the saved choice, English first
             string lang = Host.Current.Query("lang");
             if (lang == "tr" || lang == "en") Lang.Tr = lang == "tr";
-            if (Host.Current.Query("lv") == "SHOW1")
+            if (Host.Current.Query("lv") == "SHOW1" || Host.Current.Query("lv") == "SHOW_ART")
             {
-                var show = Resources.Load<TextAsset>("show");
+                var show = Resources.Load<TextAsset>(Host.Current.Query("lv") == "SHOW_ART" ? "show_art" : "show");
                 if (show != null) { _showSet = true; _newArt = Art.On = true; return LevelParser.Parse(show.text); }
             }
             Art.On = false;                                    // static: no domain reload between Play sessions
@@ -650,6 +713,13 @@ namespace ReverseSolver.Presentation
         void SettingsAction(string id)
         {
             if (id == null) return;
+            if (id == "story")
+            {
+                _menuSettings?.Destroy(); _menuSettings = null;
+                CloseCard();
+                PlayStory("ABC", true, ShowMenu);
+                return;
+            }
             if (id == "privacy") { Application.OpenURL(MenuSettings.PrivacyUrl); return; }
             if (id == "contact") { Application.OpenURL(MenuSettings.ContactUrl); return; }
             if (id == "sound") Art.Muted = !Art.Muted;
@@ -908,6 +978,12 @@ namespace ReverseSolver.Presentation
                 float dy = _safe.y + BodyPad + Hud.TopPad + Hud.Height + 14;
                 _debug.transform.localPosition = Draw.W(Hud.Side + 5, dy);
             }
+            if (Host.Current.Query("fps") == "1")
+            {
+                _fpsLabel = TextView.Create(_world, "fps", "FPS --", 13, Palette.Cream, true,
+                                            TMPro.TextAlignmentOptions.Left, DebugOrder).Outline(Palette.Navy, .25f);
+                _fpsLabel.transform.localPosition = Draw.W(Hud.Side + 5, _safe.y + BodyPad + Hud.TopPad + Hud.Height + 14);
+            }
         }
 
         /* The web game's sizeCell and flex placement: the board's top-left in
@@ -1017,6 +1093,13 @@ namespace ReverseSolver.Presentation
 
         void NavigateResult(string id)
         {
+            if (id != "retry" && _index == 0 && _session != null && _session.Outcome == Outcome.Win && _endingEligible && !_endingPlayed)
+            {
+                _endingPlayed = true;
+                CloseCard();
+                PlayStory("C", false, () => { MarkIntro("rs_intro_end_shown"); ShowMenu(); });
+                return;
+            }
             if (id != "retry" && _session != null && _session.Outcome == Outcome.Win && _session.Level.Number >= 2) _profileDue = true;
             if (id == "next") { if (!PlayCorridor(false)) StartLevel(_index + 1); }
             else if (id == "retry") StartLevel(_index);
@@ -1058,6 +1141,7 @@ namespace ReverseSolver.Presentation
 
         void Update()
         {
+            if (_introPlaying) return;
             if (Screen.width != _screenPx.x || Screen.height != _screenPx.y)
             {
                 _drag?.Cancel();
@@ -1083,7 +1167,7 @@ namespace ReverseSolver.Presentation
                     if (action == null) ShowResult(); else NavigateResult(action);
                 }
             }
-            if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); _moveSender?.Flush(); }
+            if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); _moveSender?.Flush(); _introSender?.Flush(); }
 
             if (_mode == Mode.Playing)
             {
@@ -1104,6 +1188,7 @@ namespace ReverseSolver.Presentation
                 });
             }
             if (_debug != null) UpdateDebug();
+            if (_fpsLabel != null) UpdateFpsLabel();
         }
         bool _debugCorridor;
 
@@ -1433,6 +1518,16 @@ namespace ReverseSolver.Presentation
         {
             int current = _mode == Mode.Playing ? _index : _progress.Next();
             _list = new Screens.LevelList(_world, _screen, _set.Levels, _progress, current, CardOrder + 100);
+        }
+
+        void UpdateFpsLabel()
+        {
+            float dt = Mathf.Max(Time.unscaledDeltaTime, 1e-4f);
+            _fpsLabelAcc += dt; _fpsLabelFrames++;
+            _fpsLabelWorst = Mathf.Max(_fpsLabelWorst, dt);
+            if (_fpsLabelAcc < 1f) return;
+            _fpsLabel.Text = $"FPS {_fpsLabelFrames / _fpsLabelAcc:0}  min {1f / _fpsLabelWorst:0}";
+            _fpsLabelAcc = 0; _fpsLabelFrames = 0; _fpsLabelWorst = 0;
         }
 
         void UpdateDebug()

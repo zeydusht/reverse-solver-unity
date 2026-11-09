@@ -42,18 +42,25 @@ namespace ReverseSolver.Presentation
             MenuUi.Label(Root, "English", new Vector2(c.x + 74, ly), 17, order + 3, true, titleFont: true);
             _buttons.Add((new Rect(c.x - 68, ly - 25, 95, 50), "tr"));
             _buttons.Add((new Rect(c.x + 27, ly - 25, 95, 50), "en"));
-            IconButton("privacy", "icon-privacy", Texts.SettingsPrivacy, new Vector2(c.x - w * .225f, top + h - 102), order + 3);
-            IconButton("contact", "icon-mail", Texts.SettingsContact, new Vector2(c.x + w * .225f, top + h - 102), order + 3);
+            IconButton("privacy", "icon-privacy", Texts.SettingsPrivacy, new Vector2(c.x - w * .3f, top + h - 102), order + 3);
+            IconButton("story", null, Texts.ReplayStory, new Vector2(c.x, top + h - 102), order + 3);
+            IconButton("contact", "icon-mail", Texts.SettingsContact, new Vector2(c.x + w * .3f, top + h - 102), order + 3);
             MenuUi.Label(Root, BuildStamp.Value, new Vector2(c.x, top + h - 29), 12, order + 4, true, titleFont: true);
         }
         void IconButton(string id, string key, string label, Vector2 c, int order)
         {
             var button = MenuUi.Sprite21(Root, "settings-icon-btn", c, Vector2.one * 54, order, true);
-            var icon = MenuUi.Sprite21(Root, key, c, Vector2.one * 32, order + 1);
+            Transform icon;
+            if (key != null) icon = MenuUi.Sprite21(Root, key, c, Vector2.one * 32, order + 1)?.transform;
+            else
+            {
+                icon = SolidView.Polygon(Root, "play", new[] { new Vector2(-8, -12), new Vector2(12, 0), new Vector2(-8, 12) }, Draw.Hex("#FFF6D8"), order + 1).transform;
+                icon.localPosition = Draw.W(c);
+            }
             var rect = new Rect(c - Vector2.one * 27, Vector2.one * 54);
             _buttons.Add((rect, id));
-            if (button != null && icon != null) _iconButtons.Add((rect, button, icon.transform));
-            MenuUi.Label(Root, label, c + new Vector2(0, 42), 14, order + 1, true, 110, true);
+            if (button != null && icon != null) _iconButtons.Add((rect, button, icon));
+            MenuUi.Label(Root, label, c + new Vector2(0, 42), 14, order + 1, true, 95, true);
         }
         public bool Press(Vector2 pt, System.Action done)
         {

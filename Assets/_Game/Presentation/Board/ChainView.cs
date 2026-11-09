@@ -92,6 +92,15 @@ namespace ReverseSolver.Presentation
             Ring(root, b, disc, s, tint, order + 2);
         }
 
+        public static ChainRope BuildT28(Transform parent, Vector2 a, Vector2 b, float cell, int chainNumber,
+                                         int order, System.Collections.Generic.ISet<ReverseSolver.Core.Cell> occupied)
+        {
+            var rope = new GameObject("Chain").AddComponent<ChainRope>();
+            rope.transform.SetParent(parent, false);
+            rope.Init(a, b, cell, chainNumber % 5, order, occupied);
+            return rope;
+        }
+
         static void Ring(Transform root, Vector2 c, float disc, float s, Vector4 tint, int order)
         {
             Circle(root, c, disc * 1.34f, Draw.Hex("#0d1a20", .38f), order);

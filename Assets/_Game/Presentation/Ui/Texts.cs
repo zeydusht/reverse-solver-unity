@@ -52,8 +52,8 @@ namespace ReverseSolver.Presentation
             new[] { "Level", "Saved Jiggles", "Total time", "First try", "Achievements", "Average time left" }[i],
             new[] { "Bölüm", "Kurtarılan Jiggle", "Toplam süre", "İlk denemede", "Başarı", "Ortalama kalan süre" }[i]);
         public static string AchievementName(int i) => Lang.T(
-            new[] { "First Painting", "Collector", "Museum Owner", "Bomb Expert", "Cool Head", "Flawless", "Fast Fingers", "Chain Breaker", "Defy the Baron" }[i],
-            new[] { "İlk Tablo", "Koleksiyoncu", "Müze Sahibi", "Bomba İmha Uzmanı", "Soğukkanlı", "Hatasız", "Hızlı Parmaklar", "Zincir Kıran", "Baron'a Kafa Tut" }[i]);
+            new[] { "First Painting", "Collector", "Museum Owner", "Bomb Expert", "Cool Head", "Flawless", "Fast Fingers", "Chain Breaker", "Defy the Count" }[i],
+            new[] { "İlk Tablo", "Koleksiyoncu", "Müze Sahibi", "Bomba İmha Uzmanı", "Soğukkanlı", "Hatasız", "Hızlı Parmaklar", "Zincir Kıran", "Kont'a Kafa Tut" }[i]);
         public static string AchievementCondition(int i) => Lang.T(
             new[] { "Win 1 level", "Win 10 levels", "Win 40 levels", "Win 10 bomb levels on your first try", "Win with less than 3 seconds left", "Win with no jams", "Win 10 levels with at least half the time left", "Save 25 chained pieces in won levels", "Win all 7 hard levels" }[i],
             new[] { "1 bölüm kazan", "10 bölüm kazan", "40 bölüm kazan", "Bombalı 10 bölümü ilk denemede kazan", "Kalan süre 3 sn altında kazan", "Hiç sıkışmadan kazan", "10 bölümü en az yarı süre kalırken kazan", "Kazanılan bölümlerde 25 zincirli parça kurtar", "7 zor bölümün hepsini kazan" }[i]);
@@ -65,6 +65,10 @@ namespace ReverseSolver.Presentation
         public static string CollectionDetail => Lang.T("Painting details", "Tablo detayı");
         public static string SettingsRow(int index) => index == 0 ? Lang.T("Sound", "Ses") : index == 1 ? Lang.T("Music", "Müzik") : Lang.T("Vibration", "Titreşim");
         public static string SettingsLanguage => Lang.T("Language", "Dil");
+        public static string IntroWake => Lang.T("Tap to wake!", "Uyandır!");
+        public static string IntroSkip => Lang.T("Skip", "Atla");
+        public static string IntroEnding => Lang.T("Save the Jiggles!", "Jiggles'ı kurtar!");
+        public static string ReplayStory => Lang.T("Watch the story again", "Hikâyeyi tekrar izle");
         public static string SettingsPrivacy => Lang.T("Privacy", "Gizlilik");
         public static string SettingsContact => Lang.T("Contact us", "Bize yaz");
         public static string TutorialFirst => Lang.T("Push this piece to save it", "Bu parçayı it ve kurtar");
@@ -84,7 +88,7 @@ namespace ReverseSolver.Presentation
         public static string Language => Lang.T("Language: English", "Dil: Türkçe");
         public static string Level => Lang.T("Level {0}", "Bölüm {0}");
         public static string Play => Lang.T("Play", "Oyna");
-        public static string NailBody => Lang.T("Each move lowers the nail counter.\nAt zero, the piece is free.", "Her hamlede çivi sayacı azalır.\nSıfır olunca parça serbest kalır.");
+        public static string NailBody => Lang.T("Each move lowers the lock counter.\nAt zero, the piece is free.", "Her hamlede kilit sayacı azalır.\nSıfır olunca parça serbest kalır.");
         public static string Goal => Lang.T("Save the Jiggles!", "Jiggle'ları kurtar!");
         public static string Avatar => Lang.T("Choose your Jiggle", "Jiggle'ını seç");
         public static string Paused => Lang.T("Paused", "Durduruldu");
@@ -130,7 +134,7 @@ namespace ReverseSolver.Presentation
         public static string GotIt => Lang.T("Got it", "Anladım");
         public static string Use => Lang.T("Use", "Kullan");
         public static string Cancel => Lang.T("Cancel", "Vazgeç");
-        public static string NailReleased => Lang.T("The nail came loose", "Çivi kendiliğinden söküldü");
+        public static string NailReleased => Lang.T("The lock opened", "Kilit kendiliğinden açıldı");
         public static string BackToEditor => Lang.T("Back to editor", "Editöre dön");
         public static string Scissors => Lang.T("SCISSORS", "MAKAS");
         public static string Wand => Lang.T("WAND", "DEĞNEK");

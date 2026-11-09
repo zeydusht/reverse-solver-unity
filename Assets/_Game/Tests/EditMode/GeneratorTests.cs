@@ -129,7 +129,7 @@ namespace ReverseSolver.Core.Tests
             var nail = Generator.Make(FactoryPlan.Slot(3), new GenParams(), 5, 20, Catalog);
             var st = LevelStats.Of(nail.Level);
             Assert.That((st.Nails, st.Bombs, st.Chains, st.SealedLanes), Is.EqualTo((1, 0, 0, 0)));
-            Assert.That(nail.Level.Intro?.Title, Is.EqualTo("Çivili parça"));
+            Assert.That(nail.Level.Intro?.Title, Is.EqualTo("Kilitli parça"));
             var bomb = Generator.Make(FactoryPlan.Slot(20), new GenParams(), 5, 20, Catalog);
             st = LevelStats.Of(bomb.Level);
             Assert.That((st.Nails, st.Bombs, st.Chains, st.SealedLanes), Is.EqualTo((0, 1, 0, 0)));

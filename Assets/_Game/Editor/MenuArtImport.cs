@@ -28,6 +28,14 @@ namespace ReverseSolver.EditorTools
                 var a = (TextureImporter)assetImporter;
                 a.textureType = TextureImporterType.Sprite;
                 a.spriteImportMode = SpriteImportMode.Single;
+                if (assetPath.Contains("/yeni/"))
+                {
+                    a.alphaIsTransparency = true;
+                    a.wrapMode = UnityEngine.TextureWrapMode.Clamp;
+                    a.spritePivot = new UnityEngine.Vector2(.5f, .5f);
+                    var old = AssetImporter.GetAtPath("Assets/_Game/Presentation/Resources/Art/" + System.IO.Path.GetFileName(assetPath)) as TextureImporter;
+                    if (old != null) a.spriteBorder = old.spriteBorder;
+                }
                 a.spritePixelsPerUnit = 3;
                 a.mipmapEnabled = false;
                 a.maxTextureSize = 1024;

@@ -84,6 +84,14 @@ namespace ReverseSolver.EditorTools
             var files = OutputSizes(outputDir);
             LogSizes(label, compression, files, s.totalTime);
             WriteReport(outputDir, label, files, report);
+            if (Directory.Exists("Assets/Intro"))
+            {
+                string introDir = Path.Combine(outputDir, "intro");
+                Directory.CreateDirectory(introDir);
+                foreach (string file in Directory.GetFiles("Assets/Intro"))
+                    if (Path.GetExtension(file) == ".mp4" || Path.GetExtension(file) == ".mp3")
+                        File.Copy(file, Path.Combine(introDir, Path.GetFileName(file)), true);
+            }
             Snapshot(outputDir, compression);
             Debug.Log($"WebBuild [{label}]: {Path.GetFullPath(outputDir)} " +
                       $"({files.Values.Sum() / 1048576f:0.00} MB, {s.totalTime.TotalSeconds:0}s)");

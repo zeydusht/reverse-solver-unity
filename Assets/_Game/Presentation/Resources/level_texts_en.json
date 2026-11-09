@@ -1,9 +1,9 @@
 {
   "S43": {
     "intro": {
-      "title": "Nailed piece",
-      "body": "Make 5 moves to loosen the nail. The number drops with each move. At zero, the piece is free.",
-      "tip": "Remove the other pieces first and the nail will come loose."
+      "title": "Locked piece",
+      "body": "Make 5 moves to open the lock. The number drops with each move. At zero, the piece is free.",
+      "tip": "Remove the other pieces first and the lock will open."
     }
   },
   "S44": {
@@ -51,7 +51,7 @@
   "S27": {
     "bintro": {
       "title": "Hammer",
-      "body": "The hammer removes any piece, even if it is locked. It can remove a nailed piece or a bomb in a single move.",
+      "body": "The hammer removes any piece, even if it is locked. It can remove a locked piece or a bomb in a single move.",
       "tip": "Tap the hammer, then tap the piece you want to break."
     }
   },
@@ -64,8 +64,8 @@
   },
   "L05": {
     "intro": {
-      "title": "Nailed piece",
-      "body": "A piece with a number is nailed down and cannot move. The number drops with each move. At zero, the nail comes loose and the piece is free.",
+      "title": "Locked piece",
+      "body": "A piece with a number is locked and cannot move. The number drops with each move. At zero, the lock opens and the piece is free.",
       "tip": "For now, you have to wait. The hammer unlocks at level 9 and can remove it instantly."
     }
   },
@@ -79,7 +79,7 @@
   "L09": {
     "bintro": {
       "title": "Hammer",
-      "body": "The hammer removes any piece, even if it is locked. It can remove a nailed piece or a bomb in a single move.",
+      "body": "The hammer removes any piece, even if it is locked. It can remove a locked piece or a bomb in a single move.",
       "tip": "Tap the hammer, then tap the piece you want to break."
     }
   },

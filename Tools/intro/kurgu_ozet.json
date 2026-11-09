@@ -1,0 +1,888 @@
+{
+  "parts": {
+    "A": {
+      "frames": 492,
+      "duration_seconds": 20.5,
+      "clips": [
+        {
+          "clip": 1,
+          "in_seconds": 0.0,
+          "out_seconds": 3.0,
+          "start_seconds": 0.0,
+          "duration_seconds": 3.0,
+          "frames": 72,
+          "incoming_xfade_seconds": 0
+        },
+        {
+          "clip": 2,
+          "in_seconds": 0.5,
+          "out_seconds": 3.5,
+          "start_seconds": 2.55,
+          "duration_seconds": 3.0,
+          "frames": 72,
+          "incoming_xfade_seconds": 0.45
+        },
+        {
+          "clip": 3,
+          "in_seconds": 2.04,
+          "out_seconds": 5.04,
+          "start_seconds": 5.55,
+          "duration_seconds": 3.0,
+          "frames": 72,
+          "incoming_xfade_seconds": 0
+        },
+        {
+          "clip": 4,
+          "in_seconds": 0.54,
+          "out_seconds": 3.04,
+          "start_seconds": 8.55,
+          "duration_seconds": 2.5,
+          "frames": 60,
+          "incoming_xfade_seconds": 0
+        },
+        {
+          "clip": 5,
+          "in_seconds": 0.54,
+          "out_seconds": 3.04,
+          "start_seconds": 11.05,
+          "duration_seconds": 2.5,
+          "frames": 60,
+          "incoming_xfade_seconds": 0
+        },
+        {
+          "clip": 6,
+          "in_seconds": 0.79,
+          "out_seconds": 3.04,
+          "start_seconds": 13.55,
+          "duration_seconds": 2.25,
+          "frames": 54,
+          "incoming_xfade_seconds": 0
+        },
+        {
+          "clip": 7,
+          "in_seconds": 0.54,
+          "out_seconds": 3.04,
+          "start_seconds": 15.5,
+          "duration_seconds": 2.5,
+          "frames": 60,
+          "incoming_xfade_seconds": 0.3
+        },
+        {
+          "clip": 8,
+          "in_seconds": 0.54,
+          "out_seconds": 3.04,
+          "start_seconds": 18.0,
+          "duration_seconds": 2.5,
+          "frames": 60,
+          "incoming_xfade_seconds": 0
+        }
+      ]
+    },
+    "B": {
+      "frames": 73,
+      "duration_seconds": 3.0416666666666665,
+      "clips": [
+        {
+          "clip": 9,
+          "in_seconds": 0.0,
+          "out_seconds": 3.04,
+          "start_seconds": 0.0,
+          "duration_seconds": 3.0416666666666665,
+          "frames": 73,
+          "incoming_xfade_seconds": 0
+        }
+      ]
+    },
+    "C": {
+      "frames": 146,
+      "duration_seconds": 6.083333333333333,
+      "clips": [
+        {
+          "clip": 10,
+          "in_seconds": 0.0,
+          "out_seconds": 3.04,
+          "start_seconds": 0.0,
+          "duration_seconds": 3.0416666666666665,
+          "frames": 73,
+          "incoming_xfade_seconds": 0
+        },
+        {
+          "clip": 11,
+          "in_seconds": 0.0,
+          "out_seconds": 3.04,
+          "start_seconds": 3.0416666666666665,
+          "duration_seconds": 3.0416666666666665,
+          "frames": 73,
+          "incoming_xfade_seconds": 0
+        }
+      ]
+    }
+  },
+  "trims": {
+    "1": [
+      0.0,
+      3.0
+    ],
+    "2": [
+      0.5,
+      3.5
+    ],
+    "3": [
+      2.04,
+      5.04
+    ],
+    "4": [
+      0.54,
+      3.04
+    ],
+    "5": [
+      0.54,
+      3.04
+    ],
+    "6": [
+      0.79,
+      3.04
+    ],
+    "7": [
+      0.54,
+      3.04
+    ],
+    "8": [
+      0.54,
+      3.04
+    ],
+    "9": [
+      0.0,
+      3.04
+    ],
+    "10": [
+      0.0,
+      3.04
+    ],
+    "11": [
+      0.0,
+      3.04
+    ]
+  },
+  "selected_mix": "B",
+  "transitions": [
+    {
+      "from": 1,
+      "to": 2,
+      "seconds": 0.45
+    },
+    {
+      "from": 6,
+      "to": 7,
+      "seconds": 0.3
+    }
+  ],
+  "clip4_fade_seconds": 0.3,
+  "clip2_zoom": {
+    "zoom": 1.03,
+    "dy_at_1080": 9,
+    "seconds": 1.2,
+    "interpolation": "linear"
+  },
+  "sounds_used_per_mix": {
+    "A": {
+      "A": {
+        "cues": [
+          {
+            "clip": 1,
+            "source": "docs/art/task26/video/1.mp4",
+            "trim": [
+              0.0,
+              3.0
+            ],
+            "gain": 1.3623821871465616,
+            "part_time_seconds": 0.0,
+            "incoming_xfade_seconds": 0,
+            "outgoing_xfade_seconds": 0.45
+          },
+          {
+            "clip": 2,
+            "source": "docs/art/task26/video/2.mp4",
+            "trim": [
+              0.5,
+              3.5
+            ],
+            "gain": 1.2781032768859741,
+            "part_time_seconds": 2.55,
+            "incoming_xfade_seconds": 0.45,
+            "outgoing_xfade_seconds": 0
+          },
+          {
+            "clip": 3,
+            "source": "docs/art/task26/video/3.mp4",
+            "trim": [
+              2.04,
+              5.04
+            ],
+            "gain": 1.143210185021241,
+            "part_time_seconds": 5.55,
+            "incoming_xfade_seconds": 0,
+            "outgoing_xfade_seconds": 0
+          },
+          {
+            "clip": 4,
+            "source": "docs/art/task26/video/4.mp4",
+            "trim": [
+              0.54,
+              3.04
+            ],
+            "gain": 1.0605365924516093,
+            "part_time_seconds": 8.55,
+            "incoming_xfade_seconds": 0,
+            "outgoing_xfade_seconds": 0
+          },
+          {
+            "clip": 5,
+            "source": "docs/art/task26/video/5.mp4",
+            "trim": [
+              0.54,
+              3.04
+            ],
+            "gain": 2.3503517284408533,
+            "part_time_seconds": 11.05,
+            "incoming_xfade_seconds": 0,
+            "outgoing_xfade_seconds": 0
+          },
+          {
+            "clip": 6,
+            "source": "docs/art/task26/video/6.mp4",
+            "trim": [
+              0.79,
+              3.04
+            ],
+            "gain": 3.9810717055349722,
+            "part_time_seconds": 13.55,
+            "incoming_xfade_seconds": 0,
+            "outgoing_xfade_seconds": 0.3
+          },
+          {
+            "clip": 7,
+            "source": "docs/art/task26/video/7.mp4",
+            "trim": [
+              0.54,
+              3.04
+            ],
+            "gain": 1.52001563593724,
+            "part_time_seconds": 15.5,
+            "incoming_xfade_seconds": 0.3,
+            "outgoing_xfade_seconds": 0
+          },
+          {
+            "clip": 8,
+            "source": "docs/art/task26/video/8.mp4",
+            "trim": [
+              0.54,
+              3.04
+            ],
+            "gain": 2.1054106896675164,
+            "part_time_seconds": 18.0,
+            "incoming_xfade_seconds": 0,
+            "outgoing_xfade_seconds": 0
+          },
+          {
+            "clip": 5,
+            "sound": "piece.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/piece.wav",
+            "clip_time_seconds": 2.15,
+            "part_time_seconds": 13.200000000000001,
+            "gain": 0.3,
+            "pitch_ratio": 1.0
+          }
+        ],
+        "music": []
+      },
+      "B": {
+        "cues": [
+          {
+            "clip": 9,
+            "source": "docs/art/task26/video/9.mp4",
+            "trim": [
+              0.0,
+              3.04
+            ],
+            "gain": 2.0261465935400085,
+            "part_time_seconds": 0.0,
+            "incoming_xfade_seconds": 0,
+            "outgoing_xfade_seconds": 0
+          }
+        ],
+        "music": []
+      },
+      "C": {
+        "cues": [
+          {
+            "clip": 10,
+            "source": "docs/art/task26/video/10.mp4",
+            "trim": [
+              0.0,
+              3.04
+            ],
+            "gain": 1.3062178487787857,
+            "part_time_seconds": 0.0,
+            "incoming_xfade_seconds": 0,
+            "outgoing_xfade_seconds": 0
+          },
+          {
+            "clip": 11,
+            "source": "docs/art/task26/video/11.mp4",
+            "trim": [
+              0.0,
+              3.04
+            ],
+            "gain": 1.3903575394182397,
+            "part_time_seconds": 3.0416666666666665,
+            "incoming_xfade_seconds": 0,
+            "outgoing_xfade_seconds": 0
+          },
+          {
+            "clip": 10,
+            "sound": "weee.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/weee.wav",
+            "clip_time_seconds": 0.4,
+            "part_time_seconds": 0.4,
+            "gain": 0.3,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 11,
+            "sound": "win.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/win.wav",
+            "clip_time_seconds": 1.3416666666666666,
+            "part_time_seconds": 4.383333333333333,
+            "gain": 0.4,
+            "pitch_ratio": 1.0
+          }
+        ],
+        "music": []
+      }
+    },
+    "B": {
+      "A": {
+        "cues": [
+          {
+            "clip": 3,
+            "sound": "cloth1.ogg",
+            "source": "Tools/intro/ses/cloth1.ogg",
+            "clip_time_seconds": 0.2,
+            "part_time_seconds": 5.75,
+            "gain": 0.6,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 3,
+            "sound": "cloth2.ogg",
+            "source": "Tools/intro/ses/cloth2.ogg",
+            "clip_time_seconds": 0.7,
+            "part_time_seconds": 6.25,
+            "gain": 0.6,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 3,
+            "sound": "cloth3.ogg",
+            "source": "Tools/intro/ses/cloth3.ogg",
+            "clip_time_seconds": 1.2,
+            "part_time_seconds": 6.75,
+            "gain": 0.6,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 3,
+            "sound": "pop.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/pop.wav",
+            "clip_time_seconds": 1.2,
+            "part_time_seconds": 6.75,
+            "gain": 0.6,
+            "pitch_ratio": 0.8
+          },
+          {
+            "clip": 3,
+            "sound": "pop.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/pop.wav",
+            "clip_time_seconds": 1.5,
+            "part_time_seconds": 7.05,
+            "gain": 0.6,
+            "pitch_ratio": 0.8
+          },
+          {
+            "clip": 3,
+            "sound": "pop.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/pop.wav",
+            "clip_time_seconds": 1.8,
+            "part_time_seconds": 7.35,
+            "gain": 0.6,
+            "pitch_ratio": 0.8
+          },
+          {
+            "clip": 4,
+            "sound": "footstep00.ogg",
+            "source": "Tools/intro/ses/footstep00.ogg",
+            "clip_time_seconds": 0.2,
+            "part_time_seconds": 8.75,
+            "gain": 0.22,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 4,
+            "sound": "footstep01.ogg",
+            "source": "Tools/intro/ses/footstep01.ogg",
+            "clip_time_seconds": 0.65,
+            "part_time_seconds": 9.200000000000001,
+            "gain": 0.22,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 4,
+            "sound": "footstep02.ogg",
+            "source": "Tools/intro/ses/footstep02.ogg",
+            "clip_time_seconds": 1.1,
+            "part_time_seconds": 9.65,
+            "gain": 0.22,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 4,
+            "sound": "doorClose_1.ogg",
+            "source": "Tools/intro/ses/doorClose_1.ogg",
+            "clip_time_seconds": 1.9,
+            "part_time_seconds": 10.450000000000001,
+            "gain": 0.6,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 5,
+            "sound": "cloth4.ogg",
+            "source": "Tools/intro/ses/cloth4.ogg",
+            "clip_time_seconds": 0,
+            "part_time_seconds": 11.05,
+            "gain": 0.6,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 5,
+            "sound": "bookFlip1.ogg",
+            "source": "Tools/intro/ses/bookFlip1.ogg",
+            "clip_time_seconds": 0.7,
+            "part_time_seconds": 11.75,
+            "gain": 0.18,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 5,
+            "sound": "bookFlip2.ogg",
+            "source": "Tools/intro/ses/bookFlip2.ogg",
+            "clip_time_seconds": 1.0,
+            "part_time_seconds": 12.05,
+            "gain": 0.18,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 5,
+            "sound": "bookFlip3.ogg",
+            "source": "Tools/intro/ses/bookFlip3.ogg",
+            "clip_time_seconds": 1.3,
+            "part_time_seconds": 12.350000000000001,
+            "gain": 0.18,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 5,
+            "sound": "bookFlip1.ogg",
+            "source": "Tools/intro/ses/bookFlip1.ogg",
+            "clip_time_seconds": 1.6,
+            "part_time_seconds": 12.65,
+            "gain": 0.18,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 5,
+            "sound": "piece.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/piece.wav",
+            "clip_time_seconds": 2.15,
+            "part_time_seconds": 13.200000000000001,
+            "gain": 0.7,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 6,
+            "sound": "dropLeather.ogg",
+            "source": "Tools/intro/ses/dropLeather.ogg",
+            "clip_time_seconds": 0.25,
+            "part_time_seconds": 13.8,
+            "gain": 0.7,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 6,
+            "sound": "handleSmallLeather.ogg",
+            "source": "Tools/intro/ses/handleSmallLeather.ogg",
+            "clip_time_seconds": 1.65,
+            "part_time_seconds": 15.200000000000001,
+            "gain": 0.6,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 7,
+            "sound": "footstep03.ogg",
+            "source": "Tools/intro/ses/footstep03.ogg",
+            "clip_time_seconds": 0.2,
+            "part_time_seconds": 15.7,
+            "gain": 0.3,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 7,
+            "sound": "footstep00.ogg",
+            "source": "Tools/intro/ses/footstep00.ogg",
+            "clip_time_seconds": 0.7,
+            "part_time_seconds": 16.2,
+            "gain": 0.21,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 7,
+            "sound": "footstep01.ogg",
+            "source": "Tools/intro/ses/footstep01.ogg",
+            "clip_time_seconds": 1.2,
+            "part_time_seconds": 16.7,
+            "gain": 0.14699999999999996,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 7,
+            "sound": "footstep02.ogg",
+            "source": "Tools/intro/ses/footstep02.ogg",
+            "clip_time_seconds": 1.6999999999999997,
+            "part_time_seconds": 17.2,
+            "gain": 0.10289999999999998,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 7,
+            "sound": "footstep03.ogg",
+            "source": "Tools/intro/ses/footstep03.ogg",
+            "clip_time_seconds": 2.1999999999999997,
+            "part_time_seconds": 17.7,
+            "gain": 0.07202999999999998,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 8,
+            "sound": "pleasing-bell.ogg",
+            "source": "Tools/intro/ses/pleasing-bell.ogg",
+            "clip_time_seconds": 1.6,
+            "part_time_seconds": 19.6,
+            "gain": 0.15,
+            "pitch_ratio": 1.3
+          }
+        ],
+        "effects_bus_gain": 0.99269628823074,
+        "effects_peak_dbfs": -3,
+        "music": [
+          {
+            "sound": "musicbox2_cute_tune.ogg",
+            "part_time_seconds": 0,
+            "envelope": [
+              [
+                0,
+                1
+              ],
+              [
+                3.05,
+                1
+              ],
+              [
+                4.05,
+                0
+              ],
+              [
+                20.5,
+                0
+              ]
+            ],
+            "unit_envelope_rms_dbfs": -18,
+            "gain": 1.0555921566096795
+          },
+          {
+            "sound": "musicbox1_spooky_waltz.ogg",
+            "part_time_seconds": 3.05,
+            "envelope": [
+              [
+                3.05,
+                0
+              ],
+              [
+                4.05,
+                1
+              ],
+              [
+                15.5,
+                1
+              ],
+              [
+                16.75,
+                0.5
+              ],
+              [
+                18.0,
+                0.08
+              ],
+              [
+                20.5,
+                0.08
+              ]
+            ],
+            "unit_envelope_rms_dbfs": -18,
+            "gain": 1.6554266488550173
+          }
+        ]
+      },
+      "B": {
+        "cues": [
+          {
+            "clip": 9,
+            "sound": "pleasing-bell.ogg",
+            "source": "Tools/intro/ses/pleasing-bell.ogg",
+            "clip_time_seconds": 0.2,
+            "part_time_seconds": 0.2,
+            "gain": 0.5,
+            "pitch_ratio": 1.0
+          }
+        ],
+        "effects_bus_gain": 26.326760956085813,
+        "effects_peak_dbfs": -3,
+        "music": [
+          {
+            "sound": "musicbox2_cute_tune.ogg",
+            "part_time_seconds": 0,
+            "envelope": [
+              [
+                0,
+                0
+              ],
+              [
+                3.0416666666666665,
+                0.4
+              ]
+            ],
+            "unit_envelope_rms_dbfs": -18,
+            "gain": 1.0383320564883218
+          }
+        ]
+      },
+      "C": {
+        "cues": [
+          {
+            "clip": 10,
+            "sound": "weee.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/weee.wav",
+            "clip_time_seconds": 0.4,
+            "part_time_seconds": 0.4,
+            "gain": 0.7,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 10,
+            "sound": "pop.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/pop.wav",
+            "clip_time_seconds": 0.6,
+            "part_time_seconds": 0.6,
+            "gain": 0.5,
+            "pitch_ratio": 0.96
+          },
+          {
+            "clip": 10,
+            "sound": "pop.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/pop.wav",
+            "clip_time_seconds": 0.85,
+            "part_time_seconds": 0.85,
+            "gain": 0.5,
+            "pitch_ratio": 1.02
+          },
+          {
+            "clip": 10,
+            "sound": "pop.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/pop.wav",
+            "clip_time_seconds": 1.1,
+            "part_time_seconds": 1.1,
+            "gain": 0.5,
+            "pitch_ratio": 0.99
+          },
+          {
+            "clip": 10,
+            "sound": "pop.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/pop.wav",
+            "clip_time_seconds": 1.35,
+            "part_time_seconds": 1.35,
+            "gain": 0.5,
+            "pitch_ratio": 1.05
+          },
+          {
+            "clip": 10,
+            "sound": "piece.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/piece.wav",
+            "clip_time_seconds": 1.9,
+            "part_time_seconds": 1.9,
+            "gain": 0.65,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 10,
+            "sound": "piece.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/piece.wav",
+            "clip_time_seconds": 2.2,
+            "part_time_seconds": 2.2,
+            "gain": 0.65,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 10,
+            "sound": "piece.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/piece.wav",
+            "clip_time_seconds": 2.5,
+            "part_time_seconds": 2.5,
+            "gain": 0.65,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 11,
+            "sound": "metalClick.ogg",
+            "source": "Tools/intro/ses/metalClick.ogg",
+            "clip_time_seconds": 0.5,
+            "part_time_seconds": 3.5416666666666665,
+            "gain": 0.4,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 11,
+            "sound": "metalClick.ogg",
+            "source": "Tools/intro/ses/metalClick.ogg",
+            "clip_time_seconds": 1.0,
+            "part_time_seconds": 4.041666666666666,
+            "gain": 0.4,
+            "pitch_ratio": 1.0
+          },
+          {
+            "clip": 11,
+            "sound": "win.wav",
+            "source": "Assets/_Game/Presentation/Resources/Art/audio/win.wav",
+            "clip_time_seconds": 1.3416666666666666,
+            "part_time_seconds": 4.383333333333333,
+            "gain": 0.8,
+            "pitch_ratio": 1.0
+          }
+        ],
+        "effects_bus_gain": 2.9753029373726094,
+        "effects_peak_dbfs": -3,
+        "music": [
+          {
+            "sound": "musicbox4_happy_polka.ogg",
+            "part_time_seconds": 0,
+            "envelope": [
+              [
+                0,
+                1
+              ],
+              [
+                5.683333333333333,
+                1
+              ],
+              [
+                6.083333333333333,
+                0
+              ]
+            ],
+            "unit_envelope_rms_dbfs": -18,
+            "gain": 1.989056226955362
+          }
+        ]
+      }
+    }
+  },
+  "library_available": [
+    "bookFlip1.ogg",
+    "bookFlip2.ogg",
+    "bookFlip3.ogg",
+    "cloth1.ogg",
+    "cloth2.ogg",
+    "cloth3.ogg",
+    "cloth4.ogg",
+    "doorClose_1.ogg",
+    "doorClose_2.ogg",
+    "doorClose_3.ogg",
+    "doorClose_4.ogg",
+    "dropLeather.ogg",
+    "footstep00.ogg",
+    "footstep01.ogg",
+    "footstep02.ogg",
+    "footstep03.ogg",
+    "handleSmallLeather.ogg",
+    "handleSmallLeather2.ogg",
+    "metalClick.ogg",
+    "musicbox1_spooky_waltz.ogg",
+    "musicbox2_cute_tune.ogg",
+    "musicbox4_happy_polka.ogg",
+    "pleasing-bell.ogg"
+  ],
+  "music_rms_dbfs": -18,
+  "file_sizes_bytes": {
+    "Assets/Intro/introA.mp4": 3852829,
+    "Assets/Intro/introA.mp3": 246744,
+    "Assets/Intro/introB.mp4": 373511,
+    "Assets/Intro/introB.mp3": 37346,
+    "Assets/Intro/introC.mp4": 1109593,
+    "Assets/Intro/introC.mp3": 73709,
+    "docs/art/task26/video/intro_ses_A.mp4": 5601285,
+    "docs/art/task26/video/intro_ses_B.mp4": 5610604,
+    "docs/art/task26/video/intro_onizleme_v2.mp4": 25871811
+  },
+  "assets_intro_total_bytes": 5693732,
+  "fps": 24,
+  "sample_rate": 44100,
+  "verification": {
+    "Assets/Intro/introA.mp4": {
+      "decoded_frames": 492,
+      "duration_seconds": 20.5
+    },
+    "Assets/Intro/introA.mp3": {
+      "decoded_samples": 904050,
+      "gap_seconds": 0.0
+    },
+    "Assets/Intro/introB.mp4": {
+      "decoded_frames": 73,
+      "duration_seconds": 3.0416666666666665
+    },
+    "Assets/Intro/introB.mp3": {
+      "decoded_samples": 134137,
+      "gap_seconds": -2.2675736961451248e-05
+    },
+    "Assets/Intro/introC.mp4": {
+      "decoded_frames": 146,
+      "duration_seconds": 6.083333333333333
+    },
+    "Assets/Intro/introC.mp3": {
+      "decoded_samples": 268275,
+      "gap_seconds": 0.0
+    },
+    "docs/art/task26/video/intro_ses_A.mp4": {
+      "decoded_frames": 711,
+      "duration_seconds": 29.625
+    },
+    "docs/art/task26/video/intro_ses_B.mp4": {
+      "decoded_frames": 711,
+      "duration_seconds": 29.625
+    },
+    "docs/art/task26/video/intro_onizleme_v2.mp4": {
+      "decoded_frames": 711,
+      "duration_seconds": 29.625
+    }
+  },
+  "crf": 26,
+  "preview_crf": 20,
+  "timing_note": "Trims use decoded 24 fps frames; crossfades use requested seconds. Final part lengths are rounded to the nearest frame. MP3 may include codec padding."
+}

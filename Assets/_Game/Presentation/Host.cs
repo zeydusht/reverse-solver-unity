@@ -31,6 +31,7 @@ namespace ReverseSolver.Presentation
 
         /* Asks the player's name (web name gate); answer arrives through done. */
         void AskName(Action<string> done);
+        void PlayIntro(string parts, string wake, string skip, string ending, bool sound, Action<string> events);
 
         /* Page hidden / shown (tab switch, app switch, closing). */
         event Action<bool> VisibilityChanged;
@@ -64,6 +65,7 @@ namespace ReverseSolver.Presentation
             public string AnonKey => null;
             public bool SendEnabled => false;
             public void AskName(Action<string> done) => done("editor");
+            public void PlayIntro(string parts, string wake, string skip, string ending, bool sound, Action<string> events) => events("done");
             public event Action<bool> VisibilityChanged { add { } remove { } }
         }
     }

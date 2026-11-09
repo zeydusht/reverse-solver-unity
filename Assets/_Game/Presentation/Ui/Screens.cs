@@ -347,7 +347,7 @@ namespace ReverseSolver.Presentation
 
         public const float PictureMaxHeight = 190f;
         /* the white rim reaches about 6 pt past the picture: room above it so it never touches the title */
-        public const float PictureTopGap = 8f;
+        public const float PictureTopGap = 10f;   // PM_MESAJ_53: title-frame gap >= 8 pt; taken from the row below, the card keeps its height
 
         /* askFun (Faz 4 G8, SetFlags.AskFun, FunAsk.ShouldAsk): "Bu bölümü beğendin mi?" with
            two buttons (fun_up / fun_down) above the usual ones, on the won attempt or after the
@@ -386,7 +386,7 @@ namespace ReverseSolver.Presentation
                 float pw = card.InnerWidth, ph = pw / aspect;
                 float pictureMax = card.T23 ? (demo ? 110 : 160) : PictureMaxHeight;
                 if (ph > pictureMax) { ph = pictureMax; pw = ph * aspect; }
-                card.Custom(PictureTopGap + ph + 14, (root, y, w, o) =>
+                card.Custom(PictureTopGap + ph + 12, (root, y, w, o) =>
                 {
                     var p = PicturePiece.Create(root, picture, new Vector2(pw, ph), o);
                     p.transform.localPosition = Draw.W(0, y + PictureTopGap + ph / 2);

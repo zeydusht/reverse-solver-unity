@@ -1,6 +1,6 @@
 # Reverse Solver — PROJE DURUMU (PM devir dosyası)
 
-Son güncelleme: 8 Kasım 2026, 19:35. Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
+Son güncelleme: 9 Kasım 2026, 21:20. Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
 
 ## Dosya kuralı
 - Her iş bitince veya Zeyd "değişiklikleri PROJE_DURUMU'na ekle" deyince bu dosyayı güncelle (kısa tut, bitenleri sil, tarihi yenile). Güncelledikten sonra `/clear` hatırlat.
@@ -53,6 +53,7 @@ Son güncelleme: 8 Kasım 2026, 19:35. Yeni sohbette önce bu dosyayı oku, sonr
 - Bilgisayar prizde, uyku kapalı olmalı.
 - **Cumartesi yapılacak:** otonom PM döngüsü (PM saatlik uyanır, görev dosyası yazar, Claude Code/Codex işçi, QA ajanı, temizlik ajanı `_silinecek/` klasörüne taşır, akşam özeti). Ayrıca dosya şişmesi: PRODUCT.md (116 KB) ve OVERNIGHT.md (48 KB) arşive bölünecek.
 
+- **Kötü adamın adı Kont** (Zeyd, 8 Kasım; "Baron" çalışma adıydı, görsel `Baron-reference-v01.png` aynı). p21'de oyundaki "Baron" metinleri (zor bölüm kartı, i18n) Kont olacak. Animasyon artık **AI video**: Codex 9 anahtar kare + Higgsfield çekim listesi (`docs/art/CODEX_TASK26_DUZELTME.md`), Zeyd Higgsfield'da videoya çevirir, Claude Code birleştirip ilk açılışa koyar.
 - **Açılış hikâye animasyonu (8 Kasım):** `docs/art/CODEX_TASK26.md` (15–20 sn, 6 sahne: çayır → Baron toplar → çerçeveler → koridor → el tabloyu söker "weee" → "Free them all!" ve koridor zoom'u). Önce storyboard, Zeyd onayı, sonra final sprite + tween (≤2 MB). Hikâye kaynağı `docs/HIKAYE.md`.
 
 ## Açık işler (öncelik sırası)
@@ -66,5 +67,11 @@ Son güncelleme: 8 Kasım 2026, 19:35. Yeni sohbette önce bu dosyayı oku, sonr
    - PM_48/48B bitti (8 Kasım): ajan döngüsü çalışıyor (`Tools/ajan/dongu.py --kart … --uret`). p21 yayında: `p21/?set=ajan1&lang=tr` (06-A/B tanıt, 07-A/B geliştir; eski 6–7'de bomba yok sayılabiliyordu, yenilerde unutan kaybediyor). PM kararı: tanıtımda R12 (rastgele bot %15–50) fitil=k+2 ile çelişiyor; 07-A FunSim %4,7 (normal tip için alt sınır yok). Rapor `docs/analiz/AJAN_DILIM1_RAPOR.md`.
    - **ajan1 Zeyd notu (8 Kasım 19:23):** tahtalar dikey geldi (kare istiyor), hâlâ tutorial, süreden kaybetti → kitaba "Öğrenme dönemi" (1–10'da kayıp yalnız yeni öğeden, süreden kayıp ≤%5/15) + "Tahta oranı" (kare, çeşitlilik siluetten) + R12/R16 UYARI + normal FunSim ≥%30 eklendi. **Sıradaki: PM_MESAJ_49** → `p21/?set=ajan2` → Zeyd oynar.
    - PM_49 bitti (8 Kasım): `p21/?set=ajan2&lang=tr` yayında. 06 kare tahta, 3 bomba, FunSim %92–94, süreden kayıp %3: GEÇTİ. 07 aday: FunSim %53 ama tuzaksız. **PM kararı:** 07'de FunSim ≥%50 ile tuzak birlikte sağlanamıyor. Rapor AJAN_DILIM1_RAPOR.md 'ajan2'.
-   - **Sıradaki: PM_MESAJ_48** = ajan altyapısı (F3 talimat + F4 eleştirmen + kart JSON + `Tools/ajan/dongu.py`) ve ilk dikey dilim: bomba yayı 6–7 yeniden (p21'de ayrı set, p20/kök'e dokunma). Sonra: Zeyd oynar/onaylar → 3, 10, 14 tanıtımları → kilitli bölge prototipi (öncelik 1 yeni mekanik) → son 10 bölüme nefes.
-
+   - PM_50 bitti (9 Kasım): açılış hikâye videosu p21'de (`p21/?intro=1&lang=tr` ile zorla); A 20,5 sn, toplam 5,57 MB, Tablo #1 1. bölümde, Ayarlar'da tekrar izle. Rapor `docs/art/task26/video/KURGU_RAPOR.md`. Telemetri için `docs/sql/011_intro_events.sql` Zeyd onayı bekliyor.
+   - PM_51 bitti (9 Kasım): sentetik sesler kalktı, iki ses seçeneği yayında (`p21/onizleme/intro_ses_A.mp4`, `intro_ses_B.mp4`; oyunda B), 1→2 geçişi yenilendi, 1. bölüm eski resmine döndü. Zeyd ses seçimini bekliyor.
+   - PM_52 build hazır, p21'e yayınlanmadı (9 Kasım): yeni HUD/booster, bomba, asma kilit, sarkık zincir, vitrin `lv=SHOW_ART`, geri dönüş `art=eski`; EditMode yeşil, verify 3/4 (`card` eski KALDI, karar bekliyor). Rapor `docs/art/task28/ENTEGRASYON_RAPOR.md`.
+   - **PM_53 (9 Kasım 21:05, Claude Code'a verildi):** PM_52 kararları (booster Z2 kalır, kopma yalnız çekiçle, titreşim aynı) + `card` 7→8 pt düzeltmesi → verify 4/4 → commit → **yalnız p21'e** yayın. Vitrin `p21/?lv=SHOW_ART&lang=tr` (Demo), `&art=eski`, telefonda FPS `&fps=1`.
+   - **Zeyd'den bekleniyor:** (a) intro ses seçimi A/B (`p21/onizleme/intro_ses_A.mp4` / `_B.mp4`; oyunda B), seçim build istemez: `python Tools/intro/kurgu.py --ses A`; (b) PM_53 sonrası vitrini telefonda oynayıp FPS + görünüm; (c) `docs/sql/011_intro_events.sql` onayı.
+   - **Yeni HUD + Jigo (9 Kasım 21:20):** Kahramanın adı **Jigo** (görünüş `task26/kahraman-final.png`: fırça + düğme kalkan + yüksük; video ile aynı kalsın). Codex: `docs/art/CODEX_TASK29.md` (turkuaz üst/alt şerit + altın bordür + krem çizgi, ortada Jigo madalyonu, 5 hal, kazanma sevinci, devam paneli). Claude Code: `docs/PM_MESAJ_54.md` (PM_53'ten sonra; ağır işi `codex exec` ile Codex'e verir; çekiç **maviye** döner; Jigo durum makinesi ≤10 sn tedirgin, ≤3 sn/bomba 1 korku; devam: 900→1900→2900 altın, +30 sn (bölüm <60 sn ise +20), `won_after_continue` ilk-deneme kazanmaya sayılmaz). Royal Match birebir kopyalanmaz, yalnız şerit düzeni.
+   - Sonra (bölüm okulu): 07 için tuzak + FunSim kararı → 3, 10, 14 tanıtımları → kilitli bölge prototipi → son 10 bölüme nefes.
+7. **Oyun üretim kiti — ERTELENDİ (9 Kasım, token):** envanter hazır `docs/kit/KIT_ENVANTER.md` (tamamı ~190–340 saat). Karar: Faz 0 (şablon + süreç kitabı, ~25–45 saat) pt1 v2 ve TestFlight sonrası; Faz 1 (çekirdek) yalnız 2. oyun başlarken, ihtiyaç kadar. O zamana kadar: her PM işinde öğrenilen genel dersi `docs/kit/KIT_NOTLARI.md`'ye tek satır ekle. 2. oyun adayı: sıralama bulmacası (karar Zeyd'de).

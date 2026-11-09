@@ -45,7 +45,7 @@ if (local && !fs.existsSync(path.join(local, 'index.html'))) { console.error(`--
 const send = flag('send'), player = opt('player', '');
 if (send && !/^TEST_[A-Z0-9_]+$/.test(player)) { console.error('--send needs --player TEST_NAME (TEST_ names are left out of the analysis)'); process.exit(2); }
 if (!send && player) { console.error('--player only makes sense with --send'); process.exit(2); }
-const only = opt('only', 'boot,namekeys,k1,fps,card,redesign,zeydbot' + (send ? ',a6b,m5,zeydsend' : '')).split(',');
+const only = flag('intro') ? ['intro'] : opt('only', 'boot,k1,fps,card' + (send ? ',a6b,m5,zeydsend' : '')).split(',');
 const out = opt('out', null) || fs.mkdtempSync(path.join(os.tmpdir(), 'rs-verify-'));
 fs.mkdirSync(out, { recursive: true });
 const PORT = +opt('port', 9333);
@@ -96,7 +96,14 @@ async function newPage() {
     if (m.method === 'Runtime.consoleAPICalled') page.logs.push((m.params.args || []).map(a => a.value).join(' '));
     if (m.method === 'Network.requestWillBeSent' && /supabase\.co/.test(m.params.request.url)) page.supabase.push(m.params.request.method);
   });
-  const cdp = (method, params = {}) => new Promise(r => { const i = ++id; pend.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
+  const cdp = (method, params = {}) => new Promise(r => {
+    if (method === 'Page.navigate' && /^https?:/.test(params.url)) {
+      const url = new URL(params.url);
+      if (url.searchParams.get('debug') !== '1') url.searchParams.set('intro', '0');
+      params = { ...params, url: url.href };
+    }
+    const i = ++id; pend.set(i, r); ws.send(JSON.stringify({ id: i, method, params }));
+  });
   Object.assign(page, {
     cdp, close: () => ws.close(),
     ev: async x => (await cdp('Runtime.evaluate', { expression: x, returnByValue: true })).result?.result?.value,
@@ -109,7 +116,12 @@ async function newPage() {
   await cdp('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 2, mobile: true });
   await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
   await cdp('Storage.clearDataForOrigin', { origin: new URL(base).origin, storageTypes: 'all' });
-  page.open = async (url, { gate = false } = {}) => {
+  page.open = async (url, { gate = false, intro = false } = {}) => {
+    if (intro) {
+      await cdp('Page.navigate', { url });
+      for (let i = 0; i < 240; i++) { if (await page.ev("!!document.querySelector('#rsIntro')")) return; await sleep(500); }
+      return;
+    }
     await cdp('Page.navigate', { url });
     for (let i = 0; i < 120; i++) { await sleep(1000); if (await page.ev(`!!(window.LT && LT.end) || !!document.getElementById('rs-name')`)) break; }
     if (gate) { await sleep(1500); return; }
@@ -147,14 +159,21 @@ async function serveCopy(src) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rs-build-'));
   fs.cpSync(src, dir, { recursive: true });
   const types = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript', '.css': 'text/css', '.json': 'application/json',
-    '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.ico': 'image/x-icon', '.wasm': 'application/wasm' };
+    '.mp4': 'video/mp4', '.mp3': 'audio/mpeg', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.ico': 'image/x-icon', '.wasm': 'application/wasm' };
   const server = require('http').createServer((req, res) => {
     let f = path.join(dir, decodeURIComponent(new URL(req.url, 'http://x').pathname));
     if (!f.startsWith(dir)) { res.writeHead(403); return res.end(); }
     if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, 'index.html');
     if (!fs.existsSync(f)) { res.writeHead(404); return res.end(); }
     const ext = path.extname(f).toLowerCase();
-    res.writeHead(200, { 'Content-Type': ext === '.br' || ext === '.gz' ? 'application/octet-stream' : types[ext] || 'application/octet-stream' });
+    const type = ext === '.br' || ext === '.gz' ? 'application/octet-stream' : types[ext] || 'application/octet-stream';
+    const size = fs.statSync(f).size, range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');   // video seeking needs ranges, as on GitHub Pages
+    if (range && (range[1] || range[2])) {
+      const start = range[1] ? +range[1] : Math.max(0, size - +range[2]), end = range[1] && range[2] ? Math.min(+range[2], size - 1) : size - 1;
+      res.writeHead(206, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
+      return fs.createReadStream(f, { start, end }).pipe(res);
+    }
+    res.writeHead(200, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Content-Length': size });
     fs.createReadStream(f).pipe(res);
   });
   await new Promise(r => server.listen(0, '127.0.0.1', r));
@@ -1468,12 +1487,112 @@ async function qa() {
   check('qa', exc === 0, `${n} ekran görüntüsü → ${dir}, istisna ${exc}`);
 }
 
+/* --intro: HTML video playback, wake, auto-wake and skip, without sending. */
+async function intro() {
+  W = 375; H = 667;
+  const first = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels[0].id;
+  const shots = opt('shots', null);
+  if (shots) fs.mkdirSync(shots, { recursive: true });
+  const result = (name, pass) => { report.push({ name, pass }); console.log((pass ? 'PASS ' : 'FAIL ') + name); };
+  const wait = async (test, ms = 10000) => {
+    const end = Date.now() + ms;
+    do { if (await test()) return true; await sleep(100); } while (Date.now() < end);
+    return false;
+  };
+  const playing = p => p.ev("!!Array.from(document.querySelectorAll('#rsIntro video')).find(v=>v.dataset.part==='B' && !v.paused && v.currentTime>0)");
+  const advance = p => p.ev("(()=>{const v=Array.from(document.querySelectorAll('#rsIntro video')).find(v=>getComputedStyle(v).visibility==='visible');if(!v||!isFinite(v.duration))return false;v.currentTime=v.duration-.05;return true;})()");
+  const wake = p => p.ev("(()=>{const b=document.querySelector('#rsIntroWake');return !!b&&getComputedStyle(b).display!=='none'&&b.textContent==='Uyand\u0131r!';})()");
+  const done = p => wait(async () => !await p.ev("!!document.querySelector('#rsIntro')") && p.logs.some(x => x.includes('[level-ready] ' + first)), 3000);
+  const shot = async (p, name) => { if (shots) fs.writeFileSync(path.join(shots, name + '.png'), await p.png()); };
+  const open = async (query = 'debug=1&intro=1&lang=tr&hud=0') => { const p = await newPage(); await p.open(base + '/?' + query, { intro: query.includes('intro=1') }); return p; };
+  const close = async p => { await p.cdp('Page.navigate', { url: 'about:blank' }); p.close(); };
+  let p = await open();
+  try {
+    result('intro video advances', await wait(() => p.ev("!!document.querySelector('#rsIntro video[data-part=A]') && document.querySelector('#rsIntro video[data-part=A]').currentTime>.1")));
+    await sleep(1200);
+    result('intro skip visible', await p.ev("!!document.querySelector('#rsIntroSkip') && getComputedStyle(document.querySelector('#rsIntroSkip')).display!=='none'"));
+    await shot(p, 'intro-a');
+    await advance(p);
+    result('intro wake text', await wait(() => wake(p), 3000));
+    await shot(p, 'intro-wake');
+    await p.ev("document.querySelector('#rsIntroWake')?.click()");
+    result('intro B plays', await wait(() => playing(p)));
+    await shot(p, 'intro-b');
+    await advance(p);
+    result('intro finishes on level 1', await done(p));
+    await shot(p, 'intro-level');
+  } finally { await close(p); }
+  p = await open();
+  try {
+    await wait(() => p.ev("document.querySelector('#rsIntro video[data-part=A]')?.currentTime>.1"));
+    await advance(p);
+    const frozen = await wait(() => wake(p), 3000), start = Date.now();
+    await sleep(4500);
+    const waits = await wake(p);
+    const automatic = await wait(() => playing(p), 2000);
+    result('intro auto-wake after 5 s', frozen && waits && automatic && Date.now() - start >= 4900);
+    await shot(p, 'intro-auto-wake');
+    await advance(p); await done(p);
+  } finally { await close(p); }
+  p = await open();
+  try {
+    const visible = await wait(() => p.ev("!!document.querySelector('#rsIntroSkip') && getComputedStyle(document.querySelector('#rsIntroSkip')).display!=='none'"));
+    await p.ev("document.querySelector('#rsIntroSkip')?.click()");
+    result('intro skip opens level 1', visible && await done(p));
+    await shot(p, 'intro-skip-level');
+  } finally { await close(p); }
+  p = await open();
+  try {
+    const visible = await wait(() => p.ev("!!document.querySelector('#rsIntroSkip') && getComputedStyle(document.querySelector('#rsIntroSkip')).display!=='none'"));
+    if (visible) await p.ev("document.querySelector('#rsIntroSkip').click()");
+    const ready = await done(p);
+    if (visible && ready) {
+      const l = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/redesign.json'), 'utf8')).levels[0];
+      // The first two guided moves open the rule card before the rest of the stored solution.
+      await sleep(3000);                               // the tutorial's first step has to be up before the taps and drags
+      for (let y = Math.round(H * .45); y < H * .8; y += 18) await p.tap(W / 2, y);
+      await p.solve({ ...l, solution: l.solution.slice(0, 1) }); await sleep(900);
+      await p.solve({ ...l, solution: [{ piece: l.solution[1].piece, dir: 'R' }] }); await sleep(2800);   // the guided jam
+      await p.solve({ ...l, solution: l.solution.slice(1) });
+      await sleep(3000);
+    }
+    let y = Math.round(H * .25), nextTap = 0;
+    const ending = visible && ready && await wait(async () => {
+      if (await p.ev("!!document.querySelector('#rsIntro video[data-part=C]')")) return true;
+      if (Date.now() >= nextTap) {
+        const start = Date.now();
+        await p.tap(W / 2, y); y += 14;
+        if (y >= H * .9) y = Math.round(H * .25);
+        nextTap = start + 400;
+      }
+      return false;
+    }, 30000);
+    result('intro ending', ending);
+    const text = ending && await wait(() => p.ev("(()=>{const v=document.querySelector('#rsIntro video[data-part=C]');if(!v||!isFinite(v.duration))return false;v.currentTime=v.duration-.05;return true;})()")) &&
+      await wait(() => p.ev("(()=>{const e=document.querySelector('#rsIntroEnding');return !!e&&parseFloat(getComputedStyle(e).opacity)>.5&&e.textContent===\"Jiggles'\u0131 kurtar!\";})()"));
+    await shot(p, 'intro-ending');
+    result('intro ending closes', text && await wait(async () => !await p.ev("!!document.querySelector('#rsIntro')"), 5000));
+  } finally { await close(p); }
+  p = await open('debug=1&intro=0&lang=tr&hud=0&won=1');
+  try {
+    const menu = await wait(() => p.ev("!!(window.LT && LT.end)"));
+    await sleep(1500);
+    // Screens.Task13: right inset 10, gear size 48, header top 4 + 45.
+    if (menu) await p.tap(W - 10 - 48 / 2, 4 + 45);
+    await sleep(700); await shot(p, 'settings');
+    const c = { x: W / 2, y: H / 2 + 17 }, h = Math.min(500, H - 100), top = c.y - h / 2;
+    await p.tap(c.x, top + h - 102);
+    result('intro replay', menu && await wait(() => p.ev("!!document.querySelector('#rsIntro')"), 4000));
+  } finally { await close(p); }
+}
+
 (async () => {
   console.log(`Build doğrulama: ${local ? "yerel " + local : base}  (${send ? 'GÖNDERİM AÇIK, oyuncu ' + player : 'gönderim yok'})  görüntüler: ${out}`);
   const server = local ? await serveCopy(local) : null;
   if (server) { base = server.base; console.log(`yerel kopya ${server.dir} → ${base}`); }
   const chrome = await startChrome();
   try {
+    if (only.includes('intro')) await intro();
     if (only.includes('boot')) await boot();
     if (only.includes('namekeys')) await nameKeys();
     if (only.includes('k1')) await k1();

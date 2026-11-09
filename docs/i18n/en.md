@@ -16,9 +16,9 @@ Player-facing English equivalents for the current UI constants and level `intro`
 
 | Level / field | Turkish | English |
 |---|---|---|
-| 3 `intro.title` | Çivili parça | Nailed Piece |
-| 3 `intro.body` | Çivili parçanın sayacı her hamlende 1 azalır. 0 olunca parça serbest kalır. | A nailed piece's counter drops by 1 with every move. At 0, the piece is free. |
-| 3 `intro.tip` | Önce diğer parçaları çıkar, çivi kendiliğinden sökülür. | Free the other pieces first; the nail will come off on its own. |
+| 3 `intro.title` | Kilitli parça | Locked Piece |
+| 3 `intro.body` | Kilitli parçanın sayacı her hamlende 1 azalır. 0 olunca parça serbest kalır. | A locked piece's counter drops by 1 with every move. At 0, the piece is free. |
+| 3 `intro.tip` | Önce diğer parçaları çıkar, kilit kendiliğinden açılır. | Free the other pieces first; the lock will open on its own. |
 | 5 `bintro.title` | Makas | Scissors |
 | 5 `bintro.body` | Makas iki parça arasındaki birleşimi keser ve o kenar dümdüz olur. Kesilen yerde artık hiçbir şey takılmaz, sıkışmış parça serbest kalır. | Scissors cut the connection between two pieces, making that edge straight. Nothing can catch on a cut edge, so the stuck piece is freed. |
 | 5 `bintro.tip` | Makasa bas, sonra kesmek istediğin turuncu noktaya dokun. | Tap Scissors, then tap the orange point you want to cut. |
@@ -38,7 +38,7 @@ Player-facing English equivalents for the current UI constants and level `intro`
 | 15 `bintro.body` | Saat geri sayıma 20 saniye ekler. | The clock adds 20 seconds to the countdown. |
 | 15 `bintro.tip` | Süre daralınca en hızlı çözüm budur. | When time is running low, this is the quickest fix. |
 | 23 `bintro.title` | Çekiç | Hammer |
-| 23 `bintro.body` | Çekiç seçtiğin parçayı kilitlerine bakmadan söküp atar. Çivili parçayı da bombalı parçayı da tek hamlede kaldırır. | The hammer removes the piece you choose, ignoring its locks. It can remove a nailed piece or a bomb piece in one move. |
+| 23 `bintro.body` | Çekiç seçtiğin parçayı kilitlerine bakmadan söküp atar. Kilitli parçayı da bombalı parçayı da tek hamlede kaldırır. | The hammer removes the piece you choose, ignoring its locks. It can remove a locked piece or a bomb piece in one move. |
 | 23 `bintro.tip` | Çekice bas, sonra kırmak istediğin parçaya dokun. | Tap Hammer, then tap the piece you want to smash. |
 
 ## Tutorial
@@ -52,7 +52,7 @@ Canonical copy for `Texts.TutorialDrag` / `Texts.TutorialCopy`. Rule line breaks
 | `drag.U` | Parçayı yukarı sürükle | Drag the piece up |
 | `drag.D` | Parçayı aşağı sürükle | Drag the piece down |
 | `rule` | Tüm parçaları diğer parçalara çarpmadan dışarı çek! | Pull every piece out without hitting other pieces! |
-| `nail` | Çivili parçanın sayacı her hamlende 1 azalır. 0 olunca parça serbest kalır. | A nailed piece's counter drops by 1 with every move. At 0, the piece is free. |
+| `nail` | Kilitli parçanın sayacı her hamlende 1 azalır. 0 olunca parça serbest kalır. | A locked piece's counter drops by 1 with every move. At 0, the piece is free. |
 | `bomb` | Fitili bitmeden bombayı çıkar! | Free the bomb before its fuse runs out! |
 | `chain` | Zincirli parçalar birlikte çıkar. İkisinin de yolunu aç. | Chained pieces leave together. Clear both paths. |
 | `wall` | Parçalar kırmızı-beyaz duvardan geçemez. | Pieces can't pass through red-white walls. |

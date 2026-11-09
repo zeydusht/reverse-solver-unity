@@ -24,6 +24,7 @@ namespace ReverseSolver.Presentation
         readonly Dictionary<int, PieceView> _pieces = new Dictionary<int, PieceView>();
         readonly Dictionary<int, NailBadge> _nails = new Dictionary<int, NailBadge>();
         readonly Dictionary<int, BombBadge> _bombs = new Dictionary<int, BombBadge>();
+        readonly Dictionary<int, ChainRope> _ropes = new Dictionary<int, ChainRope>();
         int _blocker = -1, _dragged = -1;
 
         public static BoardView Create(Transform parent, GameSession session, float cell, Vector2 origin)
@@ -155,8 +156,18 @@ namespace ReverseSolver.Presentation
                 var pv = PieceView.Create(transform, Session.Board, i, S, PieceOrder + i * PieceStride + (chained ? ChainedBoost : 0));
                 _pieces[i] = pv;
                 if (chained)
-                    ChainView.Build(pv.transform, Center(cells[0]), Center(cells[1]), S,
-                                    ChainView.Tints[chainNo++ % ChainView.Tints.Length], ChainOrder);
+                {
+                    if (Art.T28 && Art.On)
+                    {
+                        var occupied = new HashSet<Cell>();
+                        for (int other = 0; other < l.Pieces.Count; other++)
+                            if (other != i && Session.Board.IsPresent(other))
+                                foreach (var c in l.Pieces[other]) occupied.Add(c);
+                        _ropes[i] = ChainView.BuildT28(pv.transform, Center(cells[0]), Center(cells[1]), S, chainNo++, ChainOrder, occupied);
+                    }
+                    else ChainView.Build(pv.transform, Center(cells[0]), Center(cells[1]), S,
+                                         ChainView.Tints[chainNo++ % ChainView.Tints.Length], ChainOrder);
+                }
                 if (Session.NailAt(i) > 0)
                 {
                     var n = new NailBadge(pv.transform, pv.FirstCellCenter, S, BadgeOrder + i * 4) { Count = Session.NailAt(i) };
@@ -284,6 +295,7 @@ namespace ReverseSolver.Presentation
             if (_dragged != drag.Piece)
             {
                 _dragged = drag.Piece;
+                if (_ropes.TryGetValue(drag.Piece, out var rope) && rope != null) rope.Kick();
                 Tweens.Kill(pv);
                 pv.SortingOrder = LiftOrder;
                 pv.SetLift(1);
@@ -296,6 +308,7 @@ namespace ReverseSolver.Presentation
         public void EndDrag(int piece, DragRelease result, Dir dir, int travelCells)
         {
             SetBlocker(-1);
+            if (_ropes.TryGetValue(piece, out var rope) && rope != null) rope.Kick();
             _dragged = -1;
             if (!_pieces.TryGetValue(piece, out var pv)) return;
             if (result == DragRelease.Exited) { FlyOut(pv, dir, travelCells); return; }
@@ -318,6 +331,7 @@ namespace ReverseSolver.Presentation
             // .pc.fly: to (cells + 2.6) cells, .3s cubic-bezier(.3,0,.6,1), fading out
             var from = pv.Offset;
             var to = new Vector2(dir.Dx(), dir.Dy()) * ((travelCells + 2.6f) * Cell);
+            _ropes.Remove(pv.Index);
             _pieces.Remove(pv.Index);
             Tweens.Run(pv, .3f, t =>
             {
@@ -388,6 +402,11 @@ namespace ReverseSolver.Presentation
             switch (e.Kind)
             {
                 case EventKind.PieceRemoved:
+                    if (e.ByHammer && _ropes.TryGetValue(e.Piece, out var rope))
+                    {
+                        if (rope != null) rope.Break(transform);
+                        _ropes.Remove(e.Piece);
+                    }
                     // a drag-out is animated by EndDrag; anything else (hammer, M4) just leaves
                     if (e.ByHammer && _pieces.TryGetValue(e.Piece, out var hv)) FlyOut(hv, Dir.U, 0);
                     _nails.Remove(e.Piece);
@@ -425,7 +444,8 @@ namespace ReverseSolver.Presentation
             {
                 int c = Session.NailAt(n.Key);
                 if (c > 0) { n.Value.Count = c; continue; }
-                Destroy(n.Value.Root.gameObject);
+                if (Art.T28 && Art.On) n.Value.Release();
+                else Destroy(n.Value.Root.gameObject);
                 if (_pieces.TryGetValue(n.Key, out var pv)) pv.SetPinned(false);
                 gone.Add(n.Key);
             }

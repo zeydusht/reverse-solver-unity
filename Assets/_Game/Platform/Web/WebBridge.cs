@@ -16,6 +16,7 @@ namespace ReverseSolver.Platform
         [DllImport("__Internal")] static extern float RS_PixelRatio();
         [DllImport("__Internal")] static extern float RS_SafeInset(int side);
         [DllImport("__Internal")] static extern void RS_AskName(string obj, string method);
+        [DllImport("__Internal")] static extern void RS_PlayIntro(string parts, string wake, string skip, string ending, int sound, string obj, string method);
         [DllImport("__Internal")] static extern void RS_WatchVisibility(string obj, string method);
         [DllImport("__Internal")] static extern void RS_SetLang(string code);
         public const bool InBrowser = true;
@@ -25,6 +26,7 @@ namespace ReverseSolver.Platform
         static float RS_PixelRatio() => 1f;
         static float RS_SafeInset(int side) => 0f;
         static void RS_AskName(string obj, string method) { }
+        static void RS_PlayIntro(string parts, string wake, string skip, string ending, int sound, string obj, string method) { }
         static void RS_WatchVisibility(string obj, string method) { }
         static void RS_SetLang(string code) { }
         public const bool InBrowser = false;
@@ -35,6 +37,8 @@ namespace ReverseSolver.Platform
         public static float PixelRatio => RS_PixelRatio();
         public static float SafeInset(int side) => RS_SafeInset(side);
         public static void AskName(string obj, string method) => RS_AskName(obj, method);
+        public static void PlayIntro(string parts, string wake, string skip, string ending, bool sound, string obj, string method) =>
+            RS_PlayIntro(parts, wake, skip, ending, sound ? 1 : 0, obj, method);
         public static void WatchVisibility(string obj, string method) => RS_WatchVisibility(obj, method);
         public static void SetLang(string code) => RS_SetLang(code);
     }
@@ -44,6 +48,7 @@ namespace ReverseSolver.Platform
     {
         readonly IKeyValueStore _store = new PlayerPrefsStore();
         Action<string> _nameDone;
+        Action<string> _introEvents;
 
         public string Query(string name) => WebBridge.Query(name);
         public float PixelRatio => WebBridge.PixelRatio;
@@ -67,6 +72,20 @@ namespace ReverseSolver.Platform
             WebGLInput.captureAllKeyboardInput = false;
 #endif
             WebBridge.AskName(Receiver.Name, nameof(Receiver.OnPlayerName));
+        }
+
+        public void PlayIntro(string parts, string wake, string skip, string ending, bool sound, Action<string> events)
+        {
+            if (!WebBridge.InBrowser) { events("done"); return; }
+            _introEvents = events;
+            WebBridge.PlayIntro(parts, wake, skip, ending, sound, Receiver.Name, nameof(Receiver.OnIntroEvent));
+        }
+
+        internal void IntroEvent(string value)
+        {
+            var callback = _introEvents;
+            if (value == "done") _introEvents = null;
+            callback?.Invoke(value);
         }
 
         public event Action<bool> VisibilityChanged;
@@ -110,6 +129,7 @@ namespace ReverseSolver.Platform
 #endif
 
             public void OnPlayerName(string name) => _host.NameAnswered(name);
+            public void OnIntroEvent(string value) => _host.IntroEvent(value);
             public void OnVisibility(string state) => _host.Visibility(state != "hidden");
         }
     }

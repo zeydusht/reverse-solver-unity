@@ -30,7 +30,7 @@ mergeInto(LibraryManager.library, {
         if (!M.ctx) {
           M.ctx = new Ctx();
           M.gain = M.ctx.createGain();
-          M.gain.gain.value = M.on ? M.volume : 0;
+          M.gain.gain.value = M.on && !(window.rsIntro && window.rsIntro.active) ? M.volume : 0;
           M.gain.connect(M.ctx.destination);
           load();
         }
@@ -48,11 +48,11 @@ mergeInto(LibraryManager.library, {
   RS_MusicSetOn: function (on) {
     var M = window.rsMusic; if (!M) return;
     M.on = !!on;
-    if (M.gain) { var t = M.ctx.currentTime; M.gain.gain.cancelScheduledValues(t); M.gain.gain.setTargetAtTime(M.on ? M.volume : 0, t, .08); }
+    if (M.gain) { var t = M.ctx.currentTime; M.gain.gain.cancelScheduledValues(t); M.gain.gain.setTargetAtTime(M.on && !(window.rsIntro && window.rsIntro.active) ? M.volume : 0, t, .08); }
   },
 
   RS_MusicDuck: function (delay, seconds) {
-    var M = window.rsMusic; if (!M || !M.gain || !M.on) return;
+    var M = window.rsMusic; if (!M || !M.gain || !M.on || (window.rsIntro && window.rsIntro.active)) return;
     var g = M.gain.gain, t = M.ctx.currentTime;
     g.cancelScheduledValues(t);
     g.setValueAtTime(g.value, t);

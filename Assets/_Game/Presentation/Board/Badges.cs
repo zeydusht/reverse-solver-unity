@@ -8,6 +8,9 @@ namespace ReverseSolver.Presentation
     {
         public readonly Transform Root;
         readonly TextView _n;
+        readonly SpriteRenderer _lock;
+        readonly Vector3 _lockScale;
+        readonly bool _t28;
         readonly float _one, _two;                  // counter size (pt) for one digit / two digits (art counters)
 
         public NailBadge(Transform parent, Vector2 center, float cell, int order)
@@ -15,6 +18,17 @@ namespace ReverseSolver.Presentation
             Root = new GameObject("Nail").transform;
             Root.SetParent(parent, false);
             Root.localPosition = Draw.W(center);
+            _t28 = Art.T28 && Art.On;
+            if (_t28)
+            {
+                float size = cell * (Art.T14 ? .86f : .8f);
+                _lock = Art.Place(Root, "board-nail", Vector2.one * size, order);
+                if (_lock != null) _lockScale = _lock.transform.localScale;
+                _n = TextView.Create(Root, "count", "", size * .315f, Palette.Navy, true, order: order + 2).Font(Art.Lilita);
+                _n.transform.localPosition = Draw.W(0, size * .144f);
+                _one = size * .315f; _two = size * .285f;
+                return;
+            }
             float d = Mathf.Max(22f, cell * 0.46f);
             // nail head seen from above (head = 80 % of the canvas), navy digits ~55 % of the head with a 2 px cream rim
             if (ArtBadge(Root, "board-nail", cell, Art.T14 ? .86f : .8f, 0, order, Palette.Navy, Art.T14 ? (Vector4?)null : Palette.Cream, out _n))
@@ -68,7 +82,29 @@ namespace ReverseSolver.Presentation
         }
 
         /* .nail.tick: scale 1.45 -> 1 over .32s cubic-bezier(.3,1.5,.5,1) on every count. */
-        public void Tick() => Tweens.Run(this, .32f, t => { if (Root != null) Root.localScale = Vector3.one * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
+        public void Tick()
+        {
+            if (_t28)
+            {
+                Tweens.Run(this, .32f, t => { if (_lock != null) _lock.transform.localScale = _lockScale * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
+                return;
+            }
+            Tweens.Run(this, .32f, t => { if (Root != null) Root.localScale = Vector3.one * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
+        }
+
+        public void Release()
+        {
+            if (!_t28) { Object.Destroy(Root.gameObject); return; }
+            Tweens.Kill(this);
+            _n.gameObject.SetActive(false);
+            if (_lock != null) _lock.transform.localScale = _lockScale;
+            Tweens.Run(this, 7f / 14, t =>
+            {
+                if (_lock == null) return;
+                int frame = Mathf.Min(6, Mathf.FloorToInt(t * 7));
+                _lock.sprite = Art.Get(frame < 4 ? "padlock-open-" + (frame + 1).ToString("00") : "padlock-fall-" + (frame - 3).ToString("00"));
+            }, () => { if (Root != null) Object.Destroy(Root.gameObject); });
+        }
     }
 
     public sealed class BombBadge
@@ -78,6 +114,7 @@ namespace ReverseSolver.Presentation
         readonly float _one, _two;
         readonly Transform _body;
         bool _hot;
+        readonly BombMotion _motion;
 
         public BombBadge(Transform parent, Vector2 center, float cell, int order)
         {
@@ -86,6 +123,16 @@ namespace ReverseSolver.Presentation
             Root.localPosition = Draw.W(center);
             _body = new GameObject("body").transform;
             _body.SetParent(Root, false);
+            if (Art.T28 && Art.On)
+            {
+                float size = cell * (Art.T14 ? 1f : 1.06f);
+                _motion = Root.gameObject.AddComponent<BombMotion>();
+                _motion.Init(_body, size, order);
+                Art.Place(Root, "bomb-counter-label", Vector2.one * size * .505f, order + 2);
+                _n = TextView.Create(Root, "count", "", cell * .5f, Palette.Navy, true, order: order + 3).Font(Art.Lilita);
+                _one = cell * .5f; _two = cell * .38f;
+                return;
+            }
             float d = Mathf.Max(24f, cell * 0.52f);
             // body = 71 % of the canvas (v1 and v2): sprite 1.06 cell so the body is 76 % of the cell (PM_MESAJ_13); v1's body sits 10 %
             // low (the fuse is on top) and is lifted, v2's body is centred; navy digits ~70 % of the cream disc, no rim
@@ -115,6 +162,7 @@ namespace ReverseSolver.Presentation
             {
                 _n.Text = value.ToString();
                 NailBadge.Fit(_n, value, _one, _two);
+                if (_motion != null) { _motion.SetFuse(value); return; }
                 bool hot = value <= 4;                          // .bomb.hot
                 if (hot && !_hot) Pulse();
                 if (!hot) { Tweens.Kill(this); _body.localScale = Vector3.one; }
@@ -130,11 +178,21 @@ namespace ReverseSolver.Presentation
         }
 
         /* .bomb.tick: the same pop as the nail on every fuse step (on the root, so the hot pulse keeps its own scale). */
-        public void Tick() => Tweens.Run(Root, .32f, t => { if (Root != null) Root.localScale = Vector3.one * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
+        public void Tick()
+        {
+            if (_motion != null) { _motion.Tick(); return; }
+            Tweens.Run(Root, .32f, t => { if (Root != null) Root.localScale = Vector3.one * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
+        }
 
         /* Bomb feedback: a quick swell before the result card. */
         public void Explode()
         {
+            if (_motion != null)
+            {
+                _motion.Stop();
+                Tweens.Run(this, .35f, t => { if (_body != null) _body.localScale = Vector3.one * (1f + 1.2f * t); });
+                return;
+            }
             Tweens.Run(this, .35f, t => _body.localScale = Vector3.one * (1f + 1.2f * t));
         }
     }
