@@ -66,3 +66,29 @@ Tarayıcı denemesinde bulunup düzeltilenler: High stripping `SpriteMask`'i bui
 ## Ekran görüntüleri
 
 [Normal](ekran/normal.png) · [Tedirgin](ekran/tedirgin.png) · [Korku](ekran/korku.png) · [Mutlu](ekran/mutlu.png) · [Üzgün](ekran/uzgun.png) · [Devam, süre](ekran/devam_time.png) · [Devam, bomba](ekran/bomb_panel.png) · [Durdur](ekran/durdur.png) · [Kazanma](ekran/kazanma.png) · [375×667](ekran/normal_375.png)
+
+## PM_56/57 eki (10 Kasım)
+
+**Durum: p21'de yayında**, gh-pages `82a62ff1`, yalnız `p21/` değişti. Kaynak `art` dalında commit + push.
+
+| Kontrol | Sonuç |
+|---|---|
+| EditMode | 641 geçti, 0 kaldı, 2 atlandı (ip testleri 16 yeni, altın tamamlama 1 yeni) |
+| `verify_build` yerel / canlı p21 | 4/4 / 4/4 |
+| Vitrin FPS (zincirli parça sürüklenirken, PC gerçek GPU) | medyan 59,9, en düşük 58,5 |
+| Vitrin kayıtları | istisna 0 |
+| Build (Brotli) | 18,89 MB (değişmedi) |
+
+**PM_56**
+- Kilit hücrenin ~%66'sı. Açılınca yerçekimiyle hızlanıp ekranın altına düşüyor, alt şeridin arkasından geçip kayboluyor (sıra 2600, HUD 3000). ±25° dönme, solma yok.
+- Bağlantı noktaları %60 büyük, halka %15 kalın.
+- Bomba ≥4: %5,5 sinüs nabız, 0,9 sn; hamlede %3 pump. 3-2-1 değişmedi.
+- Zincir: Verlet ip (`Board/RopeSim.cs`, ayarlar `ChainTuning`'de tek yerde). 8–16 düğüm, 120 Hz sabit adım, 20 kısıt turu, uçlara bağ (esneme yok), yerçekimi 18 hücre/sn² (~1 Hz salınım), sönüm 0,98/60 Hz. Duruş sarkması yatay 0,30, çapraz 0,35, kısa en az 0,28 hücre; kurulumda ölçülüp boy ayarlanıyor. Sürüklerken sallanıp duruluyor; yanlış hamlede dürtü; gerilince düz + hafif titreme; tahta çerçevesinin içinde kalıyor; çekiçte ortadan ayrılıp düşüyor.
+- GIF'ler: [kilit düşüşü](pm56/kilit_dusus.gif) · [sürükleme-sallama](pm56/zincir_surukle_salla.gif) · [yanlış hamle](pm56/yanlis_hamle_sarsinti.gif) · [çapraz duruş](pm56/capraz_zincir_durus.gif)
+
+**PM_57**
+- Altın: başlangıç 5000; bakiyesi 5000'in altında olan eski oyuncu bir kereliğine 5000'e çıkıyor (`coins_topup57` işareti). Vitrinde panel 5000 gösterdi, 900'lük devam alındı, sayaç 5'e döndü.
+- **`continue_events` gönderimi çalışmıyor:** istek gidiyor, Supabase **401** dönüyor (edge log 12:00 UTC). Sebep: istemci `?on_conflict=row_id` ile yazıyor (yeniden denemede çift satır olmasın diye, `plays` ile aynı), Postgres bunun için `row_id`'ye SELECT yetkisi istiyor; anon'da yalnız INSERT var. Çözüm `docs/sql/016_continue_select.sql` (tek satır, sütun düzeyinde yetki, RLS yüzünden hiçbir satır okunamaz). **Uygulanmadı, Zeyd'in "çalıştır" onayı gerekiyor.** 011 (`intro_events`) dosyasına da aynı satır eklendi. Ayrıca: vitrin (`SHOW_ART`) hiç satır yazmıyor; sınama gerçek bir sette yapılmalı.
+- Açılış sesi C: A'nın kendi sesleri temel, üstüne B'den CC0 efektler (A yüksekken kısılıyor), altta −18 dB müzik kutusu; Kont sahnesinde gerilim, sonda neşeli kapanış. Oyunda varsayılan C (A/B araçla yeniden üretilebilir). Önizleme `p21/onizleme/intro_ses_C.mp4`. Lisanslar `docs/sounds/LISANS.md`.
+
+**Doğrulanmadı:** telefonda FPS ve iPhone Safari; `continue_events` satırı (016 bekliyor); intro C'yi kulakla dinlemedim (Codex karışımı ölçtü).

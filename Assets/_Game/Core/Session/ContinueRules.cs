@@ -26,7 +26,7 @@ namespace ReverseSolver.Core
         public int WinCoins { get; }
         public int StartCoins { get; }
         public ContinueRules(int[] prices = null, int seconds = 30, int shortSeconds = 20,
-            int shortLimit = 60, int bombFuse = 5, int winCoins = 50, int startCoins = 1000)
+            int shortLimit = 60, int bombFuse = 5, int winCoins = 50, int startCoins = 5000)
         {
             Prices = Array.AsReadOnly((int[])(prices ?? new[] { 900, 1900, 2900 }).Clone());
             Seconds = seconds; ShortSeconds = shortSeconds; ShortLimit = shortLimit;

@@ -93,11 +93,11 @@ namespace ReverseSolver.Presentation
         }
 
         public static ChainRope BuildT28(Transform parent, Vector2 a, Vector2 b, float cell, int chainNumber,
-                                         int order, System.Collections.Generic.ISet<ReverseSolver.Core.Cell> occupied)
+                                         int order, Vector2 min, Vector2 max)
         {
             var rope = new GameObject("Chain").AddComponent<ChainRope>();
             rope.transform.SetParent(parent, false);
-            rope.Init(a, b, cell, chainNumber % 5, order, occupied);
+            rope.Init(a, b, cell, chainNumber % 5, order, min, max);
             return rope;
         }
 

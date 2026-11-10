@@ -55,6 +55,13 @@ namespace ReverseSolver.Core
         {
             _store = store;
             Coins = int.TryParse(store.Get(Key("coins")), out int coins) && coins >= 0 ? coins : new ContinueRules().StartCoins;
+            // PM_MESAJ_57: start balance rose to 5000; lift existing lower balances once.
+            if (store.Get(Key("coins_topup57")) == null)
+            {
+                if (Coins < 5000) SetCoins(5000);
+                store.Set(Key("coins_topup57"), "1");
+                store.Save();
+            }
             Player = store.Get(Key("player")) ?? "";
             Install = store.Get(Key("install"));
             if (string.IsNullOrEmpty(Install))

@@ -106,6 +106,7 @@ mergeInto(LibraryManager.library, {
       v.src = 'intro/intro' + part + '.mp4'; v.load();
       if (sound) {
         var track = tracks[part] = {};
+        // Shipped MP3s use kurgu.py's default mix C; --ses A/B can rebuild alternatives.
         fetch('intro/intro' + part + '.mp3').then(function (r) { if (!r.ok) throw 0; return r.arrayBuffer(); })
           .then(function (bytes) { if (!finished) { track.bytes = bytes; audio(); } }).catch(function () {});
       }

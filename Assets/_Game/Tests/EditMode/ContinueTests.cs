@@ -172,11 +172,22 @@ namespace ReverseSolver.Core.Tests
         }
 
         [Test]
+        public void LowBalanceIsToppedUpOnce()
+        {
+            var store = new MemoryStore();
+            store.Set(SaveData.Key("coins"), "100");
+            var save = new SaveData(store, () => "device");
+            Assert.That(save.Coins, Is.EqualTo(5000));
+            save.SetCoins(200);
+            Assert.That(new SaveData(store, () => "unused").Coins, Is.EqualTo(200));
+        }
+
+        [Test]
         public void CoinDefaultsAndBalanceSurviveReload()
         {
             var store = new MemoryStore();
             var save = new SaveData(store, () => "device");
-            Assert.That(save.Coins, Is.EqualTo(1000));
+            Assert.That(save.Coins, Is.EqualTo(5000));
             save.SetCoins(5000);
             Assert.That(new SaveData(store, () => "unused").Coins, Is.EqualTo(5000));
             save.SetCoins(save.Coins - 900 + new ContinueRules().WinCoins);

@@ -75,7 +75,7 @@ namespace ReverseSolver.Presentation
         {
             if (_exploding) return;
             float seconds = Time.unscaledTime - _start;
-            float pulse = (_urgent ? .08f : .03f) * Mathf.Sin(seconds * 2 * Mathf.PI / (_urgent ? .6f : 1.2f));
+            float pulse = (_urgent ? .08f : .055f) * Mathf.Sin(seconds * 2 * Mathf.PI / (_urgent ? .6f : .9f));
             _body.localScale = Vector3.one * ((1 + pulse) * (1 + _pump));
             _body.localPosition = Draw.W(_shakeX, 0);
             if (_fuse != null && (!_urgent || _t54))
@@ -90,13 +90,13 @@ namespace ReverseSolver.Presentation
 
         public void Tick()
         {
-            if (!_urgent || _exploding) return;
+            if (_exploding) return;
             Tweens.Run(this, .28f, t =>
             {
                 if (this == null) return;
-                _pump = .08f * Mathf.Sin(t * Mathf.PI);
+                _pump = (_urgent ? .08f : .03f) * Mathf.Sin(t * Mathf.PI);
                 float seconds = t * .28f;
-                _shakeX = _width * .03f * Mathf.Max(0, 1 - seconds / .2f) * Mathf.Sin(seconds * 100);
+                _shakeX = _urgent ? _width * .03f * Mathf.Max(0, 1 - seconds / .2f) * Mathf.Sin(seconds * 100) : 0;
             }, () => { if (this != null) _pump = _shakeX = 0; });
         }
 

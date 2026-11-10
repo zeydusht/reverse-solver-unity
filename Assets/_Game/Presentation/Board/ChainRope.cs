@@ -1,98 +1,123 @@
 using System.Collections.Generic;
-using ReverseSolver.Core;
 using UnityEngine;
 
 namespace ReverseSolver.Presentation
 {
     public sealed class ChainRope : MonoBehaviour
     {
-        readonly List<Transform> _links = new List<Transform>();
-        Vector2 _a, _b;
-        float _sag, _cell;
-        Color _tint;
+        readonly List<SpriteRenderer> _links = new List<SpriteRenderer>();
+        readonly Transform[] _anchors = new Transform[2];
+        Transform _piece;
+        Vector3 _a, _b;
+        RopeSim _sim;
+        float _cell, _brokenAt = -1;
         int _order;
 
-        public void Init(Vector2 a, Vector2 b, float cell, int colour, int order, ISet<Cell> occupied)
+        public void Init(Vector2 a, Vector2 b, float cell, int colour, int order, Vector2 min, Vector2 max)
         {
-            _a = a; _b = b; _cell = cell; _order = order;
-            _sag = ChainCurve.FitSag(a, b, ChainCurve.Sag(a, b, cell), cell, occupied);
+            _piece = transform.parent; _a = Draw.W(a); _b = Draw.W(b);
+            _cell = cell; _order = order;
+            Vector2 start = _piece.TransformPoint(_a), end = _piece.TransformPoint(_b);
+            _sim = new RopeSim(start, end, cell, min, max);
             string[] names = { "altin", "turkuaz", "mor", "mercan", "yesil" };
-            _tint = Palette.C(Draw.Hex(colour == 4 ? "#7fd67a" : ChainView.Tints[colour]));
-            foreach (var p in new[] { a, b })
+            var tint = Palette.C(Draw.Hex(colour == 4 ? "#7fd67a" : ChainView.Tints[colour]));
+            for (int i = 0; i < 2; i++)
             {
-                var anchor = Art.Place(transform, (Art.T54 ? "obstacles_v3/chain/" : "") + "chain-anchor-" + names[colour], Vector2.one * cell * .63f, order + 2);
-                if (anchor != null) anchor.transform.localPosition = Draw.W(p);
+                var anchor = Art.Place(transform, (Art.T54 ? "obstacles_v3/chain/" : "") + "chain-anchor-" + names[colour],
+                    Vector2.one * cell * .63f * ChainTuning.AnchorScale, order + 2);
+                if (anchor != null) _anchors[i] = anchor.transform;
             }
             float spacing = Art.T54 ? (Vector2.Distance(a, b) <= 2 * cell ? .30f : .434f * .86f)
                 : (Vector2.Distance(a, b) <= 2 * cell ? .28f : .22f * 1.6f);
-            int count = ChainCurve.Samples(a, b, _sag, cell * spacing).Length;
+            int count = Mathf.Max(4, Mathf.RoundToInt(_sim.Length / (cell * spacing)));
             for (int i = 0; i < count; i++)
             {
-                float height = cell * .217f * (Art.T54 ? 1 : 1.6f);
+                float height = cell * .217f * (Art.T54 ? 1 : 1.6f) * ChainTuning.LinkScale;
                 var link = Art.Place(transform, Art.T54 ? "obstacles_v3/chain/chain-link-" + names[colour] : "chain-link",
                     new Vector2(height * 128 / (Art.T54 ? 64 : 96), height), order);
                 if (link == null) continue;
-                if (!Art.T54) link.color = _tint;
-                _links.Add(link.transform);
+                if (!Art.T54) link.color = tint;
+                _links.Add(link);
             }
-            Layout(_sag);
+            Layout();
         }
 
-        void Layout(float sag)
+        void LateUpdate()
         {
-            // Keep the link count stable throughout a kick.
-            float arc = 0;
-            var previous = _a;
-            for (int i = 1; i <= 512; i++)
+            if (_sim == null) return;
+            bool broken = _brokenAt >= 0;
+            float age = broken ? Time.unscaledTime - _brokenAt : 0;
+            if (age >= ChainTuning.BreakLife) { Destroy(gameObject); return; }
+            if (broken && age >= ChainTuning.Hang) _sim.Release();
+            Vector2 a = broken ? _sim[0] : (Vector2)_piece.TransformPoint(_a);
+            Vector2 b = broken ? _sim[_sim.Count - 1] : (Vector2)_piece.TransformPoint(_b);
+            _sim.Advance(Time.unscaledDeltaTime, a, b);
+            Layout();
+            if (!broken) return;
+            float alpha = 1 - Mathf.InverseLerp(ChainTuning.Hang, ChainTuning.BreakLife, age);
+            for (int i = 0; i < _links.Count; i++)
             {
-                var p = ChainCurve.Point(_a, _b, sag, i / 512f);
-                arc += Vector2.Distance(previous, p);
-                previous = p;
+                var c = _links[i].color; c.a = alpha; _links[i].color = c;
             }
-            var samples = ChainCurve.Samples(_a, _b, sag, arc / (_links.Count + 1));
-            for (int i = 0; i < _links.Count && i < samples.Length; i++)
-            {
-                _links[i].localPosition = Draw.W(samples[i].Position);
-                _links[i].localRotation = Quaternion.Euler(0, 0, -samples[i].Angle);
-            }
+            for (int i = 0; i < 2; i++)
+                if (_anchors[i] != null)
+                {
+                    var r = _anchors[i].GetComponent<SpriteRenderer>();
+                    var c = r.color; c.a = alpha; r.color = c;
+                }
         }
 
-        /* Moves links and anchors together, keeping the anchors above the links. */
+        void Layout()
+        {
+            bool broken = _brokenAt >= 0;
+            for (int i = 0; i < _links.Count; i++)
+            {
+                float node;
+                if (broken)
+                {
+                    int half = _links.Count / 2, cut = (_sim.Count - 1) / 2;
+                    node = i < half ? (i + .5f) / half * cut
+                        : cut + 1 + (i - half + .5f) / (_links.Count - half) * (_sim.Count - cut - 2);
+                }
+                else node = (i + .5f) / _links.Count * (_sim.Count - 1);
+                int index = Mathf.Min(_sim.Count - 2, Mathf.FloorToInt(node));
+                Vector2 direction = _sim[index + 1] - _sim[index];
+                var link = _links[i].transform;
+                link.position = Vector2.Lerp(_sim[index], _sim[index + 1], node - index);
+                link.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+            }
+            for (int i = 0; i < 2; i++)
+                if (_anchors[i] != null)
+                {
+                    _anchors[i].position = _sim[i == 0 ? 0 : _sim.Count - 1];
+                    _anchors[i].rotation = Quaternion.identity;
+                }
+        }
+
         public void SetOrder(int order)
         {
             int delta = order - _order;
             if (delta == 0) return;
-            foreach (var part in GetComponentsInChildren<SpriteRenderer>(true)) part.sortingOrder += delta;
+            for (int i = 0; i < _links.Count; i++) _links[i].sortingOrder += delta;
+            for (int i = 0; i < 2; i++)
+                if (_anchors[i] != null) _anchors[i].GetComponent<SpriteRenderer>().sortingOrder += delta;
             _order = order;
         }
 
         public void Kick()
         {
-            Tweens.Run(this, .4f, t =>
-            {
-                if (this == null) return;
-                float seconds = t * .4f;
-                Layout(_sag * (1 + .35f * Mathf.Exp(-seconds / .14f) * Mathf.Cos(2 * Mathf.PI * seconds / .16f)));
-            }, () => { if (this != null) Layout(_sag); });
+            if (_brokenAt >= 0) return;
+            Vector2 d = _sim[_sim.Count - 1] - _sim[0];
+            _sim.Kick(new Vector2(-d.y, d.x).normalized * (_cell * ChainTuning.Kick));
         }
 
         public void Break(Transform board)
         {
-            Tweens.Kill(this);
-            foreach (Transform child in transform) child.gameObject.SetActive(false);
-            var effect = new GameObject("ChainBreak").transform;
-            effect.SetParent(board, false);
-            effect.position = transform.TransformPoint(Draw.W(ChainCurve.Point(_a, _b, _sag, .5f)));
-            effect.localRotation = Quaternion.Euler(0, 0, -ChainCurve.Angle(_a, _b, _sag, .5f));
-            var sprite = Art.Place(effect, "chain-break-01", new Vector2(_cell * .43f * 256 / 160, _cell * .43f), _order + 3);
-            if (sprite == null) { Destroy(effect.gameObject); return; }
-            sprite.color = _tint;
-            Tweens.Run(effect, 4f / 14, t =>
-            {
-                if (sprite != null) sprite.sprite = Art.Get("chain-break-" + (Mathf.Min(3, Mathf.FloorToInt(t * 4)) + 1).ToString("00"));
-            }, () => { if (effect != null) Destroy(effect.gameObject); });
+            if (_brokenAt >= 0) return;
+            transform.SetParent(board, true);
+            _brokenAt = Time.unscaledTime;
+            _sim.Split();
+            _sim.Kick(Vector2.down * (_cell * ChainTuning.Kick));
         }
-
-        void OnDestroy() { Tweens.Kill(this); }
     }
 }

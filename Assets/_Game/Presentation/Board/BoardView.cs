@@ -159,12 +159,12 @@ namespace ReverseSolver.Presentation
                 {
                     if (Art.T28 && Art.On)
                     {
-                        var occupied = new HashSet<Cell>();
-                        for (int other = 0; other < l.Pieces.Count; other++)
-                            if (other != i && Session.Board.IsPresent(other))
-                                foreach (var c in l.Pieces[other]) occupied.Add(c);
+                        // World bounds inset by half the link thickness keep the art inside the frame.
+                        float inset = S * ChainTuning.BoundsInset;
+                        Vector2 min = transform.TransformPoint(Draw.W(inset, H - inset));
+                        Vector2 max = transform.TransformPoint(Draw.W(W - inset, inset));
                         // Above every resting piece, below walls and the tutorial hand (PM_MESAJ_20); lifted only while its piece is dragged.
-                        _ropes[i] = ChainView.BuildT28(pv.transform, Center(cells[0]), Center(cells[1]), S, chainNo++, ChainOrder, occupied);
+                        _ropes[i] = ChainView.BuildT28(pv.transform, Center(cells[0]), Center(cells[1]), S, chainNo++, ChainOrder, min, max);
                     }
                     else ChainView.Build(pv.transform, Center(cells[0]), Center(cells[1]), S,
                                          ChainView.Tints[chainNo++ % ChainView.Tints.Length], ChainOrder);
@@ -230,6 +230,7 @@ namespace ReverseSolver.Presentation
         /* .pc.clang: a pinned piece pressed shakes -3, +3 pt over .3s. */
         public void Clang(int piece)
         {
+            if (_ropes.TryGetValue(piece, out var rope) && rope != null) rope.Kick();
             if (!_pieces.TryGetValue(piece, out var pv)) return;
             Tweens.Run((pv, "clang"), .3f, t =>
             {
@@ -241,6 +242,7 @@ namespace ReverseSolver.Presentation
         // Presentation-only rejection: no session command, sound, haptic or jam.
         public void TutorialShake(int piece, Dir direction)
         {
+            if (_ropes.TryGetValue(piece, out var rope) && rope != null) rope.Kick();
             SetBlocker(-1);
             _dragged = -1;
             if (!_pieces.TryGetValue(piece, out var pv)) return;

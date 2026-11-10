@@ -24,7 +24,7 @@ namespace ReverseSolver.Presentation
             if (_t28)
             {
                 // Closed lock: 311 visible pixels on a 384px canvas.
-                float size = Art.T54 ? cell * .55f * 384 / 311 : cell * (Art.T14 ? .86f : .8f);
+                float size = 1.2f * (Art.T54 ? cell * .55f * 384 / 311 : cell * (Art.T14 ? .86f : .8f));
                 _lock = Art.Place(Root, Art.T54 ? "obstacles_v3/padlock-b/closed" : "board-nail", Vector2.one * size, order);
                 if (_lock != null) _lockScale = _lock.transform.localScale;
                 _n = TextView.Create(Root, "count", "", size * .315f, Palette.Navy, true, order: order + 2).Font(Art.Lilita);
@@ -102,20 +102,10 @@ namespace ReverseSolver.Presentation
             Tweens.Kill(this);
             _n.gameObject.SetActive(false);
             if (_lock != null) _lock.transform.localScale = _lockScale;
-            if (Art.T54)
-            {
-                if (Root.GetComponent<LockRelease54>() != null) return;
-                var board = Root.GetComponentInParent<BoardView>();
-                Root.SetParent(board != null ? board.transform : null, true);
-                Root.gameObject.AddComponent<LockRelease54>().Init(_lock, _cell);
-                return;
-            }
-            Tweens.Run(this, 7f / 14, t =>
-            {
-                if (_lock == null) return;
-                int frame = Mathf.Min(6, Mathf.FloorToInt(t * 7));
-                _lock.sprite = Art.Get(frame < 4 ? "padlock-open-" + (frame + 1).ToString("00") : "padlock-fall-" + (frame - 3).ToString("00"));
-            }, () => { if (Root != null) Object.Destroy(Root.gameObject); });
+            if (Root.GetComponent<LockRelease54>() != null) return;
+            var board = Root.GetComponentInParent<BoardView>();
+            Root.SetParent(board != null ? board.transform : null, true);
+            Root.gameObject.AddComponent<LockRelease54>().Init(_lock, _cell);
         }
     }
 

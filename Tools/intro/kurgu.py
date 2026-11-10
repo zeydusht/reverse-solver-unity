@@ -1,6 +1,6 @@
-﻿"""Build intro films and two source-audio mixes. Only main() writes media."""
+"""Build intro films and three source-audio mixes. Only main() writes media."""
 
-SES = "B"
+SES = "C"
 CLIP2_ZOOM = 1.03
 CLIP2_DY = 9  # Downward image displacement at 1080x1920.
 CLIP2_ZOOM_S = 1.2
@@ -203,7 +203,9 @@ def soft_limit(sound):
     return sound.astype(np.float32)
 
 
-def mix_part(mix_name, part, plan, cache):
+def mix_part(mix_name, part, plan, cache, limit=True):
+    if mix_name == "C":
+        return mix_c(part, plan, cache)
     bus = silence(plan["duration_seconds"])
     entries = {e["clip"]: e for e in plan["clips"]}
     events, rotation = [], {}
@@ -255,7 +257,7 @@ def mix_part(mix_name, part, plan, cache):
         if 10 in entries:
             add(10, 0.4, "weee", 0.3)
             add(11, end(11, 1.7), "win", 0.4)
-        return soft_limit(bus), {"cues": events, "music": []}
+        return (soft_limit(bus) if limit else bus), {"cues": events, "music": []}
 
     if part == "A":
         for at in (0.2, 0.7, 1.2):
@@ -294,7 +296,45 @@ def mix_part(mix_name, part, plan, cache):
                                   "music": music_events}
 
 
-def music_bus(part, plan, load):
+def mix_c(part, plan, cache):
+    # A's normalization, timing, fades and game cues stay unchanged.
+    base, details = mix_part("A", part, plan, cache, limit=False)
+    _, b_details = mix_part("B", part, plan, cache)
+    bus = base.copy()
+
+    def load(filename, ratio=1.0):
+        key = (filename, ratio)
+        if key not in cache:
+            cache[key] = read_audio(source_path(filename), ratio=ratio)
+        return cache[key]
+
+    existing = {(e.get("sound"), e["clip"], e["part_time_seconds"])
+                for e in details["cues"]}
+    for event in b_details["cues"]:
+        filename, start = event["sound"], event["part_time_seconds"]
+        if (filename, event["clip"], start) in existing:
+            continue  # A already contains this piece/weee/win cue.
+        gain = event["gain"] * b_details["effects_bus_gain"]
+        sound = load(filename, event["pitch_ratio"]).copy() * gain
+        fade(sound, 0.005, True)
+        fade(sound, 0.03, False)
+        first = max(0, round(start*SAMPLE_RATE))
+        window = base[first:min(len(base), first+len(sound))]
+        rms = float(np.sqrt(np.mean(window**2))) if window.size else 0
+        rms_db = 20*np.log10(max(rms, 1e-12))
+        duck_db = float(-np.interp(rms_db, [-30, -24, -18], [0, 6, 10]))
+        if filename.endswith(".wav"):
+            duck_db = 0.0  # Preserve game cues, including their B pitch/gain.
+        overlay(bus, sound * 10**(duck_db/20), start)
+        details["cues"].append({**event, "gain": gain * 10**(duck_db/20),
+                                "a_window_rms_dbfs": float(rms_db), "duck_db": duck_db})
+    music, details["music"] = music_bus(part, plan, load, mix_name="C")
+    details["base_mix"] = "A (before final soft limiter)"
+    details["ducking"] = "CC0 cue-window A RMS: -30/-24/-18 dBFS -> 0/-6/-10 dB"
+    return soft_limit(bus+music), details
+
+
+def music_bus(part, plan, load, mix_name="B"):
     bus = silence(plan["duration_seconds"])
     entries = {e["clip"]: e for e in plan["clips"]}
     events = []
@@ -317,7 +357,19 @@ def music_bus(part, plan, load):
                        "gain": gain})
 
     duration = plan["duration_seconds"]
-    if part == "A":
+    if mix_name == "C" and part == "A":
+        change = entries[2]["start_seconds"]+0.5  # Count/shadow entrance, as B.
+        happy = entries[8]["start_seconds"]
+        track("musicbox2_cute_tune", 0,
+              [(0, 0), (0.15, 1), (change, 1), (change+1, 0), (duration, 0)])
+        track("musicbox1_spooky_waltz", change,
+              [(change, 0), (change+1, 1), (happy, 1), (happy+1, 0), (duration, 0)])
+        track("musicbox2_cute_tune", happy,
+              [(happy, 0), (happy+1, 1), (duration, 1)])
+    elif mix_name == "C" and part == "B":
+        track("musicbox2_cute_tune", 0,
+              [(0, 0), (0.15, 1), (duration-0.15, 1), (duration, 0)])
+    elif part == "A":
         change = entries[2]["start_seconds"]+0.5
         start7 = entries[7]["start_seconds"]
         end7 = start7+entries[7]["duration_seconds"]
@@ -361,8 +413,11 @@ def join_preview(videos, audio, destination, high=False):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--ses", choices=("A", "B"), default=SES)
-    selected = parser.parse_args().ses
+    parser.add_argument("--ses", choices=("A", "B", "C"), default=SES)
+    parser.add_argument("--audio-only", action="store_true",
+                        help="Reuse and verify part videos; rebuild audio and selected preview only")
+    args = parser.parse_args()
+    selected = args.ses
     print("Sound folder: " + ", ".join(sorted(p.name for p in SES_DIR.iterdir()
                                                if p.is_file())), flush=True)
     required = [VIDEO_DIR / f"{clip}.mp4" for clip in CLIP_TRIMS]
@@ -377,7 +432,7 @@ def main():
     print(f"A duration: {plans['A']['duration_seconds']:.3f} s (required 18–21 s)", flush=True)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     VIDEO_DIR.mkdir(parents=True, exist_ok=True)
-    sizes, cache, sounds_used = {}, {}, {"A": {}, "B": {}}
+    sizes, cache, sounds_used = {}, {}, {name: {} for name in ("A", "B", "C")}
     videos, high_res = [], []
 
     def record(path):
@@ -385,16 +440,18 @@ def main():
 
     with tempfile.TemporaryDirectory(prefix="kurgu-") as temporary:
         temp = Path(temporary)
-        sounds = {"A": [], "B": []}
+        sounds = {name: [] for name in sounds_used}
         for part, plan in plans.items():
             video = OUT_DIR / f"intro{part}.mp4"
-            build_video(part, plan, 720, 1280, video, CRF)
+            if not args.audio_only:
+                build_video(part, plan, 720, 1280, video, CRF)
             videos.append(video)
             record(video)
             high = temp / f"intro{part}-1080.mp4"
-            build_video(part, plan, 1080, 1920, high, 0)
+            if not args.audio_only:
+                build_video(part, plan, 1080, 1920, high, 0)
             high_res.append(high)
-            for mix_name in ("A", "B"):
+            for mix_name in sounds_used:
                 sound, details = mix_part(mix_name, part, plan, cache)
                 sounds[mix_name].append(sound)
                 sounds_used[mix_name][part] = details
@@ -407,16 +464,23 @@ def main():
                             "-b:a", "96k", audio])
                     record(audio)
         joined_audio = {}
-        for mix_name in ("A", "B"):
+        for mix_name in sounds_used:
+            if args.audio_only and mix_name != selected:
+                continue
             wav = temp / f"mix-{mix_name}.wav"
             write_wav(wav, np.concatenate(sounds[mix_name]))
             joined_audio[mix_name] = wav
-            comparison = VIDEO_DIR / f"intro_ses_{mix_name}.mp4"
+            comparison = ((ROOT / "docs/art/task29/pm57") if mix_name == "C" else VIDEO_DIR) / f"intro_ses_{mix_name}.mp4"
+            comparison.parent.mkdir(parents=True, exist_ok=True)
             join_preview(videos, wav, comparison)
             record(comparison)
-        preview = VIDEO_DIR / "intro_onizleme_v2.mp4"
-        join_preview(high_res, joined_audio[selected], preview, high=True)
-        record(preview)
+            if mix_name == "C" and comparison.stat().st_size >= 15_000_000:
+                raise ValueError("C preview must be smaller than 15 MB")
+        preview = comparison
+        if not args.audio_only:
+            preview = VIDEO_DIR / "intro_onizleme_v2.mp4"
+            join_preview(high_res, joined_audio[selected], preview, high=True)
+            record(preview)
     verification = {}
     total_frames = sum(plan["frames"] for plan in plans.values())
     for filename in sizes:
