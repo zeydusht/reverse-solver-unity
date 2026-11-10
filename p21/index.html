@@ -251,9 +251,15 @@ window.ltBoot = function (msg) {
      ignores user-scalable=no, so pinch (gesturestart) and multi-finger moves
      are cancelled here; touch-action:none covers single-finger panning. */
   document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
-  document.addEventListener('touchmove', function (e) { if (e.touches.length > 1 || e.target === document.getElementById('unity-canvas')) e.preventDefault(); }, { passive: false });
+  ['touchstart', 'touchmove'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      // Canvas: no browser edge-swipe/scroll. Elsewhere only pinch is blocked, so HTML overlays keep their taps.
+      if (e.target === document.getElementById('unity-canvas') || (type === 'touchmove' && e.touches.length > 1)) e.preventDefault();
+    }, { passive: false });
+  });
   var lastTouchEnd = 0;
   document.addEventListener('touchend', function (e) {   // double-tap zoom
+    if (e.target !== document.getElementById('unity-canvas')) return;
     var now = Date.now(); if (now - lastTouchEnd < 350) e.preventDefault(); lastTouchEnd = now;
   }, { passive: false });
 </script>
@@ -301,14 +307,14 @@ window.ltBoot = function (msg) {
   window.rsUpdateLanguage();
 </script>
 
-<script src="Build/a9341b17e192093f400fa946e9c519ec.loader.js"></script>
+<script src="Build/cbeaf73d64617fde57cfa724d42253c6.loader.js"></script>
 <script>
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/eaeec34f84e9b20d025174b41a433bbb.data.unityweb",
-    frameworkUrl: "Build/d5eb82d262615ab9dfd8252f6e45fc50.framework.js.unityweb",
-    codeUrl: "Build/8b6def982b303800d00fe966d4c857a6.wasm.unityweb",
+    dataUrl: "Build/1119fa878388308aba3ca83242f231b4.data.unityweb",
+    frameworkUrl: "Build/83c083a1ab2f8d13c6272e9269a34fab.framework.js.unityweb",
+    codeUrl: "Build/7535675442ff029840ae2dc8b50391d7.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
