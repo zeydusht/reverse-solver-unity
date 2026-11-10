@@ -5,6 +5,25 @@ namespace ReverseSolver.Presentation
     /* Player-facing text follows the language chosen in settings. */
     public static class Texts
     {
+        public static string Win21 => Lang.T("Great!", "Harika!");
+        public static string Chest21 => Lang.T("Chest!", "Sandık!");
+        public static string TapChest21 => Lang.T("Tap the chest!", "Sandığa dokun!");
+        public static string NextLevel21 => Lang.T("Next Level", "Sonraki Seviye");
+        public static string ChestIn21(int n) => Lang.T($"Chest in {n} levels!", $"{n} bölüm sonra sandık!");
+        public static string Rescued21(int n) => Lang.T($"{n} Jiggles rescued!", $"{n} Jiggle kurtarıldı!");
+
+        public static string JuicePraise(int tier) => tier == 0 ? Lang.T("Great!", "Harika!")
+            : tier == 1 ? Lang.T("Super!", "Süper!") : Lang.T("Perfect!", "Mükemmel!");
+        public static string RegionShuffle => Lang.T("Shuffle!", "Değiştir!");
+        static bool P21BoosterArt => Art.T54 && TelemetryMeta.Current?.Cohort == "p21";
+        public static string ClockFreeze => Lang.T($"Freeze the timer for {GameSession.ClockBonusSeconds} seconds.", $"Süreyi {GameSession.ClockBonusSeconds} saniye dondurur.");
+        public static string BoosterTitle21(Booster b) => b == Booster.Hammer ? Lang.T("Blue Hammer!", "Mavi Çekiç!")
+            : b == Booster.Scissors ? Lang.T("Magic Scissors!", "Sihirli Makas!") : Lang.T("Magic Wand!", "Sihirli Değnek!");
+        public static string BoosterHint21(Booster b) => b == Booster.Hammer ? Lang.T("Tap a piece to smash it", "Kırmak istediğin parçaya dokun")
+            : b == Booster.Scissors ? Lang.T("Tap a tabbed seam to cut it", "Kesmek istediğin birleşime dokun")
+            : Lang.T("Choose a region, then confirm", "Bir bölge seç, sonra onayla");
+        public static string P21StoryStart => Lang.T("Let's rescue these Jiggles! Slide a piece with an open path.", "Bu Jiggle'ları kurtaralım! Önü açık bir parçayı kaydır.");
+        public static string P21StoryLast => Lang.T("Clear every piece to free the picture!", "Bütün parçaları çıkarınca resim kurtulur!");
         public static string ObstacleIntro(string scene) => scene switch
         {
             "bomb" => Lang.T("Clear the bomb piece <b>before</b> its number runs out. It drops by 1 each move; at 0 it blows!", "Bombalı parçayı sayı <b>bitmeden</b> çıkar. Her hamlede sayı 1 azalır; 0 olursa patlar!"),
@@ -46,8 +65,8 @@ namespace ReverseSolver.Presentation
             "wall" => Lang.T("Pieces can't pass through red-white walls.", "Parçalar kırmızı-beyaz duvardan geçemez."),
             "scissors" => TutorialCopy("tap_scissors") + "\n" + ScissorsHint,
             "hammer" => TutorialCopy("tap_hammer") + "\n" + HammerHint,
-            "wand" => Lang.T("Shuffle the tabs.\nSame picture, new connections.", "Çıkıntıları yeniden dizer.\nResim aynı kalır, kilitler değişir."),
-            "clock" => TutorialCopy("tap_clock") + "\n" + ClockDone,
+            "wand" => P21BoosterArt ? Lang.T("Choose a region, then confirm.\nOnly its connections change.", "Bir bölge seç, sonra onayla.\nYalnız o bölgenin bağlantıları değişir.") : Lang.T("Shuffle the tabs.\nSame picture, new connections.", "Çıkıntıları yeniden dizer.\nResim aynı kalır, kilitler değişir."),
+            "clock" => TutorialCopy("tap_clock") + "\n" + (P21BoosterArt ? ClockFreeze : ClockDone),
             _ => ""
         };
         public static string MyAvatar => Lang.T("My avatar", "Avatarım");
@@ -119,7 +138,7 @@ namespace ReverseSolver.Presentation
         public static string TimeUp => Lang.T("Time's up", "Süre doldu");
         public static string WinStats => Lang.T("{0} seconds left, {1} jams.", "{0} saniye kaldı, {1} kez takıldın.");
         public static string BombHint => Lang.T("Clear the bomb's path before the fuse runs out. The hammer removes it in one move.", "Fitil bitmeden bombanın yolunu açman gerekiyordu. Çekiç onu tek hamlede söker.");
-        public static string TimeHint => Lang.T("{0} pieces left. The clock booster adds 20 seconds.", "{0} gövde kaldı. Saat booster'ı 20 saniye ekler.");
+        public static string TimeHint => P21BoosterArt ? Lang.T("{0} pieces left. ", "{0} gövde kaldı. ") + ClockFreeze : Lang.T("{0} pieces left. The clock booster adds 20 seconds.", "{0} gövde kaldı. Saat booster'ı 20 saniye ekler.");
         public static string NextLevel => Lang.T("Next level", "Sonraki bölüm");
         public static string Retry => Lang.T("Try again", "Tekrar dene");
         public static string Congratulations => Lang.T("Well done!", "Tebrikler!");

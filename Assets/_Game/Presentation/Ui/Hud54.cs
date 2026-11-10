@@ -9,6 +9,7 @@ namespace ReverseSolver.Presentation
         readonly TextView _left, _clock, _piecesTitle, _timeTitle;
         readonly float _scale;
         readonly JigoPortrait54 _portrait;
+        public void ShowClockPortrait(bool showing) => _portrait.Visible(!showing);
         int _lastLeft = -1, _lastTime = -1;
         int _language;
 

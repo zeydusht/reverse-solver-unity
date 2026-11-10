@@ -18,8 +18,9 @@ namespace ReverseSolver.Core
     public static class P21Onboarding
     {
         public const string TutorialId = "P21_T01", EasyId = "P21_E01";
-        public static bool Enabled(string cohort, bool redesign, bool playOverride) =>
-            cohort == "p21" && redesign && !playOverride;
+        // PM60 only changes new art; the legacy art path keeps its PM59 behaviour.
+        public static bool Enabled(string cohort, bool redesign, bool playOverride, bool newArt = true, string tut2x2 = null) =>
+            cohort == "p21" && redesign && !playOverride && (!newArt || tut2x2 == "1");
         public static bool IsNewFlow(SaveData save) => save.Best.Count == 0 ||
             save.Attempts.ContainsKey(TutorialId) || save.Best.ContainsKey(TutorialId);
 
@@ -41,6 +42,23 @@ namespace ReverseSolver.Core
                 Solution = new List<Move>(), Colors = new int[0], Palette = new string[0],
                 Boosters = new Dictionary<string, int> { ["scissors"] = 0, ["wand"] = 0, ["hammer"] = 0, ["clock"] = 0 },
                 Unlock = new Dictionary<string, int> { ["scissors"] = 999, ["wand"] = 999, ["hammer"] = 999, ["clock"] = 999 } };
+        }
+    }
+
+    public sealed class P21Story
+    {
+        public int Step { get; private set; }
+        public int Target { get; private set; } = -1;
+
+        public void Refresh(GameSession session, int removed = -1)
+        {
+            if (Target >= 0 && removed == Target) Target = -1;
+            if (Target >= 0 && session.Board.IsPresent(Target) && session.NailAt(Target) <= 0 &&
+                TravelRule.CanExit(session.Board, Target)) return;
+            Target = -1;
+            if (Step >= 3 || session.IsOver) return;
+            foreach (int piece in TravelRule.FreePieces(session.Board))
+                if (session.NailAt(piece) <= 0) { Target = piece; Step++; break; }
         }
     }
 }

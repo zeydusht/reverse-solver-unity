@@ -58,11 +58,95 @@ namespace ReverseSolver.Core.Tests
         static GameSession Session(LevelData level) => new GameSession(level, 1, "test", new Mulberry32(1));
 
         [Test]
+        public void StoryTargetsOpenUnlockedPiecesForAtMostThreeRounds()
+        {
+            var level = P21Onboarding.Grid("story", 3, 1);
+            level.Nails = new System.Collections.Generic.Dictionary<int, int> { [0] = 4 };
+            var s = Session(level);
+            var story = new P21Story();
+            for (int step = 1; step <= 3; step++)
+            {
+                story.Refresh(s);
+                Assert.That(story.Step, Is.EqualTo(step));
+                int target = story.Target;
+                Assert.That(target, Is.GreaterThanOrEqualTo(0));
+                Assert.That(s.NailAt(target), Is.Zero);
+                var exits = TravelRule.ExitDirs(s.Board, target);
+                Assert.That(exits, Is.Not.Empty);
+                story.Refresh(s);
+                Assert.That(story.Target, Is.EqualTo(target), "redraws do not consume glow rounds");
+                Assert.That(s.TryExit(target, exits[0]), Is.EqualTo(CommandResult.Ok));
+                story.Refresh(s, target);
+            }
+            Assert.That(story.Step, Is.EqualTo(3));
+            Assert.That(story.Target, Is.EqualTo(-1));
+        }
+
+        [Test]
+        public void StoryClockRunsToZeroWithoutLossAndStillAllowsWinning()
+        {
+            var s = Session(P21Onboarding.Grid("story-time", 2, 1));
+            s.PreventTimeout = true; s.ClockOnFirstMove = false;
+            s.Tick(2);
+            Assert.That(s.TimeLeft, Is.EqualTo(178));
+            s.Tick(1000);
+            Assert.That(s.TimeLeft, Is.Zero);
+            Assert.That(s.IsOver, Is.False);
+            Assert.That(s.ElapsedSeconds, Is.EqualTo(1002));
+            var clone = s.Clone();
+            clone.Tick(2);
+            Assert.That(clone.IsOver, Is.False);
+            foreach (int p in new[] { 2, 1, 0, 3 })
+                s.TryExit(p, TravelRule.ExitDirs(s.Board, p)[0]);
+            Assert.That(s.Outcome, Is.EqualTo(Outcome.Win));
+            var normal = Session(s.Level); normal.ClockOnFirstMove = false;
+            normal.Tick(1000);
+            Assert.That(normal.Outcome, Is.EqualTo(Outcome.Time));
+        }
+
+        [Test]
+        public void RemovingOtherPiecesDoesNotSpendAnotherGlowRound()
+        {
+            var s = Session(P21Onboarding.Grid("story-other", 3, 1));
+            var story = new P21Story(); story.Refresh(s);
+            int target = story.Target;
+            int other = TravelRule.FreePieces(s.Board).First(p => p != target);
+            s.TryExit(other, TravelRule.ExitDirs(s.Board, other)[0]);
+            story.Refresh(s, other);
+            Assert.That(story.Target, Is.EqualTo(target));
+            Assert.That(story.Step, Is.EqualTo(1));
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void StoryCopyIsLocalized(bool turkish)
+        {
+            bool original = ReverseSolver.Presentation.Lang.Tr;
+            try
+            {
+                ReverseSolver.Presentation.Lang.Tr = turkish;
+                Assert.That(ReverseSolver.Presentation.Texts.P21StoryStart, Is.EqualTo(turkish
+                    ? "Bu Jiggle'ları kurtaralım! Önü açık bir parçayı kaydır."
+                    : "Let's rescue these Jiggles! Slide a piece with an open path."));
+                Assert.That(ReverseSolver.Presentation.Texts.P21StoryLast, Is.EqualTo(turkish
+                    ? "Bütün parçaları çıkarınca resim kurtulur!" : "Clear every piece to free the picture!"));
+            }
+            finally { ReverseSolver.Presentation.Lang.Tr = original; }
+        }
+
+        [Test]
         public void PreludeKeepsTheFortyAuthoredLevelsAndOnlyEnablesForP21()
         {
             foreach (var cohort in new[] { null, "p20", "pt1", "root" })
                 Assert.That(P21Onboarding.Enabled(cohort, true, false), Is.False);
-            Assert.That(P21Onboarding.Enabled("p21", true, false), Is.True);
+            Assert.That(P21Onboarding.Enabled("p21", true, false), Is.False);
+            Assert.That(P21Onboarding.Enabled("p21", true, false, true, "1"), Is.True);
+            foreach (var cohort in new[] { null, "p20", "pt1", "root" })
+                Assert.That(P21Onboarding.Enabled(cohort, true, false, true, "1"), Is.False);
+            Assert.That(P21Onboarding.Enabled("p21", true, false, false), Is.True, "art=eski keeps its existing PM59 flow");
+            Assert.That(P21Onboarding.Enabled("p21", true, false, true, "0"), Is.False);
+            Assert.That(P21Onboarding.Enabled("p21", false, false, true, "1"), Is.False);
+            Assert.That(P21Onboarding.Enabled("p21", true, true, true, "1"), Is.False);
             Assert.That(P21Onboarding.Enabled("p21", false, false), Is.False);
             Assert.That(P21Onboarding.Enabled("p21", true, true), Is.False);
             var original = Original;

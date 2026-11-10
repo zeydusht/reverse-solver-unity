@@ -150,7 +150,7 @@ namespace ReverseSolver.Presentation
             _set = PlayOverride.Active ? PlayOverride.Set : ChooseSet();
             var authoredSet = _set;
             string launchCohort = TelemetryMeta.CleanCohort(Host.Current.Query("c")) ?? TelemetryMeta.CleanCohort(Host.Current.Store.Get("rs_cohort"));
-            _p21Flow = P21Onboarding.Enabled(launchCohort, _redesignSet, PlayOverride.Active);
+            _p21Flow = P21Onboarding.Enabled(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, Host.Current.Query("tut2x2"));
             if (_p21Flow) _set = P21Onboarding.Prepend(_set);
             _resetVisit = SaveData.ResetForQuery(Host.Current.Store, Host.Current.Query("reset"), launchCohort, _set.Levels);
 
@@ -454,6 +454,8 @@ namespace ReverseSolver.Presentation
 
         void LeaveLevel()
         {
+            _win21?.Destroy(); _win21 = null; _winPreview21 = false;
+            ResetBoosters21();
             _continueResultOnReturn = false;
             if (_deferredLoss != null) ResolveContinue("withdrawn", false);
             CloseContinue();
@@ -502,6 +504,7 @@ namespace ReverseSolver.Presentation
             _askFun = false;
             _hardAnswered = _askHard = false;
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
+            _session.ClockFreezesTime = P21Boosters;
             _rowId = _telemetry.NewRowId();
             if (!_previewWins) _save.Store(_log);                                 // the attempt counter, before anything can go wrong
             _trainingUse = null;
@@ -525,6 +528,8 @@ namespace ReverseSolver.Presentation
             ResetP21Tutorial();
             Layout();
             _board?.Deal();                                    // web render(true): pieces deal in on a fresh start
+            TestBooster21();
+            TestWin21();
             if (Host.Debug) Debug.Log("[level-ready] " + level.Id);   // PM_MESAJ_28 B2: verify_build --only perf times this
             AskProfileIfDue();
             if (ContinueEnabled && Host.Current.Query("devam") == "1")
@@ -573,7 +578,7 @@ namespace ReverseSolver.Presentation
         void ResetScriptedTutorial(bool firstVisit)
         {
             _tutorialScript ??= TutorialScript.Load();
-            _tutorialSteps = _redesignSet && !PlayOverride.Active && !P21Prelude ? _tutorialScript.ForSlot(_index + 1 - (_p21Flow ? 2 : 0), firstVisit) : new List<TutorialStep>();
+            _tutorialSteps = _redesignSet && !PlayOverride.Active && !P21Prelude && !P21StoryLevel ? _tutorialScript.ForSlot(_index + 1 - (_p21Flow ? 2 : 0), firstVisit) : new List<TutorialStep>();
             _tutorialSteps.RemoveAll(step => (step.tur == "booster" || step.tur == "booster_hedef") &&
                 (!TutorialScript.BoosterOf(step.booster, out var b) || _inventory == null || _inventory.Trained(b) || !_session.IsUnlocked(b)));
             _tutorialAt = 0;
@@ -584,6 +589,7 @@ namespace ReverseSolver.Presentation
         /* Scripted SET40 steps, with the old hand retained for other tutorials. */
         void ShowTutorialStep()
         {
+            if (P21StoryLevel) return;
             if (_redesignSet && !PlayOverride.Active && _tutorialScript.ForSlot(_index + 1, true).Count > 0)
             {
                 ShowScriptedTutorial();
@@ -889,7 +895,13 @@ namespace ReverseSolver.Presentation
             }
             // Codex sounds (preview art only; silent when Art is off)
             // PM_MESAJ_19: no sound per piece; the jam keeps its knock; the last piece gets the whole sparkle, then the fanfare
-            if (e.Kind == EventKind.PieceRemoved) { if (_session.Board.PresentCount == 0) PlaySound("popfull"); else Haptics.Play(Haptics.Kind.Light); }
+            if (e.Kind == EventKind.PieceRemoved)
+            {
+                if (P21JuiceView.Enabled) { PlaySound("pop"); Haptics.Play(Haptics.Kind.Light); }
+                else if (_session.Board.PresentCount == 0) PlaySound("popfull");
+                else Haptics.Play(Haptics.Kind.Light);
+            }
+            else if (P21JuiceView.Enabled && (e.Kind == EventKind.NailFreed || e.Kind == EventKind.JointCut)) PlaySound("piece");
             else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Medium); }
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
@@ -907,7 +919,7 @@ namespace ReverseSolver.Presentation
             if (e.Outcome == Outcome.Win) { Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s
             _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
             // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
-            if (e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
+            if (!P21WinArt && e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
         }
 
         // Only this method commits an outcome; offered losses wait here until a decision.
@@ -920,6 +932,7 @@ namespace ReverseSolver.Presentation
                 _stats.Save(Host.Current.Store);
             }
             if (!_previewWins) _save.Store(_log);
+            if (!_previewWins && P21WinArt && _session.Outcome == Outcome.Win) _save.RecordChestWin21(_session.Level.Number);
             // G8: the attempt that gets the 👍/👎 question waits for the answer (or the card closing)
             // before its row goes; asked once per level, on the win or after the third loss
             string levelId = _session.Level.Id;
@@ -1031,6 +1044,7 @@ namespace ReverseSolver.Presentation
             _safe = Host.Current.SafeInsets / (Application.isEditor ? _dpr : 1f);
             Build();
             _celebration?.Layout(_screen);
+            _win21?.Layout(_screen, WinTargets21());
             if (_continuePreview || _deferredLoss != null && _endAt < 0) ShowContinue();
         }
 
@@ -1111,7 +1125,7 @@ namespace ReverseSolver.Presentation
                 }
                 if (_session.IsOver && _session.Outcome == Outcome.Win && _paintSet && _board.Image != null) ShowFinishedPicture(false);
                 _hand = null;
-                bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active && !_p21Flow;
+                bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active && !_p21Flow && !P21StoryLevel;
                 if (!TutorialActive && _session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
                     _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
                                               new Rect(-origin, _screen));
@@ -1122,6 +1136,7 @@ namespace ReverseSolver.Presentation
                 else if (_session.IsOver && _endAt < 0 && _celebration == null && _deferredLoss == null) ShowResult();
                 RefreshPlaying();
                 BuildP21Tutorial();
+                BuildBoosters21();
             }
 
             if (Host.Debug && Host.Current.Query("hud") != "0")   // ?hud=0: clean QA shots
@@ -1215,6 +1230,7 @@ namespace ReverseSolver.Presentation
 
         void ShowResult()
         {
+            if (P21WinArt && _session.Outcome == Outcome.Win) { ShowWin21(); return; }
             if (_deferredLoss != null) { ShowContinue(); return; }
             CancelCardTap();
             _card?.Destroy();
@@ -1335,6 +1351,7 @@ namespace ReverseSolver.Presentation
         {
             if (_introPlaying) return;
             _continuePanel?.Tick();
+            _win21?.Tick();
             if (Screen.width != _screenPx.x || Screen.height != _screenPx.y)
             {
                 _drag?.Cancel();
@@ -1365,14 +1382,16 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Playing)
             {
+                TickBoosters21();
                 TickP21Tutorial();
-                if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil) NextScriptedTutorial();
+                if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil && !BoosterBusy21) NextScriptedTutorial();
                 // the clock runs only while the board is actually in play
-                if (!_session.IsOver && !P21Guided && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _continuePanel == null) _session.Tick(Time.unscaledDeltaTime);
+                if (!_session.IsOver && !P21Guided && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _win21 == null && _continuePanel == null && !BoosterSelection21 && !BoosterBusy21 && (!P21Boosters || !_pageHidden)) _session.Tick(Time.unscaledDeltaTime);
                 if (_endAt > 0 && Time.unscaledTime >= _endAt)
                 {
                     _endAt = -1;
-                    if (Art.T54 && _session.Outcome == Outcome.Win) BeginCelebration(true);
+                    if (P21WinArt && _session.Outcome == Outcome.Win) ShowWin21();
+                    else if (Art.T54 && _session.Outcome == Outcome.Win) BeginCelebration(true);
                     else ShowResult();
                 }
                 RefreshPlaying();
@@ -1579,6 +1598,7 @@ namespace ReverseSolver.Presentation
 
         void Press(Vector2 pt)
         {
+            if (_win21 != null) { _win21.Press(pt); return; }
             if (_corridor != null) { _corridor.Skip(); return; }   // a tap skips the slide
 
             // level list (over menu or game)
@@ -1679,6 +1699,11 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
+            if (PressBooster21(pt)) return;
+            if (P21StoryLevel && _p21View != null && _p21View.DismissStory(pt))
+            {
+                _p21StoryDismissed = true; return;
+            }
             if (P21Guided)
             {
                 PressP21Tutorial(pt);

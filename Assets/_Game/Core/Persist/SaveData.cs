@@ -34,7 +34,7 @@ namespace ReverseSolver.Core
          rs.v1.attempts  {"L01": 3, ...}  starts per level id
          rs.v1.best      {"L01": 2, ...}  best stars per level id
          rs.v1.queue     telemetry queue (TelemetryQueue) */
-    public sealed class SaveData
+    public sealed partial class SaveData
     {
         public const int Version = 1;
         public static readonly string Prefix = $"rs.v{Version}.";
@@ -43,7 +43,7 @@ namespace ReverseSolver.Core
         public static bool ResetForQuery(IKeyValueStore store, string reset, string cohort, IEnumerable<LevelData> levels)
         {
             if (reset != "1" || cohort != "p21") return false;
-            foreach (string name in new[] { "attempts", "best", "losses", "fun_asked", "stats" }) store.Delete(Key(name));
+            foreach (string name in new[] { "attempts", "best", "losses", "fun_asked", "stats", "chests21" }) store.Delete(Key(name));
             foreach (string key in new[] { "rs_intro_shown", "rs_intro_end_shown", "rs_boosters", "rs_profile_p21", "rs_p21_tutorial_seen", "rs_ach_seen" }) store.Delete(key);
             foreach (var level in levels) store.Delete("rs_hard_p21_" + level.Id);
             store.Set(Key("coins"), new ContinueRules().StartCoins.ToString(System.Globalization.CultureInfo.InvariantCulture));
@@ -85,6 +85,7 @@ namespace ReverseSolver.Core
             ReadCounts("best", Best);
             ReadCounts("losses", Losses);
             ReadCounts("fun_asked", FunAsked);
+            ReadCounts("chests21", _chests21);
         }
 
         public void SetCoins(int coins)

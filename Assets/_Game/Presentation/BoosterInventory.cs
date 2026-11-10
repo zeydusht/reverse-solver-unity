@@ -12,6 +12,7 @@ namespace ReverseSolver.Presentation
         {
             public int[] stock = new int[4];
             public bool[] trained = new bool[4];
+            public int[] chestBonus;
         }
         readonly IKeyValueStore _store;
         readonly Data _data;
@@ -29,6 +30,7 @@ namespace ReverseSolver.Presentation
                 foreach (var b in BoosterExt.All)
                     if (Trained(b) || (level.Unlock != null && level.Unlock.TryGetValue(b.Id(), out int at) && won(at - 1)))
                         _data.stock[(int)b] = BoosterStart;
+            if (_data.chestBonus != null && _data.chestBonus.Length != 4) _data.chestBonus = null;
             foreach (var b in BoosterExt.All) _data.stock[(int)b] = Math.Max(0, _data.stock[(int)b]);
             Save();
         }
@@ -42,7 +44,9 @@ namespace ReverseSolver.Presentation
         {
             if (Trained(b)) return;
             _data.trained[(int)b] = true;
-            _data.stock[(int)b] = BoosterStart;
+            int bonus = Art.T54 && TelemetryMeta.Current?.Cohort == "p21" && _data.chestBonus != null ? Math.Max(0, _data.chestBonus[(int)b]) : 0;
+            _data.stock[(int)b] = (int)Math.Min(int.MaxValue, (long)BoosterStart + bonus);
+            if (_data.chestBonus != null) _data.chestBonus[(int)b] = 0;
             Save();
         }
         public void Spend(Booster b)

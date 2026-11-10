@@ -26,6 +26,7 @@ namespace ReverseSolver.Presentation
         readonly Dictionary<int, BombBadge> _bombs = new Dictionary<int, BombBadge>();
         readonly Dictionary<int, ChainRope> _ropes = new Dictionary<int, ChainRope>();
         int _blocker = -1, _dragged = -1;
+        P21JuiceView _juice;
 
         public static BoardView Create(Transform parent, GameSession session, float cell, Vector2 origin)
         {
@@ -36,6 +37,7 @@ namespace ReverseSolver.Presentation
             v.Origin = origin;
             v.transform.localPosition = Draw.W(origin);
             v.Build();
+            if (P21JuiceView.Enabled) v._juice = P21JuiceView.Create(v);
             session.EventRaised += v.OnEvent;
             return v;
         }
@@ -352,6 +354,7 @@ namespace ReverseSolver.Presentation
 
         void FlyOut(PieceView pv, Dir dir, int travelCells)
         {
+            bool pop = _juice != null;
             // Move the actual piece transform so the attached rope follows the slide.
             var from = pv.Offset;
             var axis = new Vector2(dir.Dx(), dir.Dy());
@@ -371,6 +374,7 @@ namespace ReverseSolver.Presentation
                     ? new Vector2(1 + stretch, 1 - stretch * .4f)
                     : new Vector2(1 - stretch * .4f, 1 + stretch);
                 scale *= 1 + puff * .12f;
+                if (pop) scale *= 1 + .14f * Mathf.Sin(Mathf.Min(1, t / .45f) * Mathf.PI);
                 pv.transform.localScale = new Vector3(scale.x, scale.y, 1);
                 // Scale about the piece centre rather than the board origin.
                 pv.SetOffset(offset + center - Vector2.Scale(center, scale));
@@ -437,6 +441,11 @@ namespace ReverseSolver.Presentation
 
         void OnEvent(GameEvent e)
         {
+            if (_juice != null)
+            {
+                _pieces.TryGetValue(e.Piece, out var piece);
+                _juice.OnEvent(e, piece);
+            }
             switch (e.Kind)
             {
                 case EventKind.PieceRemoved:
@@ -446,7 +455,11 @@ namespace ReverseSolver.Presentation
                         _ropes.Remove(e.Piece);
                     }
                     // a drag-out is animated by EndDrag; anything else (hammer, M4) just leaves
-                    if (e.ByHammer && _pieces.TryGetValue(e.Piece, out var hv)) FlyOut(hv, Dir.U, 0);
+                    if (e.ByHammer && _pieces.TryGetValue(e.Piece, out var hv))
+                    {
+                        if (Art.T54 && TelemetryMeta.Current?.Cohort == "p21") HammerFall(hv);
+                        else FlyOut(hv, Dir.U, 0);
+                    }
                     _nails.Remove(e.Piece);
                     _bombs.Remove(e.Piece);
                     break;
@@ -475,6 +488,51 @@ namespace ReverseSolver.Presentation
                         foreach (var b in _bombs)
                             if (Session.FuseAt(b.Key) <= 0) b.Value.Explode();
                     break;
+            }
+        }
+
+        public void BoosterShake()
+        {
+            var home = transform.localPosition;
+            Tweens.Run(this, .1f, t =>
+            {
+                if (this != null) transform.localPosition = home + new Vector3(Mathf.Sin(t * Mathf.PI * 8) * 5, Mathf.Sin(t * Mathf.PI * 6) * 4, 0) * (1 - t);
+            }, () => { if (this != null) transform.localPosition = home; });
+        }
+
+        void HammerFall(PieceView pv)
+        {
+            _pieces.Remove(pv.Index); _ropes.Remove(pv.Index);
+            var center = Vector2.zero;
+            foreach (var c in pv.Cells) center += Center(c);
+            center /= pv.Cells.Length;
+            pv.SortingOrder = LiftOrder;
+            Tweens.Run(pv, .53f, t =>
+            {
+                if (pv == null) return;
+                var rotation = Quaternion.Euler(0, 0, 340 * t);
+                var offset = new Vector2(65 * t, -Cell * 1.2f * Mathf.Sin(t * Mathf.PI) + Cell * 5 * t * t);
+                pv.transform.localRotation = rotation;
+                pv.transform.localPosition = Draw.W(center + offset) - rotation * Draw.W(center);
+                pv.SetAlpha(1 - t * t);
+            }, () => { if (pv != null) Destroy(pv.gameObject); });
+        }
+
+        public void RegionDance(int quadrant)
+        {
+            var region = WandRegion.Quadrant(Session.Level, quadrant);
+            foreach (var pair in _pieces)
+            {
+                bool inside = true;
+                foreach (var c in pair.Value.Cells) if (!region.Contains(c)) { inside = false; break; }
+                if (!inside) continue;
+                var pv = pair.Value;
+                Tweens.Run(pv, .35f, t =>
+                {
+                    if (pv == null) return;
+                    pv.SetOffset(new Vector2(Mathf.Sin(t * Mathf.PI * 2) * Cell * .15f, -Mathf.Sin(t * Mathf.PI) * Cell * .3f));
+                    pv.SetLift(Mathf.Sin(t * Mathf.PI));
+                }, () => { if (pv != null) { pv.SetOffset(Vector2.zero); pv.SetLift(0); } });
             }
         }
 

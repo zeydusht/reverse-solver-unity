@@ -8,7 +8,7 @@ namespace ReverseSolver.Core
        editor, so the phone does no search. */
     public static class MoveRow
     {
-        public static bool INPUT_COL = false; // Enable only after the optional moves.input column exists.
+        public static bool INPUT_COL = true; // moves.input column exists (PM_MESAJ_60).
         public static string Json(string rowId, string player, string levelId, int levelVersion, int attempt, int moveNo,
                                   string kind, int piece, string dir, int tMs, int thinkMs, int timeLeft, string fuses, int? holdMs = null, string input = null)
         {

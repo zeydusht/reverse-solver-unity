@@ -3,6 +3,8 @@
     "rootNamespace": "ReverseSolver.EditorTools",
     "references": [
         "ReverseSolver.Core",
+        "ReverseSolver.Generation",
+        "ReverseSolver.Editing",
         "ReverseSolver.Presentation",
         "Unity.InputSystem",
         "Unity.TextMeshPro"

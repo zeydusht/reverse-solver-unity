@@ -51,6 +51,9 @@ namespace ReverseSolver.Generation
            so its numbers stay reproducible. */
         public sealed class Options
         {
+            // Editor experiments can prepare a session; each changed layout gets a fresh solver cache.
+            public Action<GameSession> PrepareAttempt;
+            public uint BoosterSeed = 1;
             public double Memory = .5;            // V1: a piece removed in an earlier attempt is found with 1 look, with this chance
             public double AttentionAfterBomb = .8; // V2: after a bomb went off, attention is at least this (0 = off)
             public bool BombIntro;                 // V3: the bomb introduction slot: attention drawn from [IntroAttention, 1]
@@ -278,7 +281,8 @@ namespace ReverseSolver.Generation
         static Attempt Play(LevelData level, Player p, double learn, Cache cache, IRandom rng,
                             double attention, double memory, List<int> remembered, int knotLooks, IRandom recall, IRandom reach, Options opt)
         {
-            var s = new GameSession(level, 1, "funsim", new Mulberry32(1));
+            var s = new GameSession(level, 1, "funsim", new Mulberry32(opt.BoosterSeed));
+            if (opt.PrepareAttempt != null) { opt.PrepareAttempt(s); cache = new Cache(level); }
             s.ClockOnFirstMove = false;               // the fun model counts the first look too (as fitted)
             var at = new Attempt();
             var moveTimes = new List<double>();

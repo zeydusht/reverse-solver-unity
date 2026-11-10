@@ -10,6 +10,10 @@ namespace ReverseSolver.Presentation
         float _p21StepAt, _p21AdvanceAt = -1, _p21BannerUntil;
         string _moveInput;
         P21TutorialView _p21View;
+        P21Story _p21Story;
+        bool _p21StoryDismissed, _p21StoryLast;
+        bool P21NewArt => Art.T54 && P21Onboarding.Enabled(TelemetryMeta.Current?.Cohort, _redesignSet, PlayOverride.Active, true, "1");
+        bool P21StoryLevel => P21NewArt && !_p21Flow && _index == 0;
         readonly P21LockHints _p21LockHints = new P21LockHints();
         P21TutorialView _p21LockBubble;
 
@@ -34,7 +38,14 @@ namespace ReverseSolver.Presentation
         {
             _p21Step = 1; _p21Wrong = 0; _p21Correction = _p21JamPending = false;
             _p21StepAt = Time.unscaledTime; _p21AdvanceAt = -1;
-            _p21BannerUntil = _p21Flow && _index < 3 ? Time.unscaledTime + 1.5f : -1;
+            _p21Story = P21StoryLevel ? new P21Story() : null;
+            _p21StoryDismissed = _p21StoryLast = false;
+            if (P21StoryLevel)
+            {
+                _session.PreventTimeout = true; _session.ClockOnFirstMove = false;
+                _p21Story.Refresh(_session);
+            }
+            _p21BannerUntil = (_p21Flow || P21NewArt) && _index < 3 ? Time.unscaledTime + 1.5f : -1;
             if (P21Guided) _session.TutorialMove = true;
         }
 
@@ -48,13 +59,16 @@ namespace ReverseSolver.Presentation
         void BuildP21Tutorial()
         {
             _p21View = null;
-            if (!_p21Flow || _board == null) return;
+            if ((!_p21Flow && !P21NewArt) || _board == null) return;
+            if (P21StoryLevel && !_session.IsOver)
+                _p21View = P21TutorialView.Story(_world, _screen, _safe.w, _board, _p21Story.Target,
+                    _p21StoryLast ? Texts.P21StoryLast : Texts.P21StoryStart, !_p21StoryDismissed);
             if (P21Guided && !_session.IsOver)
             {
                 _p21View = P21TutorialView.Show(_world, _screen, _board, P21Target, P21Instruction,
                     _p21Step == 1 ? (Dir?)Dir.D : _p21Step == 2 ? (_p21Correction ? Dir.R : Dir.L) : null);
             }
-            else if (_index == 1 && !_session.IsOver && _session.Moves == 0)
+            else if (_p21Flow && _index == 1 && !_session.IsOver && _session.Moves == 0)
                 _p21View = P21TutorialView.Show(_world, _screen, _board, -1,
                     Lang.T("Clear the pieces with an open path first.", "Önce önü açık parçaları çıkar."), null);
             if (P21Guided)
@@ -114,6 +128,22 @@ namespace ReverseSolver.Presentation
 
         void OnP21TutorialEvent(GameEvent e)
         {
+            if (P21StoryLevel && e.Kind == EventKind.PieceRemoved)
+            {
+                if (e.Piece == _p21Story.Target)
+                {
+                    _p21Step = _p21Story.Step; RecordP21Step("exit"); _p21StepAt = Time.unscaledTime;
+                }
+                _p21Story.Refresh(_session, e.Piece);
+                _p21View?.StoryTarget(_board, _p21Story.Target);
+                if (_session.Board.PresentCount == 1 && !_p21StoryLast)
+                {
+                    _p21StoryLast = true; _p21StoryDismissed = false;
+                    _p21View?.StoryText(Texts.P21StoryLast);
+                }
+                if (_session.Board.PresentCount == 0) { _p21View?.Remove(); _p21View = null; }
+                return;
+            }
             if (!P21Guided)
             {
                 if (_p21Flow && _index == 1 && e.Kind == EventKind.PieceRemoved) { _p21View?.Remove(); _p21View = null; }

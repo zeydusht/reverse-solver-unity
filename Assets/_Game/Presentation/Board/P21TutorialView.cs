@@ -14,6 +14,53 @@ namespace ReverseSolver.Presentation
         ShapeView _glow;
         float _feedbackUntil;
         bool _correct;
+        Transform _chat;
+        Rect _chatRect;
+        TextMeshPro _typed;
+        float _typedAt;
+        PieceView _storyPiece;
+
+        public static P21TutorialView Story(Transform world, Vector2 screen, float safeBottom, BoardView board,
+            int piece, string text, bool visible)
+        {
+            var v = Draw.Child<P21TutorialView>(world, "P21 story");
+            float width = Mathf.Min(screen.x - 24, 366), height = 86;
+            var center = new Vector2(screen.x / 2, Hud54.ButtonsTop(screen, safeBottom) - height / 2 - 10);
+            v._chatRect = new Rect(center - new Vector2(width, height) / 2, new Vector2(width, height));
+            v._chat = new GameObject("chat").transform; v._chat.SetParent(v.transform, false);
+            ShapeView.Create(v._chat, "cream blue chat", v._chatRect.size, 8, Order).Radius(14)
+                .Fill(Palette.Cream).Stroke(Draw.Hex("#4b96c6"), 2).transform.localPosition = Draw.W(center);
+            Place(v._chat, "Speech/jigo-avatar", center + new Vector2(-width / 2 + 29, 0), new Vector2(46, 54), Order + 1);
+            v._speech = TextView.Create(v._chat, "story", text, 15, Palette.Navy, order: Order + 2);
+            v._speech.transform.localPosition = Draw.W(center + new Vector2(25, 0));
+            v._typed = v._speech.GetComponent<TextMeshPro>();
+            v._typed.textWrappingMode = TextWrappingModes.Normal;
+            v._typed.rectTransform.sizeDelta = new Vector2(width - 80, height - 16);
+            v._typed.enableAutoSizing = true; v._typed.fontSizeMin = 12 * TextView.PointToFontSize;
+            v._typed.fontSizeMax = 15 * TextView.PointToFontSize;
+            v.StoryText(text); v._chat.gameObject.SetActive(visible);
+            v.StoryTarget(board, piece);
+            return v;
+        }
+
+        public void StoryText(string text)
+        {
+            if (_chat == null) return;
+            _chat.gameObject.SetActive(true); _speech.Text = text;
+            _typedAt = Time.unscaledTime; _typed.maxVisibleCharacters = 0;
+        }
+
+        public void StoryTarget(BoardView board, int piece)
+        {
+            if (_storyPiece != null) _storyPiece.SetGlow(Vector4.zero, 0);
+            _storyPiece = piece >= 0 ? board.PieceViewOf(piece) : null;
+        }
+
+        public bool DismissStory(Vector2 point)
+        {
+            if (_chat == null || !_chat.gameObject.activeSelf || !_chatRect.Contains(point)) return false;
+            _chat.gameObject.SetActive(false); return true;
+        }
 
         static Sprite Sprite(string key) => Resources.Load<Sprite>("Art/yeni/tutorial/" + key);
         static SpriteRenderer Place(Transform parent, string key, Vector2 point, Vector2 size, int order)
@@ -72,6 +119,8 @@ namespace ReverseSolver.Presentation
 
         void Update()
         {
+            if (_typed != null) _typed.maxVisibleCharacters = (int)((Time.unscaledTime - _typedAt) * 40);
+            if (_storyPiece != null) _storyPiece.SetGlow(Draw.Hex("#ffcf59"), .55f + .2f * Mathf.Sin(Time.unscaledTime * 3));
             if (_hand != null) _hand.sprite = Sprite("Hand/drag/" + (1 + (int)(Time.unscaledTime * 7) % 5).ToString("00"));
             if (_glow != null) _glow.Alpha(.65f + .25f * Mathf.Sin(Time.unscaledTime * 4));
             if (_mark != null)

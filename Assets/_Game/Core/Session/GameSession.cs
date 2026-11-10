@@ -24,7 +24,7 @@ namespace ReverseSolver.Core
        or drags a piece beyond the point where it stops (once per drag and
        direction). Both are input decisions, so Presentation reports them
        through RecordJam; the session only counts them. */
-    public sealed class GameSession
+    public sealed partial class GameSession
     {
         public const int ClockBonusSeconds = 20;
         const int WandAttempts = 200;
@@ -85,6 +85,7 @@ namespace ReverseSolver.Core
         {
             Level = o.Level; Attempt = o.Attempt; Client = o.Client; _random = o._random;
             Board = o.Board.Clone();
+            PreventTimeout = o.PreventTimeout;
             TimeLeft = o.TimeLeft; ElapsedSeconds = o.ElapsedSeconds; Moves = o.Moves; Jams = o.Jams;
             ClockOnFirstMove = o.ClockOnFirstMove; ClockStarted = o.ClockStarted; FreeUse = o.FreeUse;
             ValveCount = o.ValveCount; Outcome = o.Outcome; Record = o.Record;
@@ -95,6 +96,8 @@ namespace ReverseSolver.Core
             Array.Copy(o._used, _used, 4);
             _events.AddRange(o._events);
             _clockCarry = o._clockCarry;
+            ClockFreezesTime = o.ClockFreezesTime; FreezeLeft = o.FreezeLeft;
+            TestBoosterUnlock = o.TestBoosterUnlock;
         }
 
         /* A branch for search (solvers, Monte Carlo). Shares the random source,
@@ -117,11 +120,13 @@ namespace ReverseSolver.Core
         public Booster? FreeUse { get; set; }
         // Guided jams still raise the visual event without counting as player mistakes.
         public bool TutorialMove { get; set; }
+        public bool PreventTimeout { get; set; }
+        public Booster? TestBoosterUnlock { get; set; }
         public int Used(Booster b) => _used[(int)b];
 
         /* Locked while the level number is below the booster's unlock level. */
         public bool IsUnlocked(Booster b) =>
-            Level.Unlock == null || !Level.Unlock.TryGetValue(b.Id(), out int at) || Level.Number >= at;
+            TestBoosterUnlock == b || Level.Unlock == null || !Level.Unlock.TryGetValue(b.Id(), out int at) || Level.Number >= at;
 
         public TravelLimit Probe(int piece, Dir dir) => TravelRule.Limit(Board, piece, dir);
 
@@ -238,8 +243,12 @@ namespace ReverseSolver.Core
             var check = CanUse(Booster.Clock);
             if (check != CommandResult.Ok) return check;
             Spend(Booster.Clock);
-            TimeLeft += ClockBonusSeconds;
-            Raise(GameEvent.Time(EventKind.TimeAdded, ClockBonusSeconds));
+            if (ClockFreezesTime) FreezeLeft += ClockBonusSeconds;
+            else
+            {
+                TimeLeft += ClockBonusSeconds;
+                Raise(GameEvent.Time(EventKind.TimeAdded, ClockBonusSeconds));
+            }
             return CommandResult.Ok;
         }
 
@@ -249,15 +258,21 @@ namespace ReverseSolver.Core
         public void Tick(double dt)
         {
             if (IsOver || dt <= 0) return;
+            if (FreezeLeft > 0)
+            {
+                double frozen = Math.Min(dt, FreezeLeft);
+                FreezeLeft = Math.Max(0, FreezeLeft - frozen); dt -= frozen;
+                if (dt <= 0) return;
+            }
             if (ClockOnFirstMove && !ClockStarted) return;
             _clockCarry += dt;
             while (_clockCarry >= 1 - 1e-9 && !IsOver)
             {
                 _clockCarry -= 1;
-                TimeLeft--;
+                TimeLeft = PreventTimeout ? Math.Max(0, TimeLeft - 1) : TimeLeft - 1;
                 ElapsedSeconds++;
                 Raise(GameEvent.Time(EventKind.TimeTick, TimeLeft));
-                if (TimeLeft <= 0) Finish(Outcome.Time);
+                if (TimeLeft <= 0 && !PreventTimeout) Finish(Outcome.Time);
             }
         }
 

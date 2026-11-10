@@ -9,6 +9,7 @@ namespace ReverseSolver.Presentation
         readonly SpriteRenderer _front, _back;
         readonly int _forced;
         readonly bool _joy;
+        public void Visible(bool visible) { _front.gameObject.SetActive(visible); _back.gameObject.SetActive(visible); }
         int _current = -1, _previous, _time;
         int? _fuse;
         bool _lost, _won;
