@@ -60,3 +60,19 @@ Ekran görüntüleri (390×844, build üzerinde): [başlangıç](entegrasyon/vit
 - [Çekiçle kopma](entegrasyon/zincir_kopma_cekic.gif): yarım halkalar orta noktada ayrılıp yaklaşık 0,2 sn'de kayboluyor.
 
 **FPS:** Vitrinde `&fps=1` sol üstte, HUD'un altında "FPS x min y" gösterir (saniyede bir güncellenir; varsayılan kapalı). Telefonda ölçüm Zeyd'de.
+
+## Ek — PM_55 (9 Kasım, vitrin geri bildirimi)
+
+**Yayın:** gh-pages `6017ad93`, yalnız `p21/` değişti. Kaynak değişiklikleri çalışma alanında, commit edilmedi. EditMode 598 geçti, 0 kaldı, 2 atlandı. `verify_build` yerelde ve canlıda 4/4. Canlı vitrin `?lv=SHOW_ART` ve `&art=eski` istisna 0. Telefonda FPS ölçülmedi.
+
+Önce/sonra: [önce](entegrasyon/vitrin_baslangic.png), [sonra](entegrasyon/vitrin_pm55_sonra.png).
+
+| Madde | Yapılan |
+|---|---|
+| 1. Bomba | 3-2-1'de sürekli nabız (%8, 0,6 sn), üstüne hamle pump'ı ve titreme. ≥4'te %3 / 1,2 sn aynı. Fitil ateşi 1,8 kat, kıvılcım noktası sabit kalacak şekilde; arkasında sarı→turuncu additive hale |
+| 2. Zincir sarkması | max(0,22 hücre, boyun %10'u), üst sınır 0,45 hücre; dikeyde yön çarpanı korundu, dikey düz kalıyor. Yaylanma aynı |
+| 3. Yüksek durma | Neden: `ChainedBoost` tüm parçayı gölgesiyle komşularının üstüne çiziyordu. Yeni görselde kaldırıldı; zincir ve bağlantı noktaları parçaların üstünde, duvarların ve öğretici elin altında. Parça sürüklenirken zinciri de yükselir |
+| 4. Zincir kalınlığı | Halka 1,6 kat, aralık 0,352 hücre; 2 hücreye kadar zincirlerde 0,28 hücre, yani daha çok halka |
+| 5. Kilit | Dokunulmadı |
+
+**Doğrulanmayan:** Telefonda görünüm ve FPS. Hale rengi PC tarayıcısında görüldü, iPhone Safari'de görülmedi.

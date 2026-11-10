@@ -38,7 +38,7 @@ namespace ReverseSolver.EditorTools
                 }
                 a.spritePixelsPerUnit = 3;
                 a.mipmapEnabled = false;
-                a.maxTextureSize = 1024;
+                a.maxTextureSize = assetPath.Contains("/yeni/hud/") || assetPath.Contains("/yeni/devam_v2/") ? 2048 : 1024;
                 if (assetPath.Contains("/t20-") || assetPath.Contains("/t21-") || assetPath.Contains("/t23-"))
                 {
                     a.wrapMode = UnityEngine.TextureWrapMode.Clamp;

@@ -61,7 +61,8 @@ namespace ReverseSolver.Core
         JointCut,        // X, Y, Vertical
         JointsReshuffled,
         BoosterUsed,     // Booster
-        Finished         // Outcome
+        Finished,        // Outcome
+        Continued        // revived after a time or bomb loss
     }
 
     /* One thing that happened in a session. Presentation listens to these; the

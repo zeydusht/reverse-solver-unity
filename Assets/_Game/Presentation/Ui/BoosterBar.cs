@@ -15,6 +15,8 @@ namespace ReverseSolver.Presentation
         public const float Height = 97f, PromptH = 17f;
 
         readonly Transform _root;
+        readonly BoosterBar54 _t54;
+        public BarAction HitAction(Vector2 pt) => _t54?.HitAction(pt) ?? BarAction.None;
         readonly TextView _prompt;
         readonly List<Slot> _slots = new List<Slot>();
 
@@ -31,10 +33,11 @@ namespace ReverseSolver.Presentation
             public bool Fresh;
         }
 
-        public BoosterBar(Transform parent, Vector2 screen, float bottomInset, int order)
+        public BoosterBar(Transform parent, Vector2 screen, float bottomInset, int order, bool t54 = false)
         {
             _root = new GameObject("BoosterBar").transform;
             _root.SetParent(parent, false);
+            if (t54 && Art.T54) { _t54 = new BoosterBar54(_root, screen, bottomInset, order); return; }
             float top = screen.y - bottomInset - 4 - Height;
             float cy = top + 7 + 30;
             float x0 = screen.x / 2 - (4 * 60 + 3 * 13) / 2f + 30;
@@ -92,6 +95,7 @@ namespace ReverseSolver.Presentation
            söküldü" for 1.6 s; the web says "söktü"); a booster's own hint takes precedence. */
         public void Notice(string text, float seconds)
         {
+            if (_t54 != null) { _t54.Notice(text, seconds); return; }
             _notice = text;
             _noticeUntil = Time.unscaledTime + seconds;
         }
@@ -99,6 +103,7 @@ namespace ReverseSolver.Presentation
         /* quiet: a tutorial spotlight is up with its own line; the bar's prompt would sit under it (PM_MESAJ_30) */
         public void Refresh(BoosterControls bar, GameSession session, bool quiet = false)
         {
+            if (_t54 != null) { _t54.Refresh(bar, session, quiet); return; }
             _prompt.Text = quiet ? "" : !string.IsNullOrEmpty(bar.Prompt) ? Texts.BoosterPrompt(bar)
                          : Time.unscaledTime < _noticeUntil ? _notice : "";
             foreach (var s in _slots)
@@ -154,10 +159,11 @@ namespace ReverseSolver.Presentation
                        () => { if (s.Fresh && s.Face != null) Pulse(s); });
         }
 
-        public Rect RectOf(Booster b) => _slots.Find(s => s.B == b).Rect;
+        public Rect RectOf(Booster b) => _t54 != null ? _t54.RectOf(b) : _slots.Find(s => s.B == b).Rect;
 
         public Booster? Hit(Vector2 pt)
         {
+            if (_t54 != null) return _t54.Hit(pt);
             foreach (var s in _slots) if (s.Rect.Contains(pt)) return s.B;
             return null;
         }

@@ -48,6 +48,14 @@ namespace ReverseSolver.Presentation
         bool _introPlaying, _endingEligible, _endingPlayed;
         TelemetryQueue _introQueue;
         TelemetrySender _introSender;
+        readonly ContinueRules _continueRules = new ContinueRules();
+        TelemetryQueue _continueQueue;
+        TelemetrySender _continueSender;
+        ContinuePanel _continuePanel;
+        ContinueOffer _continueOffer;
+        AttemptRecord _deferredLoss;
+        bool _continuePreview, _pageHidden, _continueResultOnReturn;
+        bool ContinueEnabled => Art.T54 && TelemetryMeta.Current?.Cohort != "pt1" && !PlayOverride.Active;
         float _nextFlush;
         Progress _progress;
         Mode _mode = Mode.Menu;
@@ -89,6 +97,7 @@ namespace ReverseSolver.Presentation
         Transform _world;
         BoardView _board;
         Hud _hud;
+        bool UseHud54 => Art.T54 && TelemetryMeta.Current?.Cohort != "pt1";
         BoosterBar _bar;
         Card _card;                  // the one open card: result, intro or question
         string _cardKind;
@@ -119,6 +128,8 @@ namespace ReverseSolver.Presentation
         Vector4 _safe;              // points: left, top, right, bottom
         float _dpr = 1;
         float _endAt = -1;
+        WinCelebration54 _celebration;
+        bool _celebrationResult;
         bool _jointsShown;
 
         readonly List<float> _dragFps = new List<float>();
@@ -161,6 +172,11 @@ namespace ReverseSolver.Presentation
             }
             _introQueue = new TelemetryQueue(host.Store, "intro");
             _introSender = new TelemetrySender(_introQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "intro_events?on_conflict=row_id");
+            _continueQueue = new TelemetryQueue(host.Store, "continue");
+            _continueSender = new TelemetrySender(_continueQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "continue_events?on_conflict=row_id");
+            _continueSender.Flush();
+            if (ContinueEnabled)
+                _save.SetCoins(int.TryParse(host.Query("coin"), out int coins) && coins >= 0 ? coins : _save.Coins);
             string introParam = host.Query("intro");
             bool hasLv = host.Query("lv") != null, hasSet = host.Query("set") != null;
             bool opening = IntroPlan.ShowOpening(introParam, Host.Debug, _showSet, PlayOverride.Active, hasLv, hasSet,
@@ -389,6 +405,23 @@ namespace ReverseSolver.Presentation
 
         void OnVisibility(bool visible)
         {
+            _pageHidden = !visible;
+            if (!visible && _deferredLoss != null)
+            {
+                ResolveContinue("withdrawn", false);
+                _continueResultOnReturn = true;
+            }
+            else if (!visible && _continuePreview) CloseContinue();
+            if (_session != null && _session.Continues > 0 && !_session.IsOver)
+            {
+                if (visible) _continueQueue.Remove(_rowId + ":final");
+                else RecordContinueFinal(_session.PreviewQuit(), false);
+            }
+            if (visible)
+            {
+                _continueSender?.Flush();
+                if (_continueResultOnReturn) { _continueResultOnReturn = false; ShowResult(); }
+            }
             if (_zeydbotSet && _mode == Mode.Playing && _session != null && !_session.IsOver) WriteMove(visible ? "show" : "hide", -1, null);
             if (visible) _telemetry.PageVisible(_mode == Mode.Playing ? _session : null, _rowId);
             else
@@ -402,6 +435,12 @@ namespace ReverseSolver.Presentation
 
         void LeaveLevel()
         {
+            _continueResultOnReturn = false;
+            if (_deferredLoss != null) ResolveContinue("withdrawn", false);
+            CloseContinue();
+            _celebration?.Destroy();
+            _celebration = null;
+            _celebrationResult = false;
             if (_session == null) return;
             if (!_session.IsOver) { WriteMove("quit", -1, null); _session.Quit(); }   // OnEvent logs the quit row
             _session.EventRaised -= OnEvent;
@@ -467,6 +506,13 @@ namespace ReverseSolver.Presentation
             _board?.Deal();                                    // web render(true): pieces deal in on a fresh start
             if (Host.Debug) Debug.Log("[level-ready] " + level.Id);   // PM_MESAJ_28 B2: verify_build --only perf times this
             AskProfileIfDue();
+            if (ContinueEnabled && Host.Current.Query("devam") == "1")
+            {
+                _continuePreview = true;
+                _continueOffer = _continueRules.Offer(ContinueKind.Time, 0, level.TimerSeconds, _save.Coins);
+                ShowContinue();
+            }
+            else if (Art.T54 && Host.Current.Query("jigo") == "sevinc") BeginCelebration(false);
         }
 
         /* Zeyd 2026-10-28: a new browser save (Safari's 7-day clean-up, Chrome or WhatsApp's own browser, another
@@ -476,7 +522,7 @@ namespace ReverseSolver.Presentation
         {
             var host = Host.Current;
             if (string.IsNullOrEmpty(host.SupabaseUrl) || string.IsNullOrEmpty(host.AnonKey) || string.IsNullOrEmpty(name)) yield break;
-            string url = host.SupabaseUrl + "/rest/v1/plays?select=level_id,stars&result=eq.win&player=eq." + UnityEngine.Networking.UnityWebRequest.EscapeURL(name);
+            string url = host.SupabaseUrl + "/rest/v1/plays?select=level_id,stars&result=in.(win,won_after_continue)&player=eq." + UnityEngine.Networking.UnityWebRequest.EscapeURL(name);
             using (var req = UnityEngine.Networking.UnityWebRequest.Get(url))
             {
                 req.SetRequestHeader("apikey", host.AnonKey);
@@ -525,7 +571,7 @@ namespace ReverseSolver.Presentation
             // Zeyd 2026-10-28: the hand on level 1's first two moves only, never on level 2 (tutorial 2)
             int done = _session.Level.Pieces.Count - _session.Board.PresentCount;
             if (_session.Level.Tutorial != 1 || done >= 2) return;
-            var origin = BoardPlacement(_screen, _safe, _session.Level, out _);
+            var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out _);
             _hand = TutorialHand.Show(_board, _board.PieceViewOf(m.Piece), m, HandOrder, new Rect(-origin, _screen));
             if (_session.Level.Tutorial == 1 || done == 0) _bar?.Notice(done == 0 ? Texts.TutorialFirst : Texts.TutorialNext, 2.5f);
         }
@@ -780,6 +826,7 @@ namespace ReverseSolver.Presentation
 
         void OnEvent(GameEvent e)
         {
+            _hud?.OnEvent(e, _session);
             if (_zeydbotSet && e.Kind == EventKind.Jammed && _session.TutorialMove) WriteMove("tut", e.Piece, _drag?.Direction?.ToString());
             else if (_zeydbotSet) RecordMove(e);
             if (e.Kind == EventKind.Jammed || (e.Kind == EventKind.PieceRemoved && !e.ByHammer)) _tutorialClockHold = false;
@@ -823,6 +870,24 @@ namespace ReverseSolver.Presentation
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
             if (e.Kind != EventKind.Finished) return;
+            if (ContinueEnabled && (e.Outcome == Outcome.Time || e.Outcome == Outcome.Bomb))
+                _continueOffer = _continueRules.Offer(e.Outcome == Outcome.Time ? ContinueKind.Time : ContinueKind.Bomb,
+                    _session.Continues, _session.Level.TimerSeconds, _save.Coins);
+            if (_continueOffer != null) _deferredLoss = _session.Record;
+            else CommitFinished();
+            _drag?.Cancel();
+            _boosters?.Disarm();
+            if (e.Outcome == Outcome.Quit) return;
+            if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
+            if (e.Outcome == Outcome.Win) { Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s
+            _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
+            // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
+            if (e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
+        }
+
+        // Only this method commits an outcome; offered losses wait here until a decision.
+        void CommitFinished()
+        {
             _log.Add(_session.Record);
             if (!_previewWins)
             {
@@ -835,24 +900,84 @@ namespace ReverseSolver.Presentation
             string levelId = _session.Level.Id;
             // PM_MESAJ_41 (Zeyd): no end-of-level rating; the row goes with empty zorluk_puani/keyif, set_rating stays unused
             const bool askRatings = false;
-            bool ask = askRatings && !_showSet && SetFlags.AskFun && FunAsk.ShouldAsk(e.Outcome, _save.LossesOf(levelId), _save.WasFunAsked(levelId));
-            if (SetFlags.AskFun && (e.Outcome == Outcome.Time || e.Outcome == Outcome.Bomb)) _save.RecordLoss(levelId);
+            bool ask = askRatings && !_showSet && SetFlags.AskFun && FunAsk.ShouldAsk(_session.Outcome, _save.LossesOf(levelId), _save.WasFunAsked(levelId));
+            if (SetFlags.AskFun && (_session.Outcome == Outcome.Time || _session.Outcome == Outcome.Bomb)) _save.RecordLoss(levelId);
             _askFun = ask;
-            _askHard = askRatings && e.Outcome != Outcome.Quit && !_showSet && AskHardNow(levelId);
+            _askHard = askRatings && _session.Outcome != Outcome.Quit && !_showSet && AskHardNow(levelId);
             if (_askHard) HardAsked(levelId);                       // asked once per level (cohort), answered or skipped
             if (ask) _save.MarkFunAsked(levelId);
             // PM_MESAJ_29: the row goes now, empty answers; the 1-10 and 👍/👎 fill it later (rpc/set_rating)
             _rated = ask || _askHard ? (_session.Record, _rowId) : null;
             _telemetry.Finished(_session.Record, _rowId);
             if (Host.Debug) Debug.Log("[attempt] " + _session.Record);
-            _drag?.Cancel();
-            _boosters?.Disarm();
-            if (e.Outcome == Outcome.Quit) return;
-            if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
-            if (e.Outcome == Outcome.Win) { Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s
-            _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
-            // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
-            if (e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
+            if (!_previewWins && ContinueEnabled && _session.Outcome == Outcome.Win)
+                _save.SetCoins((int)System.Math.Min(int.MaxValue, (long)_save.Coins + _continueRules.WinCoins));
+            if (_session.Continues > 0) RecordContinueFinal(_session.Record, true);
+        }
+
+        void ShowContinue()
+        {
+            CancelCardTap();
+            _continuePanel?.Destroy();
+            _continuePanel = new ContinuePanel(_world, _screen, _safe, CardOrder + 100,
+                _continueOffer, _save.Coins, Host.Current.Query("devamhayir") == "1", _continuePreview);
+        }
+
+        void CloseContinue()
+        {
+            _continuePanel?.Destroy();
+            _continuePanel = null;
+            _continueOffer = null;
+            _continuePreview = false;
+        }
+
+        void ResolveContinue(string decision, bool showResult = true)
+        {
+            if (_continuePreview) { CloseContinue(); return; }
+            if (_deferredLoss == null || _continueOffer == null) return;
+            var offer = _continueOffer;
+            int before = _save.Coins;
+            if (decision == "accepted" && before < offer.Price) return;
+            if (decision == "accepted")
+            {
+                _save.SetCoins(before - offer.Price);
+                if (!_session.Continue(offer.Seconds, _continueRules.BombFuse)) { _save.SetCoins(before); return; }
+                RecordContinueDecision(offer, before, decision);
+                _endAt = -1;
+                _deferredLoss = null;
+                CloseContinue();
+                CloseCard();
+                RefreshPlaying();
+            }
+            else
+            {
+                RecordContinueDecision(offer, before, decision);
+                _endAt = -1;
+                _deferredLoss = null;
+                CloseContinue();
+                CommitFinished();
+                if (showResult) ShowResult();
+            }
+        }
+
+        void RecordContinueDecision(ContinueOffer offer, int coinsBefore, string decision)
+        {
+            if (!_continueSender.Enabled) return;
+            string id = System.Guid.NewGuid().ToString("N");
+            _continueQueue.Add(id, ContinueRow.Json(id, _rowId, _save.Player, _deferredLoss,
+                _deferredLoss.Continues + 1, offer.Kind == ContinueKind.Time ? "time" : "bomb",
+                offer.Price, offer.Seconds, coinsBefore, decision));
+            if (!_pageHidden) _continueSender.Flush();
+        }
+
+        void RecordContinueFinal(AttemptRecord record, bool flush)
+        {
+            if (!_continueSender.Enabled) return;
+            string id = _rowId + ":final";
+            _continueQueue.Remove(id);
+            _continueQueue.Add(id, ContinueRow.Json(id, _rowId, _save.Player, record, record.Continues,
+                "final", 0, 0, _save.Coins, record.Result == "win" ? "won_after_continue" : record.Result));
+            if (flush && !_pageHidden) _continueSender.Flush();
         }
 
         /* The level's picture: its own (G1) or, in SET40 v3, painting-NN for level N (manifest order). */
@@ -880,6 +1005,8 @@ namespace ReverseSolver.Presentation
             _screen = new Vector2(Screen.width, Screen.height) / _dpr;
             _safe = Host.Current.SafeInsets / (Application.isEditor ? _dpr : 1f);
             Build();
+            _celebration?.Layout(_screen);
+            if (_continuePreview || _deferredLoss != null && _endAt < 0) ShowContinue();
         }
 
         /* immediate: screenshots build several screens in one frame, so the
@@ -890,6 +1017,7 @@ namespace ReverseSolver.Presentation
             if (_world != null) { if (immediate) DestroyImmediate(_world.gameObject); else Destroy(_world.gameObject); }
             _world = new GameObject("World").transform;
             CancelCardTap();
+            _continuePanel = null;
             _card = null; _cardKind = null; _menu = null; _list = null; _board = null; _hud = null; _bar = null;
             _tabs = null; _collection = null; _levelsMap = null; _paintingDetail = null; _menuSettings = null;
             _jiggles = null; _achievements = null; _profileCard = null;
@@ -937,9 +1065,9 @@ namespace ReverseSolver.Presentation
             }
             else
             {
-                _hud = new Hud(_world, _screen.x, _safe.y + BodyPad, HudOrder);
+                _hud = new Hud(_world, _screen.x, _safe.y + BodyPad, HudOrder, _screen, _safe.y, _session, UseHud54);
                 _hud.SetLevel(_session.Level.Number);
-                var origin = BoardPlacement(_screen, _safe, _session.Level, out float cell);
+                var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin);
                 // Zeyd 2026-10-26 chose the thick dark navy edge (#06161D, 1.5x rim, 80 % cream band, soft halo) for painted boards
                 Shader.SetGlobalFloat("_RSEdge", _showSet || _paintSet ? 1 : 0);
@@ -963,10 +1091,10 @@ namespace ReverseSolver.Presentation
                     _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
                                               new Rect(-origin, _screen));
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
-                _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder);
+                _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder, UseHud54);
                 if (_session.Level.Tutorial > 0 || TutorialActive) ShowTutorialStep();
                 if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder));
-                else if (_session.IsOver && _endAt < 0) ShowResult();
+                else if (_session.IsOver && _endAt < 0 && _celebration == null && _deferredLoss == null) ShowResult();
                 RefreshPlaying();
             }
 
@@ -989,6 +1117,18 @@ namespace ReverseSolver.Presentation
         /* The web game's sizeCell and flex placement: the board's top-left in
            points and the cell size. Safe insets play the role of the body's
            env(safe-area-inset-*) padding. */
+        Vector2 PlayingBoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell)
+        {
+            if (!UseHud54) return BoardPlacement(screen, safe, l, out cell);
+            cell = BoardLayout.CellSize(screen.x, screen.y - safe.y - safe.w, l.Width, l.Height);
+            float top = Hud54.TopBottom(screen, safe.y), bottom = Hud54.ButtonsTop(screen, safe.w);
+            // Include the tray and sealed-edge walls in the clearance.
+            float margin = Mathf.Max(18.2f, cell * .25f);
+            if (l.Height * cell + 2 * margin > bottom - top)
+                cell = Mathf.Floor(Mathf.Min(cell, (bottom - top - 36.4f) / l.Height, (bottom - top) / (l.Height + .5f)));
+            return new Vector2((screen.x - l.Width * cell) / 2, (top + bottom - l.Height * cell) / 2);
+        }
+
         public static Vector2 BoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell)
         {
             float innerH = screen.y - safe.y - safe.w;
@@ -1049,6 +1189,7 @@ namespace ReverseSolver.Presentation
 
         void ShowResult()
         {
+            if (_deferredLoss != null) { ShowContinue(); return; }
             CancelCardTap();
             _card?.Destroy();
             _card = null;
@@ -1125,6 +1266,15 @@ namespace ReverseSolver.Presentation
             _telemetry.Rate(rowId, hardness, fun);
         }
 
+        void OpenPause54()
+        {
+            OpenCard("pause", new Card(_world, _screen, CardOrder, "Pause")
+                .Title(Lang.T("Level ", "Seviye ") + _session.Level.Number)
+                .Button("resume", Lang.T("Resume", "Devam"), true)
+                .Button("sound", Lang.T("Sound: ", "Ses: ") + (Art.Muted ? Lang.T("Off", "Kapalı") : Lang.T("On", "Açık")), false)
+                .Button("menu", Lang.T("Quit", "Çık"), false).Finish());
+        }
+
         void RefreshPlaying()
         {
             if (_hud == null) return;
@@ -1139,9 +1289,26 @@ namespace ReverseSolver.Presentation
 
         // ---- frame ------------------------------------------------------------------------
 
+        void BeginCelebration(bool result)
+        {
+            _celebration?.Destroy();
+            _celebrationResult = result;
+            _celebration = new WinCelebration54(transform, _screen, CorridorOrder);
+        }
+
+        void EndCelebration()
+        {
+            bool result = _celebrationResult;
+            _celebration?.Destroy();
+            _celebration = null;
+            _celebrationResult = false;
+            if (result) ShowResult();
+        }
+
         void Update()
         {
             if (_introPlaying) return;
+            _continuePanel?.Tick();
             if (Screen.width != _screenPx.x || Screen.height != _screenPx.y)
             {
                 _drag?.Cancel();
@@ -1157,6 +1324,7 @@ namespace ReverseSolver.Presentation
             if (_mode == Mode.Playing && _session != null)
                 _session.TutorialMove = TutorialActive || _introOpen || _card != null || _tutorialClockHold && _session.Moves == 0;
             if (!_awaitingName) HandlePointer();
+            if (_celebration != null && _celebration.Tick(_screen)) EndCelebration();
             if (_pendingHard > 0 && Time.unscaledTime >= _hardDue)
             {
                 CommitPendingHard();
@@ -1167,14 +1335,19 @@ namespace ReverseSolver.Presentation
                     if (action == null) ShowResult(); else NavigateResult(action);
                 }
             }
-            if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); _moveSender?.Flush(); _introSender?.Flush(); }
+            if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); _moveSender?.Flush(); _introSender?.Flush(); if (!_pageHidden) _continueSender?.Flush(); }
 
             if (_mode == Mode.Playing)
             {
                 if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil) NextScriptedTutorial();
                 // the clock runs only while the board is actually in play
-                if (!_session.IsOver && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null) _session.Tick(Time.unscaledDeltaTime);
-                if (_endAt > 0 && Time.unscaledTime >= _endAt) { _endAt = -1; ShowResult(); }
+                if (!_session.IsOver && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _continuePanel == null) _session.Tick(Time.unscaledDeltaTime);
+                if (_endAt > 0 && Time.unscaledTime >= _endAt)
+                {
+                    _endAt = -1;
+                    if (Art.T54 && _session.Outcome == Outcome.Win) BeginCelebration(true);
+                    else ShowResult();
+                }
                 RefreshPlaying();
             }
             if (_debugCorridor && _mode == Mode.Menu && Time.unscaledTime > 2 && _corridor == null)
@@ -1206,6 +1379,23 @@ namespace ReverseSolver.Presentation
         {
             var p = Pointer.current;
             if (p == null) return;
+            if (_continuePanel != null)
+            {
+                Vector2 pos = p.position.ReadValue();
+                Vector2 point = new Vector2(pos.x / _dpr, _screen.y - pos.y / _dpr);
+                bool blocked = InputGated(p);
+                if (p.press.wasPressedThisFrame && !blocked)
+                {
+                    string decision = _continuePanel.Hit(point);
+                    if (decision != null) ResolveContinue(decision);
+                }
+                return;
+            }
+            if (_celebration != null)
+            {
+                if (p.press.wasPressedThisFrame) _celebration.Skip();
+                return;
+            }
             Vector2 px = p.position.ReadValue();
             var pt = new Vector2(px.x / _dpr, _screen.y - px.y / _dpr);    // layout points, y down
             bool gated = InputGated(p);
@@ -1288,7 +1478,7 @@ namespace ReverseSolver.Presentation
 
         bool InputGated(Pointer p)
         {
-            object cards = _card ?? (object)_list?.Card ?? _spotlight;   // PM_MESAJ_40: a spotlight closing gates too
+            object cards = (object)_continuePanel ?? _card ?? (object)_list?.Card ?? _spotlight;   // PM_MESAJ_40: a spotlight closing gates too
             if (cards != _gateCard)
             {
                 _gateCard = cards;
@@ -1363,6 +1553,7 @@ namespace ReverseSolver.Presentation
                 {
                     case "intro": _introOpen = false; CloseCard(); ShowScriptedTutorial(); break;
                     case "pause":                                   // the attempt ends as a quit when left (LeaveLevel)
+                        if (UseHud54 && id == "sound") { Art.Muted = !Art.Muted; CloseCard(); OpenPause54(); break; }
                         CloseCard();
                         if (id == "restart") StartLevel(_index);
                         else if (id == "menu") ShowMenu();
@@ -1419,6 +1610,7 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
+            if (UseHud54 && _bar.HitAction(pt) == BarAction.Pause) { OpenPause54(); return; }
             if (_hud.RestartRect.Contains(pt))
             {
                 if (!Art.On) { StartLevel(_index); return; }

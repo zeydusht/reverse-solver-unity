@@ -9,14 +9,17 @@ namespace ReverseSolver.Presentation
         public const float Height = 46f, TopPad = 10f, Side = 13f, Gap = 9f;
 
         readonly Transform _root;
+        readonly Hud54 _t54;
+        public void OnEvent(ReverseSolver.Core.GameEvent e, ReverseSolver.Core.GameSession session) => _t54?.OnEvent(e, session);
         readonly TextView _level, _left, _clock;
         public Rect RestartRect { get; }
         public Rect LevelRect { get; }
 
-        public Hud(Transform parent, float screenW, float top, int order)
+        public Hud(Transform parent, float screenW, float top, int order, Vector2 screen = default, float safeTop = 0, ReverseSolver.Core.GameSession session = null, bool t54 = false)
         {
             _root = new GameObject("Hud").transform;
             _root.SetParent(parent, false);
+            if (t54 && Art.T54) { _t54 = new Hud54(_root, screen, safeTop, order, session); return; }
             float cy = top + TopPad + Height / 2;
 
             // .avatar: 52px circle, gradient #ffd873 -> #f0a742, 3px white border, shadow 0 3px 9px .35
@@ -129,7 +132,7 @@ namespace ReverseSolver.Presentation
         {
             var label = TextView.Create(_root, "TimeBonus", "+" + Texts.Seconds(seconds), 22, Palette.Cream, order: 3400)
                 .Banner(TextView.OnTeal);
-            var start = _clock.transform.localPosition + new Vector3(0, 24, 0);
+            var start = (_t54 != null ? _t54.ClockPosition : _clock.transform.localPosition) + new Vector3(0, 24, 0);
             label.transform.localPosition = start;
             Tweens.Run(label, .8f, t =>
             {
@@ -139,11 +142,12 @@ namespace ReverseSolver.Presentation
             }, () => { if (label != null) Object.Destroy(label.gameObject); });
         }
 
-        public void SetLevel(int number) { _level.Text = number.ToString(); if (Art.On) _level.SizePt = number >= 100 ? 15 : 20; }
-        public void SetLeft(int n) => _left.Text = n.ToString();
+        public void SetLevel(int number) { if (_t54 != null) return; _level.Text = number.ToString(); if (Art.On) _level.SizePt = number >= 100 ? 15 : 20; }
+        public void SetLeft(int n) { if (_t54 != null) _t54.SetLeft(n); else _left.Text = n.ToString(); }
 
         public void SetTime(int seconds)
         {
+            if (_t54 != null) { _t54.SetTime(seconds); return; }
             int t = Mathf.Max(0, seconds);
             _clock.Text = $"{t / 60}:{t % 60:00}";
             _clock.Color = Art.T14 ? (t <= 20 ? Palette.Cream : Palette.Navy) : t <= 20 ? Palette.Or(Draw.Hex("#ffb4a6"), Palette.Coral) : Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream);   // .pill b.warn; PALETTE urgent = coral

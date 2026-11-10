@@ -42,6 +42,7 @@ namespace ReverseSolver.Core
 
         readonly IKeyValueStore _store;
 
+        public int Coins { get; private set; }
         public string Player { get; private set; }
         public string Install { get; private set; }
         public Dictionary<string, int> Attempts { get; } = new Dictionary<string, int>();
@@ -53,6 +54,7 @@ namespace ReverseSolver.Core
         public SaveData(IKeyValueStore store, Func<string> newId)
         {
             _store = store;
+            Coins = int.TryParse(store.Get(Key("coins")), out int coins) && coins >= 0 ? coins : new ContinueRules().StartCoins;
             Player = store.Get(Key("player")) ?? "";
             Install = store.Get(Key("install"));
             if (string.IsNullOrEmpty(Install))
@@ -65,6 +67,13 @@ namespace ReverseSolver.Core
             ReadCounts("best", Best);
             ReadCounts("losses", Losses);
             ReadCounts("fun_asked", FunAsked);
+        }
+
+        public void SetCoins(int coins)
+        {
+            Coins = Math.Max(0, coins);
+            _store.Set(Key("coins"), Coins.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            _store.Save();
         }
 
         public int LossesOf(string levelId) => Losses.TryGetValue(levelId, out int n) ? n : 0;

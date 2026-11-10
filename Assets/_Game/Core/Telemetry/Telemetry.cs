@@ -17,7 +17,7 @@ namespace ReverseSolver.Core
                 .Field("session", session)
                 .Field("lv", r.LevelNumber)
                 .Field("attempt", r.Attempt)
-                .Field("result", r.Result)
+                .Field("result", r.Result == "win" && r.Continues > 0 ? "won_after_continue" : r.Result)
                 .Field("dur", r.DurationSeconds)
                 .Field("left_s", r.LeftSeconds)
                 .Field("moves", r.Moves)

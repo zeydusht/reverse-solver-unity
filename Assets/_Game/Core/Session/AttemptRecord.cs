@@ -19,6 +19,7 @@ namespace ReverseSolver.Core
         public int LevelNumber;
         public string Client;
         public int Attempt;
+        public int Continues;
         public string Result;
         public int DurationSeconds;
         public int LeftSeconds;

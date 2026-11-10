@@ -13,8 +13,13 @@ namespace ReverseSolver.Core.Tests
         public void SagAndPointsHangDown()
         {
             Assert.That(ChainCurve.Sag(Vector2.zero, new Vector2(0, 5), 1), Is.Zero);
-            Assert.That(ChainCurve.Sag(Vector2.zero, new Vector2(2, 0), 1), Is.EqualTo(.2f).Within(.0001f));
-            Assert.That(ChainCurve.Sag(Vector2.zero, new Vector2(8, 0), 1), Is.EqualTo(.4f).Within(.0001f));
+            Assert.That(ChainCurve.Sag(Vector2.zero, new Vector2(1, 0), 1), Is.EqualTo(.22f).Within(.0001f));
+            Assert.That(ChainCurve.Sag(Vector2.zero, new Vector2(2, 0), 1), Is.EqualTo(.22f).Within(.0001f));
+            Assert.That(ChainCurve.Sag(Vector2.zero, new Vector2(3, 0), 1), Is.EqualTo(.3f).Within(.0001f));
+            Assert.That(ChainCurve.Sag(Vector2.zero, new Vector2(8, 0), 1), Is.EqualTo(.45f).Within(.0001f));
+            Assert.That(ChainCurve.Sag(Vector2.zero, new Vector2(2, 2), 1),
+                Is.EqualTo(.10f * Mathf.Sqrt(8) * Mathf.Sqrt(2 / Mathf.Sqrt(8))).Within(.0001f));
+            Assert.That(ChainCurve.Sag(Vector2.zero, Vector2.zero, 1), Is.Zero);
             Assert.That(ChainCurve.Point(Vector2.zero, new Vector2(2, 0), .2f, .5f).y, Is.GreaterThan(0));
             var a = new Vector2(.5f, 3.5f); var b = new Vector2(2.5f, .5f);
             for (int i = 0; i <= 100; i++)

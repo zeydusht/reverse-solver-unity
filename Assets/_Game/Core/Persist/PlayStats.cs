@@ -48,7 +48,7 @@ namespace ReverseSolver.Core
             if (r.Result != "win" && r.Result != "bomb" && r.Result != "time" && r.Result != "quit") return;
             TotalSeconds += Math.Max(0, r.DurationSeconds);
             if (!_levels.TryGetValue(r.LevelId, out var s)) _levels[r.LevelId] = s = new LevelPlayStats();
-            if (r.Attempt == 1) { s.FirstTryWin = r.Result == "win"; s.HasFirstTryWin = true; }
+            if (r.Attempt == 1) { s.FirstTryWin = r.Result == "win" && r.Continues == 0; s.HasFirstTryWin = true; }
             if (r.Result != "win") return;
             s.Wins++; WinCount++;
             int left = Math.Max(0, r.LeftSeconds);

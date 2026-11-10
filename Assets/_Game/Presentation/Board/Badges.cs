@@ -11,6 +11,7 @@ namespace ReverseSolver.Presentation
         readonly SpriteRenderer _lock;
         readonly Vector3 _lockScale;
         readonly bool _t28;
+        readonly float _cell;
         readonly float _one, _two;                  // counter size (pt) for one digit / two digits (art counters)
 
         public NailBadge(Transform parent, Vector2 center, float cell, int order)
@@ -19,10 +20,12 @@ namespace ReverseSolver.Presentation
             Root.SetParent(parent, false);
             Root.localPosition = Draw.W(center);
             _t28 = Art.T28 && Art.On;
+            _cell = cell;
             if (_t28)
             {
-                float size = cell * (Art.T14 ? .86f : .8f);
-                _lock = Art.Place(Root, "board-nail", Vector2.one * size, order);
+                // Closed lock: 311 visible pixels on a 384px canvas.
+                float size = Art.T54 ? cell * .55f * 384 / 311 : cell * (Art.T14 ? .86f : .8f);
+                _lock = Art.Place(Root, Art.T54 ? "obstacles_v3/padlock-b/closed" : "board-nail", Vector2.one * size, order);
                 if (_lock != null) _lockScale = _lock.transform.localScale;
                 _n = TextView.Create(Root, "count", "", size * .315f, Palette.Navy, true, order: order + 2).Font(Art.Lilita);
                 _n.transform.localPosition = Draw.W(0, size * .144f);
@@ -94,10 +97,19 @@ namespace ReverseSolver.Presentation
 
         public void Release()
         {
+            if (Root == null) return;
             if (!_t28) { Object.Destroy(Root.gameObject); return; }
             Tweens.Kill(this);
             _n.gameObject.SetActive(false);
             if (_lock != null) _lock.transform.localScale = _lockScale;
+            if (Art.T54)
+            {
+                if (Root.GetComponent<LockRelease54>() != null) return;
+                var board = Root.GetComponentInParent<BoardView>();
+                Root.SetParent(board != null ? board.transform : null, true);
+                Root.gameObject.AddComponent<LockRelease54>().Init(_lock, _cell);
+                return;
+            }
             Tweens.Run(this, 7f / 14, t =>
             {
                 if (_lock == null) return;
@@ -182,6 +194,17 @@ namespace ReverseSolver.Presentation
         {
             if (_motion != null) { _motion.Tick(); return; }
             Tweens.Run(Root, .32f, t => { if (Root != null) Root.localScale = Vector3.one * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
+        }
+
+        public void Revive(int fuse)
+        {
+            Tweens.Kill(this);
+            Tweens.Kill(Root);
+            _hot = false;
+            Root.localScale = _body.localScale = Vector3.one;
+            _body.localPosition = Vector3.zero;
+            _motion?.Revive(fuse);
+            Fuse = fuse;
         }
 
         /* Bomb feedback: a quick swell before the result card. */

@@ -220,3 +220,36 @@
 - Yeşil ana tuş onaylı Level v2 normal/basılı dosyalarının birebir kopyasıdır. Diğer final parçalar hazır Source bitmaplerinden kırpma/ölçekleme/alpha temizliği ile üretildi. 19 final PNG ve telefon/kart/64 px incelemeleri hazır.
 - HUD ikonları ayrı, kare tutuldu; hapları esnetirken saat/parça bozulmamalı. Rozet yalnız bir kez çizilir. Yeni kırmızı PALETTE.md v2; mercan yalnız acil süre.
 - Kit81 maskesi ve overlay değiştirilmeden resim UV kompozisyonunda kullanıldı; oyun koduna bağlanmadı. Source ve eski onaylı dosyalar hash ile korundu. Slice/pivot ve minimum ekran ölçüleri TASK15_EXPORT.md içinde.
+
+
+## 9 Kasım 2026 — Task28B · Grup 1
+
+- Zeyd Task28 A/B yönlerini iptal etti. Mevcut booster geometrisi, simgeleri ve renk ailesi Task26 ışık ve yüzey işçiliğiyle işlendi.
+- 22 PNG onay klasörüne kondu. Piksel ölçüleri ve alfa maskeleri mevcut karşılıklarla birebir. Birleşik ve canlı rozetin mevcut katman yerleşimi korundu.
+- Karşılaştırma 64, 96 ve 264 px. Grup 1 inceleme için hazır. [Karşılaştırma ve üretim kaydı](task28/grup1-uretim.md).
+
+## 9 Kasım 2026 — Task28C · Grup 1 malzeme revizyonu
+
+- Task26 atölyesinin çelik, cilalı ahşap, deri, pirinç, oyma altın, kadife ve cam malzemeleri mevcut booster biçimlerine uygulandı.
+- [Güncel levha](task28/grup1-once-sonra-v2.png) 64, 96 ve 264 px karşılaştırmayı gösteriyor. [22 PNG](task28/_arsiv/Boosters-v2) incelemeye hazır.
+
+## 9 Kasım 2026 — Task28D · Grup 1 v3
+
+- Dört booster, kırmızı makas, mor saplı değnek, mavi çekiç ve yeşil saat olarak, dokusuz oyuncak yüzeylerle hazırlandı.
+- Z1 parlak turkuaz, Z2 parlak yeşil. Her iki seçenek aynı ikonları, sade altın halkayı ve ayrı kırmızı rozeti kullanıyor. [264, 96 ve 64 px levha](task28/grup1-v3.png).
+
+## 9 Kasım 2026 — Task28E · Z2 final ve Grup 2
+
+- Zeyd’in mesajındaki Z2 seçimi uygulandı. Çekiç başı pembeye döndü, sap krem kaldı. Önceki varyantlar arşive alındı.
+- UI ikon standardı Stil Kartı’na eklendi. Grup 2 HUD, turkuaz ve altın yüzler, mercan acil süre ve ayrı canlı rakam katmanlarıyla incelemeye hazır. [HUD levhası](task28/grup2-once-sonra.png).
+
+## Task28E · Grup 2 onayı ve Grup 3 engeller
+
+- Zeyd Grup 2 HUD’u onayladı.
+- Grup 3, siyah-lacivert bomba, eğik gümüş çivi, dört Task17 zincir/kilit çifti ve kırmızı-beyaz duvarla hazırlandı. Bomba etiketi ile çivi rozeti ayrı katman. [Önce/sonra ve gri ton provası](task28/grup3-once-sonra.png).
+
+## 9 Kasım 2026 — Task28F · Grup 3 v2
+
+- Zeyd siyah bombayı onayladı. Fitil döngüsü ve 3–2–1 acil görseli ayrı katmanlar halinde hazırlandı.
+- Çivi görünümü yerine gümüş gövdeli, pirinç kulplu asma kilit kullanıldı. Zincir uçlarına beş işaretli merkez bağlantısı hazırlandı. Düz ve hafif kavisli zincir [karşılaştırma levhasında](task28/grup3-v2.png).
+- Mevcut oyun duvarı korunarak Task28E duvar çizimi arşive alındı.

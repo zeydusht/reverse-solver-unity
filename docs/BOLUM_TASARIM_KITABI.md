@@ -181,7 +181,7 @@ Her kuralın yanında fabrikanın ölçeceği **kontrol** var. "Seçenek" = o an
 | K2 | **Hikâye eğrisi.** Seçenek sayısı adım adım çizilince düz olmamalı: dar → genişle → dar (düğüm) → çığ. | BO genel · SET40 ölçümü | 10. bölümden sonra en az 1 "boğaz" (seçenek = 1, en az 2 ardışık adım). Çığ **göreli**: son %30'da seçenek/kalan parça en az 0,35 (SET40 medyanı 0,42). Zor/super-zor çığ şartından muaf. |
 | K3 | **Zincirleme tek parça (Zeyd'in favorisi).** Çok parça görünür ama ilerletebilen yalnız bir tanesi; bu birkaç kez arka arkaya. | Zeyd, Z12 (en uzun boğaz 10) · BO-275 kazı | En uzun boğaz: tanıtım/nefes en fazla 1, normal 2–4, zor en az 5. Üst sınır yaklaşık 10: 12–14'lük boğaz (32, 34) karar değil "arama" olur, tek başına zorluk kaynağı olmamalı (Zeyd, 21 Ekim). |
 | K4 | **Açılış hediyesi.** İlk 2–3 hamle kolay ve tatmin edici. Zorluk sonra gelir. | RM hepsi · BO-276, 278 · SET40 | İlk 3 adımda seçenek: tanıtım/normal en az 3, zor en az 2. İlk hamlede tuzak oranı en fazla %30. (Kalanlar: 32, 34 tek seçenekle açılıyor.) |
-| K5 | **Çığla bitir.** Son parçalar hızla, art arda çıkar. | BO-273, 274 · RM-3474 | ZeydBot simülasyonunda son %30 parça toplam sürenin en fazla %20'sinde çıkıyor. |
+| K5 | **Çığla bitir.** Son parçalar hızla, art arda çıkar. | BO-273, 274 · RM-3474 | **Şimdilik UYARI** (8 Kasım): oyuncu modelinde hamleler eşit sürdüğü için ölçülemiyor, SET40 medyanı 0,29. Gerçek eşik pt oyuncularının hamle zamanlarından kalibre edilecek. |
 | K6 | **Süre payı tipe göre.** | BO süreleri · RM hamle payları | Medyan oyuncu botuyla kalan süre: tanıtım/nefes %30–45, normal %15–30, zor %0–10, super-zor kazananların yarısı 5 sn'den az. |
 | K7 | **Neredeyse kaybı.** Zor bölümde kaybeden "az kaldı" demeli. | BO-278 | Kaybeden bot denemelerinde kalan parça oranının medyanı en fazla %20. |
 | K8 | **İlerleme hep görünür.** Kilitli bölge, zincir, bomba: sayaç ekranda. | BO genel | Kod/görsel kontrolü: her sayaçlı engelin sayısı HUD'da veya üzerinde. |
@@ -198,7 +198,7 @@ Nintendo'nun kishōtenketsu yapısı (tanıt, geliştir, bük, bitir) ile BO-277
 
 | Yay bölümü | Ne olur | Kart notu |
 |---|---|---|
-| **Tanıt** (ör. 6) | Engel tek başına. Ekranda başka zorluk yok. Oyuncuya önce **2 serbest hamle** (tahtayı okusun), sonra gerçek tehdit. | Bomba en erken 3–5. adımda çıkabilir, **fitil = en erken çıkış + 2** (tam bu kadar, daha kısa değil). İlk hamlede tuzak 0. Bombayı unutan **kaybeder**, rastgele oynayan %15–50 kazanır, gerçekçi oyuncu modeli ilk denemede en az %65 kazanır. (8 Kasım dersi: fitil 2 + pay 1 → ilk hamlelerin %80'i tuzak, ilk deneme kazanma %21 → tanıtım değil ceza.) |
+| **Tanıt** (ör. 6) | **Kimse kaybetmesin (Zeyd 8 Kasım).** Amaç tehdit değil **anlamak**: "bomba diye bir şey var, sayı bitmeden çıkarmam lazım." Engel tek tür ama bölümde **2–3 bomba farklı yerlerde** (biri altta, biri üstte, biri ortada), her biri 1–2 parça açınca ulaşılabilir. Oyuncu sayacın azaldığını birkaç kez görür. | Fitil cömert: en erken çıkış + 4 veya daha fazla. FunSim ilk deneme en az **%90**, süreden kayıp en fazla %5. "Bombayı unutan kaybeder" ve tehdit adımı kuralları tanıtımda UYARI. Tehdit **Geliştir** (7) adımında gelir. (8 Kasım dersleri: fitil 2 → ceza, ajan1 → Zeyd süreden kaybetti.) |
 | **Geliştir** (7) | Aynı engel 2–3 kez veya daha büyük ölçekte. Bildik bir öğeyle birlikte. | Bomba + duvar. Fitiller farklı uzunlukta, sırayı oyuncu seçer. |
 | **Bük** (8–9) | Engel beklenmedik bir rolde: tehdit değil **anahtar**. | Ör. bomba patlayınca bir duvarı yıkıyor ve yol açıyor. Ya da çivi tam anahtar parçayı tutuyor. |
 | **Bitir / nefes** (10) | Engel geri planda, bölüm ferah. | Sonraki yeni öğeye kadar engel "bilinen alet" olur. |
@@ -217,6 +217,14 @@ Nintendo'nun kishōtenketsu yapısı (tanıt, geliştir, bük, bitir) ile BO-277
 2. **İlk 9 bölüm aynı eğri:** düz azalan, boğaz yok. Benzerlik listesinin çoğu bu gruptan (1–9 benzerliği 0,95, 2–7 0,94). "Bölümler birbirine benziyor" hissinin sayısal karşılığı bu. Her tanıtım bölümüne D tarifine göre küçük bir "yeni öğe anı" (1 kısa boğaz veya gerçek bomba tehdidi) gerekir.
 3. **Son 10 bölüm hep dar açılıyor** (ilk seçenek 1–4) ve boğazlar çok uzun. 28–29 dışında nefes bölümü yok, bu K11'e aykırı.
 4. **Z12 doğrulandı:** fitil 9, 8. adımda tehdit, 3 boğaz (en uzun 10), sonda seçenek 1–2. Zeyd'in sevdiği his = gerçek bomba tehdidi + uzun zincir. Zor bölüm referansı bu.
+
+---
+
+**Normal tip alt sınırı (8 Kasım):** FunSim ilk deneme kazanma en az %30. Altındaysa bölüm "zor" sayılır ve zorluk dalgasında (K11) zor yerine konur. FunSim ile ZeydBot çok farklıysa (ör. 07-A: %4,7 ve %98) karar Zeyd'in oyunu ve pt verisiyle verilir.
+
+**Öğrenme dönemi (bölüm 1–10, Zeyd 8 Kasım):** Bu bölümler hâlâ eğitim. Oyuncu yalnız **yeni öğe** yüzünden kaybetmeli, süre yüzünden değil. FunSim'de süre bitmesinden kayıp tanıtım/nefes için en fazla %5, normal için en fazla %15 olmalı. Süre bunu sağlayacak kadar cömert tutulur. (ajan1 dersi: Zeyd 6'yı bombadan değil süreden kaybetti.)
+
+**Tahta oranı (Zeyd 8 Kasım):** Varsayılan **kare** (en = boy, en fazla ±1 fark): tablolarımız ve oyuncunun alışkanlığı bu yönde. ajan1'deki dikey tahtalar (3×5, 3×6, 5×7) "farklı ama yabancı" geldi. K10'daki çeşitlilik en/boy oranıyla değil **siluetle** sağlanır: köşe kesik, ortada boşluk, haç, merdiven, U.
 
 ---
 

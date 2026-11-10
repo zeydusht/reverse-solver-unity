@@ -17,7 +17,9 @@ namespace ReverseSolver.Presentation
         public static float Sag(Vector2 a, Vector2 b, float cell)
         {
             float length = Vector2.Distance(a, b);
-            return length <= 0 ? 0 : Mathf.Clamp(.10f * length, 0, .40f * cell) * Mathf.Sqrt(Mathf.Abs(b.x - a.x) / length);
+            // Used only by the T28 rope; legacy chains keep their straight layout.
+            return length <= 0 ? 0 : Mathf.Clamp(Mathf.Max(.22f * cell, .10f * length), 0, .45f * cell)
+                * Mathf.Sqrt(Mathf.Abs(b.x - a.x) / length);
         }
 
         public static Vector2 Point(Vector2 a, Vector2 b, float sag, float t) =>

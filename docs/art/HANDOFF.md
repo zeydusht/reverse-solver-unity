@@ -844,3 +844,50 @@ Onaylı v3 geometri ve dosyaları korunur. Halka U Repeat/V Clamp; 4 px krem hal
 
 Üretim: `docs/art/build-task17-colors.py`. Hash/boyut/pivot kayıtları: `Assets/Art/Gameplay/Task17/manifest-colors.json`. Kontrol: `docs/art/reports/task17-colors-validation.json`; dört X tekrar kenarında RGBA farkı 0, onaylı alpha geometri farkı 0, korunan kaynak hash farkı 0. Önizleme görsel olarak incelendi. C#, Unity, dotnet çalıştırılmadı; oyun entegrasyonu yapılmadı.
 <!-- TASK17_COLORS_END -->
+
+
+## Task28B — Grup 1 · Booster çubuğu
+
+[Önce/sonra levhası](task28/_arsiv/grup1-once-sonra-v1.png) · [Üretim ve doğrulama kaydı](task28/grup1-uretim.md) · [Onay klasörü](../../Assets/Art/_yeni/task28-grup1)
+
+Dört bağımsız ikon 240 × 240, 16 birleşik durum ve boş halka 264 × 264, boş adet rozeti 96 × 96. Tümü RGBA ve mevcut dosya adlarıyla hazır. Birleşik durumlar mevcut anahtarlarla eşleşiyor. Stok rakamı canlı metin, kilit mevcut katman. Oyuna alım Zeyd’in Grup 1 onayına bağlı.
+
+## Task28C — Grup 1 · Malzeme revizyonu
+
+[Güncel levha](task28/grup1-once-sonra-v2.png) · [Onay klasörü](task28/_arsiv/Boosters-v2) · [Üretim kaydı](task28/grup1-uretim.md#task28c--malzeme-revizyonu)
+
+Task28C incelemesinde bu klasördeki 22 PNG esas alınır. Grup 1 dosya adları, ölçüleri, alfa maskeleri, kilit ve canlı rakam yerleşimi korunur. Oyuna alım Zeyd’in onayına bağlı.
+
+## Task28D — Grup 1 · Oyuncak booster v3
+
+[Karşılaştırma](task28/grup1-v3.png) · [Z1](task28/_arsiv/Z1-v3) · [Z2](task28/_arsiv/Z2-v3-mavi-cekic)
+
+Her seçenek 22 PNG içerir. Set seçildiğinde aynı klasördeki birleşik düğmeler ve boş rozet birlikte kullanılır. Rozet ve rakam canlı katmandadır. Z1/Z2 seçimi ve oyuna alım Zeyd’in onayına bağlı.
+
+## Task28E — Z2 final ve Grup 2 HUD
+
+[Grup 1 · final](task28/grup1-once-sonra.png) · [22 Booster PNG](../../Assets/Art/_yeni/Boosters) · [Grup 2 · HUD](task28/grup2-once-sonra.png) · [7 HUD PNG](../../Assets/Art/_yeni/HUD)
+
+Grup 1, Zeyd’in mesajındaki **Z2** seçimi ve pembe çekiçle tamamlandı. Z2’de çekiç dışındaki 17 PNG birebir korundu. Rozet ve stok rakamı canlı katman.
+
+| HUD anahtarı | Piksel ölçüsü | Katman |
+|---|---|---|
+| level-badge | 216 × 216 | LV ve bölüm no. ayrı |
+| hud-moves-pill | 220 × 140 | Parça simgesi ve rakam ayrı |
+| hud-time-pill, hud-time-pill-urgent | 244 × 140 | Kronometre ve süre ayrı |
+| icon-piece, hud-icon-clock | 120 × 120 | Bağımsız simgeler |
+| pause-normal | 168 × 168 | İki krem çubuk düğmede |
+
+Üç HUD hapı mevcut merkez pivotu, 2 PPU ve her kenarda 56 px 9-slice sınırıyla uyumlu olarak önizlendi. Normal ve ≤20 sn acil süre ile 375 ve 390 pt yerleşimler levhada var. HUD incelemesi Grup 2 onayı için hazır.
+
+## Task28E — Grup 3 · Engeller
+
+Grup 2 HUD kullanıcı tarafından onaylandı. [Grup 3 levhası](task28/grup3-once-sonra.png) · [Önceki engel paketi](../../Assets/Art/_yeni/Engeller) · [Üretim ve katman kaydı](task28/grup3-uretim.md)
+
+Bomba etiketi ve küçük çivi rozeti ayrı sprite, rakamlar canlı metin. Bağlantıda sayaç katmanlarını üretim kaydındaki ankrajlara göre yerleştir. Task17 dört çiftin işaretleri, alfa geometrisi ve zincir uç hizası korunur. Duvar ve dört zincir karosu dikiş kontrolünden geçti. Grup 3 görsel inceleme için hazır.
+
+## Task28F — Grup 3 v2 · Bomba, asma kilit ve zincir
+
+[Güncel levha](task28/grup3-v2.png) · [30 PNG](../../Assets/Art/_yeni/Obstacles) · [Kare sırası ve katmanlar](task28/grup3-v2-uretim.md)
+
+Task28F, Grup 3’ün güncel görsel teslimidir. Onaylı bomba, sekiz fitil karesi ve 3–2–1 için acil yüzle hazır. Çivi yerine asma kilit için bir kapalı, dört açılma ve üç düşüş karesi var. Zincir, parça merkezindeki beş işaretli bağlantı noktası, tek nötr halka ve dört kopuş karesi kullanır. A/B levhası komşu ve üç hücre aralığını gösterir. [Task28E duvarı arşivde](task28/_arsiv/grup3-v1/wall-stripe.png).

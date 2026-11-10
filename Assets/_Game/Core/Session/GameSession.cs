@@ -34,6 +34,8 @@ namespace ReverseSolver.Core
         public int Attempt { get; }
         public string Client { get; }
 
+        public int Continues { get; private set; }
+        int _continueSeconds;
         public int TimeLeft { get; private set; }
         public int ElapsedSeconds { get; private set; }
 
@@ -86,6 +88,7 @@ namespace ReverseSolver.Core
             TimeLeft = o.TimeLeft; ElapsedSeconds = o.ElapsedSeconds; Moves = o.Moves; Jams = o.Jams;
             ClockOnFirstMove = o.ClockOnFirstMove; ClockStarted = o.ClockStarted; FreeUse = o.FreeUse;
             ValveCount = o.ValveCount; Outcome = o.Outcome; Record = o.Record;
+            Continues = o.Continues; _continueSeconds = o._continueSeconds;
             _nails = new Dictionary<int, int>(o._nails);
             _bombs = new SortedDictionary<int, int>(o._bombs);
             Array.Copy(o._stock, _stock, 4);
@@ -123,7 +126,7 @@ namespace ReverseSolver.Core
         public TravelLimit Probe(int piece, Dir dir) => TravelRule.Limit(Board, piece, dir);
 
         /* 3 stars with >= 45% of the timer left, 2 with >= 20%, else 1 (web starsFor). */
-        public int Stars => Outcome != Outcome.Win ? 0 : StarsFor(TimeLeft, Level.TimerSeconds);
+        public int Stars => Outcome != Outcome.Win ? 0 : StarsFor(Math.Max(0, TimeLeft - _continueSeconds), Level.TimerSeconds);
 
         public static int StarsFor(int timeLeft, int timer)
         {
@@ -266,6 +269,29 @@ namespace ReverseSolver.Core
             return CommandResult.Ok;
         }
 
+        public bool Continue(int seconds, int fuseReset)
+        {
+            if (Outcome != Outcome.Time && Outcome != Outcome.Bomb) return false;
+            if (Outcome == Outcome.Time)
+            {
+                if (seconds <= 0) return false;
+                TimeLeft = seconds;
+                _continueSeconds += seconds;
+                _clockCarry = 0;
+            }
+            else
+            {
+                if (fuseReset <= 0) return false;
+                foreach (int piece in new List<int>(_bombs.Keys))
+                    if (Board.IsPresent(piece) && _bombs[piece] <= 0) _bombs[piece] = fuseReset;
+            }
+            Outcome = Outcome.None;
+            Record = null;
+            Continues++;
+            Raise(GameEvent.Simple(EventKind.Continued));
+            return true;
+        }
+
         // ---- rules --------------------------------------------------------------------
 
         void Remove(int piece, Dir dir, bool byHammer)
@@ -379,6 +405,7 @@ namespace ReverseSolver.Core
                 LevelNumber = Level.Number,
                 Client = Client,
                 Attempt = Attempt,
+                Continues = Continues,
                 Result = outcome.Id(),
                 DurationSeconds = ElapsedSeconds,
                 LeftSeconds = Math.Max(0, TimeLeft),

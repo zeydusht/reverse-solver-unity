@@ -20,15 +20,19 @@ namespace ReverseSolver.Presentation
             _tint = Palette.C(Draw.Hex(colour == 4 ? "#7fd67a" : ChainView.Tints[colour]));
             foreach (var p in new[] { a, b })
             {
-                var anchor = Art.Place(transform, "chain-anchor-" + names[colour], Vector2.one * cell * .63f, order + 2);
+                var anchor = Art.Place(transform, (Art.T54 ? "obstacles_v3/chain/" : "") + "chain-anchor-" + names[colour], Vector2.one * cell * .63f, order + 2);
                 if (anchor != null) anchor.transform.localPosition = Draw.W(p);
             }
-            int count = ChainCurve.Samples(a, b, _sag, cell * .22f).Length;
+            float spacing = Art.T54 ? (Vector2.Distance(a, b) <= 2 * cell ? .30f : .434f * .86f)
+                : (Vector2.Distance(a, b) <= 2 * cell ? .28f : .22f * 1.6f);
+            int count = ChainCurve.Samples(a, b, _sag, cell * spacing).Length;
             for (int i = 0; i < count; i++)
             {
-                var link = Art.Place(transform, "chain-link", new Vector2(cell * .217f * 128 / 96, cell * .217f), order);
+                float height = cell * .217f * (Art.T54 ? 1 : 1.6f);
+                var link = Art.Place(transform, Art.T54 ? "obstacles_v3/chain/chain-link-" + names[colour] : "chain-link",
+                    new Vector2(height * 128 / (Art.T54 ? 64 : 96), height), order);
                 if (link == null) continue;
-                link.color = _tint;
+                if (!Art.T54) link.color = _tint;
                 _links.Add(link.transform);
             }
             Layout(_sag);
@@ -51,6 +55,15 @@ namespace ReverseSolver.Presentation
                 _links[i].localPosition = Draw.W(samples[i].Position);
                 _links[i].localRotation = Quaternion.Euler(0, 0, -samples[i].Angle);
             }
+        }
+
+        /* Moves links and anchors together, keeping the anchors above the links. */
+        public void SetOrder(int order)
+        {
+            int delta = order - _order;
+            if (delta == 0) return;
+            foreach (var part in GetComponentsInChildren<SpriteRenderer>(true)) part.sortingOrder += delta;
+            _order = order;
         }
 
         public void Kick()

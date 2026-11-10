@@ -11,6 +11,7 @@ namespace ReverseSolver.Presentation
     {
         public static bool On;
         public static bool T28 = true;
+        public static bool T54 => T28 && On;
 
         // PM_MESAJ_16: the player's Jiggle avatar, kept in the browser (PlayerPrefs = localStorage on WebGL), never sent.
         // Until Codex's five avatars arrive (Task 15): tinted copies of the approved one (blue, pink, red, green, purple).

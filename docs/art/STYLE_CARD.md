@@ -36,3 +36,13 @@ Aktif dosya/koruma durumları için REFERANS_DURUMU.md esastır. Açıkça iptal
 ## 26 Ekim — onaylı ana menü UI dayanağı
 
 Zeyd `UI/PlayButton/menu-play-button-v2.png` son image_gen restorasyonunu açıkça beğendi ve kalan menüyü aynı dille istedi. Bu tuş korunur: 684×336 tuval, 660×300 kalın görünen şekil; sıcak katmanlı altın kenar, yumuşak oyuncak kabartma, koyu yeşil iç çeper ve parlak yeşil ana eylem yüzeyi. Yeşil ana başlat tuşuna özgü kullanıcı seçimidir; diğer menü yüzeylerinde zorunlu turkuaz-krem-altın paleti kullanılır. İnce süsleme, düz vektör benzeri yüzey veya sert siyah kontur eklenmez. Dinamik yazılar ayrı; önizleme Level yazısı referanstan ölçülen #F9F1BA kreminde, koyu yeşil kontur ve hafif gölgeyle gösterilir. Royal Match ekranları yerleşim/işçilik referansıdır; karakter ve amblemlerimiz özgündür.
+
+## UI ikon kuralları · 9 Kasım 2026
+
+- Her simgenin Jiggle paletinden ayırt edilebilir bir baskın rengi var. Altın küçük parça ve çerçeve vurgularında kullanılır. Onaylı booster dizisi kırmızı makas, mor değnek, pembe çekiç ve yeşil saat.
+- Yüzeyler pürüzsüz ve tombul. Hacim geniş gradyan, sol üstten yumuşak ışık ve tek belirgin parlamayla okunur. Damar, çizik, doku ve eskime kullanılmaz.
+- Yuvarlak düğmede simgenin en uzun ekseni iç çapın %85–90’ını kaplar. Çerçeve sade, parlak, yumuşak eğimli kraliyet altını. İç yüz açık radyal gradyan.
+- Adet rozeti büyük ve parlak kırmızı, ince koyu konturlu. Kalın krem veya beyaz rakam canlı metin katmanıdır.
+- Booster zemini **Z2 parlak yeşil**. HUD, turkuaz ve altın ailesinde kalır. Süre kritik eşiğe indiğinde mercan yüz ve krem rakam kullanılır.
+
+[Onaylı booster standardı](task28/grup1-once-sonra.png) · [HUD önizlemesi](task28/grup2-once-sonra.png)

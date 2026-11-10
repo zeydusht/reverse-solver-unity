@@ -153,7 +153,7 @@ namespace ReverseSolver.Presentation
                 var cells = l.Pieces[i];
                 if (!Session.Board.IsPresent(i)) { if (cells.Length > 1) chainNo++; continue; }
                 bool chained = cells.Length > 1;
-                var pv = PieceView.Create(transform, Session.Board, i, S, PieceOrder + i * PieceStride + (chained ? ChainedBoost : 0));
+                var pv = PieceView.Create(transform, Session.Board, i, S, HomeOrder(i));
                 _pieces[i] = pv;
                 if (chained)
                 {
@@ -163,6 +163,7 @@ namespace ReverseSolver.Presentation
                         for (int other = 0; other < l.Pieces.Count; other++)
                             if (other != i && Session.Board.IsPresent(other))
                                 foreach (var c in l.Pieces[other]) occupied.Add(c);
+                        // Above every resting piece, below walls and the tutorial hand (PM_MESAJ_20); lifted only while its piece is dragged.
                         _ropes[i] = ChainView.BuildT28(pv.transform, Center(cells[0]), Center(cells[1]), S, chainNo++, ChainOrder, occupied);
                     }
                     else ChainView.Build(pv.transform, Center(cells[0]), Center(cells[1]), S,
@@ -295,7 +296,7 @@ namespace ReverseSolver.Presentation
             if (_dragged != drag.Piece)
             {
                 _dragged = drag.Piece;
-                if (_ropes.TryGetValue(drag.Piece, out var rope) && rope != null) rope.Kick();
+                if (_ropes.TryGetValue(drag.Piece, out var rope) && rope != null) { rope.Kick(); rope.SetOrder(LiftOrder + PieceStride); }
                 Tweens.Kill(pv);
                 pv.SortingOrder = LiftOrder;
                 pv.SetLift(1);
@@ -320,11 +321,13 @@ namespace ReverseSolver.Presentation
             {
                 pv.SetOffset(Vector2.LerpUnclamped(from, Vector2.zero, Tweens.Settle(t)));
                 pv.SetLift(1 - t);
-            }, () => { pv.SortingOrder = home; pv.SetLift(0); });
+            }, () => { pv.SortingOrder = home; pv.SetLift(0); if (rope != null) rope.SetOrder(ChainOrder); });
         }
 
         int HomeOrder(int piece) =>
-            PieceOrder + piece * PieceStride + (Session.Level.Pieces[piece].Length > 1 ? ChainedBoost : 0);
+            // Legacy boost put the whole chained mesh (including its shadow) over neighbours.
+            // T28 ropes have their own sorting order, so only the chain needs that priority.
+            PieceOrder + piece * PieceStride + (!(Art.T28 && Art.On) && Session.Level.Pieces[piece].Length > 1 ? ChainedBoost : 0);
 
         void FlyOut(PieceView pv, Dir dir, int travelCells)
         {
@@ -420,6 +423,9 @@ namespace ReverseSolver.Presentation
                 case EventKind.ValveReleased:
                     RefreshNails();
                     Popped(e.Piece);
+                    break;
+                case EventKind.Continued:
+                    foreach (var b in _bombs) b.Value.Revive(Session.FuseAt(b.Key));
                     break;
                 case EventKind.BombsTicked:
                     foreach (var b in _bombs) { b.Value.Fuse = Session.FuseAt(b.Key); b.Value.Tick(); }

@@ -156,6 +156,8 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_51 açılış videosu düzeltmeleri: CC0 ses + Kling ses seçenekleri, 1→2 geçişi, eski 1. bölüm resmi; ses seçimi Zeyd'de — 9 Kasım
 - ✅ PM_52 kit envanteri: 13 sistem, arayüz taslağı, eski dosya listesi, ilk 5 parça (`docs/kit/KIT_ENVANTER.md`); yalnız rapor, kod değişmedi — 9 Kasım
 - ✅ PM_52/53 yeni UI ve engel görselleri p21'de: vitrin `?lv=SHOW_ART`, `&art=eski`, `&fps=1`; canlı verify 4/4 (`docs/art/task28/ENTEGRASYON_RAPOR.md`); telefonda FPS Zeyd'de — 9 Kasım
+- ✅ PM_55 vitrin geri bildirimi p21'de: bomba nabzı ve ateş, zincir sarkması ve kalınlığı, zincirli parçaların düzlemi; canlı verify 4/4 — 9 Kasım
+- ✅ PM_54 p21'de: HUD şeritleri, Jigo, kilit, kazanma, devam + altın; canlı verify 4/4 (`docs/art/task29/ENTEGRASYON_RAPOR.md`); 015 SQL PM'de — 10 Kasım
 
 - ✅ ZeydBot v1: 30 bölümle kuruldu, oturum 3 sınavını geçti (sıra 0,99)
 - ✅ Tasarımcı ajan yöntemi: Z31–Z40, 10 bölümün 8'i 8+ puan
