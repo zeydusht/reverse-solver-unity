@@ -1,0 +1,25 @@
+REVERSE SOLVER 0.6.0 (7) - MAC'TE TESTFLIGHT YUKLEME
+
+Drive'dan su iki dosyayi Mac'in Indirilenler (Downloads) klasorune indir:
+   ReverseSolver-iOS-0.6.0.zip   ve   rs-yukle.sh
+
+1) Xcode'u ac > Xcode menusu > Settings > Accounts. Sol listede zeydtekin12@gmail.com var mi bak. Yoksa "+" > Apple ID > giris yap. Sonra Xcode'u kapat.
+2) Indirilenler'de RS_AppStore.mobileprovision yoksa: developer.apple.com > Account > Certificates, IDs & Profiles > Profiles > RS_AppStore > Download.
+3) Parola al: appleid.apple.com > giris > Sign-In and Security > App-Specific Passwords > "+" > ad: Transporter > cikan parolayi kopyala.
+4) Terminal'i ac (Cmd+Bosluk, "Terminal" yaz, Enter) ve sunu yapistirip Enter'a bas:
+   bash ~/Downloads/rs-yukle.sh
+   Parola sorunca 3. adimdaki parolayi yapistir, Enter. Keychain sifre sorarsa: Mac giris sifresi + "Always Allow" (birkac kez sorabilir).
+   Bir adimda HATA yazarsa, ekrandaki mesaji uygula ve yazdigi "--from N" komutuyla kaldigi yerden devam et.
+5) "BITTI" yazinca: appleid.apple.com'da Transporter parolasini sil; Xcode > Settings > Accounts'ta hesabi sec, "-" ile kaldir.
+
+------------------------------------------------------------
+YEDEK: ELLE YONTEM (betik calismazsa)
+a) Zip'i ac. Terminal'de klasore gir:  cd ~/rs-0.6.0/iOS
+   xattr -cr .  ;  chmod +x process_symbols.sh usymtool*  ;  rm -rf Frameworks/UnityRuntime.framework/_CodeSignature
+b) Unity-iPhone.xcodeproj'u Xcode'da ac. Ustte cihaz olarak "Any iOS Device (arm64)" sec.
+c) Unity-iPhone hedefi > Signing & Capabilities > Team: 9X55V64NRR, "Automatically manage signing" acik.
+d) Product > Archive. Organizer acilinca: Distribute App > App Store Connect > Export > bir klasore kaydet.
+e) Cikan .ipa icin imza duzeltme (RS_AppStore profili + TEKIN'deki I): rs-yukle.sh --from 5 bu islemi yapar
+   (~/rs-0.6.0/out/export/ altina .ipa'yi koyman yeterli).
+f) Yukleme: xcrun altool --upload-app -f <ipa> -t ios -u zeydtekin12@gmail.com -p PAROLA
+g) Bitince parolayi sil ve Xcode'dan cikis yap (5. madde).
