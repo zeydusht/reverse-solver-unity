@@ -1,0 +1,46 @@
+{
+  "outputs": {
+    "01-ev": {
+      "size": [
+        1125,
+        2436
+      ],
+      "sha256": "3432d197a05193c84fbd631e5ac15c54fa125bb6cf42c530069052367f1f5a81"
+    },
+    "02-koleksiyon": {
+      "size": [
+        1125,
+        2436
+      ],
+      "sha256": "c2f97711901564dbf03258306ad9178604f7ad96a42f6cfc1644fee895c57dd5"
+    },
+    "04-basarilar": {
+      "size": [
+        1125,
+        2436
+      ],
+      "sha256": "59128a5239bbb2de230267713a85928d3d1681325093f87d2323dea035865a54"
+    },
+    "08-sekme-cubugu": {
+      "size": [
+        1125,
+        2436
+      ],
+      "sha256": "f9e4f0a4d2c87da9d584a05fceca5ff63d35b4d2706ddfd3548024dbf8f0250f"
+    }
+  },
+  "selectedIconScale": 1.3,
+  "normalIconHeightPx": 126,
+  "selectedIconHeightPx": 163.8,
+  "safeTopPx": 132,
+  "safeBottomPx": 102,
+  "navBaseY": 2169,
+  "navBottomY": 2334,
+  "goldColorProxy": {
+    "method": "PIL HSV hue13..38 / saturation>=140 / value>=130. Warm art/materials can also match; not semantic gold area.",
+    "collection19B": 32.12,
+    "collection19C": 1.28,
+    "achievements19B": 27.82,
+    "achievements19C": 5.27
+  }
+}

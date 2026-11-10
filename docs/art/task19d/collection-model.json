@@ -1,0 +1,562 @@
+[
+  {
+    "level": 1,
+    "title": "Çiçekli sahil köyü",
+    "source": "Assets/Art/Paintings/painting-01.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 2,
+    "title": "Renkli balıkçı limanı",
+    "source": "Assets/Art/Paintings/painting-02.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 3,
+    "title": "Teraslı zeytinlik",
+    "source": "Assets/Art/Paintings/painting-03.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 4,
+    "title": "Fener koyu",
+    "source": "Assets/Art/Paintings/painting-04.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 5,
+    "title": "Begonvilli sokak",
+    "source": "Assets/Art/Paintings/painting-05.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 6,
+    "title": "Limon bahçesi",
+    "source": "Assets/Art/Paintings/painting-06.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 7,
+    "title": "Kemerli su yolu",
+    "source": "Assets/Art/Paintings/painting-07.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 8,
+    "title": "Seramik avlusu",
+    "source": "Assets/Art/Paintings/painting-08.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 9,
+    "title": "Üzüm terasları",
+    "source": "Assets/Art/Paintings/painting-09.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 10,
+    "title": "Çamlıklı saklı koy",
+    "source": "Assets/Art/Paintings/painting-10.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 11,
+    "title": "Çiçekli orman şelalesi",
+    "source": "Assets/Art/Paintings/painting-11.jpg",
+    "state": "earned",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 12,
+    "title": "Dere kenarında değirmen",
+    "source": "Assets/Art/Paintings/painting-12.jpg",
+    "state": "next",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 13,
+    "title": "Mantar ormanı",
+    "source": "Assets/Art/Paintings/painting-13.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 14,
+    "title": "Lavanta tarlası",
+    "source": "Assets/Art/Paintings/painting-14.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 15,
+    "title": "Nilüferli göl evi",
+    "source": "Assets/Art/Paintings/painting-15.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 16,
+    "title": "Elma bahçesi",
+    "source": "Assets/Art/Paintings/painting-16.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 17,
+    "title": "Dere üzerindeki ahşap köprü",
+    "source": "Assets/Art/Paintings/painting-17.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 18,
+    "title": "Kır çiçekli çiftlik",
+    "source": "Assets/Art/Paintings/painting-18.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 19,
+    "title": "Salkım söğütlü gölet",
+    "source": "Assets/Art/Paintings/painting-19.jpg",
+    "state": "locked",
+    "hard": true,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 20,
+    "title": "Çiçekli orman serası",
+    "source": "Assets/Art/Paintings/painting-20.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 21,
+    "title": "Karlı köy meydanı",
+    "source": "Assets/Art/Paintings/painting-21.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 22,
+    "title": "Dağ yamacında kulübe",
+    "source": "Assets/Art/Paintings/painting-22.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 23,
+    "title": "Buz pateni göleti",
+    "source": "Assets/Art/Paintings/painting-23.jpg",
+    "state": "locked",
+    "hard": true,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 24,
+    "title": "Kuzey ışıklı vadi",
+    "source": "Assets/Art/Paintings/painting-24.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 25,
+    "title": "Karlı vadide tren köprüsü",
+    "source": "Assets/Art/Paintings/painting-25.jpg",
+    "state": "locked",
+    "hard": true,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 26,
+    "title": "Donmuş şelale bahçesi",
+    "source": "Assets/Art/Paintings/painting-26.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 27,
+    "title": "Dağ teleferik durağı",
+    "source": "Assets/Art/Paintings/painting-27.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 28,
+    "title": "Karlı teras bahçesi",
+    "source": "Assets/Art/Paintings/painting-28.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 29,
+    "title": "Işıklı buz mağarası",
+    "source": "Assets/Art/Paintings/painting-29.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 30,
+    "title": "Zirvedeki gözlemevi",
+    "source": "Assets/Art/Paintings/painting-30.jpg",
+    "state": "locked",
+    "hard": true,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 31,
+    "title": "Fener festivali",
+    "source": "Assets/Art/Paintings/painting-31.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 32,
+    "title": "Yıldızlı küçük hisar",
+    "source": "Assets/Art/Paintings/painting-32.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 33,
+    "title": "Sihirli kütüphane",
+    "source": "Assets/Art/Paintings/painting-33.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 34,
+    "title": "Balon şehri",
+    "source": "Assets/Art/Paintings/painting-34.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 35,
+    "title": "Ay ışıklı nilüfer köşkü",
+    "source": "Assets/Art/Paintings/painting-35.jpg",
+    "state": "locked",
+    "hard": true,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 36,
+    "title": "Büyülü gök küresi salonu",
+    "source": "Assets/Art/Paintings/painting-36.jpg",
+    "state": "locked",
+    "hard": true,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 37,
+    "title": "Uçan adalar şelalesi",
+    "source": "Assets/Art/Paintings/painting-37.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 38,
+    "title": "Işıklı iksir atölyesi",
+    "source": "Assets/Art/Paintings/painting-38.jpg",
+    "state": "locked",
+    "hard": true,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 39,
+    "title": "Kont'un büyülü bahçesi",
+    "source": "Assets/Art/Paintings/painting-39.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  },
+  {
+    "level": 40,
+    "title": "Kont'un görkemli şatosu",
+    "source": "Assets/Art/Paintings/painting-40.jpg",
+    "state": "locked",
+    "hard": false,
+    "crop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "cellRatio": "3:4"
+  }
+]

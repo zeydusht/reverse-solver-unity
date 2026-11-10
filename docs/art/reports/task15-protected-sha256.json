@@ -1,0 +1,898 @@
+﻿[
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\board-frame-gold.png",
+        "hash":  "8D230D82AC6F3355A7BD1E56A1917FB97AE5F05578134F84F1B6CFFC2F7431F7"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\board-frame-gold.png.meta",
+        "hash":  "6455DB144915A7865556BB9B6AE15ADEDEACC2DECBC527A3EA375709A47C45A5"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\bomb-384.png",
+        "hash":  "75FA533F45603B78497DB7F2D4BB8916BDBE73E7EBD34CBDEAD2A18A85520C88"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\bomb-384.png.meta",
+        "hash":  "9E684CB2A97753733BB0B728B7361CB36C67E80CDD6393B1C99F11C708E93411"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-badge.png",
+        "hash":  "4BA16956C624B7E8288A6D3457398BACD623715EFB14DBBA56894A32F74BE46F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-badge.png.meta",
+        "hash":  "E43073F999188FC26BC4C3F2B03929E580CD8DF1283675A3BEFE01C6D35BBCA0"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-bar.png",
+        "hash":  "46D8714E12198D6DD412414CA61A502BEFBD87E270E733A829A4A3C00614DC20"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-bar.png.meta",
+        "hash":  "A9CA035A7D35140D8ED07E23AB00F96CBBF70E2000541A17AAEC1CB8AEC77E1C"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-button-locked.png",
+        "hash":  "AEA4CE3165C9136F56B4EDA2947A45D72C0959A9EA14E76ADDE0A4F3C774DC19"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-button-locked.png.meta",
+        "hash":  "9EE1238FC237F960E687D3B1528F08A4B01F8B9FA939787185FEB2157757E57E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-button-pressed.png",
+        "hash":  "AC92990E91131D0EBE0515FDF5C288E562A8004F55CCACD0FE8A7E3F42BB19A3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-button-pressed.png.meta",
+        "hash":  "A1CBB11C8149DE759A340318CBF522AE0AAAAEB1858D73C154FD6520935F266F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-button-zero.png",
+        "hash":  "2925A1AFB30921D546705A4A0515263D78B8035473B842A1036A206EF8929BD2"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-button-zero.png.meta",
+        "hash":  "A9DFBED0E8CC9417A6C9D56E93B593AD022C808349541D318014311CE44239EC"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-button.png",
+        "hash":  "91E66EF83FBEF4327836CB8BB12B4B2529DC28E143D69F21D704D3B80C66D44D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-button.png.meta",
+        "hash":  "FC315F6EF13421CFA3584418EFF22908423DA53895FD1AEE14BA95A122046FC9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock-locked.png",
+        "hash":  "D5E736DD09114CCEAA2D69A9C1C8D5D4188DE035DC9AEEABEC1E7301C5E3F8E6"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock-locked.png.meta",
+        "hash":  "73974C34B712F6C4220DAD2DAAC5DA278F8191CA5CDC6E041706AA2801E0B5D8"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock-normal.png",
+        "hash":  "485EE34CB937A0456B163F7FA9B704BEF112F796877E81AFDBA9528BA77ECD0D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock-normal.png.meta",
+        "hash":  "0AEF9CD788846D84A98A0A94C04FA1F9695FCC7441E2E262E19048DF0EB87421"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock-pressed.png",
+        "hash":  "1DD9EE9D8121CFAD7181E80798A90706AF57F463684B2C2B17B0E13588F27EA5"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock-pressed.png.meta",
+        "hash":  "A9FFC95C45A73ED55AE9BBED1AFAD29302FF45CBAD37A3DD1E543955A88A04CC"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock-zero.png",
+        "hash":  "D71EB7A98D153A2E59D564ADBD5214593FF32B485E3D74372C936654D4158B48"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock-zero.png.meta",
+        "hash":  "DF7D78E4D6ADC8B149944509AE9AA279132692203417429D2BC1DE8857B042BF"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock.png",
+        "hash":  "C1B177C84A10732495E68479DE08B5C3BFDE62B7A92430D75233E80E83903009"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-clock.png.meta",
+        "hash":  "81F3673A926EE1A5EBE57B8A664A6E308CF1F9149E066F9BBA7D57EED232B1CC"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer-locked.png",
+        "hash":  "2E71BBAD36AB02CF794A9C663EF6150D0956CAE003CEDB707B3AF3C95C87AD1F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer-locked.png.meta",
+        "hash":  "277B0A2BE9EE8E75D557CBED2F2C0D2D38023438B2AD5FAED41F50A128404870"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer-normal.png",
+        "hash":  "FB6366EC977B1F2B3F1E53CE969AE63C28D3EEB155294AEB3B225539BA11C26E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer-normal.png.meta",
+        "hash":  "FDA231EEE95E41D6F595560122D284983E55C6183CB4C60779DA665CACD4972A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer-pressed.png",
+        "hash":  "9CBBDBD9F0593362B08F19FAA862DB9220875175A55310CEF4F4AE187E40322A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer-pressed.png.meta",
+        "hash":  "1C569B00EE081D5F86FB8A51CD25AF99D3A89F2BDDF1BE742CAC2C611FA07229"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer-zero.png",
+        "hash":  "E6EA98C39146A53D575DC1E49A5FF982C33B2B4F52037D0F7014BEAB37EC6949"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer-zero.png.meta",
+        "hash":  "27200E85B428E7C6A626A8C6D37E466A8610B1FCC204ED2FC8836EEC1AB4E53B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer.png",
+        "hash":  "E17F898C538BBD4D5343E094D435E1880ED07A26EF0195A46FE87B0A5B34BA76"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-hammer.png.meta",
+        "hash":  "DA89978B47DBA43FBB9C00A52956F0EDC0F95459FF93AABE3B78CE8730936CF8"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-lock.png",
+        "hash":  "19BFBD6A0E2546252C5F11B39B9123D1164811CAAA16EC94E4380D6C56170025"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-lock.png.meta",
+        "hash":  "9F0CB5C395D7E38093110ACAFAD120EF6948A04F8178B48A7F98A1AC090570E0"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors-locked.png",
+        "hash":  "3B4DBC892E7F4919D3F17B9B1325A3EF77C8185E986BB0816C53318F031472B1"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors-locked.png.meta",
+        "hash":  "60247880627C832D2B79290CC4E9B29ABE9E6A3E76474F37454AA281FCF7C677"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors-normal.png",
+        "hash":  "C321065B5EAD1D4B2E0518A808EC17762D6D433F43D58EF016898F54A0BFA07C"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors-normal.png.meta",
+        "hash":  "1192FB047802D513C5E5F88EC25952BC8FA7CA6ADA57A5993F01B6EB8DD6FF3E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors-pressed.png",
+        "hash":  "0627C70CCB7B41165928D102C030DE9A7E20566EF7A40C8593FC168D2B6D57EA"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors-pressed.png.meta",
+        "hash":  "1B6CBF83587CBF1D130DAF4FFC68D9A213E5015EBC7676EB2F2F2D013B482A3F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors-zero.png",
+        "hash":  "B75A0BAE150884183D70936C44DA14A251753D97B7B8D02A517138279DA7E967"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors-zero.png.meta",
+        "hash":  "804DD8D62451D7B663B6F726E016E890D26301F4881BB6E8CCC26B849B3F008D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors.png",
+        "hash":  "78F0CB5294712132FC4020AC6F8AEE40BFCB0F2B5AD41BE255B030E431AAB812"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-scissors.png.meta",
+        "hash":  "12BFAAB4D34E94293F474BEFD607C4960CC660F8D70D74EFEE8790AC0205E9B4"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand-locked.png",
+        "hash":  "5AEDEDC81441EBC859506AB1D22B4116682B3FFFEAF0E5689A3790630AC5A0EC"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand-locked.png.meta",
+        "hash":  "17F3AC1C62B4E75CF62BBE0E37BC1E410B295E0C868F7948705AADA0F682EBFA"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand-normal.png",
+        "hash":  "32DB033732F14BCBCBA03DBAA620E15DCF1838A244C6181AD57EADCDBD764993"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand-normal.png.meta",
+        "hash":  "50232A96CF275889EF96CD259B0DAA4FAFB276363FB5475695F50FFFA188352C"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand-pressed.png",
+        "hash":  "697F17D31CD18A7BA89BFD409771201EBAD38CF0861CFAA601992581E5C37F5D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand-pressed.png.meta",
+        "hash":  "7230E7F7FF883C56FDFB8DA1F7B982E01F8DE4A589F6659ED1A7B1F8D363C0A1"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand-zero.png",
+        "hash":  "524AE8129E42F7BB91013177F98B2B145E2385E08C0766BC36EDE80942CF6D34"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand-zero.png.meta",
+        "hash":  "892D988A189154E9891A4D1837CD51AAB1AAA81BAFB19E7DF6E04EDDEDC15840"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand.png",
+        "hash":  "492927C330B37CA840FF7460C396D7CF119FE4F8F4F405A3807362E1B67ED771"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\booster-wand.png.meta",
+        "hash":  "A00A95B8A6C541A66B0577FB63E58DBC71CB0F1B10FDFC5B44C90C517283F798"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-danger-pressed.png",
+        "hash":  "C34871C44EB07DEEB43EBADC5CFED1AC4807D9D58BE1B150A15E831414FC2D03"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-danger-pressed.png.meta",
+        "hash":  "B18D9AED4121DD61A5D80113AF77677C405BC7CB29F1055E6030817E005B4E54"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-danger.png",
+        "hash":  "AB9C2AA90352EA4EA6E7193C98203E261CA5F1045913818AED71A62B5D6E762D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-danger.png.meta",
+        "hash":  "F5D9B2C0701C53E74C97B36EAC48F9870265C35E661C33850865D0F2624F20F9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-primary-pressed.png",
+        "hash":  "CA4D17C8CFE129A77650392D94B87EB39FDDC749B4F2888E82315C0409BB5E9B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-primary-pressed.png.meta",
+        "hash":  "ED9EAABF6F9F59BB44A85701F12E470F59EAC16C4E4EB56A03C1E7F79C4ADD2F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-primary.png",
+        "hash":  "6659D403E68DB68FA2761D4FF5DFA19BE91B67F2E769E7B2695B6136CD4002F4"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-primary.png.meta",
+        "hash":  "EF8A43DC012528C64327C8AFB1E3E16339C17AE0BBE0B1F1B717DF58728D1F50"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-secondary-pressed.png",
+        "hash":  "25BD75343E903BE8CAB72F7ECAC35C263EC9DF71CE9079084EA66948EB7E8DF7"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-secondary-pressed.png.meta",
+        "hash":  "9D158B7BB5D1C44D750213FEB63E61F58AD6343962D0C91386705212447B8C2D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-secondary.png",
+        "hash":  "B45D4E69F912CC9F6CC532F840D6FEFA3BBCA8A77927466D51F89D5518F4FFCE"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\btn-secondary.png.meta",
+        "hash":  "573A6D992E6740D88F90F449EE446D192AB5B90785E51C97202B50078BAF4E9B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-lose-bomb.png",
+        "hash":  "78298D263219B54B12F9C87F2754FF2E7516CE72BA265B0C6BAF0BAB0BC3C348"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-lose-bomb.png.meta",
+        "hash":  "1E0FA9B225442176CA0831C14AB62421002A1B28BA741EEA9DF2A74DD856C84F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-lose-time.png",
+        "hash":  "61EFFF8CBAB083A9F4B24463245C35D04EBA0FF011AFA7B9E52F72188FD30EB3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-lose-time.png.meta",
+        "hash":  "9DAB7C1332C4FEEC6CF43D686097D19A5B2AD57072CAFC7CC8D459084E953FAB"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-lose.png",
+        "hash":  "C13647B909673171D3C3AB5369B61A1A942CB80CDD9A71B1E3BFB0C42F4B8F20"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-lose.png.meta",
+        "hash":  "20EF12B102B4E6668AA7D5FB0F336D28E2C1BAF417A12D69692881A38396B800"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-panel.png",
+        "hash":  "4245F0AD17FA4BBE69B36B724F44A93F4C05E8F6A8175ED5328354A27CE3C0CC"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-panel.png.meta",
+        "hash":  "D90906D90DF5B1761EC875A045B0A6F1194BE3CF5392FEE31EECC06B25DD98B5"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-pause.png",
+        "hash":  "478159D1E6341E411CD3852CFEDEBD8F0E46823EA609CEA66D18EC4A5F3E0590"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-pause.png.meta",
+        "hash":  "9538982DA9F34281D0973EDEFA404BD64F9FFD083F5283F3DDD5F9522623F7C6"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-start.png",
+        "hash":  "9EF3F6B35382CA7301588202A9F8F3C4BCD1BD88A1CF87339BE33692855BA581"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-start.png.meta",
+        "hash":  "30B47298A062D3D758379C9F4C84048695C75F32693DE64A277028027DCBCF99"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-win.png",
+        "hash":  "1527DB35F1CFFC62F3EB6966D4E2639D62D2148CB5D7BB99186C4021CB5A063B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\card-win.png.meta",
+        "hash":  "9C45432D9D36017BDE07C6E63349732BB1073BFF539F6C13EC2A080A692F36D3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\chain-endpoint-144.png",
+        "hash":  "D8C0BB0E61592CEF258A5B4C637BC2A7A0AB2995B4BED8367BA7FDBC3B0C551D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\chain-endpoint-144.png.meta",
+        "hash":  "F1040767059F45510B419DB2CD2F77F1C75569D922AF1CF34BBEDF535FAA6A76"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\chain-link-repeat-96x48.png",
+        "hash":  "7028A27D331B70048F453C6AFDF7C221F7AFBC76BEC0F5CE404E2AC816F5F148"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\chain-link-repeat-96x48.png.meta",
+        "hash":  "EB25A533C30919738C7F7475407C5B71066021EF14877C0F86FF08BB7865FB03"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-level-badge-pressed.png",
+        "hash":  "9F45AC13EDF70EBC6011484A3E9286AA365AB6A16C973FFACCC94DE1994E565F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-level-badge-pressed.png.meta",
+        "hash":  "11BFD53506239B65DD27D3608621F9B440D77B09257D4347291C3589768BED94"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-level-badge.png",
+        "hash":  "6B01B874EB3A4D876973CB527F402B2983C0D39835D469CCAE856BEA8E4BB66A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-level-badge.png.meta",
+        "hash":  "92E469DBFA683CFC68140801318DF5A23A1C69AAB602E969A507D9E65BE93153"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-moves-pill-pressed.png",
+        "hash":  "86690A378AD3A04427BAF445080A3C1F48E31CD552BF5630ED011D8533C96CBF"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-moves-pill-pressed.png.meta",
+        "hash":  "B1E2575D0ED77471755EE7FFEE1BA66F8700AB5209157A147F4C1150C31B77D9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-moves-pill.png",
+        "hash":  "03EB32EA842C55CA09B3F5858FBE267D664B3ADBCB35946260AD162F5B0C3509"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-moves-pill.png.meta",
+        "hash":  "2049072413AB1413304B57F4934B69BEB634B6E44E5AF31026283EF9745134F8"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-pause-normal.png",
+        "hash":  "D54DFFE157D55492AB7E8D2B2E9950D83038E5CEAAA4592BBF38BF18D4A5560D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-pause-normal.png.meta",
+        "hash":  "0760B50DF6BD56DA1ADD2D7279D6BD561DAB8F58CEF66899A9FC601E303DA9E1"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-pause-pressed.png",
+        "hash":  "0AB7E8DBA64750FA8A04FACD0C0DEB23BA941D4BCB539D14C80AEA57328A0E74"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-pause-pressed.png.meta",
+        "hash":  "6459C375D8408B6E6B9C605EFDFA2A2438EE80F01182D57742C0BD4211C27F9D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-time-pill-pressed.png",
+        "hash":  "E739310E8216606B065304FECB1AFEAF469331244B7B4A8A6D44981FC0C3550A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-time-pill-pressed.png.meta",
+        "hash":  "21FE53A7487B9D194F0A8EE5F2AD70BE12EBDADB7FB0862254E7FC1E03D8DFD8"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-time-pill-urgent-pressed.png",
+        "hash":  "161C9050EB7871987E06B352A753977C8539AA43FABC0EAD79E4F5A86FC3B962"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-time-pill-urgent-pressed.png.meta",
+        "hash":  "E84F601E224DD0840DA748D3CD21B48A385A35CE1F2B66CE95B7D9D00C4A32DD"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-time-pill-urgent.png",
+        "hash":  "9512702113B0D8C5904337731F07C1440C056E0EB5E4885658B0375D62F00215"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-time-pill-urgent.png.meta",
+        "hash":  "798ECA606625CF26EAB8AA00F951913DDEA1AFC4AA465AA88B33985E58CC761B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-time-pill.png",
+        "hash":  "CF127BF87BDE12B9A4190B2E6729791D0FF7ED5DB8F4E40061FFBED11AF06074"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\hud-time-pill.png.meta",
+        "hash":  "CAE33899AB1229D7F62C865C3726EF44E97FC123E13E25D86493910BB6AB50B5"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\LilitaOne-OFL.txt",
+        "hash":  "2DB08F46F614CF63E96DC99390112B2A1D2C4171370443F510E2163FD4AD40EB"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\LilitaOne-OFL.txt.meta",
+        "hash":  "E6198324FC82DBD695A7E8CC054116E9B2EB2AB5CCBA572FD42A40387B378EE9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\LilitaOne-Regular.ttf",
+        "hash":  "4444C23631884F411AA7F2FEE35061B1756A9927940C62D2A5572ACF470B3FFA"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\LilitaOne-Regular.ttf.meta",
+        "hash":  "34E62584D89618AFB32E5AFB9519B704D3DFF44BB9CFC37E39E6F7463F4A8110"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\loss-reason-bomb.png",
+        "hash":  "604811996022D50FFA9E90D73BB7DBE208B0AB6743783251291CE5E3D2641146"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\loss-reason-bomb.png.meta",
+        "hash":  "1013E48F95D10E0ED4A2264D7B57F7147F46271F6AA9E1519E8397D3222F509C"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\loss-reason-time.png",
+        "hash":  "9E97E9F4D52768DAACE28D8D6012F4700261EDD6A4AAD8F2B1F99143D57CAB13"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\loss-reason-time.png.meta",
+        "hash":  "9BB921F58E9BA9987CDB5306580F55767EB959192F1384FDC2AB6BC076F9E941"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\manifest.json",
+        "hash":  "C7A5297119A997F286C043919FA97A2BCEFE18D7E24515140211E30233206D26"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\manifest.json.meta",
+        "hash":  "A043BBA3818570394FA10DD322505EC20279A066406F4EA857CA9E5CE84ED3C3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\nail-head-384.png",
+        "hash":  "1FBCADA73FF336AA23F8FF950EF8B72802FED29E6CE19B033B72E259A2F06A52"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\nail-head-384.png.meta",
+        "hash":  "193CC54BB55DF196EBF5D8562B9DE2C651172B337AB380F4FC28943DAC3E4D80"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-booster-states.png",
+        "hash":  "F74BCA6D6F6678C97AB37283B3120AC1186BD59B1E879C2AC92E295F51767655"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-booster-states.png.meta",
+        "hash":  "8386448345676AC112E4D6EDBD85FC0E234FD9A7DC81BAECEE868F8F56FDF2E6"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-cards.png",
+        "hash":  "B27EC1333BFEDC9E8D7176214E655DBFCEAB4054548DFEF8E02A57FAACD19EAC"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-cards.png.meta",
+        "hash":  "E8E9042C443CC0FEA09456B5814927D4CFC0FD7304FF451CA02B51F63259FAF2"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-details.png",
+        "hash":  "3B6E9606FB89B830A28EF435C953128CB924249712AFDCEC21ABAA1AD36C1565"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-details.png.meta",
+        "hash":  "B8F2BB907D7A7E6075C149FEBCCA7D7A6A4AD5224D25FA4F895C4FC168A44F99"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-export.png",
+        "hash":  "D1DC8D32C78002A1FD690C69837FAD0F45BAC605438F87834B0E995B1A806678"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-export.png.meta",
+        "hash":  "D8471E9B2E500A293EE50151103B9A9DBECC3D1F361ECB3E02DFFB8FA688CB96"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-ingame.png",
+        "hash":  "44AD7D2537872D42DCC0411D3C58937EB99D97CE16493A50D568360C3D1A61AB"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-ingame.png.meta",
+        "hash":  "CCAA1CB871920D70C069D419A46FBCE0C08252E9D2104ED89A643E33B9DE28EB"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-seams.png",
+        "hash":  "7227BCF69B013D0F441C52B50D544924550849017E25CCE60E3BC46B92F02A92"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\preview-seams.png.meta",
+        "hash":  "A464EFFD9BFCF06322338DB40462F3AA9819D10964DD67DFFBB4DED5E7263631"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\README.md",
+        "hash":  "2EEF892F62996A3259A73466335BEA222D7F2D98CB1E2137A30DA13653CE0348"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\README.md.meta",
+        "hash":  "B517FF69063FA1AB44724B0E936A20C1D2874FDF75D2CDDC4783FF7B60B72D21"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source.meta",
+        "hash":  "4C95C1674F9A9912C8C5EF2AB3CB9F970B9A8C25F46089AB6131EC35D50BEB6D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\star-empty.png",
+        "hash":  "E38F011E9CFFE51F90BCCC206415AFB1F85200884BB2F6082DD8543836414688"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\star-empty.png.meta",
+        "hash":  "925064B827DCC3747C751E2726B7CE66F8DCBA853C74C85741277FBBAE954DE3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\star-full.png",
+        "hash":  "FA040140575DE394035B129917873B220D02748BBE8D2799F229E9BC83C14907"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\star-full.png.meta",
+        "hash":  "62D93D0C51ACE9EB0965E86728B58CBABE2925106387D7CDD7A853BB279DE309"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\wall-corner-96x96.png",
+        "hash":  "9F8E33C040B916D88C77C8FCEC588C43919674E0DE630181DC37067365A235A0"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\wall-corner-96x96.png.meta",
+        "hash":  "02B856ECCF3934120EF2D259005BEAC5042643F71BC20F538D7C767B28E0BBD1"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\wall-repeat-96x48.png",
+        "hash":  "0A0110451F719CE6D6E41401C252A1940EA71A69C0D20FE996A4F08AEE45D46C"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\wall-repeat-96x48.png.meta",
+        "hash":  "604EFC6A64BA8782208591E416DD74798A3860CE7BE5837F8952719C2352072D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export.meta",
+        "hash":  "2D8B3E650FD658137A62B2EAA726CE686F6AA1548452311D0FE05C4C12EF773B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\layout-guide.png",
+        "hash":  "51B9750439A0426561CABF55C32BC1535F45DC6C57D215669D23DF0B2EC36E98"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\layout-guide.png.meta",
+        "hash":  "45789CF76B97BA05B89A6A503AD9C749546B06680008D3307DA364284EF852F5"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame-v01.png",
+        "hash":  "FF7BA3645CD6B9B330A8A984E5D5902E62CBBC1C0D74E26FE3BEC027B2F05987"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame-v01.png.meta",
+        "hash":  "59964775E85C0A526C47670E19BD621620E7B9A8BC3DFC759063FE5C5DB81E2A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame-v01@3x.png",
+        "hash":  "EC44E615F34F027CA376CCE52F965552762B61CBF0CB0B8CC9F725D66213D6A2"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame-v01@3x.png.meta",
+        "hash":  "7DCEA6F0F3A28E08535DD9BDC787F54042800408D4EF1F7BB83FF8C5F425F112"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame-v02.png",
+        "hash":  "44AD7D2537872D42DCC0411D3C58937EB99D97CE16493A50D568360C3D1A61AB"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame-v02.png.meta",
+        "hash":  "1EC66B8C5BB17E9AE015A0FDAF7981D29BBE6F52B31B78ABDA942BBCF7267D8F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame-v02@3x.png",
+        "hash":  "D17BCE1C8935C87AE92A4AB71EC53DB027B0B5FEDF9F0034AC59E588499BA25F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame-v02@3x.png.meta",
+        "hash":  "2E070F6C75B64282BA16C880A5EAD2275E5B25318DB8B144B22CEE21993EC12B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame@3x.png",
+        "hash":  "D17BCE1C8935C87AE92A4AB71EC53DB027B0B5FEDF9F0034AC59E588499BA25F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\preview-ingame@3x.png.meta",
+        "hash":  "7A597855707CBB89687FE2F2622CBF8DC9CF0A09EB27861524672F683B049E71"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2.meta",
+        "hash":  "C98C5C4149B6D2AA6371F278C8123A852DBEF34061CF10E4C06EFD216C1ADD31"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\ui-overlay.png",
+        "hash":  "0872A4BBBFFA6701739F7E3A0B39EDD8E4BCEDA14C968A44DE2DE5D69BBA4C0C"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\ui-overlay.png.meta",
+        "hash":  "902B0A9ACFD164600FF467C3202BF503B22BE7D784B164D8FD8E0E6509ED327A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\board-frame-crop.png",
+        "hash":  "CC077E03692E3E465397EC67BFE3812D0B01A01685FB2CC823F99DF83C1A9F19"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\board-frame-crop.png.meta",
+        "hash":  "0CBF6D9DEECAE9067AA022A5FD3B899CD4F42FB447DD8489F7A715E01E802A80"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\board-frame-source.png",
+        "hash":  "24A1A66873EACB013E45B17AF90DB0B08073DE7803B6DAE76DEC8D4E7B08BBDD"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\board-frame-source.png.meta",
+        "hash":  "2D25F0C9F55E2F32F1950F979FD21AD8233C13619BAEF93AEAEBCA45E1CD2CC2"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\bomb-alignment.json",
+        "hash":  "6AFBFCDCA1EB135799F43E24BC192475A5F8D47F6C6F0A08F24D0D2AAFE72049"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\bomb-alignment.json.meta",
+        "hash":  "3CEF0B8EC201EB37534A3E014E68F9AB84AE5074ADD004A7735A31188EB671AA"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-button-source.png",
+        "hash":  "FDD6687754E2F1833C79C36D24E35EC3B92392E2D6076A5E53C7FAB88A5A22D1"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-button-source.png.meta",
+        "hash":  "E1C2B1669695929F0AC916B33D07FA2289C5C6893695EDD820A2D4D3993128C9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-clock-source.png",
+        "hash":  "1BF0159031BC6B46B929C6770318AF16A8CF2A69453319EA583BFFAC660414AB"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-clock-source.png.meta",
+        "hash":  "8322E0072F94DBBD91DFF9C19902CD1E13BB04B6EAB4BDB093E2D700FC3974C5"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-hammer-source.png",
+        "hash":  "EBC4EADB0A754C58F1B94CC06B4DFF269CE0850CE0CFDF3F9BD9448B987A6F8E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-hammer-source.png.meta",
+        "hash":  "2984BC2F9FF3308E23A64E69635665003C3F496BEE5A7AD78FF7241F8F5220CF"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-rail-crop.png",
+        "hash":  "5064B449CBD67F00D1060C565405310872D68BDA6CDAEE50A7FDB70F45C81C91"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-rail-crop.png.meta",
+        "hash":  "A9A7443ED2C954C2DAF2CEBB164333AB18EA28E7C70AC10493713A5672EBF150"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-rail-source.png",
+        "hash":  "E80C472F04A1EA4E4EAD1CCFCDF044DE542F78FAEE2BEB854F4802C1B3B3F366"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-rail-source.png.meta",
+        "hash":  "B7CDE2E586A32D8ACE1315F9F4E2C0BE1556DE8A1FC471F76D6E93298007BD36"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-scissors-source.png",
+        "hash":  "7E85993C43074A703CED1C9981E93C77F0A902DB7F3D1FDAC05B8CF46DFE8672"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-scissors-source.png.meta",
+        "hash":  "6780C367A422F6ACA246FCB9D5C828F88AF63477A81830C6D83A5606ED937275"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-wand-source.png",
+        "hash":  "4A31BEBD41C6A8A7299CACA8685D50B5AC9E385476B85B61072FD187BDA58BF0"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\booster-wand-source.png.meta",
+        "hash":  "0F7E984E06FBBF1B3EB6D5C4677E6E4E10F2F34A0B122084A6B0489CE223FE28"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\btn-danger-source.png",
+        "hash":  "6C8B7030C8A076BFAC45DD071C5401AA07481EF4200432BA7CA4E98F09F02F14"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\btn-danger-source.png.meta",
+        "hash":  "BBEAF135C16AF5B031453EB6482F12AA9E4389F083E7B97C5B9A33AA3790C6D9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\btn-primary-source.png",
+        "hash":  "39188DBDAD30CE04F33E596BC492B64AD49AF7411112E14F69998602B502E2C2"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\btn-primary-source.png.meta",
+        "hash":  "5F31FFAFFF0ABFD659DDF59C9EEE09C32AF79E2A95014DE13A2BE885C3B31A62"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\btn-secondary-source.png",
+        "hash":  "CF25A4F4179ED410C5607B05C7555AB9E43ABA00BBBA07B8EB3C4D5C8DFB4533"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\btn-secondary-source.png.meta",
+        "hash":  "0E926467E081406AF7ACDA6A916B3289839A6C54733EF9B2F215F899826A70A9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\card-panel-source.png",
+        "hash":  "41BB6F59F067653B780074B8E47A2161F0C27AE70D9C0BF8E10CE158A09CE1A6"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\card-panel-source.png.meta",
+        "hash":  "0CC549D288DFE0A94E65C50090968BCA2BB38B670A40A066CEF429C9E9BAB66F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\hud-level-crop.png",
+        "hash":  "D6BBACAF7DD272E668FB7A0B63AEEFD705625C057DB0E08DBFD823BE3B510A9E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\hud-level-crop.png.meta",
+        "hash":  "1A4ECB197EFD954C27E7D77A9627C3E55B8B42E9AF8FF76B2D05D5360A0E0004"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\hud-moves-crop.png",
+        "hash":  "EB008D976971911BF69D3A4FC99927B8D5856E0D02AC009204DC2D520CBF21E1"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\hud-moves-crop.png.meta",
+        "hash":  "4734605EE69F72AA10BF52253FD06CC4B33C16C2BBE2CE06E1C814FDD4A715AD"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\hud-pause-crop.png",
+        "hash":  "E593F851CDD9F9B08E7D180C8C9AD27D270038646DA70FEEFE5BF3508E77F872"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\hud-pause-crop.png.meta",
+        "hash":  "F8FD7442FC0A3C6D148019B8E1AD68F101B8D63BD9EC6EE4ADAE5EB5856D1868"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\hud-time-crop.png",
+        "hash":  "B213BF6DE9295D5FCF1D62A4EA561EFA22A4553C82494A9A6532868116BC025D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\hud-time-crop.png.meta",
+        "hash":  "712FE792356D947D8F17B48A8D243BF792D281D0D5DF37F28B2BD0BA1125C270"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\star-full-source.png",
+        "hash":  "B3A0443D773C60670D6772D2E6C42A40F1C8A264EC376C5EEDF8E49C0A30C62F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\star-full-source.png.meta",
+        "hash":  "EF6FAA17FDD7D7F7175B0840A23D7BB089F1C1CA0805741A6ED1248AB5C45196"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\wall-corner-source.png",
+        "hash":  "411F5523204938B642E5E50B2A3775D07A144EFF824188E48C70FDE904F6ADA7"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\wall-corner-source.png.meta",
+        "hash":  "46B85FB4D8C85462C9EF4B3BF5D65545E940F2CC5DA8B636E4A7EC10DD2E2159"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\wall-repeat-source.png",
+        "hash":  "D42180C7A74A6F5827B5C7DDA1DE2B8BC4BEAACBA76336A1B54765C37EC91943"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Export\\wall-repeat-source.png.meta",
+        "hash":  "C806C7D3C260262B7E91402501A5D712891D00164DED2C85CEB5D3ADFF978618"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\bomb-centered-source.png",
+        "hash":  "765202970AE317B0C0E66D5AE86A9008625F787BB00EB8C029FAF52B5ABBA067"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\bomb-centered-source.png.meta",
+        "hash":  "1FFBC7E29F93B533D822CBAF4E5319F1607462D0E08C045459711A8C257FF5FF"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\bomb-source.png",
+        "hash":  "40894AC222B765E4324E96FB951744B06BC55A9829FF70F03DCB797C9501C26B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\bomb-source.png.meta",
+        "hash":  "9BD6E361E607C7BD5842A06E1E2411DEC32C173F3F58B71AF3697EBE76453D73"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\booster-clock-source.png",
+        "hash":  "029EE76EC412ACDF3897B3A0E24E396D45FA3C00DACFFEAA7F9C3F2EDA401EA4"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\booster-clock-source.png.meta",
+        "hash":  "FC6511CBFBBFAC18B86417AFC05B068A46F6582C700201F3DADDA8466BAA70A1"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\booster-hammer-source.png",
+        "hash":  "304F60A8A4A064DD1E0F28C149D9D36C03F0474808183A5A572FD0FDFF6E49FA"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\booster-hammer-source.png.meta",
+        "hash":  "CAC019A4C68E94625CDA8A679823F718F19D086573DB8077E6C965E1119CD1A2"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\booster-scissors-source.png",
+        "hash":  "35EB8C783D1B1C750A4F78202F6CD0009C388CB9902B17FE151B2B8365801BA7"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\booster-scissors-source.png.meta",
+        "hash":  "31537F6EAFD36849E703DA8495AB78904FB58613F205C9B34CC2E7268E6868FD"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\booster-wand-source.png",
+        "hash":  "C7EE02AA3B06C075C7FD7FBA1B4BC388C654CD480BE49F3A6E9684DE0F85C312"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\booster-wand-source.png.meta",
+        "hash":  "00C4CDD1B555651CA2CE835BB5429E350D370AC56073358EEF387B8D8CE114E3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\chain-endpoint-source.png",
+        "hash":  "1C044E9DE9269F1F142A3A23E980AA8F23636CF18F49AA98EC80E9E80C192793"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\chain-endpoint-source.png.meta",
+        "hash":  "7AA6B12EB9F4139B446855557B042D23AFD3DC37EDB94868C960A5DF0B0FB756"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\chain-repeat-source.png",
+        "hash":  "F53C57F6C64AD0F4D7B25A8C570753781AF00F5385E796E006250934CAC7E1EB"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\chain-repeat-source.png.meta",
+        "hash":  "03032A8BC549B7E3C25AE1D9E2EEDD095E6AD1F7747D3B71A2E263EEB47298B4"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\nail-source.png",
+        "hash":  "A45A54DB9FE8048DC5B43334601AC2C9EE05880C8CCB046E92D99213A46A55B9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\nail-source.png.meta",
+        "hash":  "14A4E2F8D4BC8FFE1C49405FA112E1B26FFADD193A90DA1180680047D698FFEC"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\wall-source.png",
+        "hash":  "6E681B45F3253D71DFDDF792832791E139704E84A7A6EFBC045F8BF1487E3644"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task14\\Source\\Revision2\\wall-source.png.meta",
+        "hash":  "18FDFBB167CFE03C2F37B053994B8D6FA87B0826AE453F00276FA30A3434F9BD"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Menu\\Task13\\profile-avatar.png",
+        "hash":  "6F7C5B08A492EDE1B235962EBB73283DF9A2C28BB0444F03376F5588B194A53B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\UI\\PlayButton\\menu-play-button-v2.png",
+        "hash":  "185896B91C8ACEDED51CF533690B7649A0FA1F10A0726F75E5CBAEB350A3C007"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\UI\\PlayButton\\menu-play-button-v2-pressed.png",
+        "hash":  "1A3A73B2B8FF126796F72DDA870F1A62138DF47952FE68EFDA71CCA3D8B5CAF3"
+    }
+]

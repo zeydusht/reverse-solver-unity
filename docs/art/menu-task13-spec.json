@@ -1,0 +1,314 @@
+[
+  {
+    "name": "profile-frame",
+    "width": 216,
+    "height": 216,
+    "use": "portrait frame",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "profile-avatar",
+    "width": 132,
+    "height": 132,
+    "use": "approved Jiggle avatar",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "counter-pill",
+    "width": 360,
+    "height": 108,
+    "use": "resource counter backplate",
+    "stretch": true,
+    "slice": [
+      44,
+      44,
+      44,
+      44
+    ]
+  },
+  {
+    "name": "settings-button",
+    "width": 168,
+    "height": 168,
+    "use": "settings",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "profile-box",
+    "width": 480,
+    "height": 156,
+    "use": "profile header, avatar on left, text on right",
+    "stretch": true,
+    "slice": [
+      156,
+      48,
+      48,
+      48
+    ]
+  },
+  {
+    "name": "token-coin",
+    "width": 120,
+    "height": 120,
+    "use": "currency token",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "token-heart",
+    "width": 120,
+    "height": 120,
+    "use": "life token",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "token-star",
+    "width": 120,
+    "height": 120,
+    "use": "star counter token",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "token-jiggle",
+    "width": 120,
+    "height": 120,
+    "use": "rescued Jiggles counter token",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "nav-home",
+    "width": 180,
+    "height": 180,
+    "use": "corridor home tab",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "nav-collection",
+    "width": 180,
+    "height": 180,
+    "use": "painting collection tab",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "nav-jiggles",
+    "width": 180,
+    "height": 180,
+    "use": "rescued Jiggles tab",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "nav-trophy",
+    "width": 180,
+    "height": 180,
+    "use": "achievements tab",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "progress-track",
+    "width": 1020,
+    "height": 120,
+    "use": "menu progress track",
+    "stretch": true,
+    "slice": [
+      60,
+      60,
+      48,
+      48
+    ]
+  },
+  {
+    "name": "progress-fill",
+    "width": 996,
+    "height": 72,
+    "use": "menu progress fill, clipped by runtime progress",
+    "stretch": true,
+    "slice": [
+      36,
+      36,
+      30,
+      30
+    ]
+  },
+  {
+    "name": "bottom-nav",
+    "width": 1170,
+    "height": 246,
+    "use": "bottom navigation rail",
+    "stretch": true,
+    "slice": [
+      66,
+      66,
+      48,
+      48
+    ]
+  },
+  {
+    "name": "nav-active",
+    "width": 252,
+    "height": 222,
+    "use": "selected bottom tab",
+    "stretch": true,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "plus-button",
+    "width": 84,
+    "height": 84,
+    "use": "resource add action",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "notification-badge",
+    "width": 72,
+    "height": 72,
+    "use": "notification number badge",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "levels-button",
+    "width": 192,
+    "height": 192,
+    "use": "level list shortcut",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "profile-box-pressed",
+    "width": 480,
+    "height": 156,
+    "use": "profile header pressed",
+    "stretch": true,
+    "slice": [
+      156,
+      48,
+      48,
+      48
+    ]
+  },
+  {
+    "name": "settings-button-pressed",
+    "width": 168,
+    "height": 168,
+    "use": "settings pressed",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "plus-button-pressed",
+    "width": 84,
+    "height": 84,
+    "use": "resource add action pressed",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "profile-frame-pressed",
+    "width": 216,
+    "height": 216,
+    "use": "avatar frame pressed",
+    "stretch": false,
+    "slice": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+]

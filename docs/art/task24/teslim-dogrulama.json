@@ -1,0 +1,432 @@
+{
+  "time": "2026-11-03T07:44:37+03:00",
+  "paintings": [
+    {
+      "level": 11,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 225867,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 12,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 187334,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 13,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 251072,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 14,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 185827,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 15,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 228768,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 16,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 206099,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 17,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 212890,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 18,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 205647,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 19,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 208943,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 20,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 180135,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 21,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 177821,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 22,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 220203,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 23,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 160105,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 24,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 195340,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 25,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 191200,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 26,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 197599,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 27,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 190352,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 28,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 176372,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 29,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 212052,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 30,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 189775,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 31,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 174458,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 32,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 196680,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 33,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 168994,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 34,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 175929,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 35,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 182151,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 36,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 161550,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 37,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 187548,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 38,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 169172,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 39,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 147179,
+      "pieces": 42,
+      "sampleReviewed": 6
+    },
+    {
+      "level": 40,
+      "sourceSize": [
+        1536,
+        1536
+      ],
+      "gameSize": [
+        1024,
+        1024
+      ],
+      "gameBytes": 181459,
+      "pieces": 42,
+      "sampleReviewed": 6
+    }
+  ],
+  "totalPieces": 1260,
+  "randomPiecesVisuallyReviewed": 180,
+  "oldPaintingsFilesUnchanged": 199,
+  "oldPaintingsChanges": [],
+  "brokenReviewLinks": [],
+  "gameplayDeviceTested": false,
+  "sourceNormalization": "Generated originals1254×1254 normalized to1536×1536 with LANCZOS; no crop, no detail invention. Originals and rejected variants retained."
+}

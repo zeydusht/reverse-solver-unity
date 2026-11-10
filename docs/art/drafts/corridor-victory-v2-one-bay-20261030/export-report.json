@@ -1,0 +1,22 @@
+{
+  "endpointMaxChannelError": 0,
+  "endpointMeanChannelError": 0,
+  "period": 992,
+  "cropWidth": 709.7630331753554,
+  "travelBays": 1,
+  "travelViewportWidths": 1.3976495726495728,
+  "viewport": [
+    780,
+    1688
+  ],
+  "intermediateSource": "one fixed periodic illustration; no per-frame generation",
+  "duration": 3,
+  "fps": 60,
+  "frames": 181,
+  "videoDuration": 3.016667,
+  "videoWidth": 780,
+  "videoHeight": 1688,
+  "bytes": 5254770,
+  "sha256": "d9aaf7677112408d493ff792d774e76885ebb58cd5f388a8de3c4a7407ec553f",
+  "browserDecodePassed": true
+}

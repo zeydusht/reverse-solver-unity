@@ -1,0 +1,278 @@
+﻿{
+    "batch":  2,
+    "room":  "Orman ve kır salonu",
+    "generator":  "built-in image_gen",
+    "styleReference":  "Assets/Art/Gameplay/Task15/painting-test-01.png",
+    "paintings":  [
+                      {
+                          "level":  11,
+                          "theme":  "Çiçekli orman şelalesi",
+                          "source":  "Source/painting-11.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6772893,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-11.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  292306,
+                          "sourceSha256":  "6FD562D11E3DCE5FF1470BA19A431F64A05DAB5CCD37C90591B83B7FD585D731",
+                          "gameSha256":  "3C6137C172F73FACFEBAABA3DB52753B5B992BE667FB5DF12CE4FB4319C39AF9",
+                          "jpegPrefilterRadius":  0.9
+                      },
+                      {
+                          "level":  12,
+                          "theme":  "Dere kenarında değirmen",
+                          "source":  "Source/painting-12.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6816384,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-12.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  295166,
+                          "sourceSha256":  "54F1A4CD6693E1B9206ACBD74691612DB5E0DCC98224CE70CA13E5C49B8309A6",
+                          "gameSha256":  "7832D97C54325FABEA3FF599511634E3F1F5EB473AB9BD31B279D029249A89F3",
+                          "jpegPrefilterRadius":  0.9
+                      },
+                      {
+                          "level":  13,
+                          "theme":  "Mantar ormanı",
+                          "source":  "Source/painting-13.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6840761,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-13.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  286563,
+                          "sourceSha256":  "6D2EFC46121292D9D4E1EAFFE55D79534A7DD3417357AC0BC3F5DE246C925573",
+                          "gameSha256":  "C1CD6311BE3225F3A23EAF5048C4E977B56904956113AB0AA7BB24473EAE0387",
+                          "jpegPrefilterRadius":  0.9
+                      },
+                      {
+                          "level":  14,
+                          "theme":  "Lavanta tarlası",
+                          "source":  "Source/painting-14.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6816686,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-14.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  285822,
+                          "sourceSha256":  "5F842530DB3B2735CB75807C62DFEEDD4A4547695C2DB9348720020466DA7407",
+                          "gameSha256":  "F8C8BC4F291601A27647BDEFE0903D7F0EB930A1BDD5C9ED35F910DA8D7CC562",
+                          "jpegPrefilterRadius":  1.0
+                      },
+                      {
+                          "level":  15,
+                          "theme":  "Nilüferli göl evi",
+                          "source":  "Source/painting-15.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6842416,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-15.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  294858,
+                          "sourceSha256":  "F86BACD0EC584D7E82F303DA2FCEE61CFF435F4E9C71822B1B2AEFAAB8E3ACA9",
+                          "gameSha256":  "4BA5400A295CFF26A41C93C1905CF80DEF5325DB5B1228A42F5BC8C9169BB0C3",
+                          "jpegPrefilterRadius":  0.9
+                      },
+                      {
+                          "level":  16,
+                          "theme":  "Elma bahçesi",
+                          "source":  "Source/painting-16.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6834038,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-16.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  294433,
+                          "sourceSha256":  "75B7C58B80A4EECBCD380B75930FE8A8F75B5673566E154F7775F22AE7111BBF",
+                          "gameSha256":  "EDA304A291ADC5A4E20DB33D0528547555BD386E1D3C95D0F97A01C6D16A6AEA",
+                          "jpegPrefilterRadius":  0.9
+                      },
+                      {
+                          "level":  17,
+                          "theme":  "Dere üzerindeki ahşap köprü",
+                          "source":  "Source/painting-17.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6872090,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-17.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  284391,
+                          "sourceSha256":  "F3DF59FDC9EF6247A06B728E42A29B14230869D929B4DEEAB80865FEF20E198F",
+                          "gameSha256":  "1B8E9BF6C8DA7FDD387F0A5319CC09123BA35F475983B5515D265429B7755C31",
+                          "jpegPrefilterRadius":  1.0
+                      },
+                      {
+                          "level":  18,
+                          "theme":  "Kır çiçekli çiftlik",
+                          "source":  "Source/painting-18.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6756304,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-18.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  285418,
+                          "sourceSha256":  "C9161FBF769BF4E2C19F5730E725D9102935FC7EF9A90506AA4FCB4433625535",
+                          "gameSha256":  "8AF245216D4E9495B35E239A49207F085D1C2B43A1744A1F8DAA455B994D73AB",
+                          "jpegPrefilterRadius":  0.9
+                      },
+                      {
+                          "level":  19,
+                          "theme":  "Salkım söğütlü gölet",
+                          "source":  "Source/painting-19.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6889068,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-19.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  295301,
+                          "sourceSha256":  "A0071D648E7AD73D36A3FA41295DE2F7557E22D9795DAD2876847656A1C34A57",
+                          "gameSha256":  "1F7304AF7D383ECDDDC351E0025139E7244700941CE6EC4CC0A6812C52046555",
+                          "jpegPrefilterRadius":  0.9
+                      },
+                      {
+                          "level":  20,
+                          "theme":  "Çiçekli orman serası",
+                          "source":  "Source/painting-20.png",
+                          "sourceSize":  [
+                                             1536,
+                                             1536
+                                         ],
+                          "sourceBytes":  6719979,
+                          "generatedSize":  [
+                                                1254,
+                                                1254
+                                            ],
+                          "normalization":  "HighQualityBicubic, no crop; generated original preserved in image_gen output",
+                          "game":  "painting-20.jpg",
+                          "gameSize":  [
+                                           1024,
+                                           1024
+                                       ],
+                          "jpegQuality":  85,
+                          "gameBytes":  290659,
+                          "sourceSha256":  "D93F553A95963980E8CD67EAEAF73300D3556424499120700AFD7F498D3F1ECC",
+                          "gameSha256":  "7BE1B4814A40216E44B560C2960E6EAD66613156E2310629A1BB434006DAD4DE",
+                          "jpegPrefilterRadius":  0.9
+                      }
+                  ],
+    "previewBatch":  "preview-batch-2.png",
+    "previewBoard":  "preview-board-2.png",
+    "boardGrid":  [
+                      6,
+                      6
+                  ],
+    "boardPainting":  "Source/painting-11.png",
+    "obstacles":  [
+                      "Assets/Art/Gameplay/Task14/bomb-384.png",
+                      "Assets/Art/Gameplay/Task14/nail-head-384.png"
+                  ],
+    "sourceNormalization":  "image_gen returned native squares; exported at requested 1536x1536 using bicubic resampling; game JPG directly from native original",
+    "jpegMaxBytes":  307200,
+    "status":  "passed: 10 source PNGs, 10 quality-85 JPGs below 300000 bytes; dimensions and SHA-256 checked; contact sheet and board visually reviewed",
+    "visualReview":  {
+                         "paintings":  "Original scenes; no text, faces, frames, logos or embedded obstacles; consistent warm painted style",
+                         "contactSheet":  "All 10 themes visible, labels legible, no clipping",
+                         "board":  "6x6 cut, one bomb and one nail; both clearly visible",
+                         "limitations":  "Preview uses square tile cuts; C# integration and live gameplay are outside this art task."
+                     }
+}

@@ -1,0 +1,22 @@
+{
+  "findings": 63,
+  "severity": {
+    "yüksek": 10,
+    "orta": 38,
+    "düşük": 15
+  },
+  "mainDrawings": 22,
+  "alternativeFamilies": 13,
+  "PNG": 150,
+  "beforeAfter": 36,
+  "cleanupSafeMB": 25.595041,
+  "cleanupArchiveMB": 1573.027061,
+  "cleanupPotentialMB": 1598.622102,
+  "actualRecoveredMB": 0,
+  "review": "Assets/Art/Redesign_T22/inceleme.html",
+  "missingEvidence": [
+    "Gerçek 40. bölüm terminal kazanma modalı",
+    "Zincir/duvar ve bazı booster ayrı modal kayıtları",
+    "Klavye açık isim formu"
+  ]
+}

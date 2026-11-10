@@ -1,0 +1,186 @@
+{
+  "status": "passed",
+  "productionPngCount": 19,
+  "sourcePngCount": 14,
+  "sourcePngChanged": 0,
+  "approvedSourcesChecked": 109,
+  "approvedSourcesChanged": 0,
+  "wallRepeatRgbaMismatches": 0,
+  "cornerRgbaMismatches": 0,
+  "greenButtonsByteIdentical": true,
+  "wallSourcePeriod": 912,
+  "allNumberFieldsEmpty": true,
+  "files": [
+    {
+      "file": "booster-badge-v2.png",
+      "size": [
+        96,
+        96
+      ],
+      "transparentPixels": 3112,
+      "sha256": "FC9C666A66B2BC5BDCA43C4F6A153D1F38ED60DC1A67C0ABB0F07BAE1BD4574C"
+    },
+    {
+      "file": "wall-repeat-v3.png",
+      "size": [
+        144,
+        72
+      ],
+      "transparentPixels": 864,
+      "sha256": "08FA94A54C3DF9A3E1F8590A0EAC832103147723473CC043D42AE99A3F4CE9EE"
+    },
+    {
+      "file": "wall-corner-v3.png",
+      "size": [
+        144,
+        144
+      ],
+      "transparentPixels": 5739,
+      "sha256": "02E8025D8782FF49457EFFE3E24EA95D3ACDCFC8EB4C12A784FB313E65390879"
+    },
+    {
+      "file": "hud-moves-pill-v2.png",
+      "size": [
+        330,
+        210
+      ],
+      "transparentPixels": 9628,
+      "sha256": "5077B51D1DFD6BE72021DC7933C40E86B170C2DAB57221B7AF5570E8FBD9EFF0"
+    },
+    {
+      "file": "hud-time-pill-v2.png",
+      "size": [
+        366,
+        210
+      ],
+      "transparentPixels": 10060,
+      "sha256": "1E24517600B6A74E7BA2FE7964ED5C965E38980C4DFA9286E6BDC50F975338A1"
+    },
+    {
+      "file": "hud-time-pill-urgent-v2.png",
+      "size": [
+        366,
+        210
+      ],
+      "transparentPixels": 10060,
+      "sha256": "FEA7F9479AABB7599E3DA955BF5EE392FD1599448F1E849B281E0CD57B0CEFCA"
+    },
+    {
+      "file": "hud-icon-piece-v2.png",
+      "size": [
+        120,
+        120
+      ],
+      "transparentPixels": 6861,
+      "sha256": "8CC7A93E3136EA254F8633440BC3801638E38F1E5401F8A72454F351061489B0"
+    },
+    {
+      "file": "hud-icon-stopwatch-v2.png",
+      "size": [
+        120,
+        120
+      ],
+      "transparentPixels": 8108,
+      "sha256": "F3875082213FCA0AF801934BCDC90A70569D95430986D988AF3CB5719B946661"
+    },
+    {
+      "file": "btn-primary-v2.png",
+      "size": [
+        684,
+        336
+      ],
+      "transparentPixels": 32675,
+      "sha256": "185896B91C8ACEDED51CF533690B7649A0FA1F10A0726F75E5CBAEB350A3C007"
+    },
+    {
+      "file": "btn-primary-v2-pressed.png",
+      "size": [
+        684,
+        336
+      ],
+      "transparentPixels": 32920,
+      "sha256": "1A3A73B2B8FF126796F72DDA870F1A62138DF47952FE68EFDA71CCA3D8B5CAF3"
+    },
+    {
+      "file": "btn-secondary-v2.png",
+      "size": [
+        684,
+        336
+      ],
+      "transparentPixels": 34634,
+      "sha256": "B095AF4BF2B6A1B60A944DBDC266A4F648A3ED4708895F10208851791227B1EC"
+    },
+    {
+      "file": "btn-secondary-v2-pressed.png",
+      "size": [
+        684,
+        336
+      ],
+      "transparentPixels": 37924,
+      "sha256": "5904B276D13C5591BC36A259011262DA4A343AE56877351C42B09A55F3487782"
+    },
+    {
+      "file": "avatar-blue.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparentPixels": 28049,
+      "sha256": "B6A7E1254815BFE4AD073A5AC38D96B21AD00D26E8AFECB8AF772E15C6405323"
+    },
+    {
+      "file": "avatar-pink.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparentPixels": 28003,
+      "sha256": "9810F17141E9D2E6A8DB6305BC5704E681071FEAA1D46595F7419A827DA96E2D"
+    },
+    {
+      "file": "avatar-red.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparentPixels": 28253,
+      "sha256": "6D1C3AEDE00444B28987034429AA2E886B481A201FB472F5668950324B07F28B"
+    },
+    {
+      "file": "avatar-green.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparentPixels": 27448,
+      "sha256": "3E9850D3EC4AD12B63F3C8E9476395B8132710CCD4642FF2D6AB44DA52A36472"
+    },
+    {
+      "file": "avatar-purple.png",
+      "size": [
+        256,
+        256
+      ],
+      "transparentPixels": 28843,
+      "sha256": "845637EAA5D2B35A5523B00C78F8DD7048B8F0876658AF0272F25C6046CA95A8"
+    },
+    {
+      "file": "jiggle-counter-icon.png",
+      "size": [
+        192,
+        192
+      ],
+      "transparentPixels": 15413,
+      "sha256": "F986876661E69A044E6A780DA3CF60E7EC2C06B163F0EF0BD6D1FF1C6A3F84D2"
+    },
+    {
+      "file": "painting-test-01.png",
+      "size": [
+        1536,
+        1536
+      ],
+      "transparentPixels": 0,
+      "sha256": "DDF9CCCAC542073C344F3993A7420F408FA2ED8282EAC2981529F6C8CE6BECB6"
+    }
+  ]
+}

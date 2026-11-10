@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="6" result="Passed" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-30 18:06:02Z" end-time="2026-10-30 18:06:12Z" duration="9,7254486">
+  <test-suite type="TestSuite" id="1000" name="Reverse Solver" fullname="Reverse Solver" runstate="Runnable" testcasecount="561" result="Passed" start-time="2026-10-30 18:06:02Z" end-time="2026-10-30 18:06:12Z" duration="9.725449" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1616" name="ReverseSolver.Core.Tests.dll" fullname="C:/Users/zeydt/Downloads/Reverse Solver/ReverseSolver/Library/ScriptAssemblies/ReverseSolver.Core.Tests.dll" runstate="Runnable" testcasecount="561" result="Passed" start-time="2026-10-30 18:06:02Z" end-time="2026-10-30 18:06:12Z" duration="9.702239" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="8032" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1617" name="ReverseSolver" fullname="ReverseSolver" runstate="Runnable" testcasecount="561" result="Passed" start-time="2026-10-30 18:06:02Z" end-time="2026-10-30 18:06:12Z" duration="9.675615" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1618" name="Tests" fullname="ReverseSolver.Tests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-30 18:06:02Z" end-time="2026-10-30 18:06:12Z" duration="9.668644" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1002" name="CorridorVictoryIntegrationTests" fullname="ReverseSolver.Tests.CorridorVictoryIntegrationTests" classname="ReverseSolver.Tests.CorridorVictoryIntegrationTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-30 18:06:02Z" end-time="2026-10-30 18:06:12Z" duration="9.648960" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties>
+              <property name="Category" value="CorridorVictory" />
+            </properties>
+            <test-case id="1003" name="RealLevelWinReturnsToMenuPlaysOnceThenRestoresStaticBackground" fullname="ReverseSolver.Tests.CorridorVictoryIntegrationTests.RealLevelWinReturnsToMenuPlaysOnceThenRestoresStaticBackground" methodname="RealLevelWinReturnsToMenuPlaysOnceThenRestoresStaticBackground" classname="ReverseSolver.Tests.CorridorVictoryIntegrationTests" runstate="Runnable" seed="751446142" result="Passed" start-time="2026-10-30 18:06:02Z" end-time="2026-10-30 18:06:12Z" duration="9.615248" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="90000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[[boot] 40 seviye okundu, 40 çözülebilir; oturum 40/40 web'le aynı (37 kazandı, 3 bomba) (120 ms)
+[attempt] S41 v1 #1 win dur=0 left=120 moves=9 jams=0 stars=3 b=0/0/0/0 client=unity-web
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1004" name="CorridorVictoryTests" fullname="ReverseSolver.Tests.CorridorVictoryTests" classname="ReverseSolver.Tests.CorridorVictoryTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-30 18:06:12Z" end-time="2026-10-30 18:06:12Z" duration="0.017326" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties>
+              <property name="Category" value="CorridorVictory" />
+            </properties>
+            <test-case id="1008" name="CameraMovesLeftWithOneBayAndAdditionalMidpointPullback" fullname="ReverseSolver.Tests.CorridorVictoryTests.CameraMovesLeftWithOneBayAndAdditionalMidpointPullback" methodname="CameraMovesLeftWithOneBayAndAdditionalMidpointPullback" classname="ReverseSolver.Tests.CorridorVictoryTests" runstate="Runnable" seed="991181450" result="Passed" start-time="2026-10-30 18:06:12Z" end-time="2026-10-30 18:06:12Z" duration="0.008576" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1007" name="LeavingMenuCancelsVisibleTravel" fullname="ReverseSolver.Tests.CorridorVictoryTests.LeavingMenuCancelsVisibleTravel" methodname="LeavingMenuCancelsVisibleTravel" classname="ReverseSolver.Tests.CorridorVictoryTests" runstate="Runnable" seed="1813389936" result="Passed" start-time="2026-10-30 18:06:12Z" end-time="2026-10-30 18:06:12Z" duration="0.000422" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1005" name="StartupAndOrdinaryReturnsStayStatic" fullname="ReverseSolver.Tests.CorridorVictoryTests.StartupAndOrdinaryReturnsStayStatic" methodname="StartupAndOrdinaryReturnsStayStatic" classname="ReverseSolver.Tests.CorridorVictoryTests" runstate="Runnable" seed="284636800" result="Passed" start-time="2026-10-30 18:06:12Z" end-time="2026-10-30 18:06:12Z" duration="0.000300" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1009" name="TravelHasSmoothEndsAndAConstantSlowerMiddle" fullname="ReverseSolver.Tests.CorridorVictoryTests.TravelHasSmoothEndsAndAConstantSlowerMiddle" methodname="TravelHasSmoothEndsAndAConstantSlowerMiddle" classname="ReverseSolver.Tests.CorridorVictoryTests" runstate="Runnable" seed="550156852" result="Passed" start-time="2026-10-30 18:06:12Z" end-time="2026-10-30 18:06:12Z" duration="0.003553" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1006" name="WinIsConsumedOnceAndLayoutDoesNotRestartIt" fullname="ReverseSolver.Tests.CorridorVictoryTests.WinIsConsumedOnceAndLayoutDoesNotRestartIt" methodname="WinIsConsumedOnceAndLayoutDoesNotRestartIt" classname="ReverseSolver.Tests.CorridorVictoryTests" runstate="Runnable" seed="1023774342" result="Passed" start-time="2026-10-30 18:06:12Z" end-time="2026-10-30 18:06:12Z" duration="0.000475" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/zeydt/AppData/LocalLow/zeydusht/Reverse Solver\TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

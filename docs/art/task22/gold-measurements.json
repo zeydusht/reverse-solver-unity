@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "goldApproxPct": 4.07,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 2,
+    "goldApproxPct": 1.24,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 3,
+    "goldApproxPct": 2.2,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 4,
+    "goldApproxPct": 2.78,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 5,
+    "goldApproxPct": 2.75,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 6,
+    "goldApproxPct": 4.71,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 7,
+    "goldApproxPct": 3.01,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 8,
+    "goldApproxPct": 3.77,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 9,
+    "goldApproxPct": 2.33,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 10,
+    "goldApproxPct": 2.42,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 11,
+    "goldApproxPct": 3.51,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 12,
+    "goldApproxPct": 3.33,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 13,
+    "goldApproxPct": 3.51,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 14,
+    "goldApproxPct": 2.5,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 15,
+    "goldApproxPct": 0.14,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 16,
+    "goldApproxPct": 2.8,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 17,
+    "goldApproxPct": 0.73,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 18,
+    "goldApproxPct": 1.26,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 19,
+    "goldApproxPct": 0.0,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 20,
+    "goldApproxPct": 7.94,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 21,
+    "goldApproxPct": 5.12,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  },
+  {
+    "id": 22,
+    "goldApproxPct": 0.14,
+    "method": "HSV hue .075-.17, saturation>=.58, value>=.50; alpha>128, downsampled"
+  }
+]

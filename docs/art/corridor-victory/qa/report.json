@@ -1,0 +1,93 @@
+{
+  "status": "passed",
+  "endpointPixelsIdentical": true,
+  "idleStops": true,
+  "duplicateTriggerIgnored": true,
+  "completions": 1,
+  "stoppedAfter3Seconds": true,
+  "dynamicPaintingEndpointsMatch": true,
+  "frameCount": 181,
+  "medianFrameMs": 16.600000000000364,
+  "p95FrameMs": 16.900000000000546,
+  "exceptions": [],
+  "frames": [
+    {
+      "progress": 0,
+      "hash": "c6f2b7552461821c561baf40ee222d184633b418c3be0aa345b1b09d34039260"
+    },
+    {
+      "progress": 0.001,
+      "hash": "97b33355d8b4dd712ae3d547a7050796cbf9610973adc2201275294ef5bd2069"
+    },
+    {
+      "progress": 0.125,
+      "hash": "2c0ad49f84ced22a5a7826ec6cd54e4fa48d4f7a57af2984937c7587f17dcb97"
+    },
+    {
+      "progress": 0.25,
+      "hash": "aee02f6d29279437e6f0ee3c6522afb43fda4b8e122566a42611563e69ba711d"
+    },
+    {
+      "progress": 0.477777778,
+      "hash": "04fd8dc0b32d6245ebe981af3f57a09d2cab26aae15edb4f4846a6d315952e09"
+    },
+    {
+      "progress": 0.483333333,
+      "hash": "b55c83bf033868a3e5a8a9abb67fae2df272fa22e611bf8c624562c7429f2ba9"
+    },
+    {
+      "progress": 0.488888889,
+      "hash": "afbd5d54e799118dd12687d1e92f1bb89e24a018427e0146fc6e74ed9e616ee7"
+    },
+    {
+      "progress": 0.494444444,
+      "hash": "3adbac7029503c8672edbccaf3bd1ed3049a61c94888434f58f4d27cc7ac323d"
+    },
+    {
+      "progress": 0.5,
+      "hash": "d8ed84f2ea4bbd9e970df94d0bb6c4f52267379f7e5d57fdb84a6dbf68c3a1a1"
+    },
+    {
+      "progress": 0.505555556,
+      "hash": "3b8667b9244f5341d77a6a8b70efc42a27fdc07d45eb74f5492b11d8a9ff9852"
+    },
+    {
+      "progress": 0.511111111,
+      "hash": "369c93e797fc20723136eace30087c5df474213d859307206097822b9897c320"
+    },
+    {
+      "progress": 0.516666667,
+      "hash": "fad3459813dbedd393192a47dcdc807da2f54db58b4191a84c893e9b7bb848fb"
+    },
+    {
+      "progress": 0.522222222,
+      "hash": "f6368bbb63109e3594ebc07ba1a0d5d340b877f664890933f19b14dd6ac90440"
+    },
+    {
+      "progress": 0.75,
+      "hash": "69ba5d33957cf75e4f0c6cca08fbd6abf18f41a8c2f4a99786f4824b428c10d4"
+    },
+    {
+      "progress": 0.875,
+      "hash": "ad3f5f0b2eb4e0850e12835c83476b059abbb83969d6aa8e0af9dd84a2e7a47a"
+    },
+    {
+      "progress": 0.999,
+      "hash": "e12b1ba535b9cd9b5bb85f157dba33f77a37c119ba9aff68624af816a4ff96c7"
+    },
+    {
+      "progress": 1,
+      "hash": "c6f2b7552461821c561baf40ee222d184633b418c3be0aa345b1b09d34039260"
+    }
+  ],
+  "scope": "Local WebGL preview of shared projection shader; desktop Chrome GPU, not an iPhone or Unity runtime measurement",
+  "entryDifference": {
+    "meanRgbError": 0.32872868311256936,
+    "pixelsOver12Percent": 0.6325191396281443
+  },
+  "exitDifference": {
+    "meanRgbError": 0.3287124802527646,
+    "pixelsOver12Percent": 0.6328229432494835
+  },
+  "consecutiveFrames": 181
+}

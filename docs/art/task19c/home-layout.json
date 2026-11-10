@@ -1,0 +1,75 @@
+{
+  "userDecision": "Preserve appearance; shift header into safe area and lift CTA only as needed",
+  "components": [
+    {
+      "name": "profile",
+      "sourceBox": [
+        20,
+        10,
+        341,
+        126
+      ],
+      "targetBox": [
+        29,
+        132,
+        492,
+        299
+      ],
+      "shiftY": 118
+    },
+    {
+      "name": "jiggle-counter",
+      "sourceBox": [
+        361,
+        27,
+        624,
+        110
+      ],
+      "targetBox": [
+        521,
+        157,
+        900,
+        277
+      ],
+      "shiftY": 118
+    },
+    {
+      "name": "settings",
+      "sourceBox": [
+        651,
+        24,
+        750,
+        120
+      ],
+      "targetBox": [
+        939,
+        152,
+        1082,
+        290
+      ],
+      "shiftY": 117
+    },
+    {
+      "name": "level-button",
+      "sourceBox": [
+        166,
+        1422,
+        613,
+        1632
+      ],
+      "targetBox": [
+        239,
+        1818,
+        884,
+        2121
+      ],
+      "shiftY": -233
+    }
+  ],
+  "heroSourceFixed": [
+    0,
+    126,
+    780,
+    1360
+  ]
+}

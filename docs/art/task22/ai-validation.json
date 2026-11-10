@@ -1,0 +1,462 @@
+{
+  "timestamp": "2026-11-03T00:52:19.367528+03:00",
+  "families": 13,
+  "newImagegenSources": 11,
+  "candidatePNGs": 20,
+  "candidateChecks": [
+    {
+      "file": "101-ai-kazanma/panel-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 2.911
+    },
+    {
+      "file": "102-ai-kayip/panel-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 2.837
+    },
+    {
+      "file": "103-ai-durdurma/panel-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 3.123
+    },
+    {
+      "file": "104-ai-tanitim/panel-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 2.821
+    },
+    {
+      "file": "105-ai-zor/panel-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 3.247
+    },
+    {
+      "file": "106-ai-yukleme/loading-content-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 0.531
+    },
+    {
+      "file": "107-ai-isim/panel-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 3.467
+    },
+    {
+      "file": "108-ai-profil-sorusu/panel-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 3.199
+    },
+    {
+      "file": "109-ai-ayarlar/toggle-on-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 0.0
+    },
+    {
+      "file": "109-ai-ayarlar/toggle-off-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 0.0
+    },
+    {
+      "file": "109-ai-ayarlar/language-tr-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 0.0
+    },
+    {
+      "file": "109-ai-ayarlar/language-en-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 0.0
+    },
+    {
+      "file": "110-ai-harita/node-current-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 7.745
+    },
+    {
+      "file": "110-ai-harita/play-bubble-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 2.468
+    },
+    {
+      "file": "111-ai-koleksiyon/next-label-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 3.894
+    },
+    {
+      "file": "111-ai-koleksiyon/locked-cell-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 0.138
+    },
+    {
+      "file": "112-ai-jiggles/reward-medal-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 6.981
+    },
+    {
+      "file": "112-ai-jiggles/reward-medal-locked-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 6.525
+    },
+    {
+      "file": "113-ai-puan/rating-normal-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 0.0
+    },
+    {
+      "file": "113-ai-puan/rating-selected-@3x.png",
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "transparent": true,
+        "at3x": true,
+        "hash": true,
+        "unique": true,
+        "slice": true
+      },
+      "goldHueEstimatePct": 0.0
+    }
+  ],
+  "failedCandidates": [],
+  "missingReviewLinks": [],
+  "phonePlates": [
+    {
+      "folder": "101-ai-kazanma",
+      "viewport": [
+        375,
+        667
+      ],
+      "cardSizePt": [
+        335.0,
+        530.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "101-ai-kazanma",
+      "viewport": [
+        390,
+        844
+      ],
+      "cardSizePt": [
+        335.0,
+        530.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "102-ai-kayip",
+      "viewport": [
+        375,
+        667
+      ],
+      "cardSizePt": [
+        335.0,
+        580.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "102-ai-kayip",
+      "viewport": [
+        390,
+        844
+      ],
+      "cardSizePt": [
+        335.0,
+        580.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "103-ai-durdurma",
+      "viewport": [
+        375,
+        667
+      ],
+      "cardSizePt": [
+        335.0,
+        440.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "103-ai-durdurma",
+      "viewport": [
+        390,
+        844
+      ],
+      "cardSizePt": [
+        335.0,
+        440.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "104-ai-tanitim",
+      "viewport": [
+        375,
+        667
+      ],
+      "cardSizePt": [
+        335.0,
+        590.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "104-ai-tanitim",
+      "viewport": [
+        390,
+        844
+      ],
+      "cardSizePt": [
+        335.0,
+        590.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "105-ai-zor",
+      "viewport": [
+        375,
+        667
+      ],
+      "cardSizePt": [
+        335.0,
+        400.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "105-ai-zor",
+      "viewport": [
+        390,
+        844
+      ],
+      "cardSizePt": [
+        335.0,
+        400.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "107-ai-isim",
+      "viewport": [
+        375,
+        667
+      ],
+      "cardSizePt": [
+        335.0,
+        350.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "107-ai-isim",
+      "viewport": [
+        390,
+        844
+      ],
+      "cardSizePt": [
+        335.0,
+        350.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "108-ai-profil-sorusu",
+      "viewport": [
+        375,
+        667
+      ],
+      "cardSizePt": [
+        335.0,
+        420.0
+      ],
+      "fits": true
+    },
+    {
+      "folder": "108-ai-profil-sorusu",
+      "viewport": [
+        390,
+        844
+      ],
+      "cardSizePt": [
+        335.0,
+        420.0
+      ],
+      "fits": true
+    }
+  ],
+  "protectedBaselineReadErrors": [],
+  "protectedChangesSinceBaseline": [
+    {
+      "path": "Assets/Resources/PerformanceTestRunInfo.json",
+      "status": "missing since baseline; no removal performed by this script"
+    },
+    {
+      "path": "Assets/Resources/PerformanceTestRunInfo.json.meta",
+      "status": "missing since baseline; no removal performed by this script"
+    },
+    {
+      "path": "Assets/Resources/PerformanceTestRunSettings.json",
+      "status": "missing since baseline; no removal performed by this script"
+    },
+    {
+      "path": "Assets/Resources/PerformanceTestRunSettings.json.meta",
+      "status": "missing since baseline; no removal performed by this script"
+    }
+  ],
+  "protectedReadErrorsNow": [],
+  "scope": "All writes of this script only Assets/Art/Redesign_T22 and docs/art. No delete/move/rename APIs.",
+  "goldHueTargetUnder10": true
+}

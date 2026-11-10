@@ -1,0 +1,639 @@
+﻿{
+    "status":  "passed",
+    "productionPngCount":  61,
+    "rgba":  true,
+    "all3x":  true,
+    "noBakedTextOrDigits":  "Visually inspected; text layer excluded by exporter",
+    "palette":  "PALETTE.md anchors and their smooth color mixtures",
+    "chainSeamMismatchedPixels":  0,
+    "wallSeamMismatchedPixels":  0,
+    "cornerSeamMismatchedPixels":  0,
+    "bombTealBodyBoundingCenter":  [
+                                       191.5,
+                                       192
+                                   ],
+    "bombExpectedBodyCenter":  [
+                                   192,
+                                   192
+                               ],
+    "frameCenterAlpha":  0,
+    "protectedSourceCount":  252,
+    "protectedSourceMismatches":  0,
+    "fontCopyIdentical":  true,
+    "fontCoverageReport":  "task14-font-coverage.json",
+    "errors":  [
+
+               ],
+    "files":  [
+                  {
+                      "file":  "hud-level-badge.png",
+                      "width":  216,
+                      "height":  216,
+                      "transparentPixels":  17015,
+                      "opaquePixels":  56,
+                      "partialAlphaPixels":  29585,
+                      "pngColorType":  6,
+                      "sha256":  "6B01B874EB3A4D876973CB527F402B2983C0D39835D469CCAE856BEA8E4BB66A"
+                  },
+                  {
+                      "file":  "hud-level-badge-pressed.png",
+                      "width":  216,
+                      "height":  216,
+                      "transparentPixels":  18159,
+                      "opaquePixels":  46,
+                      "partialAlphaPixels":  28451,
+                      "pngColorType":  6,
+                      "sha256":  "9F45AC13EDF70EBC6011484A3E9286AA365AB6A16C973FFACCC94DE1994E565F"
+                  },
+                  {
+                      "file":  "hud-moves-pill.png",
+                      "width":  360,
+                      "height":  168,
+                      "transparentPixels":  9159,
+                      "opaquePixels":  182,
+                      "partialAlphaPixels":  51139,
+                      "pngColorType":  6,
+                      "sha256":  "03EB32EA842C55CA09B3F5858FBE267D664B3ADBCB35946260AD162F5B0C3509"
+                  },
+                  {
+                      "file":  "hud-moves-pill-pressed.png",
+                      "width":  360,
+                      "height":  168,
+                      "transparentPixels":  11924,
+                      "opaquePixels":  169,
+                      "partialAlphaPixels":  48387,
+                      "pngColorType":  6,
+                      "sha256":  "86690A378AD3A04427BAF445080A3C1F48E31CD552BF5630ED011D8533C96CBF"
+                  },
+                  {
+                      "file":  "hud-time-pill.png",
+                      "width":  408,
+                      "height":  168,
+                      "transparentPixels":  10636,
+                      "opaquePixels":  180,
+                      "partialAlphaPixels":  57728,
+                      "pngColorType":  6,
+                      "sha256":  "CF127BF87BDE12B9A4190B2E6729791D0FF7ED5DB8F4E40061FFBED11AF06074"
+                  },
+                  {
+                      "file":  "hud-time-pill-pressed.png",
+                      "width":  408,
+                      "height":  168,
+                      "transparentPixels":  13848,
+                      "opaquePixels":  165,
+                      "partialAlphaPixels":  54531,
+                      "pngColorType":  6,
+                      "sha256":  "E739310E8216606B065304FECB1AFEAF469331244B7B4A8A6D44981FC0C3550A"
+                  },
+                  {
+                      "file":  "hud-time-pill-urgent.png",
+                      "width":  408,
+                      "height":  168,
+                      "transparentPixels":  10636,
+                      "opaquePixels":  180,
+                      "partialAlphaPixels":  57728,
+                      "pngColorType":  6,
+                      "sha256":  "9512702113B0D8C5904337731F07C1440C056E0EB5E4885658B0375D62F00215"
+                  },
+                  {
+                      "file":  "hud-time-pill-urgent-pressed.png",
+                      "width":  408,
+                      "height":  168,
+                      "transparentPixels":  13848,
+                      "opaquePixels":  165,
+                      "partialAlphaPixels":  54531,
+                      "pngColorType":  6,
+                      "sha256":  "161C9050EB7871987E06B352A753977C8539AA43FABC0EAD79E4F5A86FC3B962"
+                  },
+                  {
+                      "file":  "hud-pause-normal.png",
+                      "width":  168,
+                      "height":  168,
+                      "transparentPixels":  9771,
+                      "opaquePixels":  64,
+                      "partialAlphaPixels":  18389,
+                      "pngColorType":  6,
+                      "sha256":  "D54DFFE157D55492AB7E8D2B2E9950D83038E5CEAAA4592BBF38BF18D4A5560D"
+                  },
+                  {
+                      "file":  "hud-pause-pressed.png",
+                      "width":  168,
+                      "height":  168,
+                      "transparentPixels":  10772,
+                      "opaquePixels":  68,
+                      "partialAlphaPixels":  17384,
+                      "pngColorType":  6,
+                      "sha256":  "0AB7E8DBA64750FA8A04FACD0C0DEB23BA941D4BCB539D14C80AEA57328A0E74"
+                  },
+                  {
+                      "file":  "booster-button.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  20332,
+                      "opaquePixels":  716,
+                      "partialAlphaPixels":  48648,
+                      "pngColorType":  6,
+                      "sha256":  "91E66EF83FBEF4327836CB8BB12B4B2529DC28E143D69F21D704D3B80C66D44D"
+                  },
+                  {
+                      "file":  "booster-button-pressed.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  21880,
+                      "opaquePixels":  684,
+                      "partialAlphaPixels":  47132,
+                      "pngColorType":  6,
+                      "sha256":  "AC92990E91131D0EBE0515FDF5C288E562A8004F55CCACD0FE8A7E3F42BB19A3"
+                  },
+                  {
+                      "file":  "booster-button-zero.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  20336,
+                      "opaquePixels":  716,
+                      "partialAlphaPixels":  48644,
+                      "pngColorType":  6,
+                      "sha256":  "2925A1AFB30921D546705A4A0515263D78B8035473B842A1036A206EF8929BD2"
+                  },
+                  {
+                      "file":  "booster-lock.png",
+                      "width":  96,
+                      "height":  96,
+                      "transparentPixels":  4851,
+                      "opaquePixels":  282,
+                      "partialAlphaPixels":  4083,
+                      "pngColorType":  6,
+                      "sha256":  "19BFBD6A0E2546252C5F11B39B9123D1164811CAAA16EC94E4380D6C56170025"
+                  },
+                  {
+                      "file":  "booster-button-locked.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  20336,
+                      "opaquePixels":  998,
+                      "partialAlphaPixels":  48362,
+                      "pngColorType":  6,
+                      "sha256":  "AEA4CE3165C9136F56B4EDA2947A45D72C0959A9EA14E76ADDE0A4F3C774DC19"
+                  },
+                  {
+                      "file":  "booster-scissors.png",
+                      "width":  240,
+                      "height":  240,
+                      "transparentPixels":  46195,
+                      "opaquePixels":  822,
+                      "partialAlphaPixels":  10583,
+                      "pngColorType":  6,
+                      "sha256":  "78F0CB5294712132FC4020AC6F8AEE40BFCB0F2B5AD41BE255B030E431AAB812"
+                  },
+                  {
+                      "file":  "booster-wand.png",
+                      "width":  240,
+                      "height":  240,
+                      "transparentPixels":  47008,
+                      "opaquePixels":  466,
+                      "partialAlphaPixels":  10126,
+                      "pngColorType":  6,
+                      "sha256":  "492927C330B37CA840FF7460C396D7CF119FE4F8F4F405A3807362E1B67ED771"
+                  },
+                  {
+                      "file":  "booster-hammer.png",
+                      "width":  240,
+                      "height":  240,
+                      "transparentPixels":  43516,
+                      "opaquePixels":  531,
+                      "partialAlphaPixels":  13553,
+                      "pngColorType":  6,
+                      "sha256":  "E17F898C538BBD4D5343E094D435E1880ED07A26EF0195A46FE87B0A5B34BA76"
+                  },
+                  {
+                      "file":  "booster-clock.png",
+                      "width":  240,
+                      "height":  240,
+                      "transparentPixels":  42682,
+                      "opaquePixels":  497,
+                      "partialAlphaPixels":  14421,
+                      "pngColorType":  6,
+                      "sha256":  "C1B177C84A10732495E68479DE08B5C3BFDE62B7A92430D75233E80E83903009"
+                  },
+                  {
+                      "file":  "booster-badge.png",
+                      "width":  96,
+                      "height":  96,
+                      "transparentPixels":  3133,
+                      "opaquePixels":  5649,
+                      "partialAlphaPixels":  434,
+                      "pngColorType":  6,
+                      "sha256":  "4BA16956C624B7E8288A6D3457398BACD623715EFB14DBBA56894A32F74BE46F"
+                  },
+                  {
+                      "file":  "booster-scissors-normal.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  18342,
+                      "opaquePixels":  5169,
+                      "partialAlphaPixels":  46185,
+                      "pngColorType":  6,
+                      "sha256":  "C321065B5EAD1D4B2E0518A808EC17762D6D433F43D58EF016898F54A0BFA07C"
+                  },
+                  {
+                      "file":  "booster-scissors-pressed.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  19961,
+                      "opaquePixels":  4959,
+                      "partialAlphaPixels":  44776,
+                      "pngColorType":  6,
+                      "sha256":  "0627C70CCB7B41165928D102C030DE9A7E20566EF7A40C8593FC168D2B6D57EA"
+                  },
+                  {
+                      "file":  "booster-scissors-locked.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  20334,
+                      "opaquePixels":  3656,
+                      "partialAlphaPixels":  45706,
+                      "pngColorType":  6,
+                      "sha256":  "3B4DBC892E7F4919D3F17B9B1325A3EF77C8185E986BB0816C53318F031472B1"
+                  },
+                  {
+                      "file":  "booster-scissors-zero.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  18342,
+                      "opaquePixels":  5172,
+                      "partialAlphaPixels":  46182,
+                      "pngColorType":  6,
+                      "sha256":  "B75A0BAE150884183D70936C44DA14A251753D97B7B8D02A517138279DA7E967"
+                  },
+                  {
+                      "file":  "booster-wand-normal.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  18342,
+                      "opaquePixels":  4813,
+                      "partialAlphaPixels":  46541,
+                      "pngColorType":  6,
+                      "sha256":  "32DB033732F14BCBCBA03DBAA620E15DCF1838A244C6181AD57EADCDBD764993"
+                  },
+                  {
+                      "file":  "booster-wand-pressed.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  19961,
+                      "opaquePixels":  4616,
+                      "partialAlphaPixels":  45119,
+                      "pngColorType":  6,
+                      "sha256":  "697F17D31CD18A7BA89BFD409771201EBAD38CF0861CFAA601992581E5C37F5D"
+                  },
+                  {
+                      "file":  "booster-wand-locked.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  20334,
+                      "opaquePixels":  3684,
+                      "partialAlphaPixels":  45678,
+                      "pngColorType":  6,
+                      "sha256":  "5AEDEDC81441EBC859506AB1D22B4116682B3FFFEAF0E5689A3790630AC5A0EC"
+                  },
+                  {
+                      "file":  "booster-wand-zero.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  18342,
+                      "opaquePixels":  4816,
+                      "partialAlphaPixels":  46538,
+                      "pngColorType":  6,
+                      "sha256":  "524AE8129E42F7BB91013177F98B2B145E2385E08C0766BC36EDE80942CF6D34"
+                  },
+                  {
+                      "file":  "booster-hammer-normal.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  18342,
+                      "opaquePixels":  4878,
+                      "partialAlphaPixels":  46476,
+                      "pngColorType":  6,
+                      "sha256":  "FB6366EC977B1F2B3F1E53CE969AE63C28D3EEB155294AEB3B225539BA11C26E"
+                  },
+                  {
+                      "file":  "booster-hammer-pressed.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  19961,
+                      "opaquePixels":  4673,
+                      "partialAlphaPixels":  45062,
+                      "pngColorType":  6,
+                      "sha256":  "9CBBDBD9F0593362B08F19FAA862DB9220875175A55310CEF4F4AE187E40322A"
+                  },
+                  {
+                      "file":  "booster-hammer-locked.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  20334,
+                      "opaquePixels":  3739,
+                      "partialAlphaPixels":  45623,
+                      "pngColorType":  6,
+                      "sha256":  "2E71BBAD36AB02CF794A9C663EF6150D0956CAE003CEDB707B3AF3C95C87AD1F"
+                  },
+                  {
+                      "file":  "booster-hammer-zero.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  18342,
+                      "opaquePixels":  4881,
+                      "partialAlphaPixels":  46473,
+                      "pngColorType":  6,
+                      "sha256":  "E6EA98C39146A53D575DC1E49A5FF982C33B2B4F52037D0F7014BEAB37EC6949"
+                  },
+                  {
+                      "file":  "booster-clock-normal.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  18342,
+                      "opaquePixels":  4844,
+                      "partialAlphaPixels":  46510,
+                      "pngColorType":  6,
+                      "sha256":  "485EE34CB937A0456B163F7FA9B704BEF112F796877E81AFDBA9528BA77ECD0D"
+                  },
+                  {
+                      "file":  "booster-clock-pressed.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  19961,
+                      "opaquePixels":  4640,
+                      "partialAlphaPixels":  45095,
+                      "pngColorType":  6,
+                      "sha256":  "1DD9EE9D8121CFAD7181E80798A90706AF57F463684B2C2B17B0E13588F27EA5"
+                  },
+                  {
+                      "file":  "booster-clock-locked.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  20334,
+                      "opaquePixels":  3960,
+                      "partialAlphaPixels":  45402,
+                      "pngColorType":  6,
+                      "sha256":  "D5E736DD09114CCEAA2D69A9C1C8D5D4188DE035DC9AEEABEC1E7301C5E3F8E6"
+                  },
+                  {
+                      "file":  "booster-clock-zero.png",
+                      "width":  264,
+                      "height":  264,
+                      "transparentPixels":  18342,
+                      "opaquePixels":  4847,
+                      "partialAlphaPixels":  46507,
+                      "pngColorType":  6,
+                      "sha256":  "D71EB7A98D153A2E59D564ADBD5214593FF32B485E3D74372C936654D4158B48"
+                  },
+                  {
+                      "file":  "booster-bar.png",
+                      "width":  1170,
+                      "height":  360,
+                      "transparentPixels":  30141,
+                      "opaquePixels":  2427,
+                      "partialAlphaPixels":  388632,
+                      "pngColorType":  6,
+                      "sha256":  "46D8714E12198D6DD412414CA61A502BEFBD87E270E733A829A4A3C00614DC20"
+                  },
+                  {
+                      "file":  "board-frame-gold.png",
+                      "width":  1125,
+                      "height":  1125,
+                      "transparentPixels":  919603,
+                      "opaquePixels":  2135,
+                      "partialAlphaPixels":  343887,
+                      "pngColorType":  6,
+                      "sha256":  "8D230D82AC6F3355A7BD1E56A1917FB97AE5F05578134F84F1B6CFFC2F7431F7"
+                  },
+                  {
+                      "file":  "bomb-384.png",
+                      "width":  384,
+                      "height":  384,
+                      "transparentPixels":  77978,
+                      "opaquePixels":  914,
+                      "partialAlphaPixels":  68564,
+                      "pngColorType":  6,
+                      "sha256":  "75FA533F45603B78497DB7F2D4BB8916BDBE73E7EBD34CBDEAD2A18A85520C88"
+                  },
+                  {
+                      "file":  "nail-head-384.png",
+                      "width":  384,
+                      "height":  384,
+                      "transparentPixels":  59377,
+                      "opaquePixels":  972,
+                      "partialAlphaPixels":  87107,
+                      "pngColorType":  6,
+                      "sha256":  "1FBCADA73FF336AA23F8FF950EF8B72802FED29E6CE19B033B72E259A2F06A52"
+                  },
+                  {
+                      "file":  "chain-link-repeat-96x48.png",
+                      "width":  96,
+                      "height":  48,
+                      "transparentPixels":  2722,
+                      "opaquePixels":  308,
+                      "partialAlphaPixels":  1578,
+                      "pngColorType":  6,
+                      "sha256":  "7028A27D331B70048F453C6AFDF7C221F7AFBC76BEC0F5CE404E2AC816F5F148"
+                  },
+                  {
+                      "file":  "chain-endpoint-144.png",
+                      "width":  144,
+                      "height":  144,
+                      "transparentPixels":  10564,
+                      "opaquePixels":  439,
+                      "partialAlphaPixels":  9733,
+                      "pngColorType":  6,
+                      "sha256":  "D8C0BB0E61592CEF258A5B4C637BC2A7A0AB2995B4BED8367BA7FDBC3B0C551D"
+                  },
+                  {
+                      "file":  "wall-repeat-96x48.png",
+                      "width":  96,
+                      "height":  48,
+                      "transparentPixels":  384,
+                      "opaquePixels":  168,
+                      "partialAlphaPixels":  4056,
+                      "pngColorType":  6,
+                      "sha256":  "0A0110451F719CE6D6E41401C252A1940EA71A69C0D20FE996A4F08AEE45D46C"
+                  },
+                  {
+                      "file":  "wall-corner-96x96.png",
+                      "width":  96,
+                      "height":  96,
+                      "transparentPixels":  2543,
+                      "opaquePixels":  338,
+                      "partialAlphaPixels":  6335,
+                      "pngColorType":  6,
+                      "sha256":  "9F8E33C040B916D88C77C8FCEC588C43919674E0DE630181DC37067365A235A0"
+                  },
+                  {
+                      "file":  "card-panel.png",
+                      "width":  969,
+                      "height":  1200,
+                      "transparentPixels":  131585,
+                      "opaquePixels":  1587,
+                      "partialAlphaPixels":  1029628,
+                      "pngColorType":  6,
+                      "sha256":  "4245F0AD17FA4BBE69B36B724F44A93F4C05E8F6A8175ED5328354A27CE3C0CC"
+                  },
+                  {
+                      "file":  "btn-primary.png",
+                      "width":  600,
+                      "height":  216,
+                      "transparentPixels":  14586,
+                      "opaquePixels":  1422,
+                      "partialAlphaPixels":  113592,
+                      "pngColorType":  6,
+                      "sha256":  "6659D403E68DB68FA2761D4FF5DFA19BE91B67F2E769E7B2695B6136CD4002F4"
+                  },
+                  {
+                      "file":  "btn-primary-pressed.png",
+                      "width":  600,
+                      "height":  216,
+                      "transparentPixels":  18733,
+                      "opaquePixels":  1383,
+                      "partialAlphaPixels":  109484,
+                      "pngColorType":  6,
+                      "sha256":  "CA4D17C8CFE129A77650392D94B87EB39FDDC749B4F2888E82315C0409BB5E9B"
+                  },
+                  {
+                      "file":  "btn-secondary.png",
+                      "width":  600,
+                      "height":  216,
+                      "transparentPixels":  14804,
+                      "opaquePixels":  1346,
+                      "partialAlphaPixels":  113450,
+                      "pngColorType":  6,
+                      "sha256":  "B45D4E69F912CC9F6CC532F840D6FEFA3BBCA8A77927466D51F89D5518F4FFCE"
+                  },
+                  {
+                      "file":  "btn-secondary-pressed.png",
+                      "width":  600,
+                      "height":  216,
+                      "transparentPixels":  19318,
+                      "opaquePixels":  1718,
+                      "partialAlphaPixels":  108564,
+                      "pngColorType":  6,
+                      "sha256":  "25BD75343E903BE8CAB72F7ECAC35C263EC9DF71CE9079084EA66948EB7E8DF7"
+                  },
+                  {
+                      "file":  "btn-danger.png",
+                      "width":  600,
+                      "height":  216,
+                      "transparentPixels":  13512,
+                      "opaquePixels":  1002,
+                      "partialAlphaPixels":  115086,
+                      "pngColorType":  6,
+                      "sha256":  "AB9C2AA90352EA4EA6E7193C98203E261CA5F1045913818AED71A62B5D6E762D"
+                  },
+                  {
+                      "file":  "btn-danger-pressed.png",
+                      "width":  600,
+                      "height":  216,
+                      "transparentPixels":  17680,
+                      "opaquePixels":  950,
+                      "partialAlphaPixels":  110970,
+                      "pngColorType":  6,
+                      "sha256":  "C34871C44EB07DEEB43EBADC5CFED1AC4807D9D58BE1B150A15E831414FC2D03"
+                  },
+                  {
+                      "file":  "star-full.png",
+                      "width":  180,
+                      "height":  180,
+                      "transparentPixels":  16397,
+                      "opaquePixels":  518,
+                      "partialAlphaPixels":  15485,
+                      "pngColorType":  6,
+                      "sha256":  "FA040140575DE394035B129917873B220D02748BBE8D2799F229E9BC83C14907"
+                  },
+                  {
+                      "file":  "star-empty.png",
+                      "width":  180,
+                      "height":  180,
+                      "transparentPixels":  16397,
+                      "opaquePixels":  518,
+                      "partialAlphaPixels":  15485,
+                      "pngColorType":  6,
+                      "sha256":  "E38F011E9CFFE51F90BCCC206415AFB1F85200884BB2F6082DD8543836414688"
+                  },
+                  {
+                      "file":  "card-pause.png",
+                      "width":  969,
+                      "height":  1320,
+                      "transparentPixels":  140842,
+                      "opaquePixels":  1654,
+                      "partialAlphaPixels":  1136584,
+                      "pngColorType":  6,
+                      "sha256":  "478159D1E6341E411CD3852CFEDEBD8F0E46823EA609CEA66D18EC4A5F3E0590"
+                  },
+                  {
+                      "file":  "card-win.png",
+                      "width":  969,
+                      "height":  1200,
+                      "transparentPixels":  131645,
+                      "opaquePixels":  3141,
+                      "partialAlphaPixels":  1028014,
+                      "pngColorType":  6,
+                      "sha256":  "1527DB35F1CFFC62F3EB6966D4E2639D62D2148CB5D7BB99186C4021CB5A063B"
+                  },
+                  {
+                      "file":  "card-lose.png",
+                      "width":  969,
+                      "height":  1200,
+                      "transparentPixels":  131645,
+                      "opaquePixels":  1587,
+                      "partialAlphaPixels":  1029568,
+                      "pngColorType":  6,
+                      "sha256":  "C13647B909673171D3C3AB5369B61A1A942CB80CDD9A71B1E3BFB0C42F4B8F20"
+                  },
+                  {
+                      "file":  "card-start.png",
+                      "width":  969,
+                      "height":  1200,
+                      "transparentPixels":  131645,
+                      "opaquePixels":  1643,
+                      "partialAlphaPixels":  1029512,
+                      "pngColorType":  6,
+                      "sha256":  "9EF3F6B35382CA7301588202A9F8F3C4BCD1BD88A1CF87339BE33692855BA581"
+                  },
+                  {
+                      "file":  "loss-reason-bomb.png",
+                      "width":  240,
+                      "height":  240,
+                      "transparentPixels":  30306,
+                      "opaquePixels":  570,
+                      "partialAlphaPixels":  26724,
+                      "pngColorType":  6,
+                      "sha256":  "604811996022D50FFA9E90D73BB7DBE208B0AB6743783251291CE5E3D2641146"
+                  },
+                  {
+                      "file":  "loss-reason-time.png",
+                      "width":  240,
+                      "height":  240,
+                      "transparentPixels":  42707,
+                      "opaquePixels":  497,
+                      "partialAlphaPixels":  14396,
+                      "pngColorType":  6,
+                      "sha256":  "9E97E9F4D52768DAACE28D8D6012F4700261EDD6A4AAD8F2B1F99143D57CAB13"
+                  },
+                  {
+                      "file":  "card-lose-bomb.png",
+                      "width":  969,
+                      "height":  1200,
+                      "transparentPixels":  131645,
+                      "opaquePixels":  2157,
+                      "partialAlphaPixels":  1028998,
+                      "pngColorType":  6,
+                      "sha256":  "78298D263219B54B12F9C87F2754FF2E7516CE72BA265B0C6BAF0BAB0BC3C348"
+                  },
+                  {
+                      "file":  "card-lose-time.png",
+                      "width":  969,
+                      "height":  1200,
+                      "transparentPixels":  131645,
+                      "opaquePixels":  2084,
+                      "partialAlphaPixels":  1029071,
+                      "pngColorType":  6,
+                      "sha256":  "61EFFF8CBAB083A9F4B24463245C35D04EBA0FF011AFA7B9E52F72188FD30EB3"
+                  }
+              ]
+}

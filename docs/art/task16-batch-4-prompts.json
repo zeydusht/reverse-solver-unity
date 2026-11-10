@@ -1,0 +1,70 @@
+{
+  "mode": "built-in image_gen",
+  "room": "Gece ve büyü salonu",
+  "authorization": "User approved previous batches and explicitly requested 10 more; complete levels 31-40.",
+  "reference": "Assets/Art/Gameplay/Task15/painting-test-01.png",
+  "finale": "Level 40 follows CODEX_TASK16: Count's grand original castle, no Count or human face.",
+  "basePrompt": "Use case: illustration-story. Deliver ONE original full-bleed square 1536x1536 painting for a premium family puzzle-restoration game, no collage. STYLE REFERENCE: the supplied painting-test-01 image sets only the rendering vocabulary: luminous warm hand-painted animation background, round appealing forms, tactile brush-painted foliage and masonry, glowing edges and clear cheerful color. Same family storybook world between Royal Match and Disney, now in the NIGHT AND MAGIC room; do NOT copy the reference's daytime coast, village, bridge or layout. SCENE: {SCENE} COMPOSITION: {COMPOSITION} LIGHTING AND COLOR: bright enchanted blue-hour/twilight, softly luminous turquoise, teal, lavender, mint and peach midtones; warm lamps and windows as small accents. Night must feel magical and welcoming while ALL regions remain clearly readable. No large black/navy shadows, no huge flat bright gold/cream patch, no broad saturated red mass. No lens bloom that obscures shapes. ART DIRECTION: charming controlled paintwork and expressive rounded silhouettes, 3 clear depth planes, off-center focal object and distributed secondary landmarks. Medium-scale recognizable motifs and elegant brush shapes rather than noisy tiny confetti, over-sharpened detail, photoreal 3D, vector art or copied famous fantasy architecture. GAMEPLAY: artwork will be cut into both 6x6 and 7x7 pieces. Every upper/lower/corner region needs distinct shapes and color changes; fill sky with small cloud wisps, rooflines, foliage, lanterns, or other scene-relevant motifs, and water with broken reflections and objects. Gold/cream bomb and nail overlays and red-white wall overlays must be readable on top. CONTENT: wholly original invented environment; no people, human faces, silhouettes, portraits, recognizable characters, human statues, writing, letters, numbers, runes, logos, watermarks or signage, including on books, bottles and lanterns. No border, outer picture frame, puzzle lines, grid, seams, UI or game obstacles baked into the painting.",
+  "paintings": [
+    {
+      "level": 31,
+      "theme": "Fener festivali",
+      "scene": "An empty festive canal-side lane in an invented storybook village at luminous lavender twilight. Strings of individually different round and oval paper lanterns in soft peach, mint, butter-yellow and lilac curve between balconies and flowering branches. A small curved stone quay, two empty painted wooden skiffs, teal doors, a little bridge in the distance, patterned paving and flowerpots occupy every region. Broken warm reflections and floating lotus lanterns pattern the narrow canal. Upper corners filled by lanterns, eaves and foliage rather than empty sky. A welcoming celebration after preparations, NO people, crowds, silhouettes, writing on lanterns, shop signs or banners.",
+      "composition": "Diagonal canal from lower-right toward upper-left, lantern strings weave across the top, close flower-filled quay at lower-left. Warm light punctuations distributed through the full square."
+    },
+    {
+      "level": 32,
+      "theme": "Yıldızlı küçük hisar",
+      "scene": "A SMALL secluded fairytale hill fort with one rounded honey-stone tower, teal tiled cap and low curved outer walls, nested among lilac-flowering trees at bright blue-hour dusk. A star-flecked lavender sky is mostly obscured by treetops, peach cloud wisps and the tower; stars are tiny natural points, not icons or constellations. Warm glowing arched windows, a winding garden stair, teal gate, pale-blue flower beds, little garden lanterns and rippled reflections in a narrow stream create detail throughout. Keep this a charming modest little fort, far less grand than a royal palace or final castle. No figures, statues, heraldic faces, writing or flags.",
+      "composition": "Rounded little fort at upper-left, winding lit stairway leads from lower-right; sweeping flowering trees frame opposite corners. No centered tall needle-spire silhouette."
+    },
+    {
+      "level": 33,
+      "theme": "Sihirli kütüphane",
+      "scene": "A bright magical library interior with curved warm timber bookshelves, graceful teal-painted balcony rails, honey-stone arches and a tall arched window showing a small glowing moon, lilac clouds and flowering branches. Teal, lavender, ochre and peach books form clear varied clusters with ABSOLUTELY PLAIN unlettered spines and covers. A round reading desk with a few blank open pages, a softly glowing glass reading orb, an empty upholstered chair, a rolling wooden ladder and two gently floating closed books create secondary landmarks. Layered teal and lilac woven rugs and scattered ribbon bookmarks fill the foreground. Light fills the entire room, no dark shelf masses. No letters, glyphs, numbers, portraits, human-shaped objects or people.",
+      "composition": "Immersive three-quarter interior, curved shelves across left and upper edges, desk off-center lower-right, moonlit window upper-right. Varied book-cluster sizes, no microscopic writing."
+    },
+    {
+      "level": 34,
+      "theme": "Balon şehri",
+      "scene": "A whimsical hillside city of small ivory-and-honey cottages with teal and lavender roofs, suspended garden terraces and graceful pale stone walkways, under a bright lavender-blue evening sky. Several charming hot-air balloons with soft turquoise, peach, yellow and lilac fabric panels float at staggered heights, their tiny baskets visibly empty and undecorated. Balconies draped with jasmine, small lanterns, flowering trees, tiled stairs, a narrow shimmering canal and soft clouds fill all areas. Balloon forms, cloud banks and rooflines occupy most of the upper half, so no large blank sky. Playful original invented engineering and architecture; no famous skyline, names, logos, faces or people.",
+      "composition": "Strong upward diagonal city terraces from lower-left to upper-right; large near balloon at upper-left, smaller balloons across depth. Foreground roofs and garden pots frame lower corners."
+    },
+    {
+      "level": 35,
+      "theme": "Ay ışıklı nilüfer köşkü",
+      "scene": "A delicate small teal-and-honey wooden garden pavilion with a curving roof stands beside a luminous turquoise lily pond in a sheltered garden at bright lavender twilight. A small moon peeks through flowering lilac boughs in the upper corner; warm amber lanterns glow under the pavilion. Groups of mint lily pads, white and soft pink lotus flowers, stepped honey stones, rippled lantern reflections, irises and exposed willow roots make the pond richly varied. A crooked stone path winds past an empty pale bench and patterned ceramic flowerpots. No broad dark water or blank sky; everything readable in luminous turquoise, lilac, sage and peach midtones. No people or animal characters.",
+      "composition": "Pavilion in upper-right, diagonal lotus pond and stepping stones across lower half, close willow and blossoms at upper-left; quiet elegant scene with distinct medium-sized motifs."
+    },
+    {
+      "level": 36,
+      "theme": "Büyülü gök küresi salonu",
+      "scene": "A cheerful magical mechanical planetarium interior: an off-center sculptural brass-and-turquoise ORRERY with small unlettered glass planets and graceful orbital rings sits on a curved honey-wood pedestal. The orrery is a handmade mechanical model, not UI or a diagram. Tall teal window arches show lilac cloud banks and small natural star points, flowering vines curl along the upper beams, and small amber lamps illuminate pale stone and carved timber. A low workbench with plain tools, unlabeled boxes of gears, a little empty blue velvet stool and richly colored woven rugs populate the other regions. Mix lavender, turquoise, sage and peach, with brass as small accents only. No giant gold field, clock faces, numerals, letters, zodiac symbols, formulas, human statues or people.",
+      "composition": "Orrery at middle-left, curved balcony and windows across upper-right, foreground gears and patterned floor at lower-right. Three-quarter room perspective and rounded mechanical silhouettes."
+    },
+    {
+      "level": 37,
+      "theme": "Uçan adalar şelalesi",
+      "scene": "An entirely original enchanted landscape of several small FLOATING garden islands at bright magical twilight. Sculpted honey and lavender rock undersides hang above soft lilac cloud terraces; turquoise waterfalls flow from planted pools and break into glowing mist ribbons. Each island has a distinct mix of rounded flowering trees, pale-blue grasses, mint shrubs, stone steps and small warm garden lanterns, with no large castle or city. A little curved wooden footway connects two nearby rocks in the foreground; a large blossoming branch enters one upper corner and rock arches fill the other. Cloud swirls, falls, leaf clusters and reflected light create differentiated shapes throughout; keep all shadows soft and light, no huge dark void or open sky. No text, people, faces or characters.",
+      "composition": "Immersive layered landscape with near island at lower-left, second at middle-right, small distant islands above; tall water ribbons create varying diagonals. Wonder and depth, no centered symmetry."
+    },
+    {
+      "level": 38,
+      "theme": "Işıklı iksir atölyesi",
+      "scene": "A cozy whimsical alchemical garden workshop interior, brightly illuminated in lavender-blue evening light and soft amber lamps. Curved honey-wood shelves hold squat and tall UNLABELED glass bottles with luminous teal, mint, peach and lilac liquids; a curved worktable holds a small copper kettle, empty ceramic bowls, plain jars, dried lavender bundles, colorful crystal clusters and a closed blank leather journal. A teal-framed arched window opens toward flowering garden branches and a narrow moonlit canal. Vines, small warm lamps, hanging herb bundles and shelves fill upper corners; baskets, blue-green rugs and rounded pots fill lower corners. No thick smoke or dark room, no poison symbols, letters, labels, runes, writing, human or animal shapes, characters or faces.",
+      "composition": "Close inviting three-quarter workshop, workbench along lower-left, arched window upper-right, shelves at staggered depths; distinct glass silhouettes rather than cluttered tiny objects."
+    },
+    {
+      "level": 39,
+      "theme": "Kont'un büyülü bahçesi",
+      "scene": "The mysterious art-collecting Count's elegant private garden at bright, luminous twilight, with NO Count or other person visible. Curving low honey-stone terraces and pale steps wrap around a modest teal-tiled fountain and multiple small reflecting pools. Sculptural lilac flowering trees, luminous white jasmine, sage shrubs, soft pink lilies, mint ferns and scattered amber garden lanterns create controlled lush detail. A small empty round glass pavilion and a broad wrought-teal garden gate appear at different depths. No topiary animals, human statues, portraits, crests or faces; plants are purely botanical. A very small distant glimpse of the Count's teal-roofed château behind branches foreshadows the last painting, not the main subject. Firefly-like warm light dots are sparse and tiny, with no insect faces. No writing.",
+      "composition": "Elevated three-quarter garden view, interlocking round and S-shaped planted terraces, fountain lower-left and pavilion upper-right. Color and detail distributed into all corners, no dark hedge maze."
+    },
+    {
+      "level": 40,
+      "theme": "Kont'un görkemli şatosu",
+      "scene": "The GRAND FINALE: the art-collecting Count's own splendid original château, the most magnificent painting in this forty-painting collection. A broad, asymmetric palace of honey limestone and softly curved ivory-and-muted-teal walls sits on terraced rocky gardens, with several differently shaped rounded towers, copper-teal domes and low sweeping teal-tiled roofs. Warm amber windows, generous carved timber doors, theatrical rounded arches and modest brass scroll details evoke a welcoming, eccentric collector's castle. A sweeping stone stair and curving arcaded approach descend through flowering lilac trees, jasmine, sage gardens and small turquoise reflecting pools; miniature cascades, lanterns and distinct rock shapes populate the lower corners. Bright magical blue-hour sky with peach-lilac cloud swirls and a small natural moon is limited to the upper edge; luminous teal and lavender shadows, no large black masses. Make the palace larger, richer and more ceremonious than any earlier building, but retain coherent softly painted mid-scale forms rather than micro-ornament clutter. Every corner contributes a unique landmark. ABSOLUTELY NO Count, human figures, silhouettes in windows, human statues, portraits, faces, face-shaped ornaments, masks, letters, numbers, flags or logos. Architecture must be wholly invented: NOT a famous real château or a recognizable Disney/copyrighted castle; avoid a symmetric central needle-spire silhouette.",
+      "composition": "Majestic elevated three-quarter wide view filling the square: broad palace across upper-middle, main rounded tower off-center right, curved stair and arcade sweep from lower-left, flowering garden pools at lower-right. Multiple depths and controlled celebratory grandeur; the castle itself is the hero."
+    }
+  ]
+}

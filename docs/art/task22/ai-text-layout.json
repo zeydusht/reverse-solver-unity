@@ -1,0 +1,730 @@
+[
+  {
+    "text": "Tahta boşaldı!",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "108 saniye kaldı · 0 takılma",
+    "x": 167.5,
+    "y": 123,
+    "sizePt": 14,
+    "maxWidthPt": 292
+  },
+  {
+    "text": "Sonraki bölüm",
+    "x": 167.5,
+    "y": 174.0,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Ne kadar zordu?",
+    "x": 167.5,
+    "y": 236,
+    "sizePt": 17,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "1 çok kolay · 10 çok zor",
+    "x": 167.5,
+    "y": 259,
+    "sizePt": 13,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "1",
+    "x": 55,
+    "y": 303,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "2",
+    "x": 111,
+    "y": 303,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "3",
+    "x": 167,
+    "y": 303,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "4",
+    "x": 223,
+    "y": 303,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "5",
+    "x": 279,
+    "y": 303,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "6",
+    "x": 55,
+    "y": 353,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "7",
+    "x": 111,
+    "y": 353,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "8",
+    "x": 167,
+    "y": 353,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "9",
+    "x": 223,
+    "y": 353,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "10",
+    "x": 279,
+    "y": 353,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "Tekrar oyna",
+    "x": 91,
+    "y": 426.0,
+    "sizePt": 17,
+    "maxWidthPt": 122
+  },
+  {
+    "text": "Menü",
+    "x": 244,
+    "y": 426.0,
+    "sizePt": 17,
+    "maxWidthPt": 122
+  },
+  {
+    "text": "Puanlamayı geç",
+    "x": 167.5,
+    "y": 481,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Bomba patladı",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Fitil bitmeden yolunu aç.",
+    "x": 167.5,
+    "y": 227,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Çekiç bombayı tek hamlede söker.",
+    "x": 167.5,
+    "y": 248,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Tekrar dene",
+    "x": 167.5,
+    "y": 337.0,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Menü",
+    "x": 167.5,
+    "y": 427.0,
+    "sizePt": 17,
+    "maxWidthPt": 200
+  },
+  {
+    "text": "Her denemede yeni bir yol var.",
+    "x": 167.5,
+    "y": 521,
+    "sizePt": 13,
+    "maxWidthPt": 295
+  },
+  {
+    "text": "Süre doldu",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Tahtada parçalar kaldı.",
+    "x": 167.5,
+    "y": 227,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Saat sana 20 saniye kazandırır.",
+    "x": 167.5,
+    "y": 248,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Tekrar dene",
+    "x": 167.5,
+    "y": 337.0,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Menü",
+    "x": 167.5,
+    "y": 427.0,
+    "sizePt": 17,
+    "maxWidthPt": 200
+  },
+  {
+    "text": "Her denemede yeni bir yol var.",
+    "x": 167.5,
+    "y": 521,
+    "sizePt": 13,
+    "maxWidthPt": 295
+  },
+  {
+    "text": "Durduruldu",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Hazır olduğunda devam et.",
+    "x": 167.5,
+    "y": 111,
+    "sizePt": 15,
+    "maxWidthPt": 290
+  },
+  {
+    "text": "Devam",
+    "x": 167.5,
+    "y": 186.0,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Yeniden başla",
+    "x": 167.5,
+    "y": 269.0,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Ana menü",
+    "x": 167.5,
+    "y": 352.0,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Çivili parça",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Diğer parçaları çıkar.",
+    "x": 167.5,
+    "y": 309,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Sayaç sıfır olunca çivi açılır.",
+    "x": 167.5,
+    "y": 330,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Anladım",
+    "x": 167.5,
+    "y": 491.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Bombalı parça",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "23",
+    "x": 167.5,
+    "y": 181,
+    "sizePt": 23,
+    "maxWidthPt": null
+  },
+  {
+    "text": "Fitil bitmeden bombayı çıkar.",
+    "x": 167.5,
+    "y": 309,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Önce onun yolunu aç.",
+    "x": 167.5,
+    "y": 330,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Anladım",
+    "x": 167.5,
+    "y": 491.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Zincirli parçalar",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "İki parça birlikte çıkar.",
+    "x": 167.5,
+    "y": 309,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "İkisinin yolunu da aç.",
+    "x": 167.5,
+    "y": 330,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Anladım",
+    "x": 167.5,
+    "y": 491.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Duvar",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Parça duvardan geçemez.",
+    "x": 167.5,
+    "y": 309,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Açık kenardan yol bul.",
+    "x": 167.5,
+    "y": 330,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Anladım",
+    "x": 167.5,
+    "y": 491.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Makas",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Önce makası seç.",
+    "x": 167.5,
+    "y": 309,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Sonra kesilecek ekleme dokun.",
+    "x": 167.5,
+    "y": 330,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Anladım",
+    "x": 167.5,
+    "y": 491.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Sihirli değnek",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Çıkıntıları yeniden dizer.",
+    "x": 167.5,
+    "y": 309,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Resim aynı kalır, kilitler değişir.",
+    "x": 167.5,
+    "y": 330,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Anladım",
+    "x": 167.5,
+    "y": 491.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Çekiç",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Önce çekici seç.",
+    "x": 167.5,
+    "y": 309,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Çıkarmak istediğin parçaya dokun.",
+    "x": 167.5,
+    "y": 330,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Anladım",
+    "x": 167.5,
+    "y": 491.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Saat",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Süreye 20 saniye ekler.",
+    "x": 167.5,
+    "y": 309,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Kullanmadan önce onay ver.",
+    "x": 167.5,
+    "y": 330,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Anladım",
+    "x": 167.5,
+    "y": 491.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Zor bölüm",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Bu bölüm biraz daha zorlu.",
+    "x": 167.5,
+    "y": 222,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "İlk hamleden önce yolları incele.",
+    "x": 167.5,
+    "y": 243,
+    "sizePt": 14,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Başla",
+    "x": 167.5,
+    "y": 325.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Reverse Solver",
+    "x": 165,
+    "y": 173,
+    "sizePt": 29,
+    "maxWidthPt": 320
+  },
+  {
+    "text": "Galerin hazırlanıyor",
+    "x": 165,
+    "y": 223,
+    "sizePt": 17,
+    "maxWidthPt": 310
+  },
+  {
+    "text": "Yükleniyor…",
+    "x": 165,
+    "y": 333,
+    "sizePt": 14,
+    "maxWidthPt": 290
+  },
+  {
+    "text": "Hoş geldin!",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Adını yaz, sonuçların",
+    "x": 167.5,
+    "y": 110,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "bu isimle kaydedilsin.",
+    "x": 167.5,
+    "y": 131,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Adın",
+    "x": 167.5,
+    "y": 204,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "Başla",
+    "x": 167.5,
+    "y": 285.5,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Seni tanıyalım",
+    "x": 167.5,
+    "y": 35,
+    "sizePt": 23,
+    "maxWidthPt": 300
+  },
+  {
+    "text": "Bu tür bulmaca oyunlarını",
+    "x": 167.5,
+    "y": 105,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "ne sıklıkla oynarsın?",
+    "x": 167.5,
+    "y": 126,
+    "sizePt": 15,
+    "maxWidthPt": 285
+  },
+  {
+    "text": "Hiç",
+    "x": 167.5,
+    "y": 187.0,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Ara sıra",
+    "x": 167.5,
+    "y": 253.0,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Sık",
+    "x": 167.5,
+    "y": 319.0,
+    "sizePt": 17,
+    "maxWidthPt": 228
+  },
+  {
+    "text": "Türkçe",
+    "x": 168.5,
+    "y": 425,
+    "sizePt": 16,
+    "maxWidthPt": 93
+  },
+  {
+    "text": "English",
+    "x": 273.5,
+    "y": 425,
+    "sizePt": 16,
+    "maxWidthPt": 93
+  },
+  {
+    "text": "Oyna",
+    "x": 93,
+    "y": 34,
+    "sizePt": 17,
+    "maxWidthPt": 78
+  },
+  {
+    "text": "13",
+    "x": 93,
+    "y": 120,
+    "sizePt": 22,
+    "maxWidthPt": 54
+  },
+  {
+    "text": "Sıradaki",
+    "x": 60,
+    "y": 152,
+    "sizePt": 14,
+    "maxWidthPt": 83
+  },
+  {
+    "text": "500",
+    "x": 55,
+    "y": 84,
+    "sizePt": 15,
+    "maxWidthPt": 100
+  },
+  {
+    "text": "1.000",
+    "x": 166,
+    "y": 84,
+    "sizePt": 15,
+    "maxWidthPt": 100
+  },
+  {
+    "text": "2.000",
+    "x": 277,
+    "y": 84,
+    "sizePt": 15,
+    "maxWidthPt": 100
+  },
+  {
+    "text": "1",
+    "x": 55,
+    "y": 31,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "2",
+    "x": 111,
+    "y": 31,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "3",
+    "x": 167,
+    "y": 31,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "4",
+    "x": 223,
+    "y": 31,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "5",
+    "x": 279,
+    "y": 31,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "6",
+    "x": 55,
+    "y": 81,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "7",
+    "x": 111,
+    "y": 81,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "8",
+    "x": 167,
+    "y": 81,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "9",
+    "x": 223,
+    "y": 81,
+    "sizePt": 17,
+    "maxWidthPt": null
+  },
+  {
+    "text": "10",
+    "x": 279,
+    "y": 81,
+    "sizePt": 17,
+    "maxWidthPt": null
+  }
+]

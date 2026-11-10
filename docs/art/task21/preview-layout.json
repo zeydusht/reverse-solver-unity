@@ -1,0 +1,1728 @@
+{
+  "01-ev": {
+    "layers": [
+      {
+        "sprite": "Task20/scene-home.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ]
+      },
+      {
+        "gameArt": "Assets/Art/Gameplay/Task15/painting-test-01.png",
+        "rectPt": [
+          62,
+          145,
+          235,
+          378
+        ],
+        "mask": "Task20/hero-picture-mask.png"
+      },
+      {
+        "sprite": "Task20/hero-frame.png",
+        "rectPt": [
+          62,
+          145,
+          235,
+          378
+        ]
+      },
+      {
+        "sprite": "Task20/avatar-disc.png",
+        "rectPt": [
+          26.5,
+          62.5,
+          53,
+          53
+        ]
+      },
+      {
+        "sprite": "Task20/avatar-blue.png",
+        "rectPt": [
+          29,
+          65,
+          48,
+          48
+        ]
+      },
+      {
+        "sprite": "Task21/profile-square-frame.png",
+        "rectPt": [
+          8,
+          44,
+          90,
+          90
+        ]
+      },
+      {
+        "sprite": "Task21/profile-name-plate.png",
+        "rectPt": [
+          101,
+          68,
+          96,
+          42
+        ]
+      },
+      {
+        "sprite": "Task21/counter-pill-v2.png",
+        "rectPt": [
+          210,
+          74,
+          102,
+          30
+        ]
+      },
+      {
+        "sprite": "Task20/jiggle-counter-icon.png",
+        "rectPt": [
+          199,
+          66,
+          46,
+          46
+        ]
+      },
+      {
+        "sprite": "Task20/button-settings.png",
+        "rectPt": [
+          327,
+          66,
+          46,
+          46
+        ]
+      },
+      {
+        "sprite": "Task20/button-primary.png",
+        "rectPt": [
+          84.375,
+          613,
+          206.25,
+          90
+        ]
+      },
+      {
+        "sprite": "Task20/button-levels.png",
+        "rectPt": [
+          19,
+          636,
+          44,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/tabbar-bg.png",
+        "rectPt": [
+          0,
+          726,
+          375,
+          86
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot-selected.png",
+        "rectPt": [
+          0,
+          729.3333333333334,
+          150,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-home-selected-large.png",
+        "rectPt": [
+          40.666666666666664,
+          693,
+          68.66666666666667,
+          61.333333333333336
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          150,
+          729.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          149.5,
+          729.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-collection-normal.png",
+        "rectPt": [
+          156.83333333333334,
+          729,
+          61.333333333333336,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          225,
+          729.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          224.5,
+          729.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-jiggles-normal.png",
+        "rectPt": [
+          222.83333333333334,
+          729,
+          79.33333333333333,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          300,
+          729.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          299.5,
+          729.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-trophy-normal.png",
+        "rectPt": [
+          311.1666666666667,
+          729,
+          52.666666666666664,
+          49
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Zeynep Yılmaz",
+        "x": 149,
+        "y": 89,
+        "sizePt": 11.0,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "0",
+        "x": 275,
+        "y": 89,
+        "sizePt": 23,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Level 1",
+        "x": 187.5,
+        "y": 658,
+        "sizePt": 43,
+        "outlinePt": 2.4,
+        "shadow": true,
+        "anchor": "mm"
+      },
+      {
+        "text": "Ev",
+        "x": 75.0,
+        "y": 765,
+        "sizePt": 17,
+        "outlinePt": 0.95,
+        "shadow": true,
+        "anchor": "mm"
+      }
+    ]
+  },
+  "03-jiggles": {
+    "layers": [
+      {
+        "sprite": "Task20/scene-jiggles.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ]
+      },
+      {
+        "sprite": "Task21/counter-pill-v2.png",
+        "rectPt": [
+          96,
+          108,
+          210,
+          44
+        ]
+      },
+      {
+        "sprite": "Task20/jiggle-counter-icon.png",
+        "rectPt": [
+          68,
+          95,
+          58,
+          58
+        ]
+      },
+      {
+        "sprite": "Task20/jiggles-shelf.png",
+        "rectPt": [
+          20,
+          178,
+          340,
+          300
+        ]
+      },
+      {
+        "sprite": "Task20/jiggle-green-standing.png",
+        "rectPt": [
+          91,
+          174,
+          88,
+          132
+        ]
+      },
+      {
+        "sprite": "Task20/jiggle-purple-standing.png",
+        "rectPt": [
+          202,
+          174,
+          88,
+          132
+        ]
+      },
+      {
+        "sprite": "Task20/jiggle-blue-standing.png",
+        "rectPt": [
+          48,
+          314,
+          88,
+          132
+        ]
+      },
+      {
+        "sprite": "Task20/jiggle-pink-standing.png",
+        "rectPt": [
+          144,
+          314,
+          88,
+          132
+        ]
+      },
+      {
+        "sprite": "Task20/jiggle-red-standing.png",
+        "rectPt": [
+          241,
+          314,
+          88,
+          132
+        ]
+      },
+      {
+        "sprite": "Task20/color-count-pill.png",
+        "rectPt": [
+          111,
+          308,
+          48,
+          20
+        ]
+      },
+      {
+        "sprite": "Task20/color-count-pill.png",
+        "rectPt": [
+          222,
+          308,
+          48,
+          20
+        ]
+      },
+      {
+        "sprite": "Task20/color-count-pill.png",
+        "rectPt": [
+          68,
+          451,
+          48,
+          20
+        ]
+      },
+      {
+        "sprite": "Task20/color-count-pill.png",
+        "rectPt": [
+          164,
+          451,
+          48,
+          20
+        ]
+      },
+      {
+        "sprite": "Task20/color-count-pill.png",
+        "rectPt": [
+          261,
+          451,
+          48,
+          20
+        ]
+      },
+      {
+        "sprite": "Task20/avatar-disc.png",
+        "rectPt": [
+          21.5,
+          531,
+          44,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-blue-round.png",
+        "rectPt": [
+          13.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-ring-selected.png",
+        "rectPt": [
+          13.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task21/check-badge.png",
+        "rectPt": [
+          56.5,
+          566,
+          16,
+          16
+        ]
+      },
+      {
+        "sprite": "Task20/avatar-disc.png",
+        "rectPt": [
+          93.5,
+          531,
+          44,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-pink-round.png",
+        "rectPt": [
+          85.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-ring.png",
+        "rectPt": [
+          85.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task20/avatar-disc.png",
+        "rectPt": [
+          165.5,
+          531,
+          44,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-red-round.png",
+        "rectPt": [
+          157.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-ring.png",
+        "rectPt": [
+          157.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task20/avatar-disc.png",
+        "rectPt": [
+          237.5,
+          531,
+          44,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-green-round.png",
+        "rectPt": [
+          229.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-ring.png",
+        "rectPt": [
+          229.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task20/avatar-disc.png",
+        "rectPt": [
+          309.5,
+          531,
+          44,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-purple-round.png",
+        "rectPt": [
+          301.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task21/avatar-ring.png",
+        "rectPt": [
+          301.5,
+          523,
+          60,
+          60
+        ]
+      },
+      {
+        "sprite": "Task21/milestone-dots.png",
+        "rectPt": [
+          93,
+          612,
+          70,
+          6
+        ]
+      },
+      {
+        "sprite": "Task21/milestone-dots.png",
+        "rectPt": [
+          213,
+          612,
+          70,
+          6
+        ]
+      },
+      {
+        "sprite": "Task21/milestone-medal-frame.png",
+        "rectPt": [
+          43,
+          591,
+          48,
+          48
+        ]
+      },
+      {
+        "sprite": "Task21/milestone-medal-badge.png",
+        "rectPt": [
+          163,
+          591,
+          48,
+          48
+        ]
+      },
+      {
+        "sprite": "Task21/milestone-medal-portrait-locked.png",
+        "rectPt": [
+          283,
+          591,
+          48,
+          48
+        ]
+      },
+      {
+        "sprite": "Task21/tabbar-bg.png",
+        "rectPt": [
+          0,
+          726,
+          375,
+          86
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          0,
+          729.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-home-normal.png",
+        "rectPt": [
+          10.0,
+          729,
+          55.0,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          75,
+          729.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          74.5,
+          729.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-collection-normal.png",
+        "rectPt": [
+          81.83333333333333,
+          729,
+          61.333333333333336,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot-selected.png",
+        "rectPt": [
+          150,
+          729.3333333333334,
+          150,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          149.5,
+          729.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-jiggles-selected-large.png",
+        "rectPt": [
+          175.5,
+          693,
+          99.0,
+          61.333333333333336
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          300,
+          729.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          299.5,
+          729.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-trophy-normal.png",
+        "rectPt": [
+          311.1666666666667,
+          729,
+          52.666666666666664,
+          49
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Jiggles",
+        "x": 187.5,
+        "y": 75,
+        "sizePt": 32,
+        "outlinePt": 1.8,
+        "shadow": true,
+        "anchor": "mm"
+      },
+      {
+        "text": "1.248",
+        "x": 207,
+        "y": 130,
+        "sizePt": 30,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Jiggle kurtarıldı",
+        "x": 187.5,
+        "y": 164,
+        "sizePt": 18,
+        "outlinePt": 0.8,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "211",
+        "x": 135,
+        "y": 318,
+        "sizePt": 16,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "190",
+        "x": 246,
+        "y": 318,
+        "sizePt": 16,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "328",
+        "x": 92,
+        "y": 461,
+        "sizePt": 16,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "277",
+        "x": 188,
+        "y": 461,
+        "sizePt": 16,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "242",
+        "x": 285,
+        "y": 461,
+        "sizePt": 16,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Avatarım",
+        "x": 187.5,
+        "y": 497,
+        "sizePt": 19,
+        "outlinePt": 1,
+        "shadow": true,
+        "anchor": "mm"
+      },
+      {
+        "text": "500",
+        "x": 67,
+        "y": 653,
+        "sizePt": 18,
+        "outlinePt": 0.8,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Çerçeve",
+        "x": 67,
+        "y": 675,
+        "sizePt": 14,
+        "outlinePt": 0.6,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "1.000",
+        "x": 187,
+        "y": 653,
+        "sizePt": 18,
+        "outlinePt": 0.8,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Rozet",
+        "x": 187,
+        "y": 675,
+        "sizePt": 14,
+        "outlinePt": 0.6,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "2.000",
+        "x": 307,
+        "y": 653,
+        "sizePt": 18,
+        "outlinePt": 0.8,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Portre",
+        "x": 307,
+        "y": 675,
+        "sizePt": 14,
+        "outlinePt": 0.6,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Jiggles",
+        "x": 225.0,
+        "y": 765,
+        "sizePt": 17,
+        "outlinePt": 0.95,
+        "shadow": true,
+        "anchor": "mm"
+      }
+    ]
+  },
+  "06-ayarlar": {
+    "layers": [
+      {
+        "sprite": "Task20/scene-achievements.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ]
+      },
+      {
+        "sprite": "Task21/settings-panel.png",
+        "rectPt": [
+          23,
+          187,
+          329,
+          500
+        ]
+      },
+      {
+        "sprite": "Task20/button-close.png",
+        "rectPt": [
+          315,
+          173,
+          34,
+          34
+        ]
+      },
+      {
+        "sprite": "Task21/settings-row.png",
+        "rectPt": [
+          38,
+          220.5,
+          299,
+          65
+        ]
+      },
+      {
+        "sprite": "Task21/settings-icon-disc.png",
+        "rectPt": [
+          43,
+          231,
+          44,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/settings-symbol-sound.png",
+        "rectPt": [
+          53,
+          241,
+          24,
+          24
+        ]
+      },
+      {
+        "sprite": "Task20/toggle-on-track.png",
+        "rectPt": [
+          266,
+          239,
+          60,
+          28
+        ]
+      },
+      {
+        "sprite": "Task20/toggle-knob.png",
+        "rectPt": [
+          299,
+          241,
+          24,
+          24
+        ]
+      },
+      {
+        "sprite": "Task21/settings-row.png",
+        "rectPt": [
+          38,
+          300.5,
+          299,
+          65
+        ]
+      },
+      {
+        "sprite": "Task21/settings-icon-disc.png",
+        "rectPt": [
+          43,
+          311,
+          44,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/settings-symbol-music.png",
+        "rectPt": [
+          53,
+          321,
+          24,
+          24
+        ]
+      },
+      {
+        "sprite": "Task20/toggle-on-track.png",
+        "rectPt": [
+          266,
+          319,
+          60,
+          28
+        ]
+      },
+      {
+        "sprite": "Task20/toggle-knob.png",
+        "rectPt": [
+          299,
+          321,
+          24,
+          24
+        ]
+      },
+      {
+        "sprite": "Task21/settings-row.png",
+        "rectPt": [
+          38,
+          377.5,
+          299,
+          65
+        ]
+      },
+      {
+        "sprite": "Task21/settings-icon-disc.png",
+        "rectPt": [
+          43,
+          388,
+          44,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/settings-symbol-vibration.png",
+        "rectPt": [
+          53,
+          398,
+          24,
+          24
+        ]
+      },
+      {
+        "sprite": "Task20/toggle-off-track.png",
+        "rectPt": [
+          266,
+          396,
+          60,
+          28
+        ]
+      },
+      {
+        "sprite": "Task20/toggle-knob.png",
+        "rectPt": [
+          269,
+          398,
+          24,
+          24
+        ]
+      },
+      {
+        "sprite": "Task20/language-left-selected.png",
+        "rectPt": [
+          123,
+          475,
+          198,
+          44
+        ]
+      },
+      {
+        "sprite": "Task21/settings-icon-btn.png",
+        "rectPt": [
+          86,
+          546,
+          54,
+          54
+        ]
+      },
+      {
+        "sprite": "Task21/icon-privacy.png",
+        "rectPt": [
+          97,
+          557,
+          32,
+          32
+        ]
+      },
+      {
+        "sprite": "Task21/settings-icon-btn.png",
+        "rectPt": [
+          235,
+          546,
+          54,
+          54
+        ]
+      },
+      {
+        "sprite": "Task21/icon-mail.png",
+        "rectPt": [
+          246,
+          557,
+          32,
+          32
+        ]
+      },
+      {
+        "sprite": "Task21/tabbar-bg.png",
+        "rectPt": [
+          0,
+          726,
+          375,
+          86
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot-selected.png",
+        "rectPt": [
+          0,
+          729.3333333333334,
+          150,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-home-selected-large.png",
+        "rectPt": [
+          40.666666666666664,
+          693,
+          68.66666666666667,
+          61.333333333333336
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          150,
+          729.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          149.5,
+          729.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-collection-normal.png",
+        "rectPt": [
+          156.83333333333334,
+          729,
+          61.333333333333336,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          225,
+          729.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          224.5,
+          729.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-jiggles-normal.png",
+        "rectPt": [
+          222.83333333333334,
+          729,
+          79.33333333333333,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          300,
+          729.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          299.5,
+          729.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-trophy-normal.png",
+        "rectPt": [
+          311.1666666666667,
+          729,
+          52.666666666666664,
+          49
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Ayarlar",
+        "x": 187.5,
+        "y": 155,
+        "sizePt": 34,
+        "outlinePt": 1.9,
+        "shadow": true,
+        "anchor": "mm"
+      },
+      {
+        "text": "Ses",
+        "x": 101,
+        "y": 253,
+        "sizePt": 20,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "lm"
+      },
+      {
+        "text": "Müzik",
+        "x": 101,
+        "y": 333,
+        "sizePt": 20,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "lm"
+      },
+      {
+        "text": "Titreşim",
+        "x": 101,
+        "y": 410,
+        "sizePt": 20,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "lm"
+      },
+      {
+        "text": "Dil",
+        "x": 73,
+        "y": 497,
+        "sizePt": 20,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Türkçe",
+        "x": 174,
+        "y": 497,
+        "sizePt": 16,
+        "outlinePt": 0.65,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "English",
+        "x": 271,
+        "y": 497,
+        "sizePt": 16,
+        "outlinePt": 0.65,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Gizlilik",
+        "x": 113,
+        "y": 617,
+        "sizePt": 15,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Bize yaz",
+        "x": 262,
+        "y": 617,
+        "sizePt": 15,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Sürüm 1.0.0",
+        "x": 187.5,
+        "y": 655,
+        "sizePt": 12,
+        "outlinePt": 0,
+        "shadow": false,
+        "anchor": "mm"
+      },
+      {
+        "text": "Ev",
+        "x": 75.0,
+        "y": 765,
+        "sizePt": 17,
+        "outlinePt": 0.95,
+        "shadow": true,
+        "anchor": "mm"
+      }
+    ]
+  },
+  "04-sekme-durumlari": {
+    "layers": [
+      {
+        "sprite": "Task21/tabbar-bg.png",
+        "rectPt": [
+          0,
+          165,
+          375,
+          86
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot-selected.png",
+        "rectPt": [
+          0,
+          168.33333333333334,
+          150,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-home-selected-large.png",
+        "rectPt": [
+          40.666666666666664,
+          132,
+          68.66666666666667,
+          61.333333333333336
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          150,
+          168.33333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          149.5,
+          168.33333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-collection-normal.png",
+        "rectPt": [
+          156.83333333333334,
+          168,
+          61.333333333333336,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          225,
+          168.33333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          224.5,
+          168.33333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-jiggles-normal.png",
+        "rectPt": [
+          222.83333333333334,
+          168,
+          79.33333333333333,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          300,
+          168.33333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          299.5,
+          168.33333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-trophy-normal.png",
+        "rectPt": [
+          311.1666666666667,
+          168,
+          52.666666666666664,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tabbar-bg.png",
+        "rectPt": [
+          0,
+          320,
+          375,
+          86
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          0,
+          323.3333333333333,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-home-normal.png",
+        "rectPt": [
+          10.0,
+          323,
+          55.0,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot-selected.png",
+        "rectPt": [
+          75,
+          323.3333333333333,
+          150,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          74.5,
+          323.3333333333333,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-collection-selected-large.png",
+        "rectPt": [
+          111.66666666666666,
+          287,
+          76.66666666666667,
+          61.333333333333336
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          225,
+          323.3333333333333,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          224.5,
+          323.3333333333333,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-jiggles-normal.png",
+        "rectPt": [
+          222.83333333333334,
+          323,
+          79.33333333333333,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          300,
+          323.3333333333333,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          299.5,
+          323.3333333333333,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-trophy-normal.png",
+        "rectPt": [
+          311.1666666666667,
+          323,
+          52.666666666666664,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tabbar-bg.png",
+        "rectPt": [
+          0,
+          475,
+          375,
+          86
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          0,
+          478.3333333333333,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-home-normal.png",
+        "rectPt": [
+          10.0,
+          478,
+          55.0,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          75,
+          478.3333333333333,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          74.5,
+          478.3333333333333,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-collection-normal.png",
+        "rectPt": [
+          81.83333333333333,
+          478,
+          61.333333333333336,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot-selected.png",
+        "rectPt": [
+          150,
+          478.3333333333333,
+          150,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          149.5,
+          478.3333333333333,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-jiggles-selected-large.png",
+        "rectPt": [
+          175.5,
+          442,
+          99.0,
+          61.333333333333336
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          300,
+          478.3333333333333,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          299.5,
+          478.3333333333333,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-trophy-normal.png",
+        "rectPt": [
+          311.1666666666667,
+          478,
+          52.666666666666664,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tabbar-bg.png",
+        "rectPt": [
+          0,
+          630,
+          375,
+          86
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          0,
+          633.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-home-normal.png",
+        "rectPt": [
+          10.0,
+          633,
+          55.0,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          75,
+          633.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          74.5,
+          633.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-collection-normal.png",
+        "rectPt": [
+          81.83333333333333,
+          633,
+          61.333333333333336,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot.png",
+        "rectPt": [
+          150,
+          633.3333333333334,
+          75,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          149.5,
+          633.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-jiggles-normal.png",
+        "rectPt": [
+          147.83333333333334,
+          633,
+          79.33333333333333,
+          49
+        ]
+      },
+      {
+        "sprite": "Task21/tab-slot-selected.png",
+        "rectPt": [
+          225,
+          633.3333333333334,
+          150,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-divider.png",
+        "rectPt": [
+          224.5,
+          633.3333333333334,
+          1,
+          82.66666666666667
+        ]
+      },
+      {
+        "sprite": "Task21/tab-icon-trophy-selected-large.png",
+        "rectPt": [
+          267.1666666666667,
+          597,
+          65.66666666666667,
+          61.333333333333336
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Ev",
+        "x": 75.0,
+        "y": 204,
+        "sizePt": 17,
+        "outlinePt": 0.95,
+        "shadow": true,
+        "anchor": "mm"
+      },
+      {
+        "text": "Koleksiyon",
+        "x": 150.0,
+        "y": 359,
+        "sizePt": 17,
+        "outlinePt": 0.95,
+        "shadow": true,
+        "anchor": "mm"
+      },
+      {
+        "text": "Jiggles",
+        "x": 225.0,
+        "y": 514,
+        "sizePt": 17,
+        "outlinePt": 0.95,
+        "shadow": true,
+        "anchor": "mm"
+      },
+      {
+        "text": "Başarılar",
+        "x": 300.0,
+        "y": 669,
+        "sizePt": 17,
+        "outlinePt": 0.95,
+        "shadow": true,
+        "anchor": "mm"
+      }
+    ]
+  }
+}

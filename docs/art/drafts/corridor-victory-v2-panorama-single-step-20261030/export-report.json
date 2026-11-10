@@ -1,0 +1,40 @@
+{
+  "source": "docs/art/drafts/corridor-victory-v2-panorama-20261030/panorama-clean.png",
+  "sourceSize": [
+    1619,
+    971
+  ],
+  "cropWidth": 448.68483412322274,
+  "cropHeight": 971,
+  "cropY": 0,
+  "startCropX": 88.65758293838863,
+  "middleCropX": 336.6575829383886,
+  "endCropX": 584.6575829383886,
+  "paintingCenters": [
+    313,
+    809
+  ],
+  "travelSourcePixels": 496,
+  "travelAdjacentPaintings": 1,
+  "viewport": [
+    780,
+    1688
+  ],
+  "duration": 3,
+  "zoom": false,
+  "perspectiveTransform": false,
+  "redraw": false,
+  "loop": false,
+  "sourceAltered": false,
+  "sourceSha256": "1f6c848a0a5a4f4ab51475b49c5ea56f50a76ec796304f5cd0bbd3c17ebf291c",
+  "sourceCopyByteIdentical": true,
+  "protectedFilesUnchanged": true,
+  "fps": 60,
+  "frames": 181,
+  "videoDuration": 3.016667,
+  "videoWidth": 780,
+  "videoHeight": 1688,
+  "bytes": 5263389,
+  "sha256": "778371bcfa466fb4f7be149259273772f753790b988ea6bb8b330332af9b789a",
+  "browserDecodePassed": true
+}

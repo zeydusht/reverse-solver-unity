@@ -1,0 +1,1010 @@
+[
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Backgrounds\\baron-castle-play-v01-1125x2436.png",
+        "Hash":  "0DACAF09D89D2BFC483C788F4C304F99A5756FFC1F08DAE543CFCA450E0E993A"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task7\\nail-head-v2-384.png",
+        "Hash":  "DCC4190D4B00AF3F93D9639408F9F3D6E6D13E73080088B8A2537868757419B3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task7\\bomb-v2-384.png",
+        "Hash":  "190294B89B54195D841BC693829A526D307C9A9E206F3996B7E5C8EF10722C1B"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task6\\chain-link-repeat-96x48.png",
+        "Hash":  "CACF18E0FA0B7818B2720C848E6E5819BCAAE079A08379B00667C2F5816F3A35"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Gameplay\\Task6\\chain-endpoint-144.png",
+        "Hash":  "E0F862C78E4B293D1C9266058374B381B2B1C658AD6565E57B0533D7D694089D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\_Game\\Presentation\\Resources\\Fonts\\Fredoka-SemiBold.ttf",
+        "Hash":  "594CD6463E8ECCEF94423FBA8E0114C137492F6415AF4B414B21B73ABCB644A8"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\board_full.png",
+        "Hash":  "B0DAF50CCFF8D22EAB79B91BB3655A1E2E3086EEDC31F0B933258E49E6FD76F7"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\codex-piece-topleft.png",
+        "Hash":  "0C679C2A6650F4CE8386AA792B20FBECDBE34268423D2A4DDCBDFAABAE0B679A"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\contact_81.png",
+        "Hash":  "35EED827FB9D452FB4FB3DD1F7C3C0DF24334D377CD924076F65FA63A838DF3F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-F-F-F.png",
+        "Hash":  "6B54108DFA76BFE644335828F3A605A3472A7F737BC4850484088CCD5E22FF17"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-F-F-I.png",
+        "Hash":  "3A0E3C1C7ED64084FA491AEFBC21F25EEB2510E152412BFDC3BDB71D7CB12D45"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-F-F-O.png",
+        "Hash":  "B2DE23A60A784AF22BB3C45EE60CF635B2D2E6ACDC52A73D4427838A8C9C180E"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-F-I-F.png",
+        "Hash":  "160AAA593F783B1515F686EF0BF41A4B8F24E9234E18210BDC3000ED9EE90B15"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-F-I-I.png",
+        "Hash":  "F18A291BCDA176749BA503536C842EA02EE3A4C3222603E0AAD3C68186602F1B"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-F-I-O.png",
+        "Hash":  "5408616CA9562C79FF3F367957AF736243A80BB20373200EB337831C593D13C8"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-F-O-F.png",
+        "Hash":  "27F4FEA6A4A2DA233B489C80FE8F58AD4340CD22587BE0316305FF26EBAD9418"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-F-O-I.png",
+        "Hash":  "5C2E86D43739F124C5DB80C26E201914C368A070730AA8225EDEC2A56AD34936"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-F-O-O.png",
+        "Hash":  "423A3E378EBE0EA27CACD1AA4D408ECECF79A9629A629A0CF5DDA6190F4DCB19"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-I-F-F.png",
+        "Hash":  "BF32E267ED13125847B3F4D349B67649FBA466EC237F7629E86A6C7D0918FA9C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-I-F-I.png",
+        "Hash":  "AF5D758044E10AEFEE71FE9450211526F622DEE98026FB40F43AB9A4211583FC"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-I-F-O.png",
+        "Hash":  "FD021643D1001879C03870FF826FB952703C509ECC917BBD125997B8744C6C69"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-I-I-F.png",
+        "Hash":  "1E6D5921B4E4445BA24AFD96F20030E21047D1134CDE57A91B7ECBE8CEDF90BD"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-I-I-I.png",
+        "Hash":  "C9A0B1ECE87F56040AB971BCD91C6D83F95AF09225D967530D3982D315B8F4BE"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-I-I-O.png",
+        "Hash":  "38333DA6FBEBCA50AE7F638FA170D149A09A3EA3736AA5C144D9998194A7072A"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-I-O-F.png",
+        "Hash":  "B796F4789B4CAF291F3496D5C3FFD156DED1121B5CF82A901EEECDCFECC3623C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-I-O-I.png",
+        "Hash":  "E1E168C8D2E8030F3D2E6771333DF4FB69545CD30BA7FB83B24555F04BBFB69D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-I-O-O.png",
+        "Hash":  "66ADD6C6ECDA6403C92A3704DF350508625098DC352659AF1AC47CF4366A1280"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-O-F-F.png",
+        "Hash":  "4872670C204A1BC036EE5CDB5ACCED3C472F2EBB6370384CB469A432F56FAFE1"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-O-F-I.png",
+        "Hash":  "B2626D7DB51C986742B0AA007A3FF0762311E5320D0C47B140942E3435D2B1E1"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-O-F-O.png",
+        "Hash":  "25DD10971D35A29FC209018482DECAE7F4BED6D53AF110B6E5166E49F721E25F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-O-I-F.png",
+        "Hash":  "6ECD4DF860958D10D0BBA6D5749CB4677496536BD563A294CBDFC33A118CDC1D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-O-I-I.png",
+        "Hash":  "BBE6C8A3A4CED04109ED272704B4F42C965CA3BE8A665010F704FB986FEBF7B2"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-O-I-O.png",
+        "Hash":  "21D0EF87138261089B2C84F2C8C917C54BFF234A2570E8D8F9FB792DD5FF2EF3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-O-O-F.png",
+        "Hash":  "70DCC05C0F70579B35D6A2A0993B0F8E69852CF17570EBA7933F5A274DE7B638"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-O-O-I.png",
+        "Hash":  "46FAD165FDA4A134700EE637E8E4E26169DFE82B03529E1B03EA395F5C93663F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_F-O-O-O.png",
+        "Hash":  "8E7FFE19CD8DF925AD168876AA2C9E3E4ED6F79F51091D4BF05DA481E2F0A10E"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-F-F-F.png",
+        "Hash":  "5A387D54A788644E4883AD2CBD68CDFB1242D23A7ECB0879199C1C319BD28F51"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-F-F-I.png",
+        "Hash":  "0FAABC9D54A11FC568E382614973FD76FDBF3926E4F38680D794AA7CC66CB387"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-F-F-O.png",
+        "Hash":  "108FB2780E10B41B66BD7B899725842CA672139B29469763DFE9FE18707AF1E3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-F-I-F.png",
+        "Hash":  "F932FA4D0236DE9CAD73DF4A74A70B7CFAE0240DD06AE010CFBA4569AE3FA841"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-F-I-I.png",
+        "Hash":  "3B413AA94BF806DD9000FA8095F57B62C2A6E30B5BC14B70E4C6B142C4E3E660"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-F-I-O.png",
+        "Hash":  "CB6CBAAA299CDD61B60ADE4F68F6C1A0F03D9405213A29953A163A032EB04DAE"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-F-O-F.png",
+        "Hash":  "9A4B557CB9B1B2A75523AF6EF13872317A27DE44F6CB041DD2163C4EDB82A397"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-F-O-I.png",
+        "Hash":  "FCF7079DC13D40F1A49300B045359B07CF80BD011D58CD566C09AA9160531910"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-F-O-O.png",
+        "Hash":  "F157CA34E66C5007BA3FDFF7611C4622E5813B27BF3DD98288435EA4156EB374"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-I-F-F.png",
+        "Hash":  "FCD8EAF500CDEC0FBF8F1B5209C157D4BE8BCF4947824E9829B3727D04B34206"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-I-F-I.png",
+        "Hash":  "CED073E1347D3DC88938CBDEE26A019DC779E717339A96F891F79C68882AF3A0"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-I-F-O.png",
+        "Hash":  "7A28D777A2FA050EFD529C991FA24381F24269EE9A8B92D5BF66BE14F18D0F5F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-I-I-F.png",
+        "Hash":  "E972F8B89F675B2403058DAA5D94CA87EA46B6BED95B4A707E0878097C44FA81"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-I-I-I.png",
+        "Hash":  "EEC8BD37B09D6DD26124917D58943E7371B8A4772A5F88D9285698E324A68117"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-I-I-O.png",
+        "Hash":  "473037C71688B2BE4968F7434DC00AD8903DC14814AD0FCB7391B774FDE425A5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-I-O-F.png",
+        "Hash":  "9D690BF3094C367D72C3FD3FD59BEFFCCEF6A411FBB76BCC7C5C0A2D98201590"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-I-O-I.png",
+        "Hash":  "4A6C83E33760CA5F1F61BCBFB1CC7118EAA8E89238602E9346317EDD370E7AD0"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-I-O-O.png",
+        "Hash":  "8C7B21E55579D17AE088E49A6BBB365DD30B6993D283BC4C54F9EF421B1919F5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-O-F-F.png",
+        "Hash":  "CE1E627766F58C6366E336C65E4DDCE2CB3D3B116CEB3BE760FADBAF8CEFEF02"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-O-F-I.png",
+        "Hash":  "8D9D858BDD45DC5EFAD2518B50EE94A51B824CF826A143882B642E660692B78F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-O-F-O.png",
+        "Hash":  "7C252CE76A4D91611CFB029A5AD78200311CCFBF97799274892B6F323622E6DA"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-O-I-F.png",
+        "Hash":  "66087ED1C6766D712DC9D19896EDCFA488FF995B50FF3BE9A222C39F63D2D66F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-O-I-I.png",
+        "Hash":  "A29FF0E4785B602F980140D4533D7F4023AE6701E73F78146214EA1EE3AAECF9"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-O-I-O.png",
+        "Hash":  "A45B5E52B7E01D8F796C94A037CD590D01EDBAC8A0E1030650642D4CF0A5D8BF"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-O-O-F.png",
+        "Hash":  "B3D38883AD9BCEAE2FDC5A5C7DC843E9F7F2ED83D1FABA6C9CF04D8964039556"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-O-O-I.png",
+        "Hash":  "F60C948CB0DD07B0AC9B3C491F5874A27747ED6447B5F7ACA234FDF57A9033B4"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_I-O-O-O.png",
+        "Hash":  "DA8B46125189A2813ECA1A94F370E27B83F08DCD0B46920B9D574407CF940AA4"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-F-F-F.png",
+        "Hash":  "A867C479A9225934689E4EEC5A868382C6D8FEADA3FE502E3BC54526DE81BA43"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-F-F-I.png",
+        "Hash":  "DB8C1368959AA85907E2FFC09D34388042852DDE1317713824BE2B29D86252E3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-F-F-O.png",
+        "Hash":  "155BCFB6442A84B79D300B9E3899FCDE2DBB222151D1EAE2B0781F351E38DC2F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-F-I-F.png",
+        "Hash":  "43E61E844EACE51E8FA7CEE87F149EF196766AB3249DB9F81F4D73F9F79DCFFC"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-F-I-I.png",
+        "Hash":  "F737EF821D489862A95344D7F642F2AC3024299BFC4F10411C205858D88ABC72"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-F-I-O.png",
+        "Hash":  "5F1418080AC2645F24ABF6912B85BF04260E7DA97B3F9ACF8C955A7915D22F45"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-F-O-F.png",
+        "Hash":  "A007167E0701E3B6FB9DFB9B0B6FA0530D3727B77D8941A2E2717B2DF81AF8E1"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-F-O-I.png",
+        "Hash":  "853279FF37A28EAD003656702E011C7EA31C335FF9181C7725059D6168AAB4E7"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-F-O-O.png",
+        "Hash":  "B3B42861A9A064D2A92497773A1AD4B075EA24F4804CBC5BF56E13523AA704C5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-I-F-F.png",
+        "Hash":  "D7B12A838FF7C7F46CECB97A74641B56937D37E565E53FCAB8D8359CA089E198"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-I-F-I.png",
+        "Hash":  "0FFAACB736B8E3EF283A5CBC09DB3509AB4E9377265DD374859A7495A10B971E"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-I-F-O.png",
+        "Hash":  "A4AE1AAD316527D7ED8E65BDE3D863C722C4FED6A34B26AAF35F9B910F7BD644"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-I-I-F.png",
+        "Hash":  "AEAC6A33FCD9D46A5A062CB7ACF943FE452FD12CC5C0EFD6768AB40E14083BA7"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-I-I-I.png",
+        "Hash":  "4C7471419EA3F287E4E54BCF9533D22AE48CE56BC33F339D7B0E6386CE7CF3C4"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-I-I-O.png",
+        "Hash":  "2BC69BF05DBD79AEEEDA7EC17B680C2AEED01245849DC7D0F70B261DA363EA1E"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-I-O-F.png",
+        "Hash":  "BBB31DD94A72FCA5D9BEC839A2170F5BB711B79CB2D06579B7E1EE4C3EBA7916"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-I-O-I.png",
+        "Hash":  "FCDB1817E20030A284B1CD9A342E09F9E30E16E7EE0EE70DF04B0B3E8824742D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-I-O-O.png",
+        "Hash":  "303E91078DDC74826FC57FD8194811F16548D395C012CBEA46D0FF2564793E51"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-O-F-F.png",
+        "Hash":  "8DCF8BC21C42B051B5B78B10DE423686B3B84F52E0364DA229CA738856B9BEFD"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-O-F-I.png",
+        "Hash":  "98BA0EE6B5C1D3AB09F1250D69B40604B51F002F0F6483D8788ED7AA21250558"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-O-F-O.png",
+        "Hash":  "77B967BE71CAED8423622BC91E90B2A4DF8D3807144B546074CA84EED3490779"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-O-I-F.png",
+        "Hash":  "C0F5BC2262F094A19A52D5A8321E5CCB0CF5446A8129E1E787A65C2FC2ACCCB8"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-O-I-I.png",
+        "Hash":  "5EB3F952EABA9CC17DDA72975094174F8DDF3087E497A06DEA7071608DCC8634"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-O-I-O.png",
+        "Hash":  "EE001E12E85B91F6E7E4A165168BD8C1000046625165BA01D68513EC1DF009A3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-O-O-F.png",
+        "Hash":  "F0CE706C24DA4CA31F8C91A82852D4EB5EFBBA120E2403B64C7F8CCC5B005D4F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-O-O-I.png",
+        "Hash":  "C896B4BA97C74E44E4938696C7EBB7927DDDA086687DC2AC8FDFE1947568FC9B"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\flat\\piece_O-O-O-O.png",
+        "Hash":  "8AC99C926A29095937364A84BDB6D9825919C21BFACD0161CD56B570F0B4DB88"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-F-F-F.png",
+        "Hash":  "8D588187A57F0EC8205C0FD1A57A7B281E6CE98926FE2168B65405AD40065609"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-F-F-I.png",
+        "Hash":  "B539D549AD515A4D1C73F051AC9ED38838BAF9F83F54DB05D6590762B55DC5BA"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-F-F-O.png",
+        "Hash":  "A9B5B2725A36B58AEB0CCE5A07BA45C16E782CAABEB1CFDBB5F24DE2935E5695"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-F-I-F.png",
+        "Hash":  "6682BBEABB721EE9AEB6620BBE3CA6B2FBFC06AE0DED63ADEA561C29192B7C9C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-F-I-I.png",
+        "Hash":  "D4EBA9BD2E20587414861DB8E688855995F329386278CD99E0F48EE2861ECE81"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-F-I-O.png",
+        "Hash":  "BBFC3D35A624265443F52E1752BE9DD8F218A3ECB3999287AEAD61FAF5BF11BB"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-F-O-F.png",
+        "Hash":  "05A4BB66CB1159A939297035F6EDE22B84CB50A987985A63048A30D4D82C626A"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-F-O-I.png",
+        "Hash":  "E9951178F1C0C3378C38FB83D1E218B45DA9CA8A1280FCA9649B400293461939"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-F-O-O.png",
+        "Hash":  "5AF0D25E2817D82B2B9C207228B50F3B303C0407239DE54BAEFFAB2325D6590E"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-I-F-F.png",
+        "Hash":  "0C3B9243C904A84640135A688B730007088D796F852B3AC52DEB31DB02534D5D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-I-F-I.png",
+        "Hash":  "0F4900E07149725D8B14AF18B894E7CCD5CE8953CED346215D3CA59A690881C5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-I-F-O.png",
+        "Hash":  "DEF30D29261D534B572B5C5A3BD960453DAEBAC5BBBC2F22F30103217B10ECB2"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-I-I-F.png",
+        "Hash":  "47034AAFC6680D919CE2FEE4B1F25BB8E92C09F9778FB36167C13B2CD1CD639D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-I-I-I.png",
+        "Hash":  "CA04471FBF07A1F2C8524A1CD064644178950A2584A7B19B039046C56099CDCB"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-I-I-O.png",
+        "Hash":  "D286683AC947F79EE4ACE7155A7A221C76F8B2F395AA38F2A4797C872BB3E7B5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-I-O-F.png",
+        "Hash":  "B81A1D52528FAEB40BFF8A0ED2BDD88EC0B816E0308F11C59244314B40EED08C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-I-O-I.png",
+        "Hash":  "2AC2251010AEE422E582F786B48D718A56B6FD24AFBF90FC451D17D755CBEC3E"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-I-O-O.png",
+        "Hash":  "4986EE53124DB3DD106B7FB19E6EE887891C0461E36A08EABD68625341FC9BB7"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-O-F-F.png",
+        "Hash":  "E5EE2F9573D35B6CD67E579E8B63ABA96FDC2F5DD8D73AD4C6B440C2BDB5A127"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-O-F-I.png",
+        "Hash":  "0A01ADDEAB1C7BAA49D793D486A6C97D6832C3A71A55B24A96ABBB5030507545"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-O-F-O.png",
+        "Hash":  "AEB4F2379813D1841A2BCDAC54C078093EDFEA2BE423B9A2C153748BC0007B50"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-O-I-F.png",
+        "Hash":  "194F0D4F1C1BEFDA9F8D007940872181A276DF86CFC82CEC54AA0EEE2A746DB8"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-O-I-I.png",
+        "Hash":  "135A11DF9E7E9FC8F26494503576989C7E89F4A497CC8887ACD6AE84E04CD229"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-O-I-O.png",
+        "Hash":  "A9F480AEEC5297BDD9860078BD5AFF2FE1017274A4733A1D12D803A3C64FE869"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-O-O-F.png",
+        "Hash":  "D7153C6C504BF55B3B2555B3485D0803984EBA32AE555BEAF01016D824575543"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-O-O-I.png",
+        "Hash":  "328FBE18B72D69E54E5CC16E935C25AEB655ABC2F8EE8A09E4372451A406E3D3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_F-O-O-O.png",
+        "Hash":  "A8C5FDE10AB77865AFD8481BC2B0D0759FD33D5116AA7A1ABA54705367BBB442"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-F-F-F.png",
+        "Hash":  "740F816CD07F9B21BB596115B1C51FAAB24C5A414F361F3888F331AF8A9414D0"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-F-F-I.png",
+        "Hash":  "00EAD9569DE6336A546E8017A566A93C1D51C8E720678109FD0AC2ABEE32F610"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-F-F-O.png",
+        "Hash":  "55784A0C1FDAF3C50F16DD2ECCD7B5C3E6B92F76A85938DE1BA65DBEBFACEEE5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-F-I-F.png",
+        "Hash":  "D38A390001B4FE49CC72A1729D8125A96BD104885F874A3961E62C75D316E21C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-F-I-I.png",
+        "Hash":  "33A258456021554268BB4326D008281C36414EF698F3CC420FEA836797B1C19D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-F-I-O.png",
+        "Hash":  "D05216DE218E9A4A1C5DD39BA6E4A4F599959DA41307A6D0C3BD69C6EFA9CEAA"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-F-O-F.png",
+        "Hash":  "B83902D84E08E8430B242C669CD3C28221642A97418E1FE90D3F0DDB6FA47E18"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-F-O-I.png",
+        "Hash":  "D7F9DA76D8160BA024540E90B5BF746FECE4C02F22C83466D15DD583826E6BAC"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-F-O-O.png",
+        "Hash":  "74250F7B896A9FD98BD9824B8CB80BE8BF97051C29D6BDB1A6514099F8814830"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-I-F-F.png",
+        "Hash":  "CECF0E10BB725F4D2D20D674EC01D832BAF9FB4B62107499141A73C74FD6534C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-I-F-I.png",
+        "Hash":  "F27FC66A9D64AC36F7207EEB0B787F0EA08825D304F5DBE82E3E664469A240A1"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-I-F-O.png",
+        "Hash":  "2128B1DA220E9EB715FCC0AB7A036AAA9C2BD4B5C728E3F0083C52FA5EE6A9E3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-I-I-F.png",
+        "Hash":  "040F146CC44698B6B5D2A4313E22A6B3B7469747DE0516350420F23C330E0E1D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-I-I-I.png",
+        "Hash":  "DE8352296AB1E1DEBDDCD0467D56A2812233091B3F90A568588111C1859830B4"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-I-I-O.png",
+        "Hash":  "661C54DBE32AF03DAD7FA8A5B9D89F60E422C2339010DDC1170FA66F8832E458"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-I-O-F.png",
+        "Hash":  "1AB41F472B5B019EAE2597DE8614EF5502B33D10D3798E81775CDA77B7583CEA"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-I-O-I.png",
+        "Hash":  "C61DE81F1E405C24D6F4D178C5E829433AC059001774BA4F4FAF8BD2A94AE3A7"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-I-O-O.png",
+        "Hash":  "4518C238EC3C659082FCF0CCD603F58463E6160D563C5D08E92A386EB62430DD"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-O-F-F.png",
+        "Hash":  "AF94BB0984BE0A1B6BC9CBFFBAABDE633367BD11C5DDDB428140F950F313B38A"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-O-F-I.png",
+        "Hash":  "20D0C8A74B9DB7C7BB3C16960D9D4AEACAE3E6EA8932B67DF2912BDE2E93AA59"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-O-F-O.png",
+        "Hash":  "03B1E4D6991B038FD1FBFB7F5CFF10D1048066BE9C9F47C50CA9EE618B0C78B5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-O-I-F.png",
+        "Hash":  "7A9C04FB336391080554151629532118FC85C0F0AA5F51AA1143EEA938685ED2"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-O-I-I.png",
+        "Hash":  "5410E4703C2BE38FB4764D409C9D3C29DBC5527A0DE60C8AD0F6D52E3A4476C7"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-O-I-O.png",
+        "Hash":  "B6B50030C3D9A4FED9743256AAA3E046D96FC84BD0CD18AD456F86D5A30CD70E"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-O-O-F.png",
+        "Hash":  "19BE05F5CE39FE1DA25DF34EC43BB4918DD9A5C55BDD7741A09B4FAA10C73A53"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-O-O-I.png",
+        "Hash":  "3D62F96993D652AAB8A8918F479E256A259A7C9C76D7321D60E3F5BB8BB78710"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_I-O-O-O.png",
+        "Hash":  "9EECAFEE1015C418E82957C8364B767133D6C22A979D54BFB930937E60F7B85F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-F-F-F.png",
+        "Hash":  "4F4A74AB6AECEC5650CB0796723020B22373C2B629906DAA967FEF24412333C3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-F-F-I.png",
+        "Hash":  "9337F3400DA06E199A219F3B658B26D7D8B2A26A2E36AE11A33FF1E2B4175E20"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-F-F-O.png",
+        "Hash":  "34713B20C31351B51403861F13827D7ED038F8F8FAA720F8B113A302489841E3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-F-I-F.png",
+        "Hash":  "81B7131CBE058C5B2BF6D82EB1D88F65D665F25D7388AA64A4EC1B162A9AAB75"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-F-I-I.png",
+        "Hash":  "8B993E9350D89FE60BCE130704FBB4CF33783FB8918EAA70360A1E52F0DDC0A6"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-F-I-O.png",
+        "Hash":  "0967A8D70CA6B3DCC05BF8F148F39F06A2E2DCDF5CF45CC0DB8EDE322F0E9842"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-F-O-F.png",
+        "Hash":  "8B6B36278E345058C6A3D10404551206FF90798370C5583B1E9EBFF260B3BC54"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-F-O-I.png",
+        "Hash":  "594B04AFC7B3A4E110663408AB3C126CE4F3B20199D7687CC12D27951C3578F6"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-F-O-O.png",
+        "Hash":  "F8E25B12B2703661DBA564E9C5D16260D790E340769AD80B3FA77E1D8A43E7E2"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-I-F-F.png",
+        "Hash":  "87AECB911991A95FA776D87E825DA26FDDD15E68A89383B231692E3E0408C3C1"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-I-F-I.png",
+        "Hash":  "4A3898B6439F62653F061BBA4757619716E18A5FFEFA929CE02DA840CD8F1F11"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-I-F-O.png",
+        "Hash":  "811CFB1ACAEA2CEAABB0452CAA84845ECB909A1AC38E85481801C7EF90B2D1DE"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-I-I-F.png",
+        "Hash":  "DD0EB4E3BA2092FD2B2F612CBA0543DE42E9157E4D2871DCE277625E3060240E"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-I-I-I.png",
+        "Hash":  "46B3E606CBF7FE966E69E0FA4ED9C23AC08A5F37F67185464583371ED9CAB1E5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-I-I-O.png",
+        "Hash":  "014B6C1E4E55CA3E098E028373B252F06EA40931A21D3129C7683BC91ACB8576"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-I-O-F.png",
+        "Hash":  "B9696571861EECE69E483FB7C114700009D2F97BC8C957A787F2558D8A43D6EB"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-I-O-I.png",
+        "Hash":  "E0D99A4B047A3209C097246A80D1423A34788BC634C9DAD8ABD4668012C527DF"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-I-O-O.png",
+        "Hash":  "730A585EDABE2ECEDCEA1D8179178DDD856160A8A56BA500B51E89D2C2DD0EE6"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-O-F-F.png",
+        "Hash":  "56125D7D883DD65037F8B854C0EC2825D5654398AB7FB3520B644C5077A9C3A8"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-O-F-I.png",
+        "Hash":  "AD556FC283BF82E388BDB4823A6C1EBA527F2449EA243491F2C3F073E02CC960"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-O-F-O.png",
+        "Hash":  "EA4E7B9354AA56E716791FEA820099162194F049194E22D3A29FE337A69F1760"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-O-I-F.png",
+        "Hash":  "DC4AF8F2C9688568BA1CE57AA9DCC7EEFBD0FD4FD94019A6AC7C583B13BC6922"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-O-I-I.png",
+        "Hash":  "8B724EF972BBFA1974CB0D59400F9E13EE9482487047194383C6C74DE6097C8C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-O-I-O.png",
+        "Hash":  "0B32782CAEB1A8F6DB58CD941213A16E86E56ACD9094E747035EC15B89AE0694"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-O-O-F.png",
+        "Hash":  "8898E227F363B087C8EEB36B1A1EFFF299D5A722E4A8502D00965B0C639B8B74"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-O-O-I.png",
+        "Hash":  "8554B544DC222291CE3D36F51E97080A12F7BAB14F12A285B52C14A04DC099F0"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\mask\\piece_O-O-O-O.png",
+        "Hash":  "E7A19872DA2315B5032CFA3FE663F2BBE4CA786DE7417A8B30ED1C2E043CE3E6"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-F-F-F.png",
+        "Hash":  "368D257504043BAF1A34BFA4CB4540B4351CFB914B3B8DA5D40D82889273FB16"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-F-F-I.png",
+        "Hash":  "AC0F2DFBF8CAF8A5AABB9CEB92296C0E95D9DADBF94A65F94438BBE01C753287"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-F-F-O.png",
+        "Hash":  "0D3686E4C3DEA6B401EF568F39AB21536D15F77BE31EFC7F0AA5896F6199E690"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-F-I-F.png",
+        "Hash":  "F1F5809A33A6FC434CA39FA54B4176FDEE7C7DA4DC4687C8041415F4217D4CE2"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-F-I-I.png",
+        "Hash":  "F0871A01FB59DBA28BF2EBCADF333CF2697AAAE116F783E223B60C1E89A18B09"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-F-I-O.png",
+        "Hash":  "7F2FF7D25AE335E4144F5E9A0AD1C44B59B14CA12A18D79144173760CBAFCFE9"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-F-O-F.png",
+        "Hash":  "6B47355BFD96E1A9218526E5FE56ED47F1340074D63796B18ECF8F7B680B5AA3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-F-O-I.png",
+        "Hash":  "68E199524328248ADFD6A9832BD99100EE11E501D6CE9B9C10B0E8C8B4814724"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-F-O-O.png",
+        "Hash":  "3C54C45B5657D39C10781E8ADBC39E18246787A535A2296D26C9161B8163CE59"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-I-F-F.png",
+        "Hash":  "B9DBCB2E74D8F5587ED8AA82DE255386445B30109135AF2C15EFF1798171C8F8"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-I-F-I.png",
+        "Hash":  "14465129588A79836F14AFBB303ED703E07BCBCB16961C759A887121F17C7EDE"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-I-F-O.png",
+        "Hash":  "249E7D3FA62CFE58688020F7B3EA22F9308E035A1CAC097B50B8C3537942485C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-I-I-F.png",
+        "Hash":  "ECCC2C77F6F0CB8CCBF1DB0C681FC090992C6FEAEF4C70C2322AE25BE88E861D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-I-I-I.png",
+        "Hash":  "D266C0901127E87CE62E99082B30BC12518AAA5B6CB4567183C95D994201F099"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-I-I-O.png",
+        "Hash":  "82395B0AA4B95CBCBBD985870F697DA1C295679007FA09FCA942F4D4FC6A3787"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-I-O-F.png",
+        "Hash":  "39267598A865A1E8498795BDBB0CB3835563C895FDBCC70D1D9EB1A5D237AEBC"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-I-O-I.png",
+        "Hash":  "A59958607FEE5874E17A1D8781911E326D2916DAFCECA3DDF26198B331D90AFD"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-I-O-O.png",
+        "Hash":  "01AC4DC642EC583FF89DCD926343AA3A1E1FFA9D487A65C8820D42937AB21B4B"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-O-F-F.png",
+        "Hash":  "6B19AA1D936197751850AE48A72AC46A53AF110265DFC8991599E2EAD2D33FF8"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-O-F-I.png",
+        "Hash":  "E6A26091454414A92C494F9FD1257E35CB66486D7064B3ED8EBD1739D5830117"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-O-F-O.png",
+        "Hash":  "8085BBB7D580DAB72F0B8AC047AF5C9EDA001643D938735287B339117FC37515"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-O-I-F.png",
+        "Hash":  "F6DC508E4215AC6D1A1AF932F332C951A33E179CDCC4A4C67EEB661C8DC8769F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-O-I-I.png",
+        "Hash":  "FCEF65050415978F35A812CC514EB3E640AB6AFF07E871F1B5DD1A32F8CFBB18"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-O-I-O.png",
+        "Hash":  "6EC8601BE974FAA76356903F908DC7FB09A897D039CD7A6CA4B95EBC48F2209B"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-O-O-F.png",
+        "Hash":  "482253B15E4A1D6D92CA508124A5935DD21B5A637C32B0FC20667C952818C5E7"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-O-O-I.png",
+        "Hash":  "69813A0E30FC81496491386D24BD6D733C14115E0C071BFFA7C03F4ECA2E6B4D"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_F-O-O-O.png",
+        "Hash":  "11EFE26E778410DB440EF604E49EBECFD1D6115D0DBF34A735DDDCE06B53F5D5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-F-F-F.png",
+        "Hash":  "F13E5D04ACA0A0C9779068461A04D6DAB5948F921A0A65131C71A2D45A9A5A8C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-F-F-I.png",
+        "Hash":  "C6C219D79387B7EC11D83EBF0C287F9DFDF84E3219D70E7A386CC93B25A9D2C9"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-F-F-O.png",
+        "Hash":  "9E41308DEB9E566A39F8071C114A80038136793AEAACACC8DEBCDCEB10FE553B"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-F-I-F.png",
+        "Hash":  "600039C38AF1A63B2ABC4C7585F2F139D8C63B5DEFB566609AADA3C704FA2D86"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-F-I-I.png",
+        "Hash":  "4C881E12D2456BB60BF5B8B6D92822F77BF7FB36A59A2C6E148BF053C1A4C540"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-F-I-O.png",
+        "Hash":  "B3BE0A1F644997DA3252F99C04D1543271C188D45A14AF46AFF0BCEC93EDBE16"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-F-O-F.png",
+        "Hash":  "F2E6E8F264C03B1A907DEABCD2C1F6C380780701D455DF8639B1BB3F32093364"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-F-O-I.png",
+        "Hash":  "33B38FA84B23D5DD07C4CB08475528FE83034F2A378E50C30204C176ABE44DD0"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-F-O-O.png",
+        "Hash":  "38DA4AC8DA3B801BBDE449D0A4702C0CA9B84AC5FC40614BA1CFA06C66992B3B"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-I-F-F.png",
+        "Hash":  "A656C3B89D21A4DCCFDCDCC66C5F9A8A0DA651D844B7B84151DE5DD4431B3744"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-I-F-I.png",
+        "Hash":  "548707559D56E82F605058DDE593A0608BEE33F4CB2FBD2BBBAF97DA6846A3ED"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-I-F-O.png",
+        "Hash":  "3C0FDED9CB7F12683BF6D24A53B7EBB243F1CCA3399D72B77A719739C85CEDAA"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-I-I-F.png",
+        "Hash":  "D1513982D2BDCDF18A3259109DDC1CC88655F69A099FC915CD982D80A580C19B"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-I-I-I.png",
+        "Hash":  "CCDFC63ABFB864B38F08813CDCA013A8F4700011487B53DF6579E5CACD0FA243"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-I-I-O.png",
+        "Hash":  "B877FC559F4738BE46AA15FE36AC32CAE6C612579483E42B4831F4A62F5189A0"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-I-O-F.png",
+        "Hash":  "E3C8589230C0DA3654C7782307E64C7301EDC9073D993C5CE4DF06702B5FA031"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-I-O-I.png",
+        "Hash":  "E8D1BE7D64E5F8FDB7BFA8D08BF8E02E673EB1C4340872331F1084BAB3D2D39C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-I-O-O.png",
+        "Hash":  "E8270E034F66BA1A4A78CDCCDC326837CD7035CC6FA30416BE8CDBCC9B5164CA"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-O-F-F.png",
+        "Hash":  "458297E7B20BA5289C68D1A9B53731487258DC0C49E139FF28B9C75CD8A9CBAF"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-O-F-I.png",
+        "Hash":  "A0295F54657DE07E8EBAF7DBFE0599C90FFBE753A5CD2B31B204C3AF5F25683A"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-O-F-O.png",
+        "Hash":  "3E841A12721A16BE452DD31BF86267E16B54729C84F887B44FE963293BDDDCAA"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-O-I-F.png",
+        "Hash":  "CEAB1F6EDEE31B5D7125ED5D488CC02903CDC451A53DA16AE20E855F1CDD67DF"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-O-I-I.png",
+        "Hash":  "CF21D18393E8284636C26507FAF754308013E62913D438D94557CA6CA1E453F1"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-O-I-O.png",
+        "Hash":  "01C8820A9F494CA51E10BED2D5669DCF464140A7D641779CA5C3479F6788ED81"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-O-O-F.png",
+        "Hash":  "F028C261DC68BF315C4842231F6037C7D3FC02EDFD1A08DDEB63B09874A5B053"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-O-O-I.png",
+        "Hash":  "FC3465AC17A46ED192578B6EA3CEE01B1497AD1D6639E8EFD897BFD873ACCDB9"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_I-O-O-O.png",
+        "Hash":  "D481ACABF70F8DDA6F95A5B1CC40DF3B683D5D7D67674B6754B6DB53FA164210"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-F-F-F.png",
+        "Hash":  "D8B86467B93AADA0ECBD7CCC7CA9F074A817E431296322E0E295577611250653"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-F-F-I.png",
+        "Hash":  "C979D8DC017C6BB29D44075D2AE51A17053DD0F9E2DEB757162FC432DE3563FC"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-F-F-O.png",
+        "Hash":  "82A864C63DCB08EEE98FEAF7490CAFBF7E67CD5947718C625D35D1830132FDCF"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-F-I-F.png",
+        "Hash":  "C8FAAF2C958142E3423BEA74283C7836B2D76CF63C4326D5F33B297ADA6001A5"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-F-I-I.png",
+        "Hash":  "BBC4F23B57ED4126B4EAC8130F8C4CD08B202760C3554D746861E6BE712D7D8C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-F-I-O.png",
+        "Hash":  "EB8345B877470C14903190338306DDB47A1D1E16D144AD3B37C24B7E21305008"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-F-O-F.png",
+        "Hash":  "0535D16D8980334BAD8FE556125AC94A9AFB6D96962414C9905619855707027C"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-F-O-I.png",
+        "Hash":  "501B096B1728E87A051B59FA4012459B9F8E3B5FEB0D930A62760E05EB82309B"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-F-O-O.png",
+        "Hash":  "1BFE6E3F9884FE08BB3C38F8E3B5E07910756AE36EC04CBF9FB63D983291C591"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-I-F-F.png",
+        "Hash":  "F3E7030C54D4B84B48FA08997ED17A397625C3018D08CCE64D66EEA4896B286A"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-I-F-I.png",
+        "Hash":  "45A008FCB006D95202345FE7192F20FF162F411EC36EE01389631235D3CF41D1"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-I-F-O.png",
+        "Hash":  "088274C3BB217794F221031BABFC117051350146218800A394080806B546DB12"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-I-I-F.png",
+        "Hash":  "DA8998440DFE74091CE21343766A9BC8ECA89C6D1740B32336536BBB93661531"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-I-I-I.png",
+        "Hash":  "16C553BA0B0D57A702FDC6366B209680E7AAAC402A1086A6F404949381817577"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-I-I-O.png",
+        "Hash":  "7DE1C717C9479243F0BB05FA6718822921DBAC59A3A4C4BD8161771743275B60"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-I-O-F.png",
+        "Hash":  "4612F03461A361712A7BEC67B9C4CDFE566B09EEC76D533F77D675BC4CF2865F"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-I-O-I.png",
+        "Hash":  "BF59EEACB1C954FF64F58E5C2B76BB4CF897A47CE81D2FC8BCAD2B5076069F44"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-I-O-O.png",
+        "Hash":  "5D1080AD46B7F9120D6C87349E4A02C9711B7209268B01D4A9C408F6E7B31FCD"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-O-F-F.png",
+        "Hash":  "565CC9AA82D8FB63DCEA55D3CBE53EC66136C386CDE2161EDF5B964029BDBFCC"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-O-F-I.png",
+        "Hash":  "FF2AC66363546FE09137800F14BDFF09C6FFFD1FBF39E592FCFBC9EB742AE1A0"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-O-F-O.png",
+        "Hash":  "825DB56779304CABC1B3D63DBC70B4E61D6C1804E05D5B8802DDC7DA6476CDF1"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-O-I-F.png",
+        "Hash":  "6C81FB401C38674B19528290B0AE4E661057AE3ED217C87C5230E7FF6D7104A3"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-O-I-I.png",
+        "Hash":  "F21666D526E17DE7955F627C0F235A95682B667AE9C8D7BBC55982976BF29CF6"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-O-I-O.png",
+        "Hash":  "9D4197F24B25C5F618A8839AC074C5E2BE47F118CBEDAA64292BD4440E80F831"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-O-O-F.png",
+        "Hash":  "5788806880C5526E9FAC21BE6A3A144BC87F3BEFC6EBB72964A8898F20D10E24"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-O-O-I.png",
+        "Hash":  "BF91D7607D72D005DD99FB4D8BCABDB505818D04D20C7CF4D0F56B9E926857C8"
+    },
+    {
+        "Path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Pieces\\Kit81\\overlay\\piece_O-O-O-O.png",
+        "Hash":  "2C23F7379A5A61B9D5486A0682702CB8F0A0855A4698500D546900FC68CA8942"
+    }
+]

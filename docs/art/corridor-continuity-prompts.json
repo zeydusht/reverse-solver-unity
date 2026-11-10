@@ -1,0 +1,7 @@
+{
+  "mode": "built-in image_gen",
+  "purpose": "Extract an approved V2 decoration to transparent background for its own foreground depth surface",
+  "reference": "Assets/Art/Menu/CorridorVictoryV2/join-repair-source.png",
+  "output": "Assets/Art/Menu/CorridorVictoryV2/plant-extracted.png",
+  "prompt": "Use case: background-extraction. This input is the approved Reverse Solver corridor artwork. Extract ONLY the large foreground flowering plant in the blue-and-gold vase, including its gold stem, foot and square gold plinth, located near 72% width and 47-72% height. Reuse its exact design: glossy dark green leaves, small white five-petal flowers, blue urn with ornate gold fleur-de-lis motifs, bright polished gold rim/stem/foot and gold square stand. Preserve exact colors, soft painted 3D cartoon rendering, proportions, lighting from upper right and decorative details. This is extraction, NOT a redesign. Make the entire plant/vase/stand fully visible as one isolated complete object, centered on transparent background with small clear margins. Remove ALL peach marble column, stone pedestal/wall behind it, arches, carpet, floor, candles, banners, other plants and all background. Transparent gaps between leaves must be actual transparency. No added outer glow, no text, no shadows on a floor. Keep original object shape and natural aspect ratio."
+}

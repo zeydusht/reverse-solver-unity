@@ -1,0 +1,63 @@
+{
+  "version": 2,
+  "original": "Assets/_Game/Presentation/Resources/menu_bg.png",
+  "originalSha256": "37569dce01cc72e4ca9a6f0171a77a571c0d789824ad7eac66e6740528d72fdd",
+  "protectedFilesUnchanged": true,
+  "perFrameGeneration": false,
+  "endpointArtCrossfade": false,
+  "hiddenRepairSource": "Assets/Art/Menu/CorridorVictoryV2/join-repair-source.png",
+  "repairPrompts": "docs/art/corridor-victory-v2-prompts.json",
+  "repairCalibration": {
+    "progress": 0.5,
+    "camera": [
+      -1.71,
+      0,
+      -1.32035
+    ],
+    "preview": [
+      390,
+      844
+    ],
+    "screenX": [
+      0.5,
+      0.72
+    ]
+  },
+  "assets": {
+    "wall": {
+      "size": [
+        1536,
+        2048
+      ],
+      "sha256": "cffa5896bf9f2b129b6a9cb4525a94b56ba0509f56f17c8c2de6631bf3892336"
+    },
+    "floor": {
+      "size": [
+        2048,
+        1536
+      ],
+      "sha256": "ec0fc3655f5b7dbbc8699d04dacc7f8a977c9954d770769441dbc45888968a38"
+    },
+    "frame": {
+      "size": [
+        1536,
+        2048
+      ],
+      "sha256": "a95e2b5740d7e20a42e85e07a8ffa025783f6f6ed1d927a31a7383559fadcea6"
+    },
+    "columns": {
+      "size": [
+        1536,
+        2048
+      ],
+      "sha256": "418ab5f2d6dfbead3d583a64a40e789c5255244a6d5bde29b7acfeb1eef458e3"
+    },
+    "arches": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "4b279642b15995408a29bc6ea8c07ba96cbaf4e48dbac810dc022b43c5acb09f"
+    }
+  }
+}

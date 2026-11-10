@@ -1,0 +1,7302 @@
+[
+  {
+    "folder": "02-kazanma",
+    "variant": "A",
+    "title": "Tahta boşaldı!",
+    "source": "docs/qa/2026-11-02-rating/a_kart.png",
+    "ui": "Screens.Result / Card",
+    "target": "Task14/card-panel.png → popup-card",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1800,
+        "logicalPt": [
+          335.0,
+          600.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "b361604cfb20c1ec3f9dd8b1eb3b35d84f8e0658b928352d05db8e743e2b10b7",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "rating-normal.png",
+        "width": 144,
+        "height": 132,
+        "logicalPt": [
+          48.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "101 ailesinde rakamsız puan kutusu",
+        "source": "Assets/Art/Redesign_T22/113-ai-puan/rating-normal-@3x.png",
+        "sha256": "b783f5f20fa40d52913318dade07ad52cba92fb6133625d0d4371d50358559fb",
+        "approved": false,
+        "minHitPt": [
+          48,
+          44
+        ]
+      },
+      {
+        "file": "rating-selected.png",
+        "width": 144,
+        "height": 132,
+        "logicalPt": [
+          48.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Seçili durum; renk dışı tik",
+        "source": "T22 rating + Task21 check",
+        "sha256": "8284620a45e415aaffe55dbbc242a280f773c90465e7583a60ac05a90f9898e4",
+        "approved": false,
+        "minHitPt": [
+          48,
+          44
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Tahta boşaldı!",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "108 saniye kaldı · 0 takılma",
+        "xPt": 167.5,
+        "yPt": 137,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 292
+      },
+      {
+        "text": "Sonraki bölüm",
+        "xPt": 167.5,
+        "yPt": 210.6315789473684,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 180
+      },
+      {
+        "text": "Ne kadar zordu?",
+        "xPt": 167.5,
+        "yPt": 294,
+        "sizePt": 16,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1 çok kolay · 10 çok zor",
+        "xPt": 167.5,
+        "yPt": 317,
+        "sizePt": 13,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1",
+        "xPt": 55.5,
+        "yPt": 359,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "2",
+        "xPt": 111.5,
+        "yPt": 359,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "3",
+        "xPt": 167.5,
+        "yPt": 359,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "4",
+        "xPt": 223.5,
+        "yPt": 359,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "5",
+        "xPt": 279.5,
+        "yPt": 359,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "6",
+        "xPt": 55.5,
+        "yPt": 409,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "7",
+        "xPt": 111.5,
+        "yPt": 409,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "8",
+        "xPt": 167.5,
+        "yPt": 409,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "9",
+        "xPt": 223.5,
+        "yPt": 409,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "10",
+        "xPt": 279.5,
+        "yPt": 409,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "Tekrar oyna",
+        "xPt": 91,
+        "yPt": 481.43859649122805,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 110
+      },
+      {
+        "text": "Menü",
+        "xPt": 244,
+        "yPt": 481.43859649122805,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 110
+      },
+      {
+        "text": "Puanlamayı geç",
+        "xPt": 167.5,
+        "yPt": 558,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      }
+    ],
+    "notes": [
+      "Üç yıldız, ana yeşil Sonraki bölüm, isteğe bağlı1–10 ve Puanlamayı geç korunur.",
+      "A daha küçük gövde yazısı/198pt ana tuş; B15pt istatistik/204pt ana tuş ve50pt puan kutuları.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      33.5,
+      335,
+      600
+    ]
+  },
+  {
+    "folder": "03-kayip-bomba",
+    "variant": "A",
+    "title": "Bomba patladı",
+    "source": "docs/qa/2026-11-02-rating/c_kayip_kart.png",
+    "ui": "Screens.Result / Card",
+    "target": "popup-card + loss-reason-bomb",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1860,
+        "logicalPt": [
+          335.0,
+          620.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "3c1ae36f34f5e126d773c60d14f45d3f5349fd928a0669421d282b05bb03282f",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "loss-reason.png",
+        "width": 198,
+        "height": 198,
+        "logicalPt": [
+          66.0,
+          66.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı kayıp nedeni korunur",
+        "source": "Assets/Art/Gameplay/Task14/loss-reason-bomb.png",
+        "sha256": "58d27808f9e6494bcfa3967b22e2fb3c9f2057af91858196feccb84de391d618",
+        "approved": false
+      },
+      {
+        "file": "rating-normal.png",
+        "width": 144,
+        "height": 132,
+        "logicalPt": [
+          48.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "101 ailesinde rakamsız puan kutusu",
+        "source": "Assets/Art/Redesign_T22/113-ai-puan/rating-normal-@3x.png",
+        "sha256": "b783f5f20fa40d52913318dade07ad52cba92fb6133625d0d4371d50358559fb",
+        "approved": false,
+        "minHitPt": [
+          48,
+          44
+        ]
+      },
+      {
+        "file": "rating-selected.png",
+        "width": 144,
+        "height": 132,
+        "logicalPt": [
+          48.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Seçili durum; renk dışı tik",
+        "source": "T22 rating + Task21 check",
+        "sha256": "8284620a45e415aaffe55dbbc242a280f773c90465e7583a60ac05a90f9898e4",
+        "approved": false,
+        "minHitPt": [
+          48,
+          44
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Bomba patladı",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "0",
+        "xPt": 167.5,
+        "yPt": 118,
+        "sizePt": 22,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "Önce bombanın yolunu aç.",
+        "xPt": 167.5,
+        "yPt": 165,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Çekiç onu tek hamlede söker.",
+        "xPt": 167.5,
+        "yPt": 187,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Tekrar dene",
+        "xPt": 167.5,
+        "yPt": 252.19298245614036,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 166
+      },
+      {
+        "text": "Ne kadar zordu?",
+        "xPt": 167.5,
+        "yPt": 330,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1 çok kolay · 10 çok zor",
+        "xPt": 167.5,
+        "yPt": 353,
+        "sizePt": 13,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1",
+        "xPt": 55.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "2",
+        "xPt": 111.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "3",
+        "xPt": 167.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "4",
+        "xPt": 223.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "5",
+        "xPt": 279.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "6",
+        "xPt": 55.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "7",
+        "xPt": 111.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "8",
+        "xPt": 167.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "9",
+        "xPt": 223.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "10",
+        "xPt": 279.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "Menü",
+        "xPt": 167.5,
+        "yPt": 516.8421052631579,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 132
+      },
+      {
+        "text": "Puanlamayı geç",
+        "xPt": 167.5,
+        "yPt": 588,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      }
+    ],
+    "notes": [
+      "Soru açık durumda bile yeşil Tekrar dene korunur. Soru akışı kaldırılmaz.",
+      "Soru kapalı durumda9-slice panel kısalır; metin ve eylem sıralaması korunur.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      23.5,
+      335,
+      620
+    ]
+  },
+  {
+    "folder": "04-kayip-sure",
+    "variant": "A",
+    "title": "Süre doldu",
+    "source": "docs/qa/2026-11-03-tam/375x667_06_kaybetme.png",
+    "ui": "Screens.Result / Card",
+    "target": "popup-card + loss-reason-time",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1860,
+        "logicalPt": [
+          335.0,
+          620.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "3c1ae36f34f5e126d773c60d14f45d3f5349fd928a0669421d282b05bb03282f",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "loss-reason.png",
+        "width": 198,
+        "height": 198,
+        "logicalPt": [
+          66.0,
+          66.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı kayıp nedeni korunur",
+        "source": "Assets/Art/Gameplay/Task14/loss-reason-time.png",
+        "sha256": "20fc870d0de1defa215f06a543a31da444abc36191c5efc525435cb46bfea9cf",
+        "approved": false
+      },
+      {
+        "file": "rating-normal.png",
+        "width": 144,
+        "height": 132,
+        "logicalPt": [
+          48.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "101 ailesinde rakamsız puan kutusu",
+        "source": "Assets/Art/Redesign_T22/113-ai-puan/rating-normal-@3x.png",
+        "sha256": "b783f5f20fa40d52913318dade07ad52cba92fb6133625d0d4371d50358559fb",
+        "approved": false,
+        "minHitPt": [
+          48,
+          44
+        ]
+      },
+      {
+        "file": "rating-selected.png",
+        "width": 144,
+        "height": 132,
+        "logicalPt": [
+          48.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Seçili durum; renk dışı tik",
+        "source": "T22 rating + Task21 check",
+        "sha256": "8284620a45e415aaffe55dbbc242a280f773c90465e7583a60ac05a90f9898e4",
+        "approved": false,
+        "minHitPt": [
+          48,
+          44
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Süre doldu",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Tahtada parçalar kaldı.",
+        "xPt": 167.5,
+        "yPt": 165,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Saat sana 20 saniye kazandırır.",
+        "xPt": 167.5,
+        "yPt": 187,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Tekrar dene",
+        "xPt": 167.5,
+        "yPt": 252.19298245614036,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 166
+      },
+      {
+        "text": "Ne kadar zordu?",
+        "xPt": 167.5,
+        "yPt": 330,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1 çok kolay · 10 çok zor",
+        "xPt": 167.5,
+        "yPt": 353,
+        "sizePt": 13,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1",
+        "xPt": 55.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "2",
+        "xPt": 111.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "3",
+        "xPt": 167.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "4",
+        "xPt": 223.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "5",
+        "xPt": 279.5,
+        "yPt": 395,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "6",
+        "xPt": 55.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "7",
+        "xPt": 111.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "8",
+        "xPt": 167.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "9",
+        "xPt": 223.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "10",
+        "xPt": 279.5,
+        "yPt": 445,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "Menü",
+        "xPt": 167.5,
+        "yPt": 516.8421052631579,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 132
+      },
+      {
+        "text": "Puanlamayı geç",
+        "xPt": 167.5,
+        "yPt": 588,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      }
+    ],
+    "notes": [
+      "Soru açık durumda bile yeşil Tekrar dene korunur. Soru akışı kaldırılmaz.",
+      "Soru kapalı durumda9-slice panel kısalır; metin ve eylem sıralaması korunur.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      23.5,
+      335,
+      620
+    ]
+  },
+  {
+    "folder": "05-durdurma",
+    "variant": "A",
+    "title": "Durduruldu",
+    "source": "docs/qa/2026-11-03-tam/375x667_04_pause.png",
+    "ui": "Screens.Pause / Card",
+    "target": "popup-card + btn2-primary / btn2-secondary",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1290,
+        "logicalPt": [
+          335.0,
+          430.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "b216dbb6738f44c93aff207682e21034d95a36b5d87cb78fdcc60cfbeaea9901",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Durduruldu",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Devam",
+        "xPt": 167.5,
+        "yPt": 135.6315789473684,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 180
+      },
+      {
+        "text": "Yeniden başla",
+        "xPt": 167.5,
+        "yPt": 245.6315789473684,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 180
+      },
+      {
+        "text": "Ana menü",
+        "xPt": 167.5,
+        "yPt": 355.63157894736844,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 180
+      }
+    ],
+    "notes": [
+      "A eşit198pt tuşlar; B ana Devam210pt, ikinciller190pt. Yeni metin veya ekran eklenmedi.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      118.5,
+      335,
+      430
+    ]
+  },
+  {
+    "folder": "06-puan-kutulari",
+    "variant": "A",
+    "title": "Puan kutuları",
+    "source": "docs/qa/2026-11-02-rating/a_kart.png",
+    "ui": "Card.ChipRow",
+    "target": "ShapeView chip yüzeyi → rating-normal/selected",
+    "assets": [
+      {
+        "file": "rating-normal.png",
+        "width": 144,
+        "height": 132,
+        "logicalPt": [
+          48.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "101 ailesinde rakamsız puan kutusu",
+        "source": "Assets/Art/Redesign_T22/113-ai-puan/rating-normal-@3x.png",
+        "sha256": "b783f5f20fa40d52913318dade07ad52cba92fb6133625d0d4371d50358559fb",
+        "approved": false,
+        "minHitPt": [
+          48,
+          44
+        ]
+      },
+      {
+        "file": "rating-selected.png",
+        "width": 144,
+        "height": 132,
+        "logicalPt": [
+          48.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Seçili durum; renk dışı tik",
+        "source": "T22 rating + Task21 check",
+        "sha256": "8284620a45e415aaffe55dbbc242a280f773c90465e7583a60ac05a90f9898e4",
+        "approved": false,
+        "minHitPt": [
+          48,
+          44
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "1",
+        "xPt": 55.5,
+        "yPt": 32,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "2",
+        "xPt": 111.5,
+        "yPt": 32,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "3",
+        "xPt": 167.5,
+        "yPt": 32,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "4",
+        "xPt": 223.5,
+        "yPt": 32,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "5",
+        "xPt": 279.5,
+        "yPt": 32,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "6",
+        "xPt": 55.5,
+        "yPt": 82,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "7",
+        "xPt": 111.5,
+        "yPt": 82,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "8",
+        "xPt": 167.5,
+        "yPt": 82,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "9",
+        "xPt": 223.5,
+        "yPt": 82,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "10",
+        "xPt": 279.5,
+        "yPt": 82,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      }
+    ],
+    "notes": [
+      "A48×44, B50×44pt. İki sıra5 sütun; normal ve seçili yüzler rakamsız.",
+      "Rakam18pt (B), seçili durum renge bağlı kalmaz; tik14pt."
+    ],
+    "rectPt": [
+      20,
+      337,
+      335,
+      118
+    ]
+  },
+  {
+    "folder": "17-isim",
+    "variant": "A",
+    "title": "Hoş geldin!",
+    "source": "docs/qa/2026-11-02-ftue/02_isim.png",
+    "ui": "WebGLTemplates/ReverseSolver #rs-name",
+    "target": "name-card/input/rs-name-go;107 kabul yönü",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1170,
+        "logicalPt": [
+          335.0,
+          390.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "26486581cf2b876d4f98f4e1828825ff83903ec5eb484ee96dabde4cab92261b",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "name-input.png",
+        "width": 831,
+        "height": 174,
+        "logicalPt": [
+          277.0,
+          58.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          54,
+          30,
+          54,
+          30
+        ],
+        "role": "Düzenlenebilir gerçek input için boş krem yüzey",
+        "source": "Assets/Art/Menu/Task20/counter-pill.png",
+        "sha256": "45b64835e864f9ecb02a0e691b51139573f21f9789cc6971204faf080d5cad53",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Hoş geldin!",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Adını yaz, sonuçların",
+        "xPt": 167.5,
+        "yPt": 110,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "bu isimle kaydedilsin.",
+        "xPt": 167.5,
+        "yPt": 132,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Adın",
+        "xPt": 167.5,
+        "yPt": 197,
+        "sizePt": 17,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 240
+      },
+      {
+        "text": "Başla",
+        "xPt": 167.5,
+        "yPt": 309.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Playtest sürümü yok. Başla yeşil; input gerçek HTML alanı olarak kalmalı, PNG metni olmaz.",
+      "Klavye açık görünürlük canlı cihaz testi gerektirir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      210.76923076923072,
+      335,
+      390
+    ]
+  },
+  {
+    "folder": "18-profil-sorusu",
+    "variant": "A",
+    "title": "Seni tanıyalım",
+    "source": "docs/qa/2026-11-02-ftue/03_profil_sorusu.png",
+    "ui": "Profile survey / Card",
+    "target": "popup-card / profil anketi",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1470,
+        "logicalPt": [
+          335.0,
+          490.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "1cb2888e8f445dd025a66aac14b4bd2457e7166e4165335bd7f179120fe3046e",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Seni tanıyalım",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Bu tür bulmaca oyunlarını",
+        "xPt": 167.5,
+        "yPt": 110,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "ne sıklıkla oynarsın?",
+        "xPt": 167.5,
+        "yPt": 132,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Hiç",
+        "xPt": 167.5,
+        "yPt": 211.66666666666666,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 172
+      },
+      {
+        "text": "Ara sıra",
+        "xPt": 167.5,
+        "yPt": 313.6666666666667,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 172
+      },
+      {
+        "text": "Sık",
+        "xPt": 167.5,
+        "yPt": 415.6666666666667,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 172
+      }
+    ],
+    "notes": [
+      "107 isim ekranıyla aynı yumuşak turkuaz/krem aile. Yanıtlar eşit turkuaz seçim; hiçbiri ana yeşil eylem değildir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      160.76923076923072,
+      335,
+      490
+    ]
+  },
+  {
+    "folder": "07-tanitim-civi",
+    "variant": "A",
+    "title": "Çivili parça",
+    "source": "docs/qa/2026-11-02-ftue/14_b3_kart.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-nail / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 864,
+        "height": 576,
+        "logicalPt": [
+          288.0,
+          192.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/ObstacleIntros/OptionA/nail-888x592.png",
+        "sha256": "41d67144f02e98929eda247220892cc14f5621b6bbd20dafbf766296a5edcd39",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Çivili parça",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Diğer parçaları çıkar.",
+        "xPt": 167.5,
+        "yPt": 306,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Sayaç sıfır olunca çivi açılır.",
+        "xPt": 167.5,
+        "yPt": 328,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 415.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Diğer parçaları çıkar.",
+      "Sayaç sıfır olunca çivi açılır."
+    ],
+    "sceneKey": "nail",
+    "rectPt": [
+      20,
+      145.76923076923072,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "08-tanitim-bomba",
+    "variant": "A",
+    "title": "Bombalı parça",
+    "source": "docs/qa/2026-11-02-ftue/37_b6_kart.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-bomb / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 864,
+        "height": 576,
+        "logicalPt": [
+          288.0,
+          192.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/ObstacleIntros/OptionA/bomb-888x592.png",
+        "sha256": "80c1f992306587220197e0b178fe8f2975eae8eea4c749520abc1d5cea7d5a73",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Bombalı parça",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Fitil bitmeden bombayı çıkar.",
+        "xPt": 167.5,
+        "yPt": 306,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Önce onun yolunu aç.",
+        "xPt": 167.5,
+        "yPt": 328,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 415.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Fitil bitmeden bombayı çıkar.",
+      "Önce onun yolunu aç."
+    ],
+    "sceneKey": "bomb",
+    "rectPt": [
+      20,
+      145.76923076923072,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "09-tanitim-zincir",
+    "variant": "A",
+    "title": "Zincirli parçalar",
+    "source": "docs/qa/2026-11-02-spot/375x667_b10_1.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-chain / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 864,
+        "height": 576,
+        "logicalPt": [
+          288.0,
+          192.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/ObstacleIntros/OptionA/chain-888x592.png",
+        "sha256": "73f0be6802a9143d75d9ac948bc44fa34b322a5adf4982926fc19e1f74188707",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Zincirli parçalar",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "İki parça birlikte çıkar.",
+        "xPt": 167.5,
+        "yPt": 306,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "İkisinin yolunu da aç.",
+        "xPt": 167.5,
+        "yPt": 328,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 415.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "İki parça birlikte çıkar.",
+      "İkisinin yolunu da aç."
+    ],
+    "sceneKey": "chain",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "10-tanitim-duvar",
+    "variant": "A",
+    "title": "Duvar",
+    "source": "docs/qa/2026-11-02-spot/375x667_b14_1.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-wall / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 864,
+        "height": 576,
+        "logicalPt": [
+          288.0,
+          192.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/ObstacleIntros/OptionA/wall-888x592.png",
+        "sha256": "4591cf84648a0eee00665e75da983a3e2282cf383187a0fb0fa2759244043285",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Duvar",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Parça duvardan geçemez.",
+        "xPt": 167.5,
+        "yPt": 306,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Açık kenardan yol bul.",
+        "xPt": 167.5,
+        "yPt": 328,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 415.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Parça duvardan geçemez.",
+      "Açık kenardan yol bul."
+    ],
+    "sceneKey": "wall",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "11-booster-makas",
+    "variant": "A",
+    "title": "Makas",
+    "source": "docs/qa/2026-11-02-ftue/34_b5_kart.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-scissors / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 864,
+        "height": 576,
+        "logicalPt": [
+          288.0,
+          192.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_scissors_A.png",
+        "sha256": "5d2ac7dac37c08d29926751d04928bf9dae020c54e73e2b522710283dac170cd",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Makas",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Önce makası seç.",
+        "xPt": 167.5,
+        "yPt": 306,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Sonra kesilecek ekleme dokun.",
+        "xPt": 167.5,
+        "yPt": 328,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 415.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Önce makası seç.",
+      "Sonra kesilecek ekleme dokun."
+    ],
+    "sceneKey": "scissors",
+    "rectPt": [
+      20,
+      145.76923076923072,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "12-booster-degnek",
+    "variant": "A",
+    "title": "Sihirli değnek",
+    "source": "docs/qa/2026-11-02-booster/b9_1_tus.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-wand / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 864,
+        "height": 576,
+        "logicalPt": [
+          288.0,
+          192.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_wand_A.png",
+        "sha256": "b53283f9e3b06411dc9cc43765ea6d699fb63981db2a8b1459b9aa17955ff14d",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Sihirli değnek",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Çıkıntıları yeniden dizer.",
+        "xPt": 167.5,
+        "yPt": 306,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Resim aynı kalır, kilitler değişir.",
+        "xPt": 167.5,
+        "yPt": 328,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 415.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Çıkıntıları yeniden dizer.",
+      "Resim aynı kalır, kilitler değişir."
+    ],
+    "sceneKey": "wand",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "13-booster-cekic",
+    "variant": "A",
+    "title": "Çekiç",
+    "source": "docs/qa/2026-11-02-booster/b23_1_tus.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-hammer / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 864,
+        "height": 576,
+        "logicalPt": [
+          288.0,
+          192.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_hammer_A.png",
+        "sha256": "e1908bf506904cdd2b58a50cc1ec0b51e3b3dfb5e6ec7dacfea8a73ded56d2be",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Çekiç",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Önce çekici seç.",
+        "xPt": 167.5,
+        "yPt": 306,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Çıkaracağın parçaya dokun.",
+        "xPt": 167.5,
+        "yPt": 328,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 415.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Önce çekici seç.",
+      "Çıkaracağın parçaya dokun."
+    ],
+    "sceneKey": "hammer",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "14-booster-saat",
+    "variant": "A",
+    "title": "Saat",
+    "source": "docs/qa/2026-11-02-booster/b15_4_onay.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-clock / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 864,
+        "height": 576,
+        "logicalPt": [
+          288.0,
+          192.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_clock_A.png",
+        "sha256": "c0e1d1faa538f88ef86e5c608cebd6250c3159fd4bef8f445a30346632c1803c",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Saat",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Geri sayıma 20 saniye ekler.",
+        "xPt": 167.5,
+        "yPt": 306,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Kullanmadan önce onay ver.",
+        "xPt": 167.5,
+        "yPt": 328,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 415.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Geri sayıma 20 saniye ekler.",
+      "Kullanmadan önce onay ver."
+    ],
+    "sceneKey": "clock",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "15-zor-bolum",
+    "variant": "A",
+    "title": "Zor bölüm",
+    "source": "docs/qa/2026-11-03-tam/375x667_02_baslangic.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-hard / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 864,
+        "height": 576,
+        "logicalPt": [
+          288.0,
+          192.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_hard_A.png",
+        "sha256": "020fae3b2af9184674b19c34be5ad84ec2f95ffcf84e9ab8a575869156963244",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Zor bölüm",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 22,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Bu bölüm biraz daha zorlu.",
+        "xPt": 167.5,
+        "yPt": 306,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "İlk hamleden önce yolları incele.",
+        "xPt": 167.5,
+        "yPt": 328,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Başla",
+        "xPt": 167.5,
+        "yPt": 415.0701754385965,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 194
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "PM36:19/23/25/30/35/36/38 tek Baron uyarısı.23te ardından çekiç eğitimi ayrı el adımı olabilir; ikinci Baron kartı eklenmez.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Bu bölüm biraz daha zorlu.",
+      "İlk hamleden önce yolları incele."
+    ],
+    "sceneKey": "hard",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "02-kazanma",
+    "variant": "B",
+    "title": "Tahta boşaldı!",
+    "source": "docs/qa/2026-11-02-rating/a_kart.png",
+    "ui": "Screens.Result / Card",
+    "target": "Task14/card-panel.png → popup-card",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1800,
+        "logicalPt": [
+          335.0,
+          600.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "b361604cfb20c1ec3f9dd8b1eb3b35d84f8e0658b928352d05db8e743e2b10b7",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "rating-normal.png",
+        "width": 150,
+        "height": 132,
+        "logicalPt": [
+          50.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "101 ailesinde rakamsız puan kutusu",
+        "source": "Assets/Art/Redesign_T22/113-ai-puan/rating-normal-@3x.png",
+        "sha256": "8b11811a035926436501de482f5918566255a75a27802838bd6f2655317c8fd7",
+        "approved": false,
+        "minHitPt": [
+          50,
+          44
+        ]
+      },
+      {
+        "file": "rating-selected.png",
+        "width": 150,
+        "height": 132,
+        "logicalPt": [
+          50.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Seçili durum; renk dışı tik",
+        "source": "T22 rating + Task21 check",
+        "sha256": "fa2d928f48a94edcd72440cdd3cbdbc74e915ff030fbc940acb105543df01136",
+        "approved": false,
+        "minHitPt": [
+          50,
+          44
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Tahta boşaldı!",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "108 saniye kaldı · 0 takılma",
+        "xPt": 167.5,
+        "yPt": 137,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 292
+      },
+      {
+        "text": "Sonraki bölüm",
+        "xPt": 167.5,
+        "yPt": 207.10526315789474,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 186
+      },
+      {
+        "text": "Ne kadar zordu?",
+        "xPt": 167.5,
+        "yPt": 294,
+        "sizePt": 16,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1 çok kolay · 10 çok zor",
+        "xPt": 167.5,
+        "yPt": 317,
+        "sizePt": 13,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1",
+        "xPt": 53.5,
+        "yPt": 359,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "2",
+        "xPt": 110.5,
+        "yPt": 359,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "3",
+        "xPt": 167.5,
+        "yPt": 359,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "4",
+        "xPt": 224.5,
+        "yPt": 359,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "5",
+        "xPt": 281.5,
+        "yPt": 359,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "6",
+        "xPt": 53.5,
+        "yPt": 409,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "7",
+        "xPt": 110.5,
+        "yPt": 409,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "8",
+        "xPt": 167.5,
+        "yPt": 409,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "9",
+        "xPt": 224.5,
+        "yPt": 409,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "10",
+        "xPt": 281.5,
+        "yPt": 409,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "Tekrar oyna",
+        "xPt": 91,
+        "yPt": 481.43859649122805,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 110
+      },
+      {
+        "text": "Menü",
+        "xPt": 244,
+        "yPt": 481.43859649122805,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 110
+      },
+      {
+        "text": "Puanlamayı geç",
+        "xPt": 167.5,
+        "yPt": 558,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      }
+    ],
+    "notes": [
+      "Üç yıldız, ana yeşil Sonraki bölüm, isteğe bağlı1–10 ve Puanlamayı geç korunur.",
+      "A daha küçük gövde yazısı/198pt ana tuş; B15pt istatistik/204pt ana tuş ve50pt puan kutuları.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      33.5,
+      335,
+      600
+    ]
+  },
+  {
+    "folder": "03-kayip-bomba",
+    "variant": "B",
+    "title": "Bomba patladı",
+    "source": "docs/qa/2026-11-02-rating/c_kayip_kart.png",
+    "ui": "Screens.Result / Card",
+    "target": "popup-card + loss-reason-bomb",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1860,
+        "logicalPt": [
+          335.0,
+          620.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "3c1ae36f34f5e126d773c60d14f45d3f5349fd928a0669421d282b05bb03282f",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "loss-reason.png",
+        "width": 198,
+        "height": 198,
+        "logicalPt": [
+          66.0,
+          66.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı kayıp nedeni korunur",
+        "source": "Assets/Art/Gameplay/Task14/loss-reason-bomb.png",
+        "sha256": "58d27808f9e6494bcfa3967b22e2fb3c9f2057af91858196feccb84de391d618",
+        "approved": false
+      },
+      {
+        "file": "rating-normal.png",
+        "width": 150,
+        "height": 132,
+        "logicalPt": [
+          50.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "101 ailesinde rakamsız puan kutusu",
+        "source": "Assets/Art/Redesign_T22/113-ai-puan/rating-normal-@3x.png",
+        "sha256": "8b11811a035926436501de482f5918566255a75a27802838bd6f2655317c8fd7",
+        "approved": false,
+        "minHitPt": [
+          50,
+          44
+        ]
+      },
+      {
+        "file": "rating-selected.png",
+        "width": 150,
+        "height": 132,
+        "logicalPt": [
+          50.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Seçili durum; renk dışı tik",
+        "source": "T22 rating + Task21 check",
+        "sha256": "fa2d928f48a94edcd72440cdd3cbdbc74e915ff030fbc940acb105543df01136",
+        "approved": false,
+        "minHitPt": [
+          50,
+          44
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Bomba patladı",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "0",
+        "xPt": 167.5,
+        "yPt": 118,
+        "sizePt": 22,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 40
+      },
+      {
+        "text": "Önce bombanın yolunu aç.",
+        "xPt": 167.5,
+        "yPt": 165,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Çekiç onu tek hamlede söker.",
+        "xPt": 167.5,
+        "yPt": 187,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Tekrar dene",
+        "xPt": 167.5,
+        "yPt": 253.66666666666669,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 172
+      },
+      {
+        "text": "Ne kadar zordu?",
+        "xPt": 167.5,
+        "yPt": 330,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1 çok kolay · 10 çok zor",
+        "xPt": 167.5,
+        "yPt": 353,
+        "sizePt": 13,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1",
+        "xPt": 53.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "2",
+        "xPt": 110.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "3",
+        "xPt": 167.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "4",
+        "xPt": 224.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "5",
+        "xPt": 281.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "6",
+        "xPt": 53.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "7",
+        "xPt": 110.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "8",
+        "xPt": 167.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "9",
+        "xPt": 224.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "10",
+        "xPt": 281.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "Menü",
+        "xPt": 167.5,
+        "yPt": 516.8421052631579,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 132
+      },
+      {
+        "text": "Puanlamayı geç",
+        "xPt": 167.5,
+        "yPt": 588,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      }
+    ],
+    "notes": [
+      "Soru açık durumda bile yeşil Tekrar dene korunur. Soru akışı kaldırılmaz.",
+      "Soru kapalı durumda9-slice panel kısalır; metin ve eylem sıralaması korunur.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      23.5,
+      335,
+      620
+    ]
+  },
+  {
+    "folder": "04-kayip-sure",
+    "variant": "B",
+    "title": "Süre doldu",
+    "source": "docs/qa/2026-11-03-tam/375x667_06_kaybetme.png",
+    "ui": "Screens.Result / Card",
+    "target": "popup-card + loss-reason-time",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1860,
+        "logicalPt": [
+          335.0,
+          620.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "3c1ae36f34f5e126d773c60d14f45d3f5349fd928a0669421d282b05bb03282f",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "loss-reason.png",
+        "width": 198,
+        "height": 198,
+        "logicalPt": [
+          66.0,
+          66.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı kayıp nedeni korunur",
+        "source": "Assets/Art/Gameplay/Task14/loss-reason-time.png",
+        "sha256": "20fc870d0de1defa215f06a543a31da444abc36191c5efc525435cb46bfea9cf",
+        "approved": false
+      },
+      {
+        "file": "rating-normal.png",
+        "width": 150,
+        "height": 132,
+        "logicalPt": [
+          50.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "101 ailesinde rakamsız puan kutusu",
+        "source": "Assets/Art/Redesign_T22/113-ai-puan/rating-normal-@3x.png",
+        "sha256": "8b11811a035926436501de482f5918566255a75a27802838bd6f2655317c8fd7",
+        "approved": false,
+        "minHitPt": [
+          50,
+          44
+        ]
+      },
+      {
+        "file": "rating-selected.png",
+        "width": 150,
+        "height": 132,
+        "logicalPt": [
+          50.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Seçili durum; renk dışı tik",
+        "source": "T22 rating + Task21 check",
+        "sha256": "fa2d928f48a94edcd72440cdd3cbdbc74e915ff030fbc940acb105543df01136",
+        "approved": false,
+        "minHitPt": [
+          50,
+          44
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Süre doldu",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Tahtada parçalar kaldı.",
+        "xPt": 167.5,
+        "yPt": 165,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Saat sana 20 saniye kazandırır.",
+        "xPt": 167.5,
+        "yPt": 187,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Tekrar dene",
+        "xPt": 167.5,
+        "yPt": 253.66666666666669,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 172
+      },
+      {
+        "text": "Ne kadar zordu?",
+        "xPt": 167.5,
+        "yPt": 330,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1 çok kolay · 10 çok zor",
+        "xPt": 167.5,
+        "yPt": 353,
+        "sizePt": 13,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "1",
+        "xPt": 53.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "2",
+        "xPt": 110.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "3",
+        "xPt": 167.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "4",
+        "xPt": 224.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "5",
+        "xPt": 281.5,
+        "yPt": 395,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "6",
+        "xPt": 53.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "7",
+        "xPt": 110.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "8",
+        "xPt": 167.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "9",
+        "xPt": 224.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "10",
+        "xPt": 281.5,
+        "yPt": 445,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "Menü",
+        "xPt": 167.5,
+        "yPt": 516.8421052631579,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 132
+      },
+      {
+        "text": "Puanlamayı geç",
+        "xPt": 167.5,
+        "yPt": 588,
+        "sizePt": 14,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      }
+    ],
+    "notes": [
+      "Soru açık durumda bile yeşil Tekrar dene korunur. Soru akışı kaldırılmaz.",
+      "Soru kapalı durumda9-slice panel kısalır; metin ve eylem sıralaması korunur.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      23.5,
+      335,
+      620
+    ]
+  },
+  {
+    "folder": "05-durdurma",
+    "variant": "B",
+    "title": "Durduruldu",
+    "source": "docs/qa/2026-11-03-tam/375x667_04_pause.png",
+    "ui": "Screens.Pause / Card",
+    "target": "popup-card + btn2-primary / btn2-secondary",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1290,
+        "logicalPt": [
+          335.0,
+          430.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "b216dbb6738f44c93aff207682e21034d95a36b5d87cb78fdcc60cfbeaea9901",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Durduruldu",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Devam",
+        "xPt": 167.5,
+        "yPt": 134.57894736842104,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 192
+      },
+      {
+        "text": "Yeniden başla",
+        "xPt": 167.5,
+        "yPt": 249.66666666666666,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 172
+      },
+      {
+        "text": "Ana menü",
+        "xPt": 167.5,
+        "yPt": 359.6666666666667,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 172
+      }
+    ],
+    "notes": [
+      "A eşit198pt tuşlar; B ana Devam210pt, ikinciller190pt. Yeni metin veya ekran eklenmedi.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      118.5,
+      335,
+      430
+    ]
+  },
+  {
+    "folder": "06-puan-kutulari",
+    "variant": "B",
+    "title": "Puan kutuları",
+    "source": "docs/qa/2026-11-02-rating/a_kart.png",
+    "ui": "Card.ChipRow",
+    "target": "ShapeView chip yüzeyi → rating-normal/selected",
+    "assets": [
+      {
+        "file": "rating-normal.png",
+        "width": 150,
+        "height": 132,
+        "logicalPt": [
+          50.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "101 ailesinde rakamsız puan kutusu",
+        "source": "Assets/Art/Redesign_T22/113-ai-puan/rating-normal-@3x.png",
+        "sha256": "8b11811a035926436501de482f5918566255a75a27802838bd6f2655317c8fd7",
+        "approved": false,
+        "minHitPt": [
+          50,
+          44
+        ]
+      },
+      {
+        "file": "rating-selected.png",
+        "width": 150,
+        "height": 132,
+        "logicalPt": [
+          50.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Seçili durum; renk dışı tik",
+        "source": "T22 rating + Task21 check",
+        "sha256": "fa2d928f48a94edcd72440cdd3cbdbc74e915ff030fbc940acb105543df01136",
+        "approved": false,
+        "minHitPt": [
+          50,
+          44
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "1",
+        "xPt": 53.5,
+        "yPt": 32,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "2",
+        "xPt": 110.5,
+        "yPt": 32,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "3",
+        "xPt": 167.5,
+        "yPt": 32,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "4",
+        "xPt": 224.5,
+        "yPt": 32,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "5",
+        "xPt": 281.5,
+        "yPt": 32,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "6",
+        "xPt": 53.5,
+        "yPt": 82,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "7",
+        "xPt": 110.5,
+        "yPt": 82,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "8",
+        "xPt": 167.5,
+        "yPt": 82,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "9",
+        "xPt": 224.5,
+        "yPt": 82,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      },
+      {
+        "text": "10",
+        "xPt": 281.5,
+        "yPt": 82,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 42
+      }
+    ],
+    "notes": [
+      "A48×44, B50×44pt. İki sıra5 sütun; normal ve seçili yüzler rakamsız.",
+      "Rakam18pt (B), seçili durum renge bağlı kalmaz; tik14pt."
+    ],
+    "rectPt": [
+      20,
+      337,
+      335,
+      118
+    ]
+  },
+  {
+    "folder": "17-isim",
+    "variant": "B",
+    "title": "Hoş geldin!",
+    "source": "docs/qa/2026-11-02-ftue/02_isim.png",
+    "ui": "WebGLTemplates/ReverseSolver #rs-name",
+    "target": "name-card/input/rs-name-go;107 kabul yönü",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1170,
+        "logicalPt": [
+          335.0,
+          390.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "26486581cf2b876d4f98f4e1828825ff83903ec5eb484ee96dabde4cab92261b",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "name-input.png",
+        "width": 831,
+        "height": 174,
+        "logicalPt": [
+          277.0,
+          58.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          54,
+          30,
+          54,
+          30
+        ],
+        "role": "Düzenlenebilir gerçek input için boş krem yüzey",
+        "source": "Assets/Art/Menu/Task20/counter-pill.png",
+        "sha256": "45b64835e864f9ecb02a0e691b51139573f21f9789cc6971204faf080d5cad53",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Hoş geldin!",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Adını yaz, sonuçların",
+        "xPt": 167.5,
+        "yPt": 110,
+        "sizePt": 16,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "bu isimle kaydedilsin.",
+        "xPt": 167.5,
+        "yPt": 132,
+        "sizePt": 16,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Adın",
+        "xPt": 167.5,
+        "yPt": 197,
+        "sizePt": 18,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 240
+      },
+      {
+        "text": "Başla",
+        "xPt": 167.5,
+        "yPt": 310.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Playtest sürümü yok. Başla yeşil; input gerçek HTML alanı olarak kalmalı, PNG metni olmaz.",
+      "Klavye açık görünürlük canlı cihaz testi gerektirir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      210.76923076923072,
+      335,
+      390
+    ]
+  },
+  {
+    "folder": "18-profil-sorusu",
+    "variant": "B",
+    "title": "Seni tanıyalım",
+    "source": "docs/qa/2026-11-02-ftue/03_profil_sorusu.png",
+    "ui": "Profile survey / Card",
+    "target": "popup-card / profil anketi",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1470,
+        "logicalPt": [
+          335.0,
+          490.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "1cb2888e8f445dd025a66aac14b4bd2457e7166e4165335bd7f179120fe3046e",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      }
+    ],
+    "text": [
+      {
+        "text": "Seni tanıyalım",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Bu tür bulmaca oyunlarını",
+        "xPt": 167.5,
+        "yPt": 110,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "ne sıklıkla oynarsın?",
+        "xPt": 167.5,
+        "yPt": 132,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Hiç",
+        "xPt": 167.5,
+        "yPt": 213.6315789473684,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 180
+      },
+      {
+        "text": "Ara sıra",
+        "xPt": 167.5,
+        "yPt": 315.63157894736844,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 180
+      },
+      {
+        "text": "Sık",
+        "xPt": 167.5,
+        "yPt": 417.63157894736844,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 180
+      }
+    ],
+    "notes": [
+      "107 isim ekranıyla aynı yumuşak turkuaz/krem aile. Yanıtlar eşit turkuaz seçim; hiçbiri ana yeşil eylem değildir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "rectPt": [
+      20,
+      160.76923076923072,
+      335,
+      490
+    ]
+  },
+  {
+    "folder": "07-tanitim-civi",
+    "variant": "B",
+    "title": "Çivili parça",
+    "source": "docs/qa/2026-11-02-ftue/14_b3_kart.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-nail / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 888,
+        "height": 594,
+        "logicalPt": [
+          296.0,
+          198.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/ObstacleIntros/OptionB/nail-888x592.png",
+        "sha256": "0cb81fd09b847324b97934394b39adf3827ab2f199983153bd089d95f122e95e",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Çivili parça",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Diğer parçaları çıkar.",
+        "xPt": 167.5,
+        "yPt": 312,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Sayaç sıfır olunca çivi açılır.",
+        "xPt": 167.5,
+        "yPt": 334,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 420.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Diğer parçaları çıkar.",
+      "Sayaç sıfır olunca çivi açılır."
+    ],
+    "sceneKey": "nail",
+    "rectPt": [
+      20,
+      145.76923076923072,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "08-tanitim-bomba",
+    "variant": "B",
+    "title": "Bombalı parça",
+    "source": "docs/qa/2026-11-02-ftue/37_b6_kart.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-bomb / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 888,
+        "height": 594,
+        "logicalPt": [
+          296.0,
+          198.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/ObstacleIntros/OptionB/bomb-888x592.png",
+        "sha256": "30531ef017e2cb355b5341747fbcbf663c1c0bebdad9991d59253aab97c7f2bf",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Bombalı parça",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Fitil bitmeden bombayı çıkar.",
+        "xPt": 167.5,
+        "yPt": 312,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Önce onun yolunu aç.",
+        "xPt": 167.5,
+        "yPt": 334,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 420.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Fitil bitmeden bombayı çıkar.",
+      "Önce onun yolunu aç."
+    ],
+    "sceneKey": "bomb",
+    "rectPt": [
+      20,
+      145.76923076923072,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "09-tanitim-zincir",
+    "variant": "B",
+    "title": "Zincirli parçalar",
+    "source": "docs/qa/2026-11-02-spot/375x667_b10_1.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-chain / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 888,
+        "height": 594,
+        "logicalPt": [
+          296.0,
+          198.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/ObstacleIntros/OptionB/chain-888x592.png",
+        "sha256": "a60ecf08e53c91968e5ac313e2bcde11ef59a3064ed3799b0ff386225b73b23e",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Zincirli parçalar",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "İki parça birlikte çıkar.",
+        "xPt": 167.5,
+        "yPt": 312,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "İkisinin yolunu da aç.",
+        "xPt": 167.5,
+        "yPt": 334,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 420.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "İki parça birlikte çıkar.",
+      "İkisinin yolunu da aç."
+    ],
+    "sceneKey": "chain",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "10-tanitim-duvar",
+    "variant": "B",
+    "title": "Duvar",
+    "source": "docs/qa/2026-11-02-spot/375x667_b14_1.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-wall / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 888,
+        "height": 594,
+        "logicalPt": [
+          296.0,
+          198.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/ObstacleIntros/OptionB/wall-888x592.png",
+        "sha256": "17b6417ce33bfd97aa70d0c3a27cc1f5b92eb4ec2a88cd00704fbb18f9a7babe",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Duvar",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Parça duvardan geçemez.",
+        "xPt": 167.5,
+        "yPt": 312,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Açık kenardan yol bul.",
+        "xPt": 167.5,
+        "yPt": 334,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 420.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Parça duvardan geçemez.",
+      "Açık kenardan yol bul."
+    ],
+    "sceneKey": "wall",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "11-booster-makas",
+    "variant": "B",
+    "title": "Makas",
+    "source": "docs/qa/2026-11-02-ftue/34_b5_kart.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-scissors / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 888,
+        "height": 594,
+        "logicalPt": [
+          296.0,
+          198.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_scissors_B.png",
+        "sha256": "8b93458370a275665f2e065058a8bebdc783b8e8c79a2a7ac66af3b8163107e6",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Makas",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Önce makası seç.",
+        "xPt": 167.5,
+        "yPt": 312,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Sonra kesilecek ekleme dokun.",
+        "xPt": 167.5,
+        "yPt": 334,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 420.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Önce makası seç.",
+      "Sonra kesilecek ekleme dokun."
+    ],
+    "sceneKey": "scissors",
+    "rectPt": [
+      20,
+      145.76923076923072,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "12-booster-degnek",
+    "variant": "B",
+    "title": "Sihirli değnek",
+    "source": "docs/qa/2026-11-02-booster/b9_1_tus.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-wand / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 888,
+        "height": 594,
+        "logicalPt": [
+          296.0,
+          198.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_wand_B.png",
+        "sha256": "4dc057ebb2b2cc57fd4b02478915f508fb26c69839aed152ea092c153d7601d1",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Sihirli değnek",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Çıkıntıları yeniden dizer.",
+        "xPt": 167.5,
+        "yPt": 312,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Resim aynı kalır, kilitler değişir.",
+        "xPt": 167.5,
+        "yPt": 334,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 420.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Çıkıntıları yeniden dizer.",
+      "Resim aynı kalır, kilitler değişir."
+    ],
+    "sceneKey": "wand",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "13-booster-cekic",
+    "variant": "B",
+    "title": "Çekiç",
+    "source": "docs/qa/2026-11-02-booster/b23_1_tus.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-hammer / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 888,
+        "height": 594,
+        "logicalPt": [
+          296.0,
+          198.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_hammer_B.png",
+        "sha256": "b2ef4402fa4c63a62319987e568507f5e8cf4765ac4da99756cca6f83959ce63",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Çekiç",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Önce çekici seç.",
+        "xPt": 167.5,
+        "yPt": 312,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Çıkaracağın parçaya dokun.",
+        "xPt": 167.5,
+        "yPt": 334,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 420.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Önce çekici seç.",
+      "Çıkaracağın parçaya dokun."
+    ],
+    "sceneKey": "hammer",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "14-booster-saat",
+    "variant": "B",
+    "title": "Saat",
+    "source": "docs/qa/2026-11-02-booster/b15_4_onay.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-clock / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 888,
+        "height": 594,
+        "logicalPt": [
+          296.0,
+          198.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_clock_B.png",
+        "sha256": "071c6a023ea5b31a962dd736d6f55d2c2c3e7f13df4f8fad3964781998d5ce85",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Saat",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Geri sayıma 20 saniye ekler.",
+        "xPt": 167.5,
+        "yPt": 312,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Kullanmadan önce onay ver.",
+        "xPt": 167.5,
+        "yPt": 334,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Anladım",
+        "xPt": 167.5,
+        "yPt": 420.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "Önce görüntüsü ayrı tanıtım modalı değildir; en yeni ilgili öğretim/onay bağlamıdır. Yeni sahne önerisi bu sınırla incelenmelidir.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Geri sayıma 20 saniye ekler.",
+      "Kullanmadan önce onay ver."
+    ],
+    "sceneKey": "clock",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  },
+  {
+    "folder": "15-zor-bolum",
+    "variant": "B",
+    "title": "Zor bölüm",
+    "source": "docs/qa/2026-11-03-tam/375x667_02_baslangic.png",
+    "ui": "Screens.Intro / Screens.StartCard",
+    "target": "intro-hard / popup-card; ortak sahne alanı",
+    "assets": [
+      {
+        "file": "panel.png",
+        "width": 1005,
+        "height": 1560,
+        "logicalPt": [
+          335.0,
+          520.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          72,
+          210,
+          72,
+          72
+        ],
+        "role": "PM kabul101 yumuşak turkuaz panel",
+        "source": "T22/101-ai-kazanma/panel-@3x.png",
+        "sha256": "ab79db5863f87e64099a50351aab1cab6611715a7bae4ddd2e0856a2de316c18",
+        "approved": false
+      },
+      {
+        "file": "button-primary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2.png",
+        "sha256": "4652778b1524ad34e4eb85dd5edea8eb21cedc6c62388b6ad019e079ad7e6903",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-primary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-primary-v2-pressed.png",
+        "sha256": "a0216637317caf5db180677a2cb379fd173a2f69d3af8f14b29c7e9042070017",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2.png",
+        "sha256": "07e452ff38d129e61f8b511b600f93f090be4901ac8cee8776735d25e6f67d5c",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "button-secondary-pressed.png",
+        "width": 684,
+        "height": 336,
+        "logicalPt": [
+          228.0,
+          112.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Korunan onaylı tuş;684:336 en-boy oranı",
+        "source": "Assets/Art/Gameplay/Task15/btn-secondary-v2-pressed.png",
+        "sha256": "a8f33460702cd611c31f35f46094a5c4869d2481ad9dfa7105e3c9a00fa056b0",
+        "approved": false,
+        "minHitPt": [
+          128,
+          50
+        ]
+      },
+      {
+        "file": "character-scene.png",
+        "width": 888,
+        "height": 594,
+        "logicalPt": [
+          296.0,
+          198.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Tek karakterli öğretim sahnesi",
+        "source": "Assets/Art/Redesign_T23/KAYNAKLAR/scene_hard_B.png",
+        "sha256": "1112ad4d00f16ca0c4aa3e85690287ef6b39b89bd3fbf76a8f958daaeacf9583",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "Zor bölüm",
+        "xPt": 167.5,
+        "yPt": 35,
+        "sizePt": 23,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 300
+      },
+      {
+        "text": "Bu bölüm biraz daha zorlu.",
+        "xPt": 167.5,
+        "yPt": 312,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "İlk hamleden önce yolları incele.",
+        "xPt": 167.5,
+        "yPt": 334,
+        "sizePt": 15,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 285
+      },
+      {
+        "text": "Başla",
+        "xPt": 167.5,
+        "yPt": 420.5438596491228,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 200
+      }
+    ],
+    "notes": [
+      "Üstte tek karakterli sahne, altında yalnız iki kısa satır, altta tek yeşil tuş. Turuncu ikinci mesaj ve küçük ikon kutusu yok.",
+      "Baron engellerde, Jiggle booster sahnesinde; mevcut iyi Baron resimleri korunmuştur.",
+      "A288×192/14pt, B296×198/15pt ve daha geniş ana eylem karşılaştırması.",
+      "PM36:19/23/25/30/35/36/38 tek Baron uyarısı.23te ardından çekiç eğitimi ayrı el adımı olabilir; ikinci Baron kartı eklenmez.",
+      "Eski modalın altındaki sahne yalnız karşılaştırma için onaylı oyun arka planından yeniden kuruldu; eski kartın kenarları yeni adayın arkasında bırakılmadı."
+    ],
+    "characterCount": 1,
+    "messageLines": [
+      "Bu bölüm biraz daha zorlu.",
+      "İlk hamleden önce yolları incele."
+    ],
+    "sceneKey": "hard",
+    "rectPt": [
+      20,
+      73.5,
+      335,
+      520
+    ]
+  }
+]

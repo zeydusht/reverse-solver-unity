@@ -1,0 +1,257 @@
+{
+  "time": "2026-11-03T15:31:14+03:00",
+  "paintings": [
+    {
+      "level": 1,
+      "jpgBytes": 276286,
+      "sourceSha256": "45331f186e3b86e97ce1ffda17d3b246fb1c89e1ab6c1062662f542f8bed1976",
+      "gameSha256": "151e4f9fecf7d54356db1adc2da05f1e16c08ac7e2f42b200c958f8d5d97b056"
+    },
+    {
+      "level": 2,
+      "jpgBytes": 296523,
+      "sourceSha256": "dd872f024f0f21699d82f30930c91abcb46b5bd8dcc62ed97f10543d16d60737",
+      "gameSha256": "a22ee0be54ad0035bbe5904c880d87bb834404e72e7acc35de67dabbf56e425a"
+    },
+    {
+      "level": 3,
+      "jpgBytes": 258042,
+      "sourceSha256": "d1454ba7a6f90124baee6fc57e346bc5d457c3a28c63e2e32bca26f520b1ded4",
+      "gameSha256": "1cd935f3107429e1362dd3baa91716f8e9ce8a6b624dd25740cb5da38fccde80"
+    },
+    {
+      "level": 4,
+      "jpgBytes": 247919,
+      "sourceSha256": "bcdab6a51365a6fc2faa2b0ea5c5ac121ee3c85e92c4d14181e598ea04ed25fd",
+      "gameSha256": "4b67cd7e7d01ece0fd6c957e302f134140599576acab47607cfd168357f4dfd9"
+    },
+    {
+      "level": 5,
+      "jpgBytes": 266036,
+      "sourceSha256": "9bd4c1aa8ba5cac0a5bdceb4ab4bba848e1c810eeee4989221dad7cf824d0e9e",
+      "gameSha256": "4dd0d2f988875b63bca8a42226437ed475a704697474e7b7ced37be20c233040"
+    },
+    {
+      "level": 6,
+      "jpgBytes": 221394,
+      "sourceSha256": "3da37b3e9457bab11012a3ee64d82cd6340eeb86a2b1f431e636a036cd0b97a2",
+      "gameSha256": "b26c08da4e0d02e9d90d015f8a04818d89f5d8aeffe12533a49c530b57e76aff"
+    },
+    {
+      "level": 7,
+      "jpgBytes": 281811,
+      "sourceSha256": "f0c4394124b6fb8ab366076c5da248d1e17d39abc60da63844ac04107428b29a",
+      "gameSha256": "da99a9994fcba31d886deccf860eb25a57672c0695a3e293e0c9b347d3370a6d"
+    },
+    {
+      "level": 8,
+      "jpgBytes": 226994,
+      "sourceSha256": "e5c334df147184c79636a1fba0c6e79c5c44d48a7c872c6254a2a5b0a820bc9e",
+      "gameSha256": "f6cb702712343e6139d3187d2b14c9734f6194a6336f845cb45752a6f3bd1dc8"
+    },
+    {
+      "level": 9,
+      "jpgBytes": 279967,
+      "sourceSha256": "9124f04651a91de4a5a1f98ec6833871a360fa0ae6822918cf139d5f5b00bb08",
+      "gameSha256": "854bdb3a721ed1e0953178126d6b428d08cfc1308c9f7b3762dc717335798afc"
+    },
+    {
+      "level": 10,
+      "jpgBytes": 233646,
+      "sourceSha256": "65c89497d269019f64831873dcb51af22330f22798ef69b6c989ba5d70496f7a",
+      "gameSha256": "99ceb4cbe4713a91d913ade61a9865f970ba01ddb399c2eb01393d61170698c9"
+    },
+    {
+      "level": 11,
+      "jpgBytes": 225867,
+      "sourceSha256": "f4496c78bd477bf630d10dc669eca7faae6f8412ba9214822598faa303d85b42",
+      "gameSha256": "651dabbbf76a035296fa113dd4001529d45d902ff8a2e43cc10dc99f0da6c519"
+    },
+    {
+      "level": 12,
+      "jpgBytes": 187334,
+      "sourceSha256": "f20762c12f7f519a27661cf640d946ac4c290aa1c35d2e5a059ecab5605a1872",
+      "gameSha256": "eff6f2fd9e6278a413e29d54e736a2b31c8a16df64b1c126926b537d03b9c188"
+    },
+    {
+      "level": 13,
+      "jpgBytes": 251072,
+      "sourceSha256": "7f6f64d7a8384290537247a089a54d1b38f5ea51e189baefccaf756dbf117099",
+      "gameSha256": "d49167037a26ea4f079a7862ffd8d090767788d0a1309321aac08bbdbaf837ce"
+    },
+    {
+      "level": 14,
+      "jpgBytes": 185827,
+      "sourceSha256": "cfb8aa867e89acdbea73542394dc16df0badeaf1744420355186df3b83b6ae2c",
+      "gameSha256": "160bba52b23b9ed1ad89080d8ae1025e60d0b63bce515065fdae2bd983c76da2"
+    },
+    {
+      "level": 15,
+      "jpgBytes": 228768,
+      "sourceSha256": "41a87169ba97fe48c787c3828b2b5004df9098fcd6a6ccc003ee978f38db613d",
+      "gameSha256": "865883e4c4677fc3fc42bb95735e0fc3ea3e7969ca81f6ecad5a3738189f48b2"
+    },
+    {
+      "level": 16,
+      "jpgBytes": 206099,
+      "sourceSha256": "ef146ca5a6eac859c4241cbcb2d28b1a07bb61f604b3e31a81e869908f482c19",
+      "gameSha256": "1ac88478b9766dc2c7a62389fe58bd473eb07976736d3fa7f6632cd6b79813a4"
+    },
+    {
+      "level": 17,
+      "jpgBytes": 212890,
+      "sourceSha256": "59316319747960a584ac866cfd70af7af3acee468820d89d8cef0195bda5031a",
+      "gameSha256": "47153ec1c7a9229e409ba1f4dbd66c4a279011aa1c42f13e59c07dbb9cd231a1"
+    },
+    {
+      "level": 18,
+      "jpgBytes": 205647,
+      "sourceSha256": "148432ad4680935f0b72497fdf5f7eff519ed2f2f4029a4c6c1c27bcfbff11ba",
+      "gameSha256": "332d0c0aedb29365ef09962a1ec57876a6d6074c9f96132a49a67a7261e15b0e"
+    },
+    {
+      "level": 19,
+      "jpgBytes": 208943,
+      "sourceSha256": "1795352f3d566a3e4564dfc34df899aae7981e52834d617a68997337928b4a6a",
+      "gameSha256": "6782db49d477a4d9d7510e6f3284a5aa8e1bdfb8f049b1b67d301945f1f342b4"
+    },
+    {
+      "level": 20,
+      "jpgBytes": 180135,
+      "sourceSha256": "b02c85967d5c082930b6b2359d16256610f9ce36988eb0987baaab3a8d10d4bd",
+      "gameSha256": "e3f50e6e40b3e2e71b2cbaec26df508ab03a1b5a17239f2ce113ac67025a88e0"
+    },
+    {
+      "level": 21,
+      "jpgBytes": 236271,
+      "sourceSha256": "47342b1f53e86c819362b5ad4c0116793cf89ed8304548b9cb02731497d2feb4",
+      "gameSha256": "9165594158d20f8a8197ed5f750b607d99c4dbe8553631a7100e3c007a61f446"
+    },
+    {
+      "level": 22,
+      "jpgBytes": 220203,
+      "sourceSha256": "0568a69d2399fdc89754010ee90c27617251482688dddb854743de115770c560",
+      "gameSha256": "ddb6175e3eccdcbf5be1ff368b86666f321374821f46a9d2dfbc5b71810032c5"
+    },
+    {
+      "level": 23,
+      "jpgBytes": 231829,
+      "sourceSha256": "3428bb591fbb70a0dfee40a3291fe933d11ae6ec09eec08cbad7269b6bd755dc",
+      "gameSha256": "249b51d093cea8e3960a3519bded62d4dc89cde6cf3749b7ff1094ae1a5d8a3c"
+    },
+    {
+      "level": 24,
+      "jpgBytes": 254310,
+      "sourceSha256": "39a3727965b5b4e55a04534acfab734a45dc3b37c996eca769f6cef93ed07272",
+      "gameSha256": "e6c19afce152bde81b8d2dd9434f78a33b9543d289a08cad09b0e212afda0dd2"
+    },
+    {
+      "level": 25,
+      "jpgBytes": 191200,
+      "sourceSha256": "8b65fb8549d5786086d67beaf703d9124d760747104314a11b72dce591e9dc54",
+      "gameSha256": "776d03a450c85c33b161d1da9d0e51a5bcc374980f49e076572ab1f2ca6e28d4"
+    },
+    {
+      "level": 26,
+      "jpgBytes": 197599,
+      "sourceSha256": "4c655ec4ccaf2b61c0573664188284cf1d75b135e7a809761a11466fbd17d6aa",
+      "gameSha256": "6fdb0dab217382ce1b54f766d00aa505481d4485c4f1ba21d78f9cee60b782bb"
+    },
+    {
+      "level": 27,
+      "jpgBytes": 190352,
+      "sourceSha256": "71dbafa685bed0b6ad2ce25bf44e1b6e0a422d50cb2e4137f47e0e7425a5c7f1",
+      "gameSha256": "0950a0615010a2548bb3f38d3beb501042281cb8b01c66b39975b52f9500b713"
+    },
+    {
+      "level": 28,
+      "jpgBytes": 176372,
+      "sourceSha256": "9a87574fd13188af19d1d9b54a2fb53f9c8ce1626104e7726b74bd1e5fde6d0d",
+      "gameSha256": "d80cb3b85099f8da0567a8cb399ec2261c5081dd76d8dbd061b883260d110a38"
+    },
+    {
+      "level": 29,
+      "jpgBytes": 212052,
+      "sourceSha256": "791e2f3faa73253019fec6569c6b6734586be7e8e4c83fc3c55d152d8ca2da82",
+      "gameSha256": "4f120722b3e5c9982a050c584886d6045c89ae2b7ff87f2c9dad8caea1e76a77"
+    },
+    {
+      "level": 30,
+      "jpgBytes": 231687,
+      "sourceSha256": "29cf2a1175151b01123cd39337ce4552da68186caef2f96cc77b63bb111c040a",
+      "gameSha256": "db52d5fea8c7fcb277bcb8fb6679064758ffb33d7d99b232a259a59d9d2d44c8"
+    },
+    {
+      "level": 31,
+      "jpgBytes": 174458,
+      "sourceSha256": "1d84c1e01fccd718fcc325f8e8ba843182a200ee227d17dd60b317dfe9f3be9b",
+      "gameSha256": "196778de721f03fd64ccd4d74408899a88a9c650217a4ffa4f9eb237e613a71e"
+    },
+    {
+      "level": 32,
+      "jpgBytes": 196680,
+      "sourceSha256": "2553fd14f07dce63308e71eeee0b6e143951565c30d94e0e9c256599f22a786c",
+      "gameSha256": "7401b469e53b603791d89e073cd292a5e1318bb5c817f58cf6826038df789fd5"
+    },
+    {
+      "level": 33,
+      "jpgBytes": 168994,
+      "sourceSha256": "3c05baff7b51b9c70df8756e4d9f775b6761fe4fe4ca7c8872e5d01b453f3734",
+      "gameSha256": "aff5f1bff508c8118efb800f02001832700151bb61e9b05ec44b9c000e311a35"
+    },
+    {
+      "level": 34,
+      "jpgBytes": 175929,
+      "sourceSha256": "395b0d89b0dce4a6e88799722bd507d1e9538a949e50cc88fbfa8db91923296c",
+      "gameSha256": "f25599dd88b5b17927c7f5ffb7490756c7e7306f96a3fbb31db95edc2e6d48bf"
+    },
+    {
+      "level": 35,
+      "jpgBytes": 182151,
+      "sourceSha256": "6921621769195ac2412741f1130205a0ba0b4a13aafa548d6d8395809b40a397",
+      "gameSha256": "94e86979109644db7ab67e7ac3010d404999f5d3af17ed680008a6df56e2786f"
+    },
+    {
+      "level": 36,
+      "jpgBytes": 158231,
+      "sourceSha256": "41912c9f2ac3e7bc1356c3c71afb48fe61fbebe31482f78d67ca88d3e68440df",
+      "gameSha256": "76c14555b02015ccf28f3496bfd1fddfa23c1402386220ea771e502f463ea9f7"
+    },
+    {
+      "level": 37,
+      "jpgBytes": 186093,
+      "sourceSha256": "86c74d09a98fbad2afdce8ebddee951ceaf980e2d87ed359cb1d745705bf153e",
+      "gameSha256": "035ff73cdaf7a607f239127ad016d400b5a11be2aba1536083c20c6509a17b4b"
+    },
+    {
+      "level": 38,
+      "jpgBytes": 169172,
+      "sourceSha256": "fb46091a480997e5663caeee468c17e73564b2c286cb246622a5b3443427edda",
+      "gameSha256": "2c6591694ad77b8e1c446508f320a25210ede70f1b6424c8a1010e76124f74ac"
+    },
+    {
+      "level": 39,
+      "jpgBytes": 147179,
+      "sourceSha256": "3bf4f74cf4142eed9062d7e8c64cf76b01adfc3a2342ebf0b45835e176888c10",
+      "gameSha256": "25b08e5f1b2b878dd363d8e0d97f49cde804f890aa41dde417a175b45a345b0c"
+    },
+    {
+      "level": 40,
+      "jpgBytes": 193167,
+      "sourceSha256": "1a296d3525c6b62a4fa70b4255da81cecfcd26a55422b2ed22c55e707774d606",
+      "gameSha256": "dc61d6684a8672c276d87ff3dadf80857afab7a6d1f0839a5a9369f5df0dfae9"
+    }
+  ],
+  "manifestCount": 40,
+  "earlyBoardPiecesReviewed": 75,
+  "A6x7SamplesReviewed": 60,
+  "BAllPiecesReviewed": 210,
+  "nightExtraSamplesReviewed": 12,
+  "oldPaintingsUnchanged": 199,
+  "previousBVersionsPreserved": 7,
+  "cardStatesVerified": 3,
+  "brokenLinks": [],
+  "imagegenCalls": 19,
+  "weeklyQuotaRemaining": "not exposed by tools",
+  "gameplayDeviceTested": false
+}

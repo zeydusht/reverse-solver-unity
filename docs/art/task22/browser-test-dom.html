@@ -1,0 +1,12 @@
+﻿<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><title>Task22 yerel sayfa kontrolü</title><style>body{font:16px system-ui;background:#0b2a36;color:#fff6d8}iframe{width:390px;height:844px;border:1px solid #1c7f8c}pre{white-space:pre-wrap}</style></head><body><h1>Task22 tarayıcı davranış kontrolü</h1><pre id="result">{
+  "selectionWorks": true,
+  "uniqueCheckboxes": true,
+  "checkboxCount": 35,
+  "noHorizontalOverflow": true,
+  "viewport": 375,
+  "status": "1, 101 olsun"
+}</pre><iframe src="../../../Assets/Art/Redesign_T22/inceleme.html" title="İnceleme testi"></iframe><script>
+const f=document.querySelector('iframe');f.onload=()=>{try{const d=f.contentDocument;d.querySelectorAll('input[type=checkbox]').forEach(x=>{x.checked=false;x.dispatchEvent(new Event('change',{bubbles:true}))});d.querySelector('input[value="1"]').click();d.querySelector('input[value="101"]').click();const status=d.querySelector('#selection').textContent;const numbers=status.match(/\d+/g)||[];const result={selectionWorks:numbers.includes('1')&&numbers.includes('101'),uniqueCheckboxes:new Set([...d.querySelectorAll('input[type=checkbox]')].map(x=>x.value)).size===35,checkboxCount:d.querySelectorAll('input[type=checkbox]').length,noHorizontalOverflow:d.documentElement.scrollWidth<=d.documentElement.clientWidth,viewport:d.documentElement.clientWidth,status};document.querySelector('#result').textContent=JSON.stringify(result,null,2);d.querySelectorAll('input[type=checkbox]').forEach(x=>{x.checked=false;x.dispatchEvent(new Event('change',{bubbles:true}))});}catch(e){document.querySelector('#result').textContent='ERROR '+e.message}};
+</script>
+</body></html>

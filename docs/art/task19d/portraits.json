@@ -1,0 +1,240 @@
+[
+  {
+    "screen": "02-koleksiyon",
+    "level": 1,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      33,
+      174,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 2,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      153,
+      174,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 3,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      273,
+      174,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 4,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      33,
+      304,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 5,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      153,
+      304,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 6,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      273,
+      304,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 7,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      33,
+      434,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 8,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      153,
+      434,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 9,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      273,
+      434,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 10,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      33,
+      564,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02-koleksiyon",
+    "level": 11,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      153,
+      564,
+      69,
+      92
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "02b-tablo-detay",
+    "level": 7,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      96,
+      242,
+      180,
+      240
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "07-bolumler",
+    "level": 10,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      179,
+      559,
+      30,
+      40
+    ],
+    "ratio": 0.75
+  },
+  {
+    "screen": "07-bolumler",
+    "level": 20,
+    "sourceCrop": [
+      128,
+      0,
+      896,
+      1024
+    ],
+    "targetBox": [
+      173,
+      126,
+      30,
+      40
+    ],
+    "ratio": 0.75
+  }
+]

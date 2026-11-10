@@ -1,0 +1,80 @@
+[
+  {
+    "text": "Bölümler",
+    "renderText": "Bölümler",
+    "font": "Fredoka-SemiBold",
+    "requestedWeight": "Bold",
+    "fontSizePx": 45,
+    "x": 117,
+    "y": 2037,
+    "color": "#F8EBD0",
+    "anchor": "mm",
+    "outlinePx": 2,
+    "shadow": false
+  },
+  {
+    "text": "Ev",
+    "renderText": "Ev",
+    "font": "Fredoka-SemiBold",
+    "requestedWeight": "Bold",
+    "fontSizePx": 45,
+    "x": 141,
+    "y": 2298,
+    "color": "#F8EBD0",
+    "anchor": "mm",
+    "outlinePx": 1,
+    "shadow": false
+  },
+  {
+    "text": "Koleksiyon",
+    "renderText": "Koleksiyon",
+    "font": "Fredoka-SemiBold",
+    "requestedWeight": "Bold",
+    "fontSizePx": 45,
+    "x": 422,
+    "y": 2298,
+    "color": "#F8EBD0",
+    "anchor": "mm",
+    "outlinePx": 1,
+    "shadow": false
+  },
+  {
+    "text": "Jiggles",
+    "renderText": "Jiggles",
+    "font": "Fredoka-SemiBold",
+    "requestedWeight": "Bold",
+    "fontSizePx": 45,
+    "x": 703,
+    "y": 2298,
+    "color": "#F8EBD0",
+    "anchor": "mm",
+    "outlinePx": 1,
+    "shadow": false
+  },
+  {
+    "text": "Başarılar",
+    "renderText": "Basarılar",
+    "font": "Fredoka-SemiBold",
+    "requestedWeight": "Bold",
+    "fontSizePx": 45,
+    "x": 984,
+    "y": 2298,
+    "color": "#F8EBD0",
+    "anchor": "mm",
+    "outlinePx": 1,
+    "shadow": false
+  },
+  {
+    "text": "1",
+    "renderText": "1",
+    "font": "Fredoka-SemiBold",
+    "requestedWeight": "Bold",
+    "fontSizePx": 45,
+    "x": 1030,
+    "y": 2166,
+    "color": "#F8EBD0",
+    "anchor": "mm",
+    "outlinePx": 1,
+    "shadow": false
+  }
+]

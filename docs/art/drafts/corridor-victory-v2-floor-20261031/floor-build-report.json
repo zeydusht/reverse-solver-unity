@@ -1,0 +1,38 @@
+{
+  "upperScenePixelsIdenticalAboveY": 726,
+  "period": 496,
+  "floorRange": [
+    726,
+    971
+  ],
+  "carpetTopY": 790,
+  "goldBorderBandY": [
+    794,
+    826
+  ],
+  "goldMotifs": 5,
+  "nativeMotifScaleUnchanged": true,
+  "nativeMotifSpacing": [
+    99,
+    99,
+    100,
+    99,
+    99
+  ],
+  "textureBlurFilter": false,
+  "textureQuilting": "native-size pixels, hard minimum-error seams, no alpha patch feather",
+  "oneWholeFloorMaterial": true,
+  "marblePlaneBasis": [
+    [
+      124,
+      0
+    ],
+    [
+      32,
+      24
+    ]
+  ],
+  "marbleField": "continuous periodic veins/reflections with original sampled warm palette; no rectangular samples",
+  "temporalBlending": false,
+  "newAIGeneratedArt": false
+}

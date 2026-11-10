@@ -1,0 +1,48 @@
+{
+  "master": {
+    "output": "corridor-empty.mp4",
+    "trackFile": "frame-track.json",
+    "width": 780,
+    "height": 1688,
+    "fps": 60,
+    "frames": 181,
+    "bytes": 1802795,
+    "duration": 3.016667,
+    "bitrateTarget": 4800000,
+    "sha256": "676ac4e1b912cadf4dbf4d9053b65ff682a1a7c2a5846ea97448401e1eb65eaf",
+    "decoded": true,
+    "timestampDecodedFrames": [
+      0,
+      90,
+      180
+    ],
+    "inputFramePixels": "explicit immutable RGBA CPU snapshot"
+  },
+  "web": {
+    "output": "corridor-empty-web.mp4",
+    "trackFile": "frame-track-web.json",
+    "width": 540,
+    "height": 1168,
+    "fps": 30,
+    "frames": 91,
+    "bytes": 701636,
+    "duration": 3.033333,
+    "bitrateTarget": 1800000,
+    "sha256": "27d0e2d66e8c2a8ea8901704e1d0903e8d16c097fb1b7ab5c002f43e911acfb7",
+    "decoded": true,
+    "timestampDecodedFrames": [
+      0,
+      45,
+      90
+    ],
+    "inputFramePixels": "explicit immutable RGBA CPU snapshot"
+  },
+  "approvedFilesUnchanged": true,
+  "writes": "docs/art/drafts/corridor-victory-v3-layered-20261031 only",
+  "greenSourceRGB": [
+    0,
+    255,
+    0
+  ],
+  "codec": "H264 AVC baseline; software encoder"
+}

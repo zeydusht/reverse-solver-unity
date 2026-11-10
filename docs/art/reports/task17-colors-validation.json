@@ -1,0 +1,153 @@
+{
+  "status": "passed",
+  "files": [
+    {
+      "file": "chain-link-v3-altin.png",
+      "color": "altin",
+      "shape": null,
+      "size": [
+        128,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "3ed72b357127f7f3d52e501506fe84ed103227e199b13e7553ee534a9c4ca2fd"
+    },
+    {
+      "file": "chain-lock-v3-altin.png",
+      "color": "altin",
+      "shape": "Yıldız",
+      "size": [
+        160,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "298be1df6ef019288e6246a8f870d578fa4ce3cd72dbb8cf139bb2abc898dc3e"
+    },
+    {
+      "file": "chain-link-v3-turkuaz.png",
+      "color": "turkuaz",
+      "shape": null,
+      "size": [
+        128,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "5c0f18e8049b2ba8510db2b2c30f3014f9a511b710fc8b6fb0dd7aae78c9a08a"
+    },
+    {
+      "file": "chain-lock-v3-turkuaz.png",
+      "color": "turkuaz",
+      "shape": "Damla",
+      "size": [
+        160,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "7f51d5813f0970df59f876942394ca8290a9e15ee747f889c27e511f4ffcd49e"
+    },
+    {
+      "file": "chain-link-v3-mor.png",
+      "color": "mor",
+      "shape": null,
+      "size": [
+        128,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "3c62bfd1af05ab5b7714e707e6a9af3a6fba466846c10ba0b7f864d62bc4f88a"
+    },
+    {
+      "file": "chain-lock-v3-mor.png",
+      "color": "mor",
+      "shape": "Ay",
+      "size": [
+        160,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "b6623a5668ee7e65b6166326d96f082f82a92e650c2e2420643a5337c0fadf6c"
+    },
+    {
+      "file": "chain-link-v3-mercan.png",
+      "color": "mercan",
+      "shape": null,
+      "size": [
+        128,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "5e36def728a8ef1735e3964e94185fe68ac882c01a014c697090d1f196fe70d4"
+    },
+    {
+      "file": "chain-lock-v3-mercan.png",
+      "color": "mercan",
+      "shape": "Kalp",
+      "size": [
+        160,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "803b522baa1049af2c3bdbf4a5b01db76035b5febd30245bcbdf4d8d79911460"
+    }
+  ],
+  "haloPixels": 4,
+  "repeatBorderMismatchedPixels": {
+    "altin": 0,
+    "turkuaz": 0,
+    "mor": 0,
+    "mercan": 0
+  },
+  "approvedAlphaGeometryUnchanged": true,
+  "protected": {
+    "Assets\\Art\\Gameplay\\Task17\\chain-link-v3.png": "9b0da0ccba6c5ea7747f9f7a4e56547ed77f1df2bfcec8fcc8d93d16db9d7ed0",
+    "Assets\\Art\\Gameplay\\Task17\\chain-lock-v3.png": "31d556f782eb397f3d2a57b48c8d3c5f78e36976a1ea70ded6cdcde1fc25647d",
+    "Assets\\Art\\Gameplay\\Task17\\preview-chain.png": "521ae6f0011194c77f0413c99dbcc98874b87371fe42fc204a8a6eb12f35b3f0",
+    "Assets\\Art\\Gameplay\\Task17\\preview-repeat.png": "5dcfb3ce355191ccdff8a948fbde96ac74ef8c3dfda501fc83f7ceba3925a37b",
+    "Assets\\Art\\Gameplay\\Task14\\chain-link-repeat-96x48.png": "7028a27d331b70048f453c6afdf7c221f7afbc76bec0f5ce404e2ac816f5f148",
+    "Assets\\Art\\Gameplay\\Task14\\chain-endpoint-144.png": "d8c0bb0e61592cef258a5b4c637bc2a7a0ab2995b4bed8367ba7fdbc3b0c551d",
+    "Assets\\Art\\Paintings\\painting-40.jpg": "502a4ada0923f99cc3af8ae8ce819864931ba36ec459b7a9785065503b5a1af9",
+    "Assets\\Art\\Paintings\\painting-24.jpg": "02c795bc642d8b35130618eedec7f0e5252b30f358c1b9a704585e05eb1d1c73"
+  },
+  "protectedMismatches": 0,
+  "shapeEncoding": {
+    "altin": "star",
+    "turkuaz": "drop",
+    "mor": "crescent",
+    "mercan": "heart"
+  },
+  "palette": "docs/art/PALETTE.md — Task17 colored pairs",
+  "preview": "preview-chain-colors.png",
+  "sameBoardPairCounts": [
+    2,
+    2
+  ],
+  "lockAttachmentUnity": [
+    0.5,
+    0.83125
+  ],
+  "runtimeIntegration": false
+}

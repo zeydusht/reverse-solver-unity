@@ -1,0 +1,42 @@
+[
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\AnimationDemo\\.deps\\PIL",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\Assets\\\\Art\\\\AnimationDemo\\\\.deps\\\\PIL'"
+  },
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\AnimationDemo\\.deps\\pillow-13.0.0.dist-info",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\Assets\\\\Art\\\\AnimationDemo\\\\.deps\\\\pillow-13.0.0.dist-info'"
+  },
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\docs\\art\\.task15-python\\bin",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\docs\\\\art\\\\.task15-python\\\\bin'"
+  },
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\docs\\art\\.task15-python\\numpy",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\docs\\\\art\\\\.task15-python\\\\numpy'"
+  },
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\docs\\art\\.task15-python\\numpy-2.5.4.dist-info",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\docs\\\\art\\\\.task15-python\\\\numpy-2.5.4.dist-info'"
+  },
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\docs\\art\\.task15-python\\numpy.libs",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\docs\\\\art\\\\.task15-python\\\\numpy.libs'"
+  },
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\docs\\art\\.task15-python\\PIL",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\docs\\\\art\\\\.task15-python\\\\PIL'"
+  },
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\docs\\art\\.task15-python\\pillow-13.0.0.dist-info",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\docs\\\\art\\\\.task15-python\\\\pillow-13.0.0.dist-info'"
+  },
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\docs\\art\\.task16-python\\PIL",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\docs\\\\art\\\\.task16-python\\\\PIL'"
+  },
+  {
+    "path": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\docs\\art\\.task16-python\\pillow-13.0.0.dist-info",
+    "error": "[WinError 5] Erişim engellendi: 'C:\\\\Users\\\\zeydt\\\\Downloads\\\\Reverse Solver\\\\ReverseSolver\\\\docs\\\\art\\\\.task16-python\\\\pillow-13.0.0.dist-info'"
+  }
+]

@@ -1,0 +1,2 @@
+[corridor] painting-01 -> painting-02 hazır menü
+ | [corridor-end] 3,62 s

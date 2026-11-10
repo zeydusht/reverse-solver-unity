@@ -1,0 +1,242 @@
+[
+  {
+    "level": 1,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 2,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 3,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 4,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 5,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 6,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 7,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 8,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 9,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 10,
+    "state": "complete",
+    "hard": false,
+    "milestone": true
+  },
+  {
+    "level": 11,
+    "state": "complete",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 12,
+    "state": "current",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 13,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 14,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 15,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 16,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 17,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 18,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 19,
+    "state": "locked",
+    "hard": true,
+    "milestone": false
+  },
+  {
+    "level": 20,
+    "state": "locked",
+    "hard": false,
+    "milestone": true
+  },
+  {
+    "level": 21,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 22,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 23,
+    "state": "locked",
+    "hard": true,
+    "milestone": false
+  },
+  {
+    "level": 24,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 25,
+    "state": "locked",
+    "hard": true,
+    "milestone": false
+  },
+  {
+    "level": 26,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 27,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 28,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 29,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 30,
+    "state": "locked",
+    "hard": true,
+    "milestone": true
+  },
+  {
+    "level": 31,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 32,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 33,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 34,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 35,
+    "state": "locked",
+    "hard": true,
+    "milestone": false
+  },
+  {
+    "level": 36,
+    "state": "locked",
+    "hard": true,
+    "milestone": false
+  },
+  {
+    "level": 37,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 38,
+    "state": "locked",
+    "hard": true,
+    "milestone": false
+  },
+  {
+    "level": 39,
+    "state": "locked",
+    "hard": false,
+    "milestone": false
+  },
+  {
+    "level": 40,
+    "state": "locked",
+    "hard": false,
+    "milestone": true
+  }
+]

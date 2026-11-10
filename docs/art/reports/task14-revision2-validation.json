@@ -1,0 +1,113 @@
+﻿{
+    "revision":  2,
+    "previewOnly":  true,
+    "productionAssetsGenerated":  false,
+    "approval":  "Pending Zeyd revision approval",
+    "dimensions":  [
+                       {
+                           "path":  "Assets/Art/Gameplay/Task14/preview-ingame.png",
+                           "width":  390,
+                           "height":  844
+                       },
+                       {
+                           "path":  "Assets/Art/Gameplay/Task14/Source/preview-ingame@3x.png",
+                           "width":  1170,
+                           "height":  2532
+                       },
+                       {
+                           "path":  "Assets/Art/Gameplay/Task14/preview-details.png",
+                           "width":  720,
+                           "height":  304
+                       }
+                   ],
+    "protectedFiles":  252,
+    "protectedMismatches":  0,
+    "unchangedPanelFrameSamplePixels":  62400,
+    "panelFrameSampleMismatches":  0,
+    "draftSourceImages":  [
+                              {
+                                  "file":  "bomb-centered-source.png",
+                                  "width":  1254,
+                                  "height":  1254,
+                                  "cornerAlpha":  0,
+                                  "hash":  "765202970AE317B0C0E66D5AE86A9008625F787BB00EB8C029FAF52B5ABBA067"
+                              },
+                              {
+                                  "file":  "bomb-source.png",
+                                  "width":  1254,
+                                  "height":  1254,
+                                  "cornerAlpha":  0,
+                                  "hash":  "40894AC222B765E4324E96FB951744B06BC55A9829FF70F03DCB797C9501C26B"
+                              },
+                              {
+                                  "file":  "booster-clock-source.png",
+                                  "width":  1254,
+                                  "height":  1254,
+                                  "cornerAlpha":  0,
+                                  "hash":  "029EE76EC412ACDF3897B3A0E24E396D45FA3C00DACFFEAA7F9C3F2EDA401EA4"
+                              },
+                              {
+                                  "file":  "booster-hammer-source.png",
+                                  "width":  1254,
+                                  "height":  1254,
+                                  "cornerAlpha":  0,
+                                  "hash":  "304F60A8A4A064DD1E0F28C149D9D36C03F0474808183A5A572FD0FDFF6E49FA"
+                              },
+                              {
+                                  "file":  "booster-scissors-source.png",
+                                  "width":  1254,
+                                  "height":  1254,
+                                  "cornerAlpha":  0,
+                                  "hash":  "35EB8C783D1B1C750A4F78202F6CD0009C388CB9902B17FE151B2B8365801BA7"
+                              },
+                              {
+                                  "file":  "booster-wand-source.png",
+                                  "width":  1254,
+                                  "height":  1254,
+                                  "cornerAlpha":  0,
+                                  "hash":  "C7EE02AA3B06C075C7FD7FBA1B4BC388C654CD480BE49F3A6E9684DE0F85C312"
+                              },
+                              {
+                                  "file":  "chain-endpoint-source.png",
+                                  "width":  1254,
+                                  "height":  1254,
+                                  "cornerAlpha":  0,
+                                  "hash":  "1C044E9DE9269F1F142A3A23E980AA8F23636CF18F49AA98EC80E9E80C192793"
+                              },
+                              {
+                                  "file":  "chain-repeat-source.png",
+                                  "width":  1774,
+                                  "height":  887,
+                                  "cornerAlpha":  0,
+                                  "hash":  "F53C57F6C64AD0F4D7B25A8C570753781AF00F5385E796E006250934CAC7E1EB"
+                              },
+                              {
+                                  "file":  "nail-source.png",
+                                  "width":  1254,
+                                  "height":  1254,
+                                  "cornerAlpha":  0,
+                                  "hash":  "A45A54DB9FE8048DC5B43334601AC2C9EE05880C8CCB046E92D99213A46A55B9"
+                              },
+                              {
+                                  "file":  "wall-source.png",
+                                  "width":  800,
+                                  "height":  1967,
+                                  "cornerAlpha":  0,
+                                  "hash":  "6E681B45F3253D71DFDDF792832791E139704E84A7A6EFBC045F8BF1487E3644"
+                              }
+                          ],
+    "numberTest":  [
+                       "nail:12",
+                       "bomb:24"
+                   ],
+    "font":  "Lilita One Regular (proposal)",
+    "pendingProduction":  [
+                              "384x384 centered bomb and nail exports",
+                              "96x48 chain repeat and 144x144 lock exports",
+                              "chain seam validation",
+                              "separate UI and states",
+                              "cards",
+                              "runtime HANDOFF rows after approval"
+                          ],
+    "excludedUpdatedBoosterEdgeSampleDifferences":  33
+}

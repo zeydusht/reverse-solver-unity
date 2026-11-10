@@ -1,0 +1,5609 @@
+{
+  "01-ev": {
+    "layers": [
+      {
+        "sprite": "scene-home.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "gameArt": "Assets/Art/Gameplay/Task15/painting-test-01.png",
+        "crop": "center 3:4",
+        "rectPt": [
+          62,
+          114,
+          235,
+          378
+        ],
+        "mask": "hero-picture-mask"
+      },
+      {
+        "sprite": "hero-frame.png",
+        "rectPt": [
+          62,
+          114,
+          235,
+          378
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "profile-name-box.png",
+        "rectPt": [
+          9.67,
+          52,
+          162.33,
+          40
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "profile-avatar-frame.png",
+        "rectPt": [
+          9.67,
+          44,
+          58,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-disc.png",
+        "rectPt": [
+          13.5,
+          48,
+          49,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-blue.png",
+        "rectPt": [
+          13.5,
+          48,
+          49,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "hud-jiggle-pill.png",
+        "rectPt": [
+          188,
+          54,
+          112,
+          29
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "jiggle-counter-icon.png",
+        "rectPt": [
+          174,
+          51,
+          38,
+          38
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-settings.png",
+        "rectPt": [
+          313,
+          51,
+          49,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-primary.png",
+        "rectPt": [
+          79.67,
+          606,
+          215,
+          101
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-levels.png",
+        "rectPt": [
+          17,
+          621,
+          44,
+          44
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          718,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          3.0,
+          719,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          17.875,
+          694,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-selected.png",
+        "rectPt": [
+          16.079268292682926,
+          695,
+          61.59146341463415,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          96.75,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          709,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          709,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          709,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          704.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      }
+    ],
+    "text": [
+      {
+        "text": "0",
+        "renderText": "0",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 69,
+        "x": 759,
+        "y": 216,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Level 1",
+        "renderText": "Level 1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 120,
+        "x": 561,
+        "y": 1971,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      },
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 2144,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Zeynep Yılmaz",
+        "renderText": "Zeynep Yılmaz",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 41,
+        "x": 354,
+        "y": 216,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Bölümler",
+        "renderText": "Bölümler",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 117,
+        "y": 2037,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      }
+    ]
+  },
+  "02-koleksiyon": {
+    "layers": [
+      {
+        "sprite": "scene-collection.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "title-plaque.png",
+        "rectPt": [
+          32,
+          106,
+          229,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "counter-pill.png",
+        "rectPt": [
+          269,
+          116,
+          89,
+          35
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-01.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          33,
+          174,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          27,
+          166,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-02.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          153,
+          174,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          147,
+          166,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-03.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          273,
+          174,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          267,
+          166,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-04.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          33,
+          304,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          27,
+          296,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-05.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          153,
+          304,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          147,
+          296,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-06.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          273,
+          304,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          267,
+          296,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-07.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          33,
+          434,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          27,
+          426,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-08.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          153,
+          434,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          147,
+          426,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-09.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          273,
+          434,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          267,
+          426,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-10.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          33,
+          564,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          27,
+          556,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-11.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          153,
+          564,
+          69,
+          92
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          147,
+          556,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "sprite": "portrait-placeholder.png",
+        "rectPt": [
+          267,
+          556,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          267,
+          556,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "sprite": "portrait-placeholder.png",
+        "rectPt": [
+          27,
+          686,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          27,
+          686,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "sprite": "portrait-placeholder.png",
+        "rectPt": [
+          147,
+          686,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          147,
+          686,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "sprite": "portrait-placeholder.png",
+        "rectPt": [
+          267,
+          686,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "sprite": "portrait-frame.png",
+        "rectPt": [
+          267,
+          686,
+          81,
+          108
+        ],
+        "fraction": null,
+        "clipY": 718
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          718,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          3.0,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-normal.png",
+        "rectPt": [
+          23.208333333333332,
+          709,
+          47.333333333333336,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          96.75,
+          719,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          111.625,
+          694,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-selected.png",
+        "rectPt": [
+          105.83414634146342,
+          695,
+          69.58170731707317,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          709,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          709,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          704.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      }
+    ],
+    "text": [
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 2144,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 84,
+        "x": 438,
+        "y": 396,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 3,
+        "shadow": true
+      },
+      {
+        "text": "11 / 40",
+        "renderText": "11 / 40",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 54,
+        "x": 936,
+        "y": 405,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 1",
+        "renderText": "Bölüm 1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 202,
+        "y": 849,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 2",
+        "renderText": "Bölüm 2",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 562,
+        "y": 849,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 3",
+        "renderText": "Bölüm 3",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 922,
+        "y": 849,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 4",
+        "renderText": "Bölüm 4",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 202,
+        "y": 1239,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 5",
+        "renderText": "Bölüm 5",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 562,
+        "y": 1239,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 6",
+        "renderText": "Bölüm 6",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 922,
+        "y": 1239,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 7",
+        "renderText": "Bölüm 7",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 202,
+        "y": 1629,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 8",
+        "renderText": "Bölüm 8",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 562,
+        "y": 1629,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 9",
+        "renderText": "Bölüm 9",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 922,
+        "y": 1629,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 10",
+        "renderText": "Bölüm 10",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 202,
+        "y": 2019,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 11",
+        "renderText": "Bölüm 11",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 562,
+        "y": 2019,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Sıradaki",
+        "renderText": "Sıradaki",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 922,
+        "y": 2019,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "02b-tablo-detay": {
+    "layers": [
+      {
+        "sprite": "scene-achievements.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "modal-panel.png",
+        "rectPt": [
+          23,
+          145,
+          329,
+          515
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "title-plaque.png",
+        "rectPt": [
+          58,
+          154,
+          255,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-close.png",
+        "rectPt": [
+          314,
+          166,
+          28,
+          28
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-07.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          86,
+          228,
+          204,
+          272
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "portrait-frame-large.png",
+        "rectPt": [
+          80,
+          220,
+          216,
+          288
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-secondary.png",
+        "rectPt": [
+          73,
+          577,
+          229,
+          59
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          718,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          3.0,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-normal.png",
+        "rectPt": [
+          23.208333333333332,
+          709,
+          47.333333333333336,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          96.75,
+          719,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          111.625,
+          694,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-selected.png",
+        "rectPt": [
+          105.83414634146342,
+          695,
+          69.58170731707317,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          709,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          709,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          704.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      }
+    ],
+    "text": [
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 2144,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Tablo detayı",
+        "renderText": "Tablo detayı",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 78,
+        "x": 555,
+        "y": 546,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      },
+      {
+        "text": "×",
+        "renderText": "×",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 72,
+        "x": 984,
+        "y": 540,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Kemerli su yolu",
+        "renderText": "Kemerli su yolu",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 69,
+        "x": 561,
+        "y": 1578,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm 7'de kazanıldı · 0:42",
+        "renderText": "Bölüm 7'de kazanıldı · 0:42",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 561,
+        "y": 1653,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Tekrar oyna",
+        "renderText": "Tekrar oyna",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 69,
+        "x": 561,
+        "y": 1818,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      }
+    ]
+  },
+  "03-jiggles": {
+    "layers": [
+      {
+        "sprite": "scene-jiggles.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "title-plaque.png",
+        "rectPt": [
+          25,
+          87,
+          232,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "counter-pill.png",
+        "rectPt": [
+          267,
+          103,
+          90,
+          40
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "jiggles-shelf.png",
+        "rectPt": [
+          20,
+          178,
+          340,
+          300
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "jiggle-green-standing.png",
+        "rectPt": [
+          91,
+          174,
+          88,
+          132
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "jiggle-purple-standing.png",
+        "rectPt": [
+          202,
+          174,
+          88,
+          132
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "jiggle-blue-standing.png",
+        "rectPt": [
+          48,
+          314,
+          88,
+          132
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "jiggle-pink-standing.png",
+        "rectPt": [
+          144,
+          314,
+          88,
+          132
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "jiggle-red-standing.png",
+        "rectPt": [
+          241,
+          314,
+          88,
+          132
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "color-count-pill.png",
+        "rectPt": [
+          111,
+          308,
+          48,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "color-count-pill.png",
+        "rectPt": [
+          222,
+          308,
+          48,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "color-count-pill.png",
+        "rectPt": [
+          68,
+          451,
+          48,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "color-count-pill.png",
+        "rectPt": [
+          164,
+          451,
+          48,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "color-count-pill.png",
+        "rectPt": [
+          261,
+          451,
+          48,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-disc.png",
+        "rectPt": [
+          25,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-blue.png",
+        "rectPt": [
+          27,
+          512,
+          54,
+          54
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-ring-selected.png",
+        "rectPt": [
+          25,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-disc.png",
+        "rectPt": [
+          92,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-pink.png",
+        "rectPt": [
+          94,
+          512,
+          54,
+          54
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-ring.png",
+        "rectPt": [
+          92,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-disc.png",
+        "rectPt": [
+          159,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-red.png",
+        "rectPt": [
+          161,
+          512,
+          54,
+          54
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-ring.png",
+        "rectPt": [
+          159,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-disc.png",
+        "rectPt": [
+          226,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-green.png",
+        "rectPt": [
+          228,
+          512,
+          54,
+          54
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-ring.png",
+        "rectPt": [
+          226,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-disc.png",
+        "rectPt": [
+          293,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-purple.png",
+        "rectPt": [
+          295,
+          512,
+          54,
+          54
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-ring.png",
+        "rectPt": [
+          293,
+          510,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "milestone-rail.png",
+        "rectPt": [
+          35,
+          593,
+          306,
+          51
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "milestone-frame.png",
+        "rectPt": [
+          43,
+          594,
+          52,
+          52
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "milestone-badge.png",
+        "rectPt": [
+          163,
+          594,
+          52,
+          52
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "milestone-portrait.png",
+        "rectPt": [
+          283,
+          594,
+          52,
+          52
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          718,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          3.0,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-normal.png",
+        "rectPt": [
+          23.208333333333332,
+          709,
+          47.333333333333336,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          96.75,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          709,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          190.5,
+          719,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          205.375,
+          694,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-selected.png",
+        "rectPt": [
+          191.42743902439025,
+          695,
+          85.89512195121952,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          709,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          704.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      }
+    ],
+    "text": [
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 2144,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 90,
+        "x": 438,
+        "y": 330,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 3,
+        "shadow": true
+      },
+      {
+        "text": "5 renk",
+        "renderText": "5 renk",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 936,
+        "y": 360,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "1.248 Jiggle kurtarıldı",
+        "renderText": "1.248 Jiggle kurtarıldı",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 60,
+        "x": 561,
+        "y": 453,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      },
+      {
+        "text": "211",
+        "renderText": "211",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 48,
+        "x": 405,
+        "y": 954,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "190",
+        "renderText": "190",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 48,
+        "x": 738,
+        "y": 954,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "328",
+        "renderText": "328",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 48,
+        "x": 276,
+        "y": 1383,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "277",
+        "renderText": "277",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 48,
+        "x": 564,
+        "y": 1383,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "242",
+        "renderText": "242",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 48,
+        "x": 855,
+        "y": 1383,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Avatarım",
+        "renderText": "Avatarım",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 48,
+        "x": 561,
+        "y": 1449,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "500",
+        "renderText": "500",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 48,
+        "x": 207,
+        "y": 1971,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Çerçeve",
+        "renderText": "Çerçeve",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 207,
+        "y": 2040,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "1.000",
+        "renderText": "1.000",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 48,
+        "x": 567,
+        "y": 1971,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Rozet",
+        "renderText": "Rozet",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 567,
+        "y": 2040,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "2.000",
+        "renderText": "2.000",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 48,
+        "x": 927,
+        "y": 1971,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Portre",
+        "renderText": "Portre",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 927,
+        "y": 2040,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      }
+    ]
+  },
+  "04-basarilar": {
+    "layers": [
+      {
+        "sprite": "scene-achievements.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "title-plaque.png",
+        "rectPt": [
+          24,
+          103,
+          250,
+          59
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "counter-pill.png",
+        "rectPt": [
+          278,
+          116,
+          82,
+          35
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-tile.png",
+        "rectPt": [
+          31,
+          196,
+          313,
+          98
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-first-picture.png",
+        "rectPt": [
+          47,
+          207,
+          74,
+          74
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "progress-track.png",
+        "rectPt": [
+          128,
+          254.5,
+          158,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "progress-fill.png",
+        "rectPt": [
+          132,
+          258,
+          150,
+          13
+        ],
+        "fraction": 1,
+        "clipY": null
+      },
+      {
+        "sprite": "icon-green-check.png",
+        "rectPt": [
+          297.5,
+          229.5,
+          23,
+          23
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-tile.png",
+        "rectPt": [
+          31,
+          299,
+          313,
+          98
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-collector.png",
+        "rectPt": [
+          47,
+          310,
+          74,
+          74
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "progress-track.png",
+        "rectPt": [
+          128,
+          357.5,
+          158,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "progress-fill.png",
+        "rectPt": [
+          132,
+          361,
+          150,
+          13
+        ],
+        "fraction": 1,
+        "clipY": null
+      },
+      {
+        "sprite": "icon-green-check.png",
+        "rectPt": [
+          297.5,
+          332.5,
+          23,
+          23
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-tile.png",
+        "rectPt": [
+          31,
+          404,
+          313,
+          98
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-bomb.png",
+        "rectPt": [
+          47,
+          415,
+          74,
+          74
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "progress-track.png",
+        "rectPt": [
+          128,
+          462.5,
+          158,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "progress-fill.png",
+        "rectPt": [
+          132,
+          466,
+          150,
+          13
+        ],
+        "fraction": 0.7,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-tile.png",
+        "rectPt": [
+          31,
+          508,
+          313,
+          98
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-speed.png",
+        "rectPt": [
+          47,
+          519,
+          74,
+          74
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "progress-track.png",
+        "rectPt": [
+          128,
+          566.5,
+          158,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "progress-fill.png",
+        "rectPt": [
+          132,
+          570,
+          150,
+          13
+        ],
+        "fraction": 0.6,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-tile.png",
+        "rectPt": [
+          31,
+          612,
+          313,
+          98
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "achievement-baron-hat.png",
+        "rectPt": [
+          47,
+          623,
+          74,
+          74
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "progress-track.png",
+        "rectPt": [
+          128,
+          670.5,
+          158,
+          20
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "icon-lock.png",
+        "rectPt": [
+          298,
+          648,
+          22,
+          26
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          718,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          3.0,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-normal.png",
+        "rectPt": [
+          23.208333333333332,
+          709,
+          47.333333333333336,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          96.75,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          709,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          709,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          284.25,
+          719,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          299.125,
+          694,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-selected.png",
+        "rectPt": [
+          293.83353658536583,
+          695,
+          68.58292682926829,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          346.0581707317073,
+          692.598,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      }
+    ],
+    "text": [
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1067,
+        "y": 2107,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 90,
+        "x": 438,
+        "y": 402,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 3,
+        "shadow": true
+      },
+      {
+        "text": "5 / 16",
+        "renderText": "5 / 16",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 54,
+        "x": 951,
+        "y": 399,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "İlk Tablo",
+        "renderText": "Ilk Tablo",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 46,
+        "x": 390,
+        "y": 639,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "İlk bölümü bitir",
+        "renderText": "Ilk bölümü bitir",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 390,
+        "y": 714,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "1/1",
+        "renderText": "1/1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 621,
+        "y": 794,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyoncu",
+        "renderText": "Koleksiyoncu",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 46,
+        "x": 390,
+        "y": 948,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "10 tablo topla",
+        "renderText": "10 tablo topla",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 390,
+        "y": 1023,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "10/10",
+        "renderText": "10/10",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 621,
+        "y": 1102,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bomba İmha Uzmanı",
+        "renderText": "Bomba Imha Uzmanı",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 46,
+        "x": 390,
+        "y": 1263,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "10 bombalı bölümü ilk denemede geç",
+        "renderText": "10 bombalı bölümü ilk denemede geç",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 36,
+        "x": 390,
+        "y": 1338,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "7/10",
+        "renderText": "7/10",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 621,
+        "y": 1418,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Hızlı Parmaklar",
+        "renderText": "Hızlı Parmaklar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 46,
+        "x": 390,
+        "y": 1575,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "10 bölümü yarı sürede bitir",
+        "renderText": "10 bölümü yarı sürede bitir",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 390,
+        "y": 1650,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "6/10",
+        "renderText": "6/10",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 621,
+        "y": 1730,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Baron’a Kafa Tut",
+        "renderText": "Baron’a Kafa Tut",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 46,
+        "x": 390,
+        "y": 1887,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Tüm zor bölümleri geç",
+        "renderText": "Tüm zor bölümleri geç",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 390,
+        "y": 1962,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "0/7",
+        "renderText": "0/7",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 621,
+        "y": 2042,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      }
+    ]
+  },
+  "05-profil": {
+    "layers": [
+      {
+        "sprite": "scene-achievements.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "modal-panel.png",
+        "rectPt": [
+          23,
+          122,
+          329,
+          560
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "title-plaque.png",
+        "rectPt": [
+          24,
+          116,
+          328,
+          65
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-close.png",
+        "rectPt": [
+          316,
+          136,
+          28,
+          28
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-disc.png",
+        "rectPt": [
+          138,
+          194,
+          100,
+          100
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-blue.png",
+        "rectPt": [
+          141,
+          197,
+          94,
+          94
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-ring-selected.png",
+        "rectPt": [
+          131,
+          187,
+          114,
+          114
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "name-band.png",
+        "rectPt": [
+          45,
+          300,
+          284,
+          46
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "icon-pencil.png",
+        "rectPt": [
+          287,
+          308,
+          32,
+          32
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "stat-tile.png",
+        "rectPt": [
+          45,
+          354,
+          137,
+          65
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-normal.png",
+        "rectPt": [
+          53,
+          361,
+          22,
+          22
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "stat-tile.png",
+        "rectPt": [
+          191,
+          354,
+          137,
+          65
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "jiggle-counter-icon.png",
+        "rectPt": [
+          199,
+          361,
+          22,
+          22
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "stat-tile.png",
+        "rectPt": [
+          45,
+          427,
+          137,
+          65
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "stat-icon-clock.png",
+        "rectPt": [
+          53,
+          434,
+          22,
+          22
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "stat-tile.png",
+        "rectPt": [
+          191,
+          427,
+          137,
+          65
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "stat-icon-piece.png",
+        "rectPt": [
+          199,
+          434,
+          22,
+          22
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "stat-tile.png",
+        "rectPt": [
+          45,
+          500,
+          137,
+          65
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          53,
+          507,
+          22,
+          22
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "stat-tile.png",
+        "rectPt": [
+          191,
+          500,
+          137,
+          65
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "stat-icon-clock.png",
+        "rectPt": [
+          199,
+          507,
+          22,
+          22
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-secondary.png",
+        "rectPt": [
+          64,
+          580,
+          247,
+          59
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          718,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          3.0,
+          719,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          17.875,
+          694,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-selected.png",
+        "rectPt": [
+          16.079268292682926,
+          695,
+          61.59146341463415,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          96.75,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          709,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          709,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          709,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          704.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      }
+    ],
+    "text": [
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 2144,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Profil",
+        "renderText": "Profil",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 87,
+        "x": 561,
+        "y": 453,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      },
+      {
+        "text": "×",
+        "renderText": "×",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 72,
+        "x": 990,
+        "y": 450,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Zeynep Yılmaz",
+        "renderText": "Zeynep Yılmaz",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 69,
+        "x": 555,
+        "y": 972,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "12/40",
+        "renderText": "12/40",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 63,
+        "x": 396,
+        "y": 1119,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Bölüm",
+        "renderText": "Bölüm",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 339,
+        "y": 1203,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "1.248",
+        "renderText": "1.248",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 63,
+        "x": 834,
+        "y": 1119,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Kurtarılan Jiggle",
+        "renderText": "Kurtarılan Jiggle",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 777,
+        "y": 1203,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "18 dk",
+        "renderText": "18 dk",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 63,
+        "x": 396,
+        "y": 1338,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Toplam süre",
+        "renderText": "Toplam süre",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 339,
+        "y": 1422,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "%75",
+        "renderText": "%75",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 63,
+        "x": 834,
+        "y": 1338,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "İlk denemede",
+        "renderText": "Ilk denemede",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 777,
+        "y": 1422,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "5/16",
+        "renderText": "5/16",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 63,
+        "x": 396,
+        "y": 1557,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Başarı",
+        "renderText": "Basarı",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 339,
+        "y": 1641,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "0:46",
+        "renderText": "0:46",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 63,
+        "x": 834,
+        "y": 1557,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Ortalama kalan",
+        "renderText": "Ortalama kalan",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 777,
+        "y": 1620,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "süre",
+        "renderText": "süre",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 777,
+        "y": 1668,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Avatarı değiştir",
+        "renderText": "Avatarı degistir",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 66,
+        "x": 561,
+        "y": 1827,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      }
+    ]
+  },
+  "06-ayarlar": {
+    "layers": [
+      {
+        "sprite": "scene-achievements.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "modal-panel.png",
+        "rectPt": [
+          23,
+          170,
+          329,
+          460
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "title-plaque.png",
+        "rectPt": [
+          28,
+          121,
+          320,
+          72
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-close.png",
+        "rectPt": [
+          312,
+          124,
+          39,
+          39
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "settings-icon-sound.png",
+        "rectPt": [
+          64,
+          219,
+          68,
+          68
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "toggle-on-track.png",
+        "rectPt": [
+          245,
+          235,
+          65,
+          36
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "toggle-knob.png",
+        "rectPt": [
+          279,
+          239,
+          28,
+          28
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "settings-icon-music.png",
+        "rectPt": [
+          64,
+          299,
+          68,
+          68
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "toggle-on-track.png",
+        "rectPt": [
+          245,
+          315,
+          65,
+          36
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "toggle-knob.png",
+        "rectPt": [
+          279,
+          319,
+          28,
+          28
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "settings-icon-vibration.png",
+        "rectPt": [
+          64,
+          376,
+          68,
+          68
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "toggle-off-track.png",
+        "rectPt": [
+          245,
+          392,
+          65,
+          36
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "toggle-knob.png",
+        "rectPt": [
+          248,
+          396,
+          28,
+          28
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "language-left-selected.png",
+        "rectPt": [
+          94,
+          473,
+          190,
+          50
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-small.png",
+        "rectPt": [
+          53,
+          550,
+          126,
+          45
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "button-small.png",
+        "rectPt": [
+          196,
+          550,
+          126,
+          45
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          718,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          3.0,
+          719,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          17.875,
+          694,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-selected.png",
+        "rectPt": [
+          16.079268292682926,
+          695,
+          61.59146341463415,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          96.75,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          709,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          709,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          709,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          704.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      }
+    ],
+    "text": [
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 2144,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Ayarlar",
+        "renderText": "Ayarlar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 90,
+        "x": 561,
+        "y": 471,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      },
+      {
+        "text": "Ses",
+        "renderText": "Ses",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 60,
+        "x": 414,
+        "y": 759,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Müzik",
+        "renderText": "Müzik",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 60,
+        "x": 414,
+        "y": 999,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Titreşim",
+        "renderText": "Titresim",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 60,
+        "x": 414,
+        "y": 1230,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Dil",
+        "renderText": "Dil",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 54,
+        "x": 174,
+        "y": 1488,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Türkçe",
+        "renderText": "Türkçe",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 435,
+        "y": 1488,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "English",
+        "renderText": "English",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 705,
+        "y": 1488,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Gizlilik",
+        "renderText": "Gizlilik",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 57,
+        "x": 339,
+        "y": 1722,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bize yaz",
+        "renderText": "Bize yaz",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 57,
+        "x": 795,
+        "y": 1722,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "v0.5.1",
+        "renderText": "v0.5.1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 36,
+        "x": 561,
+        "y": 1815,
+        "color": "#586A70",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      }
+    ]
+  },
+  "07-bolumler": {
+    "layers": [
+      {
+        "sprite": "scene-levels.png",
+        "rectPt": [
+          0,
+          0,
+          375,
+          812
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "levels-path-repeat.png",
+        "rectPt": [
+          25,
+          120,
+          325,
+          650
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "title-plaque.png",
+        "rectPt": [
+          15,
+          51,
+          232,
+          64
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "counter-pill.png",
+        "rectPt": [
+          263,
+          61,
+          96,
+          36
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-complete.png",
+        "rectPt": [
+          91.0,
+          598.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-complete.png",
+        "rectPt": [
+          238.0,
+          555.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-complete.png",
+        "rectPt": [
+          94.0,
+          512.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-glow.png",
+        "rectPt": [
+          238.5,
+          459.5,
+          75,
+          75
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-current.png",
+        "rectPt": [
+          246.0,
+          468.0,
+          60,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "avatar-blue.png",
+        "rectPt": [
+          259,
+          437,
+          34,
+          34
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-locked.png",
+        "rectPt": [
+          101.0,
+          419.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-locked.png",
+        "rectPt": [
+          241.0,
+          381.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-locked.png",
+        "rectPt": [
+          107.0,
+          332.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-locked.png",
+        "rectPt": [
+          233.0,
+          296.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-locked.png",
+        "rectPt": [
+          115.0,
+          246.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-locked.png",
+        "rectPt": [
+          232.0,
+          220.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-hard-locked.png",
+        "rectPt": [
+          106.0,
+          175.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "node-locked.png",
+        "rectPt": [
+          225.0,
+          156.0,
+          50,
+          48
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-10.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          186,
+          559,
+          30,
+          40
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "milestone-picture-frame.png",
+        "rectPt": [
+          180,
+          551,
+          42,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "gameArt": "Assets/Art/Paintings/painting-20.jpg",
+        "crop": "center 3:4",
+        "rectPt": [
+          173,
+          160,
+          30,
+          40
+        ],
+        "mask": null
+      },
+      {
+        "sprite": "milestone-picture-frame.png",
+        "rectPt": [
+          167,
+          152,
+          42,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          718,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          3.0,
+          719,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          17.875,
+          694,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-selected.png",
+        "rectPt": [
+          16.079268292682926,
+          695,
+          61.59146341463415,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          96.75,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          709,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          709,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          725,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          709,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          704.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      }
+    ],
+    "text": [
+      {
+        "text": "9",
+        "renderText": "9",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 348,
+        "y": 1869,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "10",
+        "renderText": "10",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 789,
+        "y": 1740,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "11",
+        "renderText": "11",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 357,
+        "y": 1611,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "12",
+        "renderText": "12",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 828,
+        "y": 1494,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "13",
+        "renderText": "13",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 378,
+        "y": 1374,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "14",
+        "renderText": "14",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 798,
+        "y": 1260,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "15",
+        "renderText": "15",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 396,
+        "y": 1113,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "16",
+        "renderText": "16",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 774,
+        "y": 1005,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "17",
+        "renderText": "17",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 420,
+        "y": 855,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "18",
+        "renderText": "18",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 771,
+        "y": 777,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "19",
+        "renderText": "19",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 393,
+        "y": 642,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "20",
+        "renderText": "20",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 750,
+        "y": 585,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 2298,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 2144,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Bölümler",
+        "renderText": "Bölümler",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 84,
+        "x": 438,
+        "y": 231,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      },
+      {
+        "text": "40 bölüm",
+        "renderText": "40 bölüm",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 933,
+        "y": 237,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "‹",
+        "renderText": "‹",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 93,
+        "x": 129,
+        "y": 231,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 2,
+        "shadow": false
+      }
+    ]
+  },
+  "08-sekme-cubugu": {
+    "layers": [
+      {
+        "referenceBoardColor": "#F8EBD0"
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          165,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          3.0,
+          166,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          17.875,
+          141,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-selected.png",
+        "rectPt": [
+          16.079268292682926,
+          142,
+          61.59146341463415,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          96.75,
+          172,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          156,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          172,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          156,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          172,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          156,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          151.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          297,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          3.0,
+          304,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-normal.png",
+        "rectPt": [
+          23.208333333333332,
+          288,
+          47.333333333333336,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          96.75,
+          298,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          111.625,
+          273,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-selected.png",
+        "rectPt": [
+          105.83414634146342,
+          274,
+          69.58170731707317,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          304,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          288,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          304,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          288,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          283.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          429,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          3.0,
+          436,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-normal.png",
+        "rectPt": [
+          23.208333333333332,
+          420,
+          47.333333333333336,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          96.75,
+          436,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          420,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          190.5,
+          430,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          205.375,
+          405,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-selected.png",
+        "rectPt": [
+          191.42743902439025,
+          406,
+          85.89512195121952,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          284.25,
+          436,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          420,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          339.69166666666666,
+          415.96,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bar-base.png",
+        "rectPt": [
+          0,
+          561,
+          375,
+          60
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          3.0,
+          568,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-normal.png",
+        "rectPt": [
+          23.208333333333332,
+          552,
+          47.333333333333336,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          96.75,
+          568,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          552,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-normal.png",
+        "rectPt": [
+          190.5,
+          568,
+          87.75,
+          49
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          552,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-slot-selected.png",
+        "rectPt": [
+          284.25,
+          562,
+          87.75,
+          56
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-bubble.png",
+        "rectPt": [
+          299.125,
+          537,
+          58,
+          58
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-selected.png",
+        "rectPt": [
+          293.83353658536583,
+          538,
+          68.58292682926829,
+          54.6
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "notification-badge.png",
+        "rectPt": [
+          346.0581707317073,
+          535.598,
+          19,
+          19
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-home-normal.png",
+        "rectPt": [
+          23.208333333333332,
+          690,
+          47.333333333333336,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-collection-normal.png",
+        "rectPt": [
+          113.79166666666667,
+          690,
+          53.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-jiggles-normal.png",
+        "rectPt": [
+          201.375,
+          690,
+          66.0,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      },
+      {
+        "sprite": "nav-icon-trophy-normal.png",
+        "rectPt": [
+          301.7916666666667,
+          690,
+          52.666666666666664,
+          42
+        ],
+        "fraction": null,
+        "clipY": null
+      }
+    ],
+    "text": [
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 639,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 639,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 639,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 639,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 485,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 1035,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 1035,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 1035,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 1035,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 881,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 1431,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 1431,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 1431,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 1431,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1048,
+        "y": 1277,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 1827,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 1827,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 1827,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 1827,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "1",
+        "renderText": "1",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 1067,
+        "y": 1636,
+        "color": "#F8EBD0",
+        "anchor": "mm",
+        "outlinePx": 1,
+        "shadow": false
+      },
+      {
+        "text": "Ev",
+        "renderText": "Ev",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 141,
+        "y": 2253,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon",
+        "renderText": "Koleksiyon",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 422,
+        "y": 2253,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles",
+        "renderText": "Jiggles",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 703,
+        "y": 2253,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar",
+        "renderText": "Basarılar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 984,
+        "y": 2253,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Alt sekme çubuğu",
+        "renderText": "Alt sekme çubugu",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 81,
+        "x": 562,
+        "y": 231,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Dört gömülü yuva · dört seçili durum",
+        "renderText": "Dört gömülü yuva · dört seçili durum",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 45,
+        "x": 562,
+        "y": 327,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Ev seçili",
+        "renderText": "Ev seçili",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 66,
+        "y": 384,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Koleksiyon seçili",
+        "renderText": "Koleksiyon seçili",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 66,
+        "y": 780,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Jiggles seçili",
+        "renderText": "Jiggles seçili",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 66,
+        "y": 1176,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Başarılar seçili",
+        "renderText": "Basarılar seçili",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 51,
+        "x": 66,
+        "y": 1572,
+        "color": "#0B2A36",
+        "anchor": "lm",
+        "outlinePx": 0,
+        "shadow": false
+      },
+      {
+        "text": "Seçili olmayan ikonlar",
+        "renderText": "Seçili olmayan ikonlar",
+        "font": "Fredoka-SemiBold",
+        "requestedWeight": "Bold",
+        "fontSizePx": 63,
+        "x": 562,
+        "y": 1977,
+        "color": "#0B2A36",
+        "anchor": "mm",
+        "outlinePx": 0,
+        "shadow": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "status": "passed",
+  "files": [
+    {
+      "file": "chain-link-v3.png",
+      "use": "Tekrarlanan zincir bandı; X repeat, Y clamp",
+      "size": [
+        128,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "9b0da0ccba6c5ea7747f9f7a4e56547ed77f1df2bfcec8fcc8d93d16db9d7ed0",
+      "alphaBBox": [
+        0,
+        4,
+        128,
+        60
+      ]
+    },
+    {
+      "file": "chain-lock-v3.png",
+      "use": "Zincir uç kilidi; zincir kilidin üst halkasına bağlanır",
+      "size": [
+        160,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "31d556f782eb397f3d2a57b48c8d3c5f78e36976a1ea70ded6cdcde1fc25647d",
+      "alphaBBox": [
+        22,
+        0,
+        138,
+        160
+      ]
+    }
+  ],
+  "palette": {
+    "navy": "#0B2A36",
+    "dark": "#0F4F5A",
+    "teal": "#1C7F8C",
+    "gold": "#FBBA0E",
+    "mid": "#F38A03",
+    "shade": "#CE5D01",
+    "light": "#FFF1C2",
+    "cream": "#F8EBD0"
+  },
+  "method": "Editable geometry adapted from existing SVG chain/lock family; Python/Pillow supersampled native drawing",
+  "haloPixels": 4,
+  "repeatBorderMismatchedPixels": 0,
+  "chainInkHeight": 56,
+  "targetInkFractionOfCell": 0.19,
+  "canvasHeightFractionOfCell": 0.21714285714285714,
+  "repeatPitchFractionOfCell": 0.4342857142857143,
+  "lockAttachmentUnity": [
+    0.5,
+    0.83125
+  ],
+  "previewSpriteHeight": 18,
+  "previewCell": 83.33333333333333,
+  "oldAndNewSameCanvasHeight": true,
+  "protected": {
+    "Assets\\Art\\Gameplay\\Task14\\chain-link-repeat-96x48.png": "7028a27d331b70048f453c6afdf7c221f7afbc76bec0f5ce404e2ac816f5f148",
+    "Assets\\Art\\Gameplay\\Task14\\chain-endpoint-144.png": "d8c0bb0e61592cef258a5b4c637bc2a7a0ab2995b4bed8367ba7fdbc3b0c551d",
+    "Assets\\Art\\Paintings\\painting-40.jpg": "502a4ada0923f99cc3af8ae8ce819864931ba36ec459b7a9785065503b5a1af9",
+    "Assets\\Art\\Paintings\\painting-24.jpg": "02c795bc642d8b35130618eedec7f0e5252b30f358c1b9a704585e05eb1d1c73"
+  },
+  "protectedMismatches": 0,
+  "preview": "preview-chain.png",
+  "runtimeIntegration": false
+}

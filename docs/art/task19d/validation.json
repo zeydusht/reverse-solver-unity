@@ -1,0 +1,117 @@
+{
+  "screens": [
+    {
+      "screen": "01-ev",
+      "size": [
+        1125,
+        2436
+      ],
+      "activeTab": 0,
+      "minFontPx": 41,
+      "sha256": "59c9571f1ede6e8d7707ad49c43e349572b12704ae049dedc01dace310db1f34"
+    },
+    {
+      "screen": "02-koleksiyon",
+      "size": [
+        1125,
+        2436
+      ],
+      "activeTab": 1,
+      "minFontPx": 45,
+      "sha256": "0e90820e1caed776747c1d1e047ca3ea301ad4d7b6792326feda30ba8a9399d1"
+    },
+    {
+      "screen": "02b-tablo-detay",
+      "size": [
+        1125,
+        2436
+      ],
+      "activeTab": 1,
+      "minFontPx": 45,
+      "sha256": "47c306e160d11de73f46b745056a85aa2ea91b973da53acf1d85f5a01504da41"
+    },
+    {
+      "screen": "03-jiggles",
+      "size": [
+        1125,
+        2436
+      ],
+      "activeTab": 2,
+      "minFontPx": 45,
+      "sha256": "954ebe523cb608fd2180a645e42d12b5219eb1b562496b701294cf7dd0836457"
+    },
+    {
+      "screen": "04-basarilar",
+      "size": [
+        1125,
+        2436
+      ],
+      "activeTab": 3,
+      "minFontPx": 36,
+      "sha256": "745eb2f334835579072b706661e4cf48a6026bb9fc5ee657fd302df9f83b9ec5"
+    },
+    {
+      "screen": "05-profil",
+      "size": [
+        1125,
+        2436
+      ],
+      "activeTab": 0,
+      "minFontPx": 45,
+      "sha256": "9d36277199cf77e7bba748e864029c20b7cec4456521bea9a6b1cc27a9f18d4e"
+    },
+    {
+      "screen": "06-ayarlar",
+      "size": [
+        1125,
+        2436
+      ],
+      "activeTab": 0,
+      "minFontPx": 36,
+      "sha256": "a9a78521f9a0e64a7f67b9f609a2cacf2fd8f79952d07a92a0b9b63684195245"
+    },
+    {
+      "screen": "07-bolumler",
+      "size": [
+        1125,
+        2436
+      ],
+      "activeTab": 0,
+      "minFontPx": 45,
+      "sha256": "860339651d8a7677b3236ba060efb08d6d0eeead2aa3bc032d30ca1dcb2c131e"
+    },
+    {
+      "screen": "08-sekme-cubugu",
+      "size": [
+        1125,
+        2436
+      ],
+      "activeTab": null,
+      "minFontPx": 45,
+      "sha256": "0d4f505ec667b3d21290055b344e20e0716797f1a0bc83e749f4158528b35965"
+    }
+  ],
+  "navBaseY": 2154,
+  "navBottomY": 2334,
+  "normalIconPt": 42,
+  "selectedIconPt": 54.6,
+  "portraitSourceCrop": [
+    128,
+    0,
+    896,
+    1024
+  ],
+  "gridCellPt": [
+    81,
+    108
+  ],
+  "gridImagePt": [
+    69,
+    92
+  ],
+  "fourRowsComplete": true,
+  "fifthRowClipPt": 718,
+  "name": "Zeynep Yılmaz",
+  "homeNameFontPt": 13.8,
+  "descriptionSingleLine": true
+}

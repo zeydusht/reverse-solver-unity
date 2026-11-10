@@ -1,0 +1,13 @@
+{
+  "unchanged": 4617,
+  "changed": [
+    "Assets/Art/Tutorial/hand-glove-back-v1-press.png",
+    "Assets/Art/Tutorial/hand-glove-back-v1.png",
+    "Assets/_Game/Presentation/Board/TutorialHand.cs",
+    "Assets/_Game/Presentation/Board/TutorialSpotlight.cs",
+    "Assets/_Game/Presentation/Ui/LevelsMap.cs",
+    "Assets/_Game/Presentation/Ui/Screens.cs",
+    "Assets/_Game/Presentation/Ui/Texts.cs"
+  ],
+  "missing": []
+}

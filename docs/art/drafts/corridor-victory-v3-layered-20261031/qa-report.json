@@ -1,0 +1,64 @@
+{
+  "status": "passed",
+  "masterTrackFrames": 181,
+  "webTrackFrames": 91,
+  "pixelChecks": [
+    {
+      "frame": 0,
+      "backgroundPixelIdenticalToApproved": true,
+      "outsideGreenUnchanged": true,
+      "greenExactly00FF00": true
+    },
+    {
+      "frame": 90,
+      "backgroundPixelIdenticalToApproved": true,
+      "outsideGreenUnchanged": true,
+      "greenExactly00FF00": true
+    },
+    {
+      "frame": 180,
+      "backgroundPixelIdenticalToApproved": true,
+      "outsideGreenUnchanged": true,
+      "greenExactly00FF00": true
+    }
+  ],
+  "timestampDecodedVideoChecks": [
+    {
+      "video": "corridor-empty",
+      "frame": 0,
+      "greenQuadIntersectionOverUnion": 0.9990256242094908
+    },
+    {
+      "video": "corridor-empty",
+      "frame": 90,
+      "greenQuadIntersectionOverUnion": 0.9986602149637241
+    },
+    {
+      "video": "corridor-empty",
+      "frame": 180,
+      "greenQuadIntersectionOverUnion": 0.9988431292650827
+    },
+    {
+      "video": "corridor-empty-web",
+      "frame": 0,
+      "greenQuadIntersectionOverUnion": 0.9988267386266976
+    },
+    {
+      "video": "corridor-empty-web",
+      "frame": 45,
+      "greenQuadIntersectionOverUnion": 0.9984020972473628
+    },
+    {
+      "video": "corridor-empty-web",
+      "frame": 90,
+      "greenQuadIntersectionOverUnion": 0.9987974423652256
+    }
+  ],
+  "firstLastPixelsIdentical": true,
+  "twoVisibleNeighborFramesTracked": true,
+  "webTrackMatchesMasterAtSameTime": true,
+  "videosUnder2MillionBytes": true,
+  "approvedSourceFilesUnchanged": true,
+  "allTaskWritesUnderDocsArt": true,
+  "gameIntegrated": false
+}

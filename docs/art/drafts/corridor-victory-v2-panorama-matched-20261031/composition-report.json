@@ -1,0 +1,29 @@
+{
+  "sourceCrop": [
+    64,
+    0,
+    560,
+    971
+  ],
+  "period": 496,
+  "localRepairBoxInTwoBayCopy": [
+    400,
+    750,
+    592,
+    971
+  ],
+  "nearCarpetRedWeaveExtension": [
+    0,
+    935,
+    496,
+    971
+  ],
+  "architecturalObjectsFromOriginalPixels": true,
+  "wallDadoJoinHiddenBehindOriginalPillar": true,
+  "paintingAndCompleteFramePixelIdentical": true,
+  "originalPixelsNeverWarped": true,
+  "generatedContentOnlyInFloorRepair": true,
+  "fixedSpatialMatte": true,
+  "temporalBlending": false,
+  "tileUnchangedPixelFraction": 0.7520140526892795
+}

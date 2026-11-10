@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-11-03T01:03:35.725390+03:00",
+  "tests": [
+    {
+      "selectionWorks": true,
+      "uniqueCheckboxes": true,
+      "checkboxCount": 35,
+      "noHorizontalOverflow": true,
+      "viewport": 375,
+      "status": "1, 101 olsun"
+    },
+    {
+      "selectionWorks": true,
+      "uniqueCheckboxes": true,
+      "checkboxCount": 35,
+      "noHorizontalOverflow": true,
+      "viewport": 390,
+      "status": "1, 101 olsun"
+    }
+  ],
+  "desktopScreenshot": "inceleme-1200.png",
+  "directAnchorMobileScreenshot": "inceleme-mobile-390.png is blank, not accepted as evidence",
+  "mode": "isolated Chrome headless; local review only, not live Unity/game"
+}

@@ -1,0 +1,24 @@
+{
+  "output": "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Menu\\CorridorVictoryV2\\corridor_victory_v2_preview.mp4",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fps": 60,
+  "frames": 181,
+  "animationDurationSeconds": 3,
+  "videoDurationSeconds": 3.016667,
+  "finalFrameHoldSeconds": 0.016666666666666666,
+  "codec": "avc1.42002a",
+  "bitrate": 24000000,
+  "sourceCanvas": [
+    998,
+    2160
+  ],
+  "framing": "Original portrait composition centered with black side bars; no cropping or perspective change",
+  "capture": "Actual running V2 browser renderer, sampled at exact 1/60-second animation times",
+  "existingAnimationFilesUnchanged": true,
+  "bytes": 8433325,
+  "sha256": "2e4be99324fe943ad6bdf0fac6591b3460e296a4def64a7ce5c1507ec8be7f68",
+  "browserDecodeValidated": true
+}

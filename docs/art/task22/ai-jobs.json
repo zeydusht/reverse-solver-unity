@@ -1,0 +1,196 @@
+[
+  {
+    "folder": "101-ai-kazanma",
+    "title": "Kazanma · ortak ince çerçeve",
+    "source": "docs/qa/2026-11-02-rating/a_kart.png",
+    "rectPt": [
+      20,
+      70,
+      335,
+      530
+    ],
+    "note": "Güncel ana eylem önce, iki sıralı puan ve altta geç bağlantısı korunur. Yenilik turkuaz panel ve dokulu kutulardır. Rakamlar48×44 pt; yapısal kod önerisi ayrı. Eski modalın köşe izlerini kaldırmak için yalnız panel altındaki sahne aynı oyunun onaylı arka planıyla yeniden kuruldu; karşılaştırma piksel eşitliği testi değildir.",
+    "target": "Assets/Art/Gameplay/Task14/card-panel.png → Resources/Art/popup-card.png",
+    "variants": []
+  },
+  {
+    "folder": "102-ai-kayip",
+    "title": "Bomba ve süre kaybı",
+    "source": "docs/qa/2026-11-02-rating/c_kayip_kart.png",
+    "rectPt": [
+      20,
+      43,
+      335,
+      580
+    ],
+    "note": "Bomba kaynağı2 Kasım rating. Bu puan sorusu kapalı görünüm önerisidir; soru akışını kaldırma izni vermez. Süre için3 Kasım tam tur375/390 karesi sonradan geldi ve ayrı önce/sonra eklendi. Eski modalın köşe izlerini kaldırmak için yalnız panel altındaki sahne aynı oyunun onaylı arka planıyla yeniden kuruldu; karşılaştırma piksel eşitliği testi değildir.",
+    "target": "Assets/Art/Gameplay/Task14/card-lose-bomb.png / card-lose-time.png; ortak popup-card",
+    "variants": [
+      "bomba",
+      "süre"
+    ]
+  },
+  {
+    "folder": "103-ai-durdurma",
+    "title": "Durdurma",
+    "source": "docs/qa/2026-11-03-tam/375x667_04_pause.png",
+    "rectPt": [
+      20,
+      115,
+      335,
+      440
+    ],
+    "note": "3 Kasım tam tur kullanıldı. Kaynak İngilizce, aday Türkçe; metinler önizleme yerelleştirmesidir. Devam eylemi tek yeşil, kalan iki eylem turkuaz. Eski modalın köşe izlerini kaldırmak için yalnız panel altındaki sahne aynı oyunun onaylı arka planıyla yeniden kuruldu; karşılaştırma piksel eşitliği testi değildir.",
+    "target": "Assets/Art/Gameplay/Task14/card-pause.png; ortak popup-card",
+    "variants": []
+  },
+  {
+    "folder": "104-ai-tanitim",
+    "title": "8 tanıtım · nesneye odaklı ortak kabuk",
+    "source": "docs/qa/2026-11-02-ftue/14_b3_kart.png",
+    "rectPt": [
+      20,
+      110,
+      335,
+      590
+    ],
+    "note": "Çivi/bomba için gerçek modal önce karesi var. Zincir/duvar ve makas dışı booster modal karesi yok; ilgili en yeni öğretim ekranı yalnız bağlamdır. Önizlemedeki nesne ikonları onaylı kendi oyun kaynaklarıdır. Eğitim eli değiştirilmedi. Eski modalın köşe izlerini kaldırmak için yalnız panel altındaki sahne aynı oyunun onaylı arka planıyla yeniden kuruldu; karşılaştırma piksel eşitliği testi değildir.",
+    "target": "Screens.Intro + popup-card + mevcut intro-* / booster ikonları",
+    "variants": [
+      "nail",
+      "bomb",
+      "chain",
+      "wall",
+      "scissors",
+      "wand",
+      "hammer",
+      "clock"
+    ]
+  },
+  {
+    "folder": "105-ai-zor",
+    "title": "Zor bölüm · güncel giriş",
+    "source": "docs/qa/2026-11-03-tam/375x667_02_baslangic.png",
+    "rectPt": [
+      20,
+      135,
+      335,
+      400
+    ],
+    "note": "3 Kasım tam tur Level19 Tough level başlangıç karesi kullanıldı. Yeni Baron odaklı görünüm önerisidir; mevcut kural/engel verileri oyunda korunmalı. İngilizce kaynak/Türkçe önizleme. Eski modalın köşe izlerini kaldırmak için yalnız panel altındaki sahne aynı oyunun onaylı arka planıyla yeniden kuruldu; karşılaştırma piksel eşitliği testi değildir.",
+    "target": "Screens.HardWarning / StartCard + hard.png",
+    "variants": []
+  },
+  {
+    "folder": "106-ai-yukleme",
+    "title": "Yükleme · kimlik ve görünür durum",
+    "source": "docs/qa/2026-11-02-ftue/01_yukleme.png",
+    "rectPt": [
+      22,
+      155,
+      330,
+      400
+    ],
+    "note": "Kaynak boş koyu yükleme karesi; tek kareyle donma sonucu çıkarılmaz. Bu bir sunum önerisidir. Ürün adı ve durum önizlemede; gerçek yüzde veriyle sürülmeli.",
+    "target": "Assets/WebGLTemplates/ReverseSolver/index.html #loader / TemplateData v3-progress-*",
+    "variants": []
+  },
+  {
+    "folder": "107-ai-isim",
+    "title": "İsim girişi · oyunla aynı aile",
+    "source": "docs/qa/2026-11-02-ftue/02_isim.png",
+    "rectPt": [
+      20,
+      265,
+      335,
+      350
+    ],
+    "note": "Web formu yeni ortak kabukla önerildi; düzenlenebilir alan önizlemedir, gerçek input ve klavye kodu değiştirilmedi. Eski modalın köşe izlerini kaldırmak için yalnız panel altındaki sahne aynı oyunun onaylı arka planıyla yeniden kuruldu; karşılaştırma piksel eşitliği testi değildir.",
+    "target": "Assets/WebGLTemplates/ReverseSolver/index.html #rs-name",
+    "variants": []
+  },
+  {
+    "folder": "108-ai-profil-sorusu",
+    "title": "Profil sorusu · eşit seçenekler",
+    "source": "docs/qa/2026-11-02-ftue/03_profil_sorusu.png",
+    "rectPt": [
+      20,
+      190,
+      335,
+      420
+    ],
+    "note": "Üç yanıt eşdeğer turkuaz eylem. Atlanabilirlik yalnız ürün/kod önerisidir; bu aday oyunun davranışını değiştirmez. Eski modalın köşe izlerini kaldırmak için yalnız panel altındaki sahne aynı oyunun onaylı arka planıyla yeniden kuruldu; karşılaştırma piksel eşitliği testi değildir.",
+    "target": "Profil anketi Card / popup-card",
+    "variants": []
+  },
+  {
+    "folder": "109-ai-ayarlar",
+    "title": "Ayarlar · renk dışı durum işareti",
+    "source": "docs/qa/2026-11-03-tam/375x667_08_ayarlar.png",
+    "rectPt": [
+      50,
+      143,
+      300,
+      339
+    ],
+    "note": "3 Kasım kaynağı. ON tik/sağ düğme, OFF çarpı/sol düğme. Titreşim OFF yalnız durum örneği; mevcut tercihleri değiştirmez. Mevcut kod hedefleri en az44 pt zaten. Dil etiketleri ayrı metin, kaynakta olduğu gibi English seçili.",
+    "target": "Task20/toggle-* ve language-*-selected; MenuSettings render uyarlaması gerekir",
+    "variants": []
+  },
+  {
+    "folder": "110-ai-harita",
+    "title": "Harita · tek yeşil eylem",
+    "source": "docs/qa/2026-11-02-son/375x667_harita.png",
+    "rectPt": [
+      30,
+      295,
+      150,
+      183
+    ],
+    "note": "Yalnız güncel düğüm ve Oyna balonu. Tamam/kilit/zor durumlarının onaylı Task20 sprite ve numaraları korunmalı. Eski düğümü gizleyen yeni konumlar görsel kontrolle düzeltilir.",
+    "target": "Task20/node-current.png + LevelsMap.cs PlayBubble (koda aktarılmadı)",
+    "variants": []
+  },
+  {
+    "folder": "111-ai-koleksiyon",
+    "title": "Koleksiyon · okunur Sıradaki",
+    "source": "docs/qa/2026-11-02-son/375x667_koleksiyon_siradaki.png",
+    "rectPt": [
+      127,
+      125,
+      230,
+      265
+    ],
+    "note": "Etiket14 pt; kilitli hücreyi yeni krem yüzey ve onaylı çerçeveyle birleştirir. Resim ve hücre etkileşimi değiştirilmedi; etiket durum bilgisidir.",
+    "target": "CollectionScreen next-ribbon + Task20 portrait-placeholder (sahne bağlantısı yok)",
+    "variants": []
+  },
+  {
+    "folder": "112-ai-jiggles",
+    "title": "Jiggles · üç bağımsız madalyon",
+    "source": "docs/qa/2026-11-02-son/375x667_jiggles.png",
+    "rectPt": [
+      16,
+      472,
+      343,
+      108
+    ],
+    "note": "Uzun çubuğun yerine Task21 yönündeki üç bağımsız ödül.315 sayısı500 altı olduğundan üçü de kilitli. İlk madalyon yeni; diğer ikisi onaylı Task21. Raf ve avatar yeniden çizilmedi. PM33 uzun barıyla farklı tercih; onay gerektirir.",
+    "target": "JigglesScreen m13-progress-track/fill yerleşimi; mevcut Task21 milestone-medal-* ile birlikte",
+    "variants": []
+  },
+  {
+    "folder": "113-ai-puan",
+    "title": "Puan kutuları · iki sıra / seçili tik",
+    "source": "docs/qa/2026-11-02-rating/a_kart.png",
+    "rectPt": [
+      20,
+      337,
+      335,
+      118
+    ],
+    "note": "Güncel iki sıralı düzen referans alındı.48×44 pt görsel hedefi örnek; kod hedefi küçültülmemeli.7 seçili durum örneği; normal ve seçili PNG rakamsızdır.",
+    "target": "Card.ChipRow ShapeView arka planı; yeni sprite anahtarı ayrı entegrasyon",
+    "variants": []
+  }
+]

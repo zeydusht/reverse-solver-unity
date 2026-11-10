@@ -1,0 +1,116 @@
+diff --git a/Assets/_Game/Presentation/GameRoot.cs b/Assets/_Game/Presentation/GameRoot.cs
+index a8e4556..597d7a8 100644
+--- a/Assets/_Game/Presentation/GameRoot.cs
++++ b/Assets/_Game/Presentation/GameRoot.cs
+@@ -75,6 +75,7 @@ enum Mode { Menu, Playing }
+         Card _card;                  // the one open card: result, intro or question
+         string _cardKind;
+         Screens.Menu _menu;
++        readonly CorridorVictoryQueue _corridorVictory = new CorridorVictoryQueue();
+         Screens.LevelList _list;
+         TextView _debug;
+         Vector2Int _screenPx;
+@@ -289,6 +290,7 @@ void LeaveLevel()
+ 
+         void ShowMenu()
+         {
++            _corridorVictory.EnterMenu(Time.unscaledTime);
+             SendPendingFun();
+             LeaveLevel();
+             _session = null;
+@@ -299,6 +301,7 @@ void ShowMenu()
+ 
+         void StartLevel(int index)
+         {
++            _corridorVictory.LeaveMenu();
+             LeaveLevel();
+             _index = Mathf.Clamp(index, 0, _set.Levels.Count - 1);
+             var level = _set.Levels[_index];
+@@ -455,7 +458,7 @@ void OnEvent(GameEvent e)
+             _boosters?.Disarm();
+             if (e.Outcome == Outcome.Quit) return;
+             if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
+-            if (e.Outcome == Outcome.Win) { Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s
++            if (e.Outcome == Outcome.Win) { Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); _corridorVictory.Won(); }   // the fanfare comes at .7 s
+             _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
+             // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
+             if (e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
+@@ -512,6 +515,8 @@ void Build(bool immediate = false)
+                     var pic = _images.Get(ImageOf(_progress.Next()), t => { if (_menu == menu) menu.SetPainting(t); });
+                     if (pic != null) _menu.SetPainting(pic);
+                 }
++                if (_newArt && _corridorVictory.Playing(Time.unscaledTime))
++                    _menu.PlayVictory(_corridorVictory.StartedAt);
+             }
+             else
+             {
+diff --git a/Assets/_Game/Presentation/Ui/Screens.cs b/Assets/_Game/Presentation/Ui/Screens.cs
+index 7df2117..c3d7485 100644
+--- a/Assets/_Game/Presentation/Ui/Screens.cs
++++ b/Assets/_Game/Presentation/Ui/Screens.cs
+@@ -45,7 +45,7 @@ public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int
+                 float cx = screen.x / 2, cy = (screen.y + safe.y - safe.w) / 2;
+ 
+                 // approved corridor art (PM_MESAJ_7), static, cover-fitted under everything; texts stay dynamic
+-                var art = newArt ? Resources.Load<Sprite>("menu_bg") : null;
++                var art = newArt ? (Resources.Load<Sprite>("CorridorVictory/Static") ?? Resources.Load<Sprite>("menu_bg")) : null;
+                 if (art != null)
+                 {
+                     var bg = new GameObject("background").AddComponent<SpriteRenderer>();
+@@ -56,6 +56,10 @@ public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int
+                     bg.transform.localScale = new Vector3(k, k, 1);
+                     bg.transform.localPosition = Draw.W(screen.x / 2, screen.y / 2);
+                     _bg = bg;
++                    // Compile the same background shader while the menu is still idle.
++                    // Its zero-progress branch is a single static-image sample.
++                    _victory = bg.gameObject.AddComponent<CorridorVictory>();
++                    _victory.ShowPainting(bg, null);
+                     Task13(screen, safe, nextNumber, order, player, saved, stars, playLabel);
+                     return;
+                 }
+@@ -124,29 +128,26 @@ public static void AvatarTile(Transform root, Vector2 c, float size, int index,
+ 
+             static TMPro.TMP_FontAsset Lilita => Resources.Load<TMPro.TMP_FontAsset>("Fonts/Lilita");
+ 
+-            SpriteRenderer _bg, _painting;
++            SpriteRenderer _bg;
++            Texture2D _pictureTexture;
++            CorridorVictory _victory;
+ 
+-            /* PM_MESAJ_18: a painting inside the corridor's big gold frame. The opening (menu_bg pixels, y down) has
+-               upright sides and a top and bottom in perspective; the picture is centre-cropped to the opening's
+-               bounding box and its sprite outline cut to the opening, the frame itself untouched. */
++            public void PlayVictory(float startedAt)
++            {
++                if (_bg == null) return;
++                if (_victory == null) _victory = _bg.gameObject.AddComponent<CorridorVictory>();
++                _victory.SetPainting(_pictureTexture);
++                _victory.Play(_bg, startedAt);
++            }
++
++            /* The static and moving views use the exact same shader aperture and
++               centre crop. No runtime Sprite.OverrideGeometry or readable CPU texture is needed. */
+             public void SetPainting(Texture2D tex)
+             {
+                 if (_bg == null || tex == null) return;
+-                if (_painting != null) Object.Destroy(_painting.gameObject);
+-                var q = new[] { new Vector2(349, 296), new Vector2(662, 359), new Vector2(663, 832), new Vector2(348, 815) };
+-                const float x0 = 348, x1 = 663, y0 = 296, y1 = 832;
+-                float bw = x1 - x0, bh = y1 - y0, s = Mathf.Min(tex.width / bw, tex.height / bh), rw = bw * s, rh = bh * s;
+-                var sp = UnityEngine.Sprite.Create(tex, new Rect((tex.width - rw) / 2, (tex.height - rh) / 2, rw, rh), new Vector2(.5f, .5f),
+-                                       s * _bg.sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect);
+-                var v = new Vector2[4];
+-                for (int i = 0; i < 4; i++) v[i] = new Vector2(Mathf.Clamp((q[i].x - x0) * s, 0, rw), Mathf.Clamp((y1 - q[i].y) * s, 0, rh));
+-                sp.OverrideGeometry(v, new ushort[] { 0, 1, 2, 0, 2, 3 });
+-                _painting = new GameObject("painting").AddComponent<SpriteRenderer>();
+-                _painting.transform.SetParent(_bg.transform, false);
+-                _painting.sprite = sp;
+-                _painting.sortingOrder = _bg.sortingOrder + 1;
+-                var size = _bg.sprite.rect.size;
+-                _painting.transform.localPosition = new Vector3((x0 + x1) / 2 - size.x / 2, size.y / 2 - (y0 + y1) / 2) / _bg.sprite.pixelsPerUnit;
++                _pictureTexture = tex;
++                if (_victory == null) _victory = _bg.gameObject.AddComponent<CorridorVictory>();
++                _victory.ShowPainting(_bg, tex);
+             }
+ 
+             void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel)

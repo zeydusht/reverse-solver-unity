@@ -1,0 +1,19 @@
+{
+    "preview":  "Assets/Art/Gameplay/Task14/preview-ingame.png",
+    "width":  390,
+    "height":  844,
+    "previewOnly":  true,
+    "productionAssetsGenerated":  false,
+    "protectedSources":  252,
+    "protectedHashMismatches":  0,
+    "numberFont":  "Assets/_Game/Presentation/Resources/Fonts/Fredoka-SemiBold.ttf",
+    "styleReference":  "Assets/Art/Menu/Task13/",
+    "pendingApproval":  "Zeyd full-screen draft approval",
+    "phase2":  [
+                   "HUD normal/pressed/urgent",
+                   "Booster set counts/locked/zero/pressed",
+                   "Board frame 9-slice",
+                   "Pause/victory/defeat/start cards with green primary and palette secondary buttons",
+                   "Red-white repeatable wall strip"
+               ]
+}

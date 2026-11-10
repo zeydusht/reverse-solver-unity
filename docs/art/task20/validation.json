@@ -1,0 +1,19 @@
+{
+  "runtimeSprites": 133,
+  "previewPngs": 12,
+  "protectedInputsChecked": 277,
+  "alpha": true,
+  "pressedPairs": true,
+  "sliceBounds": true,
+  "portraitCentersTransparent": true,
+  "pathSeamExactRGBA": true,
+  "sourceCorrections": {
+    "bombDescriptionRightGapPx": 44,
+    "avatarHeadingGapPx": 30,
+    "marker10Moved": true,
+    "hard19Locked": true
+  },
+  "rebuiltScreens": 9,
+  "previewUsesOnlyExportedSpritesAndGamePaintings": true,
+  "originalFilesUnchanged": true
+}

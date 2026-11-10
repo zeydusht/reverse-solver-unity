@@ -1,0 +1,36 @@
+﻿{
+    "task":  "CODEX_TASK16",
+    "status":  "complete",
+    "paintingCount":  40,
+    "sourcePngCount":  40,
+    "gameJpgCount":  40,
+    "assetHashesChecked":  80,
+    "assetHashesChanged":  0,
+    "batchPreviewCount":  4,
+    "boardPreviewCount":  4,
+    "minGameBytes":  284391,
+    "maxGameBytes":  299954,
+    "sourceDimensions":  [
+                             1536,
+                             1536
+                         ],
+    "gameDimensions":  [
+                           1024,
+                           1024
+                       ],
+    "jpegQuality":  85,
+    "batchReports":  [
+                         "docs/art/reports/task16-batch-1-validation.json",
+                         "docs/art/reports/task16-batch-2-validation.json",
+                         "docs/art/reports/task16-batch-3-validation.json",
+                         "docs/art/reports/task16-batch-4-validation.json"
+                     ],
+    "catalog":  "Assets/Art/Paintings/manifest-collection.json",
+    "finale":  {
+                   "level":  40,
+                   "subject":  "The Count own grand original castle",
+                   "humanFacesOrCountVisible":  false,
+                   "review":  "Visually inspected; grandest architecture in the collection"
+               },
+    "scope":  "Only Assets/Art/Paintings and docs/art; no C# edits"
+}

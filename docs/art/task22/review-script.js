@@ -1,0 +1,3 @@
+
+const boxes=[...document.querySelectorAll('input')],status=document.getElementById('selection');function selection(){return boxes.filter(b=>b.checked).map(b=>b.value).join(', ')}function update(){status.textContent=selection()?selection()+' olsun':'Seçim yok';try{localStorage.setItem('t22-selection',selection())}catch{}}
+try{const saved=(localStorage.getItem('t22-selection')||'').split(', ');boxes.forEach(b=>b.checked=saved.includes(b.value))}catch{}boxes.forEach(b=>b.addEventListener('change',update));update();document.getElementById('copy').onclick=async()=>{const text=selection();if(!text)return;try{await navigator.clipboard.writeText(text+' olsun');status.textContent=text+' · kopyalandı'}catch{status.textContent=text+' olsun · seçip kopyalayabilirsin'}};

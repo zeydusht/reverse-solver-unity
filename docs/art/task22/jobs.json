@@ -1,0 +1,354 @@
+[
+  {
+    "id": 1,
+    "slug": "kazanma",
+    "title": "Kazanma kartı",
+    "source": "docs/qa/2026-11-02-rating/a_kart.png",
+    "crop": [
+      50,
+      165,
+      700,
+      1190
+    ],
+    "target": "Assets/Art/Gameplay/Task14/card-win.png",
+    "priority": "yüksek",
+    "issue": "Yaldızlı kalın panel menüdeki krem/turkuaz aileden ayrışıyor; dört eylem aynı ağırlıkta.",
+    "folder": "01-kazanma"
+  },
+  {
+    "id": 2,
+    "slug": "puan-secimi",
+    "title": "1–10 zorluk kutuları",
+    "source": "docs/qa/2026-11-02-rating/a_kart.png",
+    "crop": [
+      88,
+      630,
+      665,
+      888
+    ],
+    "target": "Assets/_Game/Presentation/Ui/Card.cs::ChipRow",
+    "priority": "yüksek",
+    "issue": "Güncel iki sıralı kutular doğru boyutta; düz ince çizgili yüzey, kabartmalı eylem tuşlarından kopuk. Seçim, basılı ve boş durumlar aynı aileye alınmalı.",
+    "folder": "02-puan-secimi"
+  },
+  {
+    "id": 3,
+    "slug": "kayip-bomba",
+    "title": "Bomba kayıp kartı",
+    "source": "docs/qa/2026-11-02-rating/c_kayip_kart.png",
+    "crop": [
+      50,
+      165,
+      700,
+      1170
+    ],
+    "target": "Assets/Art/Gameplay/Task14/card-lose-bomb.png",
+    "priority": "yüksek",
+    "issue": "Güncel kartta puan sorusu açıldığında bomba nedeni görseli kayboluyor; ağır altın kabuk ve uzun açıklama başlıkla yarışıyor.",
+    "folder": "03-kayip-bomba"
+  },
+  {
+    "id": 4,
+    "slug": "kayip-sure",
+    "title": "Süre kayıp kartı",
+    "source": "docs/qa/2026-11-03-tam/375x667_06_kaybetme.png",
+    "crop": [
+      50,
+      300,
+      700,
+      1200
+    ],
+    "target": "Assets/Art/Gameplay/Task14/card-lose-time.png",
+    "priority": "orta",
+    "issue": "Güncel süre kartında saat nedeni var; ağır altın kabuk, başlık ve eylem menüdeki krem/turkuaz aileyle birleştirilmeli.",
+    "folder": "04-kayip-sure"
+  },
+  {
+    "id": 5,
+    "slug": "durdurma",
+    "title": "Durdurma kartı",
+    "source": "docs/qa/2026-11-03-tam/375x667_04_pause.png",
+    "crop": [
+      50,
+      300,
+      700,
+      1100
+    ],
+    "target": "Assets/Art/Gameplay/Task14/card-pause.png",
+    "priority": "orta",
+    "issue": "Güncel durdurma kartı ana eylem yeşilini doğru kullanıyor; ağır altın kabuk ve geniş boşluklar ortak menü panelinden ayrışıyor.",
+    "folder": "05-durdurma"
+  },
+  {
+    "id": 6,
+    "slug": "tanim-civi",
+    "title": "Çivi tanıtımı",
+    "source": "docs/qa/2026-11-02-ftue/14_b3_kart.png",
+    "crop": [
+      73,
+      177,
+      707,
+      1544
+    ],
+    "target": "Assets/Art/ObstacleIntros/OptionB/nail-888x592.png",
+    "priority": "orta",
+    "issue": "Büyük eski karakter sahnesi, tekrar ikon ve küçük açıklama; öğretilecek nesne başrolde değil.",
+    "folder": "06-tanim-civi"
+  },
+  {
+    "id": 7,
+    "slug": "tanim-bomba",
+    "title": "Bomba tanıtımı",
+    "source": "docs/qa/2026-11-02-ftue/37_b6_kart.png",
+    "crop": [
+      73,
+      278,
+      707,
+      1594
+    ],
+    "target": "Assets/Art/ObstacleIntros/OptionB/bomb-888x592.png",
+    "priority": "orta",
+    "issue": "Resim, ikon ve çok küçük açıklama üç ayrı odak oluşturuyor; nesne ve kural tek panelde birleşmeli.",
+    "folder": "07-tanim-bomba"
+  },
+  {
+    "id": 8,
+    "slug": "tanim-zincir",
+    "title": "Zincir tanıtımı",
+    "source": "docs/qa/2026-11-02-spot/375x667_b10_1.png",
+    "crop": [
+      20,
+      160,
+      730,
+      1160
+    ],
+    "target": "Assets/Art/ObstacleIntros/OptionB/chain-888x592.png",
+    "priority": "orta",
+    "issue": "Spotlight metni okunuyor; ayrı tanıtım ailesinde iki bağlı nesnenin ilişkisi büyük ve renk dışı bir bağla da anlatılmalı.",
+    "folder": "08-tanim-zincir"
+  },
+  {
+    "id": 9,
+    "slug": "tanim-duvar",
+    "title": "Duvar tanıtımı",
+    "source": "docs/qa/2026-11-02-spot/375x667_b14_1.png",
+    "crop": [
+      20,
+      160,
+      730,
+      1160
+    ],
+    "target": "Assets/Art/ObstacleIntros/OptionB/wall-888x592.png",
+    "priority": "orta",
+    "issue": "Duvarın geçilemezliği ayrı kartta net nesne silüetiyle anlatılmalı; süslü çerçeve yerine bariyer odaklı sunum.",
+    "folder": "09-tanim-duvar"
+  },
+  {
+    "id": 10,
+    "slug": "booster-makas",
+    "title": "Makas tanıtımı",
+    "source": "docs/qa/2026-11-02-ftue/34_b5_kart.png",
+    "crop": [
+      73,
+      506,
+      707,
+      1518
+    ],
+    "target": "Assets/_Game/Presentation/Ui/Screens.cs::Intro / booster-scissors",
+    "priority": "orta",
+    "issue": "Makas ikonu açıklamaya göre çok küçük; üst başlık uzun, talimat ve ipucu aynı yoğunlukta.",
+    "folder": "10-booster-makas"
+  },
+  {
+    "id": 11,
+    "slug": "booster-cekic",
+    "title": "Çekiç tanıtımı",
+    "source": "docs/qa/2026-11-02-booster/b9_1_tus.png",
+    "crop": [
+      20,
+      160,
+      730,
+      1200
+    ],
+    "target": "Assets/_Game/Presentation/Ui/Screens.cs::Intro / booster-hammer",
+    "priority": "orta",
+    "issue": "Dört booster tanıtımının ortak büyük nesne alanı yok; çekiç etkisi kısa bir görsel hiyerarşi gerektiriyor.",
+    "folder": "11-booster-cekic"
+  },
+  {
+    "id": 12,
+    "slug": "booster-saat",
+    "title": "Saat tanıtımı",
+    "source": "docs/qa/2026-11-02-booster/b15_1_tus.png",
+    "crop": [
+      20,
+      160,
+      730,
+      1200
+    ],
+    "target": "Assets/_Game/Presentation/Ui/Screens.cs::Intro / booster-clock",
+    "priority": "orta",
+    "issue": "Saat öğretimi aynı kabukta büyük nesne ve kısa kural ile eşleşmeli; stok/süre birbirine karışmamalı.",
+    "folder": "12-booster-saat"
+  },
+  {
+    "id": 13,
+    "slug": "booster-degnek",
+    "title": "Değnek tanıtımı",
+    "source": "docs/qa/2026-11-02-booster/b23_1_tus.png",
+    "crop": [
+      20,
+      160,
+      730,
+      1200
+    ],
+    "target": "Assets/_Game/Presentation/Ui/Screens.cs::Intro / booster-wand",
+    "priority": "orta",
+    "issue": "Son booster için de aynı nesne ölçeği ve tek yeşil eylem ailesi gerekir.",
+    "folder": "13-booster-degnek"
+  },
+  {
+    "id": 14,
+    "slug": "zor-bolum",
+    "title": "Zor bölüm uyarısı",
+    "source": "docs/qa/2026-11-03-tam/375x667_02_baslangic.png",
+    "crop": [
+      40,
+      200,
+      710,
+      1200
+    ],
+    "target": "Assets/Art/HardWarning/option-b-jiggle-warning-888x592.png",
+    "priority": "orta",
+    "issue": "Güncel zor bölüm girişinde büyük altın kabuk ve dört nesne tek satırda yarışıyor; uyarı ve başlama eylemi sadeleştirilmeli.",
+    "folder": "14-zor-bolum"
+  },
+  {
+    "id": 15,
+    "slug": "yukleme",
+    "title": "Yükleme",
+    "source": "docs/qa/2026-11-02-ftue/01_yukleme.png",
+    "crop": [
+      0,
+      0,
+      780,
+      1688
+    ],
+    "target": "Assets/Art/MissingScreens/loading-1125x2001.svg",
+    "priority": "yüksek",
+    "issue": "Ekran tamamen koyu ve boş; marka, bekleme işareti ve anlamlı yükleme geri bildirimi görünmüyor.",
+    "folder": "15-yukleme"
+  },
+  {
+    "id": 16,
+    "slug": "isim",
+    "title": "İsim girişi",
+    "source": "docs/qa/2026-11-02-ftue/02_isim.png",
+    "crop": [
+      42,
+      544,
+      738,
+      1215
+    ],
+    "target": "Assets/Art/MissingScreens/name-gate-1125x2001.svg",
+    "priority": "yüksek",
+    "issue": "Düz ince çerçeve ve düz turkuaz ana eylem onaylı menüden kopuk; alan/etiket hiyerarşisi zayıf.",
+    "folder": "16-isim"
+  },
+  {
+    "id": 17,
+    "slug": "profil-sorusu",
+    "title": "Profil sorusu",
+    "source": "docs/qa/2026-11-02-ftue/03_profil_sorusu.png",
+    "crop": [
+      62,
+      380,
+      718,
+      1443
+    ],
+    "target": "Assets/_Game/Presentation/Ui/Card.cs / profile question",
+    "priority": "orta",
+    "issue": "Üç yanıtın tümü ağır altın çerçeveli; kabuk ve seçim yüzleri sakin menü kartına uymalı.",
+    "folder": "17-profil-sorusu"
+  },
+  {
+    "id": 18,
+    "slug": "ayar-anahtari",
+    "title": "Ayar anahtarları",
+    "source": "docs/qa/2026-11-03-tam/375x667_08_ayarlar.png",
+    "crop": [
+      146,
+      607,
+      655,
+      1038
+    ],
+    "target": "Assets/Art/Menu/Task20/toggle-on-track.png + toggle-off-track.png + toggle-knob.png",
+    "priority": "orta",
+    "issue": "Açık/kapalı yalnız düğmenin yeri ve rengiyle ayrılıyor; küçük krem düğme satır içinde kayboluyor.",
+    "folder": "18-ayar-anahtari"
+  },
+  {
+    "id": 19,
+    "slug": "dil-secici",
+    "title": "Dil seçici",
+    "source": "docs/qa/2026-11-03-tam/375x667_08_ayarlar.png",
+    "crop": [
+      187,
+      987,
+      655,
+      1177
+    ],
+    "target": "Assets/Art/Menu/Task20/language-left-selected.png + language-right-selected.png",
+    "priority": "orta",
+    "issue": "Seçili dilin açık-koyu farkı zayıf; iki segment aynı kabuk içinde daha net ayrılmalı.",
+    "folder": "19-dil-secici"
+  },
+  {
+    "id": 20,
+    "slug": "harita",
+    "title": "Harita düğümleri ve Oyna",
+    "source": "docs/qa/2026-11-03-tam/tr_375x667_won12_8_bolumler.png",
+    "crop": [
+      70,
+      680,
+      660,
+      1200
+    ],
+    "target": "Assets/Art/Menu/Task20/node-current.png + node-complete.png + node-locked.png",
+    "priority": "orta",
+    "issue": "Altın dolu aktif düğüm ve küçük düz yeşil Oyna balonu farklı malzeme; normal/aktif/kilitli tek nesne ailesi olmalı.",
+    "folder": "20-harita"
+  },
+  {
+    "id": 21,
+    "slug": "koleksiyon",
+    "title": "Sıradaki şeridi ve kilitli hücre",
+    "source": "docs/qa/2026-11-03-tam/375x667_koleksiyon_siradaki.png",
+    "crop": [
+      20,
+      460,
+      490,
+      700
+    ],
+    "target": "Assets/Art/Menu/Task20/portrait-placeholder.png + portrait-frame.png",
+    "priority": "orta",
+    "issue": "Sıradaki küçük yazı resme yapışık; boş/kilitli karolar düz koyu blok gibi, durum hiyerarşisi zayıf.",
+    "folder": "21-koleksiyon"
+  },
+  {
+    "id": 22,
+    "slug": "jiggles",
+    "title": "Jiggles ilerleme",
+    "source": "docs/qa/2026-11-03-tam/tr_375x667_won12_4_jiggles.png",
+    "crop": [
+      40,
+      960,
+      710,
+      1220
+    ],
+    "target": "Assets/Art/Menu/Task20/progress-track.png + progress-fill.png; Task21 milestone medals",
+    "priority": "orta",
+    "issue": "Son ekran uzun ve altın ağırlıklı çizgiyi gösteriyor; küçük eşik rakamları ve dolgu düşük kontrastlı. PM_MESAJ_33 ilerleme işlevi korunarak kısa turkuaz kapsül öneriliyor.",
+    "folder": "22-jiggles"
+  }
+]

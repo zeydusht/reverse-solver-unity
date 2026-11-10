@@ -1,0 +1,2466 @@
+[
+  {
+    "path": "docs/qa/2026-11-02-son/375x667_harita.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "dc1c520ad49b8733c5e42f26e9018412020ee8659f9b4a2bd142e84da59f1d48"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/375x667_jiggles.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "2463666ce4d51f50ff312506136840db1cecfde9a97d65b142e776abe9002ddd"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/375x667_koleksiyon.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "3e9b4d28d59ea815da4232ebf52a2dad464d3f92a7980f03b55e6036a3782ba6"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/375x667_koleksiyon_siradaki.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "5fe3eda6d0024e8bb78f2943310e35d6d49f1e43b40e13b9c72d58e825cbc417"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/390x844_harita.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "8dc13fa453a3df86d7afc82e555ec50de2380252f162d7be71dfccae950c1f20"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/390x844_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "094f94a1de07647c55ecba0d01dede0ee602489cda6a16000e9c2d5f99ed799e"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/390x844_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "0a5fa2c007e9e77032facb6786258c381694cb280dada06a877593dc3643462c"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/390x844_koleksiyon_siradaki.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "5ef550564355db08dd94db138949367ef66645d7a31bfa0780d96866ec4e0792"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/430x932_harita.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "3baf7d0d70eb9d55ac965f097decfde97bc743b10ca4baab9276a23dc66e97fe"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/430x932_jiggles.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "1567b5af796dcfbb75f6c013b8be06f1314aaf0700e3049c51af567b7f67e807"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/430x932_koleksiyon.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "93e62b5c62d5c343c8f950342b3d92bbdcda3f2dc7ca566157855db22f5c9f1b"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/430x932_koleksiyon_siradaki.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "acda2f3c0dd666fc21576bb46a44c5ad6aec2552b1a5a1fa2a9a30c214d0b0c7"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b10.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "3ea94094c0df92c86043dfbc45cb500e6048b0cba5e14d560e3bd02289f62501"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b14.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "f1b0b181bea09a9e392c48d0408afc498a1736403bfea60555736db7ba3a2610"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b1_adim1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "6f531ffdcb9db71b70088f497473b0a9eed33d444c955085033f252f072758fb"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b1_adim2.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1803c019c481713a5d670a4bbc27665473fbb0fb8bd3c7f3ca7f97f19dec4b59"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b1_adim3.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "11bcef5c73587f5b86844812d585aa9c6e79e9d997ce20712f7ad29f2a080f32"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b1_seq_0.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "cfb92ee98851243441b9af7756f85a3e26006f08ad88c74a553c7c9fa5bdf4d4"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b1_seq_1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "cfb92ee98851243441b9af7756f85a3e26006f08ad88c74a553c7c9fa5bdf4d4"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b1_seq_2.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "19f4daabae9f140f8e857956429d0055ca8caddc0d56726163946fc00208c86b"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b1_seq_3.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "274b0ea5aef1a3d266a0b1f270ee29b42c51f90b2f67ff92c0b415cb3e3f4bc9"
+  },
+  {
+    "path": "docs/qa/2026-11-02-son/b1_seq_4.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "25ccb4fbd5e40fb3777e658068689e39b22b18fc697c9061e42e824419d04400"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/375x667_b10_1.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "e1de8cf6bf83afc39adbe8922c51021eeee77a8409060cdeb4e54b4391855328"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/375x667_b14_1.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "a33af69ab6aba6c0349826dc81300fb7ba98f552174683049ccb645e562f0a95"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/375x667_b1_1.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "d739a47c0addea3f86e607101d4cd8237fded77c7ebe75bc8a079a89abb6b7ff"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/375x667_b1_2.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "730cb9adc3c91bceb00c9ef396a82e544bb68a75826ace747e2df6d5d27b1c7a"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/375x667_b3_1.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "2ed58736462f2f57a3ae49582818ac670ef23e118b8e222cf4469c91dd82cde1"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/375x667_b5_1.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "2933c800ee9edde263436b40583b4715f6ea8e35175adff422ac3f055a97e23d"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/375x667_b5_2.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "bcaf08d4a598ea50d3e2a77fd2ac321eb730feed0edce6ebf28f5236cd9a956d"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/375x667_b6_1.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "d515132a1ffc4ea74054b704dab14c63e3f8a97bfa50ec820d174e2ab785affb"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/390x844_b10_1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "318d5c40390df013b436fd2e6c2f1fb3469a239fa15f33816a54adf2f46c9d49"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/390x844_b14_1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "ed4c2cfd94c2720175e9e123bb1b9b4a7a1124b3cce3738aebc224f23221b6c2"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/390x844_b1_1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "282aabfd55c4b82dc3dd303f0498503550ef6a36528d13d2b087885b7ca02754"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/390x844_b1_2.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "43236507ae9504ce4b558394780f39417ed6b883e0453a1f9b5bd6e886a341c7"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/390x844_b3_1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "3cf7f0c39feaea377d9318cfd6d92c444ac679144f03374e6196435e6e3e2519"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/390x844_b5_1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c21b329b24e34817fd2fc2ee6cff7e2ace8f1fd0757b98ecd998cf3eb4f351dd"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/390x844_b5_2.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "ce0312517357b79a9965f737bc66b1eb4f0223f953ac0c2580a434cb68eb099b"
+  },
+  {
+    "path": "docs/qa/2026-11-02-spot/390x844_b6_1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "5a894db0cc9402c7ad9a2d1f19109ae6e4b51d4b7df0b7ae3ce9ded1d5a89f20"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_0a.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "ede54ba28e9734f1a6887c6b95866744c2d3d7e387d2a818c144b9bdfb4f0662"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_0b.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "73f621ffb433eed43fd2ab4ba6194805f173574b7391ddb4eb429195a4b1afb3"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_1_tus.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "73f621ffb433eed43fd2ab4ba6194805f173574b7391ddb4eb429195a4b1afb3"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_0.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "9f63c1f43cd6bc30d859684c58a760c18029cf6897e6b4d4f838074138b9190b"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_1.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "9f63c1f43cd6bc30d859684c58a760c18029cf6897e6b4d4f838074138b9190b"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_10.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "762436e5194aded8f75141bb0ed5aac25f315d5220d37be3113192a54e709d6c"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_11.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "e89988121ac1e386b23a3577e3205d196b24596a3eb0d3814204ab21b7aa65e2"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_12.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "1004aac47ca637e455e58a665766328fe05eaf14a836bbe7cbab56e37a642302"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_2.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "4c6105abf0e6950931bd193399c7f4b914fcbba026ae8648d90242ca8dac3036"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_3.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "1afc82ea29693450d99a1fd92ba728c70df634eb80bcdb4c0a63d21dfcd93831"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_4.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "86f2e1c148b48262396baba5905f9f51ef86cab13664e29708541c79e39e56a0"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_5.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "dd2f788c9c8f848e15385e016f40e983bddb3cb2fef88b8f79534c844ed34fbd"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_6.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "b1114917c706237612e8febefaf77544fa82f9622acf9cf992d0d735ce5bfc7d"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_7.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "2734f36a1ff35d51a19c4d0fa9c312dc0364c5a43d182f311bd0f8fda7060054"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_8.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "f204a8765b4461b8f74b7d99527b1abc56446be6f45a2e25e427900aed7a34cc"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b10_spot_9.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "ff22b483258088738752dca067267ef7a23b09ccd00f837a59ae94af3db33ec1"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b15_0a.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "6e8dc38479fbea03896135c9e19d28ac8cb2cc0a1270e436c7be7d72bc586aa5"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b15_0b.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "6e8dc38479fbea03896135c9e19d28ac8cb2cc0a1270e436c7be7d72bc586aa5"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b15_1_tus.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "ef619880d5499d919fb01eff10c6685bf15df9b6a7f4de77f81a5afd463fc48e"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b15_2_hedef.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "c08ff78b32edeb0b7d87b51adae4306409384a031b7182f9b6aa1bdf86b5051b"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b15_3_etki.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "c08ff78b32edeb0b7d87b51adae4306409384a031b7182f9b6aa1bdf86b5051b"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b15_4_onay.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "9aaefeb082ff726a64172a82def3b82869179e4274b271158fd0d3969c2516dd"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b15_5_stok.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "b864c0417dbd7dc303c89523ecafe93eb16abe8af91a444935bb2ada5fe12d0b"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b23_1_tus.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "7cc9611639cb454a8733e26b89bf3283149ca2aead636129ff0820f1bf76b012"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b23_2_hedef.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "eaaccc2fc833bbe6bf6044f2f5d05167572b6c43d5fc649a6ae79f9abfc9e6d9"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b23_3_etki.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "fce1b6f19bc83230a65677752e05b5e49f97314bd5f1ef50939a472a2451e38e"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b5_0a.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "bf4427df524dce9a47c478db9619f73e1c3dc6d6f22a49ebdb8f8c8bc465cae7"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b5_0b.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "bf4427df524dce9a47c478db9619f73e1c3dc6d6f22a49ebdb8f8c8bc465cae7"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b5_1_tus.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "3bc9cc696ca6870ac097e77c4e31b083730107e06a52321c08c2d7dc67b7fe9e"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b5_2_hedef.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "4bb1325b3af8302b38a67ab2126849eade25d5c19e9eab3cc530c82a516988cc"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b5_3_etki.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "0523ee55089ff8cd4ce715ad8b9224a7f922899419bda91e942e4557e3c4de53"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b9_1_tus.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "cb7ec03944ef53477eb35d1073550e4237772797c96311cbad3d68bf5bf1094c"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b9_2_hedef.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "2b666d5d1b699c82c9cdc60d6afcbc5a351f59fb5fca76d8236204a61bb942ef"
+  },
+  {
+    "path": "docs/qa/2026-11-02-booster/b9_3_etki.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "2b666d5d1b699c82c9cdc60d6afcbc5a351f59fb5fca76d8236204a61bb942ef"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/01_yukleme.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "768efceb960145f882952417e35f42a1888550c763f1402e61dedfd6a5751d4f"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/02_isim.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "36520643d41c289323b6541d5b8316765c00f6b2e1f1d8f3c00d2aec6c9e1b4e"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/03_profil_sorusu.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "b428978e4dbd53dab88bc76d9a7bfac43a5bd849e51bda654d87f371b6bae497"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/04_menu_ilk.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1510ed371ee410a1d8f8f245d31f81af36b4bb264cf4ba0cb746c01606eaa5b0"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/05_b1_acilis.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "e68a8beec9690ca3aaa991e8fb06082a58c8a4aa5407a24fec9fe71efce8ab66"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/06_b1_egitim_adim2.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "2ad5dbd55152f6d1e72a042ab7a30d4d8a9cdbfa49c05888ff30c0bb27fe5832"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/07_b1_kural_karti.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "dd9dbc7bac9b69149048433d4d5742fee64d794a788abbfd70524c7486865772"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/08_b1_serbest.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1c869a0cd9285fe668c86094b3279fbf12867601f3eacabd43036b9ed38f31d9"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/09_b1_kazanma.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "91840698ba69733cb3bb1ddb2ba8c7f6578bfcc9128e202805f8a615b6aba92e"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/10_b1_sonrasi.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "d48744a4e909e2fcfef2bf97c4fe0b22cc3230a8fd997ba604d7e6b794c686a3"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/11_b2_kart.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "02e6d856cded5c0a7ad386f418b937b541abed30053dd36b5586c91bf0532775"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/12_b2_spot.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "02e6d856cded5c0a7ad386f418b937b541abed30053dd36b5586c91bf0532775"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/13_b2_kazanma.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "eeb0656f50a933b99d1b55f7bb7ef87831800a24b9a89bb9f4863f369c76b7cd"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/14_b3_kart.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "7dbf0565b676aaa28c0c1e36f91914507cd8f3f18b48dde9e4fd3ff6c582c0e3"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/15_b3_spot.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "dd08bb76adc907ba1b73d46f89d8bae8268432f6eb26089e9a69cbb256661d67"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/16_b3_kazanma.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "454cbabe9242092d1241d43af122913062596f032b3a40eb0819485bc97cedd8"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/31_b4_kart.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "67d872003959bda418bfabe833994171445c635016c05e9b4bf6b22cfc27b505"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/32_b4_spot.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1b53d94f4752274deb44050154fa7ff26cddc8520b81144595db4f26621e4789"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/33_b4_kazanma.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "7851b4544da02996d7e331daeb5eb1aee764d02ac44e2e78506dcec380be0c24"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/34_b5_kart.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "500fb632ff4e8efb4591ede5a1a78554170d9c8384bd86c68bc518b3c772cc89"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/35_b5_spot.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "ff1e58b22ce5a3dbef4ad5f222f1d1e2f0fa7d57270eb8f9eccb765662270d75"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/36_b5_kazanma.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "29c4a96839edd1837d669ccb9a8326bfd9dba1b812e22481e1a9d7400f7e08cb"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/37_b6_kart.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "3120a33194124f6284613dd506e7f0ab417ca8622ee010d3c974090b20685b86"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/38_b6_spot.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "699a43d115fe8b806dc6d266ae097278957b2056af6e6a54cc88760ceb7d66b7"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/39_b6_kazanma.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "78c71a493bc7e4ebdfdc782c8bff02f46c09d67c41865752d42dc26957d7e41d"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/40_kayip.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "e2b426ddc7f2f51bea37350d337ec7c0d6c2218b370c528b1657b0b653af2fa5"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/61_menu_ev.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "bb9831a7a3f77b958f3f2e8efb258e8f6bd94933e1f87619f7bc3fbe15e05df8"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/62_menu_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c6be25b834e140125d0a8254084ba3872460d9d652db8f367d648b055ff37729"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/63_menu_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "f78fd996a759cdce6116405c472c11190914109bd49453b919cc53a9b0088259"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/64_menu_basarilar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c76caab7e17269fc3f91df430be05ea77c0ed403e0563a7973eefe08487118de"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/65_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "2a23a14d303bdd8bb848e2f71ecec8f01355d7944e5237a9088e243e04f55fa4"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/66_bolumler.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "78f444eb58a549c280b20cfa837c12663217f9494fa85a97fef6dea82f480f0b"
+  },
+  {
+    "path": "docs/qa/2026-11-02-ftue/67_bolumler_tekrar_oyna.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c6be25b834e140125d0a8254084ba3872460d9d652db8f367d648b055ff37729"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_375x667_won12_1_ev.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "37ea228ffe51a14afdc6999afd8068a14351d1563757348afbd0aaf3c524e981"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_375x667_won12_2_koleksiyon.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "daf4b595a083d6bd34ae8fa7118c89e4baddaf19d571496094f99079f523cc94"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_375x667_won12_3_tablo_detay.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "6ed1a3e7c5cc2921838dd9fb8cbc33a84fe68bfed4b5eef6be67dd149098ec6b"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_375x667_won12_4_jiggles.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "bd6770e02e3d5a3abe814d27d8ee6b7d5f698bd087dec8d19b67b13a7b41693c"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_375x667_won12_5_basarilar.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "8b8eeaa380b235424ee4e2e8c5c938fdef19a9b504f9f1dff40cfef545a2675b"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_375x667_won12_6_profil.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "4009d57a00440e14a6a795269dc61c856d5d955dcde92af2e3b7d6695b11b10c"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_375x667_won12_7_ayarlar.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "ee5eb114d1cbe0634d977eb2cba2328669ca25a52b389654158382d3ab575f8b"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_375x667_won12_8_bolumler.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "9bf5f177345df7aceda2829d982aa4941fcd82fe93db4edc5a9526defc262b00"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_390x844_won12_1_ev.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "48b30398006436b9209240bdfce80bf617042a8b8b14c01b819b13357fdb7b3c"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_390x844_won12_2_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "fd336a662c003412baa3f03e8a2a34aa494ba6e0960f3205110db2eac9a00003"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_390x844_won12_3_tablo_detay.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "ab9a0578e7717c40dabca7c56c82f03f49cba8fbd1aa7fc000b53b683f61562c"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_390x844_won12_4_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "35e09a3ddc1462e7d0e62f93a57d85ce9aacf36ef7997ddec726611a8bd17a72"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_390x844_won12_5_basarilar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "9272254139b0d38f526fc89d89746cab4ec909e67b92aeb7e6840557a665430a"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_390x844_won12_6_profil.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c0de13ed8993cea41ae6b9365b8fa5044b75449a92f81c531213fc5944c23583"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_390x844_won12_7_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "318d8794c88eb2cd3333bf8b44cafdc47b18992203c2bb40ce0d0bfd47eda02e"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_390x844_won12_8_bolumler.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "592f57cc0c38f8c3f614c5e190911771b75f038c029bab4162590c43cecc86f1"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_430x932_won12_1_ev.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "6d232a46fcb728dc3c91ae7e97bff9a5a5300e3ee77197d136460b5d6b16c2d9"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_430x932_won12_2_koleksiyon.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "a4d67ee72256da9f9f4106903e3d5c3d1a6c85d099d27f8b740b9644f97b0696"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_430x932_won12_3_tablo_detay.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "1e2816628dceea01aaa216bad06b9ee1e46f53a6deb7ae95686aa33089d88022"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_430x932_won12_4_jiggles.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "35879e133fad2ebad265a2556c57302578ea4d0e94d7ba9941fa30a3d6a9992b"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_430x932_won12_5_basarilar.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "17aaced9045d10409bd64731b90de5c361bf302904cb5f76af9769e2d031fd37"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_430x932_won12_6_profil.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "93a2ccde1f0b5a909681bf937f3f2c2ad4ef503ec289517d5e660b154e22a94b"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_430x932_won12_7_ayarlar.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "e0966373bc7cca5eef8dcfc96fec89dd222f93aef5c74f2c8e908df36c89056f"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/en_430x932_won12_8_bolumler.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "66d2678118ec2ba16845ef949d4405c55eb633f937efbe3347a5210bed53d538"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_375x667_won12_1_ev.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "c4dee9205ba2e6d3c10f500f6ca365c295373b7322fd369e45f2fed82696cf98"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_375x667_won12_2_koleksiyon.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "03f5dad20e5959c31f8ebb60c8a8d090e5579e497de8784ecc4c37de2f6172e6"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_375x667_won12_3_tablo_detay.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "d58f2d7089f494e3023881dd0b5082d629be569273ed1fd5b2b6eb598df35327"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_375x667_won12_4_jiggles.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "536bc059d35107f54a05b268241bf0312da7acb52a8b2e0da700e8191cf01e33"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_375x667_won12_5_basarilar.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "b376b5511eb8737f3e33ef5bf539b653fdf16f83a976339d9c6567f3820e121a"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_375x667_won12_6_profil.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "0bd78df5a21b6baff5074e39daec48a29097f841577e9c42fe8ea958c0e55921"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_375x667_won12_7_ayarlar.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "a8d6c8005738a7a94a1f7507990ad9477dd4348a14f430f767c48019a209c3ec"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_375x667_won12_8_bolumler.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "ece68ad3e4b908bef1281634621fda37f694642b303baa988d64a7d65bfc30dc"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won0_1_ev.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "4d9a4c1a8ad29bc9e5f5ce0cb8c9081e56d926fb208219ae85e74f31601f5fbb"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won0_2_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c6be25b834e140125d0a8254084ba3872460d9d652db8f367d648b055ff37729"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won0_3_tablo_detay.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c6be25b834e140125d0a8254084ba3872460d9d652db8f367d648b055ff37729"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won0_4_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "f78fd996a759cdce6116405c472c11190914109bd49453b919cc53a9b0088259"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won0_5_basarilar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c76caab7e17269fc3f91df430be05ea77c0ed403e0563a7973eefe08487118de"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won0_6_profil.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "cb39f6f13c517815f4514b372addd1c22540876655ae39407699469affee4def"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won0_7_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "520ea03fc2fdf78b9d4553b68715387cc15dc366be4f9873cb658ebb31a8d724"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won0_8_bolumler.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "983363ec5df160ad243d57dfa4d1b9d731331b739cd1b82fe38d4d5db478724d"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won12_1_ev.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "2edd80195069fa2ba4d0ddb5b794210b4234280ed3042936e61d601e9d8cbc68"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won12_2_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "d8e3e5a4ae6c0090262f557046be29d9f98afbaefa4273803b0a7e80d9bfc95c"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won12_3_tablo_detay.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c8e51065e71572c86aea6f5ecc0934e1a2ee7014b2410faf4d58e97bc36066fb"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won12_4_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "0c483b977bf28405eb7f7e2585ecdd191abfcd8c5831a946f302698a9ec94760"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won12_5_basarilar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "8f54b0dbfd06ff7deaab9b7dad6c72241ef34d67ae2d9459669f8a6aadfd614a"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won12_6_profil.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "4eab18d7784b985e83991b97fdebbcab588743c2cf0986c75c9ee319f0ec0aac"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won12_7_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "6e15c1e6ef42dc34e53e9039e7e74d086421794ed2df0f882b34d3552eb7a2f1"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won12_8_bolumler.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1c5381a415d05fa73bebbdb6485751aa6a34bb525ac98c75217280cfa0645a89"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won40_1_ev.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "229334820d3e3c10a5a5ce99671334f418e99003192f9b2d33e811654c523304"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won40_2_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "d2efe6eb61bd01b7310a84993ae34002767e9bc4c6bbdb374c5f2d013ee19c2a"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won40_3_tablo_detay.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "5dfb01b61c9a9e67de7f65578fef193de01aa814fb8de3ff8be3e280b75006b5"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won40_4_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "5d037ad1338a5d495b61ecb55e291d4d1c8427f433c73503abc1ac9b50855ed7"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won40_5_basarilar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "d93d65c981fddbfda80ecd79bfc34037e8047496c41f6255aaf833bad87650d9"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won40_6_profil.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "34bc4d798ff6e47f762a79a62b6e8c654d2af9c6077dfd7cc9758016d7d0a224"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won40_7_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "de5a8decfd41f5a31013d85b93be1642eb1d4017bbdad69ea30e9fd9e7f21933"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_390x844_won40_8_bolumler.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "a27ea79f8b3522ce0a6d3048510b831d46309b57ecbbb4b00d437938ef379e25"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_430x932_won12_1_ev.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "ad886847c1fe7c010e8d6dd1bd55f236704a8d1ffe78e661e7cf175adc52cf3b"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_430x932_won12_2_koleksiyon.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "4e1df9ba98e18dcb727d49d84dec30638e3a8b69899a882f16f58ff429001b1c"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_430x932_won12_3_tablo_detay.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "25699c0ee499b7edbdd2e3b30f68fba54e7a8c1da9633fb9d394bc77e3b178df"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_430x932_won12_4_jiggles.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "3ba0b83cf1a54f3e736e6997e0c46b317c72b1cdb95c114f4ffc7c0b60f3059d"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_430x932_won12_5_basarilar.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "77101c705a130970cf31e67158f489197c92660f0b37d8fdb4b0d519f6ef6228"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_430x932_won12_6_profil.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "d818ef9a9760d895d1fc125729dddc6c4a9063e359ec412c01ab7dbe6627e8a0"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_430x932_won12_7_ayarlar.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "555b0893fd3c9167d9c45198d7fa7bb5fac09a00b3aa53f3ddff93cf080aec50"
+  },
+  {
+    "path": "docs/qa/2026-11-01-p20b/tr_430x932_won12_8_bolumler.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "a0c79a6776f1440bd4a3541d16f46cd6a248425e7151a48b54f71434b64bb440"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_01_menu.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "823f5c2920da47188ba62b789382cf8b9bb76fe9716d79e439fa88ab175824fc"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_02_baslangic.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "3a77ed77b5a12b07e611c14aab40a3dba46a5514ee23263943cbe6d2fc89ba9b"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_03_oyun.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "365622879f01baa948d98537eef3377753a453ab6c86c1ea5ef9282178a8c244"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_04_pause.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "ce35e92ccecc96c0c3fcfd45a32bece414d604726c264dd709ac7212e9a30849"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_05_kazanma.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "d52e38498ca9f9ada3b668e4f93dddcb9e6d37849ab0c70ff2583471c0e61ad7"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_06_kaybetme.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "25b42593a77d099761bfc7d5a27254434fc513487c96d1b31152c2211e15dd55"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_07_bolum_listesi.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "c122859efa603487d4d0e6e7cee09053bfae1d266403dbd6a34f95564af1593e"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_08_ayarlar.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "fb5b4af8ad9a09b4df0445863627b2729f435042d580838d320af2914875037d"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_harita.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "dc1c520ad49b8733c5e42f26e9018412020ee8659f9b4a2bd142e84da59f1d48"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_jiggles.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "2463666ce4d51f50ff312506136840db1cecfde9a97d65b142e776abe9002ddd"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_koleksiyon.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "3e9b4d28d59ea815da4232ebf52a2dad464d3f92a7980f03b55e6036a3782ba6"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_koleksiyon_siradaki.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "5fe3eda6d0024e8bb78f2943310e35d6d49f1e43b40e13b9c72d58e825cbc417"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_lv01_0.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "fb08a99e5bfc6fc70a67b5ac516fbbb88482f4e56ff9b3d15a826d02de5f0aa2"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_lv01_2hamle.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "1a890d2350470608c2f0727f69ecc946b1b76f1247f93974cc9ceb9184131363"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_lv02.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "d56a0af33226e74e8e948f4e78eaef734239cdc89421c424c84fcf0e618dced6"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_lv19.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "8b76f47e43dbb8dd72c817787cb43b09b9a7c6a4806115bfbee1ce39d4504dc4"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_lv25.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "d9ebe57be8ac93869703d105516e80a8ab2df3531e16ffccb2811bd8467b1507"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_lv35.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "03619a5676e4a2411f9f4b0a295887f5fdecc894e9f447593f59e47f7a01b29b"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_lv40.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "8608408897c2ada594e40cfa3b689f1b3677ec363d9195bda686f1b3504afe76"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/375x667_show1.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "7058964676d272ab7dc4064776cab7b99994911d304405ab851a1819b8caa4d4"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_01_menu.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "49c7a61007f894bb0355d2878de9e8f47ab303e04008db8cf555e8f1d5d6e564"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_02_baslangic.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "802bd4c3af92e79e4768db4d49038ec3b4b38224b77cb42c7841e2d1e57e835f"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_03_oyun.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "d5a08a77d229716e97d9b23207c66fc334a84a9f63228707e2ca28a9e6c2466e"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_04_pause.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "b43d5733f918b1ed4c11b84cee0f07e87bc12bb1ddc6be11816fdde54db1d1f3"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_05_kazanma.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "3020e213f87e74fe7933714d5d8f769c15b31b93b3fd8ec485bdcbec96dd3a5a"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_06_kaybetme.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1375b4a202999a111bab9ff0a2c739a558effe393739ff0706277609ebc9a5d8"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_07_bolum_listesi.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1bd425ace79ba3eda0ebfd78f853ffb66260eb87449f4a59e962387bb1323e52"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_08_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "fb686634aedeba99c4dee967a537379fa4e67b70b0b23e4cb22f32a17fa38e59"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_harita.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "8dc13fa453a3df86d7afc82e555ec50de2380252f162d7be71dfccae950c1f20"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "094f94a1de07647c55ecba0d01dede0ee602489cda6a16000e9c2d5f99ed799e"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "0a5fa2c007e9e77032facb6786258c381694cb280dada06a877593dc3643462c"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_koleksiyon_siradaki.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "5ef550564355db08dd94db138949367ef66645d7a31bfa0780d96866ec4e0792"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_lv01_0.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "7cc6f9532ed0e1dbae1f475ffecf9317f1f51252f0df13ff72eeecc5a6bc1af8"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_lv01_2hamle.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "6271ec4a1c390acc292c610ffb4664a134b6355e52e3957bb2340fe861272058"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_lv02.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "ba1d714f6ef23156813d410d1d087856ec5af7815d1358d1cc95d3a5345cbe83"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_lv19.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "da2f2a28bb0d87f6e3f392b67e85b570a6f0959961c33c24b906a36d13595be8"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_lv25.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "4cdb4af689bed471293b7c35a119db4dece8404edfa6593bd5a7d7497377add5"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_lv35.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "2fb162614aa7e9c2045a3cf601bdc39117bb6147e52f8c5948e9f0647a927cd8"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_lv40.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1a392435394f5ff42680277995a61724790cd5ee1000efa2b70f30efd8cb27e2"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/390x844_show1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "659d539ea64e422a5e8efb7f092ca76ece6357e1de29af10952968eacf4ecd09"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_01_menu.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "e5cb74301fd369fa5ebbdce5c854b8ed2afd3367d85a3f039a20b648d9224af9"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_02_baslangic.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "83306f4221fe2147e3f57a840e305ab4be107b757e4d48b7a8c54ce0784f3e96"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_03_oyun.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "8016f2c88acd42566fb41d5777dd102569a9ade1d476bba9fbeadec74e9e4ba0"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_04_pause.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "340a9541566929877d5e73b6f3af74f8ff9d79e4605b236fce567f46b713864e"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_05_kazanma.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "b768ab9b1a58792ab9f6e4f01647e56154a25003f01ac43caedf520059021fa2"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_06_kaybetme.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "ad14a7d1c7297a280c164dd5934e2d61a50751721c268a5b192994dbe0a4722c"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_07_bolum_listesi.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "f192019208182b6366faa1ac7dd27dac976b1f13f776be04e61e108895a82fdb"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_08_ayarlar.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "e493b576ab93b58b8e27aa59591e6ddcee20ecef78bba2d7aadd04325f6eb000"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_harita.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "3baf7d0d70eb9d55ac965f097decfde97bc743b10ca4baab9276a23dc66e97fe"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_jiggles.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "1567b5af796dcfbb75f6c013b8be06f1314aaf0700e3049c51af567b7f67e807"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_koleksiyon.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "93e62b5c62d5c343c8f950342b3d92bbdcda3f2dc7ca566157855db22f5c9f1b"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_koleksiyon_siradaki.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "acda2f3c0dd666fc21576bb46a44c5ad6aec2552b1a5a1fa2a9a30c214d0b0c7"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_lv01_0.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "1d14b4728363f78a3ecde3d7efbee37c034241e2bf19a8472e30f0948c347708"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_lv01_2hamle.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "f2c4220e847eea17b80f9a5f35d86426b6349da2a80f9e40bbbe0a42322d8c38"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_lv02.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "a01fce04a9122cfa5f15f8f553b22385483029325424fd1967bb6f66b1632f84"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_lv19.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "c535036be0c6b2f3487b010150490f09436d4c562f47d3b0f41d8500cf7ff561"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_lv25.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "ae9781a5dcbd559f7b48dc64a4ad20f9a736744d67da11e4fe9ea24fe277fc4c"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_lv35.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "6b35bdf1082be3e136103391e0602f00a64a41ba8e9b3531c8ad31232a3e1901"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_lv40.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "8eefda6d9f17e89789d789e41f6533ca64d33663e36140ac2f8e8240a107ff74"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/430x932_show1.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "49526129061eca0c0964459231b7e8ad5720f244129e990dda683ac38b0c208d"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b10.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "3ea94094c0df92c86043dfbc45cb500e6048b0cba5e14d560e3bd02289f62501"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b14.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "f1b0b181bea09a9e392c48d0408afc498a1736403bfea60555736db7ba3a2610"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b1_adim1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "30475e24ff2de44739d8efac8e6f3293506c68fff360d5789605e11d204b0ec1"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b1_adim2.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "4a69cebae8de20ef4796759580727ce86594ccb3383ddd66bd068004ca8c60f5"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b1_adim3.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "f177f7da994b838f65c2ea61f3affdfbb78a1551c4ae79add3633e414644af5e"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b1_seq_0.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "72a2e15be7caa891c5200a4bf3c28b48036ad7b3920ac0f83cafa43fb37eeecb"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b1_seq_1.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "af9eec178de5f6854f811d290f6efd0cdbcb9f2573c9621143978f14dbd12d43"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b1_seq_2.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "d108c84c0088a4349d454e9591daf4acbf181302564cef1a0a0f8b44633cce8c"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b1_seq_3.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "e584243783626c152448a22df8e0ae7dfbb0a505ee05711064e065937f6150c9"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/b1_seq_4.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "10efc608bf43c836e59123f69e185b8d3a44dd7645aca092a0ce6d3c5beb8774"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_375x667_won12_1_ev.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "3d5466cd470d6d8f6d1b7db931fb0b0e610fb56f163a375a3822b4da91f1be87"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_375x667_won12_2_koleksiyon.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "25c67921c007b981f3a836774563308bf8cf7c545c5d917dfab729b0f1f36e38"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_375x667_won12_3_tablo_detay.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "d847fc5fcec9dfa9311aa5c6c7ba33792121a77b78960f2a407863501bf619cd"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_375x667_won12_4_jiggles.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "a3cf315abdb37fe4e23754d7eb158af1a33f595ab12a431484fd07a4c0d511cc"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_375x667_won12_5_basarilar.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "2c16b971ac0b90c805a7ffae3e3ce12be228bff920c338ba8fdb5a38b3412e22"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_375x667_won12_6_profil.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "bce1440616ae1d1fd303dfe3508e9781ed740a5e5ab9358b514fd297e062f413"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_375x667_won12_7_ayarlar.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "0fd79ba8369a33d35a3c341038cf1187e5fa507295c99e60a4a1cf1740625321"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_375x667_won12_8_bolumler.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "23cad545a127364f664ff6680da302b12b60606523c2334fcb409f981440c13a"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_390x844_won12_1_ev.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1d4a3a7bd497b1cf7fb6ca59812fe57cfe3b40f12a1a3e1b1148aa344bf464a3"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_390x844_won12_2_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "65a5b66414822f356ab72ed38f63cb841d0acda91301cd4a24c29c712fda1fc3"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_390x844_won12_3_tablo_detay.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "f97f26f6c9872a85af0252b468f774ca18bf53ac42903942d982f0b759f174a6"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_390x844_won12_4_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "7acf70222be67e481c718d43377e71188a79306e77181985852e75ef1b39663a"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_390x844_won12_5_basarilar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "1359da5171ba43cfacaba7fe16783164a11f6f4ca3f8a9e7a46ef63d02ed185e"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_390x844_won12_6_profil.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "605246903599202793afd565ac5497e758c78441e250e5063f698893640b61d0"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_390x844_won12_7_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "dacd3bc06bc9c586c239a3e984c9c38453cf13d5e766d1b07be2399fdbf68180"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_390x844_won12_8_bolumler.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "b7a565c94e811756610c57cc9cdef7c6bfcb1de6bde9de5f9f8bd5461f8a75de"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_430x932_won12_1_ev.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "68e5d0cc21a7503f12026e9b8ae98eceeec0faec3de4d2732e5849be4927de43"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_430x932_won12_2_koleksiyon.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "040816afe880e3c5983538ecb3373f9fbbdd3cd307ac96e06c2ed43f298600ee"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_430x932_won12_3_tablo_detay.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "5a83e153cce4c3484a5f6a14313765af96578bb0fc7a05f54f8816d3fb3b171c"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_430x932_won12_4_jiggles.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "f5a640da48865e26e0cd5a047d7c91946c0a7163ae15d0a77b0704f9ccb5df07"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_430x932_won12_5_basarilar.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "99268bc07b8fdc8d33ccdb3d0ccc6c85515e5fca82a32945658befc2a5af35d8"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_430x932_won12_6_profil.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "bb70e310de578c3e74d793791dadbe52b7eba624f0ba87339fd1b001fb091730"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_430x932_won12_7_ayarlar.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "fe1ac064577f1e6e15f6b89d4cd6bed54cae46547943759f1139982bfa3b4813"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/en_430x932_won12_8_bolumler.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "8586039ae07d4d67845fd59b74dde9590fdaedc8a008950378989d4bd71230f0"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/recover_menu.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "608f33030e51a34fe640245a310d12d075d3c9c0869ae998499231bf5f4050b3"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_375x667_won12_1_ev.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "f6b94357b776b7ea4e0e2cbfa7c88118a4e2e6a634f8e9dbcd7b40be098706cd"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_375x667_won12_2_koleksiyon.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "3e9b4d28d59ea815da4232ebf52a2dad464d3f92a7980f03b55e6036a3782ba6"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_375x667_won12_3_tablo_detay.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "8d92ab19db90a6e38abcad01e96c85c1db807eef2dfce84ab70f13fd206298f1"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_375x667_won12_4_jiggles.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "2463666ce4d51f50ff312506136840db1cecfde9a97d65b142e776abe9002ddd"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_375x667_won12_5_basarilar.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "41bc36e97563e919087f78ce05c8b41133733960e411be018c6f38f0f689a147"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_375x667_won12_6_profil.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "44556fb9b197f8f18ad710a5ab1a9a9a431259e25a3a0dc4a3cbe1a5dc6c8827"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_375x667_won12_7_ayarlar.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "ddeb3835a44c357b228670ca5d9f648ab988abb9001a461c290d4d912d292046"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_375x667_won12_8_bolumler.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "dc1c520ad49b8733c5e42f26e9018412020ee8659f9b4a2bd142e84da59f1d48"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won0_1_ev.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "01545924025bd3634431ee97a5d901459edb84ea75265740f77dbe1f545c2634"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won0_2_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "d4edc6b451ad3ee218f04322b42203e49d1aafbf64411522cc157007adbe5043"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won0_3_tablo_detay.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "67de9526c1acdb6d6f242eb8d46c40a745824fd3004614946d0c44f893d24642"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won0_4_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c13a25796d20847e762af94c2e59e5f1fce8eaddf9ceb4d154d84198b759d104"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won0_5_basarilar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "c13a25796d20847e762af94c2e59e5f1fce8eaddf9ceb4d154d84198b759d104"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won0_6_profil.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "60d1968e41dc26b15ea49d9797866f512942089dbf1192b841f74cc4ed942fee"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won0_7_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "48d7a667499382953d8097c3ab84678e7e8211539ac1772796d65e0413bc0cab"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won0_8_bolumler.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "adb17e6820ed8a86c66d6da4a9e0725424634550e5977d0288e2ba46148fa6a1"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won12_1_ev.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "2e295f0d3c851ca7f5dd80096af7396ec23ed06f208da00f846e60d2474d9573"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won12_2_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "0a5fa2c007e9e77032facb6786258c381694cb280dada06a877593dc3643462c"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won12_3_tablo_detay.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "35512f8f8fa0d30b72a05dd1379582f288402a0a483da8f323d77c45dea44a69"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won12_4_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "094f94a1de07647c55ecba0d01dede0ee602489cda6a16000e9c2d5f99ed799e"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won12_5_basarilar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "e0bc286b5a835c24110ec935077b37070043e149924e30d16d17fbe7a9b75540"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won12_6_profil.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "8c8c2cec7d2751eecec325eed0014783254f82b0ac51efdee0b8a55534431340"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won12_7_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "28049fd5506110d4d8e243b915b8104f88548184be8928385d222622a71ecf30"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won12_8_bolumler.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "8dc13fa453a3df86d7afc82e555ec50de2380252f162d7be71dfccae950c1f20"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won40_1_ev.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "f3fcae356887f2aa88bcdf044b4439e9cd790d133b2afc7d7e3203d38d227abb"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won40_2_koleksiyon.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "e60c11fa872e91cf162cb2f32c471614444c470ce3bafa25f60526abf0510ffa"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won40_3_tablo_detay.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "f3e77d70a414a2096f6f797c45f8a04757fb265a0f032ff1f523b6f6458b1502"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won40_4_jiggles.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "5a53c50db2055adf932e4ebfb97856c27e09d36e349a70f13cc858f8e8623dfc"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won40_5_basarilar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "31915e5b70a0253985804cf8dc21abaa169b98bbf31d458648e0b065727fc9b3"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won40_6_profil.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "59c125654c090eecb883089dbf2440e427cecf7be462c7eded8ae34ade880210"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won40_7_ayarlar.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "388bca6ea2160f1319d1a9d47c00db473969b56b907ed698e982484d9e4356f9"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_390x844_won40_8_bolumler.png",
+    "size": [
+      780,
+      1688
+    ],
+    "sha256": "8fb15a276f699152508ad629eb760fe808092e832dc5cdf867f8945c82e2bce2"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_430x932_won12_1_ev.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "02bd5374f3cf8a24699e806afe51873a4b9e5c5a736853c80bf6b6c3e70cf3ae"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_430x932_won12_2_koleksiyon.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "93e62b5c62d5c343c8f950342b3d92bbdcda3f2dc7ca566157855db22f5c9f1b"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_430x932_won12_3_tablo_detay.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "9fa5396ad848fb97c684086d06e87fc3e0e1e1aacec0532b736f2882871886ff"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_430x932_won12_4_jiggles.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "1567b5af796dcfbb75f6c013b8be06f1314aaf0700e3049c51af567b7f67e807"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_430x932_won12_5_basarilar.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "58421840e97c0d3adfe92be1e2af72be8f64296578c79da6472555fe7ba428c8"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_430x932_won12_6_profil.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "b64cce8b63f0938c487cd24b204619fbe65ef2984193138bde85c06101263cf1"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_430x932_won12_7_ayarlar.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "04961cc562ae8bdc4a5ee12928bba43403265ae37e3536da198b799e6abc1014"
+  },
+  {
+    "path": "docs/qa/2026-11-03-tam/tr_430x932_won12_8_bolumler.png",
+    "size": [
+      860,
+      1864
+    ],
+    "sha256": "3baf7d0d70eb9d55ac965f097decfde97bc743b10ca4baab9276a23dc66e97fe"
+  },
+  {
+    "path": "docs/qa/2026-11-02-rating/a_kart.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "062c892df50556fab3353f52be2041e2c15153e59b8b3fbe05373f02d9a84cd4"
+  },
+  {
+    "path": "docs/qa/2026-11-02-rating/b_7_secildi.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "fbeaec8a76722264a9342ac2fddb2966cc2fe67ef3c6630f136b4c4b02aabcfe"
+  },
+  {
+    "path": "docs/qa/2026-11-02-rating/b_sonra.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "fce9c2f44d2bf189806e262794636a8d9afed2d67d394e123d41d1754a212aed"
+  },
+  {
+    "path": "docs/qa/2026-11-02-rating/c_kayip_kart.png",
+    "size": [
+      750,
+      1334
+    ],
+    "sha256": "c6a999422ad1454c2eb24b029485a79d9eb0169fd4667eb651d44107c25726c4"
+  }
+]

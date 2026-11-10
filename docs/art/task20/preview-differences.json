@@ -1,0 +1,38 @@
+{
+  "01-ev": {
+    "meanAbsolutePixelDifference": 22.163,
+    "reason": "Temiz sahne + bağımsız 9-slice katmanlar; piksel özdeşliği beklenmez."
+  },
+  "02-koleksiyon": {
+    "meanAbsolutePixelDifference": 9.45,
+    "reason": "Temiz sahne + bağımsız 9-slice katmanlar; piksel özdeşliği beklenmez."
+  },
+  "02b-tablo-detay": {
+    "meanAbsolutePixelDifference": 47.783,
+    "reason": "Temiz sahne + bağımsız 9-slice katmanlar; piksel özdeşliği beklenmez."
+  },
+  "03-jiggles": {
+    "meanAbsolutePixelDifference": 35.855,
+    "reason": "Temiz sahne + bağımsız 9-slice katmanlar; piksel özdeşliği beklenmez."
+  },
+  "04-basarilar": {
+    "meanAbsolutePixelDifference": 26.5,
+    "reason": "Temiz sahne + bağımsız 9-slice katmanlar; piksel özdeşliği beklenmez."
+  },
+  "05-profil": {
+    "meanAbsolutePixelDifference": 33.684,
+    "reason": "Temiz sahne + bağımsız 9-slice katmanlar; piksel özdeşliği beklenmez."
+  },
+  "06-ayarlar": {
+    "meanAbsolutePixelDifference": 25.056,
+    "reason": "Temiz sahne + bağımsız 9-slice katmanlar; piksel özdeşliği beklenmez."
+  },
+  "07-bolumler": {
+    "meanAbsolutePixelDifference": 45.097,
+    "reason": "Temiz sahne + bağımsız 9-slice katmanlar; piksel özdeşliği beklenmez."
+  },
+  "08-sekme-cubugu": {
+    "meanAbsolutePixelDifference": 6.889,
+    "reason": "Temiz sahne + bağımsız 9-slice katmanlar; piksel özdeşliği beklenmez."
+  }
+}

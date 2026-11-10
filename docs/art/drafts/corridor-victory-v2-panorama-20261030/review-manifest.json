@@ -1,0 +1,68 @@
+{
+  "status": "awaiting visual approval; no runtime integration",
+  "panoramaSize": [
+    1619,
+    971
+  ],
+  "viewportAspect": [
+    390,
+    844
+  ],
+  "cropSourceSize": [
+    448.68483412322274,
+    971
+  ],
+  "cropOutputSize": [
+    390,
+    844
+  ],
+  "cropY": 0,
+  "cropXs": [
+    90.664,
+    585.1575829383886,
+    1079.6511658767772
+  ],
+  "imageSlides": "right to left",
+  "viewportSamples": "left, center, right across one fixed perspective panorama",
+  "travelPixels": 988.9871658767772,
+  "travelViewportWidths": 2.204,
+  "files": {
+    "panorama-clean.png": {
+      "size": [
+        1619,
+        971
+      ],
+      "sha256": "1f6c848a0a5a4f4ab51475b49c5ea56f50a76ec796304f5cd0bbd3c17ebf291c"
+    },
+    "review-framing.png": {
+      "size": [
+        1715,
+        2037
+      ],
+      "sha256": "ffe4917c95fb1292fa1376d4faa78ccdbb914b77b754c35ad577b0a85ebdd00e"
+    },
+    "frame-start.png": {
+      "size": [
+        390,
+        844
+      ],
+      "sha256": "59caca6b0fc2eb370132583316bcc5c42d10dc0e67fd1c9adf5c00d939506b83"
+    },
+    "frame-middle.png": {
+      "size": [
+        390,
+        844
+      ],
+      "sha256": "67b0a3f0c992830a61d32b1cc7184e45d39e03dbfaba4c0f1e9170659594f458"
+    },
+    "frame-end.png": {
+      "size": [
+        390,
+        844
+      ],
+      "sha256": "4224e78dd2f8be4b6b399fd960832846c04d61f28098255e3453e46ec1f45692"
+    }
+  },
+  "protectedFilesUnchanged": true,
+  "changedProtectedFiles": []
+}

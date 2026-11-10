@@ -1,0 +1,69 @@
+{
+  "mode": "built-in image_gen",
+  "room": "Kış ve dağ salonu",
+  "authorization": "User asked for 10 more, with improved quality; produce levels 21-30 only.",
+  "reference": "Assets/Art/Gameplay/Task15/painting-test-01.png",
+  "basePrompt": "Use case: illustration-story. Deliver ONE original full-bleed square 1536x1536 painting for a premium family puzzle-restoration game, no collage. STYLE REFERENCE: the supplied painting-test-01 image sets only the rendering vocabulary: luminous warm hand-painted animation background, round appealing forms, tactile brush-painted foliage, controlled stone facets, sunlit edges and clear cheerful color. Keep this same storybook world between Royal Match and Disney, now in winter and mountains; do NOT copy its village, sea, bridge or layout. SCENE: {SCENE} COMPOSITION: {COMPOSITION} ART DIRECTION: stronger composition with different shape rhythms, 3 clear depth planes, beautiful focal silhouette OFF CENTER, foreground framing and secondary landmarks distributed right across every edge. Medium-scale recognizable detail and elegant brush shapes; avoid an all-over confetti of tiny flecks, over-sharpened foliage, lens effects, photoreal 3D, flat vectors or generic repeated house-and-bridge staging. Warm honey wood/stone, turquoise/teal accents, peach sunlight, blue-lilac snow shadows; crisp snow has structure from rocks, grasses, footprints, stairs, reflections, branches or colored shadows, NEVER vast white areas. GAMEPLAY: will be cut into both 6x6 and 7x7 pieces. Every upper/lower/corner region must contain distinctive shapes and color changes. No large uniform sky, water, white snow, dark shadow or red masses. Gold/cream bomb and nail overlays and red-white wall overlays must remain clear on top, so keep background contrast and midsaturation, not huge gold/cream planes. CONTENT RULES: Entirely imaginary original scene, no real or famous landmarks or existing paintings. No people, human faces, recognizable characters, writing, letters, numbers, logo, watermark, signage, border, frame, puzzle lines, grid, seams, UI or obstacles embedded in painting.",
+  "paintings": [
+    {
+      "level": 21,
+      "theme": "Karlı köy meydanı",
+      "scene": "A small invented mountain village square after fresh snow, viewed diagonally from a raised stairway. Three charming crooked cream-and-honey timber houses with teal and lilac shutters surround an OFF-CENTER frozen stone fountain. A short arched walkway, stacked firewood, a wooden sled and patterned golden cobbles peeking through snow create foreground landmarks. Different rooftops, snow-dusted firs, smoke curls and lavender mountains fill upper cells. Long gentle blue shadows, green pine boughs and tiny peach berries break up snow in every corner. Bright golden late afternoon, no crowds or holiday text.",
+      "composition": "Village plaza with stepped masonry, staggered house shapes and a spiral path; intimate three-quarter overhead view."
+    },
+    {
+      "level": 22,
+      "theme": "Dağ yamacında kulübe",
+      "scene": "A single cozy small honey-wood mountain chalet clings to a stepped rocky hillside, its uneven teal-shingled snow-capped roof and glowing amber windows turned three-quarters toward the viewer. A zigzag timber stairway with rope handrails passes snow-buried herb pots, a neatly stacked log store, a plain teal wool blanket on an outdoor bench and an empty wooden sled. Different fir silhouettes and apricot rock ledges enclose the image, lilac mountain peaks beyond. Foreground includes pinecones, frost ferns and a narrow unfrozen teal rivulet. Not another village square, no bridge as main subject.",
+      "composition": "Strong diagonal hillside, cabin in upper-left/middle and large textured timber steps across lower-right; medium distance."
+    },
+    {
+      "level": 23,
+      "theme": "Buz pateni göleti",
+      "scene": "A small EMPTY frozen skating pond in a sheltered mountain glade, viewed slightly from above. Translucent turquoise and lavender ice shows intersecting gentle skate trails, trapped leaf shapes and snow-dusted stone islands; it occupies several irregular patches rather than one blank blue sheet. An unlabeled pair of skates rests beside a pale wooden bench and a curled teal scarf on the near bank. A tiny timber warming hut with golden windows, a wooden fence, snow-padded reeds, fir branches and a birch trunk vary the other corners. Frost flowers trace only the pond edges. Peach sunset touches distant blue-violet hills. No skaters, humans or figures.",
+      "composition": "Broad oval ice pool running diagonally, close foreground skates and scarf; low hut small in upper-right, birches at upper-left."
+    },
+    {
+      "level": 24,
+      "theme": "Kuzey ışıklı vadi",
+      "scene": "A luminous snow-covered mountain valley under soft mint, turquoise and lavender northern-light ribbons, at a BRIGHT blue-hour twilight. Keep sky to the upper quarter, broken into distinct flowing aurora shapes, thin peach clouds and snowy fir tips. A winding partly open teal stream, faceted lavender boulders, a warm small amber-windowed timber shelter, an empty wooden bench with a teal blanket, pale snow-buried shrubs and a stone path populate the foreground and middle distance. Snow is periwinkle and pink in shadow, never broad unbroken white. All shadows remain luminous midtones rather than black or navy. No stars arranged into symbols, no known landscape.",
+      "composition": "Asymmetric river S-curve, tiny warm shelter low-right, layered mountains and aurora above; magical but fully readable."
+    },
+    {
+      "level": 25,
+      "theme": "Karlı vadide tren köprüsü",
+      "scene": "A compact cheerful teal-and-ochre steam train with only three small carriages crosses a curved honey-stone viaduct over a snowy mountain gorge. Track structure is plausible: one continuous curved track on top of the arches, train upright on rails. Puffs of creamy steam break the sky into rounded shapes. The lower half shows a winding blue stream, differently sized snow-capped rocks, fir groups, a tiny trackside timber hut and foreground pinecones among lavender frost grasses. Sunny peach rock faces and soft blue snow shadows contrast with the stone arches. No letters or numbers on train, no famous real viaduct, no people.",
+      "composition": "Train travels across upper-middle from left to right; broad viaduct curve and three visible arches, layered gorge through lower half."
+    },
+    {
+      "level": 26,
+      "theme": "Donmuş şelale bahçesi",
+      "scene": "A bright frozen waterfall in a sheltered mountain ravine, arranged as three sculptural tiers of translucent aquamarine ice curtains, little amber-lit pockets of flowing water and milky-lilac frost columns. Honey and lavender rocks, snow-capped ledges, small pools with concentric ripple patterns and frosted fern fronds create varied shapes across the full image. A narrow stone footpath winds along one bank with a small plain wooden railing, no large building or bridge. Close foreground includes turquoise ice shards, tan reeds and a branch with a few pale rose berries. Sunlight glows THROUGH the ice, crisp softly painted forms, not photoreal glass.",
+      "composition": "Near-frontal terraced natural ice cascade at left and middle; rocky switchback path at right; very little visible sky."
+    },
+    {
+      "level": 27,
+      "theme": "Dağ teleferik durağı",
+      "scene": "A charming small honey-timber mountain cable-car station with a slate-teal roof and snow-capped eaves sits on a rocky terrace. Two SMALL enclosed gondolas, one turquoise and one butter-yellow, hang naturally from a single pair of continuous support cables diagonally across the middle distance; no floating unattached vehicles. A timber balcony, weathered stone stairs, snow-dusted travel trunks without labels, a tiny bench and pinecone baskets enrich the near station. Rounded fir clusters, distant lilac ridgelines and peach cliffs break the sky and snow. Warm afternoon light, bright periwinkle shadows, no visible passengers or text.",
+      "composition": "Close station at lower-left; diagonal cable spans toward upper-right through layered alpine valley, gondolas well separated."
+    },
+    {
+      "level": 28,
+      "theme": "Karlı teras bahçesi",
+      "scene": "An ornate but modest terraced winter garden on a mountain slope, seen at a gentle bird's-eye angle. Curving LOW honey-stone walls enclose distinct patterned beds of snow-dusted sage shrubs, soft teal juniper, lilac frost grasses and small pale pink berry bushes. A little turquoise-tiled frozen fountain stands to the side; honey stone steps zigzag among the terraces to a small wooden pergola with bare twisting vines. Colorful pebbles, an empty pale bench, frosted terracotta pots and scattered pinecones break the foreground snow. Snowy firs and blue-lavender peaks frame the upper edge. No deep dark hedge maze, no clipped topiary animal shapes.",
+      "composition": "Interlocking curved terrace shapes from upper-right to lower-left, high viewpoint and garden geometry; no dominant cottage or central bridge."
+    },
+    {
+      "level": 29,
+      "theme": "Işıklı buz mağarası",
+      "scene": "A friendly luminous ice grotto at the edge of a glacier, with an enormous arched translucent aquamarine roof and curling ice ribs. Look THROUGH the cave mouth toward peach sunlit mountain slopes and small snowy firs; the cave is entirely bright turquoise, mint and lilac midtones, never black or dark blue. Sculptural clusters of pale blue icicles, amber limestone shelves, a clear shallow teal meltwater ribbon with ripples, frost patterns and differently shaped ice crystals form landmarks throughout the square. A tiny simple wooden footway follows one side of the water, frost ferns and rounded pebbles in the foreground. Avoid smooth blank glacier walls and photorealism.",
+      "composition": "Immersive near view from inside a radiant ice arch toward daylight; curved ribs vary upper cells and foreground crystals vary lower cells."
+    },
+    {
+      "level": 30,
+      "theme": "Zirvedeki gözlemevi",
+      "scene": "A charming small hilltop astronomical observatory in winter, at warm golden late afternoon. One modest ivory stone tower with a softly oxidized turquoise dome and a small telescope visible through its OPEN slit stands off-center. A winding honey-stone stairway curves around snow-capped terraces with a timber railing, empty wooden bench, unlabeled folded map case, pinecone baskets and frost-covered herb pots. Softly painted peach cliffs, snow-laden fir branches and distinctly layered lavender mountain ridges fill the square. A small teal stream and rock outcrops below add a second visual route. The sky is a small soft peach-and-blue patch with separated clouds. No stars drawn as icons, no writing or people, not a grand castle.",
+      "composition": "Round observatory high-right, sweeping staircase low-left to high-right, layered broad mountain panorama; inviting and original."
+    }
+  ]
+}

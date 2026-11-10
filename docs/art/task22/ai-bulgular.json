@@ -1,0 +1,412 @@
+[
+  {
+    "id": "AI-01",
+    "pass_name": "1. Stil turu",
+    "screen": "Sonuç / kazanma",
+    "element": "Panel kenarı",
+    "issue": "Kalın altın kıvrımlar krem içeriğin önüne geçiyor; Task21 turkuaz/krem panelinden ayrışıyor.",
+    "severity": "yüksek",
+    "suggestion": "İnce altın çizgili turkuaz kabuk; 101.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-02",
+    "pass_name": "1. Stil turu",
+    "screen": "Bomba ve süre kaybı",
+    "element": "Ortak kart",
+    "issue": "Kalın altın kabuk ve küçük neden ikonu;3 Kasım tam tur süre kaybı ve2 Kasım rating bombasıyla doğrulandı.",
+    "severity": "orta",
+    "suggestion": "Aynı hafif kabuk, büyük neden ikonu; 102.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-03",
+    "pass_name": "1. Stil turu",
+    "screen": "Durdurma",
+    "element": "Panel",
+    "issue": "3 Kasım tam turdaki durdurma aynı ağır altın kabuğu koruyor; güncel kare bulundu.",
+    "severity": "orta",
+    "suggestion": "Ortak aile, 103; mevcut Devam yeşili korunur.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-04",
+    "pass_name": "1. Stil turu",
+    "screen": "8 tanıtım",
+    "element": "Kart ve odak",
+    "issue": "Çivi/bomba eski sahneleri, küçük tekrar ikonları ve yoğun yazı ayrı odaklar. Zincir/duvar/diğer booster modal QA eksik.",
+    "severity": "orta",
+    "suggestion": "Nesne merkezli ortak sunum; 104 içinde sekiz ayrı taslak.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-05",
+    "pass_name": "1. Stil turu",
+    "screen": "Zor bölüm",
+    "element": "Uyarı",
+    "issue": "3 Kasım tam tur Level19 Tough level başlangıcı ortak kartta dört küçük engel ikonu ve küçük uyarı satırı taşıyor; uyarı hiyerarşisi zayıf.",
+    "severity": "orta",
+    "suggestion": "Mevcut onaylı Baron görseliyle sade uyarı; 105.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-06",
+    "pass_name": "1. Stil turu",
+    "screen": "Yükleme",
+    "element": "Kimlik / durum",
+    "issue": "01_yukleme karesi boş koyu yüzey; tek kare ilerlemenin gerçekten takıldığını kanıtlamaz.",
+    "severity": "yüksek",
+    "suggestion": "Marka, mevcut avatar ve durum alanı önerisi; 106.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-07",
+    "pass_name": "1. Stil turu",
+    "screen": "İsim girişi",
+    "element": "Panel ve başla",
+    "issue": "Web formu düz sistem fontlu; düz turkuaz Başla ana eylem yeşiliyle uyumsuz.",
+    "severity": "yüksek",
+    "suggestion": "Aynı turkuaz/krem panel, mevcut yeşil CTA; 107.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-08",
+    "pass_name": "1. Stil turu",
+    "screen": "Profil sorusu",
+    "element": "Panel",
+    "issue": "İlk girişte ağır altın kart ilk isim formundan da sonraki menülerden de ayrışıyor.",
+    "severity": "orta",
+    "suggestion": "Ortak kabuk ve üç eşit ikincil seçim; 108.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-09",
+    "pass_name": "1. Stil turu",
+    "screen": "Ayarlar",
+    "element": "Anahtar / dil",
+    "issue": "ON/OFF yalnız konum ve renkle ayrılıyor; dil seçiminin kabartma yoğunluğu anahtarlarla farklı.",
+    "severity": "orta",
+    "suggestion": "Tik/çarpı taşıyan iki durum ve ortak dil yüzeyi; 109.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-10",
+    "pass_name": "1. Stil turu",
+    "screen": "Harita",
+    "element": "Oyna balonu / güncel düğüm",
+    "issue": "Düz yeşil Oyna balonu onaylı hacimli düğümün üstünde başka aile; çok altın güncel düğümle yarışıyor.",
+    "severity": "orta",
+    "suggestion": "Yeşil kabartmalı balon ve dar altınlı güncel düğüm; 110.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-11",
+    "pass_name": "1. Stil turu",
+    "screen": "Koleksiyon",
+    "element": "Sıradaki / kilitli hücre",
+    "issue": "Küçük düz şerit ve koyu boş kilitli karo, tablo çerçevelerinin malzemesiyle ayrışıyor.",
+    "severity": "orta",
+    "suggestion": "Turkuaz etiket ve çerçeveli kilit durumu; 111.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-12",
+    "pass_name": "1. Stil turu",
+    "screen": "Jiggles",
+    "element": "Uzun ilerleme çubuğu",
+    "issue": "Son ekranında uzun parlak ray; Task21 üç bağımsız madalyon isteğiyle çelişiyor.",
+    "severity": "orta",
+    "suggestion": "Mevcut raf/avatarları koruyan üç madalyon; 112.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-13",
+    "pass_name": "1. Stil turu",
+    "screen": "Sonuç puanı",
+    "element": "Düz seçim yüzleri",
+    "issue": "Güncel iki sıralı kutular okunur fakat kart/tuş malzemesine göre düz kalıyor.",
+    "severity": "orta",
+    "suggestion": "Boş hacimli kutu, seçili durum ve ayrı dinamik rakamlar; 113.",
+    "type": "çizim"
+  },
+  {
+    "id": "AI-14",
+    "pass_name": "1. Stil turu",
+    "screen": "Kartlar",
+    "element": "Başlık fontu",
+    "issue": "Card.Title/Finish, TextView.Banner yerine Create/Outline kullanıyor; Nunito aile uygulaması menüyle aynı değil.",
+    "severity": "orta",
+    "suggestion": "PM kod işi: başlıkları TitleFont/Banner üzerinden birleştir.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-15",
+    "pass_name": "1. Stil turu",
+    "screen": "Ev / 4 sekme / HUD",
+    "element": "Onaylı parçalar",
+    "issue": "Task21 alt çubuk ve Task14/15 HUD incelemede korunabilir; yeni genel set çizmek için kanıt yok.",
+    "severity": "düşük",
+    "suggestion": "Yeni çizim açma; palet ve gerçek cihaz yerleşimini doğrula.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-16",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Sonuç puanı",
+    "element": "Dokunma ölçüsü",
+    "issue": "Eski FTUE tek sıra minik; güncel Card.ChipRow iki sıra ve 375 için51×44, 390 için54×44 pt. Güncel hata değil.",
+    "severity": "düşük",
+    "suggestion": "Mevcut iki sıra korunmalı; 113 yalnız malzeme önerisi.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-17",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Koleksiyon",
+    "element": "Sıradaki yazısı",
+    "issue": "CollectionScreen.cs şerit yüksekliği20 ve yazı12 pt; alt sınır13 pt altında.",
+    "severity": "orta",
+    "suggestion": "En az13 pt; taslakta14 pt, şerit26 pt.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-18",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Jiggles",
+    "element": "500 / 1.000 eşikleri",
+    "issue": "JigglesScreen.cs eşik Label boyu12 pt ve #857D69; açık arka planda düşük vurgu.",
+    "severity": "orta",
+    "suggestion": "14 pt lacivert krem rozet ve bağımsız kilometre taşları.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-19",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Başarılar",
+    "element": "Koşul açıklaması",
+    "issue": "AchievementsScreen autosize 12–13 pt; bazı uzun koşullar13 altına inebilir.",
+    "severity": "orta",
+    "suggestion": "13 pt altını kapat, satırı büyüt veya metni kısalt; yeni karo çizmek gerekmez.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-20",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Ayarlar",
+    "element": "Sürüm bilgisi",
+    "issue": "BuildStamp 12 pt. İşlevsel bir eylem değil, düşük önem.",
+    "severity": "düşük",
+    "suggestion": "Sürümü13 pt yap veya destek detayında göster.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-21",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Ayarlar / profil / tablo / harita",
+    "element": "Kapat ve anahtar hedefleri",
+    "issue": "Görsel36 pt olması hedef36 demek değil: kod kapatma ve toggle hedefini en az44 pt genişletiyor.",
+    "severity": "düşük",
+    "suggestion": "Mevcut hedef büyütmesini koru; doğrulanan bir hata olarak sayma.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-22",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Sonuç kartı",
+    "element": "Eylem yoğunluğu",
+    "issue": "Eski karede Geç ana eylemin önünde; yeni kod ana eylemi önce koyuyor, Skip aşağıda44 pt hedef.",
+    "severity": "düşük",
+    "suggestion": "Güncel dizilim korunmalı; 101 yeni kabuğu bu sırayla gösterir.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-23",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "İsim girişi",
+    "element": "Klavye / küçük ekran",
+    "issue": "Statik kare klavye açıkken formun görünürlüğünü kanıtlamaz. Web formu fixed merkezli.",
+    "severity": "orta",
+    "suggestion": "PM cihaz testi: klavyede alan ve Başla görünür, kaydırılabilir en az44 pt hedef.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-24",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Oyun / booster",
+    "element": "Sıfır stok",
+    "issue": "Booster QA sıfır stok rozetlerini gösteriyor; durum simgesi küçük ve kilit ile boş stok birbirine yakın.",
+    "severity": "orta",
+    "suggestion": "Koda/metne: Kilitli ile stok yok için ayrı erişilebilir açıklama; onaylı ikonları yeniden boyama.",
+    "type": "metin"
+  },
+  {
+    "id": "AI-25",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Profil kartı",
+    "element": "Uzun ad / istatistik",
+    "issue": "Uzun ad ve en uzun istatistik başlığı aynı satırda sıkışabilir; 375 kare kırpılma riski gösteriyor.",
+    "severity": "orta",
+    "suggestion": "23 pt başlık için alt sınır13 pt ve ellipsis; tam ad erişilebilir ayrıntıda.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-26",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Süre kaybı390",
+    "element": "Uzun İngilizce açıklama",
+    "issue": "3 Kasım390x844_06_kaybetme metni kartın sağ sınırını aşıyor;375 karesinde iki satıra sığıyor.",
+    "severity": "yüksek",
+    "suggestion": "PM kod/QA: wrap ve InnerWidth/build sürümünü karşılaştır, her iki dilde güvenli içerik genişliği sınırla.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-27",
+    "pass_name": "2. UX turu — 375×667 ve 390×844",
+    "screen": "Eski bölüm listesi375",
+    "element": "Dikey taşma",
+    "issue": "3 Kasım375x667_07_bolum_listesi kırpıntısında üst başlık ekranın tepesine dayanıyor;40 hücreli modal uzun.",
+    "severity": "orta",
+    "suggestion": "PM kod/QA: debug/eski liste erişim yolunu doğrula; ulaşılabilir ise dikey kaydırma veya maksimum modal yüksekliği.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-28",
+    "pass_name": "3. Tutarlılık turu",
+    "screen": "Ev / bölüm başlangıcı",
+    "element": "Level / Bölüm",
+    "issue": "TR FTUE Evde Level1; bölüm başlangıcında Level4 görülüyor. Dil ayarıyla çelişen metin.",
+    "severity": "orta",
+    "suggestion": "TR Bölüm {n}, EN Level {n}; tek yerelleştirme anahtarı.",
+    "type": "metin"
+  },
+  {
+    "id": "AI-29",
+    "pass_name": "3. Tutarlılık turu",
+    "screen": "Ayarlar",
+    "element": "Türkçe / English",
+    "issue": "İki dilin kendi adıyla gösterilmesi dil karışıklığı hatası sayılmaz.",
+    "severity": "düşük",
+    "suggestion": "Mevcut endonimleri koru; seçili durum 109.",
+    "type": "metin"
+  },
+  {
+    "id": "AI-30",
+    "pass_name": "3. Tutarlılık turu",
+    "screen": "Ekran başlıkları",
+    "element": "Pankart kullanımı",
+    "issue": "Son menülerde her sayfada altın pankart; stil rehberi sekme başlığını doğrudan zeminde ister.",
+    "severity": "orta",
+    "suggestion": "PM kod işi: mevcut yazıyı Banner ile doğrudan zemine al; yeni bitmap gerekmiyor.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-31",
+    "pass_name": "3. Tutarlılık turu",
+    "screen": "Sayaçlar",
+    "element": "Krem içindeki rakam",
+    "issue": "Koleksiyon sayacı beyaz konturlu; rehber krem hapta düz lacivert rakam der.",
+    "severity": "düşük",
+    "suggestion": "Sayaç metin renderını düz lacivert yap; bitmap aynı kalabilir.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-32",
+    "pass_name": "3. Tutarlılık turu",
+    "screen": "Başarılar",
+    "element": "Kilitlenmiş satır",
+    "issue": "Sıfır ilerlemede bütün sprite renderları .7 tint alıyor; krem pano da soluyor.",
+    "severity": "orta",
+    "suggestion": "Yalnız simgeyi/ilerlemeyi pasifleştir; açıklama kontrastını koru.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-33",
+    "pass_name": "3. Tutarlılık turu",
+    "screen": "Harita / Koleksiyon",
+    "element": "Sonraki içerik",
+    "issue": "Oyna yeşil, Sıradaki koyu küçük etiket: ikisi de sonraki hedef ama ağırlıkları farklı.",
+    "severity": "düşük",
+    "suggestion": "111 etiketi yalnız durum;110 balonu eylem. Etiket dokunma düğmesi gibi sunulmasın.",
+    "type": "metin"
+  },
+  {
+    "id": "AI-34",
+    "pass_name": "4. İlk kez oynayan gözü",
+    "screen": "Yükleme → isim",
+    "element": "İlk izlenim",
+    "issue": "Koyu boş kareden test formuna geçişte oyun kimliği ve neden ad istendiği zayıf.",
+    "severity": "orta",
+    "suggestion": "106/107 taslağı; adı sonuçları kaydetmek için istediğini tek cümleyle anlat.",
+    "type": "metin"
+  },
+  {
+    "id": "AI-35",
+    "pass_name": "4. İlk kez oynayan gözü",
+    "screen": "İsim → profil sorusu",
+    "element": "Oyun öncesi iki durak",
+    "issue": "İsimden sonra zorunlu görünen deneyim sorusu ilk oyunu geciktiriyor.",
+    "severity": "orta",
+    "suggestion": "PM ürün/kod kararı: soruyu atlanabilir yap veya ilk galibiyet sonrası sor.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-36",
+    "pass_name": "4. İlk kez oynayan gözü",
+    "screen": "Eğitim → ilk hamle",
+    "element": "Kural",
+    "issue": "FTUE hamleler ve kural kartı adımları görselde anlaşılır. El başka görevin sorumluluğunda.",
+    "severity": "düşük",
+    "suggestion": "Eğitim eline değişiklik yok; süre/tıklama davranışı canlı test edilmedi.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-37",
+    "pass_name": "4. İlk kez oynayan gözü",
+    "screen": "İlk5 bölüm",
+    "element": "Kural yükü",
+    "issue": "Bölüm3 çivi ve bölüm5 makas açıklamalarında uzun küçük paragraflar; hızlı öğrenmeyi yavaşlatıyor.",
+    "severity": "orta",
+    "suggestion": "104 taslağında tek kural ve tek eylem; ayrıntıyı ikinci dokunuşa bırakmak PM kararı.",
+    "type": "metin"
+  },
+  {
+    "id": "AI-38",
+    "pass_name": "4. İlk kez oynayan gözü",
+    "screen": "İlk kayıp",
+    "element": "Yeniden deneme",
+    "issue": "Eski bombalı kayıp görselinde yeniden deneme yok; yeni kod retry ekliyor.",
+    "severity": "düşük",
+    "suggestion": "Eski ekran hatasını güncel diye açma;102 yeni taslakta Tekrar dene yeşil.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-39",
+    "pass_name": "4. İlk kez oynayan gözü",
+    "screen": "Menü sekmeleri",
+    "element": "İkon anlamı",
+    "issue": "Seçili olmayan sekmeler etiketsiz; rehber bunu ister ama ilk kullanıcı ikon adını bilmeyebilir.",
+    "severity": "düşük",
+    "suggestion": "İlk açılışta tek seferlik metin ipucu; alt çubuğu yeniden çizme.",
+    "type": "kod"
+  },
+  {
+    "id": "AI-40",
+    "pass_name": "4. İlk kez oynayan gözü",
+    "screen": "Koridor",
+    "element": "Atlama",
+    "issue": "CorridorTransition.SkipAfter=.3; karelerde görünür atlama ipucu yok.",
+    "severity": "orta",
+    "suggestion": "PM kod/metin işi:13pt Devam etmek için dokun ipucu; koşullu kart/tuş çizimi açma.",
+    "type": "metin"
+  },
+  {
+    "id": "AI-41",
+    "pass_name": "4. İlk kez oynayan gözü",
+    "screen": "40.bölüm bitişi",
+    "element": "QA kanıtı",
+    "issue": "375x667_lv40_kart dosyasının içeriği HUD LV1 ve eğitim eli;40 sonu kanıtı değil. won40 menü karesi bitiş kartını kanıtlamaz.",
+    "severity": "yüksek",
+    "suggestion": "PM QA: gerçek40 kazanma + galeri + menü zincirini tekrar çek. Kodda isLast etiketi var; gerçekleştiği varsayılmadı.",
+    "type": "kod"
+  }
+]

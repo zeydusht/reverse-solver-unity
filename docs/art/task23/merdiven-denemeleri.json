@@ -1,0 +1,762 @@
+[
+  {
+    "folder": "01-bolumler",
+    "variant": "A",
+    "title": "Bölümler · basamağa oturan düğümler",
+    "source": "docs/qa/2026-11-03-tam/tr_375x667_won12_8_bolumler.png",
+    "ui": "LevelsMap",
+    "target": "Task20/node-* + LevelsMap numara/rozet/temas yerleşimi",
+    "assets": [
+      {
+        "file": "node-current.png",
+        "width": 198,
+        "height": 198,
+        "logicalPt": [
+          66.0,
+          66.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/node-current.png",
+        "sha256": "312f0b763620c343220b4afb5e16f2c23d2653f32c51c35cde6bc9d3e0f67d92",
+        "approved": false
+      },
+      {
+        "file": "node-complete.png",
+        "width": 162,
+        "height": 162,
+        "logicalPt": [
+          54.0,
+          54.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/node-complete.png",
+        "sha256": "72375be817745a4633a2e21017c182037be208a8fda79b7216a7f6825e0664f4",
+        "approved": false
+      },
+      {
+        "file": "node-locked.png",
+        "width": 162,
+        "height": 162,
+        "logicalPt": [
+          54.0,
+          54.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/node-locked-base.png",
+        "sha256": "eab86aef7a23f8cffa7aab6133719d28f8fdab16fc9a554f5748e2c7a20b4466",
+        "approved": false
+      },
+      {
+        "file": "node-hard-locked.png",
+        "width": 162,
+        "height": 162,
+        "logicalPt": [
+          54.0,
+          54.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/node-hard-base.png",
+        "sha256": "328bce9e8cf818043214544f3e5ed610a90ee849078a490c6ecb70aecb8439b4",
+        "approved": false
+      },
+      {
+        "file": "play-bubble.png",
+        "width": 264,
+        "height": 144,
+        "logicalPt": [
+          88.0,
+          48.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Redesign_T22/110-ai-harita/play-bubble-@3x.png",
+        "sha256": "f14fbd26827eca284922f31dc47ac53930296719988475c691458e6eaf0b3cd7",
+        "approved": false,
+        "minHitPt": [
+          88,
+          48
+        ]
+      },
+      {
+        "file": "complete-check.png",
+        "width": 54,
+        "height": 54,
+        "logicalPt": [
+          18.0,
+          18.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task21/check-badge.png",
+        "sha256": "ac69043ee24a05f2a64b8b1f871a6fb06c3e42e4c49b59751274c2440e69a778",
+        "approved": false
+      },
+      {
+        "file": "lock-badge.png",
+        "width": 48,
+        "height": 54,
+        "logicalPt": [
+          16.0,
+          18.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/icon-lock.png",
+        "sha256": "e913ad6619a3c62d1ed5c9460eb41b400dc5731297e414642862628d24dac420",
+        "approved": false
+      },
+      {
+        "file": "current-avatar.png",
+        "width": 102,
+        "height": 102,
+        "logicalPt": [
+          34.0,
+          34.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/avatar-blue.png",
+        "sha256": "aebb70546be751c26840cffdf12ec78649b80d76cdeee922cccb8ac11ca172f2",
+        "approved": false
+      },
+      {
+        "file": "hard-marker.png",
+        "width": 75,
+        "height": 87,
+        "logicalPt": [
+          25.0,
+          29.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/baron-head.png",
+        "sha256": "caf5c5daae568b92f7b3c5b44e8dbed07a8452daaf4a91a9b62201d3cd00d878",
+        "approved": false
+      },
+      {
+        "file": "node-contact-shadow.png",
+        "width": 150,
+        "height": 39,
+        "logicalPt": [
+          50.0,
+          13.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Basamağa değen dar temas gölgesi; ayrı katman",
+        "source": "Task23 procedural soft UI shadow",
+        "sha256": "57d00e4919aa85969465a5ab4faca48109a9c610be8027f90b5bc25a42c44f7d",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "11",
+        "xPt": 123,
+        "yPt": 569,
+        "sizePt": 18,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "12",
+        "xPt": 251,
+        "yPt": 493,
+        "sizePt": 18,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "13",
+        "xPt": 123,
+        "yPt": 417,
+        "sizePt": 24,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 56
+      },
+      {
+        "text": "Oyna",
+        "xPt": 123,
+        "yPt": 317.64,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 75
+      },
+      {
+        "text": "14",
+        "xPt": 251,
+        "yPt": 341,
+        "sizePt": 18,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "15",
+        "xPt": 123,
+        "yPt": 265,
+        "sizePt": 18,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "16",
+        "xPt": 251,
+        "yPt": 189,
+        "sizePt": 18,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "17",
+        "xPt": 123,
+        "yPt": 113,
+        "sizePt": 18,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      }
+    ],
+    "notes": [
+      "PM36 bölüm4 esas: numaralar içeride, kilit sağ altta, bitende tik. Altın güncel ve turkuaz biten kaynaklar korunur.",
+      "Temas gölgesi2pt kalın; kalın dış ışımayla havada gösterilmez. Nihai merkezler ve basamak fazı entegrasyon notundadır.",
+      "Zor kilitli durum aynı koyu yüzey + onaylı kırmızı çerçeve; aktif zor durumda altın yüzey ve ayrı Baron işareti kullanılmalı."
+    ],
+    "anchors": [
+      {
+        "level": 11,
+        "centerPt": [
+          123,
+          568
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "check-bottom-right",
+        "contactY": 595.0
+      },
+      {
+        "level": 12,
+        "centerPt": [
+          251,
+          492
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "check-bottom-right",
+        "contactY": 519.0
+      },
+      {
+        "level": 13,
+        "centerPt": [
+          123,
+          416
+        ],
+        "sizePt": 66,
+        "numberInside": true,
+        "badge": null,
+        "contactY": 449.0
+      },
+      {
+        "level": 14,
+        "centerPt": [
+          251,
+          340
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "lock-bottom-right",
+        "contactY": 367.0
+      },
+      {
+        "level": 15,
+        "centerPt": [
+          123,
+          264
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "lock-bottom-right",
+        "contactY": 291.0
+      },
+      {
+        "level": 16,
+        "centerPt": [
+          251,
+          188
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "lock-bottom-right",
+        "contactY": 215.0
+      },
+      {
+        "level": 17,
+        "centerPt": [
+          123,
+          112
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "lock-bottom-right",
+        "contactY": 139.0
+      }
+    ],
+    "pathRepeatPhasePt": 191,
+    "variantDifference": "A:18pt/16pt kilit, B:20pt/20pt kilit, daha tok temas ve84×44 Oyna",
+    "rectPt": [
+      15,
+      94,
+      345,
+      472
+    ]
+  },
+  {
+    "folder": "01-bolumler",
+    "variant": "B",
+    "title": "Bölümler · basamağa oturan düğümler",
+    "source": "docs/qa/2026-11-03-tam/tr_375x667_won12_8_bolumler.png",
+    "ui": "LevelsMap",
+    "target": "Task20/node-* + LevelsMap numara/rozet/temas yerleşimi",
+    "assets": [
+      {
+        "file": "node-current.png",
+        "width": 198,
+        "height": 198,
+        "logicalPt": [
+          66.0,
+          66.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/node-current.png",
+        "sha256": "312f0b763620c343220b4afb5e16f2c23d2653f32c51c35cde6bc9d3e0f67d92",
+        "approved": false
+      },
+      {
+        "file": "node-complete.png",
+        "width": 162,
+        "height": 162,
+        "logicalPt": [
+          54.0,
+          54.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/node-complete.png",
+        "sha256": "72375be817745a4633a2e21017c182037be208a8fda79b7216a7f6825e0664f4",
+        "approved": false
+      },
+      {
+        "file": "node-locked.png",
+        "width": 162,
+        "height": 162,
+        "logicalPt": [
+          54.0,
+          54.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/node-locked-base.png",
+        "sha256": "eab86aef7a23f8cffa7aab6133719d28f8fdab16fc9a554f5748e2c7a20b4466",
+        "approved": false
+      },
+      {
+        "file": "node-hard-locked.png",
+        "width": 162,
+        "height": 162,
+        "logicalPt": [
+          54.0,
+          54.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/node-hard-base.png",
+        "sha256": "328bce9e8cf818043214544f3e5ed610a90ee849078a490c6ecb70aecb8439b4",
+        "approved": false
+      },
+      {
+        "file": "play-bubble.png",
+        "width": 252,
+        "height": 132,
+        "logicalPt": [
+          84.0,
+          44.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Redesign_T22/110-ai-harita/play-bubble-@3x.png",
+        "sha256": "dd2823d80474a9be7e0d85df729e5bc692e1b78ae7e0a605d25c409b76817822",
+        "approved": false,
+        "minHitPt": [
+          84,
+          44
+        ]
+      },
+      {
+        "file": "complete-check.png",
+        "width": 54,
+        "height": 54,
+        "logicalPt": [
+          18.0,
+          18.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task21/check-badge.png",
+        "sha256": "ac69043ee24a05f2a64b8b1f871a6fb06c3e42e4c49b59751274c2440e69a778",
+        "approved": false
+      },
+      {
+        "file": "lock-badge.png",
+        "width": 60,
+        "height": 66,
+        "logicalPt": [
+          20.0,
+          22.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/icon-lock.png",
+        "sha256": "847e439f5f0fcf2c70b3df3b04deeac8f8a694d4e22c637093159e64c6c89835",
+        "approved": false
+      },
+      {
+        "file": "current-avatar.png",
+        "width": 102,
+        "height": 102,
+        "logicalPt": [
+          34.0,
+          34.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/avatar-blue.png",
+        "sha256": "aebb70546be751c26840cffdf12ec78649b80d76cdeee922cccb8ac11ca172f2",
+        "approved": false
+      },
+      {
+        "file": "hard-marker.png",
+        "width": 75,
+        "height": 87,
+        "logicalPt": [
+          25.0,
+          29.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Onaylı parçanın korunmuş exportu",
+        "source": "Assets/Art/Menu/Task20/baron-head.png",
+        "sha256": "caf5c5daae568b92f7b3c5b44e8dbed07a8452daaf4a91a9b62201d3cd00d878",
+        "approved": false
+      },
+      {
+        "file": "node-contact-shadow.png",
+        "width": 150,
+        "height": 39,
+        "logicalPt": [
+          50.0,
+          13.0
+        ],
+        "scale": 3,
+        "sliceLTRB": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "role": "Basamağa değen dar temas gölgesi; ayrı katman",
+        "source": "Task23 procedural soft UI shadow",
+        "sha256": "daac8f8e4ee62797d148daa90ebfe2406b4ae158e1771f304eda913dcae2cfb5",
+        "approved": false
+      }
+    ],
+    "text": [
+      {
+        "text": "11",
+        "xPt": 123,
+        "yPt": 571,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "12",
+        "xPt": 251,
+        "yPt": 495,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "13",
+        "xPt": 123,
+        "yPt": 419,
+        "sizePt": 24,
+        "color": "#0B2A36",
+        "banner": false,
+        "maxWidthPt": 56
+      },
+      {
+        "text": "Oyna",
+        "xPt": 123,
+        "yPt": 317.92,
+        "sizePt": 17,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 71
+      },
+      {
+        "text": "14",
+        "xPt": 251,
+        "yPt": 343,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "15",
+        "xPt": 123,
+        "yPt": 267,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "16",
+        "xPt": 251,
+        "yPt": 191,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      },
+      {
+        "text": "17",
+        "xPt": 123,
+        "yPt": 115,
+        "sizePt": 20,
+        "color": "#FFF6D8",
+        "banner": true,
+        "maxWidthPt": 44
+      }
+    ],
+    "notes": [
+      "PM36 bölüm4 esas: numaralar içeride, kilit sağ altta, bitende tik. Altın güncel ve turkuaz biten kaynaklar korunur.",
+      "Temas gölgesi2pt kalın; kalın dış ışımayla havada gösterilmez. Nihai merkezler ve basamak fazı entegrasyon notundadır.",
+      "Zor kilitli durum aynı koyu yüzey + onaylı kırmızı çerçeve; aktif zor durumda altın yüzey ve ayrı Baron işareti kullanılmalı."
+    ],
+    "anchors": [
+      {
+        "level": 11,
+        "centerPt": [
+          123,
+          570
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "check-bottom-right",
+        "contactY": 597.0
+      },
+      {
+        "level": 12,
+        "centerPt": [
+          251,
+          494
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "check-bottom-right",
+        "contactY": 521.0
+      },
+      {
+        "level": 13,
+        "centerPt": [
+          123,
+          418
+        ],
+        "sizePt": 66,
+        "numberInside": true,
+        "badge": null,
+        "contactY": 451.0
+      },
+      {
+        "level": 14,
+        "centerPt": [
+          251,
+          342
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "lock-bottom-right",
+        "contactY": 369.0
+      },
+      {
+        "level": 15,
+        "centerPt": [
+          123,
+          266
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "lock-bottom-right",
+        "contactY": 293.0
+      },
+      {
+        "level": 16,
+        "centerPt": [
+          251,
+          190
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "lock-bottom-right",
+        "contactY": 217.0
+      },
+      {
+        "level": 17,
+        "centerPt": [
+          123,
+          114
+        ],
+        "sizePt": 54,
+        "numberInside": true,
+        "badge": "lock-bottom-right",
+        "contactY": 141.0
+      }
+    ],
+    "pathRepeatPhasePt": 191,
+    "variantDifference": "A:18pt/16pt kilit, B:20pt/20pt kilit, daha tok temas ve84×44 Oyna",
+    "rectPt": [
+      15,
+      94,
+      345,
+      472
+    ]
+  }
+]

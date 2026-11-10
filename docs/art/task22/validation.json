@@ -1,0 +1,15 @@
+{
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "130 runtime adayı PNG: RGBA, gerçek alfa, @3x, slice, hash ve belirtilmiş min hedefler kontrol edildi.",
+    "22/22 yüksek-orta çizim bulgusu klasör/önce-sonra/not/inceleme ile birebir eşleşiyor.",
+    "Başlangıçtaki 3082 okunabilir Assets/Art dosyası: 0 değişti, 0 eksildi, 0 erişilemez."
+  ],
+  "findings": 63,
+  "drawings": 22,
+  "runtimePNG": 130,
+  "unusedAttemptFiles": [
+    "01-kazanma/nesne-alani.png"
+  ]
+}

@@ -1,0 +1,172 @@
+[
+  {
+    "family": "01-bolumler",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 10,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "02-kazanma",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 7,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "03-kayip-bomba",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 8,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "04-kayip-sure",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 8,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "05-durdurma",
+    "chosen": "A",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 5,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "06-puan-kutulari",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 2,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "07-tanitim-civi",
+    "chosen": "A",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "08-tanitim-bomba",
+    "chosen": "A",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "09-tanitim-zincir",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "10-tanitim-duvar",
+    "chosen": "A",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "11-booster-makas",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "12-booster-degnek",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "13-booster-cekic",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "14-booster-saat",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "15-zor-bolum",
+    "chosen": "A",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "17-isim",
+    "chosen": "B",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 6,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  },
+  {
+    "family": "18-profil-sorusu",
+    "chosen": "A",
+    "twoDistinctTrials": true,
+    "rgbaAssets": 5,
+    "phoneSizes": [
+      "375x667",
+      "390x844"
+    ]
+  }
+]

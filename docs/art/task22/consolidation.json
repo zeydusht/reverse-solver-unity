@@ -1,0 +1,14 @@
+{
+  "mainJobs": 22,
+  "mainPNG": 130,
+  "alternativeFamilies": 13,
+  "alternativePNG": 20,
+  "totalCandidatePNG": 150,
+  "alternativeErrors": [],
+  "mainFindings": 63,
+  "duplicatesNotAdded": 39,
+  "beforeAfterImages": 36,
+  "independentCrossCheckRows": 41,
+  "browserBehaviorEvidence": "browser-behavior.json",
+  "AIImagegenCallsIncludingNodeRevision": 11
+}

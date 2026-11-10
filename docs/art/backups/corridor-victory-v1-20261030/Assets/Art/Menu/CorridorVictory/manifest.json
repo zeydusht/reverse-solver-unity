@@ -1,0 +1,59 @@
+{
+  "source": "Assets\\_Game\\Presentation\\Resources\\menu_bg.png",
+  "sourceSha256": "37569dce01cc72e4ca9a6f0171a77a571c0d789824ad7eac66e6740528d72fdd",
+  "sourceUnchanged": true,
+  "projection": {
+    "focalPixels": 1647.0,
+    "horizonY": 700,
+    "z0": 5.32,
+    "wallSlope": 0.585,
+    "period": 3.42,
+    "xmin": -1.4,
+    "floorY": -1.5
+  },
+  "assets": {
+    "wall": {
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "c033fdcd053d968185bbc773011181d64ff146c697bd87ee041afa5b61fbb3b5"
+    },
+    "floor": {
+      "size": [
+        2048,
+        1024
+      ],
+      "sha256": "81afa7547321502e7226a89eb449541c151920a4e0807929affaed939f33fc55"
+    },
+    "frame": {
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "4b2849b6650ce8c9cd7974fc1270ecebae18a83d57344d265d8a76ebf9f196ca"
+    },
+    "columns": {
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "bf54f345eb0dfd50c0a6e2a152157bb07bea52188dff962ded00f13837de64ce"
+    },
+    "arches": {
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "2783af9394925d503e587b715d2b11dbb805c872ac79dd31a42dbd4f16e8c543"
+    },
+    "reference": {
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "87a28e13ccf55dcfabd4be0f73b09fbb34b702224bf0d59f9ee2e8f69da10b5c"
+    }
+  },
+  "prompts": "docs/art/corridor-victory-prompts.json"
+}

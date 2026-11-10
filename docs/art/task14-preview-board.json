@@ -1,0 +1,93 @@
+{
+    "source":  "Assets/_Game/Levels/redesign.json",
+    "lv":  7,
+    "w":  5,
+    "h":  5,
+    "vEdge":  [
+                  [
+                      null,
+                      0,
+                      0,
+                      0,
+                      0,
+                      null
+                  ],
+                  [
+                      null,
+                      0,
+                      0,
+                      -1,
+                      0,
+                      null
+                  ],
+                  [
+                      null,
+                      0,
+                      -1,
+                      0,
+                      -1,
+                      null
+                  ],
+                  [
+                      null,
+                      1,
+                      0,
+                      0,
+                      -1,
+                      null
+                  ],
+                  [
+                      null,
+                      0,
+                      1,
+                      1,
+                      0,
+                      null
+                  ]
+              ],
+    "hEdge":  [
+                  [
+                      null,
+                      null,
+                      null,
+                      null,
+                      null
+                  ],
+                  [
+                      0,
+                      -1,
+                      1,
+                      -1,
+                      1
+                  ],
+                  [
+                      1,
+                      0,
+                      0,
+                      -1,
+                      0
+                  ],
+                  [
+                      0,
+                      0,
+                      0,
+                      -1,
+                      0
+                  ],
+                  [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                  ],
+                  [
+                      null,
+                      null,
+                      null,
+                      null,
+                      null
+                  ]
+              ],
+    "notes":  "Art-only mid-level7-like preview: two cells omitted and existing approved obstacle PNGs shown; gameplay data is read-only."
+}

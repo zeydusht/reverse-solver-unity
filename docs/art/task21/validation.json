@@ -1,0 +1,18 @@
+{
+  "runtimeSprites": 42,
+  "previewPngs": 6,
+  "manifestDimensionsAndHashes": true,
+  "allPngsIndexed": true,
+  "exactFlatColors": true,
+  "slotRatio": "2:1",
+  "barBottomPt": 812,
+  "barTopPt": 726,
+  "homeIndicatorClear": true,
+  "profileFramePt": 90,
+  "profileTopPt": 44,
+  "avatarContentRatio": 0.7803030303030303,
+  "avatarsClipped": true,
+  "selectedLabelsOnly": true,
+  "oldTask20HashesChecked": 145,
+  "turkishGlyphCoverage": true
+}

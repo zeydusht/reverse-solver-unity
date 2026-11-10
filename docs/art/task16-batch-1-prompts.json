@@ -1,0 +1,57 @@
+{
+  "mode": "built-in image_gen",
+  "reference": "Assets/Art/Gameplay/Task15/painting-test-01.png",
+  "basePrompt": "Use case: illustration-story. Asset: one ORIGINAL square edge-to-edge painting for a casual restoration puzzle game, not a collage. Generate 1536x1536 pixels. The supplied painting-test-01 is a STYLE reference only: match its luminous warm Mediterranean hand-painted animation-background look, softly rounded charming architecture, careful painted foliage and rock facets, vivid turquoise water, honey limestone, ivory plaster, blue/teal shutters, lively yellow-green leaves and small pink/lilac flower accents; polished family storybook quality between Royal Match and Disney, with visible subtle brushwork, not photorealism or flat vector. Create a DIFFERENT original composition of this scene: {SCENE} Gameplay: this will be sliced into both 6x6 and 7x7 grids. Spread identifiable silhouettes, changes of hue and mid-scale details through the ENTIRE square including all corners, upper sky and lower foreground. Keep sky glimpses small and cloud/foliage-filled, keep water broken by reflections/rocks/boats. Clear readable forms, not noisy micro-detail. Bright warm afternoon light; softly colored shadows, no large dark areas, no broad saturated red masses. Gold/cream obstacles and red-white barriers must remain legible on top. No frame, border, grid, puzzle seams, UI or obstacles drawn into the painting. No people, human faces, characters, letters, numbers, writing, signage, logos or watermark. Do not copy any real or famous location, existing painting or copyrighted character.",
+  "paintings": [
+    {
+      "level": 1,
+      "theme": "Çiçekli sahil köyü",
+      "scene": "A hillside seaside village with staggered ivory cottages, turquoise shutters, narrow peach stone stairways, pink bougainvillea balconies, a small curved footbridge over a sparkling turquoise inlet, terraced cypresses and distant lavender cliffs. A lemon branch enters the upper edge; ceramics, flowerpots and patterned paving fill the lower corners. Invent a fresh village arrangement, no windmill."
+    },
+    {
+      "level": 2,
+      "theme": "Renkli balıkçı limanı",
+      "scene": "An intimate fishing harbor seen diagonally from a flower-lined quay: three small blue, yellow and turquoise wooden boats with coiled ropes and striped cushions, curved stone moorings, nets and woven baskets, waterside pastel boat sheds, upper hillside houses and clustered cypresses. Mast rigging, climbing vines and textured clouds occupy the top; reflected boats and clear-water rocks break up every patch of sea. No open ocean horizon."
+    },
+    {
+      "level": 3,
+      "theme": "Teraslı zeytinlik",
+      "scene": "An old terraced olive grove: sculptural silver-green olive trees with curling honey-brown trunks wind along staggered dry-stone terraces, a tiny pale farm cottage and turquoise garden gate in the middle distance, woven olive baskets and lavender pots beside a curving stone path, wildflowers, patterned field patches and a small distant glimpse of sea. Canopy and lilac hills fill the upper edge; roots, grasses and daisies enrich the bottom. No windmill."
+    },
+    {
+      "level": 4,
+      "theme": "Fener koyu",
+      "scene": "A small ivory lighthouse with turquoise lantern room and warm orange tiled cap stands off-center on a rocky flower-covered headland. A winding stone stairway passes a blue boathouse, an arched wall, pots of flowers and a little sheltered tide pool. Tiny sailboats, sea foam, ochre rock islands and water reflections fill the bay; distant terraced cliffs and cotton clouds plus pine branches limit sky. No red lighthouse bands."
+    },
+    {
+      "level": 5,
+      "theme": "Begonvilli sokak",
+      "scene": "A winding pedestrian lane in an invented Mediterranean village, viewed slightly from above: creamy plaster and pale apricot cottages with turquoise, lavender and sage shutters, pink bougainvillea arching between balconies, hand-painted ceramic flowerpots, a little tiled fountain to one side, irregular honey stone steps and climbing jasmine. Small blue sea glimpses between distant houses. The upper corners contain tiled eaves, vines and balcony flowers rather than open sky; the lower corners contain distinct paving and pots. No signs or shop labels."
+    },
+    {
+      "level": 6,
+      "theme": "Limon bahçesi",
+      "scene": "A sunlit Mediterranean lemon orchard courtyard: two laden lemon trees create interlocking foliage across the upper corners, a blue wooden garden gate in an ivory stone wall, a small turquoise tiled irrigation rill winds beside terracotta pots, woven baskets of lemons and a cream garden bench. Layered citrus rows, a pale farmhouse with peach roof and violet coastal hills enrich the distance. Distinct yellow fruit, jasmine, small lavender flowers and patterned path stones distributed all around the square."
+    },
+    {
+      "level": 7,
+      "theme": "Kemerli su yolu",
+      "scene": "An ancient modest honey-colored stone aqueduct with three unequal arches crosses a lush coastal ravine. Below it a clear turquoise stream steps over small white-water cascades and rounded golden stones; oleander flowers, cypresses and herb beds cover both banks. Small cream cottages on terraced slopes and layered lilac cliffs rise behind, stone stepping paths and an ivy-clad water channel occupy the foreground. Give all edges distinct botanical and masonry shapes. Entirely invented, no famous Roman landmark."
+    },
+    {
+      "level": 8,
+      "theme": "Seramik avlusu",
+      "scene": "A peaceful coastal pottery courtyard with an off-center small turquoise tiled fountain: shelves of unlettered cobalt, mint and ochre ceramic vessels, a warm cream arcade, a blue door, wooden pergola with grape leaves, baskets and flowerpots. A tiled stairway leads through a side arch toward a narrow sea glimpse and flowering village roofs. Rich but orderly hand-painted geometric tile details, sunlit stone paving, trailing jasmine, lilac flowers and climbing vines fill the square; no people or faces on pottery."
+    },
+    {
+      "level": 9,
+      "theme": "Üzüm terasları",
+      "scene": "A terraced Mediterranean vineyard overlooking a narrow coastal cove: alternating curving rows of luminous grape leaves and lilac grape clusters, low ochre stone terrace walls, a pale farmhouse with blue shutters, a small cream vine-covered pergola and stone stairway. A basket of grapes and a patterned ceramic jug nestle by flowerpots in the foreground; umbrella pine branches frame the upper edge, lavender cliffs and scattered pale cottages break the skyline. Turquoise water only as a small distant accent. No wine labels or letters."
+    },
+    {
+      "level": 10,
+      "theme": "Çamlıklı saklı koy",
+      "scene": "An intimate hidden Mediterranean cove viewed from a winding cliff garden path: two sculptural umbrella pines, a tiny blue-and-cream boathouse and curved jetty, one little cream-sailed wooden boat, golden rock shelves and a shallow crystal turquoise lagoon. Terraced cream houses with orange tiled roofs and cypress gardens climb the far side. Foam ribbons, underwater pebbles, rock reflections, lavender blossoms and bright bougainvillea scatter distinct details across every area; pine foliage and layered cliffs occupy the upper corners, no broad empty horizon."
+    }
+  ]
+}

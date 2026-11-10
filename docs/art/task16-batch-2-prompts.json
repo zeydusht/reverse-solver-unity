@@ -1,0 +1,58 @@
+{
+  "mode": "built-in image_gen",
+  "authorization": "User requested 10 more paintings after first batch work began.",
+  "reference": "Assets/Art/Gameplay/Task15/painting-test-01.png",
+  "basePrompt": "Use case: illustration-story. Asset: one ORIGINAL square edge-to-edge painting for a casual restoration puzzle game, not a collage. Generate 1536x1536 pixels. The supplied painting-test-01 is a STYLE reference only: match its luminous warm hand-painted animation-background look, now adapted to an inland woodland and countryside room, softly rounded charming architecture, careful painted foliage and rock facets, clear teal streams and ponds, honey stone and wood, ivory plaster, blue/teal accents, lively yellow-green leaves and small pink/lilac flower accents; polished family storybook quality between Royal Match and Disney, with visible subtle brushwork, not photorealism or flat vector. Create a DIFFERENT original composition of this scene: {SCENE} Gameplay: this will be sliced into both 6x6 and 7x7 grids. Spread identifiable silhouettes, changes of hue and mid-scale details through the ENTIRE square including all corners, upper sky and lower foreground. Keep sky glimpses small and cloud/foliage-filled, keep water broken by reflections/rocks/boats. Clear readable forms, not noisy micro-detail. Bright warm afternoon light; softly colored shadows, no large dark areas, no broad saturated red masses. Gold/cream obstacles and red-white barriers must remain legible on top. No frame, border, grid, puzzle seams, UI or obstacles drawn into the painting. No people, human faces, characters, letters, numbers, writing, signage, logos or watermark. Do not copy any real or famous location, existing painting or copyrighted character.",
+  "paintings": [
+    {
+      "level": 11,
+      "theme": "Çiçekli orman şelalesi",
+      "scene": "A sunny woodland cascade flows diagonally over three small honey-colored rock shelves into clear teal pools, an ivy-draped little stone footbridge to one side, fern banks and lilac irises, mossy logs, rounded boulders, clusters of daisies and golden flowers. Layered broadleaf trees form a bright leafy canopy across the top. Each corner has distinct foliage, water, stone or roots. A fresh inland forest, no sea or Mediterranean village."
+    },
+    {
+      "level": 12,
+      "theme": "Dere kenarında değirmen",
+      "scene": "A charming small pale-plaster watermill with warm timber beams, teal shutters and an uneven orange tiled roof stands beside a bending woodland stream. A honey-brown wooden waterwheel turns beside splashing white water; a stone footpath, sacks without labels, a basket, flowering shrubs and reeds enrich the foreground. An arched wooden footbridge and patterned meadow hills lead to rounded trees in the distance. Leaves and branches cover the upper corners. No sea."
+    },
+    {
+      "level": 13,
+      "theme": "Mantar ormanı",
+      "scene": "A bright fairytale mushroom grove, entirely natural with no faces or characters: clusters of large lavender, turquoise and golden-ochre mushrooms with pale speckles nestle around rounded tree roots, a winding pebble path, small clear stream and soft moss mounds. Ferns, tiny ivory flowers, violets, acorns and scattered leaves give each area distinctive details. Sunlit lime-green canopy fills the top; a tiny wood footbridge appears in the middle distance. Avoid dominant red mushroom caps, dark spooky lighting, mushroom houses or broad empty background."
+    },
+    {
+      "level": 14,
+      "theme": "Lavanta tarlası",
+      "scene": "A rolling countryside lavender garden with short curving rows of lilac-purple flowers separated by golden grassy paths and sage foliage, a little cream stone cottage with blue shutters and honey roof, two rounded deciduous shade trees, a low stone wall and turquoise garden gate. Baskets of lavender and a small unlettered ceramic jug sit by daisies in the foreground. A narrow winding stream, distant patchwork green hills and soft clouds add varied colors. Tree branches occupy upper corners, no broad uniform purple field."
+    },
+    {
+      "level": 15,
+      "theme": "Nilüferli göl evi",
+      "scene": "A cozy cream and honey-timber lake cottage with teal shutters and a warm tiled roof tucked among rounded willows and silver birches. A short wooden landing with one small blue rowboat extends into a clear teal pond filled with scattered lily pads, pale lotus blossoms, reeds, visible pebbles and rippled tree reflections. A garden stepping path and small bridge wind along the far bank. Yellow irises, purple flowers, exposed roots and grasses enliven foreground; leafy branches fill upper edge. No open blank lake or sea."
+    },
+    {
+      "level": 16,
+      "theme": "Elma bahçesi",
+      "scene": "A sunny orchard of sculptural apple trees laden with small golden and rosy blush apples, winding honey-stone path and low grassy terraces. A tiny pale cottage with blue door stands off-center behind a curved wooden gate; wooden harvest baskets with unlabeled cloths, clusters of daisies, lavender and ivy add detail across the lower corners. A slim clear irrigation brook with stepping stones crosses the orchard, rounded patchwork hills and foliage break the top. Apples use yellow and peach highlights, no large red color blocks."
+    },
+    {
+      "level": 17,
+      "theme": "Dere üzerindeki ahşap köprü",
+      "scene": "A small arched honey-brown wooden footbridge crosses a shallow teal woodland brook with rounded cream stones, white ripples and water plants. A winding pebble footpath weaves between fern banks, lilac foxgloves, white daisies and flowering bushes. One tiny timber garden shelter stands among rounded sunlit broadleaf trees at the far side; exposed roots, a mossy fallen log and little mushrooms enrich foreground. Upper frame filled with interlacing leaves and blue-sky glimpses; no massive dark trunks or empty water."
+    },
+    {
+      "level": 18,
+      "theme": "Kır çiçekli çiftlik",
+      "scene": "A peaceful small countryside farm with a cream cottage, blue barn doors, golden tiled roof and gentle timber details; a winding stone path passes vegetable beds of distinct leafy greens, carrot tops and violet cabbages, a rustic picket gate and flower-covered fence. A wooden wheelbarrow holding daisies and an unlettered watering can rest in the foreground; patchwork meadows, a narrow brook and rounded shade trees fill the distance. Sunny yellow-green foliage, lilac flowers and small pink accents; no animals or humans."
+    },
+    {
+      "level": 19,
+      "theme": "Salkım söğütlü gölet",
+      "scene": "A small clear woodland pond crossed at one edge by uneven honey-stone stepping stones. Two graceful willow trees with sunlit yellow-green hanging leaves frame the square; lily pads, purple irises, rounded cream boulders, golden reeds, little flower islands and broken rippled reflections keep the pond varied. A winding bank trail with a simple curved wooden bench and tiny gate leads into brighter broadleaf woods. Roots, ferns and daisies fill the lower corners; no large dark or plain green masses."
+    },
+    {
+      "level": 20,
+      "theme": "Çiçekli orman serası",
+      "scene": "A charming small blue-green framed glass conservatory in a sunny woodland clearing, low honey-stone base and warm wooden door; visible potted flowering plants and pale green leaves through its arched windows. A winding stone path passes terracotta pots, a turquoise watering can, wicker flower baskets, lavender, daisies and climbing white jasmine. A tiny clear stream and short wooden footbridge run along one side, layered rounded trees and patchwork meadow glimpses surround the greenhouse. Distinct foliage in every corner and leafy canopy at top; no text, no people."
+    }
+  ]
+}

@@ -1,0 +1,1142 @@
+[
+  {
+    "level": 11,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2411,
+    "sample": [
+      {
+        "row": 2,
+        "col": 1
+      },
+      {
+        "row": 6,
+        "col": 3
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 7,
+        "col": 2
+      },
+      {
+        "row": 7,
+        "col": 5
+      },
+      {
+        "row": 1,
+        "col": 1
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\11",
+    "sampleSheet": "docs/art/task24/alti-parca-11.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İkinci denemede kesim çizgileri kaldırıldı. Örnekler yaprak, dal, ışıklı gövde, patika ve çayır tonlarıyla ayrılıyor."
+  },
+  {
+    "level": 12,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2412,
+    "sample": [
+      {
+        "row": 4,
+        "col": 4
+      },
+      {
+        "row": 6,
+        "col": 1
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 5,
+        "col": 1
+      },
+      {
+        "row": 5,
+        "col": 6
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\12",
+    "sampleSheet": "docs/art/task24/alti-parca-12.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İkinci denemede Jiggle küçültüldü; posta kutusu odak kaldı. Altı örnekte kapı tokmağı, çatı, pencere, çayır ve gökyüzü sınırları var."
+  },
+  {
+    "level": 13,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2413,
+    "sample": [
+      {
+        "row": 5,
+        "col": 4
+      },
+      {
+        "row": 7,
+        "col": 5
+      },
+      {
+        "row": 2,
+        "col": 5
+      },
+      {
+        "row": 6,
+        "col": 1
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 2
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\13",
+    "sampleSheet": "docs/art/task24/alti-parca-13.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Yakın plan ve kuşbakışı kitap kompozisyonu panoramalardan ayrılıyor. Sayfa, cilt, sepet, örtü ve gölgeler örnekleri ayırıyor."
+  },
+  {
+    "level": 14,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2414,
+    "sample": [
+      {
+        "row": 2,
+        "col": 5
+      },
+      {
+        "row": 6,
+        "col": 5
+      },
+      {
+        "row": 6,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 5,
+        "col": 3
+      },
+      {
+        "row": 1,
+        "col": 4
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\14",
+    "sampleSheet": "docs/art/task24/alti-parca-14.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İkinci denemede20 ile yinelenen uçurtma kaldırıldı; küçük tahıl çuvalı eklendi. Bulut kuşakları ve renkli yamaçlar örneklerde okunuyor."
+  },
+  {
+    "level": 15,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2415,
+    "sample": [
+      {
+        "row": 6,
+        "col": 5
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 7,
+        "col": 5
+      },
+      {
+        "row": 2,
+        "col": 6
+      },
+      {
+        "row": 6,
+        "col": 2
+      },
+      {
+        "row": 7,
+        "col": 6
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\15",
+    "sampleSheet": "docs/art/task24/alti-parca-15.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İki alt kaya parçası yakın mor tonlarda; farklı diyagonal düzlemler ve ışık şeritleri seçiliyor. Su/yaprak/kıyı örnekleri belirgin."
+  },
+  {
+    "level": 16,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2416,
+    "sample": [
+      {
+        "row": 7,
+        "col": 5
+      },
+      {
+        "row": 4,
+        "col": 3
+      },
+      {
+        "row": 5,
+        "col": 6
+      },
+      {
+        "row": 3,
+        "col": 2
+      },
+      {
+        "row": 4,
+        "col": 1
+      },
+      {
+        "row": 7,
+        "col": 3
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\16",
+    "sampleSheet": "docs/art/task24/alti-parca-16.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Örnekler iri mantar lamelleri, turkuaz gövde, sarı ışık ve ön yaprak siluetleriyle ayrılıyor; küçük mantar ormanı gürültüsü yok."
+  },
+  {
+    "level": 17,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2417,
+    "sample": [
+      {
+        "row": 6,
+        "col": 3
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 4,
+        "col": 1
+      },
+      {
+        "row": 6,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 1
+      },
+      {
+        "row": 5,
+        "col": 4
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\17",
+    "sampleSheet": "docs/art/task24/alti-parca-17.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Sepet şeritleri geniş; iki sepet parçasında farklı bant yönü ve ışık var. Elma, gövde ve mavi uzaklık örnekleri kolay ayrılıyor."
+  },
+  {
+    "level": 18,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2418,
+    "sample": [
+      {
+        "row": 7,
+        "col": 3
+      },
+      {
+        "row": 7,
+        "col": 4
+      },
+      {
+        "row": 7,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 5,
+        "col": 6
+      },
+      {
+        "row": 3,
+        "col": 5
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\18",
+    "sampleSheet": "docs/art/task24/alti-parca-18.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İlk testte üç pervaz parçası çok benzerdi. İkinci denemede üç büyük yaprak gölgesi eklendi; aynı örnekler farklı gölge kenarları taşıyor."
+  },
+  {
+    "level": 19,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2419,
+    "sample": [
+      {
+        "row": 1,
+        "col": 3
+      },
+      {
+        "row": 2,
+        "col": 6
+      },
+      {
+        "row": 7,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 4,
+        "col": 4
+      },
+      {
+        "row": 7,
+        "col": 4
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\19",
+    "sampleSheet": "docs/art/task24/alti-parca-19.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Çapraz tek kütük köprü ve geniş su tonları. Örneklerde dal, saz, gölge ve kıyı ayrı; bir koyu alt parça daha zor ama ton sınırı var."
+  },
+  {
+    "level": 20,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2420,
+    "sample": [
+      {
+        "row": 4,
+        "col": 4
+      },
+      {
+        "row": 6,
+        "col": 5
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 4,
+        "col": 5
+      },
+      {
+        "row": 5,
+        "col": 5
+      },
+      {
+        "row": 1,
+        "col": 4
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\20",
+    "sampleSheet": "docs/art/task24/alti-parca-20.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Tek çam, kırmızı uçurtma ve lavanta Jiggle. Örneklerde bulut, iğne yaprak kütlesi, uçurtma ve yamaç farklı;14teki tekrar kaldırıldı."
+  },
+  {
+    "level": 21,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2421,
+    "sample": [
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 1
+      },
+      {
+        "row": 2,
+        "col": 4
+      },
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 5
+      },
+      {
+        "row": 2,
+        "col": 3
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\21",
+    "sampleSheet": "docs/art/task24/alti-parca-21.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İlk gökyüzü parçası fazla sakindi. İkinci denemede geniş bulut kuşakları; aynı altı parçada açıklık, bulut, kablo ve kabin sınırları ayrılıyor."
+  },
+  {
+    "level": 22,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2422,
+    "sample": [
+      {
+        "row": 6,
+        "col": 2
+      },
+      {
+        "row": 6,
+        "col": 5
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 4,
+        "col": 2
+      },
+      {
+        "row": 5,
+        "col": 2
+      },
+      {
+        "row": 6,
+        "col": 6
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\22",
+    "sampleSheet": "docs/art/task24/alti-parca-22.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Sıcak koltuk ve serin karlı pencere birbirinden net. Örnekler koltuk kenarı, pencere, lamba ayağı ve döşeme ışığıyla ayrılıyor."
+  },
+  {
+    "level": 23,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2423,
+    "sample": [
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 1,
+        "col": 4
+      },
+      {
+        "row": 7,
+        "col": 4
+      },
+      {
+        "row": 2,
+        "col": 6
+      },
+      {
+        "row": 4,
+        "col": 2
+      },
+      {
+        "row": 6,
+        "col": 1
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\23",
+    "sampleSheet": "docs/art/task24/alti-parca-23.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İlk buz yüzeyi fazla tekdüzeydi. İkinci denemede üç geniş yansıma-gölge kuşağı ve tek büyük bulut eklendi; aynı örnekler yeniden incelendi."
+  },
+  {
+    "level": 24,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2424,
+    "sample": [
+      {
+        "row": 4,
+        "col": 1
+      },
+      {
+        "row": 6,
+        "col": 3
+      },
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 5,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 6
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\24",
+    "sampleSheet": "docs/art/task24/alti-parca-24.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Kızak kırmızı tek odak; yumuşak kar gölgeleri. Altı örnekte kar sıçraması, kızak kenarı ve farklı bulut yönleri var."
+  },
+  {
+    "level": 25,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2425,
+    "sample": [
+      {
+        "row": 3,
+        "col": 6
+      },
+      {
+        "row": 4,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 5
+      },
+      {
+        "row": 7,
+        "col": 2
+      },
+      {
+        "row": 4,
+        "col": 4
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\25",
+    "sampleSheet": "docs/art/task24/alti-parca-25.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Tek iri çan ile basit taşıyıcı; örneklerde ip, çan içi, ahşap, bulut ve dağ ışığı ayrılıyor."
+  },
+  {
+    "level": 26,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2426,
+    "sample": [
+      {
+        "row": 6,
+        "col": 5
+      },
+      {
+        "row": 6,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 1
+      },
+      {
+        "row": 5,
+        "col": 5
+      },
+      {
+        "row": 1,
+        "col": 5
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\26",
+    "sampleSheet": "docs/art/task24/alti-parca-26.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Büyük kozalak pulları korunuyor, ince kozalak gürültüsü yok. Örneklerde sepet sapı, dal, kar ve karakter kenarı farklı."
+  },
+  {
+    "level": 27,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2427,
+    "sample": [
+      {
+        "row": 7,
+        "col": 3
+      },
+      {
+        "row": 7,
+        "col": 6
+      },
+      {
+        "row": 5,
+        "col": 3
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 3,
+        "col": 4
+      },
+      {
+        "row": 7,
+        "col": 5
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\27",
+    "sampleSheet": "docs/art/task24/alti-parca-27.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Geniş dağ düzlemleri, pirinç dürbün ve az nesne. Altı örnekte kar-kaya sınırı ve bulut tonları var; yakın mavi tonlar daha zor parça oluşturuyor."
+  },
+  {
+    "level": 28,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2428,
+    "sample": [
+      {
+        "row": 4,
+        "col": 3
+      },
+      {
+        "row": 7,
+        "col": 5
+      },
+      {
+        "row": 6,
+        "col": 6
+      },
+      {
+        "row": 7,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 5
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\28",
+    "sampleSheet": "docs/art/task24/alti-parca-28.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Katı buzul mağarası; sıvı su değildir. Örnekler turkuaz mağara kemeri, sıcak uzak zirve ve mor kar katmanlarıyla ayrılıyor."
+  },
+  {
+    "level": 29,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2429,
+    "sample": [
+      {
+        "row": 4,
+        "col": 5
+      },
+      {
+        "row": 1,
+        "col": 5
+      },
+      {
+        "row": 5,
+        "col": 3
+      },
+      {
+        "row": 5,
+        "col": 1
+      },
+      {
+        "row": 1,
+        "col": 3
+      },
+      {
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\29",
+    "sampleSheet": "docs/art/task24/alti-parca-29.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Tek somun ön planda; penceredeki sıcak/soğuk ayrımı güçlü. Bir sıcak duvar örneği şekil yerine geniş ışık geçişiyle ayırt ediliyor."
+  },
+  {
+    "level": 30,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2430,
+    "sample": [
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 3
+      },
+      {
+        "row": 3,
+        "col": 4
+      },
+      {
+        "row": 3,
+        "col": 6
+      },
+      {
+        "row": 3,
+        "col": 5
+      },
+      {
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\30",
+    "sampleSheet": "docs/art/task24/alti-parca-30.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Tek kızıl ağaç ve kıvrımlı buz kıyısı. Rastgele örnekler dal yönü, çam silueti ve pembe-mavi gökyüzüyle ayrılıyor."
+  },
+  {
+    "level": 31,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2431,
+    "sample": [
+      {
+        "row": 5,
+        "col": 1
+      },
+      {
+        "row": 4,
+        "col": 4
+      },
+      {
+        "row": 7,
+        "col": 3
+      },
+      {
+        "row": 4,
+        "col": 6
+      },
+      {
+        "row": 5,
+        "col": 5
+      },
+      {
+        "row": 4,
+        "col": 3
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\31",
+    "sampleSheet": "docs/art/task24/alti-parca-31.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Tek sıcak mantar fener ve serin orman. İki koyu örnek yakın tonlu; farklı yaprak/gövde sınırları mevcut, düz siyah alan yok."
+  },
+  {
+    "level": 32,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2432,
+    "sample": [
+      {
+        "row": 7,
+        "col": 6
+      },
+      {
+        "row": 4,
+        "col": 4
+      },
+      {
+        "row": 7,
+        "col": 1
+      },
+      {
+        "row": 6,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 4
+      },
+      {
+        "row": 4,
+        "col": 6
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\32",
+    "sampleSheet": "docs/art/task24/alti-parca-32.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İlk ışık gündüz gibiydi; ikinci deneme ay ışığı ve kitabın kendi sıcak ışığıyla gece oldu. Örneklerde sayfa kıvrımı, halı ve masa kenarı var."
+  },
+  {
+    "level": 33,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2433,
+    "sample": [
+      {
+        "row": 4,
+        "col": 2
+      },
+      {
+        "row": 5,
+        "col": 3
+      },
+      {
+        "row": 2,
+        "col": 4
+      },
+      {
+        "row": 6,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 6
+      },
+      {
+        "row": 7,
+        "col": 3
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\33",
+    "sampleSheet": "docs/art/task24/alti-parca-33.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Tek balon büyük siluet; altı örnek balon şeritleri, bulut ve tepe ışık bantlarıyla ayrılıyor."
+  },
+  {
+    "level": 34,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2434,
+    "sample": [
+      {
+        "row": 5,
+        "col": 1
+      },
+      {
+        "row": 6,
+        "col": 1
+      },
+      {
+        "row": 5,
+        "col": 3
+      },
+      {
+        "row": 3,
+        "col": 1
+      },
+      {
+        "row": 7,
+        "col": 1
+      },
+      {
+        "row": 4,
+        "col": 2
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\34",
+    "sampleSheet": "docs/art/task24/alti-parca-34.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Tek büyük nilüfer. Üç sol örnekte saz gölgeleri benzer koyu palette ama açı, açık aralık ve arka plan tonu farklı; yoğun çiçek yok."
+  },
+  {
+    "level": 35,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2435,
+    "sample": [
+      {
+        "row": 3,
+        "col": 4
+      },
+      {
+        "row": 4,
+        "col": 6
+      },
+      {
+        "row": 4,
+        "col": 3
+      },
+      {
+        "row": 4,
+        "col": 2
+      },
+      {
+        "row": 5,
+        "col": 5
+      },
+      {
+        "row": 2,
+        "col": 5
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\35",
+    "sampleSheet": "docs/art/task24/alti-parca-35.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İlk testte sağ duvar örneği tekdüzeydi. İkinci denemede geniş amber ışık ve mor gölge sınırı eklendi; aynı duvar parçası tekrar kontrol edildi."
+  },
+  {
+    "level": 36,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2436,
+    "sample": [
+      {
+        "row": 1,
+        "col": 5
+      },
+      {
+        "row": 5,
+        "col": 3
+      },
+      {
+        "row": 5,
+        "col": 2
+      },
+      {
+        "row": 6,
+        "col": 3
+      },
+      {
+        "row": 3,
+        "col": 5
+      },
+      {
+        "row": 3,
+        "col": 2
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\36",
+    "sampleSheet": "docs/art/task24/alti-parca-36.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Tek bulut evi; geniş bulutlar sakin. Bir alt bulut örneği nesne yerine pembe-mavi ton geçişi taşıyor; bu örnek daha zor olabilir."
+  },
+  {
+    "level": 37,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2437,
+    "sample": [
+      {
+        "row": 6,
+        "col": 3
+      },
+      {
+        "row": 4,
+        "col": 4
+      },
+      {
+        "row": 6,
+        "col": 1
+      },
+      {
+        "row": 4,
+        "col": 6
+      },
+      {
+        "row": 4,
+        "col": 2
+      },
+      {
+        "row": 7,
+        "col": 2
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\37",
+    "sampleSheet": "docs/art/task24/alti-parca-37.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İnsan karakteri yok; uyuyan taş dev yalnız iki oyuk göz ve gülüşlü stilize kaya. Örneklerde iri yosun, kök ve farklı kaya ışıkları ayrılıyor."
+  },
+  {
+    "level": 38,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2438,
+    "sample": [
+      {
+        "row": 5,
+        "col": 6
+      },
+      {
+        "row": 3,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 7,
+        "col": 6
+      },
+      {
+        "row": 2,
+        "col": 4
+      },
+      {
+        "row": 1,
+        "col": 4
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\38",
+    "sampleSheet": "docs/art/task24/alti-parca-38.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Tek kestane arabası ve sıcak fener. Altı örnek duvar, tente, araba ve iri döşeme sınırlarıyla ayrılıyor."
+  },
+  {
+    "level": 39,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2439,
+    "sample": [
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 6,
+        "col": 5
+      },
+      {
+        "row": 1,
+        "col": 3
+      },
+      {
+        "row": 3,
+        "col": 4
+      },
+      {
+        "row": 7,
+        "col": 1
+      },
+      {
+        "row": 4,
+        "col": 5
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\39",
+    "sampleSheet": "docs/art/task24/alti-parca-39.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "İlk sürüm fazla günbatımıydı ve iki üst örnek benziyordu. İkinci deneme indigo gece ve geniş gümüş bulut kuşakları; aynı örnekler yeniden incelendi."
+  },
+  {
+    "level": 40,
+    "grid": [
+      6,
+      7
+    ],
+    "seed": 2440,
+    "sample": [
+      {
+        "row": 6,
+        "col": 2
+      },
+      {
+        "row": 7,
+        "col": 2
+      },
+      {
+        "row": 6,
+        "col": 6
+      },
+      {
+        "row": 5,
+        "col": 5
+      },
+      {
+        "row": 7,
+        "col": 1
+      },
+      {
+        "row": 7,
+        "col": 4
+      }
+    ],
+    "all42Pieces": "docs\\art\\task24\\parcalar\\40",
+    "sampleSheet": "docs/art/task24/alti-parca-40.jpg",
+    "visualReview": "reviewed",
+    "reviewNote": "Final şatosu tek büyük ışıklı pencereyle odak. Son ışık/şafak geçişi, tek kısa merdiven; örneklerde kaya düzlemi, sis ve basamak sınırları ayrılıyor."
+  }
+]

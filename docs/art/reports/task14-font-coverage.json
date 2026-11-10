@@ -1,0 +1,62 @@
+﻿[
+    {
+        "character":  "ğ",
+        "unicode":  "U+011F",
+        "present":  false,
+        "glyphId":  0
+    },
+    {
+        "character":  "ş",
+        "unicode":  "U+015F",
+        "present":  false,
+        "glyphId":  0
+    },
+    {
+        "character":  "İ",
+        "unicode":  "U+0130",
+        "present":  false,
+        "glyphId":  0
+    },
+    {
+        "character":  "ı",
+        "unicode":  "U+0131",
+        "present":  true,
+        "glyphId":  192
+    },
+    {
+        "character":  "ç",
+        "unicode":  "U+00E7",
+        "present":  true,
+        "glyphId":  167
+    },
+    {
+        "character":  "ö",
+        "unicode":  "U+00F6",
+        "present":  true,
+        "glyphId":  182
+    },
+    {
+        "character":  "ü",
+        "unicode":  "U+00FC",
+        "present":  true,
+        "glyphId":  188
+    },
+    {
+        "character":  "0",
+        "unicode":  "U+0030",
+        "present":  true,
+        "glyphId":  19
+    },
+    {
+        "character":  "9",
+        "unicode":  "U+0039",
+        "present":  true,
+        "glyphId":  28
+    },
+    {
+        "character":  ":",
+        "unicode":  "U+003A",
+        "present":  true,
+        "glyphId":  29
+    }
+]

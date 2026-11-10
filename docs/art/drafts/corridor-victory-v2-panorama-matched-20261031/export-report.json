@@ -1,0 +1,47 @@
+{
+  "source": "original first bay x64..560; complete native pillar over wall join; locally repaired static floor",
+  "sourceSize": [
+    1488,
+    971
+  ],
+  "period": 496,
+  "cropWidth": 448.68483412322274,
+  "cropHeight": 971,
+  "cropY": 0,
+  "startCropX": 520.6575829383886,
+  "endCropX": 1016.6575829383886,
+  "travelSourcePixels": 496,
+  "travelAdjacentPaintings": 1,
+  "viewport": [
+    780,
+    1688
+  ],
+  "duration": 3,
+  "easing": "same quintic smoothstep as approved panorama-single-step",
+  "zoom": false,
+  "perspectiveTransform": false,
+  "temporalBlending": false,
+  "endpointMaxChannelError": 0,
+  "endpointMeanChannelError": 0,
+  "loopOnlyForReview": true,
+  "sourceSha256": "1f6c848a0a5a4f4ab51475b49c5ea56f50a76ec796304f5cd0bbd3c17ebf291c",
+  "sourceCopyByteIdentical": true,
+  "protectedFilesUnchanged": true,
+  "fps": 60,
+  "frames": 181,
+  "videoDuration": 3.016667,
+  "videoWidth": 780,
+  "videoHeight": 1688,
+  "bytes": 5236825,
+  "sha256": "8cad8d6d10ef150db1469f315ab18a6dbc06fd1f16179583a62546634524aaf1",
+  "browserDecodePassed": true,
+  "review": {
+    "cycles": 3,
+    "frames": 541,
+    "duration": 9.016667,
+    "bytes": 15460929,
+    "decodePassed": true,
+    "identicalEncodedCycleSamplesReused": true,
+    "idrAtEachCycleStart": true
+  }
+}

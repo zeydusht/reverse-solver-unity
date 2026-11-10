@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "endpointPixelsIdentical": true,
+  "idleStops": true,
+  "duplicateTriggerIgnored": true,
+  "completions": 1,
+  "stoppedAfter3Seconds": true,
+  "dynamicPaintingEndpointsMatch": true,
+  "frameCount": 181,
+  "medianFrameMs": 16.699999999999818,
+  "p95FrameMs": 16.90000000000009,
+  "exceptions": [],
+  "frames": [
+    {
+      "progress": 0,
+      "hash": "4d4ba64dca929e9ce5c511db35a87bc094ea2fe900b62f5cbd312d4fec2fdf1b"
+    },
+    {
+      "progress": 0.001,
+      "hash": "a766cdb248b786b98d0f0936cfc27f87fd88c50f604f60afa583b594eb329f2b"
+    },
+    {
+      "progress": 0.125,
+      "hash": "691750e3aee620ea8d80aaf29d0322993450c3eee8879e8e75e5fff1575c3cbf"
+    },
+    {
+      "progress": 0.25,
+      "hash": "8fefdcf69a76508d90ec0c8ba94ab33ea8e8b0633139483a5b106c5e96df6008"
+    },
+    {
+      "progress": 0.5,
+      "hash": "6e70167a5520f9243e86c0836933d4de689c946da27b9922bcd2b7e65c894fcb"
+    },
+    {
+      "progress": 0.75,
+      "hash": "7738feaecec60ab8202a09720c43155ce2d6d94912cbd751940a05e0c25cca47"
+    },
+    {
+      "progress": 0.875,
+      "hash": "9bd36d5384c5cc7acda49a9e210303dfe8f1f478ddbad862d19aeb0f7d9743da"
+    },
+    {
+      "progress": 0.999,
+      "hash": "a766cdb248b786b98d0f0936cfc27f87fd88c50f604f60afa583b594eb329f2b"
+    },
+    {
+      "progress": 1,
+      "hash": "4d4ba64dca929e9ce5c511db35a87bc094ea2fe900b62f5cbd312d4fec2fdf1b"
+    }
+  ],
+  "scope": "Local WebGL preview of shared projection shader; desktop Chrome GPU, not an iPhone or Unity runtime measurement"
+}

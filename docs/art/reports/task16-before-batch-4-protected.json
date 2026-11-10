@@ -1,0 +1,266 @@
+﻿[
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-01.jpg",
+        "sha256":  "CBC791C96DE6D7A619CC84BAC12B0FA9E7C4DB1C5ED93974C81D5A3786D909FD"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-02.jpg",
+        "sha256":  "D5ABEE51D7ACB7575C4763311680F828FC72F30603D9032E5F204D807C2CE068"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-03.jpg",
+        "sha256":  "66AC0E128A0946D5EA7000B8D21F4A8A5D60FB620E23F989A6A7F463E6DC558E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-04.jpg",
+        "sha256":  "8A7F8458CB0C5A49E2E5FA9B4371856BAC82F13B5DD6A2742F872C9082636EE2"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-05.jpg",
+        "sha256":  "8CF3A7940E993AE24C97EF5F4E7952BED4561534CE4B711478A8CF597968C30C"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-06.jpg",
+        "sha256":  "467C7DD3D5EE7EFF16632CE7F61BCF63D8A83E27CB89E57DEC91095D7F71CD5E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-07.jpg",
+        "sha256":  "F83E7487787ED0AB3FBC02532FE9803F20DA89912BABDBEA2867B9888A24BB0D"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-08.jpg",
+        "sha256":  "7055D7FB8A84C62ABC3933C3FDB06FC80E7960E77618960167C418F5AEDF15FE"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-09.jpg",
+        "sha256":  "8CFA1F1BF208CFC8CF11476135A7DA280CCF5C6A42B44D2DE1B578C8A8FCD2B6"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-10.jpg",
+        "sha256":  "AF87BC59D06161776FC4EF69D2148E6170024C500E6C5AED06ABF7F8F56CFAB3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-11.jpg",
+        "sha256":  "3C6137C172F73FACFEBAABA3DB52753B5B992BE667FB5DF12CE4FB4319C39AF9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-12.jpg",
+        "sha256":  "7832D97C54325FABEA3FF599511634E3F1F5EB473AB9BD31B279D029249A89F3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-13.jpg",
+        "sha256":  "C1CD6311BE3225F3A23EAF5048C4E977B56904956113AB0AA7BB24473EAE0387"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-14.jpg",
+        "sha256":  "F8C8BC4F291601A27647BDEFE0903D7F0EB930A1BDD5C9ED35F910DA8D7CC562"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-15.jpg",
+        "sha256":  "4BA5400A295CFF26A41C93C1905CF80DEF5325DB5B1228A42F5BC8C9169BB0C3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-16.jpg",
+        "sha256":  "EDA304A291ADC5A4E20DB33D0528547555BD386E1D3C95D0F97A01C6D16A6AEA"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-17.jpg",
+        "sha256":  "1B8E9BF6C8DA7FDD387F0A5319CC09123BA35F475983B5515D265429B7755C31"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-18.jpg",
+        "sha256":  "8AF245216D4E9495B35E239A49207F085D1C2B43A1744A1F8DAA455B994D73AB"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-19.jpg",
+        "sha256":  "1F7304AF7D383ECDDDC351E0025139E7244700941CE6EC4CC0A6812C52046555"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-20.jpg",
+        "sha256":  "7BE1B4814A40216E44B560C2960E6EAD66613156E2310629A1BB434006DAD4DE"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-21.jpg",
+        "sha256":  "84E872733C5E84AF38D28FCDA42ECF614218BF2DCABCFAE9F1CC60639EC4F5A4"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-22.jpg",
+        "sha256":  "25777D2DF75BD174824BE33D60674B253A3A77AA08E329D863DE3E28FB72F33B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-23.jpg",
+        "sha256":  "42C36DE2BF7EAD0B0C43D08E0454DC009A2861E56AAAC14B995088E7A0495141"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-24.jpg",
+        "sha256":  "02C795BC642D8B35130618EEDEC7F0E5252B30F358C1B9A704585E05EB1D1C73"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-25.jpg",
+        "sha256":  "8EF3ECA4FFC2A8AFE2088DFEB26591F2184D63AD5BB4B63991D37555B397F608"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-26.jpg",
+        "sha256":  "30778AABE2642A41DA2C4A8A4B7ECA491BB4E8122E701697F90ADCF024CC227E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-27.jpg",
+        "sha256":  "5045871E9DB887A80F6B291B1BDCA1F95F847903D265E5735F0C20BC1D8D8726"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-28.jpg",
+        "sha256":  "A0F82658176F539440BFC073A4E7FB3ED808BA9A90B02C671CA64B428F7B7BD4"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-29.jpg",
+        "sha256":  "E7347749323F87773D0774AC225CE5102DFE54E5B44892E8DAFADDAD56DC5673"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\painting-30.jpg",
+        "sha256":  "9CF133F1E344C86A5BC00984572C2805D371D2AC9837DCEE60907D2241A9CD8A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\preview-batch-1.png",
+        "sha256":  "4709C0D26F46E0F44B0E110BFE59ED69E8B80E9EF84BAE0756FDBFD4E9C08627"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\preview-batch-2.png",
+        "sha256":  "E360DA064C1303B1DDB2F97C6F682E271EBBB28DAEC8675BE9A76AE054209890"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\preview-batch-3.png",
+        "sha256":  "DC69DB0A366D5FF2EBE09A6711AC5D345FFE387533EBB6C122A10DFB1523893E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\preview-board-1.png",
+        "sha256":  "A0A07EFAC8E7BD2437E49C958B52D589C1ECF64C1CF6230C88664407D1027C22"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\preview-board-2.png",
+        "sha256":  "09FE68C009C90F4793A2B3C6C47D75104127EA572AF53419AA55C8CCED0BD11A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\preview-board-3.png",
+        "sha256":  "4EA7FF0B445DC5ED2EC830BFA73223E0C1DFB898A962D955291DECB5A609120E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-01.png",
+        "sha256":  "72EAE9C66DB78D088543635027CF82C59B972347122C0686970E5F4BD9B9BB57"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-02.png",
+        "sha256":  "136D1DC2AE4C9EAD80AE333F5997B2B8FF79F4BA235925182D3B1BE4411B723E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-03.png",
+        "sha256":  "B58855373A3FCFB6A8C53F96312D66131C080773EE6A82430D01BD9CA7313A32"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-04.png",
+        "sha256":  "BEBAE4ACDB904A4EA9C272C2A0833F1A75262CF2FD562326EDC6B0E9573FE638"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-05.png",
+        "sha256":  "398113E8A26DB5E2644CFD87D67B1F9F073FD54AB6E844B4C1C3FF4AC1EECF75"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-06.png",
+        "sha256":  "D1F708C624CEECF9052EED46123C2EBB5BC590202FB61212896D1EDA3BA2713A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-07.png",
+        "sha256":  "5250F09838534EC2D799917E9CD6846D813AF33616BAC7DB7F3BF1069368177A"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-08.png",
+        "sha256":  "3D941FAFD6A33660139B2B5C9F2C9995DD11B5EF51D673E5493D0CA977005F91"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-09.png",
+        "sha256":  "E401A0F99215240A0C1528F522919E83D3038124750FA2C781F6CEB7C87176EA"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-10.png",
+        "sha256":  "A7F37996CF73B16DC25310DA5B89C7BE91D7045166DF6F7CD8806CC2D23CFD98"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-11.png",
+        "sha256":  "6FD562D11E3DCE5FF1470BA19A431F64A05DAB5CCD37C90591B83B7FD585D731"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-12.png",
+        "sha256":  "54F1A4CD6693E1B9206ACBD74691612DB5E0DCC98224CE70CA13E5C49B8309A6"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-13.png",
+        "sha256":  "6D2EFC46121292D9D4E1EAFFE55D79534A7DD3417357AC0BC3F5DE246C925573"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-14.png",
+        "sha256":  "5F842530DB3B2735CB75807C62DFEEDD4A4547695C2DB9348720020466DA7407"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-15.png",
+        "sha256":  "F86BACD0EC584D7E82F303DA2FCEE61CFF435F4E9C71822B1B2AEFAAB8E3ACA9"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-16.png",
+        "sha256":  "75B7C58B80A4EECBCD380B75930FE8A8F75B5673566E154F7775F22AE7111BBF"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-17.png",
+        "sha256":  "F3DF59FDC9EF6247A06B728E42A29B14230869D929B4DEEAB80865FEF20E198F"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-18.png",
+        "sha256":  "C9161FBF769BF4E2C19F5730E725D9102935FC7EF9A90506AA4FCB4433625535"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-19.png",
+        "sha256":  "A0071D648E7AD73D36A3FA41295DE2F7557E22D9795DAD2876847656A1C34A57"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-20.png",
+        "sha256":  "D93F553A95963980E8CD67EAEAF73300D3556424499120700AFD7F498D3F1ECC"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-21.png",
+        "sha256":  "F0D03FB59170E20141BF979310163DD4ACAA06D2BACCA3A7E512FDDDD837AC0B"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-22.png",
+        "sha256":  "CA4C3AF74BC69CD279D14FA82ACAA1B7BEF39D8B3E21CFF1946BCFF1D15E5B63"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-23.png",
+        "sha256":  "3F2EC624F3E4E27C8D99CAE13C79FB499CC0B804EF7CF752C66278EC06045D74"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-24.png",
+        "sha256":  "BC53A2D0B3A561EFAF7D9A960CB80F772A11FDC78587BB80C23FB11BF4B096C3"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-25.png",
+        "sha256":  "33E3BAD64E1C7F7532991B72AF18AA3696EE96645B03A0D789C8ADA8C86C374C"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-26.png",
+        "sha256":  "8B1B5685405EA4C8EFCD98EFF784F3E7F813375D2C52BF45F663EB4A88DBD869"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-27.png",
+        "sha256":  "D71D92E07B3FB9E30D551ACD6EE162A6E8B39BB59B2F03D27D48A5A4F633C22E"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-28.png",
+        "sha256":  "ABCCF55B60C5DB696CAE0FF39F4E9A709893BF5205E548A4329EB713D898F4B0"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-29.png",
+        "sha256":  "C8575EA46AF9B8ED500ABFCC68EAFB0282157C45244F4405EEC6888193DD1D17"
+    },
+    {
+        "path":  "C:\\Users\\zeydt\\Downloads\\Reverse Solver\\ReverseSolver\\Assets\\Art\\Paintings\\Source\\painting-30.png",
+        "sha256":  "3B9FD805FA3AA3BAAF4D3BC600A14D25122C2DA3AB86356AA869914855AA1946"
+    }
+]

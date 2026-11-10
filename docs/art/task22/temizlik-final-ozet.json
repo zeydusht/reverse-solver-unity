@@ -1,0 +1,22 @@
+{
+  "scannedAt": "2026-11-03T00:51:06.112361+03:00",
+  "files": 8043,
+  "folders": 1641,
+  "AssetsTextFiles": 2749,
+  "runtimeHashFiles": 326,
+  "totalsBytes": {
+    "Kalmalı": 1732247828,
+    "Arşive taşınabilir": 1573027061,
+    "Güvenle silinebilir": 25595041
+  },
+  "counts": {
+    "Kalmalı": 4098,
+    "Arşive taşınabilir": 3831,
+    "Güvenle silinebilir": 114
+  },
+  "accessErrors": 10,
+  "safeMB": 25.595041,
+  "archiveMB": 1573.027061,
+  "potentialMB": 1598.622102,
+  "actualRecoveredMB": 0
+}

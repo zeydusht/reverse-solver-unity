@@ -1,0 +1,14 @@
+{
+  "finalFindings": 63,
+  "severity": {
+    "yüksek": 10,
+    "orta": 38,
+    "düşük": 15
+  },
+  "reviewFamilies": 35,
+  "beforeAfter": 36,
+  "previewImages": 46,
+  "candidates": 150,
+  "cleanupPotentialMB": 1598.622102,
+  "status": "PASS"
+}
