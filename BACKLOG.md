@@ -161,6 +161,9 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_56/57 p21'de: Verlet zincir, kilit düşüşü, bağlantı noktaları, bomba nabzı, 5000 altın, intro ses C; canlı verify 4/4 — 10 Kasım
 - ✅ PM_58 p21'de: fiske ile hamle, kenar payı 24 pt, tarayıcı kenar hareketi engeli; canlı verify 4/4 — 10 Kasım
 - ✅ PM_59 p21'de: 2×2 tutorial + kolay 3×3 (yalnız yeni p21 oyuncusu), hedef bandı, kartlar, kilit uyarısı, `&reset=1`; canlı verify 4/4 — 10 Kasım
+- ✅ PM_60 p21'de: tutorial geri alındı + hikâye kutusu, booster gösterimleri, haz, kazanma + sandık; canlı verify 4/4 — 11 Kasım
+- ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
+- ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular
 - ⏳ Tutorial adım 3'te yanlış yön yok (A her yönden çıkıyor) — PM kararı
 - ✅ `HardestLevelStillUnderTwoSeconds` → Perf; normal batch dışında, sınır aynı

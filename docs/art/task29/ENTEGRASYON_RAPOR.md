@@ -145,3 +145,37 @@ GIF'ler: [fiskeyle çıkış](pm58/fiske_cikis.gif) · [kenar parça (zincirli)]
 **Doğrulanmadı:** iPhone; 2. bölümde ilk deneme kazanma oranı ≥%95 (çok sıralı ve çözülebilir olduğu testle doğrulandı, oyuncuyla ölçülmedi); `tutorial_events` gönderimi (017 bekliyor).
 
 GIF'ler: [tutorial 4 adım](pm59/tutorial_4_adim.gif) · [kilit uyarısı](pm59/kilit_uyarisi.gif) · [bomba kartı](pm59/bomba_karti.gif)
+
+## PM_60 eki (11 Kasım gece): tutorial geri alındı, booster gösterimleri, haz, kazanma ve sandık
+
+**Durum: p21'de yayında**, gh-pages `cd5d6e0b`, yalnız `p21/`. (PM_61 iOS işi için arada durduruldu, `pm60-wip` dalında devam edildi.)
+
+| Kontrol | Sonuç |
+|---|---|
+| EditMode (Perf hariç) | 689 geçti, 0 kaldı, 2 atlandı |
+| `verify_build` yerel | 4/4; PC FPS medyan 59,9 |
+| Tarayıcı denemeleri (hikâye kutusu, 4 booster, kombo, kazanma, sandık) | istisna 0 |
+| `moves.input` (`TEST_PM60`, S43) | 4 fiske hamlesi `input=flick` ile tabloya düştü. `drag` satırı görülmedi (son uzun sürükleme hamle olarak kaydedilmedi), doğrulanmadı |
+| Build (Brotli) | 19,35 → 26,22 MB (+6,9 MB) |
+
+**Boyut:** İlk build 34,3 MB'dı. Yeni efekt kareleri sıkıştırılmamış RGBA32 olarak giriyor. Booster ve kazanma kareleri en fazla 384 px'e, büyük arka planlar 768 px'e, haz kareleri 512 px'e indirildi; ekrandaki boyutları (en çok ~260 pt) için yeterli. Boyut yine PM_59'dan 6,9 MB fazla; dokuların sıkıştırılması ayrı bir iş (iOS Safari'de DXT yok).
+
+**1. Tutorial:** 2×2 ve kolay bölüm kapalı (`&tut2x2=1` ile açılıyor). 1. bölüm eskisi. Büyük el ve oklar kaldırıldı. Alt şeridin üstünde krem/mavi sohbet kutusu, köşede Jigo, yazı daktilo gibi akıyor. "Bu Jiggle'ları kurtaralım! Önü açık bir parçayı kaydır." Önü açık 1–2 parça altın nabızla parlıyor (en çok 3 kez). Son parçada "Bütün parçaları çıkarınca resim kurtulur!" Dokununca kapanıyor. 1. bölümde kayıp yok. Hedef bandı, kart metinleri ve kilit uyarısı PM_59'dan kaldı.
+
+**2. Booster'lar** (`&booster=cekic|makas|degnek|saat`):
+- Ortak seçim modu: tahta dışı kararıyor, üstte ikon + ad ("Mavi Çekiç!", "Sihirli Makas!", "Sihirli Değnek!") + talimat. Seçili tuş parlıyor, aynı tuşa tekrar dokunmak iptal ediyor.
+- Çekiç: kavisle uçuyor, vuruyor, patlama + sarsıntı, parça düşüyor (denendi).
+- Makas: kural değişmedi. **Makasın yaptığı:** iki ayrı parça arasındaki tek çıkıntılı birleşimi düzleştiriyor; zinciri kesmiyor, parça kaldırmıyor. Seçim modunda kesilebilir birleşimler turuncu noktayla gösteriliyor. Vitrinde (SHOW_ART) hiç uygun birleşim yok; bölüm 12'de denendi: makas uçuyor, kesiyor, çıkıntı düzleşiyor.
+- Değnek, **kural değişikliği:** tahta 4 bölgeye ayrılıyor, oyuncu bölge seçip "Değiştir!" diyor, yalnız o bölgedeki çıkıntı yönleri değişiyor (parça yerleri aynı). Değişecek şeyi olmayan bölge gri, seçilemiyor. Vitrinde dört bölge de gri; bölüm 12'de denendi, çalışıyor.
+- Değnek dengesi (FunSim, 40 bölüm, eşleştirilmiş 1000 oyuncu): tüm tahta → bölge: ilk deneme kazanma %41,5 → %41,8, keyif %53,3 → %53,8, hayal kırıklığı %45,2 → %44,6, 3 denemede kazanma %59,5 → %60,0. Fark yok denecek kadar küçük. Ayrıntı `pm60/wand_compare.txt`.
+- Saat: seçim modu yok. Jigo kolunu Süre paneline uzatıyor, süre **duruyor** (20 sn, tek parametre), altta boşalan bar.
+
+**3. Haz:** parça çıkışında patlama + parça renginde konfeti + pop, kilit/zincirde metal parça + kıvılcım, kombo (1,2 sn içinde art arda çıkış) ve övgü rozetleri (en çok 3 hamlede bir). Sesler mevcut kütüphaneden. **Kombo rozeti doğrulanmadı:** denemede ikinci çıkış ~1,6 sn sonra geldi.
+
+**4. Kazanma ve sandık** (`&kazan=1`, `&sandik=1`): "Harika!", büyük Jigo, bölmeli sandık ilerlemesi ("2 bölüm sonra sandık!"), "44 Jiggle kurtarıldı!" ve yürüyen Jiggle'lar, "Sonraki Seviye". Sandık 3, 5, 10 ve sonra her 5 bölümde. 3 dokunuşla açılıyor, ödüller tek tek çıkıyor: +100 altın (5000 → 5100) ve 1 rastgele booster. Durdur menüsü eski orta panel.
+
+**Küçük kusur:** makas seçim modunda alt şeridin üstünde eski ipucu metni soluk olarak yineleniyor.
+
+**Doğrulanmadı:** iPhone, kombo rozeti, `drag` telemetrisi, sesler (başsız tarayıcıda dinlenmedi).
+
+GIF'ler: [çekiç](pm60/cekic.gif) · [makas](pm60/makas.gif) · [değnek](pm60/degnek.gif) · [saat](pm60/saat.gif) · [patlama](pm60/kombo_patlama.gif) · [kazanma](pm60/kazanma.gif) · [sandık](pm60/sandik.gif) · [hikâye kutusu](pm60/hikaye_kutusu.png)
