@@ -92,3 +92,30 @@ Tarayıcı denemesinde bulunup düzeltilenler: High stripping `SpriteMask`'i bui
 - Açılış sesi C: A'nın kendi sesleri temel, üstüne B'den CC0 efektler (A yüksekken kısılıyor), altta −18 dB müzik kutusu; Kont sahnesinde gerilim, sonda neşeli kapanış. Oyunda varsayılan C (A/B araçla yeniden üretilebilir). Önizleme `p21/onizleme/intro_ses_C.mp4`. Lisanslar `docs/sounds/LISANS.md`.
 
 **Doğrulanmadı:** telefonda FPS ve iPhone Safari; `continue_events` satırı (016 bekliyor); intro C'yi kulakla dinlemedim (Codex karışımı ölçtü).
+
+## PM_58 eki (10 Kasım akşam): fiske + kenar payı
+
+**Durum: p21'de yayında**, gh-pages `db178a29`, yalnız `p21/`.
+
+| Kontrol | Sonuç |
+|---|---|
+| `verify_build` yerel / canlı p21 | 4/4 / 4/4 |
+| Fiske, klasik set (L01, L40; çözümün ilk 5'er hamlesi, 0,45 hücre / 50 ms) | 10/10 parça çıktı, istisna 0 (yerel ve canlı) |
+| Fiske, vitrin | 10 fiske, istisna 0 (yerel ve canlı) |
+| EditMode | 655 geçti, 1 kaldı, 2 atlandı. Yeni fiske testleri (29) geçti. Kalan `FunSimV5Tests.HardestLevelStillUnderTwoSeconds` |
+
+**Süre testi:** yalnız Core'u ölçüyor, PM_58'de Core'a dokunulmadı. Sonuç koşudan koşuya 2,3 ile 5,3 sn arasında oynuyor (sınır 2 sn); PM_57'nin tam koşusunda geçmişti. Makine hızına bağlı bir test, PM'in kararına bırakıldı (sınırı gevşetmek ya da başka makinede ölçmek).
+
+**Fiske** (`Board/FlickGesture.cs`)
+- Ölü bölge 8 pt'nin altı. Yön baskın eksene kilitli; iki eksen arasındaki fark ≤%20 ise hamle yok, parça geri döner.
+- Eşik min(0,3 hücre, 18 pt); hız ≥600 pt/sn ya da parmak kalkınca tetiklenir.
+- Hamle eski sürüklemeyle aynı kod yolundan işleniyor: kural, sayaçlar ve takılma aynı. Parça hızlanarak kendi kayıyor; zincir aynı fizikle tepki veriyor. Uzun sürükleme de çalışıyor.
+- Telemetri: `moves` tablosunda serbest metin ya da json alanı yok, sütun eklenmedi. Fiske/sürükleme sayısı yalnız günlükte (`[input] flick=N drag=M`). Tabloya yazılsın mı, **PM kararı**.
+
+**Kenar**
+- Tahtanın yatay payı en az 24 pt: `G = min(34, max(24, (W − 44·sütun)/2))`, gerekirse hücre küçülüyor. 390 pt genişlikte 8 sütunlu tahta 19 → 24 pt.
+- Kenar hücreler: tahtanın 12 pt dışına kadar dokunma kenar hücreye sayılıyor.
+- Sayfa: tuvalde `touch-action: none`, `overscroll-behavior: none`, tuvaldeki dokunmalarda `preventDefault`. İki parmakla yakınlaştırma her yerde engelli; HTML katmanları (isim kapısı, intro) dokunmayı alıyor.
+- **iPhone'da sınanmadı:** Safari'nin kenardan geri kaydırması sistem hareketi; sayfa tarafından tamamen engellenemeyebilir.
+
+GIF'ler: [fiskeyle çıkış](pm58/fiske_cikis.gif) · [kenar parça (zincirli)](pm58/kenar_parca.gif) · [yanlış yön, takılma](pm58/yanlis_yon_takilma.gif)

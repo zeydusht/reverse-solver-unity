@@ -180,12 +180,16 @@ namespace ReverseSolver.Presentation
             }
         }
 
-        /* PieceAt plus the margin around the board: a press up to EdgeGrab.Reach
-           outside takes the nearest edge piece. */
+        /* Clamp a press within 12 CSS points of the board to its edge cell. */
         public int GrabAt(Vector2 screenPt, out bool outside)
         {
             var p = screenPt - Origin;
-            return EdgeGrab.PieceAt(Session.Board, p.x, p.y, Cell, out outside);
+            outside = p.x < 0 || p.y < 0 || p.x >= Size.x || p.y >= Size.y;
+            var clamped = new Vector2(Mathf.Clamp(p.x, 0, Size.x), Mathf.Clamp(p.y, 0, Size.y));
+            if (Vector2.Distance(p, clamped) > 12f) return -1;
+            int x = Mathf.Clamp(Mathf.FloorToInt(p.x / Cell), 0, Session.Level.Width - 1);
+            int y = Mathf.Clamp(Mathf.FloorToInt(p.y / Cell), 0, Session.Level.Height - 1);
+            return Session.Board.PieceAt(new Cell(x, y));
         }
 
         /* G1: show the level's picture on every piece; fades in over `fade` seconds. */
@@ -300,6 +304,9 @@ namespace ReverseSolver.Presentation
                 _dragged = drag.Piece;
                 if (_ropes.TryGetValue(drag.Piece, out var rope) && rope != null) { rope.Kick(); rope.SetOrder(LiftOrder + PieceStride); }
                 Tweens.Kill(pv);
+                Tweens.Kill((pv, "deal"));
+                pv.transform.localScale = Vector3.one;
+                pv.SetAlpha(1);
                 pv.SortingOrder = LiftOrder;
                 pv.SetLift(1);
             }
@@ -308,13 +315,25 @@ namespace ReverseSolver.Presentation
             SetBlocker(drag.Blocker);
         }
 
-        public void EndDrag(int piece, DragRelease result, Dir dir, int travelCells)
+        public void EndDrag(int piece, DragRelease result, Dir dir, int travelCells, bool autoSlide = false)
         {
             SetBlocker(-1);
             if (_ropes.TryGetValue(piece, out var rope) && rope != null) rope.Kick();
             _dragged = -1;
             if (!_pieces.TryGetValue(piece, out var pv)) return;
             if (result == DragRelease.Exited) { FlyOut(pv, dir, travelCells); return; }
+
+            if (autoSlide)
+            {
+                var start = pv.Offset;
+                var axis = new Vector2(dir.Dx(), dir.Dy());
+                var stop = axis * Mathf.Max(Vector2.Dot(start, axis), (travelCells + DragModel.GiveHard) * Cell);
+                Tweens.Run(pv, .18f, t =>
+                {
+                    if (pv != null) pv.SetOffset(Vector2.Lerp(start, stop, t * t));
+                }, () => { if (pv != null) EndDrag(piece, DragRelease.SnappedBack, dir, travelCells); });
+                return;
+            }
 
             // .pc.snap: transform .22s cubic-bezier(.34,1.4,.5,1)
             var from = pv.Offset;
@@ -333,15 +352,29 @@ namespace ReverseSolver.Presentation
 
         void FlyOut(PieceView pv, Dir dir, int travelCells)
         {
-            // .pc.fly: to (cells + 2.6) cells, .3s cubic-bezier(.3,0,.6,1), fading out
+            // Move the actual piece transform so the attached rope follows the slide.
             var from = pv.Offset;
-            var to = new Vector2(dir.Dx(), dir.Dy()) * ((travelCells + 2.6f) * Cell);
+            var axis = new Vector2(dir.Dx(), dir.Dy());
+            var to = axis * ((travelCells + 2.6f) * Cell);
+            var center = Vector2.zero;
+            foreach (var c in pv.Cells) center += Center(c);
+            center /= pv.Cells.Length;
             _ropes.Remove(pv.Index);
             _pieces.Remove(pv.Index);
-            Tweens.Run(pv, .3f, t =>
+            Tweens.Run(pv, .34f, t =>
             {
-                pv.SetOffset(Vector2.LerpUnclamped(from, to, Tweens.FlyOut(t)));
-                pv.SetAlpha(1 - t);
+                float progress = t * t;
+                var offset = Vector2.LerpUnclamped(from, to, progress);
+                float puff = Mathf.Clamp01((Vector2.Dot(offset, axis) - (travelCells + .65f) * Cell) / (1.95f * Cell));
+                float stretch = .07f * Mathf.Sin(t * Mathf.PI);
+                var scale = dir == Dir.L || dir == Dir.R
+                    ? new Vector2(1 + stretch, 1 - stretch * .4f)
+                    : new Vector2(1 - stretch * .4f, 1 + stretch);
+                scale *= 1 + puff * .12f;
+                pv.transform.localScale = new Vector3(scale.x, scale.y, 1);
+                // Scale about the piece centre rather than the board origin.
+                pv.SetOffset(offset + center - Vector2.Scale(center, scale));
+                pv.SetAlpha(1 - puff);
             }, () => Destroy(pv.gameObject));
         }
 

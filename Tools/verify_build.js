@@ -67,7 +67,7 @@ const EDGES = [['L01', 0, 0, 'L'], ['L01', 3, 0, 'R'], ['L01', 0, 4, 'L'], ['L01
 const DIR = { L: [-1, 0], R: [1, 0], U: [0, -1], D: [0, 1] };
 
 function placement(l) {   // BoardLayout + GameRoot.BoardPlacement at W x H, no safe insets
-  const gap = Math.max(19, Math.min(34, (W - 44 * l.w) / 2));
+  const gap = Math.min(34, Math.max(24, (W - 44 * l.w) / 2));
   const cell = Math.floor(Math.min((W - 2 * gap) / l.w, (H - 262) / l.h, 78));
   const top = 4 + 10 + 46 + 6, bottom = H - 4 - (17 + 97);
   return { cell, x: (W - l.w * cell) / 2, y: (top + bottom - l.h * cell) / 2 };

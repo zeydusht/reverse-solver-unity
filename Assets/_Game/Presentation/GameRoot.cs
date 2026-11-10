@@ -13,8 +13,8 @@ namespace ReverseSolver.Presentation
        Screen layout (points, y down), the web game's flex column:
          safe top + 4 | strip (10 + 46 + 6) | stage: tray centred |
          prompt 17 + booster bar 97 | 4 + safe bottom
-       Cell size: Core BoardLayout (the web's sizeCell with a wider side gap,
-       PRODUCT.md K1).
+       Cell size: Presentation BoardSizing (Core's vertical reserve, at least
+       24 CSS points of horizontal clearance).
        Nothing is drawn below the safe bottom inset (iOS home indicator).
 
        URL: ?lv=N opens level N directly; ?debug=1 shows the load panel, the FPS
@@ -62,6 +62,11 @@ namespace ReverseSolver.Presentation
         int _index;
         GameSession _session;
         DragModel _drag;
+        FlickGesture _flick;
+        Vector2 _gestureStart, _gestureLast;
+        double _gestureTime;
+        int _flickInputs, _dragInputs;
+        bool _committedTouch;
         BoosterControls _boosters;
         BoosterInventory _inventory;
         Booster? _trainingUse;
@@ -494,6 +499,7 @@ namespace ReverseSolver.Presentation
             _boosters = new BoosterControls(_session);
             _moveT0 = _moveLast = Time.unscaledTime;
             _moveNo = 0;
+            _flickInputs = _dragInputs = 0;
             WriteMove("start", -1, null);                     // PM_MESAJ_25: an attempt that never ends still shows up
             _mode = Mode.Playing;
             _endAt = -1;
@@ -870,6 +876,7 @@ namespace ReverseSolver.Presentation
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
             if (e.Kind != EventKind.Finished) return;
+            Debug.Log($"[input] flick={_flickInputs} drag={_dragInputs}");
             if (ContinueEnabled && (e.Outcome == Outcome.Time || e.Outcome == Outcome.Bomb))
                 _continueOffer = _continueRules.Offer(e.Outcome == Outcome.Time ? ContinueKind.Time : ContinueKind.Bomb,
                     _session.Continues, _session.Level.TimerSeconds, _save.Coins);
@@ -1120,7 +1127,7 @@ namespace ReverseSolver.Presentation
         Vector2 PlayingBoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell)
         {
             if (!UseHud54) return BoardPlacement(screen, safe, l, out cell);
-            cell = BoardLayout.CellSize(screen.x, screen.y - safe.y - safe.w, l.Width, l.Height);
+            cell = BoardSizing.CellSize(screen.x, screen.y - safe.y - safe.w, l.Width, l.Height);
             float top = Hud54.TopBottom(screen, safe.y), bottom = Hud54.ButtonsTop(screen, safe.w);
             // Include the tray and sealed-edge walls in the clearance.
             float margin = Mathf.Max(18.2f, cell * .25f);
@@ -1132,7 +1139,7 @@ namespace ReverseSolver.Presentation
         public static Vector2 BoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell)
         {
             float innerH = screen.y - safe.y - safe.w;
-            cell = BoardLayout.CellSize(screen.x, innerH, l.Width, l.Height);
+            cell = BoardSizing.CellSize(screen.x, innerH, l.Width, l.Height);
             var size = new Vector2(l.Width * cell, l.Height * cell);
             float stageTop = safe.y + BodyPad + Hud.TopPad + Hud.Height + StripBottom;
             float stageBottom = screen.y - safe.w - BodyPad - BottomReserve;
@@ -1382,7 +1389,7 @@ namespace ReverseSolver.Presentation
             if (_continuePanel != null)
             {
                 Vector2 pos = p.position.ReadValue();
-                Vector2 point = new Vector2(pos.x / _dpr, _screen.y - pos.y / _dpr);
+                Vector2 point = ScreenToPoints(pos);
                 bool blocked = InputGated(p);
                 if (p.press.wasPressedThisFrame && !blocked)
                 {
@@ -1397,7 +1404,7 @@ namespace ReverseSolver.Presentation
                 return;
             }
             Vector2 px = p.position.ReadValue();
-            var pt = new Vector2(px.x / _dpr, _screen.y - px.y / _dpr);    // layout points, y down
+            var pt = ScreenToPoints(px);
             bool gated = InputGated(p);
 
             if (_mode == Mode.Menu && Art.On)
@@ -1438,28 +1445,77 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
+            if (_committedTouch)
+            {
+                if (!p.press.isPressed) _committedTouch = false;
+                return;
+            }
             if (p.press.wasPressedThisFrame) { if (!gated) Press(pt); }
-            else if (p.press.isPressed && _drag != null && _drag.Active)
+            else if (_drag != null && _drag.Active && (p.press.isPressed || p.press.wasReleasedThisFrame))
             {
                 if (TutorialActive && _tutorialUntil >= 0) return;
                 if (RejectTutorialDirection(pt)) return;
-                _drag.Move(pt.x, pt.y, Time.unscaledTimeAsDouble);
-                _board.ShowDrag(_drag);
-            }
-            if (p.press.wasReleasedThisFrame && _drag != null && _drag.Active)
-            {
-                if (RejectTutorialDirection(pt)) return;
-                var lim = _drag.Limit;
-                // a touch the system took away (edge swipe, notification) ends as a cancel, not a release
                 var touch = Touchscreen.current;
-                bool cancelled = touch != null && p == touch &&
-                                 touch.primaryTouch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Canceled;
-                int piece; Dir dir;
-                var result = cancelled ? _drag.Abort(out piece, out dir) : _drag.Release(out piece, out dir);
-                if (_zeydbotSet && result != DragRelease.Exited && piece >= 0)
-                    WriteMove("touch", piece, null, (int)((Time.unscaledTime - _pressAt) * 1000));
-                _board.EndDrag(piece, result, dir, lim.Cells);
+                bool released = p.press.wasReleasedThisFrame;
+                bool cancelled = released && touch != null && p == touch &&
+                    touch.primaryTouch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Canceled;
+                double now = Time.unscaledTimeAsDouble, dt = now - _gestureTime;
+                var velocity = dt > .0001 ? (pt - _gestureLast) / (float)dt : Vector2.zero;
+                _gestureLast = pt; _gestureTime = now;
+                var gesture = _flick.Classify(_gestureStart, pt, velocity, released, _board.Cell);
+                if (cancelled) { FinishPointerDrag(true); return; }
+                if (gesture.Direction != Vector2.zero)
+                {
+                    // Project before the legacy model chooses its axis.
+                    float along = Vector2.Dot(pt - _gestureStart, gesture.Direction);
+                    var projected = _gestureStart + gesture.Direction * along;
+                    _drag.Move(projected.x, projected.y, now);
+                    _board.ShowDrag(_drag);
+                }
+                if (gesture.State == FlickState.Move)
+                {
+                    var limit = _drag.Limit;
+                    bool longDrag = released && limit.Exit &&
+                        _drag.Offset >= (limit.Cells + DragModel.ExitOvershoot) * _board.Cell * DragModel.ExitFraction;
+                    if (longDrag) _dragInputs++; else _flickInputs++;
+                    // Advance only the model to its normal release point. The view
+                    // retains the finger position and animates the remaining distance.
+                    float distance = (limit.Cells + DragModel.ExitOvershoot + 1) * _board.Cell + DragModel.JamSlack;
+                    var end = _gestureStart + gesture.Direction * distance;
+                    _committedTouch = !released;
+                    _drag.Move(end.x, end.y, now);
+                    FinishPointerDrag(false, true);
+                }
+                else if (released)
+                {
+                    int piece = _drag.Piece;
+                    _drag.Cancel();
+                    if (_zeydbotSet) WriteMove("touch", piece, null, (int)((Time.unscaledTime - _pressAt) * 1000));
+                    _board.EndDrag(piece, DragRelease.SnappedBack, Dir.U, 0);
+                }
             }
+        }
+
+        // Host.PixelRatio also sizes the layout; these are CSS px, independent of DPR.
+        Vector2 ScreenToPoints(Vector2 pixels) => new Vector2(pixels.x / _dpr, _screen.y - pixels.y / _dpr);
+
+        void BeginGesture(Vector2 point)
+        {
+            _flick = new FlickGesture();
+            _gestureStart = _gestureLast = point;
+            _gestureTime = Time.unscaledTimeAsDouble;
+            _board.ShowDrag(_drag); _pressAt = Time.unscaledTime;
+            Haptics.Play(Haptics.Kind.Select);
+        }
+
+        void FinishPointerDrag(bool cancelled, bool autoSlide = false)
+        {
+            var limit = _drag.Limit;
+            int piece; Dir dir;
+            var result = cancelled ? _drag.Abort(out piece, out dir) : _drag.Release(out piece, out dir);
+            if (_zeydbotSet && result != DragRelease.Exited && piece >= 0)
+                WriteMove("touch", piece, null, (int)((Time.unscaledTime - _pressAt) * 1000));
+            _board.EndDrag(piece, result, dir, limit.Cells, autoSlide);
         }
 
         // Task 15 card buttons: the pressed sprite shows for .12 s before the action (_cardTap is the pending one)
@@ -1606,7 +1662,7 @@ namespace ReverseSolver.Presentation
                 if (target != _tutorialMove.Piece) { _spotlight?.Restart(); return; }
                 _tutorialPress = pt;
                 if (_drag.Press(target, pt.x, pt.y, Time.unscaledTimeAsDouble, tutorialOutside))
-                { _board.ShowDrag(_drag); _pressAt = Time.unscaledTime; Haptics.Play(Haptics.Kind.Select); }
+                { BeginGesture(pt); }
                 return;
             }
 
@@ -1646,7 +1702,7 @@ namespace ReverseSolver.Presentation
             // a press just outside the board takes the nearest edge piece (PRODUCT.md K1)
             piece = _board.GrabAt(pt, out bool outside);
             if (piece >= 0 && _session.NailAt(piece) > 0) _board.Clang(piece);     // web: pinned, refuse and say so
-            if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) { _board.ShowDrag(_drag); _pressAt = Time.unscaledTime; Haptics.Play(Haptics.Kind.Select); }
+            if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) { BeginGesture(pt); }
         }
 
         void TapTutorialBooster(Vector2 pt, TutorialStep step)

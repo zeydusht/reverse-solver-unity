@@ -259,9 +259,15 @@ window.ltBoot = function (msg) {
      ignores user-scalable=no, so pinch (gesturestart) and multi-finger moves
      are cancelled here; touch-action:none covers single-finger panning. */
   document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
-  document.addEventListener('touchmove', function (e) { if (e.touches.length > 1 || e.target === document.getElementById('unity-canvas')) e.preventDefault(); }, { passive: false });
+  ['touchstart', 'touchmove'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      // Canvas: no browser edge-swipe/scroll. Elsewhere only pinch is blocked, so HTML overlays keep their taps.
+      if (e.target === document.getElementById('unity-canvas') || (type === 'touchmove' && e.touches.length > 1)) e.preventDefault();
+    }, { passive: false });
+  });
   var lastTouchEnd = 0;
   document.addEventListener('touchend', function (e) {   // double-tap zoom
+    if (e.target !== document.getElementById('unity-canvas')) return;
     var now = Date.now(); if (now - lastTouchEnd < 350) e.preventDefault(); lastTouchEnd = now;
   }, { passive: false });
 </script>
