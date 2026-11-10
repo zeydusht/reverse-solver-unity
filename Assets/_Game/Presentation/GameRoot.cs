@@ -167,6 +167,7 @@ namespace ReverseSolver.Presentation
             string cohort = TelemetryMeta.CleanCohort(host.Query("c"));
             if (cohort != null) { host.Store.Set("rs_cohort", cohort); host.Store.Save(); }
             else cohort = TelemetryMeta.CleanCohort(host.Store.Get("rs_cohort"));
+            if (Application.platform == RuntimePlatform.IPhonePlayer) cohort = "tf2";   // PM_MESAJ_61: TestFlight 2 (iOS 0.6.0)
             TelemetryMeta.Current = new TelemetryMeta { Cohort = cohort, DeviceId = _save.Install, Platform = PlatformName(), AppVersion = AppVersion() };
             _profileQueue = new TelemetryQueue(host.Store, "profiles");
             _profileSender = new TelemetrySender(_profileQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "player_profiles?on_conflict=cohort,player,device_id");
@@ -323,7 +324,7 @@ namespace ReverseSolver.Presentation
            as a full set; otherwise the copy inside the app. */
         string RedesignJson()
         {
-            string remote = Application.platform == RuntimePlatform.IPhonePlayer ? PlayerPrefs.GetString("rs_remote_redesign", null) : null;
+            string remote = Application.platform == RuntimePlatform.IPhonePlayer ? PlayerPrefs.GetString("rs_remote_ios7", null) : null;
             if (!string.IsNullOrEmpty(remote))
             {
                 try { if (LevelParser.Parse(remote).Levels.Count >= 40) return remote; } catch { }

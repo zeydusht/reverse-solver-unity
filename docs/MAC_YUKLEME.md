@@ -70,6 +70,10 @@ Bu rehber, teknik bilgisi olmayan biri içindir. Toplam süre: ilk seferde yakla
 4. Dış test (External Testing) için Apple'ın kısa bir incelemesi gerekir; gizlilik politikası adresi istenir:
    `https://zeydusht.github.io/reverse-solver-unity/privacy/`
 
+## 0.6.0 (7) ve sonrası: tek betik (PM_MESAJ_61)
+
+Elle Xcode adımları yerine `Builds/rs-yukle.sh` kullanılır (zip'in içinde de var). Mac'te: zip ve betik Indirilenler'e → `bash ~/Downloads/rs-yukle.sh` → parola gizli girişle sorulur. Betik 10 adımda: zip'i açar, izinleri ve eski `_CodeSignature`'ı düzeltir, archive + export alır, .ipa'yı `RS_AppStore` profili ve profildeki Apple Distribution sertifikasıyla yeniden imzalar, "TEKİN"deki İ için designated requirement'ı düzeltir (`49cc87` → `c4b0`), `codesign --verify --deep --strict` geçmeden yüklemez, `xcrun altool --upload-app` ile yükler. Hata olursa Türkçe mesajla durur; `--from N` ile o adımdan devam eder. Kısa talimat: `Builds/MAC_ADIMLAR_0.6.0.txt`. Zip Windows'ta Unix izinleriyle ve `_CodeSignature` olmadan üretilir (0.5.1'deki 1. ve 2. hata baştan önlenir).
+
 ## Sonraki yüklemeler
 
 Zeyd yeni bir zip gönderdiğinde yalnız **3, 5 ve 6. adımlar** tekrarlanır. Her yeni yüklemede build numarası Zeyd'in tarafında artırılmış olur; aynı numarayla iki kez yüklenemez.

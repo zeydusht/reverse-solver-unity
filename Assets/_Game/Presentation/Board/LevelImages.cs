@@ -28,7 +28,11 @@ namespace ReverseSolver.Presentation
         public static LevelImages Create() => new GameObject("LevelImages").AddComponent<LevelImages>();
 
         /* PM_MESAJ_18: the SET40 v3 paintings live on GitHub Pages, never in the build; the iOS app keeps a copy. */
+#if UNITY_IOS
+        public const string PaintingsUrl = "https://zeydusht.github.io/reverse-solver-unity/ios7/paintings-v2/";   // PM_MESAJ_61: frozen for iOS 0.6.0
+#else
         public const string PaintingsUrl = "https://zeydusht.github.io/reverse-solver-unity/paintings-v2/";   // PM_MESAJ_39: Task25 paintings (root and p19 keep /paintings/)
+#endif
         static bool Remote(string image) => image.StartsWith("painting-");
         static string CachePath(string image) => Path.Combine(Application.persistentDataPath, "paintings-v2", image + ".jpg");
         static bool DiskCache => Application.platform == RuntimePlatform.IPhonePlayer;

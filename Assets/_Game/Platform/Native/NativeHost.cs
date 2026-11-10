@@ -105,8 +105,8 @@ namespace ReverseSolver.Platform
        saved for the next launch. No network: the bundled set, nothing waits. */
     public static class RemoteLevels
     {
-        public const string Url = "https://zeydusht.github.io/reverse-solver-unity/levels/redesign.json";
-        public const string Key = "rs_remote_redesign";
+        public const string Url = "https://zeydusht.github.io/reverse-solver-unity/ios7/redesign.json";   // PM_MESAJ_61: frozen copy for 0.6.0, not p21
+        public const string Key = "rs_remote_ios7";
 
         public static void Refresh()
         {
