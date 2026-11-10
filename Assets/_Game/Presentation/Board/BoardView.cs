@@ -478,6 +478,11 @@ namespace ReverseSolver.Presentation
             }
         }
 
+        public void WarnLocked(int piece)
+        {
+            if (_nails.TryGetValue(piece, out var badge)) badge.Warn();
+        }
+
         void RefreshNails()
         {
             var gone = new List<int>();

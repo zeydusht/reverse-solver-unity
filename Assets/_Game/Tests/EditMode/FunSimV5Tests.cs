@@ -111,6 +111,7 @@ namespace ReverseSolver.Core.Tests
         }
 
         [Test]
+        [Category("Perf")]
         public void HardestLevelStillUnderTwoSeconds()
         {
             // the largest board with the redesign's stock (1 of each, all open at 40); the web L40 has no

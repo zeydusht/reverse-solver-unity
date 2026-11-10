@@ -153,5 +153,11 @@ namespace ReverseSolver.Presentation
             _clock.Color = Art.T14 ? (t <= 20 ? Palette.Cream : Palette.Navy) : t <= 20 ? Palette.Or(Draw.Hex("#ffb4a6"), Palette.Coral) : Palette.Or(Draw.Hex("#eaf3f2"), Palette.Cream);   // .pill b.warn; PALETTE urgent = coral
             _clockPill?.SkinAs(Art.T14 ? (t <= 20 ? "hud-time-pill-urgent" : "hud-time-pill") : t <= 20 ? "hud-pill-hot" : "hud-pill-normal");         // Codex Task 5 urgent pill (Task 7's has the shield slot)
         }
+
+        public void PauseTutorialTime()
+        {
+            if (_t54 != null) _t54.PauseTutorialTime();
+            else { _clock.gameObject.SetActive(false); _clockPill?.gameObject.SetActive(false); }
+        }
     }
 }

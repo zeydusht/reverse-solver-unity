@@ -22,7 +22,7 @@ namespace ReverseSolver.Presentation
        editor's designs instead (designs.json), and lv may then be an id
        (?debug=1&set=designs&lv=D03). Without debug the set parameter is
        ignored; debug sessions never send telemetry. */
-    public sealed class GameRoot : MonoBehaviour
+    public sealed partial class GameRoot : MonoBehaviour
     {
         // plays.client: the web build or the iOS app (TestFlight)
         public static readonly string Client = Application.platform == RuntimePlatform.IPhonePlayer ? "unity-ios" : "unity-web";
@@ -148,12 +148,19 @@ namespace ReverseSolver.Presentation
             _images = LevelImages.Create();
             _cam = Camera.main;
             _set = PlayOverride.Active ? PlayOverride.Set : ChooseSet();
+            var authoredSet = _set;
+            string launchCohort = TelemetryMeta.CleanCohort(Host.Current.Query("c")) ?? TelemetryMeta.CleanCohort(Host.Current.Store.Get("rs_cohort"));
+            _p21Flow = P21Onboarding.Enabled(launchCohort, _redesignSet, PlayOverride.Active);
+            if (_p21Flow) _set = P21Onboarding.Prepend(_set);
+            _resetVisit = SaveData.ResetForQuery(Host.Current.Store, Host.Current.Query("reset"), launchCohort, _set.Levels);
 
             // saved counters and the send queue (M5-pre). Sending is off in the
             // editor, with ?debug=1, and in builds until the switch is turned on.
             System.Func<string> newId = () => System.Guid.NewGuid().ToString("N");
             var host = Host.Current;
             _save = new SaveData(host.Store, newId);
+            if (_p21Flow && !P21Onboarding.IsNewFlow(_save)) { _set = authoredSet; _p21Flow = false; }
+            Debug.Log($"[p21] flow={_p21Flow} levels={_set.Levels.Count}");
             _stats = PlayStats.Load(host.Store);
             _stats.ImportLegacy(_save);
             _log = _save.Restore();
@@ -180,7 +187,13 @@ namespace ReverseSolver.Presentation
             _continueQueue = new TelemetryQueue(host.Store, "continue");
             _continueSender = new TelemetrySender(_continueQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "continue_events?on_conflict=row_id");
             _continueSender.Flush();
-            if (ContinueEnabled)
+            if (cohort == "p21")
+            {
+                _tutorialQueue = new TelemetryQueue(host.Store, "tutorial");
+                _tutorialSender = new TelemetrySender(_tutorialQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "tutorial_events?on_conflict=row_id");
+                _tutorialSender.Flush();
+            }
+            if (ContinueEnabled && !_resetVisit)
                 _save.SetCoins(int.TryParse(host.Query("coin"), out int coins) && coins >= 0 ? coins : _save.Coins);
             string introParam = host.Query("intro");
             bool hasLv = host.Query("lv") != null, hasSet = host.Query("set") != null;
@@ -383,7 +396,8 @@ namespace ReverseSolver.Presentation
             var fuses = string.Join(";", System.Linq.Enumerable.Select(_session.Bombs, b => b.Key + ":" + b.Value));
             int no = kind == "start" ? 0 : ++_moveNo;                  // start: move_no 0 (PM_MESAJ_25)
             _moveQueue.Add(_rowId + "-" + no, MoveRow.Json(_rowId, _save.Player, _session.Level.Id, _session.Level.Version, _session.Attempt,
-                no, kind, piece, dir, (int)((now - _moveT0) * 1000), (int)((now - _moveLast) * 1000), _session.TimeLeft, fuses, holdMs));
+                no, kind, piece, dir, (int)((now - _moveT0) * 1000), (int)((now - _moveLast) * 1000), _session.TimeLeft, fuses, holdMs,
+                Cohort == "p21" && (kind == "exit" || kind == "jam" || kind == "tut") ? _moveInput : null));
             bool action = kind != "touch" && kind != "hide" && kind != "show" && kind != "start" && kind != "quit";
             if (action) _moveLast = now;
             // sent on hide, on quit and every 10 rows, so a closed tab loses at most the last few (PM_MESAJ_25)
@@ -493,7 +507,7 @@ namespace ReverseSolver.Presentation
             _trainingUse = null;
             _tutorialClockHold = false;
             _inventory = _redesignSet ? new BoosterInventory(Host.Current.Store, level,
-                i => i >= 0 && i < _set.Levels.Count && _progress.Won(i)) : null;
+                i => i >= 0 && i + (_p21Flow ? 2 : 0) < _set.Levels.Count && _progress.Won(i + (_p21Flow ? 2 : 0))) : null;
             _inventory?.Apply(_session);
             _session.EventRaised += OnEvent;
             _boosters = new BoosterControls(_session);
@@ -505,9 +519,10 @@ namespace ReverseSolver.Presentation
             _endAt = -1;
             // web loadLevel(i): the intro shows on a level's first start, not on retries
             bool firstVisit = !_introSeen.Contains(level.Id);
-            _introOpen = Screens.HasIntro(level) && firstVisit;
+            _introOpen = !P21Prelude && Screens.HasIntro(level) && firstVisit;
             _introSeen.Add(level.Id);
             ResetScriptedTutorial(firstVisit);
+            ResetP21Tutorial();
             Layout();
             _board?.Deal();                                    // web render(true): pieces deal in on a fresh start
             if (Host.Debug) Debug.Log("[level-ready] " + level.Id);   // PM_MESAJ_28 B2: verify_build --only perf times this
@@ -526,6 +541,7 @@ namespace ReverseSolver.Presentation
            empty and a name is typed, those rows bring the best stars back (anon read, the schema untouched). */
         System.Collections.IEnumerator RecoverProgress(string name)
         {
+            if (_resetVisit) yield break;
             var host = Host.Current;
             if (string.IsNullOrEmpty(host.SupabaseUrl) || string.IsNullOrEmpty(host.AnonKey) || string.IsNullOrEmpty(name)) yield break;
             string url = host.SupabaseUrl + "/rest/v1/plays?select=level_id,stars&result=in.(win,won_after_continue)&player=eq." + UnityEngine.Networking.UnityWebRequest.EscapeURL(name);
@@ -557,7 +573,7 @@ namespace ReverseSolver.Presentation
         void ResetScriptedTutorial(bool firstVisit)
         {
             _tutorialScript ??= TutorialScript.Load();
-            _tutorialSteps = _redesignSet && !PlayOverride.Active ? _tutorialScript.ForSlot(_index + 1, firstVisit) : new List<TutorialStep>();
+            _tutorialSteps = _redesignSet && !PlayOverride.Active && !P21Prelude ? _tutorialScript.ForSlot(_index + 1 - (_p21Flow ? 2 : 0), firstVisit) : new List<TutorialStep>();
             _tutorialSteps.RemoveAll(step => (step.tur == "booster" || step.tur == "booster_hedef") &&
                 (!TutorialScript.BoosterOf(step.booster, out var b) || _inventory == null || _inventory.Trained(b) || !_session.IsUnlocked(b)));
             _tutorialAt = 0;
@@ -832,6 +848,8 @@ namespace ReverseSolver.Presentation
 
         void OnEvent(GameEvent e)
         {
+            OnP21TutorialEvent(e);
+            OnP21LockedAttempt(e);
             _hud?.OnEvent(e, _session);
             if (_zeydbotSet && e.Kind == EventKind.Jammed && _session.TutorialMove) WriteMove("tut", e.Piece, _drag?.Direction?.ToString());
             else if (_zeydbotSet) RecordMove(e);
@@ -989,7 +1007,7 @@ namespace ReverseSolver.Presentation
 
         /* The level's picture: its own (G1) or, in SET40 v3, painting-NN for level N (manifest order). */
         string ImageOf(int index) =>
-            index < 0 || index >= _set.Levels.Count ? null : _set.Levels[index].Image ?? (_paintSet ? $"painting-{index + 1:00}" : null);
+            index < 0 || index >= _set.Levels.Count || _p21Flow && index < 2 ? null : _set.Levels[index].Image ?? (_paintSet ? $"painting-{index + 1 - (_p21Flow ? 2 : 0):00}" : null);
 
         /* The whole picture over the emptied board, as one flat-edged piece. */
         void ShowFinishedPicture(bool pop)
@@ -1059,7 +1077,7 @@ namespace ReverseSolver.Presentation
                     menuSafe.w = _screen.y - _tabs.Top;   // Home: the Level button sits 16 pt above the bar
                 }
                 if (!Art.On || (!_levelsMapOpen && _tab == MenuTab.Home))
-                    _menu = new Screens.Menu(_world, _screen, menuSafe, _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[_progress.Next()].Hard);
+                    _menu = new Screens.Menu(_world, _screen, menuSafe, _p21Flow ? _progress.Next() + 1 : _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[_progress.Next()].Hard);
                 // PM_MESAJ_18: the corridor's big frame shows the painting the next level frees
                 if (_paintSet && _newArt && _menu != null)
                 {
@@ -1073,7 +1091,7 @@ namespace ReverseSolver.Presentation
             else
             {
                 _hud = new Hud(_world, _screen.x, _safe.y + BodyPad, HudOrder, _screen, _safe.y, _session, UseHud54);
-                _hud.SetLevel(_session.Level.Number);
+                _hud.SetLevel(_p21Flow ? _index + 1 : _session.Level.Number);
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin);
                 // Zeyd 2026-10-26 chose the thick dark navy edge (#06161D, 1.5x rim, 80 % cream band, soft halo) for painted boards
@@ -1093,7 +1111,7 @@ namespace ReverseSolver.Presentation
                 }
                 if (_session.IsOver && _session.Outcome == Outcome.Win && _paintSet && _board.Image != null) ShowFinishedPicture(false);
                 _hand = null;
-                bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active;
+                bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active && !_p21Flow;
                 if (!TutorialActive && _session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
                     _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
                                               new Rect(-origin, _screen));
@@ -1103,6 +1121,7 @@ namespace ReverseSolver.Presentation
                 if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder));
                 else if (_session.IsOver && _endAt < 0 && _celebration == null && _deferredLoss == null) ShowResult();
                 RefreshPlaying();
+                BuildP21Tutorial();
             }
 
             if (Host.Debug && Host.Current.Query("hud") != "0")   // ?hud=0: clean QA shots
@@ -1329,7 +1348,7 @@ namespace ReverseSolver.Presentation
             }
             // PM_MESAJ_40: before the clock runs (intro, card, spotlight, any tutorial step) a jam is a 'tut' row, never a jam
             if (_mode == Mode.Playing && _session != null)
-                _session.TutorialMove = TutorialActive || _introOpen || _card != null || _tutorialClockHold && _session.Moves == 0;
+                _session.TutorialMove = P21Guided || TutorialActive || _introOpen || _card != null || _tutorialClockHold && _session.Moves == 0;
             if (!_awaitingName) HandlePointer();
             if (_celebration != null && _celebration.Tick(_screen)) EndCelebration();
             if (_pendingHard > 0 && Time.unscaledTime >= _hardDue)
@@ -1342,13 +1361,14 @@ namespace ReverseSolver.Presentation
                     if (action == null) ShowResult(); else NavigateResult(action);
                 }
             }
-            if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); _moveSender?.Flush(); _introSender?.Flush(); if (!_pageHidden) _continueSender?.Flush(); }
+            if (Time.unscaledTime >= _nextFlush) { _nextFlush = Time.unscaledTime + 15f; _telemetry.Flush(); _moveSender?.Flush(); _introSender?.Flush(); _tutorialSender?.Flush(); if (!_pageHidden) _continueSender?.Flush(); }
 
             if (_mode == Mode.Playing)
             {
+                TickP21Tutorial();
                 if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil) NextScriptedTutorial();
                 // the clock runs only while the board is actually in play
-                if (!_session.IsOver && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _continuePanel == null) _session.Tick(Time.unscaledDeltaTime);
+                if (!_session.IsOver && !P21Guided && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _continuePanel == null) _session.Tick(Time.unscaledDeltaTime);
                 if (_endAt > 0 && Time.unscaledTime >= _endAt)
                 {
                     _endAt = -1;
@@ -1454,6 +1474,7 @@ namespace ReverseSolver.Presentation
             else if (_drag != null && _drag.Active && (p.press.isPressed || p.press.wasReleasedThisFrame))
             {
                 if (TutorialActive && _tutorialUntil >= 0) return;
+                if (P21Guided && (Time.unscaledTime < _p21AdvanceAt || RejectP21Direction(pt))) return;
                 if (RejectTutorialDirection(pt)) return;
                 var touch = Touchscreen.current;
                 bool released = p.press.wasReleasedThisFrame;
@@ -1463,6 +1484,13 @@ namespace ReverseSolver.Presentation
                 var velocity = dt > .0001 ? (pt - _gestureLast) / (float)dt : Vector2.zero;
                 _gestureLast = pt; _gestureTime = now;
                 var gesture = _flick.Classify(_gestureStart, pt, velocity, released, _board.Cell);
+                if (MoveRow.INPUT_COL && Cohort == "p21" && gesture.Direction != Vector2.zero)
+                {
+                    var d = gesture.Direction.x > 0 ? Dir.R : gesture.Direction.x < 0 ? Dir.L : gesture.Direction.y > 0 ? Dir.D : Dir.U;
+                    var lim = _session.Probe(_drag.Piece, d);
+                    _moveInput = gesture.State == FlickState.Move && !(released && lim.Exit &&
+                        Vector2.Distance(pt, _gestureStart) >= (lim.Cells + DragModel.ExitOvershoot) * _board.Cell * DragModel.ExitFraction) ? "flick" : "drag";
+                }
                 if (cancelled) { FinishPointerDrag(true); return; }
                 if (gesture.Direction != Vector2.zero)
                 {
@@ -1471,6 +1499,7 @@ namespace ReverseSolver.Presentation
                     var projected = _gestureStart + gesture.Direction * along;
                     _drag.Move(projected.x, projected.y, now);
                     _board.ShowDrag(_drag);
+                    if (FinishP21Jam(released)) return;
                 }
                 if (gesture.State == FlickState.Move)
                 {
@@ -1478,12 +1507,14 @@ namespace ReverseSolver.Presentation
                     bool longDrag = released && limit.Exit &&
                         _drag.Offset >= (limit.Cells + DragModel.ExitOvershoot) * _board.Cell * DragModel.ExitFraction;
                     if (longDrag) _dragInputs++; else _flickInputs++;
+                    _moveInput = longDrag ? "drag" : "flick";
                     // Advance only the model to its normal release point. The view
                     // retains the finger position and animates the remaining distance.
                     float distance = (limit.Cells + DragModel.ExitOvershoot + 1) * _board.Cell + DragModel.JamSlack;
                     var end = _gestureStart + gesture.Direction * distance;
                     _committedTouch = !released;
                     _drag.Move(end.x, end.y, now);
+                    if (FinishP21Jam(released)) return;
                     FinishPointerDrag(false, true);
                 }
                 else if (released)
@@ -1501,6 +1532,7 @@ namespace ReverseSolver.Presentation
 
         void BeginGesture(Vector2 point)
         {
+            _moveInput = "drag";
             _flick = new FlickGesture();
             _gestureStart = _gestureLast = point;
             _gestureTime = Time.unscaledTimeAsDouble;
@@ -1647,6 +1679,11 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
+            if (P21Guided)
+            {
+                PressP21Tutorial(pt);
+                return;
+            }
             if (TutorialActive)
             {
                 if (_tutorialUntil >= 0)

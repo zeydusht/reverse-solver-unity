@@ -119,3 +119,29 @@ Tarayıcı denemesinde bulunup düzeltilenler: High stripping `SpriteMask`'i bui
 - **iPhone'da sınanmadı:** Safari'nin kenardan geri kaydırması sistem hareketi; sayfa tarafından tamamen engellenemeyebilir.
 
 GIF'ler: [fiskeyle çıkış](pm58/fiske_cikis.gif) · [kenar parça (zincirli)](pm58/kenar_parca.gif) · [yanlış yön, takılma](pm58/yanlis_yon_takilma.gif)
+
+## PM_59 eki (10 Kasım gece): yeni onboarding
+
+**Durum: p21'de yayında**, gh-pages `be7722ee`, yalnız `p21/`. Yeni oyuncu linki: `p21/?set=redesign&c=p21&reset=1&lang=tr` (`reset=1` ilerlemeyi, tutorial/intro bayraklarını ve altını sıfırlar; yalnız `c=p21`).
+
+| Kontrol | Sonuç |
+|---|---|
+| EditMode (Perf hariç) | 666 geçti, 0 kaldı, 2 atlandı |
+| `verify_build` yerel / canlı p21 | 4/4 / 4/4 |
+| Tutorial baştan sona (yerel), vitrinde kilit ve kart | istisna 0; canlıda yeni akış açılıyor |
+
+**PM_58 kararları:** `HardestLevelStillUnderTwoSeconds` → `[Category("Perf")]`. `unity_batch.sh tests` onu dışarıda bırakıyor, `tests Perf` ayrı koşuyor. `MoveRow.INPUT_COL = false`: kapalıyken JSON birebir eskisi gibi; açılınca `input=flick|drag` gider.
+
+**Bölüm 1–2:** yalnız `c=p21` + redesign setinde ve yeni oyuncuda (hiç bölüm bitirmemiş ya da tutorial'a başlamış), setin önüne iki yeni bölüm ekleniyor: `P21_T01` (2×2 tutorial) ve `P21_E01` (3×3, engelsiz, 180 sn). 40 bölümlük dosyalar ve kimlikler değişmedi; mevcut oyuncular eski akışta kalıyor.
+- Tutorial: çayır resmi, süre durdurulmuş, kayıp yok. Hedef dışı parçaya dokunma = titreme, hamle sayılmıyor. Adımlar spesifikasyondaki gibi: C↓ → B← takılma + açıklama → B→ → A → D → kazanma.
+- **Sapma (adım 3):** C ve B çıktıktan sonra A dört yönde de çıkabiliyor, yani "yanlış yön" denemesi mümkün değil; her yön kabul ediliyor. Gerçek bir yanlış yön için başka bir yerleşim gerekir, PM kararı.
+- Adım telemetrisi `tut_step` → `tutorial_events`. **`docs/sql/017_tutorial_events.sql` yazıldı (`row_id` için SELECT dahil), uygulanmadı.**
+- İlk 3 bölümde 1,5 sn üst bant "Bütün parçaları tahtadan çıkar!". Parça sayacı her çıkışta "pop" yapıyor. 2. bölümde balon "Önce önü açık parçaları çıkar."
+
+**Kartlar ve kilit** (p21 + yeni görsel): bomba, kilit ve zincir kartlarında yeni TR/EN metin, anahtar kelimeler kalın, daha büyük punto; bomba kartında 3→2→1 animasyonu. Kilitli parçayı itince kilit sallanıyor, sayacın çevresinde mercan halka, hamle sayılmıyor; oturumda ilk 2 kez "Kilit N hamle sonra açılacak." balonu.
+
+**Yolda düzeltilen:** Codex'in elle yazdığı 23 `.meta` dosyası Unity'de okunamadı; görseller build'e girmedi (düz mavi parçalar, el, ok ve balon yok). Meta dosyaları silindi, Unity yeniden üretti.
+
+**Doğrulanmadı:** iPhone; 2. bölümde ilk deneme kazanma oranı ≥%95 (çok sıralı ve çözülebilir olduğu testle doğrulandı, oyuncuyla ölçülmedi); `tutorial_events` gönderimi (017 bekliyor).
+
+GIF'ler: [tutorial 4 adım](pm59/tutorial_4_adim.gif) · [kilit uyarısı](pm59/kilit_uyarisi.gif) · [bomba kartı](pm59/bomba_karti.gif)

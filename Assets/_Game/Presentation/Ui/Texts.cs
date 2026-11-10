@@ -5,6 +5,16 @@ namespace ReverseSolver.Presentation
     /* Player-facing text follows the language chosen in settings. */
     public static class Texts
     {
+        public static string ObstacleIntro(string scene) => scene switch
+        {
+            "bomb" => Lang.T("Clear the bomb piece <b>before</b> its number runs out. It drops by 1 each move; at 0 it blows!", "Bombalı parçayı sayı <b>bitmeden</b> çıkar. Her hamlede sayı 1 azalır; 0 olursa patlar!"),
+            "nail" => LockIntro(0),
+            "chain" => Lang.T("Two chained pieces move <b>together</b>.", "Zincirli iki parça <b>birlikte</b> hareket eder."),
+            _ => TutorialCopy(scene)
+        };
+        public static string LockIntro(int moves) => string.Format(Lang.T("A locked piece can't move for <b>{0} moves</b>. Play other pieces; at 0 the lock opens.", "Kilitli parça <b>{0} hamle</b> boyunca hareket etmez. Başka parçaları oyna; sayı 0 olunca kilit açılır."), moves > 0 ? moves.ToString() : "N");
+        public static string LockWarning(int remaining) => string.Format(Lang.T("The lock opens in {0} moves.", "Kilit {0} hamle sonra açılacak."), remaining);
+
         // Source copy: docs/i18n/en.md, Tutorial.
         public static string TutorialDrag(Dir dir) => dir switch
         {

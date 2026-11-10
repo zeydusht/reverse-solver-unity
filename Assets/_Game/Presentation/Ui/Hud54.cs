@@ -53,8 +53,12 @@ namespace ReverseSolver.Presentation
         public void SetLeft(int n)
         {
             if (n == _lastLeft) return;
+            if (_lastLeft >= 0 && n < _lastLeft && TelemetryMeta.Current?.Cohort == "p21")
+                Tweens.Run(_left, .2f, t => { if (_left != null) _left.transform.localScale = Vector3.one * Mathf.Lerp(1.15f, 1, t); });
             _lastLeft = n; _left.Text = n.ToString();
         }
+
+        public void PauseTutorialTime() { _clock.gameObject.SetActive(false); _timeTitle.gameObject.SetActive(false); }
 
         public void SetTime(int seconds)
         {

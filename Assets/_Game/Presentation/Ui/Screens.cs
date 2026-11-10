@@ -448,6 +448,8 @@ namespace ReverseSolver.Presentation
             var info = LevelTexts.Get(l, booster);
             string icon = booster ? info.Id : (info.Icon ?? "hammer");
             string scene = !booster && icon == "hammer" ? "nail" : icon;
+            if (!booster && P21Obstacle(scene))
+                return ObstacleCard(parent, screen, order, scene, info.Title, Texts.GotIt, l);
             if (Art.Get(Art.T23Intro + "-" + scene) != null)
                 return IntroScene(parent, screen, order, scene,
                     booster ? string.Format(Texts.NewBooster, info.Title) : info.Title,
@@ -531,6 +533,8 @@ namespace ReverseSolver.Presentation
             if (l.Intro != null || l.BoosterIntro != null) return Intro(parent, screen, l, order);
             string scene = l.Nails.Count > 0 ? "nail" : l.Bombs.Count > 0 ? "bomb" :
                 l.CellCount > l.Pieces.Count ? "chain" : l.Sealed != null && l.Sealed.Count > 0 ? "wall" : null;
+            if (P21Obstacle(scene))
+                return ObstacleCard(parent, screen, order, scene, string.Format(Texts.Level, l.Number), Texts.HardStart, l);
             if (scene != null && Art.Get(Art.T23Intro + "-" + scene) != null)
                 return IntroScene(parent, screen, order, scene, string.Format(Texts.Level, l.Number),
                     Texts.TutorialCopy(scene), Texts.HardStart);
@@ -568,6 +572,27 @@ namespace ReverseSolver.Presentation
 
         /* SET40 v3: the sole opening card for a level with the hard flag. The timer
            still starts on the first move, after "Başla". */
+        static bool P21Obstacle(string scene) => Art.T54 && TelemetryMeta.Current?.Cohort == "p21" &&
+            (scene == "bomb" || scene == "nail" || scene == "chain");
+
+        static Card ObstacleCard(Transform parent, Vector2 screen, int order, string scene, string title, string button, LevelData level)
+        {
+            var card = new Card(parent, screen, order, "Intro", Art.T23Intro);
+            if (scene == "bomb")
+                card.Custom(112, (root, y, w, o) =>
+                    Draw.Child<BombIntroLoop>(root, "Bomb countdown demo").Init(new Vector2(0, y + 56), o + 2));
+            else Picture(card, Art.T23Intro + "-" + scene, 144);
+            // Use the actual count when all locks share it; differing counters retain the generic N.
+            int lockMoves = 0;
+            foreach (int count in level.Nails.Values)
+            {
+                if (lockMoves != 0 && lockMoves != count) { lockMoves = 0; break; }
+                lockMoves = count;
+            }
+            return card.Title(title).Body(scene == "nail" ? Texts.LockIntro(lockMoves) : Texts.ObstacleIntro(scene), sizePt: 18, gapAfter: 18)
+                .Button("ok", button, true).Finish();
+        }
+
         static Card IntroScene(Transform parent, Vector2 screen, int order, string scene,
                                string title, string body, string button) =>
             Picture(new Card(parent, screen, order, "Intro", Art.T23Intro), Art.T23Intro + "-" + scene, 192)

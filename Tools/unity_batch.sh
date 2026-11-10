@@ -3,7 +3,8 @@
 # the summary: test counts and failing tests, compile errors, exceptions, and the
 # lines the method itself tags with [tag]. Unity must be closed (project lock).
 #
-#   Tools/unity_batch.sh tests                              all EditMode tests
+#   Tools/unity_batch.sh tests                              EditMode tests except Perf
+#   Tools/unity_batch.sh tests Perf                         performance tests only
 #   Tools/unity_batch.sh tests "ReverseSolver.Tests.FunSim" one fixture/namespace (-testFilter)
 #   Tools/unity_batch.sh method <Namespace.Class.Method> [extra Unity args...]
 #
@@ -28,7 +29,11 @@ summary_log() {  # $1 = log file
 case "$mode" in
   tests)
     log="$OUT/tests-$stamp.log"; xml="$OUT/tests-$stamp.xml"
-    filter=(); [ $# -gt 0 ] && filter=(-testFilter "$1")
+    filter=(-testCategory '!Perf')
+    if [ $# -gt 0 ]; then
+      if [ "$1" = Perf ]; then filter=(-testCategory Perf)
+      else filter=(-testFilter "$1"); fi
+    fi
     start=$(date +%s)
     timeout "$LIMIT" "$UNITY" -batchmode -nographics -projectPath "$ROOT" -runTests -testPlatform EditMode \
       -testResults "$xml" "${filter[@]}" -logFile "$log" >/dev/null 2>&1

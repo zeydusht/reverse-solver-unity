@@ -87,6 +87,8 @@ namespace ReverseSolver.Presentation
         /* .nail.tick: scale 1.45 -> 1 over .32s cubic-bezier(.3,1.5,.5,1) on every count. */
         public void Tick()
         {
+            var warning = Root.GetComponent<LockWarningMotion>();
+            if (warning != null) warning.enabled = false;
             if (_t28)
             {
                 Tweens.Run(this, .32f, t => { if (_lock != null) _lock.transform.localScale = _lockScale * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
@@ -95,9 +97,21 @@ namespace ReverseSolver.Presentation
             Tweens.Run(this, .32f, t => { if (Root != null) Root.localScale = Vector3.one * Mathf.LerpUnclamped(1.45f, 1f, Tweens.Tick(t)); });
         }
 
+        public void Warn()
+        {
+            if (_lock == null || Root == null) return;
+            Tweens.Kill(this);
+            _lock.transform.localScale = _lockScale;
+            var warning = Root.GetComponent<LockWarningMotion>();
+            if (warning == null) warning = Root.gameObject.AddComponent<LockWarningMotion>();
+            warning.Play(_lock, _n.transform.localPosition, _cell);
+        }
+
         public void Release()
         {
             if (Root == null) return;
+            var warning = Root.GetComponent<LockWarningMotion>();
+            if (warning != null) warning.enabled = false;
             if (!_t28) { Object.Destroy(Root.gameObject); return; }
             Tweens.Kill(this);
             _n.gameObject.SetActive(false);

@@ -40,6 +40,17 @@ namespace ReverseSolver.Core
         public static readonly string Prefix = $"rs.v{Version}.";
         public static string Key(string name) => Prefix + name;
 
+        public static bool ResetForQuery(IKeyValueStore store, string reset, string cohort, IEnumerable<LevelData> levels)
+        {
+            if (reset != "1" || cohort != "p21") return false;
+            foreach (string name in new[] { "attempts", "best", "losses", "fun_asked", "stats" }) store.Delete(Key(name));
+            foreach (string key in new[] { "rs_intro_shown", "rs_intro_end_shown", "rs_boosters", "rs_profile_p21", "rs_p21_tutorial_seen", "rs_ach_seen" }) store.Delete(key);
+            foreach (var level in levels) store.Delete("rs_hard_p21_" + level.Id);
+            store.Set(Key("coins"), new ContinueRules().StartCoins.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            store.Save();
+            return true;
+        }
+
         readonly IKeyValueStore _store;
 
         public int Coins { get; private set; }

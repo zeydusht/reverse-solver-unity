@@ -8,8 +8,9 @@ namespace ReverseSolver.Core
        editor, so the phone does no search. */
     public static class MoveRow
     {
+        public static bool INPUT_COL = false; // Enable only after the optional moves.input column exists.
         public static string Json(string rowId, string player, string levelId, int levelVersion, int attempt, int moveNo,
-                                  string kind, int piece, string dir, int tMs, int thinkMs, int timeLeft, string fuses, int? holdMs = null)
+                                  string kind, int piece, string dir, int tMs, int thinkMs, int timeLeft, string fuses, int? holdMs = null, string input = null)
         {
             var w = new JsonWriter().BeginObject()
                 .Field("row_id", rowId).Field("player", player).Field("level_id", levelId).Field("level_version", levelVersion)
@@ -17,6 +18,7 @@ namespace ReverseSolver.Core
                 .Field("t_ms", tMs).Field("think_ms", thinkMs).Field("time_left", timeLeft).Field("fuses", fuses);
             if (holdMs.HasValue) w.Field("hold_ms", holdMs.Value);     // touch: how long the piece was held (docs/sql/007)
             TelemetryMeta.Moves(w);                                    // cohort, device_id (docs/sql/009)
+            if (INPUT_COL && (input == "flick" || input == "drag")) w.Field("input", input);
             return w.EndObject().ToString();
         }
     }
