@@ -159,6 +159,9 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_55 vitrin geri bildirimi p21'de: bomba nabzı ve ateş, zincir sarkması ve kalınlığı, zincirli parçaların düzlemi; canlı verify 4/4 — 9 Kasım
 - ✅ PM_54 p21'de: HUD şeritleri, Jigo, kilit, kazanma, devam + altın; canlı verify 4/4 (`docs/art/task29/ENTEGRASYON_RAPOR.md`); 015 SQL PM'de — 10 Kasım
 - ✅ PM_56/57 p21'de: Verlet zincir, kilit düşüşü, bağlantı noktaları, bomba nabzı, 5000 altın, intro ses C; canlı verify 4/4 — 10 Kasım
+- ✅ PM_58 p21'de: fiske ile hamle, kenar payı 24 pt, tarayıcı kenar hareketi engeli; canlı verify 4/4 — 10 Kasım
+- ⏳ `HardestLevelStillUnderTwoSeconds` makineye bağlı oynuyor (2,3–5,3 sn) — PM kararı
+- ⏳ Fiske/sürükleme telemetrisi için alan yok — PM kararı
 - ⏳ `docs/sql/016_continue_select.sql` (continue_events 401) — Zeyd "çalıştır" deyince
 
 - ✅ ZeydBot v1: 30 bölümle kuruldu, oturum 3 sınavını geçti (sıra 0,99)
