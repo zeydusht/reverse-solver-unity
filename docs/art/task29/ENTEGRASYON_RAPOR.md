@@ -154,6 +154,7 @@ GIF'ler: [tutorial 4 adım](pm59/tutorial_4_adim.gif) · [kilit uyarısı](pm59/
 |---|---|
 | EditMode (Perf hariç) | 689 geçti, 0 kaldı, 2 atlandı |
 | `verify_build` yerel | 4/4; PC FPS medyan 59,9 |
+| `verify_build` canlı p21 | 4/4 (Pages dağıtımı bitmeden koşulan ilk deneme 2/4 verdi; eski ve yeni dosyalar karışıktı) |
 | Tarayıcı denemeleri (hikâye kutusu, 4 booster, kombo, kazanma, sandık) | istisna 0 |
 | `moves.input` (`TEST_PM60`, S43) | 4 fiske hamlesi `input=flick` ile tabloya düştü. `drag` satırı görülmedi (son uzun sürükleme hamle olarak kaydedilmedi), doğrulanmadı |
 | Build (Brotli) | 19,35 → 26,22 MB (+6,9 MB) |
