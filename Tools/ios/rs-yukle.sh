@@ -96,14 +96,18 @@ if want 6; then
   [ -f "$PROFILE" ] || fail 6 "RS_AppStore.mobileprovision Indirilenler'de yok. MAC_ADIMLAR dosyasindaki 2. maddeye bak, indirip --from 6 ile devam et."
   security cms -D -i "$PROFILE" > "$OUT/profile.plist" 2>/dev/null || fail 6 "Profil okunamadi."
   /usr/libexec/PlistBuddy -x -c "Print :Entitlements" "$OUT/profile.plist" > "$OUT/entitlements.plist" || fail 6 "Profilden entitlements alinamadi."
-  # profildeki sertifikanin SHA-1'i; Mac'te anahtari olan kimliklerden ayni olani sec
-  /usr/libexec/PlistBuddy -c "Print :DeveloperCertificates:0" "$OUT/profile.plist" > "$OUT/cert.der" 2>/dev/null
-  CERT_SHA=$(openssl x509 -inform der -in "$OUT/cert.der" -noout -fingerprint -sha1 2>/dev/null | sed 's/.*=//; s/://g' | tr 'a-f' 'A-F')
+  # profildeki her sertifikanin (0-9) SHA-1'i; Mac'te anahtari olan Apple Distribution kimligiyle eslesen secilir
   IDS=$(security find-identity -v -p codesigning | grep "Apple Distribution" | awk '{print $2}')
-  SIGN=""
-  for h in $IDS; do [ "$h" = "$CERT_SHA" ] && SIGN="$h"; done
+  SIGN=""; SHAS=""
+  for N in 0 1 2 3 4 5 6 7 8 9; do
+    D=$(plutil -extract DeveloperCertificates.$N raw -o - "$OUT/profile.plist" 2>/dev/null) || break
+    S=$(echo "$D" | base64 -D | shasum | awk '{print toupper($1)}')
+    SHAS="$SHAS $S"
+    for h in $IDS; do [ "$h" = "$S" ] && SIGN="$h"; done
+    [ -n "$SIGN" ] && break
+  done
   if [ -z "$SIGN" ]; then
-    echo "Profildeki sertifika: $CERT_SHA"; security find-identity -v -p codesigning
+    echo "Profildeki sertifikalar:$SHAS"; security find-identity -v -p codesigning
     fail 6 "Profildeki Apple Distribution sertifikasinin anahtari bu Mac'te yok. RS_AppStore profilini bu Mac'teki sertifikayla yeniden olusturup indir."
   fi
   echo "$SIGN" > "$OUT/sign_id.txt"
@@ -125,15 +129,16 @@ if want 7; then
   [ -n "$APP" ] && [ -n "$SIGN" ] || fail 7 "Once adim 6 bitmeli: --from 6"
   fix() {   # $1 = framework ya da app, $2 = ek codesign secenekleri
     local req
-    req=$(codesign -d -r- "$1" 2>&1 | grep "^designated" | sed 's/^designated => //')
+    req=$(codesign -d -r- "$1" 2>&1 | sed -n 's/^designated => //p')
     [ -n "$req" ] || return 1
-    # I + birlesik nokta (49 cc 87) -> tek parca I (c4 b0)
-    req=$(printf '%s' "$req" | perl -pe 's/\x49\xcc\x87/\xc4\xb0/g')
+    # I + birlesik nokta -> tek parca I. codesign adi hex metin yazar (0.5.1: TEK...49cc87...N): metin degisimi;
+    # ham bayt degisimi yedek.
+    req=$(printf '%s' "$req" | sed 's/49cc87/c4b0/g; s/49CC87/C4B0/g' | perl -pe 's/\x49\xcc\x87/\xc4\xb0/g')
     codesign -f -s "$SIGN" $2 --requirements "=designated => $req" "$1"
   }
   for fw in "$APP/Frameworks/"*.framework "$APP/Frameworks/"*.dylib; do
     [ -e "$fw" ] || continue
-    fix "$fw" "" || fail 7 "Gereksinim duzeltilemedi: $fw"
+    fix "$fw" "--preserve-metadata=identifier,flags" || fail 7 "Gereksinim duzeltilemedi: $fw"
   done
   fix "$APP" "--entitlements $OUT/entitlements.plist" || fail 7 "Uygulamanin gereksinimi duzeltilemedi."
   echo "Tamam."
