@@ -71,3 +71,19 @@ Desktop.ini
 Level Design/*.MP4
 Level Design/*.mp4
 Level Design/**/*.mp4
+
+# Browser profiles, crash dumps and tool caches (PM_ACIL 2026-11-11: leaked keys)
+.chrome*/
+**/.chrome*/
+*chrome-profile*/
+**/user-data*/
+**/chrome-qa/
+**/chrome-test/
+**/browser-qa/
+Crashpad/
+*.dmp
+*shared_proto_db*
+.task*-python/
+.task*-pip-cache/
+**/.task*-python/
+**/.task*-pip-cache/

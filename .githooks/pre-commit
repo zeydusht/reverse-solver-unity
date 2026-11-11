@@ -1,0 +1,29 @@
+#!/bin/sh
+# Blocks browser profiles, crash dumps, large binaries and known secret patterns.
+# Prints file names only, never the matched value. Bypass only with Zeyd's OK.
+fail=0
+files=$(git diff --cached --name-only --diff-filter=AM)
+[ -z "$files" ] && exit 0
+
+bad=$(printf '%s\n' "$files" | grep -iE '\.dmp$|/Crashpad/|shared_proto_db|/(Cookies|Login Data|Local State|Web Data|History)$|/\.chrome[^/]*/|chrome-profile|/user-data[^/]*/')
+if [ -n "$bad" ]; then
+  echo "pre-commit: browser profile / crash dump files staged:"; printf '  %s\n' $bad | head -20; fail=1
+fi
+
+# Large files (>10 MB), except WebGL build output on gh-pages.
+gitdir=$(git rev-parse --git-dir)
+printf '%s\n' "$files" | while IFS= read -r f; do
+  case "$f" in */Build/*|*.unityweb) continue;; esac
+  s=$(git cat-file -s ":$f" 2>/dev/null || echo 0)
+  if [ "$s" -gt 10485760 ]; then echo "pre-commit: large file ($s bytes): $f"; touch "$gitdir/.precommit_fail"; fi
+done
+[ -f "$gitdir/.precommit_fail" ] && { rm -f "$gitdir/.precommit_fail"; fail=1; }
+
+# Secret patterns in added text lines.
+hits=$(git diff --cached -U0 --diff-filter=AM -- . ':!.githooks' | grep -E '^\+\+\+ b/|^\+.*(AIza[0-9A-Za-z_-]{35}|-----BEGIN [A-Z ]*PRIVATE KEY|sk-[A-Za-z0-9_-]{20,}|service_role)' | grep -B1 -E '^\+[^+]' | grep '^+++ b/' | sed 's#^+++ b/##' | sort -u)
+if [ -n "$hits" ]; then
+  echo "pre-commit: possible secret (AIza / private key / sk- / service_role) in:"; printf '  %s\n' $hits; fail=1
+fi
+
+[ "$fail" -ne 0 ] && echo "pre-commit: commit blocked." && exit 1
+exit 0
