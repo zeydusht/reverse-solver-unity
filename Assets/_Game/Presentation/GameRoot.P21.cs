@@ -12,14 +12,14 @@ namespace ReverseSolver.Presentation
         P21TutorialView _p21View;
         P21Story _p21Story;
         bool _p21StoryDismissed, _p21StoryLast;
-        bool P21NewArt => Art.T54 && P21Onboarding.Enabled(TelemetryMeta.Current?.Cohort, _redesignSet, PlayOverride.Active, true, "1");
+        bool P21NewArt => Art.T54 && P21Onboarding.Enabled(Art.GameplayCohort, _redesignSet, PlayOverride.Active, true, "1");
         bool P21StoryLevel => P21NewArt && !_p21Flow && _index == 0;
         readonly P21LockHints _p21LockHints = new P21LockHints();
         P21TutorialView _p21LockBubble;
 
         void OnP21LockedAttempt(GameEvent e)
         {
-            if (!Art.T54 || TelemetryMeta.Current?.Cohort != "p21" || e.Kind != EventKind.Jammed) return;
+            if (!Art.T54 || Art.GameplayCohort != "p21" || e.Kind != EventKind.Jammed) return;
             int remaining = _session.NailAt(e.Piece);
             if (remaining <= 0 || _board == null) return;
             _board.WarnLocked(e.Piece);

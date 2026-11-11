@@ -27,6 +27,7 @@ namespace ReverseSolver.Core
     public sealed partial class GameSession
     {
         public const int ClockBonusSeconds = 20;
+        public const int FreezeSeconds = 10;
         const int WandAttempts = 200;
 
         public LevelData Level { get; }
@@ -97,7 +98,7 @@ namespace ReverseSolver.Core
             _events.AddRange(o._events);
             _clockCarry = o._clockCarry;
             ClockFreezesTime = o.ClockFreezesTime; FreezeLeft = o.FreezeLeft;
-            TestBoosterUnlock = o.TestBoosterUnlock;
+            TestBoosterUnlock = o.TestBoosterUnlock; TestMode = o.TestMode;
         }
 
         /* A branch for search (solvers, Monte Carlo). Shares the random source,
@@ -110,7 +111,7 @@ namespace ReverseSolver.Core
         public int FuseAt(int piece) => _bombs.TryGetValue(piece, out int n) ? n : 0;
         public IReadOnlyDictionary<int, int> Nails => _nails;
         public IReadOnlyDictionary<int, int> Bombs => _bombs;
-        public int Stock(Booster b) => _stock[(int)b];
+        public int Stock(Booster b) => TestMode ? 99 : _stock[(int)b];
 
         /* PM_MESAJ_30: the player's inventory replaces the level's table (set before the first command). */
         public void SetStock(Booster b, int n) => _stock[(int)b] = Math.Max(0, n);
@@ -122,11 +123,12 @@ namespace ReverseSolver.Core
         public bool TutorialMove { get; set; }
         public bool PreventTimeout { get; set; }
         public Booster? TestBoosterUnlock { get; set; }
+        public bool TestMode { get; set; }
         public int Used(Booster b) => _used[(int)b];
 
         /* Locked while the level number is below the booster's unlock level. */
         public bool IsUnlocked(Booster b) =>
-            TestBoosterUnlock == b || Level.Unlock == null || !Level.Unlock.TryGetValue(b.Id(), out int at) || Level.Number >= at;
+            TestMode || TestBoosterUnlock == b || Level.Unlock == null || !Level.Unlock.TryGetValue(b.Id(), out int at) || Level.Number >= at;
 
         public TravelLimit Probe(int piece, Dir dir) => TravelRule.Limit(Board, piece, dir);
 
@@ -243,7 +245,7 @@ namespace ReverseSolver.Core
             var check = CanUse(Booster.Clock);
             if (check != CommandResult.Ok) return check;
             Spend(Booster.Clock);
-            if (ClockFreezesTime) FreezeLeft += ClockBonusSeconds;
+            if (ClockFreezesTime) FreezeLeft += FreezeSeconds;
             else
             {
                 TimeLeft += ClockBonusSeconds;
@@ -382,7 +384,7 @@ namespace ReverseSolver.Core
         {
             if (IsOver) return CommandResult.GameOver;
             if (!IsUnlocked(b)) return CommandResult.Locked;
-            if (_stock[(int)b] <= 0 && FreeUse != b) return CommandResult.OutOfStock;
+            if (Stock(b) <= 0 && FreeUse != b) return CommandResult.OutOfStock;
             return CommandResult.Ok;
         }
 
@@ -390,7 +392,7 @@ namespace ReverseSolver.Core
         {
             if (FreeUse == b) { FreeUse = null; Raise(GameEvent.Used(b)); return; }
             ClockStarted = true;
-            _stock[(int)b]--;
+            if (!TestMode) _stock[(int)b]--;
             _used[(int)b]++;
             Raise(GameEvent.Used(b));
         }

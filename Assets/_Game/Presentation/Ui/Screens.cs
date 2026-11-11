@@ -572,7 +572,7 @@ namespace ReverseSolver.Presentation
 
         /* SET40 v3: the sole opening card for a level with the hard flag. The timer
            still starts on the first move, after "Başla". */
-        static bool P21Obstacle(string scene) => Art.T54 && TelemetryMeta.Current?.Cohort == "p21" &&
+        static bool P21Obstacle(string scene) => Art.T54 && Art.GameplayCohort == "p21" &&
             (scene == "bomb" || scene == "nail" || scene == "chain");
 
         static Card ObstacleCard(Transform parent, Vector2 screen, int order, string scene, string title, string button, LevelData level)

@@ -11,7 +11,7 @@ namespace ReverseSolver.Presentation
         readonly Transform _root;
         readonly SaveData _save;
         readonly int _rescued;
-        readonly Action _next, _refresh;
+        readonly Action _next, _refresh, _menu;
         Transform _content;
         Vector2 _screen;
         Rect[] _targets;
@@ -20,15 +20,15 @@ namespace ReverseSolver.Presentation
         Booster _booster;
         bool _chestMode, _done;
         SpriteRenderer _case, _light, _hand, _item, _glow, _trail, _arrival;
-        SpriteRenderer[] _walkers;
+        TextView _rescuedLabel;
         TextView _hint, _amount, _coins;
-        Rect _nextRect, _chestRect;
+        Rect _nextRect, _menuRect, _chestRect;
 
         public P21WinView(Transform parent, Vector2 screen, Rect[] targets, SaveData save, int rescued,
-            bool chest, Action next, Action refresh)
+            bool chest, Action next, Action refresh, Action menu)
         {
             _root = new GameObject("P21 win and chest").transform; _root.SetParent(parent, false);
-            _save = save; _rescued = rescued; _next = next; _refresh = refresh;
+            _save = save; _rescued = rescued; _next = next; _refresh = refresh; _menu = menu;
             _started = Time.unscaledTime;
             if (chest) BeginChest();
             Layout(screen, targets);
@@ -70,7 +70,8 @@ namespace ReverseSolver.Presentation
             _case = Layer("chest", Order + 5); _light = Layer("light", Order + 6); _hand = Layer("hand", Order + 7);
             _glow = Layer("reward glow", Order + 12); _item = Layer("reward", Order + 14);
             _trail = Layer("flight trail", Order + 13); _arrival = Layer("arrival", Order + 15);
-            _nextRect = new Rect(At(75, 645), new Vector2(240, 90) * _scale);
+            _nextRect = new Rect(At(75, 595), new Vector2(240, 70) * _scale);
+            _menuRect = new Rect(At(120, 680), new Vector2(150, 44) * _scale);
             _chestRect = new Rect(At(40, 205), new Vector2(310, 340) * _scale);
             if (!_chestMode)
             {
@@ -83,15 +84,15 @@ namespace ReverseSolver.Presentation
                 for (int i = 0; i < slots; i++) Image("Victory/Progress/slot-" + (previous + i < progress ? "complete" : "empty"), 72 + i * 43, 435, 39, 39, 3);
                 Image("Victory/Progress/chest", 315, 435, 58, 55, 3);
                 Label(pending > 0 ? Texts.Chest21 : Texts.ChestIn21(next - progress), 195, 481, 18);
-                Label(Texts.Rescued21(_rescued), 195, 535, 24).Heading(TextView.RimTeal);
-                Image("Victory/Procession/floor", 195, 622, 320, 45, 2);
-                _walkers = new SpriteRenderer[_rescued + 1];
-                for (int i = 0; i < _walkers.Length; i++) _walkers[i] = Layer("rescued", Order + 5);
+                var icon = Art.Place(_content, "jiggle-counter", Vector2.one * (42 * _scale), Order + 5)
+                    ?? Art.Place(_content, "avatar-blue", Vector2.one * (42 * _scale), Order + 5);
+                if (icon != null) icon.transform.localPosition = Draw.W(At(195, 522));
+                _rescuedLabel = Label(Texts.Rescued21(0), 195, 562, 24).Heading(TextView.RimTeal);
                 NextButton();
             }
             else
             {
-                _walkers = null;
+                _rescuedLabel = null;
                 Image("Reward/Flight/coin-counter", 290, 52, 116, 37, 8);
                 Image("Reward/Flight/coin", 251, 52, 30, 30, 9);
                 _coins = Label(_save.Coins.ToString(), 299, 52, 18);
@@ -106,8 +107,10 @@ namespace ReverseSolver.Presentation
         }
         void NextButton()
         {
-            Image("Victory/Next/normal", 195, 690, 250, 100, 3);
-            Label(Texts.NextLevel21, 195, 690, 25).Heading(TextView.RimGreen);
+            ShapeView.Create(_content, "next green", new Vector2(250, 70) * _scale, 0, Order + 3).Radius(18 * _scale).Fill(Draw.Hex("#398A49")).transform.localPosition = Draw.W(At(195, 630));
+            Label(Texts.NextLevel21, 195, 630, 25).Heading(TextView.RimGreen);
+            ShapeView.Create(_content, "menu secondary", new Vector2(150, 44) * _scale, 0, Order + 3).Radius(14 * _scale).Fill(Draw.Hex("#274B68")).transform.localPosition = Draw.W(At(195, 702));
+            Label(Lang.T("Menu", "Menü"), 195, 702, 20);
         }
         void BeginChest()
         {
@@ -117,6 +120,7 @@ namespace ReverseSolver.Presentation
         public void Press(Vector2 point)
         {
             if (Time.unscaledTime - _started < .25f) return;
+            if ((!_chestMode || _done) && _menuRect.Contains(point)) { _menu(); return; }
             if (!_chestMode)
             {
                 if (!_nextRect.Contains(point)) return;
@@ -139,9 +143,10 @@ namespace ReverseSolver.Presentation
             float now = Time.unscaledTime, age = now - _tapAt;
             if (!_chestMode)
             {
-                string[] colours = { "blue", "green", "pink", "purple", "red" };
-                float move = (now - _started) * 30 % (_walkers.Length * 43 + 360);
-                for (int i = 0; i < _walkers.Length; i++) Paint(_walkers[i], i == 0 ? Frame("Victory/Procession/Walk/jigo", 1 + (int)(now * 10) % 6) : Frame("Rescued/Run/" + colours[(i - 1) % colours.Length], 1 + (int)(now * 10) % 4), At(305 - i * 43 + move, 590), new Vector2(57, 65) * _scale);
+                float countProgress = Mathf.Clamp01((now - _started) / 1.1f);
+                _rescuedLabel.Text = Texts.Rescued21(Mathf.RoundToInt(_rescued * countProgress));
+                float countPop = countProgress < 1 ? 1 : 1 + .1f * Mathf.Sin(Mathf.Clamp01((now - _started - 1.1f) / .25f) * Mathf.PI);
+                _rescuedLabel.transform.localScale = Vector3.one * countPop;
                 return;
             }
             string key = "Reward/Chest/closed", light = null;

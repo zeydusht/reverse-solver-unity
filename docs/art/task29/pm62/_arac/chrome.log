@@ -1,0 +1,41 @@
+[23704:22376:1111/103454.362:ERROR:components\os_crypt\async\browser\os_crypt_win.cc:63] Failed to encrypt: Sistem belirtilen dosyayı bulamıyor. (0x2)
+[23704:14920:1111/103454.460:ERROR:chrome\installer\util\google_update_settings_win.cc:270] Failed opening key Software\Google\Update\ClientStateMedium\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5
+[23704:18920:1111/103454.620:ERROR:components\password_manager\core\browser\password_store\login_database_async_helper.cc:100] Encryption is not available.
+[23704:21292:1111/103454.620:ERROR:components\password_manager\core\browser\password_store\login_database_async_helper.cc:100] Encryption is not available.
+
+DevTools listening on ws://127.0.0.1:51213/devtools/browser/9fef3295-8998-438b-bccf-528ce5fa17a1
+[23704:22376:1111/103454.901:ERROR:content\browser\gpu\gpu_process_host.cc:1042] GPU process exited unexpectedly: exit_code=-1073741790
+[23704:14920:1111/103454.901:ERROR:components\viz\host\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory "C:\Users\zeydt\AppData\Local\Temp\pm62-chrome-NBqYXp\GPUPersistentCache\DawnGraphiteCache\OMXJKWSVDDS6L3YMYJJRNHVYDBSO7SEM", error: 0: Dosya başka bir işlem tarafından kullanıldığından bu işlem dosyaya erişemiyor. (0x20)
+[23704:22376:1111/103454.985:ERROR:content\browser\gpu\gpu_process_host.cc:1042] GPU process exited unexpectedly: exit_code=-1073741790
+[23704:14920:1111/103455.009:ERROR:components\viz\host\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory "C:\Users\zeydt\AppData\Local\Temp\pm62-chrome-NBqYXp\GPUPersistentCache\DawnGraphiteCache\OMXJKWSVDDS6L3YMYJJRNHVYDBSO7SEM", error: 0: Dosya başka bir işlem tarafından kullanıldığından bu işlem dosyaya erişemiyor. (0x20)
+[23704:22376:1111/103455.017:ERROR:content\browser\gpu\gpu_process_host.cc:1042] GPU process exited unexpectedly: exit_code=-1073741790
+[23704:828:1111/103455.017:ERROR:components\viz\host\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory "C:\Users\zeydt\AppData\Local\Temp\pm62-chrome-NBqYXp\GPUPersistentCache\DawnGraphiteCache\OMXJKWSVDDS6L3YMYJJRNHVYDBSO7SEM", error: 0: Dosya başka bir işlem tarafından kullanıldığından bu işlem dosyaya erişemiyor. (0x20)
+[23704:20364:1111/103455.038:ERROR:services\device\public\cpp\geolocation\system_geolocation_source_win.cc:124] Failed to create IAppCapability: Erişim engellendi. (0x80070005)
+[23704:22376:1111/103455.046:ERROR:content\browser\gpu\gpu_process_host.cc:1042] GPU process exited unexpectedly: exit_code=-1073741790
+[23704:22376:1111/103455.080:ERROR:content\browser\gpu\gpu_process_host.cc:1042] GPU process exited unexpectedly: exit_code=-1073741790
+[23704:14920:1111/103455.081:ERROR:components\viz\host\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory "C:\Users\zeydt\AppData\Local\Temp\pm62-chrome-NBqYXp\GPUPersistentCache\DawnGraphiteCache\OMXJKWSVDDS6L3YMYJJRNHVYDBSO7SEM", error: 0: Dosya başka bir işlem tarafından kullanıldığından bu işlem dosyaya erişemiyor. (0x20)
+[23704:22376:1111/103455.109:ERROR:content\browser\gpu\gpu_process_host.cc:1042] GPU process exited unexpectedly: exit_code=-1073741790
+[23704:14920:1111/103455.117:ERROR:components\viz\host\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory "C:\Users\zeydt\AppData\Local\Temp\pm62-chrome-NBqYXp\GPUPersistentCache\DawnGraphiteCache\OMXJKWSVDDS6L3YMYJJRNHVYDBSO7SEM", error: 0: Dosya başka bir işlem tarafından kullanıldığından bu işlem dosyaya erişemiyor. (0x20)
+[23704:14920:1111/103455.119:ERROR:components\viz\host\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory "C:\Users\zeydt\AppData\Local\Temp\pm62-chrome-NBqYXp\GPUPersistentCache\DawnGraphiteCache\OMXJKWSVDDS6L3YMYJJRNHVYDBSO7SEM", error: 0: Dosya başka bir işlem tarafından kullanıldığından bu işlem dosyaya erişemiyor. (0x20)
+[23704:22376:1111/103455.138:ERROR:content\browser\gpu\gpu_process_host.cc:1042] GPU process exited unexpectedly: exit_code=-1073741790
+[23704:14920:1111/103455.138:ERROR:components\viz\host\persistent_cache_sandboxed_file_factory.cc:153] Failed to open persistent cache files in directory "C:\Users\zeydt\AppData\Local\Temp\pm62-chrome-NBqYXp\GPUPersistentCache\DawnGraphiteCache\OMXJKWSVDDS6L3YMYJJRNHVYDBSO7SEM", error: 0: Dosya başka bir işlem tarafından kullanıldığından bu işlem dosyaya erişemiyor. (0x20)
+[23704:22376:1111/103455.159:ERROR:content\browser\gpu\gpu_process_host.cc:1042] GPU process exited unexpectedly: exit_code=-1073741790
+[23704:22376:1111/103455.173:ERROR:content\browser\gpu\gpu_process_host.cc:1042] GPU process exited unexpectedly: exit_code=-1073741790
+[23704:22376:1111/103455.173:FATAL:content\browser\gpu\gpu_data_manager_impl_private.cc:385] GPU process isn't usable. Goodbye.
+[13168:21088:1111/103521.841:ERROR:components\os_crypt\async\browser\os_crypt_win.cc:63] Failed to encrypt: Sistem belirtilen dosyayı bulamıyor. (0x2)
+[13168:16216:1111/103521.879:ERROR:chrome\installer\util\google_update_settings_win.cc:270] Failed opening key Software\Google\Update\ClientStateMedium\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5
+[13168:22428:1111/103521.975:ERROR:components\password_manager\core\browser\password_store\login_database_async_helper.cc:100] Encryption is not available.
+
+DevTools listening on ws://127.0.0.1:61643/devtools/browser/43ca21a2-49ec-43f5-9382-9e9235e4e52d
+[13168:7796:1111/103521.988:ERROR:components\password_manager\core\browser\password_store\login_database_async_helper.cc:100] Encryption is not available.
+[13168:18796:1111/103522.232:ERROR:services\device\public\cpp\geolocation\system_geolocation_source_win.cc:124] Failed to create IAppCapability: Erişim engellendi. (0x80070005)
+[9504:19848:1111/103550.319:ERROR:components\os_crypt\async\browser\os_crypt_win.cc:63] Failed to encrypt: Sistem belirtilen dosyayı bulamıyor. (0x2)
+[9504:25128:1111/103550.359:ERROR:chrome\installer\util\google_update_settings_win.cc:270] Failed opening key Software\Google\Update\ClientStateMedium\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5
+[9504:7492:1111/103550.427:ERROR:components\password_manager\core\browser\password_store\login_database_async_helper.cc:100] Encryption is not available.
+[9504:8520:1111/103550.463:ERROR:components\password_manager\core\browser\password_store\login_database_async_helper.cc:100] Encryption is not available.
+
+DevTools listening on ws://127.0.0.1:63880/devtools/browser/b0ef4f06-1dc8-4890-bea8-984dd01fac65
+[13168:21088:1111/103552.459:ERROR:components\webapps\browser\web_contents\web_app_url_loader.cc:285] Error loading about:blank page took too long to load.
+[9504:21948:1111/103553.676:ERROR:services\device\public\cpp\geolocation\system_geolocation_source_win.cc:124] Failed to create IAppCapability: Erişim engellendi. (0x80070005)
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[13168:21088:1111/103621.562:ERROR:chrome\browser\web_applications\externally_managed_app_manager.cc:680] https://docs.google.com/document/installwebapp?usp=chrome_default from install source 1 failed to install with reason 21

@@ -42,6 +42,8 @@ namespace ReverseSolver.Presentation
         SaveData _save;
         PlayStats _stats;
         bool _previewWins;
+        bool _testMode;
+        string _playCohort;
         TelemetryLog _telemetry;
         string _rowId;                 // row_id of the attempt in play
         bool _awaitingName;
@@ -150,6 +152,8 @@ namespace ReverseSolver.Presentation
             _set = PlayOverride.Active ? PlayOverride.Set : ChooseSet();
             var authoredSet = _set;
             string launchCohort = TelemetryMeta.CleanCohort(Host.Current.Query("c")) ?? TelemetryMeta.CleanCohort(Host.Current.Store.Get("rs_cohort"));
+            _playCohort = launchCohort; Art.CohortOverride = launchCohort;
+            _testMode = LaunchPlan.TestMode(Host.Current.Query("c"), Host.Current.Query("test"));
             _p21Flow = P21Onboarding.Enabled(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, Host.Current.Query("tut2x2"));
             if (_p21Flow) _set = P21Onboarding.Prepend(_set);
             _resetVisit = SaveData.ResetForQuery(Host.Current.Store, Host.Current.Query("reset"), launchCohort, _set.Levels);
@@ -174,7 +178,7 @@ namespace ReverseSolver.Presentation
             string cohort = TelemetryMeta.CleanCohort(host.Query("c"));
             if (cohort != null) { host.Store.Set("rs_cohort", cohort); host.Store.Save(); }
             else cohort = TelemetryMeta.CleanCohort(host.Store.Get("rs_cohort"));
-            TelemetryMeta.Current = new TelemetryMeta { Cohort = cohort, DeviceId = _save.Install, Platform = PlatformName(), AppVersion = AppVersion() };
+            TelemetryMeta.Current = new TelemetryMeta { Cohort = _testMode ? "ic" : cohort, DeviceId = _save.Install, Platform = PlatformName(), AppVersion = AppVersion() };
             _profileQueue = new TelemetryQueue(host.Store, "profiles");
             _profileSender = new TelemetrySender(_profileQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "player_profiles?on_conflict=cohort,player,device_id");
             if (_zeydbotSet)
@@ -195,6 +199,7 @@ namespace ReverseSolver.Presentation
             }
             if (ContinueEnabled && !_resetVisit)
                 _save.SetCoins(int.TryParse(host.Query("coin"), out int coins) && coins >= 0 ? coins : _save.Coins);
+            _save.TestMode = _testMode;
             string introParam = host.Query("intro");
             bool hasLv = host.Query("lv") != null, hasSet = host.Query("set") != null;
             bool opening = IntroPlan.ShowOpening(introParam, Host.Debug, _showSet, PlayOverride.Active, hasLv, hasSet,
@@ -207,7 +212,7 @@ namespace ReverseSolver.Presentation
 
             // Explicit unlock links are for internal testing or debug only; pt1 always keeps progression locks.
             bool unlock = host.Query("unlock") == "1" && cohort != "pt1" && (cohort == "ic" || Host.Debug);
-            _progress = new Progress(_log, _set.Levels) { UnlockAll = cohort != "pt1" && (unlock || Host.Debug || (_zeydbotSet && !string.IsNullOrEmpty(host.Query("set")))) };
+            _progress = new Progress(_log, _set.Levels) { UnlockAll = _testMode || cohort != "pt1" && (unlock || Host.Debug || (_zeydbotSet && !string.IsNullOrEmpty(host.Query("set")))) };
             // PM_MESAJ_26 QA (debug only): ?won=N shows the menus as if the first N levels were won (memory only, never saved)
             if (Host.Debug && int.TryParse(host.Query("won"), out int won))
             {
@@ -216,7 +221,7 @@ namespace ReverseSolver.Presentation
                 for (int w = 0; w < won && w < _set.Levels.Count; w++) best[_set.Levels[w].Id] = 3;
                 _log = new AttemptLog();
                 _log.Restore(new System.Collections.Generic.Dictionary<string, int>(), best);
-                _progress = new Progress(_log, _set.Levels) { UnlockAll = unlock };
+                _progress = new Progress(_log, _set.Levels) { UnlockAll = _testMode || unlock };
             }
             // web name gate: once per browser; the HTML input sits over the canvas
             if (_showSet && string.IsNullOrEmpty(_save.Player)) _save.SetPlayer("SHOW");   // demo visitors are tagged SHOW
@@ -504,6 +509,7 @@ namespace ReverseSolver.Presentation
             _askFun = false;
             _hardAnswered = _askHard = false;
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
+            _session.TestMode = _testMode;
             _session.ClockFreezesTime = P21Boosters;
             _rowId = _telemetry.NewRowId();
             if (!_previewWins) _save.Store(_log);                                 // the attempt counter, before anything can go wrong
@@ -867,7 +873,7 @@ namespace ReverseSolver.Presentation
                 _spotlight?.Stuck();
             }
             if (e.Kind == EventKind.TimeAdded) _hud?.ShowTimeBonus(e.Value);
-            if (_inventory != null && e.Kind == EventKind.BoosterUsed)
+            if (!_testMode && _inventory != null && e.Kind == EventKind.BoosterUsed)
             {
                 if (_trainingUse == e.Booster)
                 {
@@ -1352,6 +1358,7 @@ namespace ReverseSolver.Presentation
             if (_introPlaying) return;
             _continuePanel?.Tick();
             _win21?.Tick();
+            _levelsMap?.Tick();
             if (Screen.width != _screenPx.x || Screen.height != _screenPx.y)
             {
                 _drag?.Cancel();
@@ -1386,7 +1393,7 @@ namespace ReverseSolver.Presentation
                 TickP21Tutorial();
                 if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil && !BoosterBusy21) NextScriptedTutorial();
                 // the clock runs only while the board is actually in play
-                if (!_session.IsOver && !P21Guided && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _win21 == null && _continuePanel == null && !BoosterSelection21 && !BoosterBusy21 && (!P21Boosters || !_pageHidden)) _session.Tick(Time.unscaledDeltaTime);
+                if (!_session.IsOver && !P21Guided && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _win21 == null && _continuePanel == null && (!BoosterSelection21 || _selected21 == Booster.Wand) && !BoosterBusy21 && (!P21Boosters || !_pageHidden)) _session.Tick(Time.unscaledDeltaTime);
                 if (_endAt > 0 && Time.unscaledTime >= _endAt)
                 {
                     _endAt = -1;
@@ -1741,6 +1748,7 @@ namespace ReverseSolver.Presentation
             var b = _bar.Hit(pt);
             if (b.HasValue)
             {
+                if (!_session.IsUnlocked(b.Value)) { _bar.LockedNotice(b.Value, _session); return; }
                 _boosters.Tap(b.Value);
                 if (_boosters.Asking.HasValue)
                     OpenCard("ask", Screens.Ask(_world, _screen, _boosters, _boosters.Asking.Value, CardOrder));

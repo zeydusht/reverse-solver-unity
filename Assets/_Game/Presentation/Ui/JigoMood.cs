@@ -5,7 +5,7 @@ namespace ReverseSolver.Presentation
     public static class JigoMood
     {
         public const int WorriedSeconds = 10, FearSeconds = 3, FearFuse = 1;
-        public const float HappySeconds = .6f, FadeSeconds = .15f, FramesPerSecond = 8f;
+        public const float HappySeconds = .6f, FadeSeconds = .25f, FramesPerSecond = 16f;
 
         public static JigoState Read(float timeLeft, int? minBombFuse, bool recentHappy, bool lost, bool won)
         {

@@ -6,7 +6,7 @@ namespace ReverseSolver.Presentation
     // Board-owned, prewarmed pools. No tweens, coroutines or loads in the animation loop.
     public sealed class P21JuiceView : MonoBehaviour
     {
-        public static bool Enabled => Art.T54 && TelemetryMeta.Current?.Cohort == "p21";
+        public static bool Enabled => Art.T54 && Art.GameplayCohort == "p21";
         const float Quick = 1.2f;
         struct Puff
         {
@@ -66,6 +66,13 @@ namespace ReverseSolver.Presentation
 
         public void OnEvent(GameEvent e, PieceView piece)
         {
+            if (e.Kind == EventKind.Jammed)
+            {
+                _combo = 0; _lastExit = -10;
+                foreach (var badge in _badges) { badge.View.enabled = false; badge.Text.gameObject.SetActive(false); }
+                for (int i = 0; i < _badges.Length; i++) _badges[i].At = -1;
+                return;
+            }
             if (e.Kind == EventKind.JointCut)
             {
                 var at = e.Vertical ? new Vector2(e.X, e.Y + .5f) : new Vector2(e.X + .5f, e.Y);

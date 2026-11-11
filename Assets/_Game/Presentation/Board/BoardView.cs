@@ -457,7 +457,7 @@ namespace ReverseSolver.Presentation
                     // a drag-out is animated by EndDrag; anything else (hammer, M4) just leaves
                     if (e.ByHammer && _pieces.TryGetValue(e.Piece, out var hv))
                     {
-                        if (Art.T54 && TelemetryMeta.Current?.Cohort == "p21") HammerFall(hv);
+                        if (Art.T54 && Art.GameplayCohort == "p21") HammerFall(hv);
                         else FlyOut(hv, Dir.U, 0);
                     }
                     _nails.Remove(e.Piece);

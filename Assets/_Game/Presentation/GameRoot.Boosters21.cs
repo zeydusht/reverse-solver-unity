@@ -5,7 +5,7 @@ namespace ReverseSolver.Presentation
 {
     public sealed partial class GameRoot
     {
-        bool P21Boosters => Art.T54 && TelemetryMeta.Current?.Cohort == "p21";
+        bool P21Boosters => Art.T54 && (_playCohort == "p21" || _testMode);
         P21BoosterView _boosterView21;
         Booster? _selected21, _effect21;
         int _region21 = -1, _piece21;
@@ -57,6 +57,7 @@ namespace ReverseSolver.Presentation
 
         void SelectBooster21(Booster b)
         {
+            if (!_session.IsUnlocked(b)) { _bar.LockedNotice(b, _session); return; }
             if (_selected21 == b)
             {
                 _selected21 = null; _region21 = -1; _boosters.Disarm();
@@ -143,7 +144,7 @@ namespace ReverseSolver.Presentation
             {
                 _effectAge21 += Time.unscaledDeltaTime;
                 var b = _effect21.Value;
-                float hit = b == Booster.Hammer ? .47f : b == Booster.Scissors ? .4f : b == Booster.Clock ? .65f : .7f;
+                float hit = b == Booster.Hammer ? .47f : b == Booster.Scissors ? P21BoosterView.ScissorsTravelSeconds + P21BoosterView.ScissorsCutSeconds * .5f : b == Booster.Clock ? P21BoosterView.ClockTouchSeconds : .7f;
                 if (!_effectApplied21 && _effectAge21 >= hit)
                 {
                     _effectApplied21 = true;
@@ -166,7 +167,7 @@ namespace ReverseSolver.Presentation
                         _bar.Notice(result == CommandResult.NoArrangement ? Texts.WandFailed : Texts.BoosterPrompt(_boosters), 1.6f);
                     }
                 }
-                float duration = b == Booster.Wand ? 1.5f : b == Booster.Clock ? .65f : 1;
+                float duration = b == Booster.Wand ? 1.5f : b == Booster.Clock ? P21BoosterView.ClockTouchSeconds : b == Booster.Scissors ? P21BoosterView.ScissorsDuration : 1;
                 if (_effectAge21 >= duration) _effect21 = null;
             }
             _boosterView21.Selection(_selected21, _region21, _regions21);
@@ -174,6 +175,7 @@ namespace ReverseSolver.Presentation
             _boosterView21.Effect(_effect21 == Booster.Clock ? null : _effect21, _effectAge21, _target21, _joint21.vertical);
             bool clock = _boosterView21.Clock(_clockAge21, _session.FreezeLeft, _session.IsOver, _safe.y);
             _hud.ShowClockPortrait(clock);
+            _hud.SetFrozen(_session.FreezeLeft > 0 && !_session.IsOver);
         }
     }
 }

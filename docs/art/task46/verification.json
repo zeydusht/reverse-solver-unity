@@ -1,0 +1,24 @@
+{
+  "rgba_png": 65,
+  "sprite_meta": 65,
+  "sequence_counts": {
+    "clock/extend": 6,
+    "clock/hold": 4,
+    "clock/retract": 5,
+    "clock/spark": 6,
+    "clock/ice_break": 7,
+    "jigo/normal_to_happy": 5,
+    "jigo/happy_to_normal": 5,
+    "jigo/normal_loop": 12,
+    "jigo/happy_loop": 12
+  },
+  "all_manifest_hashes_match": true,
+  "ice_registration": true,
+  "ice_last_frame_empty": true,
+  "transition_endpoint_matches_source": true,
+  "preview": [
+    390,
+    844
+  ],
+  "unity_runtime_tested": false
+}

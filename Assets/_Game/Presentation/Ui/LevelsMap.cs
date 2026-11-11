@@ -20,7 +20,28 @@ namespace ReverseSolver.Presentation
         const string WonBadgeSprite = "t23-complete-check";
 
         public readonly MenuScroll Scroll;
-        readonly Rect _back;
+        readonly Rect _back, _topButton, _bottomButton;
+        readonly Transform _currentPill;
+        readonly TextView _currentLabel;
+        readonly float _currentY, _height, _width;
+        readonly int _currentLevel;
+        Rect _pill;
+        void SmoothTo(float target)
+        {
+            float from = Scroll.Offset;
+            Tweens.Run(Scroll, .45f, t => { if (Scroll.Root != null && !Scroll.Held) Scroll.Set(Mathf.Lerp(from, target, t * t * (3 - 2 * t))); });
+        }
+        public void Tick()
+        {
+            float y = _currentY - Scroll.Offset;
+            bool above = y < Scroll.Top + 35, below = y > Scroll.Bottom - 35;
+            _currentPill.gameObject.SetActive(above || below);
+            if (!above && !below) return;
+            var center = new Vector2(_width / 2, above ? Scroll.Top + 22 : Scroll.Bottom - 22);
+            _pill = new Rect(center - new Vector2(68, 18), new Vector2(136, 36));
+            _currentPill.localPosition = Draw.W(center);
+            _currentLabel.Text = Lang.T($"Level {_currentLevel}", $"Seviye {_currentLevel}") + (above ? " ↑" : " ↓");
+        }
         readonly List<(Rect rect, int index)> _nodes = new List<(Rect, int)>();
         public LevelsMap(Transform root, Vector2 screen, float top, float bottom, IReadOnlyList<LevelData> levels, Progress progress, LevelImages images, int order, float? offset)
         {
@@ -88,11 +109,21 @@ namespace ReverseSolver.Presentation
                 if (open || won) _nodes.Add((new Rect(x - 33, y - 33, 66, 66), i)); // at least 54 x 54 pt
             }
             float currentY = start + 90 + (levels.Count - 1 - progress.Next()) * pitch;
+            _currentY = currentY; _currentLevel = progress.Next() + 1; _height = height; _width = screen.x;
+            _topButton = MenuUi.Button(root, "button-small", Lang.T("Top", "En üste"), new Vector2(screen.x - 49, start + 22), new Vector2(82, 32), order + 32);
+            _bottomButton = MenuUi.Button(root, "button-small", Lang.T("Bottom", "En alta"), new Vector2(screen.x - 49, bottom - 22), new Vector2(82, 32), order + 32);
+            _currentPill = new GameObject("Current level shortcut").transform; _currentPill.SetParent(root, false);
+            ShapeView.Create(_currentPill, "pill", new Vector2(136, 36), 0, order + 33).Radius(18).Fill(Draw.Rgba(20, 48, 70, .65f));
+            _currentLabel = MenuUi.Label(_currentPill, "", Vector2.zero, 16, order + 34);
             Scroll.Set(offset ?? currentY - (start + (bottom - start) * .7f));
+            Tick();
         }
         public int Hit(Vector2 pt)
         {
             if (_back.Contains(pt)) return -2;
+            if (_topButton.Contains(pt)) { SmoothTo(0); return -1; }
+            if (_bottomButton.Contains(pt)) { SmoothTo(_height - (Scroll.Bottom - Scroll.Top)); return -1; }
+            if (_currentPill.gameObject.activeSelf && _pill.Contains(pt)) { SmoothTo(_currentY - (Scroll.Top + Scroll.Bottom) / 2); return -1; }
             if (!Scroll.Contains(pt)) return -1;
             foreach (var node in _nodes)
                 if (node.rect.Contains(pt + new Vector2(0, Scroll.Offset))) return node.index;

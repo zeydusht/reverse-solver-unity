@@ -5,7 +5,7 @@ namespace ReverseSolver.Presentation
 {
     public sealed partial class GameRoot
     {
-        bool P21WinArt => Art.T54 && TelemetryMeta.Current?.Cohort == "p21";
+        bool P21WinArt => Art.T54 && (_playCohort == "p21" || _testMode);
         P21WinView _win21;
         bool _winPreview21;
         Rect[] WinTargets21()
@@ -32,7 +32,7 @@ namespace ReverseSolver.Presentation
                     if (preview) return;
                     _inventory = new BoosterInventory(Host.Current.Store, _session.Level, i => i >= 0 && i < _set.Levels.Count && _progress.Won(i));
                     _inventory.Apply(_session); RefreshPlaying();
-                });
+                }, () => { _win21?.Destroy(); _win21 = null; _winPreview21 = false; ShowMenu(); });
         }
         void NextWin21()
         {

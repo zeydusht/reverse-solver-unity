@@ -38,6 +38,8 @@ namespace ReverseSolver.Presentation
             return plan;
         }
 
+        public static bool TestMode(string cohort, string flag) => flag == "1" && (cohort == "ic" || cohort == "p21");
+
         public static string NormalizePlayerName(string name)
         {
             name = (name ?? "").Trim();

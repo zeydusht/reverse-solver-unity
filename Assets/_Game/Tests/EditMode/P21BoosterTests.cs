@@ -104,7 +104,7 @@ namespace ReverseSolver.Core.Tests
             s.Tick(100); Assert.That(s.TimeLeft, Is.EqualTo(10), "first move gate");
             Assert.That(s.UseClock(), Is.EqualTo(CommandResult.Ok));
             Assert.That(s.ClockStarted, Is.True); Assert.That(s.TimeLeft, Is.EqualTo(10));
-            s.Tick(19.5); Assert.That(s.TimeLeft, Is.EqualTo(10)); Assert.That(s.FreezeLeft, Is.EqualTo(.5).Within(1e-8));
+            s.Tick(GameSession.FreezeSeconds - .5); Assert.That(s.TimeLeft, Is.EqualTo(10)); Assert.That(s.FreezeLeft, Is.EqualTo(.5).Within(1e-8));
             s.Tick(.75); Assert.That(s.TimeLeft, Is.EqualTo(10)); Assert.That(s.FreezeLeft, Is.Zero);
             s.Tick(.75); Assert.That(s.TimeLeft, Is.EqualTo(9));
             Assert.That(s.Events.Any(e => e.Kind == EventKind.TimeAdded), Is.False);
@@ -114,12 +114,43 @@ namespace ReverseSolver.Core.Tests
         public void FreezeDefersTimeoutAndContinueDoesNotResurrectExpiredFreeze()
         {
             var s = Session(); s.ClockOnFirstMove = false; s.ClockFreezesTime = true;
-            s.Tick(9); s.UseClock(); s.Tick(GameSession.ClockBonusSeconds);
+            s.Tick(9); s.UseClock(); s.Tick(GameSession.FreezeSeconds);
             Assert.That(s.IsOver, Is.False); Assert.That(s.TimeLeft, Is.EqualTo(1));
             s.Tick(1); Assert.That(s.Outcome, Is.EqualTo(Outcome.Time));
             Assert.That(s.UseClock(), Is.EqualTo(CommandResult.GameOver));
             Assert.That(s.Continue(5, 3), Is.True); s.Tick(1);
             Assert.That(s.TimeLeft, Is.EqualTo(4)); Assert.That(s.FreezeLeft, Is.Zero);
+        }
+
+        [Test]
+        public void TestModeUnlocksAndNeverDepletesStock()
+        {
+            var level = Grid(); level.Number = 1;
+            level.Unlock = BoosterExt.All.ToDictionary(b => b.Id(), b => 99);
+            var s = Session(level); s.TestMode = true;
+            foreach (var b in BoosterExt.All) { s.SetStock(b, 0); Assert.That(s.IsUnlocked(b), Is.True); Assert.That(s.Stock(b), Is.EqualTo(99)); }
+            for (int i = 0; i < 105; i++) Assert.That(s.UseClock(), Is.EqualTo(CommandResult.Ok));
+            Assert.That(s.Stock(Booster.Clock), Is.EqualTo(99));
+        }
+
+        [Test]
+        public void TestCoinsStayFixedWithoutPersistingTheTestBalance()
+        {
+            var store = new MemoryStore(); var save = new SaveData(store, () => "test");
+            save.SetCoins(4321); save.TestMode = true; save.SetCoins(0);
+            Assert.That(save.Coins, Is.EqualTo(99999));
+            Assert.That(new SaveData(store, () => "test").Coins, Is.EqualTo(4321));
+        }
+
+        [TestCase("ic", "1", true)]
+        [TestCase("p21", "1", true)]
+        [TestCase("pt1", "1", false)]
+        [TestCase(null, "1", false)]
+        [TestCase("ic", "0", false)]
+        [TestCase("p21", null, false)]
+        public void TestModeRequiresAnExplicitAllowedCohort(string cohort, string flag, bool expected)
+        {
+            Assert.That(ReverseSolver.Presentation.LaunchPlan.TestMode(cohort, flag), Is.EqualTo(expected));
         }
 
         [Test]

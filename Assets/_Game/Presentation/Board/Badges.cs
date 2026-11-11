@@ -24,12 +24,12 @@ namespace ReverseSolver.Presentation
             if (_t28)
             {
                 // Closed lock: 311 visible pixels on a 384px canvas.
-                float size = 1.2f * (Art.T54 ? cell * .55f * 384 / 311 : cell * (Art.T14 ? .86f : .8f));
+                float size = 1.15f * 1.2f * (Art.T54 ? cell * .55f * 384 / 311 : cell * (Art.T14 ? .86f : .8f));
                 _lock = Art.Place(Root, Art.T54 ? "obstacles_v3/padlock-b/closed" : "board-nail", Vector2.one * size, order);
                 if (_lock != null) _lockScale = _lock.transform.localScale;
-                _n = TextView.Create(Root, "count", "", size * .315f, Palette.Navy, true, order: order + 2).Font(Art.Lilita);
+                _n = TextView.Create(Root, "count", "", size * .36f, Vector4.one, true, order: order + 2).Font(Art.Lilita).Outline(Palette.Navy, .32f);
                 _n.transform.localPosition = Draw.W(0, size * .144f);
-                _one = size * .315f; _two = size * .285f;
+                _one = size * .36f; _two = size * .32f;
                 return;
             }
             float d = Mathf.Max(22f, cell * 0.46f);

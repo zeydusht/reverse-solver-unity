@@ -1,0 +1,697 @@
+[
+  {
+    "path": "clock/extend/01.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      23,
+      119
+    ],
+    "sha256": "53b024ed9b04873dd970bca4f1a87016668a2ab1ec7ea531dfff5abf5f17ba63"
+  },
+  {
+    "path": "clock/extend/02.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      52,
+      119
+    ],
+    "sha256": "444ab0541370af8fbc0f56eadaef67ed8c134080b18d7160e1f9a95fd03aba6b"
+  },
+  {
+    "path": "clock/extend/03.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      214,
+      123
+    ],
+    "sha256": "577ef5643bea41fb70a73a44d3772a0151dec958d42d055526ec32c5eea19f6a"
+  },
+  {
+    "path": "clock/extend/04.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      248,
+      118
+    ],
+    "sha256": "99b432c21e1b5fac47cfbdd1a57c70a2c93bc7f6d7b57b3af40d158623eb8cf1"
+  },
+  {
+    "path": "clock/extend/05.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      273,
+      134
+    ],
+    "sha256": "3d68161d25d3043481befc415b48997dd2e208fba5c35b6ebd15cc5dcb770f4d"
+  },
+  {
+    "path": "clock/extend/06.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      290,
+      140
+    ],
+    "sha256": "57b3894eed047d779af1b5733950e1c7ef2877b07cc3ed37fee8092a48d0ad03"
+  },
+  {
+    "path": "clock/freeze_bar_bg.png",
+    "size": [
+      300,
+      42
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "0e5b569df3dedf57e3ed816c60f9971e5a14c766a2cf4fb76b1d4d0db6147a8b"
+  },
+  {
+    "path": "clock/freeze_bar_fill.png",
+    "size": [
+      288,
+      30
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "622103d65fe4a2238a861532e9fff15445db784086fabaed4fc04454509e9b3e"
+  },
+  {
+    "path": "clock/hold/01.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      290,
+      140
+    ],
+    "sha256": "b2ed61f70eb90f54f97cb2e15a11dc2675ada93ef0ff6251a6cc05891b52f074"
+  },
+  {
+    "path": "clock/hold/02.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      290,
+      140
+    ],
+    "sha256": "906c935f4bbdef9510406b5bc6202149113ba9083a8fd67165cd23c5655e8313"
+  },
+  {
+    "path": "clock/hold/03.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      290,
+      140
+    ],
+    "sha256": "b2ed61f70eb90f54f97cb2e15a11dc2675ada93ef0ff6251a6cc05891b52f074"
+  },
+  {
+    "path": "clock/hold/04.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      290,
+      140
+    ],
+    "sha256": "16ccfce496ea29e4d42c4cf1189ee6e7878a00d810edccefdf657c812748e8f8"
+  },
+  {
+    "path": "clock/ice_break/01.png",
+    "size": [
+      339,
+      434
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "382f9de25b767a6c4f617032a0f55e83860b37af0bedd0dcb0967187064b861f"
+  },
+  {
+    "path": "clock/ice_break/02.png",
+    "size": [
+      339,
+      434
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "0c2e8bd9114f6d4d5cc905610d460a2932fe6265cca7846dd432e7d05a566b02"
+  },
+  {
+    "path": "clock/ice_break/03.png",
+    "size": [
+      339,
+      434
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "46eb4061f5dbaf0a143e775a8a616d1d8ce0b6eec8556477a892af439eb50f47"
+  },
+  {
+    "path": "clock/ice_break/04.png",
+    "size": [
+      339,
+      434
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "54e58cf28fff0910a16c5998fc0264930dce392238bfeb81070c4f52b925b8ed"
+  },
+  {
+    "path": "clock/ice_break/05.png",
+    "size": [
+      339,
+      434
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "059b8b5d79ff894779521df8777efa90ff9b07c511523c430433d7f4040b86cb"
+  },
+  {
+    "path": "clock/ice_break/06.png",
+    "size": [
+      339,
+      434
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "787e908454b569f41def0c618bc6289fdf400e9afa60ee9bb6ea524494538781"
+  },
+  {
+    "path": "clock/ice_break/07.png",
+    "size": [
+      339,
+      434
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "c6d8df13fb4e94a85d5f66eeb46189f12fbfab3224435b19e33dcbc4935fe23f"
+  },
+  {
+    "path": "clock/ice_overlay.png",
+    "size": [
+      339,
+      290
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "53c4b7d2d9d8e9a9fceb0866124f9f16f22f5a352879fdeb311ba9eda17cfe95"
+  },
+  {
+    "path": "clock/retract/01.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      273,
+      134
+    ],
+    "sha256": "3d68161d25d3043481befc415b48997dd2e208fba5c35b6ebd15cc5dcb770f4d"
+  },
+  {
+    "path": "clock/retract/02.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      248,
+      118
+    ],
+    "sha256": "99b432c21e1b5fac47cfbdd1a57c70a2c93bc7f6d7b57b3af40d158623eb8cf1"
+  },
+  {
+    "path": "clock/retract/03.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      214,
+      123
+    ],
+    "sha256": "577ef5643bea41fb70a73a44d3772a0151dec958d42d055526ec32c5eea19f6a"
+  },
+  {
+    "path": "clock/retract/04.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      52,
+      119
+    ],
+    "sha256": "444ab0541370af8fbc0f56eadaef67ed8c134080b18d7160e1f9a95fd03aba6b"
+  },
+  {
+    "path": "clock/retract/05.png",
+    "size": [
+      352,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": [
+      23,
+      119
+    ],
+    "sha256": "53b024ed9b04873dd970bca4f1a87016668a2ab1ec7ea531dfff5abf5f17ba63"
+  },
+  {
+    "path": "clock/spark/01.png",
+    "size": [
+      96,
+      96
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "3b5f9b884615b77ca92b43de3052a101abcc1ead9a7fa62edbc4f7f7fa29edcc"
+  },
+  {
+    "path": "clock/spark/02.png",
+    "size": [
+      96,
+      96
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "989989d14e4d8e0a665448a375741d9fcbf8709b204c178d2e9ae525556b6be6"
+  },
+  {
+    "path": "clock/spark/03.png",
+    "size": [
+      96,
+      96
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "5e1a759df7b38dfad90959cf412eb3f58662efaad50bd2e99742d224ef3b18a6"
+  },
+  {
+    "path": "clock/spark/04.png",
+    "size": [
+      96,
+      96
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "c7faabe371321cb7a36d0496b54ce668814e8b76e044575355c017bc4ba1024a"
+  },
+  {
+    "path": "clock/spark/05.png",
+    "size": [
+      96,
+      96
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "5ea17d51701d1e6f66155623040b5b7c3f0087458cbc57c8546c3e11a75fdb6b"
+  },
+  {
+    "path": "clock/spark/06.png",
+    "size": [
+      96,
+      96
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "3208ebb74d4881bd2491b5287a745c1f47a1aefe341f54d0f5b88bed9c7044bb"
+  },
+  {
+    "path": "jigo/happy_loop/01.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "dd13d0b81209568f9cd59fd1ab3b20e6cc57e4ac032a55db62868b50d4a71319"
+  },
+  {
+    "path": "jigo/happy_loop/02.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "5efcf3c380de7bf995e73377717612bd89376b4a2835fb00824585f01eb6f0b4"
+  },
+  {
+    "path": "jigo/happy_loop/03.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "f780ba00699f167463f4e0890e9fce359b792dbd4ba7444f005f872f11570d42"
+  },
+  {
+    "path": "jigo/happy_loop/04.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "b75f854d9c73ff5a952b243fb61598a41ba7d2e023c2c00d3b1b91df16a4772a"
+  },
+  {
+    "path": "jigo/happy_loop/05.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "c144e35ac6cd5067393d8a5e4927b868d9c275750aace18444ba66101e2d2dfa"
+  },
+  {
+    "path": "jigo/happy_loop/06.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "03f4536005b96fb98689650152957ac924963c78fb5a60f6ae18343206c6b32f"
+  },
+  {
+    "path": "jigo/happy_loop/07.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "9ef11b836cd98fe41bc6129cfa5abe2c419b210b8cf24108fde6ab5b94e56386"
+  },
+  {
+    "path": "jigo/happy_loop/08.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "bb2427d5845fdf0fa00b926b785594543def508e6562bc5b60899d2c07218802"
+  },
+  {
+    "path": "jigo/happy_loop/09.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "4ad189618ddef847d134cebc7c271177763e99d4352bfa56ecba005b9dd750da"
+  },
+  {
+    "path": "jigo/happy_loop/10.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "b4d0e875be905b5f0928cab572ee31c651dcb586631e624584ed6ad70e412c92"
+  },
+  {
+    "path": "jigo/happy_loop/11.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "d50f211335fa82a6de66c060885de674c0cea81425225a0a1ecc7622edb2ea86"
+  },
+  {
+    "path": "jigo/happy_loop/12.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "ecaa6b44daa362e15ec82f8739ffcfed2d112114a6c8fed9ffcce0c835d1b964"
+  },
+  {
+    "path": "jigo/happy_to_normal/01.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "dd13d0b81209568f9cd59fd1ab3b20e6cc57e4ac032a55db62868b50d4a71319"
+  },
+  {
+    "path": "jigo/happy_to_normal/02.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "5795d09842b53b2bac22ccc917c449eaa4b50b3c001d9cbdccc581a840fce34b"
+  },
+  {
+    "path": "jigo/happy_to_normal/03.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "66eed193a516bf93d9a39272772ec3a23b1326e796b9eb7f53cf657e440fa440"
+  },
+  {
+    "path": "jigo/happy_to_normal/04.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "e2259ecaf524db7f32e930e9eb1969bf2f3ff088a231c899d50b07a6dfbefd32"
+  },
+  {
+    "path": "jigo/happy_to_normal/05.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "aca1bba343ac2084545782934a242d373af9ae86e830e6b31f52d65aecb0d369"
+  },
+  {
+    "path": "jigo/normal_loop/01.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "aca1bba343ac2084545782934a242d373af9ae86e830e6b31f52d65aecb0d369"
+  },
+  {
+    "path": "jigo/normal_loop/02.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "7b7d75e46a2d6cb3265dfd83d047753c47bfe8eb1919261c6397548f8256a7fc"
+  },
+  {
+    "path": "jigo/normal_loop/03.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "972cad25cd8c38ce5cc2cb2c1621773880cf5bedfe4cde1b78d0b363c5f62596"
+  },
+  {
+    "path": "jigo/normal_loop/04.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "7dfbafaa02bd4d9c39becd564f6acb30bd424a060804ae623183efb0cd335d5e"
+  },
+  {
+    "path": "jigo/normal_loop/05.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "a3b00f5c6a49c011c661106f412af6fb422bfad804913b3b73e4163ae2345a7b"
+  },
+  {
+    "path": "jigo/normal_loop/06.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "cda64415505d727a30bcc2a0f503a0251cbade156b5950961abea49229741009"
+  },
+  {
+    "path": "jigo/normal_loop/07.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "642b389020d06bf41d8bbfb0a79c3378ee8bdd7fac36bb500ad32044c44d4584"
+  },
+  {
+    "path": "jigo/normal_loop/08.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "2b6a92a74931646ede32dc105c983cc967c0549e1d273eea5d093848eb5cac25"
+  },
+  {
+    "path": "jigo/normal_loop/09.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "484b7fd7b9eb3f991413d90c7a98f60bd53b87901abcbde0968bc442972c2563"
+  },
+  {
+    "path": "jigo/normal_loop/10.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "0b28551be23231bca01acdf6df12dd099feebc0eeb37fbf8234bd4763c3a500a"
+  },
+  {
+    "path": "jigo/normal_loop/11.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "eff84988bcafebe17b46f8d71df7b9572c75570c755ca5c038a0ab755c3e9b40"
+  },
+  {
+    "path": "jigo/normal_loop/12.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "870dc4fd6cc8370bcde2067c86d0052709e3b3901380cecb21384be96884b4c3"
+  },
+  {
+    "path": "jigo/normal_to_happy/01.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "aca1bba343ac2084545782934a242d373af9ae86e830e6b31f52d65aecb0d369"
+  },
+  {
+    "path": "jigo/normal_to_happy/02.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "e2259ecaf524db7f32e930e9eb1969bf2f3ff088a231c899d50b07a6dfbefd32"
+  },
+  {
+    "path": "jigo/normal_to_happy/03.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "66eed193a516bf93d9a39272772ec3a23b1326e796b9eb7f53cf657e440fa440"
+  },
+  {
+    "path": "jigo/normal_to_happy/04.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "5795d09842b53b2bac22ccc917c449eaa4b50b3c001d9cbdccc581a840fce34b"
+  },
+  {
+    "path": "jigo/normal_to_happy/05.png",
+    "size": [
+      256,
+      256
+    ],
+    "mode": "RGBA",
+    "tip_px": null,
+    "sha256": "dd13d0b81209568f9cd59fd1ab3b20e6cc57e4ac032a55db62868b50d4a71319"
+  }
+]

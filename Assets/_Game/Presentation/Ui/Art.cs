@@ -10,6 +10,8 @@ namespace ReverseSolver.Presentation
     public static class Art
     {
         public static bool On;
+        public static string CohortOverride;
+        public static string GameplayCohort => CohortOverride ?? ReverseSolver.Core.TelemetryMeta.Current?.Cohort;
         public static bool T28 = true;
         public static bool T54 => T28 && On;
 
@@ -53,7 +55,18 @@ namespace ReverseSolver.Presentation
             return o as T;
         }
 
-        public static Sprite Get(string key) => Load<Sprite>(key);
+        public static Sprite Get(string key)
+        {
+#if UNITY_EDITOR
+            // Preview the source art without changing the art team's files.
+            if (On && key.StartsWith("T46/"))
+            {
+                var source = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/_yeni/" + key + ".png");
+                if (source != null) return source;
+            }
+#endif
+            return Load<Sprite>(key);
+        }
         public const string T23Win = "t23-win";
         public const string T23LossBomb = "t23-loss-bomb";
         public const string T23LossTime = "t23-loss-time";

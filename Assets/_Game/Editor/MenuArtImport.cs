@@ -8,6 +8,24 @@ namespace ReverseSolver.EditorTools
     {
         void OnPreprocessTexture()
         {
+            if (assetPath.Contains("Presentation/Resources/Art/yeni/T46/"))
+            {
+                var t46 = (TextureImporter)assetImporter;
+                t46.textureType = TextureImporterType.Sprite; t46.spriteImportMode = SpriteImportMode.Single;
+                t46.spritePixelsPerUnit = 100; t46.alphaIsTransparency = true; t46.mipmapEnabled = false;
+                t46.wrapMode = UnityEngine.TextureWrapMode.Clamp; t46.filterMode = UnityEngine.FilterMode.Bilinear;
+                t46.maxTextureSize = 2048; t46.textureCompression = TextureImporterCompression.Uncompressed;
+                var settings = new TextureImporterSettings(); t46.ReadTextureSettings(settings);
+                settings.spriteMeshType = UnityEngine.SpriteMeshType.FullRect;
+                settings.spriteAlignment = (int)UnityEngine.SpriteAlignment.Custom;
+                settings.spritePivot = assetPath.Contains("/clock/extend/") || assetPath.Contains("/clock/hold/") || assetPath.Contains("/clock/retract/")
+                    ? new UnityEngine.Vector2(128f / 352, .5f) : assetPath.Contains("/clock/ice_break/")
+                    ? new UnityEngine.Vector2(.5f, 1 - 145f / 434) : new UnityEngine.Vector2(.5f, .5f);
+                t46.SetTextureSettings(settings);
+                t46.spriteBorder = assetPath.EndsWith("freeze_bar_bg.png") ? UnityEngine.Vector4.one * 14
+                    : assetPath.EndsWith("freeze_bar_fill.png") ? UnityEngine.Vector4.one * 10 : UnityEngine.Vector4.zero;
+                return;
+            }
             // Codex art for the v3 preview (Art.cs): @3x sprites, 3 px per point; frame and button 9-sliced
             // Codex piece kit atlases (KitAtlas.cs): plain textures sampled by Piece.shader, 2592 px
             if (assetPath.Contains("Presentation/Resources/Art/kit-"))

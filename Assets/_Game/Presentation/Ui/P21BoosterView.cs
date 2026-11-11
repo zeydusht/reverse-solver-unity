@@ -8,6 +8,12 @@ namespace ReverseSolver.Presentation
     sealed class P21BoosterView
     {
         const int Order = 3500;
+        public const float ScissorsTravelSeconds = .45f, ScissorsCutSeconds = .3f, ScissorsExitSeconds = .45f;
+        public const float ClockTouchSeconds = .5f;
+        const float IceBreakSeconds = 7f / 18, ClockRetractSeconds = 5f / 12;
+        MenuPainting _fillOwner;
+        int _fillStep = -1;
+        public const float ScissorsDuration = ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsExitSeconds;
         readonly Transform _root;
         readonly Vector2 _screen;
         readonly float _safeTop;
@@ -15,7 +21,7 @@ namespace ReverseSolver.Presentation
         readonly BoosterBar _bar;
         readonly Dictionary<string, Sprite> _sprites = new Dictionary<string, Sprite>();
         Transform _selection;
-        SpriteRenderer _ring, _tool, _shadow, _burst, _trail, _cut, _clock, _flyingClock, _button, _barFrame, _barFill;
+        SpriteRenderer _ring, _tool, _shadow, _burst, _trail, _cut, _clock, _ice, _spark, _barFrame, _barFill;
         Booster? _selected;
         int _zone = -2, _language = -1;
         float _clockEnded = -1;
@@ -29,9 +35,10 @@ namespace ReverseSolver.Presentation
             _tool = Layer(_root, "tool", Order + 10); _shadow = Layer(_root, "shadow", Order + 8);
             _burst = Layer(_root, "burst", Order + 11); _trail = Layer(_root, "trail", Order + 9);
             _cut = Layer(_root, "cut", Order + 10);
-            _clock = Layer(_root, "Jigo clock", Order - 96); _flyingClock = Layer(_root, "flying clock", Order - 95);
-            _button = Layer(_root, "dropped button", Order - 95);
+            _clock = Layer(_root, "Jigo clock", Order - 96); _ice = Layer(_root, "time panel ice", Order - 95);
+            _spark = Layer(_root, "brush contact", Order - 94);
             _barFrame = Layer(_root, "freeze channel", Order - 94); _barFill = Layer(_root, "freeze remaining", Order - 93);
+            _fillOwner = _barFill.gameObject.AddComponent<MenuPainting>();
         }
 
         static SpriteRenderer Layer(Transform parent, string name, int order)
@@ -42,7 +49,7 @@ namespace ReverseSolver.Presentation
         void Paint(SpriteRenderer r, string key, Vector2 point, Vector2 size, float alpha = 1, float angle = 0)
         {
             if (key == null || alpha <= 0) { r.enabled = false; return; }
-            if (!_sprites.TryGetValue(key, out var sprite)) _sprites[key] = sprite = Resources.Load<Sprite>("Art/yeni/boosters21/" + key);
+            if (!_sprites.TryGetValue(key, out var sprite)) _sprites[key] = sprite = key.StartsWith("T46/") ? Art.Get(key) : Resources.Load<Sprite>("Art/yeni/boosters21/" + key);
             r.sprite = sprite; r.enabled = sprite != null;
             if (sprite == null) return;
             r.transform.localPosition = Draw.W(point);
@@ -135,7 +142,7 @@ namespace ReverseSolver.Presentation
             _tool.enabled = _shadow.enabled = _burst.enabled = _trail.enabled = _cut.enabled = false;
             if (!booster.HasValue) return;
             var b = booster.Value; var start = _bar.RectOf(b).center;
-            float arrive = b == Booster.Scissors ? .3f : .4f;
+            float arrive = b == Booster.Scissors ? ScissorsTravelSeconds : .4f;
             float travel = Mathf.Clamp01(age / arrive);
             var point = Vector2.Lerp(start, target, travel) - Vector2.up * (Mathf.Sin(travel * Mathf.PI) * 100);
             float size = Mathf.Lerp(68, 136, travel);
@@ -158,20 +165,19 @@ namespace ReverseSolver.Presentation
             }
             else if (b == Booster.Scissors)
             {
-                path = age < .55f ? Frame("Boosters/Scissors/walk", 1 + (int)(age * 14) % 4)
-                    : Frame("Boosters/Scissors/exit", 1 + Mathf.Min(2, (int)((age - .55f) * 12)));
-                if (age < .3f) Paint(_trail, "Boosters/Scissors/speed-trail", point, new Vector2(size * 1.5f, size * .5f), .7f, Mathf.Atan2(-(target.y - start.y), target.x - start.x) * Mathf.Rad2Deg);
-                if (age >= .3f && age < .55f)
+                float cutEnd = ScissorsTravelSeconds + ScissorsCutSeconds;
+                path = age < cutEnd ? Frame("Boosters/Scissors/walk", 1 + (int)(age * 14) % 4)
+                    : Frame("Boosters/Scissors/exit", 1 + Mathf.Min(2, (int)((age - cutEnd) / ScissorsExitSeconds * 3)));
+                if (age < ScissorsTravelSeconds) Paint(_trail, "Boosters/Scissors/speed-trail", point, new Vector2(size * 1.5f, size * .5f), .7f);
+                float cut = Mathf.Clamp01((age - ScissorsTravelSeconds) / ScissorsCutSeconds);
+                if (age >= ScissorsTravelSeconds && age < cutEnd)
                 {
-                    var tip = target + (vertical ? Vector2.up : Vector2.right) * (_board.Cell * ((age - .3f) / .25f - .5f));
-                    point = tip;
-                    Paint(_cut, Frame("Boosters/Scissors/cut-line", 1 + Mathf.Min(5, (int)((age - .3f) * 25))), target, new Vector2(_board.Cell, _board.Cell * .24f), 1, vertical ? -90 : 0);
+                    point = target + (vertical ? Vector2.up : Vector2.right) * (_board.Cell * (cut - .5f));
+                    Paint(_cut, Frame("Boosters/Scissors/cut-line", 1 + Mathf.Min(5, (int)(cut * 6))), target, new Vector2(_board.Cell, _board.Cell * .24f), 1, vertical ? -90 : 0);
                 }
-                if (age >= .3f)
-                    Paint(_burst, Frame("Boosters/Scissors/cut-bits", 1 + Mathf.Min(8, (int)((age - .3f) * 16))),
-                        target + (vertical ? Vector2.up : Vector2.right) * (_board.Cell * (Mathf.Clamp01((age - .3f) / .25f) - .5f)),
-                        Vector2.one * (_board.Cell * 3), Mathf.Clamp01((1 - age) * 5));
-                if (age >= .55f) { float t = (age - .55f) / .45f; point.y += 260 * t * t; alpha = 1 - t; }
+                if (age >= ScissorsTravelSeconds)
+                    Paint(_burst, Frame("Boosters/Scissors/cut-bits", 1 + Mathf.Min(8, (int)((age - ScissorsTravelSeconds) * 16))), target, Vector2.one * (_board.Cell * 3), Mathf.Clamp01((ScissorsDuration - age) * 5));
+                if (age >= cutEnd) { float t = (age - cutEnd) / ScissorsExitSeconds; point.y += 260 * t * t; alpha = 1 - t; }
             }
             else
             {
@@ -187,45 +193,67 @@ namespace ReverseSolver.Presentation
             Paint(_tool, path, point, Vector2.one * size, Mathf.Clamp01(alpha), angle);
         }
 
-        // Key canvases share a fixed portrait origin; the arm reaches right to the Time panel.
+        // Each T46 pose contains the whole Jigo and brush; no detached arm layers.
         public bool Clock(float age, double freezeLeft, bool stopped, float safeTop)
         {
-            _clock.enabled = _flyingClock.enabled = _button.enabled = _barFrame.enabled = _barFill.enabled = false;
+            _clock.enabled = _ice.enabled = _spark.enabled = _barFrame.enabled = _barFill.enabled = false;
             if (age < 0) return false;
             float s = Hud54.Scale(_screen.x), offset = Mathf.Max(0, safeTop - 37 * s);
-            var center = new Vector2(227, 103) * s + new Vector2(0, offset);
+            var center = new Vector2(195, 103) * s + new Vector2(0, offset);
+            var panel = new Vector2(324, 108.67f) * s + new Vector2(0, offset);
+            bool frozen = freezeLeft > 0 && !stopped;
             string key;
-            if (age < .18f) key = "release-button";
-            else if (age < .4f) key = "take-clock";
-            else if (age < .65f) key = Frame("reach", 1 + Mathf.Min(2, (int)((age - .4f) * 12)));
-            else if (freezeLeft > 0 && !stopped)
+            float ending = 0;
+            if (age < ClockTouchSeconds) key = Frame("T46/clock/extend", 1 + Mathf.Min(5, (int)(age / ClockTouchSeconds * 6)));
+            else if (frozen)
             {
-                key = Frame("hold", 1 + (int)(Time.unscaledTime * 8) % 2);
+                key = Frame("T46/clock/hold", 1 + (int)(Time.unscaledTime * 12) % 4);
                 _clockWasActive = true; _clockEnded = -1;
             }
             else
             {
                 if (!_clockWasActive) return false;
                 if (_clockEnded < 0) _clockEnded = Time.unscaledTime;
-                float t = Time.unscaledTime - _clockEnded;
-                if (t > .6f) { _clockWasActive = false; return false; }
-                key = t < .25f ? Frame("retract", 1 + Mathf.Min(2, (int)(t * 12))) : t < .45f ? "recover-button" : "idle";
+                ending = Time.unscaledTime - _clockEnded;
+                if (ending > IceBreakSeconds + ClockRetractSeconds) { _clockWasActive = false; return false; }
+                key = ending < IceBreakSeconds ? "T46/clock/hold/01" : Frame("T46/clock/retract", 1 + Mathf.Min(4, (int)((ending - IceBreakSeconds) * 12)));
             }
-            Paint(_clock, "Clock/Keys/" + key, center, new Vector2(284, 210) * s);
-            if (age < .4f)
+            // A normal portrait is a safe fallback until the new whole-body poses arrive.
+            bool pose = Art.Get(key) != null;
+            float reach = age < ClockTouchSeconds ? Mathf.Clamp01(age / ClockTouchSeconds) : frozen || ending < IceBreakSeconds ? 1 : 1 - Mathf.Clamp01((ending - IceBreakSeconds) / ClockRetractSeconds);
+            // Source pivot (128,128), 352x256 canvas. Keep the normal 107.95pt bust height.
+            const float bustHeight = 127 * .85f, pixelScale = bustHeight / 256;
+            center.x += (267.5f - 195 - (290 - 128) * pixelScale) * reach * s;
+            if (pose) Paint(_clock, key, center, new Vector2(352 * pixelScale, bustHeight) * s);
+            if (frozen)
             {
-                float t = Mathf.Clamp01(age / .4f);
-                Paint(_flyingClock, "Clock/Layers/flying-clock", Vector2.Lerp(_bar.RectOf(Booster.Clock).center, new Vector2(245, 115) * s + new Vector2(0, offset), t), Vector2.one * (48 * s), 1 - Mathf.Clamp01((t - .8f) * 5));
-                Paint(_button, "Clock/Layers/button-shield", new Vector2(225, 125 + t * 70) * s + new Vector2(0, offset), Vector2.one * (36 * s), 1 - t);
+                Paint(_ice, "T46/clock/ice_overlay", panel, new Vector2(113, 96.67f) * s);
+                if (age < ClockTouchSeconds + .25f) Paint(_spark, Frame("T46/clock/spark", 1 + Mathf.Min(5, (int)((age - ClockTouchSeconds) * 24))), center + new Vector2(290 - 128, 140 - 128) * (pixelScale * s), Vector2.one * 32 * s);
+                var p = new Vector2(324, 166) * s + new Vector2(0, offset);
+                string bg = Art.Get("T46/clock/freeze_bar_bg") != null ? "T46/clock/freeze_bar_bg" : "Clock/Layers/bar-frame";
+                string fill = Art.Get("T46/clock/freeze_bar_fill") != null ? "T46/clock/freeze_bar_fill" : "Clock/Layers/bar-fill";
+                Paint(_barFrame, bg, p, new Vector2(100, 14) * s);
+                float fraction = Mathf.Clamp01((float)(freezeLeft / GameSession.FreezeSeconds));
+                var fillSource = Art.Get("T46/clock/freeze_bar_fill");
+                if (fillSource == null) Paint(_barFill, fill, p - new Vector2((1 - fraction) * 48 * s, 0), new Vector2(96 * fraction, 10) * s);
+                else
+                {
+                    int step = Mathf.CeilToInt(fraction * 100);
+                    if (step != _fillStep)
+                    {
+                        _fillStep = step;
+                        if (_fillOwner.Owned != null) Object.Destroy(_fillOwner.Owned);
+                        var rect = fillSource.rect; rect.width *= step / 100f;
+                        _fillOwner.Owned = step > 0 ? Sprite.Create(fillSource.texture, rect, new Vector2(.5f, .5f), fillSource.pixelsPerUnit) : null;
+                    }
+                    _barFill.sprite = _fillOwner.Owned; _barFill.enabled = _barFill.sprite != null;
+                    _barFill.transform.localPosition = Draw.W(p - new Vector2((1 - step / 100f) * 48 * s, 0));
+                    _barFill.transform.localScale = new Vector3(96 * s / fillSource.bounds.size.x, 10 * s / fillSource.bounds.size.y, 1);
+                }
             }
-            if (freezeLeft > 0 && !stopped)
-            {
-                var p = new Vector2(324, 150) * s + new Vector2(0, offset);
-                Paint(_barFrame, "Clock/Layers/bar-frame", p, new Vector2(100, 22) * s);
-                float fraction = Mathf.Clamp01((float)(freezeLeft / GameSession.ClockBonusSeconds));
-                Paint(_barFill, "Clock/Layers/bar-fill", p - new Vector2((1 - fraction) * 47 * s, 0), new Vector2(94 * fraction, 16) * s);
-            }
-            return true;
+            else if (_clockWasActive)
+                Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(ending * 18))), panel, new Vector2(113, 434f / 3) * s);
+            return pose;
         }
     }
 }

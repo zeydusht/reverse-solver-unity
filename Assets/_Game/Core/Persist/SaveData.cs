@@ -53,7 +53,9 @@ namespace ReverseSolver.Core
 
         readonly IKeyValueStore _store;
 
-        public int Coins { get; private set; }
+        int _coins;
+        public bool TestMode { get; set; }
+        public int Coins { get => TestMode ? 99999 : _coins; private set => _coins = value; }
         public string Player { get; private set; }
         public string Install { get; private set; }
         public Dictionary<string, int> Attempts { get; } = new Dictionary<string, int>();
@@ -90,6 +92,7 @@ namespace ReverseSolver.Core
 
         public void SetCoins(int coins)
         {
+            if (TestMode) return;
             Coins = Math.Max(0, coins);
             _store.Set(Key("coins"), Coins.ToString(System.Globalization.CultureInfo.InvariantCulture));
             _store.Save();

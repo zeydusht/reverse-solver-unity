@@ -180,3 +180,35 @@ GIF'ler: [tutorial 4 adım](pm59/tutorial_4_adim.gif) · [kilit uyarısı](pm59/
 **Doğrulanmadı:** iPhone, kombo rozeti, `drag` telemetrisi, sesler (başsız tarayıcıda dinlenmedi).
 
 GIF'ler: [çekiç](pm60/cekic.gif) · [makas](pm60/makas.gif) · [değnek](pm60/degnek.gif) · [saat](pm60/saat.gif) · [patlama](pm60/kombo_patlama.gif) · [kazanma](pm60/kazanma.gif) · [sandık](pm60/sandik.gif) · [hikâye kutusu](pm60/hikaye_kutusu.png)
+
+## PM_62 — Zeyd'in PM_60 geri bildirimi (11 Kasım)
+
+**Durum: p21'de yayında**, gh-pages `738806cb`, yalnız `p21/`.
+
+**Test linki:** https://zeydusht.github.io/reverse-solver-unity/p21/?c=p21&test=1&lang=tr — bütün bölümler açık, booster'lar açık ve 99 (azalmaz), altın 99999. Kayıtlar `cohort=ic`. Bayrak yalnız `c=ic` ya da `c=p21` ile çalışır.
+
+| Madde | Yapılan |
+|---|---|
+| 1 Test modu | `LaunchPlan.TestMode`; `Progress.UnlockAll`, `Session.TestMode` (stok 99, harcanmaz), `SaveData.TestMode` (altın 99999, kaydedilmez), telemetri `cohort=ic` |
+| 2 Kilitli booster | Dokununca "Seviye N'de açılır" balonu (~1,5 sn) |
+| 2 Makas | gidiş 0,45 + kesim 0,3 + çıkış 0,45 = 1,2 sn (`P21BoosterView` sabitleri) |
+| 2 Değnek | Seçim modunda süre akıyor |
+| 2 Saat | Yeni akış: tek parça fırça uzatma (T46, 6 kare), ışıltı, buz kaplama + mavi-beyaz rakam, 10 sn bar, buz kırılma, geri çekme. `FreezeSeconds = 10` |
+| 3 Kilit | %15 büyük, beyaz sayı + kalın koyu kontur, büyük punto |
+| 4 Kombo | Takılma (`Jammed`) komboyu anında sıfırlar |
+| 5 Kazanma | Yürüyen Jiggle'lar kalktı; ikon + "N Jiggle kurtarıldı!" (sayarak, pop), Sonraki Seviye (yeşil, büyük) + Menü (küçük) |
+| 6 Jigo | Göz kırpma 4–7 sn; 0,25 sn crossfade + esneme geçiş, T46 geçiş kareleri; sinüs nefes ±%2 ve ±1,5° sallanma; döngüler 12→20 fps |
+| 7 Harita | Kendi bölümün görünmüyorsa "Seviye N ↑/↓" hapı (dokununca kayar) + en üste/en alta tuşu |
+| 8 Kenar payı | 24 pt, tek parametre (`SafeMarginPt`) |
+
+Çizimler Codex TASK46 (`Assets/Art/_yeni/T46/`, 65 kare, `docs/art/task46/onizleme.png`). Kod Codex + Claude kontrolü.
+
+| Ölçüm | Sonuç |
+|---|---|
+| EditMode | 697 geçti, 0 kaldı, 2 atlandı |
+| `verify_build` yerel | 4/4; PC FPS medyan 59,9 |
+| `--send --player TEST_PM62` | 5/7; KALDI yalnız bilinen eski `zeydsend` ve `a6b` (PM_54'ten beri aynı) |
+| `verify_build` canlı p21 | 4/4 |
+| Build (Brotli) | 26,22 → 30,82 MB (+4,6 MB, T46 kareleri) |
+
+**Doğrulanmayan:** iPhone'da görünüm ve akıcılık; kilit sayısının 64 pt hücrede uzaktan okunurluğu (Zeyd telefonda bakmalı); Jigo'nun "RM'deki kral kadar canlı" olup olmadığı.

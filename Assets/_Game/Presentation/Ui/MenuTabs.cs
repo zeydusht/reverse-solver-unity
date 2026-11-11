@@ -259,6 +259,7 @@ namespace ReverseSolver.Presentation
         /* Finger down: whatever motion there was stops. */
         public void Grab(float y, float time)
         {
+            Tweens.Kill(this);
             Held = true; Velocity = 0; _grab = Offset + y;
             _samples.Clear(); _samples.Add((time, y));
         }

@@ -10,6 +10,8 @@ namespace ReverseSolver.Presentation
         readonly float _scale;
         readonly JigoPortrait54 _portrait;
         public void ShowClockPortrait(bool showing) => _portrait.Visible(!showing);
+        bool _frozen;
+        public void SetFrozen(bool frozen) { _frozen = frozen; }
         int _lastLeft = -1, _lastTime = -1;
         int _language;
 
@@ -54,7 +56,7 @@ namespace ReverseSolver.Presentation
         public void SetLeft(int n)
         {
             if (n == _lastLeft) return;
-            if (_lastLeft >= 0 && n < _lastLeft && TelemetryMeta.Current?.Cohort == "p21")
+            if (_lastLeft >= 0 && n < _lastLeft && Art.GameplayCohort == "p21")
                 Tweens.Run(_left, .2f, t => { if (_left != null) _left.transform.localScale = Vector3.one * Mathf.Lerp(1.15f, 1, t); });
             _lastLeft = n; _left.Text = n.ToString();
         }
@@ -70,7 +72,8 @@ namespace ReverseSolver.Presentation
                 _clock.Text = $"{t / 60}:{t % 60:00}";
                 _clock.Color = t <= JigoMood.WorriedSeconds ? Palette.Coral : Palette.Cream;
             }
-            float pulse = t <= JigoMood.WorriedSeconds ? 1 + PulseAmount * Mathf.Sin(Time.unscaledTime * Mathf.PI * 2) : 1;
+            _clock.Color = _frozen ? Draw.Hex("#D8F5FF") : t <= JigoMood.WorriedSeconds ? Palette.Coral : Palette.Cream;
+            float pulse = !_frozen && t <= JigoMood.WorriedSeconds ? 1 + PulseAmount * Mathf.Sin(Time.unscaledTime * Mathf.PI * 2) : 1;
             _clock.transform.localScale = Vector3.one * pulse;
             if (_language != Lang.Revision)
             {

@@ -15,10 +15,30 @@ namespace ReverseSolver.Presentation
         public const float Height = 97f, PromptH = 17f;
 
         readonly Transform _root;
+        readonly float _screenWidth;
         readonly BoosterBar54 _t54;
         public BarAction HitAction(Vector2 pt) => _t54?.HitAction(pt) ?? BarAction.None;
         readonly TextView _prompt;
         readonly List<Slot> _slots = new List<Slot>();
+
+        Transform _lockNotice;
+        public void LockedNotice(Booster booster, GameSession session)
+        {
+            if (session.Level.Unlock == null || !session.Level.Unlock.TryGetValue(booster.Id(), out int level)) return;
+            if (_lockNotice != null) Object.Destroy(_lockNotice.gameObject);
+            var bubble = _lockNotice = new GameObject("Locked booster notice").transform;
+            bubble.SetParent(_root, false);
+            var rect = RectOf(booster);
+            float x = Mathf.Clamp(rect.center.x, 88, _screenWidth - 88);
+            bubble.localPosition = Draw.W(x, rect.yMin - 28);
+            ShapeView.Create(bubble, "balloon", new Vector2(172, 34), 0, 3900).Radius(12).Fill(Palette.Navy);
+            TextView.Create(bubble, "unlock level", Lang.T($"Unlocks at level {level}", $"Seviye {level}'de açılır"), 14, Vector4.one, order: 3901);
+            Tweens.Run(bubble, 1.5f, t => {
+                if (bubble == null) return;
+                var label = bubble.GetComponentInChildren<TextView>();
+                label.Alpha = Mathf.Clamp01((1 - t) * 5);
+            }, () => { if (bubble != null) Object.Destroy(bubble.gameObject); });
+        }
 
         public void ShowTutorial(bool showing) => _root.gameObject.SetActive(!showing);
 
@@ -35,6 +55,7 @@ namespace ReverseSolver.Presentation
 
         public BoosterBar(Transform parent, Vector2 screen, float bottomInset, int order, bool t54 = false)
         {
+            _screenWidth = screen.x;
             _root = new GameObject("BoosterBar").transform;
             _root.SetParent(parent, false);
             if (t54 && Art.T54) { _t54 = new BoosterBar54(_root, screen, bottomInset, order); return; }

@@ -64,7 +64,7 @@ namespace ReverseSolver.Core
             Coins = (int)Math.Min(int.MaxValue, (long)Coins + P21ChestRules.Coins);
             _chests21["given" + level] = (int)booster + 1;
             _store.Set("rs_boosters", w.ToString());
-            _store.Set(Key("coins"), Coins.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            if (!TestMode) _store.Set(Key("coins"), Coins.ToString(System.Globalization.CultureInfo.InvariantCulture));
             _store.Set(Key("chests21"), Write(_chests21)); _store.Save();
             return true;
         }
