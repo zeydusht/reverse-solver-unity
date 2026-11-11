@@ -212,3 +212,4 @@ GIF'ler: [çekiç](pm60/cekic.gif) · [makas](pm60/makas.gif) · [değnek](pm60/
 | Build (Brotli) | 26,22 → 30,82 MB (+4,6 MB, T46 kareleri) |
 
 **Doğrulanmayan:** iPhone'da görünüm ve akıcılık; kilit sayısının 64 pt hücrede uzaktan okunurluğu (Zeyd telefonda bakmalı); Jigo'nun "RM'deki kral kadar canlı" olup olmadığı.
+GIF'ler: [saat](pm62/saat.gif) · [makas](pm62/makas.gif) · [kazanma](pm62/kazanma.gif) · [Jigo geçişi](pm62/jigo_gecis.gif) · [harita hapı](pm62/harita_hap.gif)
