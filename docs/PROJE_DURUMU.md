@@ -67,6 +67,7 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - **6. HUD — `codex/06-hud`.** Onaylı Task40 üst/alt şerit, krem sayaçlar, beş yuva ve Kont mührü yerinde. HUD üstünde seviye numarası yok, Durdur menüsünde var. Süresiz dersler «Sınırsız» gösterir. Jigo 10 saniyede tedirgin, son saniyede kazanınca da mutlu. Kutlama yerel Redesign’da açılır. Ekonomi 5000 başlangıç ve 900→1900→2900 devam. İlk altı görevin birleşik Unity EditMode koşusu 707 geçti, 0 hata, 2 mevcut atlama (Perf hariç). Play Mode’da süreli bir tahtada son saniyeyi, zaferi ve devam fiyatlarını kontrol et. Cihazdaki görünüm açık.
 - **7. Jigo — `codex/07-jigo-art`.** `Assets/Art/Characters/Jigo/jigo-warrior-turnaround-v01.png` ön/sağ profil/arka şeffaf karakter föyü. Normal, tedirgin ve mutlu HUD kareleri ve ImageGen istemi `docs/art/devir/JIGO.md` içinde. Üç siluet ve dört PNG’nin alfa kanalları kontrol edildi. Kıyafet onayı açık.
 - **8. Kont — `codex/08-kont-art`.** `Assets/Art/Characters/Kont/kont-collector-v01.png` uzun, siyah fraklı koleksiyoncu pozu. Çerçeve ve bezle kibirli ifade. 1024×1536 RGBA, saç ve ayakkabı sınırı ile negatif alan kontrol edildi. Açı/ifade referansı ve istemler `docs/art/devir/KONT.md` içinde.
+- **9. Açılış storyboard’u — `codex/09-opening-storyboard`.** Dondurma, çerçeveleme, galeri, dokunarak uyanış, düşüş, kese ve kurtarma kararı için yedi dikey kare. `docs/art/devir/ACILIS_STORYBOARD.md` kadraj/süre/kurgu ve ImageGen istemlerini içeriyor. Yeni 05–07 PNG’leri `docs/art/devir/acilis-kareleri/`. 05–07’de tabloda üç arkadaş ve boş sol üst yuva kontrol edildi. Kurgu ve kısa cihaz okuması onay bekliyor.
 
 ### Zeyd onayı bekliyor
 
@@ -75,6 +76,7 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - Kısa «weee» için eldeki özgün tını ve %35 ses çarpanı kullanıldı. Telefon hoparlöründe pop ile beraber dinlenecek.
 - Saat dondururken PM_62 fırça teması ve buz animasyonu kullanılıyor, tutuş anında mevcut T42 saat pozlarına geçiliyor.
 - Jigo’nun mızrağı hikâyedeki mavi uçlu fırçadan yapılıyor. Lacivert kısa savaşçı giysisi, krem bordür ve küçük deri aksesuarlar yeni föyde.
+- Yeni storyboard’da Jigo ilk bölümden önce düşüp kuşanıyor. Oyuncunun dokunarak uyandırması korunuyor. İlk oyuna geçişte aydınlanan çerçeve önerildi.
 
 ## Açık işler (öncelik sırası)
 1. pt1 takibi: her akşam `v_funnel` + bırakma noktaları + tahmin karşılaştırması. 8 Kasım sonrası rapor + v2.
