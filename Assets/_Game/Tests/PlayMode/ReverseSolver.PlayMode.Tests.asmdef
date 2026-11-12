@@ -1,0 +1,13 @@
+{
+    "name": "ReverseSolver.PlayMode.Tests",
+    "rootNamespace": "ReverseSolver.PlayMode.Tests",
+    "references": [
+        "ReverseSolver.Core",
+        "ReverseSolver.Presentation",
+        "Unity.InputSystem"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "autoReferenced": false
+}
