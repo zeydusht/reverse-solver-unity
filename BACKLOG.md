@@ -29,6 +29,7 @@ Kurallar:
 | 8 · Kont çizimi | `codex/08-kont-art` | ✅ Şeffaf koleksiyoncu pozu ve açı/ifade referansı. `docs/art/devir/KONT.md`. |
 | 9 · Açılış storyboard’u | `codex/09-opening-storyboard` | ✅ Yedi dikey kare ve çekim açıklamaları. `docs/art/devir/ACILIS_STORYBOARD.md`. Kurgu onayı açık. |
 | 10 · HUD ve booster çizimleri | `codex/10-hud-booster-assets` | ✅ Onaylı renk seti, 5 ikon ve HUD katmanları `docs/art/devir/HUD_BOOSTER.md` içinde. RGBA/boyut kontrolü geçti. |
+| 11 · İlk oyundan sonraki seviyeye geçiş | `codex/11-opening-playmode` | ⏳ Gerçek Game sahnesinde, geçici kayıtla, fare fiskesi → iki takılma → zafer → Sonraki Seviye → 3×3 bitiş. |
 
 ## ZEYD — senin işlerin
 

@@ -69,6 +69,7 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - **8. Kont — `codex/08-kont-art`.** `Assets/Art/Characters/Kont/kont-collector-v01.png` uzun, siyah fraklı koleksiyoncu pozu. Çerçeve ve bezle kibirli ifade. 1024×1536 RGBA, saç ve ayakkabı sınırı ile negatif alan kontrol edildi. Açı/ifade referansı ve istemler `docs/art/devir/KONT.md` içinde.
 - **9. Açılış storyboard’u — `codex/09-opening-storyboard`.** Dondurma, çerçeveleme, galeri, dokunarak uyanış, düşüş, kese ve kurtarma kararı için yedi dikey kare. `docs/art/devir/ACILIS_STORYBOARD.md` kadraj/süre/kurgu ve ImageGen istemlerini içeriyor. Yeni 05–07 PNG’leri `docs/art/devir/acilis-kareleri/`. 05–07’de tabloda üç arkadaş ve boş sol üst yuva kontrol edildi. Kurgu ve kısa cihaz okuması onay bekliyor.
 - **10. HUD ve booster asset’leri — `codex/10-hud-booster-assets`.** Unity’deki onaylı renk seti kullanıldı. `docs/art/devir/HUD_BOOSTER.md` içinde katmanlar, kontursuz dört booster, mavi çekiç, kahverengi saat ve Kont mührünün bağlantılı önizlemeleri var. Beş ikonun alfa kanalı, sınırları ve boyutları kontrol edildi. Cihazda 4 booster ile 5. yuvanın görünümü açık.
+- **11. Sıradaki yerel doğrulama — `codex/11-opening-playmode`.** PT1’de 10. bölümden önce ayrılan 30 oyuncunun 21’i son bölümünü kazanmıştı. Yeni akışta gerçek Game sahnesini geçici kayıtla aç, giriş sistemi üzerinden iki öğretici takılmayı ve dört çıkışı yap, kutlamada Sonraki Seviye’ye bas ve 3×3’ü tamamla. Test telemetri göndermeyecek ve resim ağdan gelmese de çalışacak.
 
 ### Zeyd onayı bekliyor
 
