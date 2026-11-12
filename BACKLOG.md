@@ -28,7 +28,7 @@ Kurallar:
 | 7 · Jigo çizimi | `codex/07-jigo-art` | ✅ Şeffaf ön/profil/arka föy ve üç onaylı HUD ifadesi. `docs/art/devir/JIGO.md`. Kıyafet onayı açık. |
 | 8 · Kont çizimi | `codex/08-kont-art` | ✅ Şeffaf koleksiyoncu pozu ve açı/ifade referansı. `docs/art/devir/KONT.md`. |
 | 9 · Açılış storyboard’u | `codex/09-opening-storyboard` | ✅ Yedi dikey kare ve çekim açıklamaları. `docs/art/devir/ACILIS_STORYBOARD.md`. Kurgu onayı açık. |
-| 10 · HUD ve booster çizimleri | | 🔜 İkon şekilleri, yeniden renklendirme ve mühür. |
+| 10 · HUD ve booster çizimleri | `codex/10-hud-booster-assets` | ✅ Onaylı renk seti, 5 ikon ve HUD katmanları `docs/art/devir/HUD_BOOSTER.md` içinde. RGBA/boyut kontrolü geçti. |
 
 ## ZEYD — senin işlerin
 
