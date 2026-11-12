@@ -6,7 +6,7 @@ namespace ReverseSolver.Presentation
     // Board-owned, prewarmed pools. No tweens, coroutines or loads in the animation loop.
     public sealed class P21JuiceView : MonoBehaviour
     {
-        public static bool Enabled => Art.T54 && (Art.GameplayCohort == null || Art.GameplayCohort == "p21");
+        public static bool Enabled => Art.P21Gameplay;
         const float Quick = 1.2f;
         struct Puff
         {

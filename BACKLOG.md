@@ -23,7 +23,7 @@ Kurallar:
 | 2 · Fiske ve güvenli kenar | `codex/02-controls` | ✅ Yön kilidi çapraz kaymada korunuyor, yatay cihaz girintileri hesaba katılıyor. Unity 18/18. Telefonda kısa fiske ve Safari kenar hareketi kontrolü açık. |
 | 3 · Engel tanıtımı | `codex/03-obstacle-lessons` | ✅ 3/10/14/20 tek engelli, kayıpsız dersler. Gerçek sayaç metinleri. Unity 22/22. FunSim 3–10, 96 sanal oyuncuda %100 ilk deneme. Telefon turu açık. |
 | 4 · Çıkış hissi | `codex/04-piece-feedback` | ✅ Kenarda pop, yarı yol övgüsü ve mevcut özgün «weee». Derleme ve 18 hareket testi geçti. Play Mode’da 3×3’ü yarıla, sesli ve sessiz dene. Telefon miksajı açık. |
-| 5 · Booster gösterimleri | | 🔜 Makas, değnek, çekiç ve saat akışlarını doğrula. |
+| 5 · Booster gösterimleri | `codex/05-booster-animations` | ✅ Yerel Redesign’da dört booster, açık değnek bölgeleri, Jigo’da fiziksel saat ve 10 sn bar. Unity 17/17. 5/9/15/23 cihaz turu açık. |
 | 6 · HUD | | 🔜 Ölçü, çerçeve, beş yuva, Jigo ve devam fiyatları. |
 | 7 · Jigo çizimi | | 🔜 Ön, yan ve arka, üç HUD ifadesi. |
 | 8 · Kont çizimi | | 🔜 Karakter tasarımı. |

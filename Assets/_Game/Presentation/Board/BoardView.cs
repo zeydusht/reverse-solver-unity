@@ -27,14 +27,16 @@ namespace ReverseSolver.Presentation
         readonly Dictionary<int, ChainRope> _ropes = new Dictionary<int, ChainRope>();
         int _blocker = -1, _dragged = -1;
         P21JuiceView _juice;
+        bool _animatedBoosters;
 
-        public static BoardView Create(Transform parent, GameSession session, float cell, Vector2 origin)
+        public static BoardView Create(Transform parent, GameSession session, float cell, Vector2 origin, bool animatedBoosters = false)
         {
             var v = new GameObject("Board").AddComponent<BoardView>();
             v.transform.SetParent(parent, false);
             v.Session = session;
             v.Cell = cell;
             v.Origin = origin;
+            v._animatedBoosters = animatedBoosters;
             v.transform.localPosition = Draw.W(origin);
             v.Build();
             if (P21JuiceView.Enabled) v._juice = P21JuiceView.Create(v);
@@ -472,7 +474,7 @@ namespace ReverseSolver.Presentation
                     // a drag-out is animated by EndDrag; anything else (hammer, M4) just leaves
                     if (e.ByHammer && _pieces.TryGetValue(e.Piece, out var hv))
                     {
-                        if (Art.T54 && Art.GameplayCohort == "p21") HammerFall(hv);
+                        if (_animatedBoosters) HammerFall(hv);
                         else FlyOut(hv, Dir.U, 0);
                     }
                     _nails.Remove(e.Piece);

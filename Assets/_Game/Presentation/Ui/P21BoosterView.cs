@@ -11,6 +11,7 @@ namespace ReverseSolver.Presentation
         public const float ScissorsTravelSeconds = .45f, ScissorsCutSeconds = .3f, ScissorsExitSeconds = .45f;
         public const float ClockTouchSeconds = .5f;
         const float IceBreakSeconds = 7f / 18, ClockRetractSeconds = 5f / 12;
+        const float ClockPoseBlendSeconds = .22f;
         MenuPainting _fillOwner;
         int _fillStep = -1;
         public const float ScissorsDuration = ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsExitSeconds;
@@ -21,7 +22,9 @@ namespace ReverseSolver.Presentation
         readonly BoosterBar _bar;
         readonly Dictionary<string, Sprite> _sprites = new Dictionary<string, Sprite>();
         Transform _selection;
-        SpriteRenderer _ring, _tool, _shadow, _burst, _trail, _cut, _clock, _ice, _spark, _barFrame, _barFill;
+        SpriteRenderer _ring, _tool, _shadow, _burst, _trail, _cut, _clock, _clockHold, _ice, _spark, _barFrame, _barFill;
+        readonly TextView _freezeSeconds;
+        int _shownFreezeSeconds = -1;
         Booster? _selected;
         int _zone = -2, _language = -1;
         float _clockEnded = -1;
@@ -36,9 +39,13 @@ namespace ReverseSolver.Presentation
             _burst = Layer(_root, "burst", Order + 11); _trail = Layer(_root, "trail", Order + 9);
             _cut = Layer(_root, "cut", Order + 10);
             _clock = Layer(_root, "Jigo clock", Order - 96); _ice = Layer(_root, "time panel ice", Order - 95);
+            _clockHold = Layer(_root, "Jigo holding the clock", Order - 96);
             _spark = Layer(_root, "brush contact", Order - 94);
             _barFrame = Layer(_root, "freeze channel", Order - 94); _barFill = Layer(_root, "freeze remaining", Order - 93);
             _fillOwner = _barFill.gameObject.AddComponent<MenuPainting>();
+            _freezeSeconds = TextView.Create(_root, "Freeze seconds", "", 10 * Hud54.Scale(screen.x), Palette.Cream, order: Order - 92)
+                .Heading(TextView.RimTeal);
+            _freezeSeconds.gameObject.SetActive(false);
         }
 
         static SpriteRenderer Layer(Transform parent, string name, int order)
@@ -102,12 +109,17 @@ namespace ReverseSolver.Presentation
             Dim(new Rect(area.xMax, area.yMin, _screen.x - area.xMax, area.height));
             var b = selected.Value;
             float scale = Hud54.Scale(_screen.x), top = Mathf.Max(_safeTop + 40 * scale, area.yMin - 130 * scale);
+            float below = area.yMax + 32 * scale;
+            bool confirmAbove = b == Booster.Wand && zone >= 0 && below + 24 * scale > _bar.RectOf(b).yMin;
             Paint(Layer(_selection, "icon", Order + 2), "Selection/Icons/" + b.Id(), new Vector2(_screen.x / 2, top), Vector2.one * (78 * scale));
-            Paint(Layer(_selection, "title badge", Order + 1), "Selection/title-badge", new Vector2(_screen.x / 2, top + 57 * scale), new Vector2(260, 48) * scale);
-            var title = TextView.Create(_selection, "title", Texts.BoosterTitle21(b), 22 * scale, Palette.Cream, order: Order + 3).Heading(TextView.RimTeal);
-            title.transform.localPosition = Draw.W(_screen.x / 2, top + 57 * scale);
-            var hint = TextView.Create(_selection, "instruction", Texts.BoosterHint21(b), 13 * scale, Palette.Cream, order: Order + 3);
-            hint.transform.localPosition = Draw.W(_screen.x / 2, top + 94 * scale);
+            if (!confirmAbove)
+            {
+                Paint(Layer(_selection, "title badge", Order + 1), "Selection/title-badge", new Vector2(_screen.x / 2, top + 57 * scale), new Vector2(260, 48) * scale);
+                var title = TextView.Create(_selection, "title", Texts.BoosterTitle21(b), 22 * scale, Palette.Cream, order: Order + 3).Heading(TextView.RimTeal);
+                title.transform.localPosition = Draw.W(_screen.x / 2, top + 57 * scale);
+                var hint = TextView.Create(_selection, "instruction", Texts.BoosterHint21(b), 13 * scale, Palette.Cream, order: Order + 3);
+                hint.transform.localPosition = Draw.W(_screen.x / 2, top + 94 * scale);
+            }
             var button = _bar.RectOf(b);
             Art54.Place(_selection, Art54.Bodies[1], button.center, button.size, Order + 1);
             Art54.Place(_selection, Art54.Boosters[(int)b], button.center, button.size * .84f, Order + 2);
@@ -121,8 +133,8 @@ namespace ReverseSolver.Presentation
                     .Fill(Draw.Rgba(65, 65, 65, .65f)).transform.localPosition = Draw.W(r.center);
             }
             if (zone < 0) return;
-            var center = new Vector2(_screen.x / 2, Mathf.Min(area.yMax + 40 * scale, _bar.RectOf(Booster.Wand).yMin - 45 * scale));
-            ConfirmRect = new Rect(center - new Vector2(90, 35) * scale, new Vector2(180, 70) * scale);
+            var center = new Vector2(_screen.x / 2, confirmAbove ? area.yMin - 29 * scale : below);
+            ConfirmRect = new Rect(center - new Vector2(82, 24) * scale, new Vector2(164, 48) * scale);
             Paint(Layer(_selection, "confirm", Order + 3), "Boosters/Wand/confirm-normal", center, ConfirmRect.size);
             var confirm = TextView.Create(_selection, "confirm label", Texts.RegionShuffle, 24 * scale, Palette.Cream, order: Order + 4).Heading(TextView.RimTeal);
             confirm.transform.localPosition = Draw.W(center);
@@ -196,12 +208,13 @@ namespace ReverseSolver.Presentation
         // Each T46 pose contains the whole Jigo and brush; no detached arm layers.
         public bool Clock(float age, double freezeLeft, bool stopped, float safeTop)
         {
-            _clock.enabled = _ice.enabled = _spark.enabled = _barFrame.enabled = _barFill.enabled = false;
+            _clock.enabled = _clockHold.enabled = _ice.enabled = _spark.enabled = _barFrame.enabled = _barFill.enabled = false;
+            bool frozen = age >= ClockTouchSeconds && freezeLeft > 0 && !stopped;
+            _freezeSeconds.gameObject.SetActive(frozen);
             if (age < 0) return false;
             float s = Hud54.Scale(_screen.x), offset = Mathf.Max(0, safeTop - 37 * s);
             var center = new Vector2(195, 103) * s + new Vector2(0, offset);
             var panel = new Vector2(324, 108.67f) * s + new Vector2(0, offset);
-            bool frozen = freezeLeft > 0 && !stopped;
             string key;
             float ending = 0;
             if (age < ClockTouchSeconds) key = Frame("T46/clock/extend", 1 + Mathf.Min(5, (int)(age / ClockTouchSeconds * 6)));
@@ -219,12 +232,17 @@ namespace ReverseSolver.Presentation
                 key = ending < IceBreakSeconds ? "T46/clock/hold/01" : Frame("T46/clock/retract", 1 + Mathf.Min(4, (int)((ending - IceBreakSeconds) * 12)));
             }
             // A normal portrait is a safe fallback until the new whole-body poses arrive.
-            bool pose = Art.Get(key) != null;
             float reach = age < ClockTouchSeconds ? Mathf.Clamp01(age / ClockTouchSeconds) : frozen || ending < IceBreakSeconds ? 1 : 1 - Mathf.Clamp01((ending - IceBreakSeconds) / ClockRetractSeconds);
             // Source pivot (128,128), 352x256 canvas. Keep the normal 107.95pt bust height.
             const float bustHeight = 127 * .85f, pixelScale = bustHeight / 256;
             center.x += (267.5f - 195 - (290 - 128) * pixelScale) * reach * s;
-            if (pose) Paint(_clock, key, center, new Vector2(352 * pixelScale, bustHeight) * s);
+            float holdMix = frozen ? Mathf.Clamp01((age - ClockTouchSeconds) / ClockPoseBlendSeconds)
+                : _clockWasActive ? 1 - Mathf.Clamp01(ending / ClockPoseBlendSeconds) : 0;
+            var poseSize = new Vector2(352 * pixelScale, bustHeight) * s;
+            if (holdMix > 0)
+                Paint(_clockHold, Frame("Clock/Keys/hold", 1 + (int)(age * 4) % 2),
+                    center + new Vector2(48 * pixelScale * s, 0), poseSize, holdMix);
+            Paint(_clock, key, center, poseSize, _clockHold.enabled ? 1 - holdMix : 1);
             if (frozen)
             {
                 Paint(_ice, "T46/clock/ice_overlay", panel, new Vector2(113, 96.67f) * s);
@@ -234,6 +252,13 @@ namespace ReverseSolver.Presentation
                 string fill = Art.Get("T46/clock/freeze_bar_fill") != null ? "T46/clock/freeze_bar_fill" : "Clock/Layers/bar-fill";
                 Paint(_barFrame, bg, p, new Vector2(100, 14) * s);
                 float fraction = Mathf.Clamp01((float)(freezeLeft / GameSession.FreezeSeconds));
+                int seconds = Mathf.CeilToInt((float)freezeLeft);
+                if (seconds != _shownFreezeSeconds)
+                {
+                    _shownFreezeSeconds = seconds;
+                    _freezeSeconds.Text = seconds.ToString();
+                }
+                _freezeSeconds.transform.localPosition = Draw.W(p);
                 var fillSource = Art.Get("T46/clock/freeze_bar_fill");
                 if (fillSource == null) Paint(_barFill, fill, p - new Vector2((1 - fraction) * 48 * s, 0), new Vector2(96 * fraction, 10) * s);
                 else
@@ -253,7 +278,7 @@ namespace ReverseSolver.Presentation
             }
             else if (_clockWasActive)
                 Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(ending * 18))), panel, new Vector2(113, 434f / 3) * s);
-            return pose;
+            return _clock.enabled || _clockHold.enabled;
         }
     }
 }

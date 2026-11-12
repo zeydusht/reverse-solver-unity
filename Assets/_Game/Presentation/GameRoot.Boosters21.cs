@@ -5,7 +5,7 @@ namespace ReverseSolver.Presentation
 {
     public sealed partial class GameRoot
     {
-        bool P21Boosters => Art.T54 && (_playCohort == "p21" || _testMode);
+        bool P21Boosters => Art.P21Gameplay || Art.T54 && _testMode;
         P21BoosterView _boosterView21;
         Booster? _selected21, _effect21;
         int _region21 = -1, _piece21;
@@ -58,6 +58,11 @@ namespace ReverseSolver.Presentation
         void SelectBooster21(Booster b)
         {
             if (!_session.IsUnlocked(b)) { _bar.LockedNotice(b, _session); return; }
+            if (b == Booster.Clock && P21ClockPaused)
+            {
+                _bar.Notice(Lang.T("This lesson has no timer.", "Bu derste süre sınırı yok."), 1.5f);
+                return;
+            }
             if (_selected21 == b)
             {
                 _selected21 = null; _region21 = -1; _boosters.Disarm();

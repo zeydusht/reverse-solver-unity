@@ -15,7 +15,7 @@ namespace ReverseSolver.Presentation
         public static string JuicePraise(int tier) => tier == 0 ? Lang.T("Great!", "Harika!")
             : tier == 1 ? Lang.T("Super!", "Süper!") : Lang.T("Perfect!", "Mükemmel!");
         public static string RegionShuffle => Lang.T("Shuffle!", "Değiştir!");
-        static bool P21BoosterArt => Art.T54 && Art.GameplayCohort == "p21";
+        static bool P21BoosterArt => Art.P21Gameplay;
         public static string ClockFreeze => Lang.T($"Freeze the timer for {GameSession.FreezeSeconds} seconds.", $"Süreyi {GameSession.FreezeSeconds} saniye dondurur.");
         public static string BoosterTitle21(Booster b) => b == Booster.Hammer ? Lang.T("Blue Hammer!", "Mavi Çekiç!")
             : b == Booster.Scissors ? Lang.T("Magic Scissors!", "Sihirli Makas!") : Lang.T("Magic Wand!", "Sihirli Değnek!");

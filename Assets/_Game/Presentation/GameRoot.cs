@@ -930,6 +930,7 @@ namespace ReverseSolver.Presentation
             else CommitFinished();
             _drag?.Cancel();
             _boosters?.Disarm();
+            _selected21 = null;
             if (e.Outcome == Outcome.Quit) return;
             if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
             if (e.Outcome == Outcome.Win) { Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s
@@ -1123,7 +1124,7 @@ namespace ReverseSolver.Presentation
                 _hud = new Hud(_world, _screen.x, _safe.y + BodyPad, HudOrder, _screen, _safe.y, _session, UseHud54);
                 _hud.SetLevel(_p21Flow ? _index + 1 : _session.Level.Number);
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
-                _board = BoardView.Create(_world, _session, cell, origin);
+                _board = BoardView.Create(_world, _session, cell, origin, P21Boosters);
                 // Zeyd 2026-10-26 chose the thick dark navy edge (#06161D, 1.5x rim, 80 % cream band, soft halo) for painted boards
                 Shader.SetGlobalFloat("_RSEdge", _showSet || _paintSet ? 1 : 0);
                 if (_showSet)
@@ -1718,11 +1719,6 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
-            if (P21ObstacleLesson && _bar.Hit(pt) == Booster.Clock && _session.IsUnlocked(Booster.Clock))
-            {
-                _bar.Notice(Lang.T("This lesson has no timer.", "Bu derste süre sınırı yok."), 1.5f);
-                return;
-            }
             if (PressBooster21(pt)) return;
             if (P21StoryLevel && _p21View != null && _p21View.DismissStory(pt))
             {
