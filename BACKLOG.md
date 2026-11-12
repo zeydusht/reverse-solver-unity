@@ -25,7 +25,7 @@ Kurallar:
 | 4 · Çıkış hissi | `codex/04-piece-feedback` | ✅ Kenarda pop, yarı yol övgüsü ve mevcut özgün «weee». Derleme ve 18 hareket testi geçti. Play Mode’da 3×3’ü yarıla, sesli ve sessiz dene. Telefon miksajı açık. |
 | 5 · Booster gösterimleri | `codex/05-booster-animations` | ✅ Yerel Redesign’da dört booster, açık değnek bölgeleri, Jigo’da fiziksel saat ve 10 sn bar. Unity 17/17. 5/9/15/23 cihaz turu açık. |
 | 6 · HUD | `codex/06-hud` | ✅ Task40 ölçüleri ve katmanları, beş yuva, Kont mührü, Jigo zaferi, 5000 ve devam fiyatları. Unity derlemesi geçti. Telefon turu açık. |
-| 7 · Jigo çizimi | | 🔜 Ön, yan ve arka, üç HUD ifadesi. |
+| 7 · Jigo çizimi | `codex/07-jigo-art` | ✅ Şeffaf ön/profil/arka föy ve üç onaylı HUD ifadesi. `docs/art/devir/JIGO.md`. Kıyafet onayı açık. |
 | 8 · Kont çizimi | | 🔜 Karakter tasarımı. |
 | 9 · Açılış storyboard’u | | 🔜 Kareler ve çekim açıklamaları. |
 | 10 · HUD ve booster çizimleri | | 🔜 İkon şekilleri, yeniden renklendirme ve mühür. |

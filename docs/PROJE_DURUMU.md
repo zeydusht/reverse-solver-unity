@@ -65,6 +65,7 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - **4. Parça çıkışı — `codex/04-piece-feedback`.** Mevcut `juice21` pop/konfeti tahta kenarında parça çıkışına eşleniyor. Kilit/makas kırılma efektleri ve kombo korundu. Yavaş oynarken de bölümün yarısında bir övgü görünür. Başarılı itişte projeye ait `Art/audio/weee.wav` düşük seste çalar, ses ayarına uyar. Son çıkış tam pop ve zafer titreşimi kullanır. Unity derlemesi ve 18 hareket testi geçti. Play Mode’da parça çıkar, sonra 3×3 tahtayı aralıklı hamlelerle yarıla ve sessiz modda tekrarla. Görsel ve ses miksajı telefonda açık.
 - **5. Booster animasyonları — `codex/05-booster-animations`.** Makas ve çekiç hedef animasyonları, dört bölgeli değnek ve saat yerel Redesign’da da çalışır. Değnek onayı dar ekranda tahtanın üstüne yerleşir ve bölgeleri kapatmaz. Jigo fırçayla dondurma temasından sonra saati elinde tutar, bar kalan 10→1 saniyeyi gösterir. Süresiz derslerde saat harcanmaz. Unity `P21BoosterTests` 17/17. Play Mode’da makas için 5, değnek için 9, saat için 15, çekiç için 23’ü aç. Dar ekran ve animasyon geçişi cihazda açık.
 - **6. HUD — `codex/06-hud`.** Onaylı Task40 üst/alt şerit, krem sayaçlar, beş yuva ve Kont mührü yerinde. HUD üstünde seviye numarası yok, Durdur menüsünde var. Süresiz dersler «Sınırsız» gösterir. Jigo 10 saniyede tedirgin, son saniyede kazanınca da mutlu. Kutlama yerel Redesign’da açılır. Ekonomi 5000 başlangıç ve 900→1900→2900 devam. Unity derlemesi geçti, birleşik EditMode koşusu başlatıldı. Play Mode’da süreli bir tahtada son saniyeyi, zaferi ve devam fiyatlarını kontrol et. Cihazdaki görünüm açık.
+- **7. Jigo — `codex/07-jigo-art`.** `Assets/Art/Characters/Jigo/jigo-warrior-turnaround-v01.png` ön/sağ profil/arka şeffaf karakter föyü. Normal, tedirgin ve mutlu HUD kareleri ve ImageGen istemi `docs/art/devir/JIGO.md` içinde. Üç siluet ve dört PNG’nin alfa kanalları kontrol edildi. Kıyafet onayı açık.
 
 ### Zeyd onayı bekliyor
 
@@ -72,6 +73,7 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - Engel sırası 3/10/14/20. 20’deki S24’ün karma tahtası yerine aynı kimlik ve tabloyla 4×4 bomba dersi var. İlk gerçek bomba baskısı 21’de başlıyor.
 - Kısa «weee» için eldeki özgün tını ve %35 ses çarpanı kullanıldı. Telefon hoparlöründe pop ile beraber dinlenecek.
 - Saat dondururken PM_62 fırça teması ve buz animasyonu kullanılıyor, tutuş anında mevcut T42 saat pozlarına geçiliyor.
+- Jigo’nun mızrağı hikâyedeki mavi uçlu fırçadan yapılıyor. Lacivert kısa savaşçı giysisi, krem bordür ve küçük deri aksesuarlar yeni föyde.
 
 ## Açık işler (öncelik sırası)
 1. pt1 takibi: her akşam `v_funnel` + bırakma noktaları + tahmin karşılaştırması. 8 Kasım sonrası rapor + v2.
