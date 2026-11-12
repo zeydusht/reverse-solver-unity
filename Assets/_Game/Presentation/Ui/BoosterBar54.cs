@@ -59,6 +59,7 @@ namespace ReverseSolver.Presentation
         }
 
         public Rect RectOf(Booster b) => _slots[(int)b].Rect;
+        public void ShowScissorsInSlot(bool show) => _slots[(int)Booster.Scissors].Icon.enabled = show;
         public Booster? Hit(Vector2 pt)
         {
             for (int i = 0; i < 4; i++) if (_slots[i].Rect.Contains(pt)) return (Booster)i;

@@ -11,7 +11,7 @@ namespace ReverseSolver.Presentation
         readonly Transform _root;
         readonly Hud54 _t54;
         public void SetFrozen(bool frozen) => _t54?.SetFrozen(frozen);
-        public void ShowClockPortrait(bool showing) => _t54?.ShowClockPortrait(showing);
+        public void ShowClockShield(bool away) => _t54?.ShowClockShield(away);
         public void OnEvent(ReverseSolver.Core.GameEvent e, ReverseSolver.Core.GameSession session) => _t54?.OnEvent(e, session);
         readonly TextView _level, _left, _clock;
         public Rect RestartRect { get; }

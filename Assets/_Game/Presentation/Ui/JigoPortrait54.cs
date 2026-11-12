@@ -5,46 +5,88 @@ namespace ReverseSolver.Presentation
 {
     sealed class JigoPortrait54
     {
-        readonly Sprite[][] _frames = new Sprite[5][];
-        readonly SpriteRenderer _front, _back;
+        const string OpenEyesKey = "hud/jigo-portrait-open", ClosedEyesKey = "hud/jigo-portrait-closed";
+        static readonly int WindowId = Shader.PropertyToID("_Window"), ClosedEyesId = Shader.PropertyToID("_ClosedEyes"),
+            BlinkId = Shader.PropertyToID("_Blink"), OpacityId = Shader.PropertyToID("_Opacity");
+        static Material _material;
+
+        readonly Sprite[] _faces = new Sprite[5];
+        readonly SpriteRenderer _front, _back, _shield, _grip;
+        readonly MaterialPropertyBlock _properties = new MaterialPropertyBlock();
+        readonly Texture _closedEyes;
+        readonly float _portraitHeight;
         readonly int _forced;
         readonly bool _joy;
-        public void Visible(bool visible) { _front.gameObject.SetActive(visible); _back.gameObject.SetActive(visible); }
         int _current = -1, _previous, _time;
         int? _fuse;
-        bool _lost, _won;
+        bool _lost, _won, _shieldAway;
         float _happyUntil, _changedAt, _nextBlink, _blinkAt = -10;
-        float _portraitHeight;
-        readonly Sprite[][] _loops = new Sprite[2][], _transitions = new Sprite[2][];
-        static readonly int[] OpenEyeFrames = { 0, 1, 2, 3, 2, 1 };
-        static Sprite[] Frames(string path)
-        {
-            var frames = new System.Collections.Generic.List<Sprite>();
-            for (int i = 1; i <= 48; i++) { var sprite = Art.Get("T46/jigo/" + path + "/" + i.ToString("00")); if (sprite == null) break; frames.Add(sprite); }
-            return frames.ToArray();
-        }
 
         public JigoPortrait54(Transform parent, Vector2 center, Vector2 size, int order, GameSession session)
         {
             string forced = Host.Current.Query("jigo");
             _forced = System.Array.IndexOf(Art54.Moods, forced);
             _joy = forced == "sevinc";
-            for (int m = 0; m < _frames.Length; m++)
+            for (int i = 0; i < _faces.Length; i++)
+                _faces[i] = Art.Get((i == 4 ? "jigo-clip/" : "jigo/") + Art54.Moods[i] + "/01");
+            var open = Art.Get(OpenEyesKey);
+            if (open != null) _faces[0] = open;
+            _closedEyes = Art.Get(ClosedEyesKey)?.texture;
+
+            var aperture = Draw.W(center);
+            _properties.SetVector(WindowId, new Vector4(aperture.x, aperture.y, size.x / 2, size.y / 2));
+            if (_closedEyes != null) _properties.SetTexture(ClosedEyesId, _closedEyes);
+            if (_material == null)
+                _material = new Material(Resources.Load<Shader>("Shaders/JigoPortrait")) { hideFlags = HideFlags.HideAndDontSave };
+
+            float scale = size.x / 127f;
+            _portraitHeight = size.y * .91f;
+            var portraitCenter = center + new Vector2(0, 2.5f * scale);
+            _back = Layer(parent, "Jigo previous expression", portraitCenter, order);
+            _front = Layer(parent, "Jigo portrait", portraitCenter, order + 1);
+            float shieldSize = Hud54.RestingShieldSize * scale;
+            var shieldRest = Hud54.ShieldRest(center, scale);
+            _shield = Layer(parent, "Jigo resting shield", shieldRest, order + 2);
+            _grip = Layer(parent, "Jigo resting grip", Hud54.ShieldGrip(shieldRest, shieldSize, 0), order + 3);
+            if (open != null)
             {
-                _frames[m] = new Sprite[6];
-                for (int f = 0; f < 6; f++) _frames[m][f] = Art.Get((m == 4 ? "jigo-clip/" : "jigo/") + Art54.Moods[m] + "/" + (f + 1).ToString("00"));
+                _shield.sprite = Resources.Load<Sprite>("Art/yeni/boosters21/Clock/Layers/button-shield");
+                _grip.sprite = Art.Get("hud/jigo-shield-grip");
+                if (_shield.sprite != null) _shield.transform.localScale = Vector3.one * (shieldSize / _shield.sprite.bounds.size.x);
+                if (_grip.sprite != null) _grip.transform.localScale = Vector3.one * (23 * scale / _grip.sprite.bounds.size.x);
             }
-            // Frames are pre-clipped to the arch: High stripping removes SpriteMask from the player.
-            var portraitSize = Vector2.one * (size.x * .85f);
-            _back = Art54.Place(parent, _joy ? Art54.Joy : Art54.NormalFrame, center, portraitSize, order);
-            _front = Art54.Place(parent, _joy ? Art54.Joy : Art54.NormalFrame, center, portraitSize, order + 1);
-            _portraitHeight = portraitSize.y;
-            _loops[0] = Frames("normal_loop"); _loops[1] = Frames("happy_loop");
-            _transitions[0] = Frames("normal_to_happy"); _transitions[1] = Frames("happy_to_normal");
+
             _nextBlink = Time.unscaledTime + Random.Range(4f, 7f);
             Sync(session);
             Update();
         }
+
+        SpriteRenderer Layer(Transform parent, string name, Vector2 center, int order)
+        {
+            var layer = Draw.Child<SpriteRenderer>(parent, name);
+            layer.sharedMaterial = _material;
+            layer.sortingOrder = order;
+            layer.transform.localPosition = Draw.W(center);
+            return layer;
+        }
+
+        void Show(SpriteRenderer layer, float alpha, float blink = 0)
+        {
+            layer.enabled = layer.sprite != null && alpha > 0;
+            if (!layer.enabled) return;
+            _properties.SetFloat(OpacityId, alpha);
+            _properties.SetFloat(BlinkId, blink);
+            layer.SetPropertyBlock(_properties);
+        }
+
+        void Face(SpriteRenderer layer, Sprite sprite, float alpha, float blink)
+        {
+            layer.sprite = sprite;
+            if (sprite != null) layer.transform.localScale = Vector3.one * (_portraitHeight / sprite.bounds.size.y);
+            Show(layer, alpha, blink);
+        }
+
+        public void ShieldAway(bool away) => _shieldAway = away;
 
         void Sync(GameSession session)
         {
@@ -64,49 +106,36 @@ namespace ReverseSolver.Presentation
 
         public void Update()
         {
-            if (_joy) { _back.color = Color.clear; return; }
+            if (_joy)
+            {
+                Face(_front, Art.Get(Art54.Joy), 1, 0);
+                Show(_back, 0);
+                Show(_shield, 0);
+                Show(_grip, 0);
+                return;
+            }
+
             float now = Time.unscaledTime;
-            int mood = _forced >= 0 ? _forced : (int)JigoMood.Read(_time, _fuse, now < _happyUntil, _lost, _won);
+            int mood = _shieldAway ? 0 : _forced >= 0 ? _forced : (int)JigoMood.Read(_time, _fuse, now < _happyUntil, _lost, _won);
             if (mood != _current)
             {
-                _previous = _current < 0 ? mood : _current;
-                _current = mood; _changedAt = now;
+                _previous = _current < 0 || _shieldAway ? mood : _current;
+                _current = mood;
+                _changedAt = now;
             }
-            if (now >= _nextBlink) { _blinkAt = now; _nextBlink = now + Random.Range(4f, 7f); }
-            // Legacy loop frames include a blink; play that sequence only at random intervals.
-            int frame = now - _blinkAt < .375f ? Mathf.Min(5, (int)((now - _blinkAt) * 16)) : 0;
-            Sprite Read(int m)
+            if (now >= _nextBlink)
             {
-                var loop = m == 0 ? _loops[0] : m == 3 ? _loops[1] : null;
-                if (loop != null && loop.Length > 0)
-                {
-                    // The supplied normal loop embeds a blink in its latter half.
-                    // Keep its open-eye motion looping; schedule the blink once every 4–7 seconds.
-                    int index = m == 0 ? now - _blinkAt < .4f
-                        ? 4 + (int)((now - _blinkAt) * 20)
-                        : OpenEyeFrames[(int)(now * 20) % OpenEyeFrames.Length]
-                        : (int)(Mathf.Max(0, now - _changedAt - JigoMood.FadeSeconds) * 20) % loop.Length;
-                    return loop[Mathf.Clamp(index, 0, loop.Length - 1)];
-                }
-                return _frames[m][frame] ?? Art.Get(Art54.NormalFrame);
+                if (mood == 0) _blinkAt = now;
+                _nextBlink = now + Random.Range(4f, 7f);
             }
-            _front.sprite = Read(_current);
-            _back.sprite = Read(_previous);
-            int transition = _previous == 0 && _current == 3 ? 0 : _previous == 3 && _current == 0 ? 1 : -1;
-            if (transition >= 0 && now - _changedAt < JigoMood.FadeSeconds && _transitions[transition].Length > 0)
-            {
-                var frames = _transitions[transition];
-                _front.sprite = frames[Mathf.Min(frames.Length - 1, (int)((now - _changedAt) / JigoMood.FadeSeconds * frames.Length))];
-            }
-            float breath = Mathf.Sin(now * Mathf.PI * 2 / 2.2f);
-            float stretch = .035f * Mathf.Sin(Mathf.Clamp01((now - _changedAt) / JigoMood.FadeSeconds) * Mathf.PI);
-            var scale = new Vector3(1 + .02f * breath + stretch, 1 + .02f * breath - stretch, 1);
-            if (_front.sprite != null) _front.transform.localScale = scale * (_portraitHeight / _front.sprite.bounds.size.y);
-            if (_back.sprite != null) _back.transform.localScale = scale * (_portraitHeight / _back.sprite.bounds.size.y);
-            _front.transform.localRotation = _back.transform.localRotation = Quaternion.Euler(0, 0, 1.5f * breath);
-            float alpha = Mathf.Clamp01((now - _changedAt) / JigoMood.FadeSeconds);
-            _front.color = new Color(1, 1, 1, alpha);
-            _back.color = new Color(1, 1, 1, 1 - alpha);
+
+            float fade = _previous == _current ? 1 : Mathf.Clamp01((now - _changedAt) / JigoMood.FadeSeconds);
+            float blink = _current == 0 && _closedEyes != null ? JigoMood.BlinkClosure(now - _blinkAt) : 0;
+            Face(_front, _faces[_current] ?? _faces[0], fade, blink);
+            Face(_back, _faces[_previous] ?? _faces[0], 1 - fade, 0);
+            float shieldAlpha = _shieldAway ? 0 : _current == 0 ? fade : _previous == 0 ? 1 - fade : 0;
+            Show(_shield, shieldAlpha);
+            Show(_grip, shieldAlpha);
         }
     }
 }

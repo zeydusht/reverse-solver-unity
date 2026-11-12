@@ -9,7 +9,7 @@ namespace ReverseSolver.Presentation
         readonly TextView _left, _clock, _piecesTitle, _timeTitle;
         readonly float _scale;
         readonly JigoPortrait54 _portrait;
-        public void ShowClockPortrait(bool showing) => _portrait.Visible(!showing);
+        public void ShowClockShield(bool away) => _portrait.ShieldAway(away);
         bool _frozen, _untimed;
         public void SetFrozen(bool frozen) { _frozen = frozen; }
         int _lastLeft = -1, _lastTime = -1;
@@ -17,6 +17,14 @@ namespace ReverseSolver.Presentation
 
         public static float Scale(float width) => width / 390f;
         static float TopOffset(float width, float safeTop) => Mathf.Max(0, safeTop - 37 * Scale(width));
+        public const float RestingShieldSize = 42;
+        public static Vector2 JigoCenter(float width, float safeTop) =>
+            new Vector2(195, 103) * Scale(width) + Vector2.up * TopOffset(width, safeTop);
+        public static Vector2 TimePanelCenter(float width, float safeTop) =>
+            new Vector2(324, 326f / 3) * Scale(width) + Vector2.up * TopOffset(width, safeTop);
+        public static Vector2 ShieldRest(Vector2 center, float scale) => center + new Vector2(24, 30) * scale;
+        public static Vector2 ShieldGrip(Vector2 center, float diameter, float turn) =>
+            center + new Vector2(-.29f + .1f * turn, .20f) * diameter;
         public static float TopBottom(Vector2 screen, float safeTop) =>
             Mathf.Max(screen.y * .19f + 9 * Scale(screen.x), 168 * Scale(screen.x) + TopOffset(screen.x, safeTop));
         public static float BottomTop(Vector2 screen, float safeBottom) => screen.y - screen.y * .086f - safeBottom;
@@ -31,7 +39,7 @@ namespace ReverseSolver.Presentation
             _left = Panel(root, 201f / 3, offset, order, out _piecesTitle, Lang.T("Pieces", "Parça"));
             _clock = Panel(root, 972f / 3, offset, order, out _timeTitle, Lang.T("Time", "Süre"));
             Art54.Place(root, Art54.Piece, new Vector2(39, 87) * _scale + new Vector2(0, offset), Vector2.one * (19 * _scale), order + 3);
-            var center = new Vector2(195, 103) * _scale + new Vector2(0, offset);
+            var center = JigoCenter(screen.x, safeTop);
             var windowSize = new Vector2(127, 104) * _scale;
             Art54.Stretch(root, Art54.Window, center, windowSize, order + 2);
             _portrait = new JigoPortrait54(root, center, windowSize, order + 3, session);

@@ -8,13 +8,14 @@ namespace ReverseSolver.Presentation
     sealed class P21BoosterView
     {
         const int Order = 3500;
-        public const float ScissorsTravelSeconds = .45f, ScissorsCutSeconds = .3f, ScissorsExitSeconds = .45f;
-        public const float ClockTouchSeconds = .5f;
-        const float IceBreakSeconds = 7f / 18, ClockRetractSeconds = 5f / 12;
-        const float ClockPoseBlendSeconds = .22f;
+        const float ScissorsTravelSeconds = .72f, ScissorsCutSeconds = .64f, ScissorsReturnSeconds = .72f;
+        public const float ScissorsHitSeconds = ScissorsTravelSeconds + ScissorsCutSeconds / 2;
+        public const float ScissorsDuration = ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsReturnSeconds;
+        public const float ClockTouchSeconds = .62f;
+        const float IceBreakSeconds = 7f / 18, ClockRetractSeconds = .55f;
+        const string ClockShield = "Clock/Layers/button-shield";
         MenuPainting _fillOwner;
         int _fillStep = -1;
-        public const float ScissorsDuration = ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsExitSeconds;
         readonly Transform _root;
         readonly Vector2 _screen;
         readonly float _safeTop;
@@ -22,7 +23,8 @@ namespace ReverseSolver.Presentation
         readonly BoosterBar _bar;
         readonly Dictionary<string, Sprite> _sprites = new Dictionary<string, Sprite>();
         Transform _selection;
-        SpriteRenderer _ring, _tool, _shadow, _burst, _trail, _cut, _clock, _clockHold, _ice, _spark, _barFrame, _barFill;
+        SpriteRenderer _ring, _tool, _shadow, _burst, _trail, _cut, _clockShield, _clockGrip, _ice, _spark, _barFrame, _barFill;
+        readonly ShapeView _clockArm, _clockBacking;
         readonly TextView _freezeSeconds;
         int _shownFreezeSeconds = -1;
         Booster? _selected;
@@ -38,9 +40,16 @@ namespace ReverseSolver.Presentation
             _tool = Layer(_root, "tool", Order + 10); _shadow = Layer(_root, "shadow", Order + 8);
             _burst = Layer(_root, "burst", Order + 11); _trail = Layer(_root, "trail", Order + 9);
             _cut = Layer(_root, "cut", Order + 10);
-            _clock = Layer(_root, "Jigo clock", Order - 96); _ice = Layer(_root, "time panel ice", Order - 95);
-            _clockHold = Layer(_root, "Jigo holding the clock", Order - 96);
-            _spark = Layer(_root, "brush contact", Order - 94);
+            _clockArm = ShapeView.Create(_root, "Jigo left arm", new Vector2(32, 13), 1, Order - 98)
+                .Radius(6.5f).Gradient(Draw.Hex("#38C8BD"), Draw.Hex("#126963"));
+            _clockArm.gameObject.SetActive(false);
+            _clockBacking = ShapeView.Create(_root, "clock shield backing", Vector2.one * 32, 1, Order - 97)
+                .Radius(16).Gradient(Draw.Hex("#694728"), Draw.Hex("#412918"));
+            _clockBacking.gameObject.SetActive(false);
+            _clockShield = Layer(_root, "Jigo clock shield", Order - 96);
+            _clockGrip = Layer(_root, "Jigo left grip", Order - 95);
+            _ice = Layer(_root, "time panel ice", Order - 94);
+            _spark = Layer(_root, "shield contact", Order - 93);
             _barFrame = Layer(_root, "freeze channel", Order - 94); _barFill = Layer(_root, "freeze remaining", Order - 93);
             _fillOwner = _barFill.gameObject.AddComponent<MenuPainting>();
             _freezeSeconds = TextView.Create(_root, "Freeze seconds", "", 10 * Hud54.Scale(screen.x), Palette.Cream, order: Order - 92)
@@ -56,7 +65,9 @@ namespace ReverseSolver.Presentation
         void Paint(SpriteRenderer r, string key, Vector2 point, Vector2 size, float alpha = 1, float angle = 0)
         {
             if (key == null || alpha <= 0) { r.enabled = false; return; }
-            if (!_sprites.TryGetValue(key, out var sprite)) _sprites[key] = sprite = key.StartsWith("T46/") ? Art.Get(key) : Resources.Load<Sprite>("Art/yeni/boosters21/" + key);
+            if (!_sprites.TryGetValue(key, out var sprite))
+                _sprites[key] = sprite = key.StartsWith("T46/") || key.StartsWith("hud/")
+                    ? Art.Get(key) : Resources.Load<Sprite>("Art/yeni/boosters21/" + key);
             r.sprite = sprite; r.enabled = sprite != null;
             if (sprite == null) return;
             r.transform.localPosition = Draw.W(point);
@@ -153,9 +164,14 @@ namespace ReverseSolver.Presentation
         {
             _tool.enabled = _shadow.enabled = _burst.enabled = _trail.enabled = _cut.enabled = false;
             if (!booster.HasValue) return;
-            var b = booster.Value; var start = _bar.RectOf(b).center;
-            float arrive = b == Booster.Scissors ? ScissorsTravelSeconds : .4f;
-            float travel = Mathf.Clamp01(age / arrive);
+            var b = booster.Value;
+            if (b == Booster.Scissors)
+            {
+                Scissors(age, target, vertical);
+                return;
+            }
+            var start = _bar.RectOf(b).center;
+            float travel = Mathf.Clamp01(age / .4f);
             var point = Vector2.Lerp(start, target, travel) - Vector2.up * (Mathf.Sin(travel * Mathf.PI) * 100);
             float size = Mathf.Lerp(68, 136, travel);
             string path; float angle = 0, alpha = 1;
@@ -175,22 +191,6 @@ namespace ReverseSolver.Presentation
                 Paint(_shadow, "Boosters/Hammer/soft-shadow", Vector2.Lerp(start, target, travel) + new Vector2(0, 30), new Vector2(size, size * .35f), .55f * alpha);
                 if (age >= .47f) Paint(_burst, Frame("Boosters/Hammer/impact", 1 + Mathf.Min(8, (int)((age - .47f) * 30))), target, Vector2.one * (_board.Cell * 3.8f), Mathf.Clamp01((1 - age) * 5));
             }
-            else if (b == Booster.Scissors)
-            {
-                float cutEnd = ScissorsTravelSeconds + ScissorsCutSeconds;
-                path = age < cutEnd ? Frame("Boosters/Scissors/walk", 1 + (int)(age * 14) % 4)
-                    : Frame("Boosters/Scissors/exit", 1 + Mathf.Min(2, (int)((age - cutEnd) / ScissorsExitSeconds * 3)));
-                if (age < ScissorsTravelSeconds) Paint(_trail, "Boosters/Scissors/speed-trail", point, new Vector2(size * 1.5f, size * .5f), .7f);
-                float cut = Mathf.Clamp01((age - ScissorsTravelSeconds) / ScissorsCutSeconds);
-                if (age >= ScissorsTravelSeconds && age < cutEnd)
-                {
-                    point = target + (vertical ? Vector2.up : Vector2.right) * (_board.Cell * (cut - .5f));
-                    Paint(_cut, Frame("Boosters/Scissors/cut-line", 1 + Mathf.Min(5, (int)(cut * 6))), target, new Vector2(_board.Cell, _board.Cell * .24f), 1, vertical ? -90 : 0);
-                }
-                if (age >= ScissorsTravelSeconds)
-                    Paint(_burst, Frame("Boosters/Scissors/cut-bits", 1 + Mathf.Min(8, (int)((age - ScissorsTravelSeconds) * 16))), target, Vector2.one * (_board.Cell * 3), Mathf.Clamp01((ScissorsDuration - age) * 5));
-                if (age >= cutEnd) { float t = (age - cutEnd) / ScissorsExitSeconds; point.y += 260 * t * t; alpha = 1 - t; }
-            }
             else
             {
                 path = Frame("Boosters/Wand/tool", 1 + (int)(age * 8) % 3);
@@ -205,49 +205,72 @@ namespace ReverseSolver.Presentation
             Paint(_tool, path, point, Vector2.one * size, Mathf.Clamp01(alpha), angle);
         }
 
-        // Each T46 pose contains the whole Jigo and brush; no detached arm layers.
-        public bool Clock(float age, double freezeLeft, bool stopped, float safeTop)
+        void Scissors(float age, Vector2 target, bool vertical)
         {
-            _clock.enabled = _clockHold.enabled = _ice.enabled = _spark.enabled = _barFrame.enabled = _barFill.enabled = false;
+            const float cutEnd = ScissorsTravelSeconds + ScissorsCutSeconds;
+            float approach = Mathf.Clamp01(age / ScissorsTravelSeconds);
+            float retreat = Mathf.Clamp01((age - cutEnd) / ScissorsReturnSeconds);
+            float travel = Mathf.SmoothStep(0, 1, approach) * Mathf.SmoothStep(1, 0, retreat);
+            float angle = vertical ? -90 : 0;
+            var slot = _bar.RectOf(Booster.Scissors);
+            float cutSize = Mathf.Clamp(_board.Cell * 1.22f, 78 * Hud54.Scale(_screen.x), 112 * Hud54.Scale(_screen.x));
+            var seam = vertical ? Vector2.up : Vector2.right;
+            var point = Vector2.Lerp(slot.center, target - seam * (cutSize * .24f), travel);
+            float cut = (age - ScissorsTravelSeconds) / ScissorsCutSeconds;
+            int pose = cut < .20f || cut >= 1 ? 1 : cut < .50f ? 2 : cut < .80f ? 3 : 4;
+            float slotMix = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.01f, .2f, travel));
+            if (slotMix < 1)
+                Paint(_shadow, Art54.Boosters[(int)Booster.Scissors], point, slot.size * .84f, 1 - slotMix, angle * travel);
+            Paint(_tool, Frame("Boosters/Scissors/walk", pose), point,
+                Vector2.Lerp(slot.size * .84f, Vector2.one * cutSize, travel), slotMix, angle * travel);
+            if (age >= ScissorsHitSeconds && age < cutEnd)
+            {
+                float snip = Mathf.InverseLerp(ScissorsHitSeconds, cutEnd, age);
+                Paint(_cut, Frame("Boosters/Scissors/cut-line", 1 + Mathf.Min(5, (int)(snip * 6))),
+                    target, new Vector2(_board.Cell, _board.Cell * .24f), 1 - snip, angle);
+            }
+        }
+
+        public bool Clock(float age, double freezeLeft, bool active, bool stopped)
+        {
+            _clockShield.enabled = _clockGrip.enabled = _ice.enabled = _spark.enabled = _barFrame.enabled = _barFill.enabled = false;
             bool frozen = age >= ClockTouchSeconds && freezeLeft > 0 && !stopped;
             _freezeSeconds.gameObject.SetActive(frozen);
-            if (age < 0) return false;
-            float s = Hud54.Scale(_screen.x), offset = Mathf.Max(0, safeTop - 37 * s);
-            var center = new Vector2(195, 103) * s + new Vector2(0, offset);
-            var panel = new Vector2(324, 108.67f) * s + new Vector2(0, offset);
-            string key;
+            _clockArm.gameObject.SetActive(false);
+            _clockBacking.gameObject.SetActive(false);
+            if (age < 0 || stopped)
+            {
+                _clockWasActive = false;
+                _clockEnded = -1;
+                return false;
+            }
+            float s = Hud54.Scale(_screen.x);
+            var center = Hud54.JigoCenter(_screen.x, _safeTop);
+            var panel = Hud54.TimePanelCenter(_screen.x, _safeTop);
             float ending = 0;
-            if (age < ClockTouchSeconds) key = Frame("T46/clock/extend", 1 + Mathf.Min(5, (int)(age / ClockTouchSeconds * 6)));
-            else if (frozen)
-            {
-                key = Frame("T46/clock/hold", 1 + (int)(Time.unscaledTime * 12) % 4);
-                _clockWasActive = true; _clockEnded = -1;
-            }
-            else
-            {
-                if (!_clockWasActive) return false;
-                if (_clockEnded < 0) _clockEnded = Time.unscaledTime;
-                ending = Time.unscaledTime - _clockEnded;
-                if (ending > IceBreakSeconds + ClockRetractSeconds) { _clockWasActive = false; return false; }
-                key = ending < IceBreakSeconds ? "T46/clock/hold/01" : Frame("T46/clock/retract", 1 + Mathf.Min(4, (int)((ending - IceBreakSeconds) * 12)));
-            }
-            // A normal portrait is a safe fallback until the new whole-body poses arrive.
-            float reach = age < ClockTouchSeconds ? Mathf.Clamp01(age / ClockTouchSeconds) : frozen || ending < IceBreakSeconds ? 1 : 1 - Mathf.Clamp01((ending - IceBreakSeconds) / ClockRetractSeconds);
-            // Source pivot (128,128), 352x256 canvas. Keep the normal 107.95pt bust height.
-            const float bustHeight = 127 * .85f, pixelScale = bustHeight / 256;
-            center.x += (267.5f - 195 - (290 - 128) * pixelScale) * reach * s;
-            float holdMix = frozen ? Mathf.Clamp01((age - ClockTouchSeconds) / ClockPoseBlendSeconds)
-                : _clockWasActive ? 1 - Mathf.Clamp01(ending / ClockPoseBlendSeconds) : 0;
-            var poseSize = new Vector2(352 * pixelScale, bustHeight) * s;
-            if (holdMix > 0)
-                Paint(_clockHold, Frame("Clock/Keys/hold", 1 + (int)(age * 4) % 2),
-                    center + new Vector2(48 * pixelScale * s, 0), poseSize, holdMix);
-            Paint(_clock, key, center, poseSize, _clockHold.enabled ? 1 - holdMix : 1);
             if (frozen)
             {
-                Paint(_ice, "T46/clock/ice_overlay", panel, new Vector2(113, 96.67f) * s);
-                if (age < ClockTouchSeconds + .25f) Paint(_spark, Frame("T46/clock/spark", 1 + Mathf.Min(5, (int)((age - ClockTouchSeconds) * 24))), center + new Vector2(290 - 128, 140 - 128) * (pixelScale * s), Vector2.one * 32 * s);
-                var p = new Vector2(324, 166) * s + new Vector2(0, offset);
+                _clockWasActive = true; _clockEnded = -1;
+            }
+            else if (age >= ClockTouchSeconds)
+            {
+                if (!_clockWasActive) return false;
+                _clockEnded = Mathf.Max(0, _clockEnded);
+                if (active) _clockEnded += Time.unscaledDeltaTime;
+                ending = _clockEnded;
+                if (ending > IceBreakSeconds + ClockRetractSeconds) { _clockWasActive = false; return false; }
+            }
+            float reach = age < ClockTouchSeconds
+                ? Mathf.SmoothStep(0, 1, age / ClockTouchSeconds)
+                : Mathf.SmoothStep(1, 0, Mathf.InverseLerp(IceBreakSeconds, IceBreakSeconds + ClockRetractSeconds, ending));
+            DrawClockShield(center, panel, s, reach);
+            if (frozen)
+            {
+                Paint(_ice, "T46/clock/ice_overlay", panel, new Vector2(113, 96.67f) * s, .78f);
+                if (age < ClockTouchSeconds + .25f)
+                    Paint(_spark, Frame("T46/clock/spark", 1 + Mathf.Min(5, (int)((age - ClockTouchSeconds) * 24))),
+                        panel - new Vector2(32, 15) * s, Vector2.one * 32 * s);
+                var p = panel + new Vector2(0, 57.33f) * s;
                 string bg = Art.Get("T46/clock/freeze_bar_bg") != null ? "T46/clock/freeze_bar_bg" : "Clock/Layers/bar-frame";
                 string fill = Art.Get("T46/clock/freeze_bar_fill") != null ? "T46/clock/freeze_bar_fill" : "Clock/Layers/bar-fill";
                 Paint(_barFrame, bg, p, new Vector2(100, 14) * s);
@@ -276,9 +299,29 @@ namespace ReverseSolver.Presentation
                     _barFill.transform.localScale = new Vector3(96 * s / fillSource.bounds.size.x, 10 * s / fillSource.bounds.size.y, 1);
                 }
             }
-            else if (_clockWasActive)
+            else if (_clockWasActive && ending < IceBreakSeconds)
                 Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(ending * 18))), panel, new Vector2(113, 434f / 3) * s);
-            return _clock.enabled || _clockHold.enabled;
+            return true;
+        }
+
+        void DrawClockShield(Vector2 center, Vector2 panel, float scale, float reach)
+        {
+            float turn = Mathf.Sin(reach * Mathf.PI);
+            float diameter = Mathf.Lerp(Hud54.RestingShieldSize, 92, reach) * scale;
+            var point = Vector2.Lerp(Hud54.ShieldRest(center, scale), panel, reach) - Vector2.up * (12 * scale * turn);
+            var shoulder = center + new Vector2(25, 27) * scale;
+            var hand = Hud54.ShieldGrip(point, diameter, turn);
+            var arm = hand - shoulder;
+            _clockArm.gameObject.SetActive(reach > .12f);
+            _clockArm.transform.localPosition = Draw.W((shoulder + hand) / 2);
+            _clockArm.transform.localRotation = Quaternion.Euler(0, 0, -Mathf.Atan2(arm.y, arm.x) * Mathf.Rad2Deg);
+            _clockArm.transform.localScale = new Vector3((arm.magnitude + 8 * scale) / 32, scale, 1);
+            float width = diameter * (1 - .48f * turn);
+            _clockBacking.gameObject.SetActive(reach > .5f);
+            _clockBacking.transform.localPosition = Draw.W(point);
+            _clockBacking.transform.localScale = new Vector3(width, diameter, 32) * (.64f / 32);
+            Paint(_clockShield, ClockShield, point, new Vector2(width, diameter), 1, -18 * reach);
+            Paint(_clockGrip, "hud/jigo-shield-grip", hand, new Vector2(23, 16) * scale, 1, -48 * reach);
         }
     }
 }

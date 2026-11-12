@@ -895,8 +895,7 @@ namespace ReverseSolver.Presentation
                     _inventory.Complete(e.Booster);
                     _session.SetStock(e.Booster, _inventory.Stock(e.Booster));
                     _trainingUse = null;
-                    // Core's hammer Remove starts its clock. Hold presentation ticks until a normal move.
-                    _tutorialClockHold = true;
+                    _tutorialClockHold = !_session.ClockStarted;
                     _tutorialUntil = Time.unscaledTime + .2f;
                     _spotlight?.Success();
                 }
@@ -936,6 +935,16 @@ namespace ReverseSolver.Presentation
             _drag?.Cancel();
             _boosters?.Disarm();
             _selected21 = null;
+            if (P21Boosters && e.Outcome != Outcome.Win)
+            {
+                _effect21 = null;
+                _clockAge21 = -1;
+                if (_trainingUse.HasValue)
+                {
+                    _trainingUse = null;
+                    _session.FreeUse = null;
+                }
+            }
             if (e.Outcome == Outcome.Quit) return;
             if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
             if (e.Outcome == Outcome.Win) { Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s
@@ -1007,6 +1016,7 @@ namespace ReverseSolver.Presentation
                 _deferredLoss = null;
                 CloseContinue();
                 CloseCard();
+                if (P21Boosters && TutorialActive && _spotlight == null) ShowScriptedTutorial();
                 RefreshPlaying();
             }
             else
@@ -1405,11 +1415,10 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Playing)
             {
+                TickPlayingClock();
                 TickBoosters21();
                 TickP21Tutorial();
                 if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil && !BoosterBusy21) NextScriptedTutorial();
-                // the clock runs only while the board is actually in play
-                if (!_session.IsOver && !P21ClockPaused && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _win21 == null && _continuePanel == null && (!BoosterSelection21 || _selected21 == Booster.Wand) && !BoosterBusy21 && (!P21Boosters || !_pageHidden)) _session.Tick(Time.unscaledDeltaTime);
                 if (_endAt > 0 && Time.unscaledTime >= _endAt)
                 {
                     _endAt = -1;
@@ -1433,6 +1442,16 @@ namespace ReverseSolver.Presentation
             if (_fpsLabel != null) UpdateFpsLabel();
         }
         bool _debugCorridor;
+
+        void TickPlayingClock()
+        {
+            if (_session.IsOver || P21ClockPaused || _introOpen || _card != null || _list != null ||
+                _celebration != null || _win21 != null || _continuePanel != null || P21Boosters && _pageHidden) return;
+            bool guidedPause = TutorialActive || _tutorialClockHold;
+            if (guidedPause && !(P21Boosters && (_session.ClockStarted || _session.FreezeLeft > 0 ||
+                !_session.ClockOnFirstMove && (BoosterSelection21 || BoosterBusy21)))) return;
+            _session.Tick(Time.unscaledDeltaTime);
+        }
 
         /* Focus lost mid-drag: the piece leaves if it was already past the exit
            point, otherwise it springs back (PRODUCT.md K1). */
