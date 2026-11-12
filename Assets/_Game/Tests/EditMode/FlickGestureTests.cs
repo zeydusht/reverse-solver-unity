@@ -28,13 +28,24 @@ namespace ReverseSolver.Core.Tests
             Assert.That(r.Direction, Is.EqualTo(new Vector2(dx, dy)));
         }
 
-        [Test]
-        public void AxisStaysLockedAfterFirstUnambiguousMotion()
+        [TestCase(20)]
+        [TestCase(40)]
+        public void AxisStaysLockedAfterFirstUnambiguousMotion(float drift)
         {
             var g = new FlickGesture();
             g.Classify(Vector2.zero, new Vector2(10, 0), Vector2.zero, false, 60);
-            var r = g.Classify(Vector2.zero, new Vector2(20, 40), Vector2.zero, true, 60);
+            var r = g.Classify(Vector2.zero, new Vector2(20, drift), Vector2.zero, true, 60);
+            Assert.That(r.State, Is.EqualTo(FlickState.Move));
             Assert.That(r.Direction, Is.EqualTo(Vector2.right));
+        }
+
+        [Test]
+        public void DriftAcrossTheLockedAxisDoesNotBypassTheDeadZoneOnSmallCells()
+        {
+            var g = new FlickGesture();
+            g.Classify(Vector2.zero, new Vector2(9, 0), Vector2.zero, false, 20);
+            Assert.That(g.Classify(Vector2.zero, new Vector2(7, 20), Vector2.zero, true, 20).State,
+                Is.EqualTo(FlickState.Cancel));
         }
 
         [TestCase(20, 20)]
@@ -84,6 +95,19 @@ namespace ReverseSolver.Core.Tests
             float cell = BoardSizing.CellSize(width, 852, columns, 6);
             Assert.That((width - columns * cell) / 2, Is.GreaterThanOrEqualTo(24));
             Assert.That(BoardSizing.SideGap(width, columns), Is.InRange(24f, 34f));
+        }
+
+        [Test]
+        public void LayoutCentersTheBoardInsideAsymmetricDeviceInsets()
+        {
+            var screen = new Vector2(393, 852);
+            var safe = new Vector4(44, 50, 8, 34);
+            var level = P21Onboarding.Grid("insets", 7, 1);
+            var origin = GameRoot.BoardPlacement(screen, safe, level, out float cell);
+            float leftGap = origin.x - safe.x;
+            float rightGap = screen.x - safe.z - origin.x - cell * level.Width;
+            Assert.That(leftGap, Is.EqualTo(rightGap));
+            Assert.That(leftGap, Is.GreaterThanOrEqualTo(24));
         }
     }
 }

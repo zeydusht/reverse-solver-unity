@@ -19,8 +19,8 @@ Kurallar:
 
 | İş | Branch | Durum ve kontrol |
 |---|---|---|
-| 1 · Onboarding | `codex/01-onboarding` | ✅ 2×2 rehber, engelsiz 3×3 ve ilk 10’a süre payı. Unity derlemesi geçti. Play Mode’da Seviye 1’in iki takılmasını ve Seviye 2’nin serbest sırasını dene. Telefon turu açık. |
-| 2 · Fiske ve güvenli kenar | | 🔜 PM_58’i doğrula ve girişteki açıkları gider. |
+| 1 · Onboarding | `codex/01-onboarding` | ✅ 2×2 rehber, engelsiz 3×3 ve ilk 10’a süre payı. EditMode 699 geçti. Play Mode’da Seviye 1’in iki takılmasını ve Seviye 2’nin serbest sırasını dene. Telefon turu açık. |
+| 2 · Fiske ve güvenli kenar | `codex/02-controls` | ✅ Yön kilidi çapraz kaymada korunuyor, yatay cihaz girintileri hesaba katılıyor. Unity 18/18. Telefonda kısa fiske ve Safari kenar hareketi kontrolü açık. |
 | 3 · Engel tanıtımı | | 🔜 Tanıtım aralıkları, kayıpsız dersler, bomba ve kilit açıklaması. |
 | 4 · Çıkış hissi | | 🔜 Pop, çatlama, takdir ve özgün «veey» için ses yuvası. |
 | 5 · Booster gösterimleri | | 🔜 Makas, değnek, çekiç ve saat akışlarını doğrula. |

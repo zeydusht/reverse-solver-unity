@@ -59,7 +59,8 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 ## Codex devir çalışması
 
 - **1. Onboarding — `codex/01-onboarding`.** Güncel sanatla yerel Redesign ve p21 açılışı, kayıt kimliklerini koruyan 2×2 rehberli ve 3×3 serbest kaydırma bölümleriyle başlar. İkisinde de süre baskısı yok. Rehber sırası sol alt ↓, sağ alt ↑ (takılır) ve ↓, sağ üst ← (takılır) ve →, son parça herhangi bir boş yöne. Yerel Unity Play Mode’da Redesign’ı açıp Seviye 1’den sırayı uygula ve Seviye 2’yi farklı sırayla temizle. İlk iki bölüm ve süresi değişen bölümler yeni sürüm numarası alır. Önceden ek iki bölümü olan p21 kayıtları o akışı sürdürür. Telefon kontrolü ve ilk 10 bölümün engel dengesi açık.
-- **Onboarding doğrulaması.** Unity 6.6.4f1 derlemesi geçti. EditMode koşusu başlatıldı. Odaklı test sınıfı `P21OnboardingTests`.
+- **Onboarding doğrulaması.** Unity 6.6.4f1 EditMode (Perf hariç) 699 geçti, 0 hata, 2 mevcut atlama. `P21OnboardingTests` 18/18.
+- **2. Kontroller — `codex/02-controls`.** İlk hareket ekseni kilitlendikten sonra çapraz parmak kayması kısa fiskeyi iptal etmiyor. Kilitli eksendeki 8 pt eşiği küçük hücrelerde de korunuyor. Tahta, solda ve sağda cihazın güvenli alanına göre en az 24 pt içeride. İlk rehberli tahtaya geçişte eski genel başlangıç kartı atlanıyor. Unity `FlickGestureTests` 18/18. Telefonda bir kenar parçasını kısa fiskeyle çıkar, sonra ilk yatay hareketi hafif çapraz bitir. iPhone/Safari kenar hareketi kontrolü açık.
 
 ### Zeyd onayı bekliyor
 

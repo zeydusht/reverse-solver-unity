@@ -27,13 +27,17 @@ namespace ReverseSolver.Presentation
             float x = Mathf.Abs(delta.x), y = Mathf.Abs(delta.y), dominant = Mathf.Max(x, y);
             if (delta.magnitude < DeadZone)
                 return Finish(released ? FlickState.None : FlickState.Pending, released);
-            if (Mathf.Abs(x - y) <= dominant * Ambiguity)
-                return Finish(released ? FlickState.Cancel : FlickState.Pending, released);
-            if (!_locked) { _horizontal = x > y; _locked = true; }
+            if (!_locked)
+            {
+                if (Mathf.Abs(x - y) <= dominant * Ambiguity)
+                    return Finish(released ? FlickState.Cancel : FlickState.Pending, released);
+                _horizontal = x > y;
+                _locked = true;
+            }
             float along = _horizontal ? delta.x : delta.y;
             var direction = _horizontal ? new Vector2(Mathf.Sign(along), 0) : new Vector2(0, Mathf.Sign(along));
             float travel = Mathf.Abs(along);
-            bool enough = travel >= Mathf.Min(CellFraction * cell, MaxDistance);
+            bool enough = travel >= Mathf.Max(DeadZone, Mathf.Min(CellFraction * cell, MaxDistance));
             float speed = Vector2.Dot(velocity, direction);
             if (enough && (speed >= SpeedThreshold || released))
             { _ended = true; return new FlickResult(FlickState.Move, direction); }

@@ -533,7 +533,7 @@ namespace ReverseSolver.Presentation
             _endAt = -1;
             // web loadLevel(i): the intro shows on a level's first start, not on retries
             bool firstVisit = !_introSeen.Contains(level.Id);
-            _introOpen = !P21Prelude && Screens.HasIntro(level) && firstVisit;
+            _introOpen = !P21Prelude && !P21OpeningLesson && Screens.HasIntro(level) && firstVisit;
             _introSeen.Add(level.Id);
             ResetScriptedTutorial(firstVisit);
             ResetP21Tutorial();
@@ -1173,24 +1173,23 @@ namespace ReverseSolver.Presentation
         Vector2 PlayingBoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell)
         {
             if (!UseHud54) return BoardPlacement(screen, safe, l, out cell);
-            cell = BoardSizing.CellSize(screen.x, screen.y - safe.y - safe.w, l.Width, l.Height);
+            cell = BoardSizing.CellSize(screen, safe, l);
             float top = Hud54.TopBottom(screen, safe.y), bottom = Hud54.ButtonsTop(screen, safe.w);
             if (P21OpeningLesson) bottom -= P21TutorialView.ChatClearance;
             // Include the tray and sealed-edge walls in the clearance.
             float margin = Mathf.Max(18.2f, cell * .25f);
             if (l.Height * cell + 2 * margin > bottom - top)
                 cell = Mathf.Floor(Mathf.Min(cell, (bottom - top - 36.4f) / l.Height, (bottom - top) / (l.Height + .5f)));
-            return new Vector2((screen.x - l.Width * cell) / 2, (top + bottom - l.Height * cell) / 2);
+            return new Vector2(BoardSizing.Left(screen.x, safe, l.Width * cell), (top + bottom - l.Height * cell) / 2);
         }
 
         public static Vector2 BoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell)
         {
-            float innerH = screen.y - safe.y - safe.w;
-            cell = BoardSizing.CellSize(screen.x, innerH, l.Width, l.Height);
+            cell = BoardSizing.CellSize(screen, safe, l);
             var size = new Vector2(l.Width * cell, l.Height * cell);
             float stageTop = safe.y + BodyPad + Hud.TopPad + Hud.Height + StripBottom;
             float stageBottom = screen.y - safe.w - BodyPad - BottomReserve;
-            return new Vector2((screen.x - size.x) / 2, (stageTop + stageBottom - size.y) / 2);
+            return new Vector2(BoardSizing.Left(screen.x, safe, size.x), (stageTop + stageBottom - size.y) / 2);
         }
 
         void Background()
