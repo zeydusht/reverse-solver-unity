@@ -22,7 +22,7 @@ Kurallar:
 | 1 · Onboarding | `codex/01-onboarding` | ✅ 2×2 rehber, engelsiz 3×3 ve ilk 10’a süre payı. EditMode 699 geçti. Play Mode’da Seviye 1’in iki takılmasını ve Seviye 2’nin serbest sırasını dene. Telefon turu açık. |
 | 2 · Fiske ve güvenli kenar | `codex/02-controls` | ✅ Yön kilidi çapraz kaymada korunuyor, yatay cihaz girintileri hesaba katılıyor. Unity 18/18. Telefonda kısa fiske ve Safari kenar hareketi kontrolü açık. |
 | 3 · Engel tanıtımı | `codex/03-obstacle-lessons` | ✅ 3/10/14/20 tek engelli, kayıpsız dersler. Gerçek sayaç metinleri. Unity 22/22. FunSim 3–10, 96 sanal oyuncuda %100 ilk deneme. Telefon turu açık. |
-| 4 · Çıkış hissi | | 🔜 Pop, çatlama, takdir ve özgün «veey» için ses yuvası. |
+| 4 · Çıkış hissi | `codex/04-piece-feedback` | ✅ Kenarda pop, yarı yol övgüsü ve mevcut özgün «weee». Derleme ve 18 hareket testi geçti. Play Mode’da 3×3’ü yarıla, sesli ve sessiz dene. Telefon miksajı açık. |
 | 5 · Booster gösterimleri | | 🔜 Makas, değnek, çekiç ve saat akışlarını doğrula. |
 | 6 · HUD | | 🔜 Ölçü, çerçeve, beş yuva, Jigo ve devam fiyatları. |
 | 7 · Jigo çizimi | | 🔜 Ön, yan ve arka, üç HUD ifadesi. |

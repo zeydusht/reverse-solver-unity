@@ -362,13 +362,28 @@ namespace ReverseSolver.Presentation
             var center = Vector2.zero;
             foreach (var c in pv.Cells) center += Center(c);
             center /= pv.Cells.Length;
+            float edgeDistance = dir switch
+            {
+                Dir.L => center.x,
+                Dir.R => Size.x - center.x,
+                Dir.U => center.y,
+                _ => Size.y - center.y
+            };
+            float burstDistance = Mathf.Max(0, edgeDistance - .15f * Cell);
+            bool burstPending = pop;
             _ropes.Remove(pv.Index);
             _pieces.Remove(pv.Index);
             Tweens.Run(pv, .34f, t =>
             {
                 float progress = t * t;
                 var offset = Vector2.LerpUnclamped(from, to, progress);
-                float puff = Mathf.Clamp01((Vector2.Dot(offset, axis) - (travelCells + .65f) * Cell) / (1.95f * Cell));
+                float along = Vector2.Dot(offset, axis);
+                if (burstPending && along >= burstDistance)
+                {
+                    burstPending = false;
+                    _juice.ExitAt(pv, center + axis * burstDistance);
+                }
+                float puff = Mathf.Clamp01((along - (travelCells + .65f) * Cell) / (1.95f * Cell));
                 float stretch = .07f * Mathf.Sin(t * Mathf.PI);
                 var scale = dir == Dir.L || dir == Dir.R
                     ? new Vector2(1 + stretch, 1 - stretch * .4f)

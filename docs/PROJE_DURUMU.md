@@ -62,11 +62,13 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - **Onboarding doğrulaması.** Unity 6.6.4f1 EditMode (Perf hariç) 699 geçti, 0 hata, 2 mevcut atlama. `P21OnboardingTests` 18/18.
 - **2. Kontroller — `codex/02-controls`.** İlk hareket ekseni kilitlendikten sonra çapraz parmak kayması kısa fiskeyi iptal etmiyor. Kilitli eksendeki 8 pt eşiği küçük hücrelerde de korunuyor. Tahta, solda ve sağda cihazın güvenli alanına göre en az 24 pt içeride. İlk rehberli tahtaya geçişte eski genel başlangıç kartı atlanıyor. Unity `FlickGestureTests` 18/18. Telefonda bir kenar parçasını kısa fiskeyle çıkar, sonra ilk yatay hareketi hafif çapraz bitir. iPhone/Safari kenar hareketi kontrolü açık.
 - **3. Engel dersleri — `codex/03-obstacle-lessons`.** Yerel Redesign ve güncel p21 akışında kilit 3, zincir 10, duvar 14, bomba 20. Dört ders süre baskısız ve tek engelli. 20’de 4×4 tahtada tek bombanın sayacı 16, son parçaya kadar bırakılabilir. Kartlar gerçek sayaçları anlatıyor, bomba animasyonu ve kilit uyarısı duruyor. Unity `P21OnboardingTests` 22/22. Dört kayıtlı ders yolu supapsız ve boostersız kazanıyor. FunSim’de 96 sanal oyuncuyla 3–10’un her biri %100 ilk-deneme kazanımı verdi. Play Mode’da 3/10/14/20’yi seç, kart ve sayaçları kontrol et, 6’da bomba olmadığını gör. Telefon turu ve gerçek ilk-deneme oranı açık.
+- **4. Parça çıkışı — `codex/04-piece-feedback`.** Mevcut `juice21` pop/konfeti tahta kenarında parça çıkışına eşleniyor. Kilit/makas kırılma efektleri ve kombo korundu. Yavaş oynarken de bölümün yarısında bir övgü görünür. Başarılı itişte projeye ait `Art/audio/weee.wav` düşük seste çalar, ses ayarına uyar. Son çıkış tam pop ve zafer titreşimi kullanır. Unity derlemesi ve 18 hareket testi geçti. Play Mode’da parça çıkar, sonra 3×3 tahtayı aralıklı hamlelerle yarıla ve sessiz modda tekrarla. Görsel ve ses miksajı telefonda açık.
 
 ### Zeyd onayı bekliyor
 
 - 2×2 sürükleme yolu için küçük, hareketli altın noktalar ve Jigo’nun alttaki krem-mavi sohbet kutusu kullanıldı. 3–10 için geçici süre tabanı 90 sn veya parça başına 4 sn, hangisi daha yüksekse. Oyun hissini 1–10 kesintisiz telefon turuyla değerlendir.
 - Engel sırası 3/10/14/20. 20’deki S24’ün karma tahtası yerine aynı kimlik ve tabloyla 4×4 bomba dersi var. İlk gerçek bomba baskısı 21’de başlıyor.
+- Kısa «weee» için eldeki özgün tını ve %35 ses çarpanı kullanıldı. Telefon hoparlöründe pop ile beraber dinlenecek.
 
 ## Açık işler (öncelik sırası)
 1. pt1 takibi: her akşam `v_funnel` + bırakma noktaları + tahmin karşılaştırması. 8 Kasım sonrası rapor + v2.

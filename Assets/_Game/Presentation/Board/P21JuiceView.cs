@@ -6,7 +6,7 @@ namespace ReverseSolver.Presentation
     // Board-owned, prewarmed pools. No tweens, coroutines or loads in the animation loop.
     public sealed class P21JuiceView : MonoBehaviour
     {
-        public static bool Enabled => Art.T54 && Art.GameplayCohort == "p21";
+        public static bool Enabled => Art.T54 && (Art.GameplayCohort == null || Art.GameplayCohort == "p21");
         const float Quick = 1.2f;
         struct Puff
         {
@@ -28,6 +28,7 @@ namespace ReverseSolver.Presentation
         BoardView _board;
         float _lastExit = -10;
         int _next, _combo, _praisedMove;
+        bool _halfwayPraised;
 
         public static P21JuiceView Create(BoardView board)
         {
@@ -87,20 +88,28 @@ namespace ReverseSolver.Presentation
             if (e.Kind == EventKind.NailFreed || (e.Kind == EventKind.PieceRemoved && e.ByHammer && piece.Cells.Length > 1))
                 Burst(_metal, point, Color.white, .45f, 1.8f);
             if (e.Kind != EventKind.PieceRemoved) return;
+            if (e.ByHammer) ExitAt(piece, point);
+            float now = Time.unscaledTime;
+            _combo = now - _lastExit <= Quick ? _combo + 1 : 1; _lastExit = now;
+            // Badges sit inside the board, away from both the timer and booster bar.
+            var badgePoint = new Vector2(_board.Size.x * .5f, _board.Cell * .45f);
+            if (_combo >= 2)
+                ShowBadge(0, _badges[0].View.sprite, _combos[Mathf.Min(_combo, 99)], badgePoint, _board.Cell * 1.3f);
+            int left = _board.Session.Board.PresentCount;
+            bool halfway = !_halfwayPraised && left <= _board.Session.Level.Pieces.Count / 2;
+            int moves = _board.Session.Moves;
+            if (left == 0 || moves - _praisedMove < 3 || (_combo < 2 && !halfway)) return;
+            _halfwayPraised |= halfway;
+            _praisedMove = moves;
+            int tier = Mathf.Clamp(_combo - 2, 0, 2);
+            ShowBadge(1, _praise[tier], Texts.JuicePraise(tier), badgePoint + new Vector2(0, _board.Cell * .8f), _board.Cell * 2.6f);
+        }
+
+        public void ExitAt(PieceView piece, Vector2 point)
+        {
             var tint = PieceView.CellColor(_board.Session.Level, piece.Cells[0]);
             Burst(_pop, point, tint, .36f, 1.9f);
             Burst(_confetti, point, tint, .65f, 2.5f);
-            float now = Time.unscaledTime;
-            _combo = now - _lastExit <= Quick ? _combo + 1 : 1; _lastExit = now;
-            if (_combo < 2) return;
-            // Badges sit inside the board, away from both the timer and booster bar.
-            var badgePoint = new Vector2(_board.Size.x * .5f, _board.Cell * .45f);
-            ShowBadge(0, _badges[0].View.sprite, _combos[Mathf.Min(_combo, 99)], badgePoint, _board.Cell * 1.3f);
-            int moves = _board.Session.Moves;
-            if (moves - _praisedMove < 3) return;
-            _praisedMove = moves;
-            int tier = Mathf.Min(2, _combo - 2);
-            ShowBadge(1, _praise[tier], Texts.JuicePraise(tier), badgePoint + new Vector2(0, _board.Cell * .8f), _board.Cell * 2.6f);
         }
 
         void Burst(Sprite[] frames, Vector2 point, Color tint, float life, float size)

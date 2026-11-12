@@ -850,12 +850,12 @@ namespace ReverseSolver.Presentation
         }
 
         AudioSource _audio;
-        void PlaySound(string key)
+        void PlaySound(string key, float volumeScale = 1f)
         {
             var clip = Art.Sound(key);
             if (clip == null || Art.Muted) return;
             if (_audio == null) _audio = gameObject.AddComponent<AudioSource>();
-            _audio.PlayOneShot(clip);
+            _audio.PlayOneShot(clip, volumeScale);
         }
 
         AudioSource _late;
@@ -913,9 +913,9 @@ namespace ReverseSolver.Presentation
             // PM_MESAJ_19: no sound per piece; the jam keeps its knock; the last piece gets the whole sparkle, then the fanfare
             if (e.Kind == EventKind.PieceRemoved)
             {
-                if (P21JuiceView.Enabled) { PlaySound("pop"); Haptics.Play(Haptics.Kind.Light); }
-                else if (_session.Board.PresentCount == 0) PlaySound("popfull");
-                else Haptics.Play(Haptics.Kind.Light);
+                bool last = _session.Board.PresentCount == 0;
+                if (P21JuiceView.Enabled || last) PlaySound(last ? "popfull" : "pop");
+                if (!last) Haptics.Play(Haptics.Kind.Light);
             }
             else if (P21JuiceView.Enabled && (e.Kind == EventKind.NailFreed || e.Kind == EventKind.JointCut)) PlaySound("piece");
             else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Medium); }
@@ -1552,6 +1552,7 @@ namespace ReverseSolver.Presentation
                     _committedTouch = !released;
                     _drag.Move(end.x, end.y, now);
                     if (FinishP21Jam(released)) return;
+                    if (P21JuiceView.Enabled && limit.Exit) PlaySound("weee", .35f);
                     FinishPointerDrag(false, true);
                 }
                 else if (released)
