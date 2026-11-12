@@ -29,7 +29,7 @@ namespace ReverseSolver.Presentation
         int _shownFreezeSeconds = -1;
         Booster? _selected;
         int _zone = -2, _language = -1;
-        float _clockEnded = -1;
+        float _thawAge;
         bool _clockWasActive;
         public Rect ConfirmRect { get; private set; }
 
@@ -241,28 +241,27 @@ namespace ReverseSolver.Presentation
             if (age < 0 || stopped)
             {
                 _clockWasActive = false;
-                _clockEnded = -1;
+                _thawAge = 0;
                 return false;
             }
             float s = Hud54.Scale(_screen.x);
             var center = Hud54.JigoCenter(_screen.x, _safeTop);
             var panel = Hud54.TimePanelCenter(_screen.x, _safeTop);
-            float ending = 0;
-            if (frozen)
+            bool reaching = age < ClockTouchSeconds;
+            if (reaching || frozen)
             {
-                _clockWasActive = true; _clockEnded = -1;
+                _clockWasActive = frozen;
+                _thawAge = 0;
             }
-            else if (age >= ClockTouchSeconds)
+            else
             {
                 if (!_clockWasActive) return false;
-                _clockEnded = Mathf.Max(0, _clockEnded);
-                if (active) _clockEnded += Time.unscaledDeltaTime;
-                ending = _clockEnded;
-                if (ending > IceBreakSeconds + ClockRetractSeconds) { _clockWasActive = false; return false; }
+                if (active) _thawAge += Time.unscaledDeltaTime;
+                if (_thawAge > IceBreakSeconds + ClockRetractSeconds) { _clockWasActive = false; return false; }
             }
-            float reach = age < ClockTouchSeconds
+            float reach = reaching
                 ? Mathf.SmoothStep(0, 1, age / ClockTouchSeconds)
-                : Mathf.SmoothStep(1, 0, Mathf.InverseLerp(IceBreakSeconds, IceBreakSeconds + ClockRetractSeconds, ending));
+                : Mathf.SmoothStep(1, 0, Mathf.InverseLerp(IceBreakSeconds, IceBreakSeconds + ClockRetractSeconds, _thawAge));
             DrawClockShield(center, panel, s, reach);
             if (frozen)
             {
@@ -299,8 +298,8 @@ namespace ReverseSolver.Presentation
                     _barFill.transform.localScale = new Vector3(96 * s / fillSource.bounds.size.x, 10 * s / fillSource.bounds.size.y, 1);
                 }
             }
-            else if (_clockWasActive && ending < IceBreakSeconds)
-                Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(ending * 18))), panel, new Vector2(113, 434f / 3) * s);
+            else if (!reaching && _thawAge < IceBreakSeconds)
+                Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(_thawAge * 18))), panel, new Vector2(113, 434f / 3) * s);
             return true;
         }
 

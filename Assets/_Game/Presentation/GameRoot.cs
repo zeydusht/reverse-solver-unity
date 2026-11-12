@@ -895,7 +895,7 @@ namespace ReverseSolver.Presentation
                     _inventory.Complete(e.Booster);
                     _session.SetStock(e.Booster, _inventory.Stock(e.Booster));
                     _trainingUse = null;
-                    _tutorialClockHold = !_session.ClockStarted;
+                    _tutorialClockHold = !P21Boosters || !_session.ClockStarted;
                     _tutorialUntil = Time.unscaledTime + .2f;
                     _spotlight?.Success();
                 }

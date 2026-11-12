@@ -23,8 +23,8 @@ namespace ReverseSolver.PlayMode.Tests
         InputSettings.EditorInputBehaviorInPlayMode _previousEditorInput;
 #endif
 
-        [UnitySetUp]
-        public IEnumerator OpenGame()
+        [SetUp]
+        public void ConfigureInputAndHost()
         {
             _previousHost = Host.Current;
             Host.Current = _host = new LocalHost();
@@ -39,7 +39,6 @@ namespace ReverseSolver.PlayMode.Tests
             input.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
             input.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             _mouse = InputSystem.AddDevice<Mouse>("OpeningTestMouse");
-            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
         }
 
         [UnityTearDown]
@@ -61,6 +60,7 @@ namespace ReverseSolver.PlayMode.Tests
         [UnityTest]
         public IEnumerator GuidedSwipesWinAndNextButtonStartsEasyLevel()
         {
+            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
             yield return WaitFor(() => MenuPlay != null, "the menu play button");
             yield return Click(LayoutPoint(MenuPlay));
             yield return WaitFor(() => Board != null && Board.Session.Level.Number == 1, "the first board");
@@ -122,6 +122,75 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(stats.Of(easySession.Level.Id).FirstRescueCount, Is.EqualTo(9));
         }
 
+        [UnityTest]
+        public IEnumerator ScissorsTargetingAndFlightKeepTheClockRunning()
+        {
+            yield return OpenTimedBooster("makas");
+            var board = Board;
+            var session = board.Session;
+            var target = (from y in Enumerable.Range(0, session.Level.Height)
+                          from x in Enumerable.Range(1, session.Level.Width - 1)
+                          let point = board.Origin + new Vector2(x, y + .5f) * board.Cell
+                          where board.JointAt(point).HasValue
+                          select point).First();
+            int before = session.TimeLeft;
+            yield return WaitFor(() => session.TimeLeft < before, "the countdown during scissors targeting");
+            int stock = session.Stock(Booster.Scissors);
+            int afterTargeting = session.TimeLeft;
+            yield return Click(target);
+            yield return WaitFor(() => session.Stock(Booster.Scissors) < stock, "the scissors cutting the joint");
+            Assert.That(session.TimeLeft, Is.LessThan(afterTargeting));
+            Assert.That(GameObject.Find("P21 boosters").transform.Find("trail").GetComponent<SpriteRenderer>().enabled, Is.False);
+        }
+
+        [UnityTest]
+        public IEnumerator HammerTargetingTimesOutWithoutSpendingStock()
+        {
+            yield return OpenTimedBooster("cekic");
+            var session = Board.Session;
+            int stock = session.Stock(Booster.Hammer);
+            session.Tick(session.TimeLeft - 1);
+            yield return WaitFor(() => session.Outcome == Outcome.Time, "a timeout with hammer targeting open");
+            Assert.That(session.Stock(Booster.Hammer), Is.EqualTo(stock));
+        }
+
+        [UnityTest]
+        public IEnumerator ClockShieldFreezesOnContactAndKeepsThePortraitVisible()
+        {
+            yield return OpenTimedBooster("cekic");
+            var session = Board.Session;
+            session.TestBoosterUnlock = Booster.Clock;
+            session.SetStock(Booster.Clock, 1);
+            var clockSlot = UnityEngine.Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None)
+                .Single(r => r.sortingOrder == 3203 && r.sprite != null && r.sprite.name == "clock");
+            Assert.That(session.FreezeLeft, Is.Zero);
+            yield return Click(LayoutPoint(clockSlot.transform));
+            yield return WaitFor(() => session.FreezeLeft > 0, "the clock shield contacting the timer");
+            int frozenAt = session.TimeLeft;
+            var shield = GameObject.Find("Jigo clock shield").GetComponent<SpriteRenderer>();
+            var ice = GameObject.Find("time panel ice").GetComponent<SpriteRenderer>();
+            Assert.That(shield.enabled && ice.enabled, Is.True);
+            Assert.That(Vector3.Distance(shield.transform.position, ice.transform.position), Is.LessThan(.01f));
+            yield return WaitFor(() => session.FreezeLeft < 9.5, "the freeze bar decreasing");
+            Assert.That(session.TimeLeft, Is.EqualTo(frozenAt));
+            Assert.That(session.FreezeLeft, Is.GreaterThan(0));
+            Assert.That(GameObject.Find("Jigo portrait").GetComponent<SpriteRenderer>().enabled, Is.True);
+            Assert.That(GameObject.Find("Freeze seconds").activeInHierarchy, Is.True);
+            session.Tick(session.FreezeLeft);
+            yield return WaitFor(() => session.TimeLeft < frozenAt, "the countdown resuming after thaw");
+        }
+
+        IEnumerator OpenTimedBooster(string booster)
+        {
+            _host.Booster = booster;
+            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+            yield return WaitFor(() => Board != null && Board.Session.Level.Id == "S10", "the timed booster test board");
+            yield return new WaitForSecondsRealtime(.3f);
+            var session = Board.Session;
+            Assert.That(session.RecordJam(0), Is.EqualTo(CommandResult.Ok));
+            Assert.That(session.ClockStarted, Is.True);
+        }
+
         static BoardView Board => UnityEngine.Object.FindAnyObjectByType<BoardView>();
         static Transform MenuPlay => GameObject.Find("Menu")?.transform.Find("play");
         static Transform Next => GameObject.Find("P21 win and chest")?.transform.Find("surface/next green");
@@ -163,7 +232,14 @@ namespace ReverseSolver.PlayMode.Tests
 
         sealed class LocalHost : IHost
         {
-            public string Query(string name) => name == "debug" ? "1" : null;
+            public string Booster;
+            public string Query(string name) => name switch
+            {
+                "debug" => "1",
+                "lv" when Booster != null => "S10",
+                "booster" => Booster,
+                _ => null
+            };
             public float PixelRatio => 1;
             public Vector4 SafeInsets => Vector4.zero;
             public IKeyValueStore Store { get; } = new MemoryStore();

@@ -32,7 +32,10 @@ namespace ReverseSolver.Presentation
             step(0);
         }
 
-        public static void Kill(object key) => Instance._live.RemoveAll(t => Equals(t.Key, key));
+        public static void Kill(object key)
+        {
+            if (_instance != null) _instance._live.RemoveAll(t => Equals(t.Key, key));
+        }
 
         void Update()
         {

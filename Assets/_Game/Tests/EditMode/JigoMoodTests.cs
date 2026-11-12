@@ -28,5 +28,21 @@ namespace ReverseSolver.Core.Tests
             Assert.That(JigoMood.Read(3.01f, null, false, false, false), Is.EqualTo(JigoState.Tedirgin));
             Assert.That(JigoMood.Read(0, null, true, false, false), Is.EqualTo(JigoState.Korku));
         }
+
+        [Test]
+        public void BlinkClosesCompletelyAndReopensInOneMotion()
+        {
+            Assert.That(JigoMood.BlinkClosure(0), Is.Zero);
+            Assert.That(JigoMood.BlinkClosure(.17f), Is.EqualTo(1));
+            Assert.That(JigoMood.BlinkClosure(.21f), Is.EqualTo(1));
+            Assert.That(JigoMood.BlinkClosure(JigoMood.BlinkDuration), Is.Zero);
+            for (int frame = 1; frame < 40; frame++)
+            {
+                float earlier = JigoMood.BlinkClosure((frame - 1) / 100f);
+                float later = JigoMood.BlinkClosure(frame / 100f);
+                if (frame <= 20) Assert.That(later, Is.GreaterThanOrEqualTo(earlier));
+                else Assert.That(later, Is.LessThanOrEqualTo(earlier));
+            }
+        }
     }
 }
