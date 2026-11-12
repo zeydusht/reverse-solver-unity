@@ -117,6 +117,9 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(easySession.TimeLeft, Is.EqualTo(initialTime));
             var save = new SaveData(_host.Store, () => "unused");
             Assert.That(save.Best.Keys, Is.EquivalentTo(new[] { session.Level.Id, easySession.Level.Id }));
+            var stats = PlayStats.Load(_host.Store);
+            Assert.That(stats.Of(session.Level.Id).FirstRescueCount, Is.EqualTo(4));
+            Assert.That(stats.Of(easySession.Level.Id).FirstRescueCount, Is.EqualTo(9));
         }
 
         static BoardView Board => UnityEngine.Object.FindAnyObjectByType<BoardView>();

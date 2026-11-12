@@ -149,6 +149,7 @@ namespace ReverseSolver.Presentation
             _images = LevelImages.Create();
             _cam = Camera.main;
             _set = PlayOverride.Active ? PlayOverride.Set : ChooseSet();
+            var authoredSet = _set;
             string launchCohort = TelemetryMeta.CleanCohort(Host.Current.Query("c")) ?? TelemetryMeta.CleanCohort(Host.Current.Store.Get("rs_cohort"));
             Art.CohortOverride = launchCohort;
             _testMode = LaunchPlan.TestMode(Host.Current.Query("c"), Host.Current.Query("test"));
@@ -170,7 +171,7 @@ namespace ReverseSolver.Presentation
             else if (_p21Revised) _set = P21Onboarding.SpaceObstacleLessons(P21Onboarding.ReplaceOpening(_set));
             Debug.Log($"[p21] flow={_p21Flow} levels={_set.Levels.Count}");
             _stats = PlayStats.Load(host.Store);
-            _stats.ImportLegacy(_save);
+            _stats.ImportLegacy(_save, _p21Revised ? authoredSet : null);
             _log = _save.Restore();
             var queue = new TelemetryQueue(host.Store);
             bool send = host.SendEnabled && !Host.Debug && !Application.isEditor;
@@ -833,7 +834,12 @@ namespace ReverseSolver.Presentation
         int SavedJiggles()
         {
             int n = 0;
-            for (int i = 0; i < _set.Levels.Count; i++) if (_progress.Won(i)) n += _set.Levels[i].Pieces.Count;
+            for (int i = 0; i < _set.Levels.Count; i++)
+            {
+                if (!_progress.Won(i)) continue;
+                var level = _set.Levels[i];
+                n += _previewWins ? level.Pieces.Count : _stats.RescuedFor(level);
+            }
             return n;
         }
 
@@ -1102,7 +1108,7 @@ namespace ReverseSolver.Presentation
                     float bottom = _tabs.Top - 28;
                     if (_levelsMapOpen) _levelsMap = new LevelsMap(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, _images, HudOrder, _mapOffset);
                     else if (_tab == MenuTab.Collection) _collection = new CollectionScreen(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, _images, HudOrder, _collectionOffset);
-                    else if (_tab == MenuTab.Jiggles) _jiggles = new JigglesScreen(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, HudOrder, _jigglesOffset);
+                    else if (_tab == MenuTab.Jiggles) _jiggles = new JigglesScreen(_world, _screen, menuSafe.y, bottom, SavedJiggles(), HudOrder, _jigglesOffset);
                     else if (_tab == MenuTab.Trophies) _achievements = new AchievementsScreen(_world, _screen, menuSafe.y, bottom, achievements, HudOrder, _achievementsOffset);
                     menuSafe.w = _screen.y - _tabs.Top;   // Home: the Level button sits 16 pt above the bar
                 }

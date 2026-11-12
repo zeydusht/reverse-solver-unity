@@ -30,7 +30,8 @@ Kurallar:
 | 9 · Açılış storyboard’u | `codex/09-opening-storyboard` | ✅ Yedi dikey kare ve çekim açıklamaları. `docs/art/devir/ACILIS_STORYBOARD.md`. Kurgu onayı açık. |
 | 10 · HUD ve booster çizimleri | `codex/10-hud-booster-assets` | ✅ Onaylı renk seti, 5 ikon ve HUD katmanları `docs/art/devir/HUD_BOOSTER.md` içinde. RGBA/boyut kontrolü geçti. |
 | 11 · İlk oyundan sonraki seviyeye geçiş | `codex/11-opening-playmode` | ✅ PlayMode 1/1. Menü → iki takılma ve 2×2 zaferi → Sonraki Seviye → 3×3 zaferi. İki sonuç geçici kayıtta. |
-| 12 · Yerel Jiggle sayacı | `codex/12-rescue-count` | ⏳ Tahta sürümü değiştiğinde eski kurtarma sayısını koru, yeni kazanımı kaydet ve iki ekranda aynı toplamı kullan. |
+| 12 · Yerel Jiggle sayacı | `codex/12-rescue-count` | ✅ Eski sayı ve ilk kazanım korunuyor. Profil/Jiggles ortak toplam. Unity 8/8 ve PlayMode 1/1. |
+| 13 · iPhone/Safari turu | | 🔜 İlk 10, fiske ve güvenli kenar, ödüller ve yeni sanat. Fiziksel cihaz doğrulaması bekliyor. |
 
 ## ZEYD — senin işlerin
 

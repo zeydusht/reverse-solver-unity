@@ -12,6 +12,7 @@ namespace ReverseSolver.Core
         public int? BestWinSeconds { get; internal set; }
         public int? MinJamsOnWin { get; internal set; }
         public int? MinLeftOnWin { get; internal set; }
+        public int? FirstRescueCount { get; internal set; }
         public bool HalfLeftWin { get; internal set; }
     }
 
@@ -23,12 +24,16 @@ namespace ReverseSolver.Core
         public int SumLeftOnWins { get; private set; }
         public int WinCount { get; private set; }
         public LevelPlayStats Of(string id) => _levels.TryGetValue(id, out var s) ? s : null;
-        public void ImportLegacy(SaveData save)
+        public int RescuedFor(LevelData level) => Of(level.Id)?.FirstRescueCount ?? level.Pieces.Count;
+
+        public void ImportLegacy(SaveData save, LevelSet authoredLevels = null)
         {
             foreach (var kv in save.Best)
             {
                 if (kv.Value <= 0) continue;
                 if (!_levels.TryGetValue(kv.Key, out var s)) _levels[kv.Key] = s = new LevelPlayStats();
+                if (!s.FirstRescueCount.HasValue && authoredLevels != null && authoredLevels.TryGet(kv.Key, out var original))
+                    s.FirstRescueCount = original.Pieces.Count;
                 if (s.HasFirstTryWin) continue;
                 s.FirstTryWin = save.LossesOf(kv.Key) == 0 && save.Attempts.TryGetValue(kv.Key, out int n) && n == 1;
                 s.HasFirstTryWin = true;
@@ -51,6 +56,7 @@ namespace ReverseSolver.Core
             if (r.Attempt == 1) { s.FirstTryWin = r.Result == "win" && r.Continues == 0; s.HasFirstTryWin = true; }
             if (r.Result != "win") return;
             s.Wins++; WinCount++;
+            if (r.Moves > 0) s.FirstRescueCount ??= r.Moves;
             int left = Math.Max(0, r.LeftSeconds);
             SumLeftOnWins += left;
             s.BestWinSeconds = Min(s.BestWinSeconds, Math.Max(0, r.DurationSeconds));
@@ -70,6 +76,7 @@ namespace ReverseSolver.Core
                 w.Key(kv.Key).BeginObject().Field("wins", s.Wins);
                 if (s.HasFirstTryWin) w.Key("first").Value(s.FirstTryWin);
                 Write(w, "best", s.BestWinSeconds); Write(w, "jams", s.MinJamsOnWin); Write(w, "left", s.MinLeftOnWin);
+                if (s.FirstRescueCount.HasValue) w.Field("rescued", s.FirstRescueCount.Value);
                 w.Key("half").Value(s.HalfLeftWin).EndObject();
             }
             store.Set(SaveData.Key("stats"), w.EndObject().EndObject().ToString()); store.Save();
@@ -92,7 +99,8 @@ namespace ReverseSolver.Core
                         var v = kv.Value; if (v.Kind != JsonKind.Object) continue;
                         s._levels[kv.Key] = new LevelPlayStats { Wins = Number(v, "wins") ?? 0,
                             FirstTryWin = Flag(v, "first"), HasFirstTryWin = v.TryGet("first", out var first) && first.Kind == JsonKind.Bool,
-                            BestWinSeconds = Number(v, "best"), MinJamsOnWin = Number(v, "jams"), MinLeftOnWin = Number(v, "left"), HalfLeftWin = Flag(v, "half") };
+                            BestWinSeconds = Number(v, "best"), MinJamsOnWin = Number(v, "jams"), MinLeftOnWin = Number(v, "left"),
+                            FirstRescueCount = Number(v, "rescued"), HalfLeftWin = Flag(v, "half") };
                     }
             }
             catch (JsonException) { return new PlayStats(); }

@@ -70,7 +70,8 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - **9. Açılış storyboard’u — `codex/09-opening-storyboard`.** Dondurma, çerçeveleme, galeri, dokunarak uyanış, düşüş, kese ve kurtarma kararı için yedi dikey kare. `docs/art/devir/ACILIS_STORYBOARD.md` kadraj/süre/kurgu ve ImageGen istemlerini içeriyor. Yeni 05–07 PNG’leri `docs/art/devir/acilis-kareleri/`. 05–07’de tabloda üç arkadaş ve boş sol üst yuva kontrol edildi. Kurgu ve kısa cihaz okuması onay bekliyor.
 - **10. HUD ve booster asset’leri — `codex/10-hud-booster-assets`.** Unity’deki onaylı renk seti kullanıldı. `docs/art/devir/HUD_BOOSTER.md` içinde katmanlar, kontursuz dört booster, mavi çekiç, kahverengi saat ve Kont mührünün bağlantılı önizlemeleri var. Beş ikonun alfa kanalı, sınırları ve boyutları kontrol edildi. Cihazda 4 booster ile 5. yuvanın görünümü açık.
 - **11. Yerel PlayMode doğrulaması — `codex/11-opening-playmode`.** PT1’de 10. bölümden önce ayrılan 30 oyuncunun 21’i son bölümünü kazanmıştı. `OpeningFlowTests` gerçek Game sahnesinde menüye basarak başlıyor, 20 pt hareketle iki öğretici takılma ve dört çıkış yapıyor, kutlamadan Sonraki Seviye ile 3×3’e geçiyor ve iki kazanımı geçici kayıtta görüyor. Unity PlayMode 1/1 geçti. Test Runner → PlayMode → OpeningFlowTests. Telefon dokunması ve Safari kenar hareketi ayrı cihaz kontrolünde.
-- **12. Yerel Jiggle sayacı — `codex/12-rescue-count`, sırada.** PT1’deki sürüye katılma kararına göre tamamlanan bir bölümün Jiggle sayısı kazanıldığı tahtadan gelmeli. 1, 2 ve 20 küçüldüğü için eski yerel kayıtların toplamını koru. Profil ve Jiggles ekranı aynı toplamı göstersin. Eski kayıt, yeni kazanım ve tekrar oynama için EditMode kontrolü yap.
+- **12. Yerel Jiggle sayacı — `codex/12-rescue-count`.** İlk kazanımdaki sayı yerel kayda yazılır. Küçülen 1, 2 ve 20’yi önceden bitiren oyuncular eski tahta sayılarını korur. Profil ve Jiggles ekranı aynı toplamı kullanır. `PlayStatsTests` 8/8, `OpeningFlowTests` 1/1. PlayMode geçici kaydında ilk iki bölüm için 4 ve 9 kurtarma saklandı. Eski kayıt için bölüm 1’i tekrar bitirip profildeki toplamı karşılaştır.
+- **13. Sıradaki doğrulama · iPhone/Safari.** İlk 10 bölümü tek oturumda oyna. Bölüm 1 yön rehberi, kenarda kısa fiske, 3/10 dersleri, Sonraki Seviye ve 3/5/10 sandıkları. 14/20 duvar ve bomba kartı, 15/23 saat ve çekiç ek kontrol. Bu oturumda fiziksel iPhone/Safari doğrulaması açık.
 
 ### Zeyd onayı bekliyor
 
@@ -80,6 +81,7 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - Saat dondururken PM_62 fırça teması ve buz animasyonu kullanılıyor, tutuş anında mevcut T42 saat pozlarına geçiliyor.
 - Jigo’nun mızrağı hikâyedeki mavi uçlu fırçadan yapılıyor. Lacivert kısa savaşçı giysisi, krem bordür ve küçük deri aksesuarlar yeni föyde.
 - Yeni storyboard’da Jigo ilk bölümden önce düşüp kuşanıyor. Oyuncunun dokunarak uyandırması korunuyor. İlk oyuna geçişte aydınlanan çerçeve önerildi.
+- Eski yerel kayıtta kurtarma sayısı alanı yoksa yeni denge uygulanmadan önceki setin parça sayısı kullanılıyor. İlk üç değişen tahtanın eski sayıları S41=9, S42=16, S24=39.
 
 ## Açık işler (öncelik sırası)
 1. pt1 takibi: her akşam `v_funnel` + bırakma noktaları + tahmin karşılaştırması. 8 Kasım sonrası rapor + v2.

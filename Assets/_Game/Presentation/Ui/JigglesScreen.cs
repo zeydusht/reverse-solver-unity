@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using ReverseSolver.Core;
 using UnityEngine;
 
 namespace ReverseSolver.Presentation
@@ -9,12 +7,10 @@ namespace ReverseSolver.Presentation
         public readonly MenuScroll Scroll;
         public static readonly string[] Colors = { "blue", "pink", "red", "green", "purple" };
         readonly Rect[] _avatars = new Rect[5];
-        public JigglesScreen(Transform root, Vector2 screen, float top, float bottom, IReadOnlyList<LevelData> levels, Progress progress, int order, float offset)
+        public JigglesScreen(Transform root, Vector2 screen, float top, float bottom, int total, int order, float offset)
         {
             MenuUi.Scene(root, "jiggles", screen, order - 10);
             MenuUi.Title(root, screen, top, Texts.Tab(2), order + 30);
-            int total = 0;
-            for (int i = 0; i < levels.Count; i++) if (progress.Won(i)) total += levels[i].Pieces.Count;
             // PM_MESAJ_27 A4: the total in the banner style, the Jiggle icon on its left; no per-colour counts
             var saved = MenuUi.Banner(root, Texts.SavedTotal(total), Vector2.zero, 27, order + 31, screen.x - 80);
             float tw = saved.Width, ix = screen.x / 2 - (tw + 40) / 2 + 17;

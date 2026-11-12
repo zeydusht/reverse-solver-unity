@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace ReverseSolver.Core.Tests
@@ -82,6 +83,40 @@ namespace ReverseSolver.Core.Tests
             Assert.That(PlayStats.Load(store).FirstTry("P20", true, save), Is.False);
             store.Set(SaveData.Key("stats"), "broken");
             Assert.That(PlayStats.Load(store).TotalSeconds, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void LegacyRescuesSurviveAReducedBoardAndReplay()
+        {
+            var store = new MemoryStore();
+            var save = new SaveData(store, () => "test");
+            save.Best["P20"] = 3;
+            var authored = new LevelSet(1, new List<LevelData> { P21Onboarding.Grid("P20", 3, 1) });
+            var smaller = P21Onboarding.Grid("P20", 2, 1);
+            var stats = PlayStats.Load(store);
+            stats.ImportLegacy(save, authored);
+            Assert.That(stats.RescuedFor(smaller), Is.EqualTo(9));
+            var replay = Record("win", 2); replay.Moves = 4;
+            stats.Add(replay, 180);
+            stats.Save(store);
+            Assert.That(PlayStats.Load(store).RescuedFor(smaller), Is.EqualTo(9));
+        }
+
+        [Test]
+        public void FirstActualWinUsesTheBoardClearedAndSurvivesLegacyImport()
+        {
+            var store = new MemoryStore();
+            var stats = PlayStats.Load(store);
+            var win = Record("win", 1); win.Moves = 4;
+            stats.Add(win, 180);
+            stats.Save(store);
+            var olderBoard = P21Onboarding.Grid("P20", 3, 1);
+            var authored = new LevelSet(1, new List<LevelData> { olderBoard });
+            var save = new SaveData(store, () => "test");
+            save.Best["P20"] = 3;
+            var loaded = PlayStats.Load(store);
+            loaded.ImportLegacy(save, authored);
+            Assert.That(loaded.RescuedFor(olderBoard), Is.EqualTo(4));
         }
     }
 }
