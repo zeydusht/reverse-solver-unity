@@ -19,7 +19,7 @@ namespace ReverseSolver.Presentation
 
         void OnP21LockedAttempt(GameEvent e)
         {
-            if (!Art.T54 || Art.GameplayCohort != "p21" || e.Kind != EventKind.Jammed) return;
+            if (!Art.T54 || (!_p21Revised && Art.GameplayCohort != "p21") || e.Kind != EventKind.Jammed) return;
             int remaining = _session.NailAt(e.Piece);
             if (remaining <= 0 || _board == null) return;
             _board.WarnLocked(e.Piece);
@@ -32,7 +32,9 @@ namespace ReverseSolver.Presentation
         TelemetrySender _tutorialSender;
         bool P21Prelude => _p21Flow && _index < 2;
         bool P21OpeningLesson => _p21Revised && _index < 2;
+        bool P21ObstacleLesson => _p21Revised && P21Onboarding.IsObstacleLesson(_index + 1);
         bool P21Guided => _p21Revised ? _index == 0 : P21Prelude && _index == 0;
+        bool P21ClockPaused => P21Guided || P21OpeningLesson || P21ObstacleLesson;
         (int Step, int Piece, Dir? Direction, bool Blocked) P21Slide => _p21Revised
             ? P21Onboarding.GuidedSlide(_p21Action)
             : _p21Action switch
@@ -96,7 +98,7 @@ namespace ReverseSolver.Presentation
                 var picture = Resources.Load<Texture2D>("Art/yeni/tutorial/Painting/jigo-meadow");
                 if (picture != null) _board.SetImage(picture);
             }
-            if (P21Guided || P21OpeningLesson) _hud?.PauseTutorialTime();
+            if (P21ClockPaused) _hud?.PauseTutorialTime();
             if (Time.unscaledTime < _p21BannerUntil)
                 P21TutorialView.Banner(_world, _screen, _safe.y, _p21BannerUntil - Time.unscaledTime);
         }

@@ -168,7 +168,7 @@ namespace ReverseSolver.Presentation
                 && P21Onboarding.IsNewFlow(_save);
             _p21Revised = !_p21Flow && P21Onboarding.UseGuided(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, guidedFlag);
             if (_p21Flow) _set = P21Onboarding.Prepend(_set);
-            else if (_p21Revised) _set = P21Onboarding.ReplaceOpening(_set);
+            else if (_p21Revised) _set = P21Onboarding.SpaceObstacleLessons(P21Onboarding.ReplaceOpening(_set));
             Debug.Log($"[p21] flow={_p21Flow} levels={_set.Levels.Count}");
             _stats = PlayStats.Load(host.Store);
             _stats.ImportLegacy(_save);
@@ -327,7 +327,7 @@ namespace ReverseSolver.Presentation
             _profileSender.Flush();
             CloseCard();
             // PM_MESAJ_40: the question may have covered a level's intro card; it comes back, never swallowed
-            if (_mode == Mode.Playing && _introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder));
+            if (_mode == Mode.Playing && _introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder, P21ObstacleLesson));
         }
 
         /* 1-10 after a level: SET40 with a cohort asks once per level (win or loss, "Skip" allowed); without a cohort
@@ -533,7 +533,7 @@ namespace ReverseSolver.Presentation
             _endAt = -1;
             // web loadLevel(i): the intro shows on a level's first start, not on retries
             bool firstVisit = !_introSeen.Contains(level.Id);
-            _introOpen = !P21Prelude && !P21OpeningLesson && Screens.HasIntro(level) && firstVisit;
+            _introOpen = !P21Prelude && !P21OpeningLesson && Screens.HasIntro(level, !_p21Revised || _index != 5) && firstVisit;
             _introSeen.Add(level.Id);
             ResetScriptedTutorial(firstVisit);
             ResetP21Tutorial();
@@ -589,8 +589,12 @@ namespace ReverseSolver.Presentation
         void ResetScriptedTutorial(bool firstVisit)
         {
             _tutorialScript ??= TutorialScript.Load();
+            int slot = _index + 1 - (_p21Flow ? 2 : 0);
+            // Reuse the bomb spotlight on its new teaching board.
+            if (_p21Revised && slot == 6) slot = 0;
+            else if (_p21Revised && slot == P21Onboarding.BombLesson) slot = 6;
             _tutorialSteps = _redesignSet && !PlayOverride.Active && !P21Prelude && !P21OpeningLesson && !P21StoryLevel
-                ? _tutorialScript.ForSlot(_index + 1 - (_p21Flow ? 2 : 0), firstVisit) : new List<TutorialStep>();
+                ? _tutorialScript.ForSlot(slot, firstVisit) : new List<TutorialStep>();
             _tutorialSteps.RemoveAll(step => (step.tur == "booster" || step.tur == "booster_hedef") &&
                 (!TutorialScript.BoosterOf(step.booster, out var b) || _inventory == null || _inventory.Trained(b) || !_session.IsUnlocked(b)));
             _tutorialAt = 0;
@@ -1144,7 +1148,7 @@ namespace ReverseSolver.Presentation
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder, UseHud54);
                 if (_session.Level.Tutorial > 0 || TutorialActive) ShowTutorialStep();
-                if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder));
+                if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder, P21ObstacleLesson));
                 else if (_session.IsOver && _endAt < 0 && _celebration == null && _deferredLoss == null) ShowResult();
                 RefreshPlaying();
                 BuildP21Tutorial();
@@ -1399,7 +1403,7 @@ namespace ReverseSolver.Presentation
                 TickP21Tutorial();
                 if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil && !BoosterBusy21) NextScriptedTutorial();
                 // the clock runs only while the board is actually in play
-                if (!_session.IsOver && !P21Guided && !P21OpeningLesson && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _win21 == null && _continuePanel == null && (!BoosterSelection21 || _selected21 == Booster.Wand) && !BoosterBusy21 && (!P21Boosters || !_pageHidden)) _session.Tick(Time.unscaledDeltaTime);
+                if (!_session.IsOver && !P21ClockPaused && !_introOpen && !TutorialActive && !_tutorialClockHold && _card == null && _list == null && _celebration == null && _win21 == null && _continuePanel == null && (!BoosterSelection21 || _selected21 == Booster.Wand) && !BoosterBusy21 && (!P21Boosters || !_pageHidden)) _session.Tick(Time.unscaledDeltaTime);
                 if (_endAt > 0 && Time.unscaledTime >= _endAt)
                 {
                     _endAt = -1;
@@ -1713,6 +1717,11 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
+            if (P21ObstacleLesson && _bar.Hit(pt) == Booster.Clock && _session.IsUnlocked(Booster.Clock))
+            {
+                _bar.Notice(Lang.T("This lesson has no timer.", "Bu derste süre sınırı yok."), 1.5f);
+                return;
+            }
             if (PressBooster21(pt)) return;
             if (P21StoryLevel && _p21View != null && _p21View.DismissStory(pt))
             {

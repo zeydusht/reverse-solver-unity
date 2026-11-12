@@ -439,7 +439,7 @@ namespace ReverseSolver.Presentation
 
         // ---- obstacle / booster introduction (web #introVeil) -----------------------------
 
-        public static Card Intro(Transform parent, Vector2 screen, LevelData l, int order)
+        public static Card Intro(Transform parent, Vector2 screen, LevelData l, int order, bool obstacleLesson = false)
         {
             // Hard levels get one opening card; booster training follows through tutorial.json.
             if (l.Hard) return HardWarning(parent, screen, order);
@@ -448,8 +448,11 @@ namespace ReverseSolver.Presentation
             var info = LevelTexts.Get(l, booster);
             string icon = booster ? info.Id : (info.Icon ?? "hammer");
             string scene = !booster && icon == "hammer" ? "nail" : icon;
-            if (!booster && P21Obstacle(scene))
-                return ObstacleCard(parent, screen, order, scene, info.Title, Texts.GotIt, l);
+            if (!booster && (obstacleLesson || P21Obstacle(scene)))
+            {
+                string title = obstacleLesson && scene == "bomb" ? Lang.T("Bomb piece", "Bombalı parça") : info.Title;
+                return ObstacleCard(parent, screen, order, scene, title, Texts.GotIt, l, obstacleLesson);
+            }
             if (Art.Get(Art.T23Intro + "-" + scene) != null)
                 return IntroScene(parent, screen, order, scene,
                     booster ? string.Format(Texts.NewBooster, info.Title) : info.Title,
@@ -522,8 +525,8 @@ namespace ReverseSolver.Presentation
         static readonly int[] IntroSlots = { 1, 3, 5, 6, 9, 10, 14, 15, 19, 23, 25, 30, 35, 36, 38 };
         // PM_MESAJ_29 3.4: a level's own intro / booster / hard flag always shows it; the slot list adds the rest,
         // never on a tutorial level (the guided steps open it)
-        public static bool HasIntro(LevelData l) => l.BoosterIntro != null || l.Intro != null || l.Hard ||
-                                                    Art.On && l.Tutorial == 0 && System.Array.IndexOf(IntroSlots, l.Number) >= 0;
+        public static bool HasIntro(LevelData l, bool allowGeneric = true) => l.BoosterIntro != null || l.Intro != null || l.Hard ||
+            allowGeneric && Art.On && l.Tutorial == 0 && System.Array.IndexOf(IntroSlots, l.Number) >= 0;
 
         /* PM_MESAJ_9 level start card (preview art only): "Level X" ribbon (gold on hard levels), the goal, the
            level's obstacles, the hard warning when flagged, Başla. The timer still starts on the first move. */
@@ -575,7 +578,8 @@ namespace ReverseSolver.Presentation
         static bool P21Obstacle(string scene) => Art.T54 && Art.GameplayCohort == "p21" &&
             (scene == "bomb" || scene == "nail" || scene == "chain");
 
-        static Card ObstacleCard(Transform parent, Vector2 screen, int order, string scene, string title, string button, LevelData level)
+        static Card ObstacleCard(Transform parent, Vector2 screen, int order, string scene, string title, string button,
+            LevelData level, bool obstacleLesson = false)
         {
             var card = new Card(parent, screen, order, "Intro", Art.T23Intro);
             if (scene == "bomb")
@@ -589,8 +593,10 @@ namespace ReverseSolver.Presentation
                 if (lockMoves != 0 && lockMoves != count) { lockMoves = 0; break; }
                 lockMoves = count;
             }
-            return card.Title(title).Body(scene == "nail" ? Texts.LockIntro(lockMoves) : Texts.ObstacleIntro(scene), sizePt: 18, gapAfter: 18)
-                .Button("ok", button, true).Finish();
+            string body = scene == "nail" ? Texts.LockIntro(lockMoves) : Texts.ObstacleIntro(scene);
+            if (obstacleLesson && scene == "bomb")
+                foreach (int fuse in level.Bombs.Values) { body = Texts.BombLessonIntro(fuse); break; }
+            return card.Title(title).Body(body, sizePt: 18, gapAfter: 18).Button("ok", button, true).Finish();
         }
 
         static Card IntroScene(Transform parent, Vector2 screen, int order, string scene,

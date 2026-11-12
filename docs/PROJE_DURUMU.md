@@ -61,10 +61,12 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - **1. Onboarding — `codex/01-onboarding`.** Güncel sanatla yerel Redesign ve p21 açılışı, kayıt kimliklerini koruyan 2×2 rehberli ve 3×3 serbest kaydırma bölümleriyle başlar. İkisinde de süre baskısı yok. Rehber sırası sol alt ↓, sağ alt ↑ (takılır) ve ↓, sağ üst ← (takılır) ve →, son parça herhangi bir boş yöne. Yerel Unity Play Mode’da Redesign’ı açıp Seviye 1’den sırayı uygula ve Seviye 2’yi farklı sırayla temizle. İlk iki bölüm ve süresi değişen bölümler yeni sürüm numarası alır. Önceden ek iki bölümü olan p21 kayıtları o akışı sürdürür. Telefon kontrolü ve ilk 10 bölümün engel dengesi açık.
 - **Onboarding doğrulaması.** Unity 6.6.4f1 EditMode (Perf hariç) 699 geçti, 0 hata, 2 mevcut atlama. `P21OnboardingTests` 18/18.
 - **2. Kontroller — `codex/02-controls`.** İlk hareket ekseni kilitlendikten sonra çapraz parmak kayması kısa fiskeyi iptal etmiyor. Kilitli eksendeki 8 pt eşiği küçük hücrelerde de korunuyor. Tahta, solda ve sağda cihazın güvenli alanına göre en az 24 pt içeride. İlk rehberli tahtaya geçişte eski genel başlangıç kartı atlanıyor. Unity `FlickGestureTests` 18/18. Telefonda bir kenar parçasını kısa fiskeyle çıkar, sonra ilk yatay hareketi hafif çapraz bitir. iPhone/Safari kenar hareketi kontrolü açık.
+- **3. Engel dersleri — `codex/03-obstacle-lessons`.** Yerel Redesign ve güncel p21 akışında kilit 3, zincir 10, duvar 14, bomba 20. Dört ders süre baskısız ve tek engelli. 20’de 4×4 tahtada tek bombanın sayacı 16, son parçaya kadar bırakılabilir. Kartlar gerçek sayaçları anlatıyor, bomba animasyonu ve kilit uyarısı duruyor. Unity `P21OnboardingTests` 22/22. Dört kayıtlı ders yolu supapsız ve boostersız kazanıyor. FunSim’de 96 sanal oyuncuyla 3–10’un her biri %100 ilk-deneme kazanımı verdi. Play Mode’da 3/10/14/20’yi seç, kart ve sayaçları kontrol et, 6’da bomba olmadığını gör. Telefon turu ve gerçek ilk-deneme oranı açık.
 
 ### Zeyd onayı bekliyor
 
 - 2×2 sürükleme yolu için küçük, hareketli altın noktalar ve Jigo’nun alttaki krem-mavi sohbet kutusu kullanıldı. 3–10 için geçici süre tabanı 90 sn veya parça başına 4 sn, hangisi daha yüksekse. Oyun hissini 1–10 kesintisiz telefon turuyla değerlendir.
+- Engel sırası 3/10/14/20. 20’deki S24’ün karma tahtası yerine aynı kimlik ve tabloyla 4×4 bomba dersi var. İlk gerçek bomba baskısı 21’de başlıyor.
 
 ## Açık işler (öncelik sırası)
 1. pt1 takibi: her akşam `v_funnel` + bırakma noktaları + tahmin karşılaştırması. 8 Kasım sonrası rapor + v2.

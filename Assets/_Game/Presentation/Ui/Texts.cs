@@ -32,6 +32,9 @@ namespace ReverseSolver.Presentation
             _ => TutorialCopy(scene)
         };
         public static string LockIntro(int moves) => string.Format(Lang.T("A locked piece can't move for <b>{0} moves</b>. Play other pieces; at 0 the lock opens.", "Kilitli parça <b>{0} hamle</b> boyunca hareket etmez. Başka parçaları oyna; sayı 0 olunca kilit açılır."), moves > 0 ? moves.ToString() : "N");
+        public static string BombLessonIntro(int moves) => string.Format(Lang.T(
+            "The bomb starts at <b>{0} moves</b>. Each piece you clear drops the number by 1. Clear the bomb before 0, or it blows.",
+            "Bombanın sayacı <b>{0} hamle</b>. Çıkardığın her parça sayıyı 1 azaltır. Bomba 0’da patlar. Önce onu çıkar."), moves);
         public static string LockWarning(int remaining) => string.Format(Lang.T("The lock opens in {0} moves.", "Kilit {0} hamle sonra açılacak."), remaining);
 
         // Source copy: docs/i18n/en.md, Tutorial.

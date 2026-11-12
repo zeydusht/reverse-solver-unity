@@ -72,8 +72,14 @@ namespace ReverseSolver.Core
         internal LevelData WithTimerSeconds(int seconds)
         {
             if (TimerSeconds == seconds) return this;
-            var level = (LevelData)MemberwiseClone();
+            var level = CopyNextVersion();
             level.TimerSeconds = seconds;
+            return level;
+        }
+
+        internal LevelData CopyNextVersion()
+        {
+            var level = (LevelData)MemberwiseClone();
             level.Version++;
             return level;
         }

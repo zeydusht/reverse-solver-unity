@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-
 using System;
+using System.Collections.Generic;
 
 namespace ReverseSolver.Core
 {
@@ -20,6 +19,9 @@ namespace ReverseSolver.Core
     public static class P21Onboarding
     {
         public const string TutorialId = "P21_T01", EasyId = "P21_E01";
+        public const int LockLesson = 3, ChainLesson = 10, WallLesson = 14, BombLesson = 20;
+        public static bool IsObstacleLesson(int slot) => slot == LockLesson || slot == ChainLesson ||
+            slot == WallLesson || slot == BombLesson;
         // PM60 only changes new art; the legacy art path keeps its PM59 behaviour.
         public static bool Enabled(string cohort, bool redesign, bool playOverride, bool newArt = true, string tut2x2 = null) =>
             cohort == "p21" && redesign && !playOverride && (!newArt || tut2x2 == "1");
@@ -62,6 +64,64 @@ namespace ReverseSolver.Core
             4 => (3, 1, Dir.R, false),
             _ => (4, 0, null, false)
         };
+
+        public static LevelSet SpaceObstacleLessons(LevelSet original)
+        {
+            var levels = new List<LevelData>(original.Levels);
+            for (int i = 0; i < Math.Min(BombLesson, levels.Count); i++)
+            {
+                int slot = i + 1;
+                var level = levels[i];
+                bool deferBomb = slot < BombLesson && (level.Bombs.Count > 0 || level.Intro?.Icon == "bomb");
+                bool isolateLesson = slot == ChainLesson || slot == WallLesson;
+                if (slot == BombLesson)
+                {
+                    levels[i] = CreateBombLesson(level);
+                    continue;
+                }
+                if (!deferBomb && !isolateLesson) continue;
+                var lesson = level.CopyNextVersion();
+                if (deferBomb)
+                {
+                    lesson.Bombs = new Dictionary<int, int>();
+                    if (lesson.Intro?.Icon == "bomb") lesson.Intro = null;
+                }
+                if (isolateLesson)
+                {
+                    lesson.Nails = new Dictionary<int, int>();
+                    var board = new Board(lesson);
+                    var path = GreedySolver.Solve(board);
+                    if (path.Solved)
+                    {
+                        var moves = new List<Move>();
+                        foreach (int piece in path.Order)
+                        {
+                            moves.Add(new Move(piece, TravelRule.ExitDirs(board, piece)[0]));
+                            board.Remove(piece);
+                        }
+                        lesson.Solution = moves;
+                    }
+                }
+                levels[i] = lesson;
+            }
+            return new LevelSet(original.Format, levels);
+        }
+
+        static LevelData CreateBombLesson(LevelData previous)
+        {
+            var lesson = Grid(previous.Id, 4, previous.Number);
+            lesson.Version = previous.Version + 1;
+            lesson.Image = previous.Image;
+            lesson.Unlock = previous.Unlock;
+            lesson.Boosters = previous.Boosters;
+            // One piece removed per turn leaves enough fuse even if the bomb goes last.
+            lesson.Bombs = new Dictionary<int, int> { [10] = lesson.Pieces.Count };
+            lesson.Intro = new LevelIntro { Icon = "bomb", Title = "Bombalı parça" };
+            var solution = new List<Move>();
+            for (int piece = 0; piece < lesson.Pieces.Count; piece++) solution.Add(new Move(piece, Dir.U));
+            lesson.Solution = solution;
+            return lesson;
+        }
 
         public static LevelSet Prepend(LevelSet original)
         {

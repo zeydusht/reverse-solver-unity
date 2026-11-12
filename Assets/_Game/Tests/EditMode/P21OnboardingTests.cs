@@ -1,5 +1,7 @@
 using System.Linq;
 using NUnit.Framework;
+using ReverseSolver.Editing;
+using ReverseSolver.Generation;
 
 namespace ReverseSolver.Core.Tests
 {
@@ -207,6 +209,72 @@ namespace ReverseSolver.Core.Tests
             Assert.That(s.Outcome, Is.EqualTo(Outcome.Win));
             Assert.That(s.Moves, Is.EqualTo(4));
             Assert.That(s.Jams, Is.Zero);
+        }
+
+        [Test]
+        public void FirstObstacleAppearancesFollowTheLessonSlotsAndEachTeachesOneObstacle()
+        {
+            var levels = P21Onboarding.SpaceObstacleLessons(P21Onboarding.ReplaceOpening(Original)).Levels;
+            int First(System.Func<LevelData, bool> has) => levels.ToList().FindIndex(l => has(l)) + 1;
+            Assert.That(First(l => l.Nails.Count > 0), Is.EqualTo(3));
+            Assert.That(First(l => l.Pieces.Any(p => p.Length > 1)), Is.EqualTo(10));
+            Assert.That(First(l => l.Sealed.Count > 0), Is.EqualTo(14));
+            Assert.That(First(l => l.Bombs.Count > 0), Is.EqualTo(20));
+            foreach (int slot in new[] { 3, 10, 14, 20 })
+            {
+                var l = levels[slot - 1];
+                int obstacles = new[] { l.Nails.Count > 0, l.Pieces.Any(p => p.Length > 1), l.Sealed.Count > 0, l.Bombs.Count > 0 }.Count(has => has);
+                Assert.That(obstacles, Is.EqualTo(1), l.ToString());
+                Assert.That(P21Onboarding.IsObstacleLesson(slot), Is.True);
+            }
+            Assert.That(levels[5].Intro, Is.Null);
+            Assert.That(levels[19].Intro.Icon, Is.EqualTo("bomb"));
+            Assert.That(levels[20], Is.SameAs(Original.Levels[20]));
+        }
+
+        [Test]
+        public void ObstacleLessonsClearOnRecordedPathsWithoutABoosterOrValve()
+        {
+            var levels = P21Onboarding.SpaceObstacleLessons(P21Onboarding.ReplaceOpening(Original)).Levels;
+            foreach (int slot in new[] { 3, 10, 14, 20 })
+            {
+                var level = levels[slot - 1];
+                var s = Session(level);
+                foreach (var move in level.Solution)
+                    Assert.That(s.TryExit(move.Piece, move.Dir), Is.EqualTo(CommandResult.Ok), $"{level} {move}");
+                Assert.That(s.Outcome, Is.EqualTo(Outcome.Win), level.ToString());
+                Assert.That(s.ValveCount, Is.Zero, level.ToString());
+            }
+        }
+
+        [Test]
+        public void BombLessonCanLeaveItsBombUntilNoOtherPieceCanGo()
+        {
+            var level = P21Onboarding.SpaceObstacleLessons(Original).Levels[19];
+            var s = Session(level);
+            int bomb = level.Bombs.Keys.Single();
+            while (!s.IsOver)
+            {
+                if (s.Board.IsPresent(bomb))
+                    Assert.That(s.FuseAt(bomb), Is.EqualTo(s.Board.PresentCount));
+                var piece = TravelRule.FreePieces(s.Board).OrderBy(p => p == bomb).First();
+                var dir = TravelRule.ExitDirs(s.Board, piece)[0];
+                Assert.That(s.TryExit(piece, dir), Is.EqualTo(CommandResult.Ok));
+            }
+            Assert.That(s.Outcome, Is.EqualTo(Outcome.Win));
+        }
+
+        [Test]
+        public void EarlyUnassistedBoardsReachTheFirstWinTargetInSimulation()
+        {
+            var levels = P21Onboarding.SpaceObstacleLessons(P21Onboarding.ReplaceOpening(Original)).Levels;
+            var players = FunSim.Population(96);
+            foreach (var level in levels.Skip(2).Take(8))
+            {
+                var r = FunSim.Run(level, Genre.Kolay, players);
+                TestContext.WriteLine($"{level} first-win={r.FirstWinRate:0.000}");
+                Assert.That(r.FirstWinRate, Is.GreaterThanOrEqualTo(.85), level.ToString());
+            }
         }
 
         [Test]
