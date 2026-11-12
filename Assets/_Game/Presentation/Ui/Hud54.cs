@@ -10,7 +10,7 @@ namespace ReverseSolver.Presentation
         readonly float _scale;
         readonly JigoPortrait54 _portrait;
         public void ShowClockPortrait(bool showing) => _portrait.Visible(!showing);
-        bool _frozen;
+        bool _frozen, _untimed;
         public void SetFrozen(bool frozen) { _frozen = frozen; }
         int _lastLeft = -1, _lastTime = -1;
         int _language;
@@ -56,30 +56,41 @@ namespace ReverseSolver.Presentation
         public void SetLeft(int n)
         {
             if (n == _lastLeft) return;
-            if (_lastLeft >= 0 && n < _lastLeft && Art.GameplayCohort == "p21")
+            if (_lastLeft >= 0 && n < _lastLeft && Art.P21Gameplay)
                 Tweens.Run(_left, .2f, t => { if (_left != null) _left.transform.localScale = Vector3.one * Mathf.Lerp(1.15f, 1, t); });
             _lastLeft = n; _left.Text = n.ToString();
         }
 
-        public void PauseTutorialTime() { _clock.gameObject.SetActive(false); _timeTitle.gameObject.SetActive(false); }
+        public void PauseTutorialTime()
+        {
+            _untimed = true;
+            _clock.SizePt = 17 * _scale;
+            _clock.Text = Lang.T("No limit", "Sınırsız");
+            _clock.Color = Palette.Cream;
+            _clock.transform.localScale = Vector3.one;
+        }
 
         public void SetTime(int seconds)
         {
+            if (_language != Lang.Revision)
+            {
+                _language = Lang.Revision;
+                _piecesTitle.Text = Lang.T("Pieces", "Parça");
+                _timeTitle.Text = Lang.T("Time", "Süre");
+                if (_untimed) _clock.Text = Lang.T("No limit", "Sınırsız");
+            }
+            _portrait.Update();
+            if (_untimed) return;
+
             int t = Mathf.Max(0, seconds);
             if (t != _lastTime)
             {
                 _lastTime = t;
                 _clock.Text = $"{t / 60}:{t % 60:00}";
-                _clock.Color = t <= JigoMood.WorriedSeconds ? Palette.Coral : Palette.Cream;
             }
             _clock.Color = _frozen ? Draw.Hex("#D8F5FF") : t <= JigoMood.WorriedSeconds ? Palette.Coral : Palette.Cream;
             float pulse = !_frozen && t <= JigoMood.WorriedSeconds ? 1 + PulseAmount * Mathf.Sin(Time.unscaledTime * Mathf.PI * 2) : 1;
             _clock.transform.localScale = Vector3.one * pulse;
-            if (_language != Lang.Revision)
-            {
-                _language = Lang.Revision; _piecesTitle.Text = Lang.T("Pieces", "Parça"); _timeTitle.Text = Lang.T("Time", "Süre");
-            }
-            _portrait.Update();
         }
 
         public void OnEvent(GameEvent e, GameSession session) => _portrait.OnEvent(e, session);

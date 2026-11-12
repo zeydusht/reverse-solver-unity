@@ -24,7 +24,7 @@ Kurallar:
 | 3 · Engel tanıtımı | `codex/03-obstacle-lessons` | ✅ 3/10/14/20 tek engelli, kayıpsız dersler. Gerçek sayaç metinleri. Unity 22/22. FunSim 3–10, 96 sanal oyuncuda %100 ilk deneme. Telefon turu açık. |
 | 4 · Çıkış hissi | `codex/04-piece-feedback` | ✅ Kenarda pop, yarı yol övgüsü ve mevcut özgün «weee». Derleme ve 18 hareket testi geçti. Play Mode’da 3×3’ü yarıla, sesli ve sessiz dene. Telefon miksajı açık. |
 | 5 · Booster gösterimleri | `codex/05-booster-animations` | ✅ Yerel Redesign’da dört booster, açık değnek bölgeleri, Jigo’da fiziksel saat ve 10 sn bar. Unity 17/17. 5/9/15/23 cihaz turu açık. |
-| 6 · HUD | | 🔜 Ölçü, çerçeve, beş yuva, Jigo ve devam fiyatları. |
+| 6 · HUD | `codex/06-hud` | ✅ Task40 ölçüleri ve katmanları, beş yuva, Kont mührü, Jigo zaferi, 5000 ve devam fiyatları. Unity derlemesi geçti. Telefon turu açık. |
 | 7 · Jigo çizimi | | 🔜 Ön, yan ve arka, üç HUD ifadesi. |
 | 8 · Kont çizimi | | 🔜 Karakter tasarımı. |
 | 9 · Açılış storyboard’u | | 🔜 Kareler ve çekim açıklamaları. |

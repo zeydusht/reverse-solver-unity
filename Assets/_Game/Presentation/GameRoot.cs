@@ -43,7 +43,6 @@ namespace ReverseSolver.Presentation
         PlayStats _stats;
         bool _previewWins;
         bool _testMode;
-        string _playCohort;
         TelemetryLog _telemetry;
         string _rowId;                 // row_id of the attempt in play
         bool _awaitingName;
@@ -151,7 +150,7 @@ namespace ReverseSolver.Presentation
             _cam = Camera.main;
             _set = PlayOverride.Active ? PlayOverride.Set : ChooseSet();
             string launchCohort = TelemetryMeta.CleanCohort(Host.Current.Query("c")) ?? TelemetryMeta.CleanCohort(Host.Current.Store.Get("rs_cohort"));
-            _playCohort = launchCohort; Art.CohortOverride = launchCohort;
+            Art.CohortOverride = launchCohort;
             _testMode = LaunchPlan.TestMode(Host.Current.Query("c"), Host.Current.Query("test"));
             string guidedFlag = Host.Current.Query("tut2x2");
             string reset = Host.Current.Query("reset");

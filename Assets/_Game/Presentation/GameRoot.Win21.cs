@@ -5,7 +5,7 @@ namespace ReverseSolver.Presentation
 {
     public sealed partial class GameRoot
     {
-        bool P21WinArt => Art.T54 && (_playCohort == "p21" || _testMode);
+        bool P21WinArt => Art.P21Gameplay || Art.T54 && _testMode;
         P21WinView _win21;
         bool _winPreview21;
         Rect[] WinTargets21()

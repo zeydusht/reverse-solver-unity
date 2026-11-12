@@ -14,7 +14,8 @@ namespace ReverseSolver.Core.Tests
         [TestCase(30, 2, true, false, false, JigoState.Mutlu)]
         [TestCase(3, 1, true, true, true, JigoState.Uzgun)]
         [TestCase(30, null, false, true, false, JigoState.Uzgun)]
-        [TestCase(30, null, false, false, true, JigoState.Normal)]
+        [TestCase(30, null, false, false, true, JigoState.Mutlu)]
+        [TestCase(1, 1, false, false, true, JigoState.Mutlu)]
         public void PriorityAndThresholds(float time, int? fuse, bool happy, bool lost, bool won, JigoState expected)
         {
             Assert.That(JigoMood.Read(time, fuse, happy, lost, won), Is.EqualTo(expected));

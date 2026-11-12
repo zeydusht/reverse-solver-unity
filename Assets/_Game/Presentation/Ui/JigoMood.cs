@@ -10,6 +10,7 @@ namespace ReverseSolver.Presentation
         public static JigoState Read(float timeLeft, int? minBombFuse, bool recentHappy, bool lost, bool won)
         {
             if (lost) return JigoState.Uzgun;
+            if (won) return JigoState.Mutlu;
             if (timeLeft <= FearSeconds || minBombFuse == FearFuse) return JigoState.Korku;
             if (timeLeft <= WorriedSeconds) return JigoState.Tedirgin;
             if (recentHappy) return JigoState.Mutlu;
