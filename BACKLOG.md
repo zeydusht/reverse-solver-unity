@@ -32,6 +32,7 @@ Kurallar:
 | 11 · İlk oyundan sonraki seviyeye geçiş | `codex/11-opening-playmode` | ✅ PlayMode 1/1. Menü → iki takılma ve 2×2 zaferi → Sonraki Seviye → 3×3 zaferi. İki sonuç geçici kayıtta. |
 | 12 · Yerel Jiggle sayacı | `codex/12-rescue-count` | ✅ Eski sayı ve ilk kazanım korunuyor. Profil/Jiggles ortak toplam. Unity 8/8 ve PlayMode 1/1. |
 | 13 · iPhone/Safari turu | | 🔜 İlk 10, fiske ve güvenli kenar, ödüller ve yeni sanat. Fiziksel cihaz doğrulaması bekliyor. |
+| 14 · Jigo portresi, saat ve makas | `codex/14-hud-booster-polish` | ✅ Sabit portre ve tam göz kırpma, 10 sn düğme kalkanı, yavaş gidiş/kesiş/yuva dönüşü. Hedef seçerken sayaç akıyor. EditMode 30/30, PlayMode 4/4, yerel WebGL ve Chrome açılışı başarılı. Süreli S10 tahtasında bir hamleden sonra booster’ları dene. Fiziksel iPhone/Safari turu açık. |
 
 ## ZEYD — senin işlerin
 
