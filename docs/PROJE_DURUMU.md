@@ -1,6 +1,6 @@
 # Reverse Solver — PROJE DURUMU (PM devir dosyası)
 
-Son güncelleme: 11 Kasım 2026, 01:25. Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
+Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
 
 ## Dosya kuralı
 - Her iş bitince veya Zeyd "değişiklikleri PROJE_DURUMU'na ekle" deyince bu dosyayı güncelle (kısa tut, bitenleri sil, tarihi yenile). Güncelledikten sonra `/clear` hatırlat.
@@ -55,6 +55,15 @@ Son güncelleme: 11 Kasım 2026, 01:25. Yeni sohbette önce bu dosyayı oku, son
 
 - **Kötü adamın adı Kont** (Zeyd, 8 Kasım; "Baron" çalışma adıydı, görsel `Baron-reference-v01.png` aynı). p21'de oyundaki "Baron" metinleri (zor bölüm kartı, i18n) Kont olacak. Animasyon artık **AI video**: Codex 9 anahtar kare + Higgsfield çekim listesi (`docs/art/CODEX_TASK26_DUZELTME.md`), Zeyd Higgsfield'da videoya çevirir, Claude Code birleştirip ilk açılışa koyar.
 - **Açılış hikâye animasyonu (8 Kasım):** `docs/art/CODEX_TASK26.md` (15–20 sn, 6 sahne: çayır → Baron toplar → çerçeveler → koridor → el tabloyu söker "weee" → "Free them all!" ve koridor zoom'u). Önce storyboard, Zeyd onayı, sonra final sprite + tween (≤2 MB). Hikâye kaynağı `docs/HIKAYE.md`.
+
+## Codex devir çalışması
+
+- **1. Onboarding — `codex/01-onboarding`.** Güncel sanatla yerel Redesign ve p21 açılışı, kayıt kimliklerini koruyan 2×2 rehberli ve 3×3 serbest kaydırma bölümleriyle başlar. İkisinde de süre baskısı yok. Rehber sırası sol alt ↓, sağ alt ↑ (takılır) ve ↓, sağ üst ← (takılır) ve →, son parça herhangi bir boş yöne. Yerel Unity Play Mode’da Redesign’ı açıp Seviye 1’den sırayı uygula ve Seviye 2’yi farklı sırayla temizle. İlk iki bölüm ve süresi değişen bölümler yeni sürüm numarası alır. Önceden ek iki bölümü olan p21 kayıtları o akışı sürdürür. Telefon kontrolü ve ilk 10 bölümün engel dengesi açık.
+- **Onboarding doğrulaması.** Unity 6.6.4f1 derlemesi geçti. EditMode koşusu başlatıldı. Odaklı test sınıfı `P21OnboardingTests`.
+
+### Zeyd onayı bekliyor
+
+- 2×2 sürükleme yolu için küçük, hareketli altın noktalar ve Jigo’nun alttaki krem-mavi sohbet kutusu kullanıldı. 3–10 için geçici süre tabanı 90 sn veya parça başına 4 sn, hangisi daha yüksekse. Oyun hissini 1–10 kesintisiz telefon turuyla değerlendir.
 
 ## Açık işler (öncelik sırası)
 1. pt1 takibi: her akşam `v_funnel` + bırakma noktaları + tahmin karşılaştırması. 8 Kasım sonrası rapor + v2.

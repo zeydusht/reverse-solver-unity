@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 26 Ekim 2026 (Codex — Art)
+Son güncelleme: 12 Kasım 2026 (Codex)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -14,6 +14,21 @@ Kurallar:
 | İş | Kim | Durum | Tahmini süre |
 |---|---|---|---|
 | SET40 v3 (öğretici eğri + tutorial + Build 5 hazırlığı) — PM_MESAJ_6 | Claude Code | 🔜 gece | ~1 gece |
+
+## Codex devir sırası
+
+| İş | Branch | Durum ve kontrol |
+|---|---|---|
+| 1 · Onboarding | `codex/01-onboarding` | ✅ 2×2 rehber, engelsiz 3×3 ve ilk 10’a süre payı. Unity derlemesi geçti. Play Mode’da Seviye 1’in iki takılmasını ve Seviye 2’nin serbest sırasını dene. Telefon turu açık. |
+| 2 · Fiske ve güvenli kenar | | 🔜 PM_58’i doğrula ve girişteki açıkları gider. |
+| 3 · Engel tanıtımı | | 🔜 Tanıtım aralıkları, kayıpsız dersler, bomba ve kilit açıklaması. |
+| 4 · Çıkış hissi | | 🔜 Pop, çatlama, takdir ve özgün «veey» için ses yuvası. |
+| 5 · Booster gösterimleri | | 🔜 Makas, değnek, çekiç ve saat akışlarını doğrula. |
+| 6 · HUD | | 🔜 Ölçü, çerçeve, beş yuva, Jigo ve devam fiyatları. |
+| 7 · Jigo çizimi | | 🔜 Ön, yan ve arka, üç HUD ifadesi. |
+| 8 · Kont çizimi | | 🔜 Karakter tasarımı. |
+| 9 · Açılış storyboard’u | | 🔜 Kareler ve çekim açıklamaları. |
+| 10 · HUD ve booster çizimleri | | 🔜 İkon şekilleri, yeniden renklendirme ve mühür. |
 
 ## ZEYD — senin işlerin
 
