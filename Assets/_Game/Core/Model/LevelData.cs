@@ -69,6 +69,15 @@ namespace ReverseSolver.Core
         public int CellCount => Width * Height;
         public bool OnBoard(Cell c) => c.X >= 0 && c.X < Width && c.Y >= 0 && c.Y < Height;
 
+        internal LevelData WithTimerSeconds(int seconds)
+        {
+            if (TimerSeconds == seconds) return this;
+            var level = (LevelData)MemberwiseClone();
+            level.TimerSeconds = seconds;
+            level.Version++;
+            return level;
+        }
+
         public override string ToString() => $"{Id} v{Version}";
     }
 

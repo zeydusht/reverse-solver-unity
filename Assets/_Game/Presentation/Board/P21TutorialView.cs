@@ -8,9 +8,12 @@ namespace ReverseSolver.Presentation
     sealed class P21TutorialView : MonoBehaviour
     {
         const int Order = 3350;
+        const float ChatHeight = 86, ChatGap = 10;
+        public const float ChatClearance = ChatHeight + ChatGap;
         TextView _speech;
         SpriteRenderer _hand, _mark;
         Transform _guide;
+        ShapeView[] _trail;
         ShapeView _glow;
         float _feedbackUntil;
         bool _correct;
@@ -24,8 +27,8 @@ namespace ReverseSolver.Presentation
             int piece, string text, bool visible)
         {
             var v = Draw.Child<P21TutorialView>(world, "P21 story");
-            float width = Mathf.Min(screen.x - 24, 366), height = 86;
-            var center = new Vector2(screen.x / 2, Hud54.ButtonsTop(screen, safeBottom) - height / 2 - 10);
+            float width = Mathf.Min(screen.x - 24, 366), height = ChatHeight;
+            var center = new Vector2(screen.x / 2, Hud54.ButtonsTop(screen, safeBottom) - height / 2 - ChatGap);
             v._chatRect = new Rect(center - new Vector2(width, height) / 2, new Vector2(width, height));
             v._chat = new GameObject("chat").transform; v._chat.SetParent(v.transform, false);
             ShapeView.Create(v._chat, "cream blue chat", v._chatRect.size, 8, Order).Radius(14)
@@ -40,6 +43,37 @@ namespace ReverseSolver.Presentation
             v._typed.fontSizeMax = 15 * TextView.PointToFontSize;
             v.StoryText(text); v._chat.gameObject.SetActive(visible);
             v.StoryTarget(board, piece);
+            return v;
+        }
+
+        public static P21TutorialView Guided(Transform world, Vector2 screen, float safeBottom, BoardView board,
+            int piece, string text, Dir? direction)
+        {
+            var v = Story(world, screen, safeBottom, board, piece, text, true);
+            var c = board.Session.Level.Pieces[piece][0];
+            var center = board.Origin + new Vector2(c.X + .5f, c.Y + .5f) * board.Cell;
+            var axis = direction.HasValue ? new Vector2(direction.Value.Dx(), direction.Value.Dy()) : Vector2.zero;
+            v._mark = Place(v.transform, "Correct/01", center + axis * board.Cell * .34f, Vector2.one * 46, Order + 4);
+            if (v._mark != null) v._mark.enabled = false;
+            if (!direction.HasValue) return v;
+
+            v._guide = new GameObject("Swipe path").transform;
+            v._guide.SetParent(v.transform, false);
+            var start = center + axis * (board.Cell * .18f);
+            var tip = center + axis * (board.Cell * .62f);
+            var gold = Draw.Hex("#FFCF59");
+            v._trail = new ShapeView[3];
+            for (int i = 0; i < v._trail.Length; i++)
+            {
+                var dot = ShapeView.Create(v._guide, "Swipe path dot", Vector2.one * 6, 3, Order + 2)
+                    .Radius(3).Fill(gold).Stroke(Palette.Navy, 1);
+                dot.transform.localPosition = Draw.W(Vector2.Lerp(start, tip, i * .24f));
+                v._trail[i] = dot;
+            }
+            var across = new Vector2(-axis.y, axis.x);
+            var basePoint = tip - axis * 11;
+            SolidView.Polygon(v._guide, "Swipe path arrow",
+                new[] { tip, basePoint + across * 6, basePoint - across * 6 }, gold, Order + 2);
             return v;
         }
 
@@ -113,14 +147,23 @@ namespace ReverseSolver.Presentation
         {
             _correct = correct; _feedbackUntil = Time.unscaledTime + .65f;
             _speech.Text = text;
-            if (_guide != null) _guide.gameObject.SetActive(!correct);
+            if (_typed != null) _typedAt = Time.unscaledTime - 5;
+            if (_guide != null) _guide.gameObject.SetActive(false);
             if (_glow != null) _glow.gameObject.SetActive(!correct);
+            if (correct && _storyPiece != null)
+            {
+                _storyPiece.SetGlow(Vector4.zero, 0);
+                _storyPiece = null;
+            }
         }
 
         void Update()
         {
             if (_typed != null) _typed.maxVisibleCharacters = (int)((Time.unscaledTime - _typedAt) * 40);
             if (_storyPiece != null) _storyPiece.SetGlow(Draw.Hex("#ffcf59"), .55f + .2f * Mathf.Sin(Time.unscaledTime * 3));
+            if (_trail != null)
+                for (int i = 0; i < _trail.Length; i++)
+                    _trail[i].Alpha(.66f + .34f * Mathf.Sin(Time.unscaledTime * 7 - i));
             if (_hand != null) _hand.sprite = Sprite("Hand/drag/" + (1 + (int)(Time.unscaledTime * 7) % 5).ToString("00"));
             if (_glow != null) _glow.Alpha(.65f + .25f * Mathf.Sin(Time.unscaledTime * 4));
             if (_mark != null)

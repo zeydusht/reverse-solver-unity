@@ -162,6 +162,54 @@ namespace ReverseSolver.Core.Tests
         }
 
         [Test]
+        public void GuidedOpeningPreservesSaveIdsAndGivesTheFirstTenLevelsMoreTime()
+        {
+            Assert.That(P21Onboarding.UseGuided(null, true, false, true, null), Is.True);
+            Assert.That(P21Onboarding.UseGuided("p21", true, false, true, null), Is.True);
+            Assert.That(P21Onboarding.UseGuided("pt1", true, false, true, null), Is.False);
+            Assert.That(P21Onboarding.UseGuided("p21", true, true, true, null), Is.False);
+            Assert.That(P21Onboarding.UseGuided("p21", true, false, true, "0"), Is.False);
+            var opening = P21Onboarding.ReplaceOpening(Original).Levels;
+            Assert.That(opening.Select(l => l.Id), Is.EqualTo(Original.Levels.Select(l => l.Id)));
+            Assert.That(opening.Select(l => l.Number), Is.EqualTo(Original.Levels.Select(l => l.Number)));
+            Assert.That(opening.Take(2).Select(l => l.Width), Is.EqualTo(new[] { 2, 3 }));
+            for (int i = 2; i < 10; i++)
+            {
+                Assert.That(opening[i].TimerSeconds, Is.GreaterThanOrEqualTo(4 * opening[i].Pieces.Count));
+                Assert.That(opening[i].TimerSeconds, Is.GreaterThanOrEqualTo(90));
+                Assert.That(opening[i].Pieces, Is.SameAs(Original.Levels[i].Pieces));
+            }
+            Assert.That(opening.Skip(10), Is.EqualTo(Original.Levels.Skip(10)));
+        }
+
+        [Test]
+        public void GuidedOpeningRequiresTwoRealJamsThenClearsAllFourPieces()
+        {
+            var s = Session(P21Onboarding.ReplaceOpening(Original).Levels[0]);
+            s.TutorialMove = true;
+            var drag = new DragModel(new SessionDragTarget(s), 90);
+            var expectedJams = new[] { (Piece: 3, Blocker: 1), (Piece: 1, Blocker: 0) };
+            int jamCount = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                var action = P21Onboarding.GuidedSlide(i);
+                var dir = action.Direction ?? Dir.U;
+                Assert.That(drag.Press(action.Piece, 0, 0), Is.True);
+                drag.Move(320 * dir.Dx(), 320 * dir.Dy());
+                if (action.Blocked)
+                {
+                    Assert.That((action.Piece, drag.Blocker), Is.EqualTo(expectedJams[jamCount++]));
+                    Assert.That(drag.Release(out _, out _), Is.EqualTo(DragRelease.SnappedBack));
+                }
+                else Assert.That(drag.Release(out _, out _), Is.EqualTo(DragRelease.Exited));
+            }
+            Assert.That(jamCount, Is.EqualTo(2));
+            Assert.That(s.Outcome, Is.EqualTo(Outcome.Win));
+            Assert.That(s.Moves, Is.EqualTo(4));
+            Assert.That(s.Jams, Is.Zero);
+        }
+
+        [Test]
         public void TutorialFourStepsUseTheActualTravelAndSessionRules()
         {
             var s = Session(Flow().Levels[0]);

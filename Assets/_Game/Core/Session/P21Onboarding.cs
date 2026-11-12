@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using System;
+
 namespace ReverseSolver.Core
 {
     // One budget for the play visit; layout rebuilds and level retries do not replenish it.
@@ -22,7 +24,44 @@ namespace ReverseSolver.Core
         public static bool Enabled(string cohort, bool redesign, bool playOverride, bool newArt = true, string tut2x2 = null) =>
             cohort == "p21" && redesign && !playOverride && (!newArt || tut2x2 == "1");
         public static bool IsNewFlow(SaveData save) => save.Best.Count == 0 ||
+            HasPreludeProgress(save);
+
+        public static bool HasPreludeProgress(SaveData save) =>
             save.Attempts.ContainsKey(TutorialId) || save.Best.ContainsKey(TutorialId);
+
+        public static bool UseGuided(string cohort, bool redesign, bool playOverride, bool newArt, string flag) =>
+            (cohort == null || cohort == "p21") && redesign && !playOverride && newArt && flag != "0";
+
+        public static LevelSet ReplaceOpening(LevelSet original)
+        {
+            var levels = new List<LevelData>(original.Levels);
+            if (levels.Count < 2) return original;
+            for (int i = 0; i < 2; i++)
+            {
+                var previous = levels[i];
+                var lesson = Grid(previous.Id, i + 2, previous.Number);
+                lesson.Version = previous.Version + 1;
+                lesson.Image = previous.Image;
+                levels[i] = lesson;
+            }
+            for (int i = 2; i < Math.Min(10, levels.Count); i++)
+            {
+                var level = levels[i];
+                int minimum = Math.Max(90, 4 * level.Pieces.Count);
+                levels[i] = level.WithTimerSeconds(Math.Max(level.TimerSeconds, minimum));
+            }
+            return new LevelSet(original.Format, levels);
+        }
+
+        public static (int Step, int Piece, Dir? Direction, bool Blocked) GuidedSlide(int action) => action switch
+        {
+            0 => (1, 2, Dir.D, false), // lower left leaves
+            1 => (2, 3, Dir.U, true),  // lower right runs into upper right
+            2 => (2, 3, Dir.D, false),
+            3 => (3, 1, Dir.L, true),  // upper right runs into upper left
+            4 => (3, 1, Dir.R, false),
+            _ => (4, 0, null, false)
+        };
 
         public static LevelSet Prepend(LevelSet original)
         {
