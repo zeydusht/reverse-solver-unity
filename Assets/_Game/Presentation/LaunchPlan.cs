@@ -38,7 +38,7 @@ namespace ReverseSolver.Presentation
             return plan;
         }
 
-        public static bool TestMode(string cohort, string flag) => flag == "1" && (cohort == "ic" || cohort == "p21");
+        public static bool TestMode(string cohort, string flag) => flag == "1" && (cohort == "ic" || ReverseSolver.Core.TelemetryMeta.P21Line(cohort));
 
         public static string NormalizePlayerName(string name)
         {

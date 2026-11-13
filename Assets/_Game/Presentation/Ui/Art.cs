@@ -14,7 +14,7 @@ namespace ReverseSolver.Presentation
         public static string GameplayCohort => CohortOverride ?? ReverseSolver.Core.TelemetryMeta.Current?.Cohort;
         public static bool T28 = true;
         public static bool T54 => T28 && On;
-        public static bool P21Gameplay => T54 && (GameplayCohort == null || GameplayCohort == "p21");
+        public static bool P21Gameplay => T54 && (GameplayCohort == null || ReverseSolver.Core.TelemetryMeta.P21Line(GameplayCohort));
 
         // PM_MESAJ_16: the player's Jiggle avatar, kept in the browser (PlayerPrefs = localStorage on WebGL), never sent.
         // Until Codex's five avatars arrive (Task 15): tinted copies of the approved one (blue, pink, red, green, purple).

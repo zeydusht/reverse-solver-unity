@@ -8,11 +8,16 @@ namespace ReverseSolver.Presentation
     sealed class P21BoosterView
     {
         const int Order = 3500;
-        const float ScissorsTravelSeconds = .72f, ScissorsCutSeconds = .64f, ScissorsReturnSeconds = .72f;
-        public const float ScissorsHitSeconds = ScissorsTravelSeconds + ScissorsCutSeconds / 2;
-        public const float ScissorsDuration = ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsReturnSeconds;
-        public const float ClockTouchSeconds = .62f;
-        const float IceBreakSeconds = 7f / 18, ClockRetractSeconds = .55f;
+        // PM_64 options: PM_62 is the default; Codex's versions with &makas=yavas and &saat=kalkan.
+        public static bool SlowScissors, ShieldClock;
+        static float ScissorsTravelSeconds => SlowScissors ? .72f : .45f;
+        static float ScissorsCutSeconds => SlowScissors ? .64f : .3f;
+        static float ScissorsReturnSeconds => SlowScissors ? .72f : .45f;
+        public static float ScissorsHitSeconds => ScissorsTravelSeconds + ScissorsCutSeconds / 2;
+        public static float ScissorsDuration => ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsReturnSeconds;
+        public static float ClockTouchSeconds => ShieldClock ? .62f : .5f;
+        const float IceBreakSeconds = 7f / 18;
+        static float ClockRetractSeconds => ShieldClock ? .55f : 5f / 12;
         const string ClockShield = "Clock/Layers/button-shield";
         MenuPainting _fillOwner;
         int _fillStep = -1;
@@ -23,7 +28,8 @@ namespace ReverseSolver.Presentation
         readonly BoosterBar _bar;
         readonly Dictionary<string, Sprite> _sprites = new Dictionary<string, Sprite>();
         Transform _selection;
-        SpriteRenderer _ring, _tool, _shadow, _burst, _trail, _cut, _clockShield, _clockGrip, _ice, _spark, _barFrame, _barFill;
+        SpriteRenderer _ring, _tool, _shadow, _burst, _trail, _cut, _clockShield, _clockGrip, _ice, _spark, _barFrame, _barFill, _brushPose;
+        float _clockEnded = -1;
         readonly ShapeView _clockArm, _clockBacking;
         readonly TextView _freezeSeconds;
         int _shownFreezeSeconds = -1;
@@ -49,6 +55,7 @@ namespace ReverseSolver.Presentation
             _clockShield = Layer(_root, "Jigo clock shield", Order - 96);
             _clockGrip = Layer(_root, "Jigo left grip", Order - 95);
             _ice = Layer(_root, "time panel ice", Order - 94);
+            _brushPose = Layer(_root, "Jigo brush pose", Order - 96);
             _spark = Layer(_root, "shield contact", Order - 93);
             _barFrame = Layer(_root, "freeze channel", Order - 94); _barFill = Layer(_root, "freeze remaining", Order - 93);
             _fillOwner = _barFill.gameObject.AddComponent<MenuPainting>();
@@ -207,7 +214,7 @@ namespace ReverseSolver.Presentation
 
         void Scissors(float age, Vector2 target, bool vertical)
         {
-            const float cutEnd = ScissorsTravelSeconds + ScissorsCutSeconds;
+            float cutEnd = ScissorsTravelSeconds + ScissorsCutSeconds;
             float approach = Mathf.Clamp01(age / ScissorsTravelSeconds);
             float retreat = Mathf.Clamp01((age - cutEnd) / ScissorsReturnSeconds);
             float travel = Mathf.SmoothStep(0, 1, approach) * Mathf.SmoothStep(1, 0, retreat);
@@ -229,6 +236,51 @@ namespace ReverseSolver.Presentation
                 Paint(_cut, Frame("Boosters/Scissors/cut-line", 1 + Mathf.Min(5, (int)(snip * 6))),
                     target, new Vector2(_board.Cell, _board.Cell * .24f), 1 - snip, angle);
             }
+        }
+
+        // PM_62 clock (default): each T46 pose contains the whole Jigo and brush; no detached arm layers.
+        // Returns true while a pose covers the HUD portrait.
+        public bool BrushClock(float age, double freezeLeft, bool stopped)
+        {
+            _brushPose.enabled = _ice.enabled = _spark.enabled = _barFrame.enabled = _barFill.enabled = false;
+            _freezeSeconds.gameObject.SetActive(false);
+            if (age < 0) { _clockWasActive = false; _clockEnded = -1; return false; }
+            float s = Hud54.Scale(_screen.x);
+            var center = Hud54.JigoCenter(_screen.x, _safeTop);
+            var panel = Hud54.TimePanelCenter(_screen.x, _safeTop);
+            bool frozen = freezeLeft > 0 && !stopped;
+            string key;
+            float ending = 0;
+            if (age < ClockTouchSeconds) key = Frame("T46/clock/extend", 1 + Mathf.Min(5, (int)(age / ClockTouchSeconds * 6)));
+            else if (frozen)
+            {
+                key = Frame("T46/clock/hold", 1 + (int)(Time.unscaledTime * 12) % 4);
+                _clockWasActive = true; _clockEnded = -1;
+            }
+            else
+            {
+                if (!_clockWasActive) return false;
+                if (_clockEnded < 0) _clockEnded = Time.unscaledTime;
+                ending = Time.unscaledTime - _clockEnded;
+                if (ending > IceBreakSeconds + ClockRetractSeconds) { _clockWasActive = false; return false; }
+                key = ending < IceBreakSeconds ? "T46/clock/hold/01" : Frame("T46/clock/retract", 1 + Mathf.Min(4, (int)((ending - IceBreakSeconds) * 12)));
+            }
+            // A normal portrait is a safe fallback until the whole-body poses are present.
+            bool pose = Art.Get(key) != null;
+            float reach = age < ClockTouchSeconds ? Mathf.Clamp01(age / ClockTouchSeconds) : frozen || ending < IceBreakSeconds ? 1 : 1 - Mathf.Clamp01((ending - IceBreakSeconds) / ClockRetractSeconds);
+            // Source pivot (128,128), 352x256 canvas. Keep the normal 107.95pt bust height.
+            const float bustHeight = 127 * .85f, pixelScale = bustHeight / 256;
+            center.x += (267.5f - 195 - (290 - 128) * pixelScale) * reach * s;
+            if (pose) Paint(_brushPose, key, center, new Vector2(352 * pixelScale, bustHeight) * s);
+            if (frozen && age >= ClockTouchSeconds)
+            {
+                Paint(_ice, "T46/clock/ice_overlay", panel, new Vector2(113, 96.67f) * s);
+                if (age < ClockTouchSeconds + .25f) Paint(_spark, Frame("T46/clock/spark", 1 + Mathf.Min(5, (int)((age - ClockTouchSeconds) * 24))), center + new Vector2(290 - 128, 140 - 128) * (pixelScale * s), Vector2.one * 32 * s);
+                FreezeBar(panel + new Vector2(0, 57.33f) * s, freezeLeft, s);
+            }
+            else if (_clockWasActive && !frozen)
+                Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(ending * 18))), panel, new Vector2(113, 434f / 3) * s);
+            return pose;
         }
 
         public bool Clock(float age, double freezeLeft, bool active, bool stopped)
@@ -269,38 +321,43 @@ namespace ReverseSolver.Presentation
                 if (age < ClockTouchSeconds + .25f)
                     Paint(_spark, Frame("T46/clock/spark", 1 + Mathf.Min(5, (int)((age - ClockTouchSeconds) * 24))),
                         panel - new Vector2(32, 15) * s, Vector2.one * 32 * s);
-                var p = panel + new Vector2(0, 57.33f) * s;
-                string bg = Art.Get("T46/clock/freeze_bar_bg") != null ? "T46/clock/freeze_bar_bg" : "Clock/Layers/bar-frame";
-                string fill = Art.Get("T46/clock/freeze_bar_fill") != null ? "T46/clock/freeze_bar_fill" : "Clock/Layers/bar-fill";
-                Paint(_barFrame, bg, p, new Vector2(100, 14) * s);
-                float fraction = Mathf.Clamp01((float)(freezeLeft / GameSession.FreezeSeconds));
-                int seconds = Mathf.CeilToInt((float)freezeLeft);
-                if (seconds != _shownFreezeSeconds)
-                {
-                    _shownFreezeSeconds = seconds;
-                    _freezeSeconds.Text = seconds.ToString();
-                }
-                _freezeSeconds.transform.localPosition = Draw.W(p);
-                var fillSource = Art.Get("T46/clock/freeze_bar_fill");
-                if (fillSource == null) Paint(_barFill, fill, p - new Vector2((1 - fraction) * 48 * s, 0), new Vector2(96 * fraction, 10) * s);
-                else
-                {
-                    int step = Mathf.CeilToInt(fraction * 100);
-                    if (step != _fillStep)
-                    {
-                        _fillStep = step;
-                        if (_fillOwner.Owned != null) Object.Destroy(_fillOwner.Owned);
-                        var rect = fillSource.rect; rect.width *= step / 100f;
-                        _fillOwner.Owned = step > 0 ? Sprite.Create(fillSource.texture, rect, new Vector2(.5f, .5f), fillSource.pixelsPerUnit) : null;
-                    }
-                    _barFill.sprite = _fillOwner.Owned; _barFill.enabled = _barFill.sprite != null;
-                    _barFill.transform.localPosition = Draw.W(p - new Vector2((1 - step / 100f) * 48 * s, 0));
-                    _barFill.transform.localScale = new Vector3(96 * s / fillSource.bounds.size.x, 10 * s / fillSource.bounds.size.y, 1);
-                }
+                FreezeBar(panel + new Vector2(0, 57.33f) * s, freezeLeft, s);
             }
             else if (!reaching && _thawAge < IceBreakSeconds)
                 Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(_thawAge * 18))), panel, new Vector2(113, 434f / 3) * s);
             return true;
+        }
+
+        void FreezeBar(Vector2 p, double freezeLeft, float s)
+        {
+            _freezeSeconds.gameObject.SetActive(true);
+            string bg = Art.Get("T46/clock/freeze_bar_bg") != null ? "T46/clock/freeze_bar_bg" : "Clock/Layers/bar-frame";
+            string fill = Art.Get("T46/clock/freeze_bar_fill") != null ? "T46/clock/freeze_bar_fill" : "Clock/Layers/bar-fill";
+            Paint(_barFrame, bg, p, new Vector2(100, 14) * s);
+            float fraction = Mathf.Clamp01((float)(freezeLeft / GameSession.FreezeSeconds));
+            int seconds = Mathf.CeilToInt((float)freezeLeft);
+            if (seconds != _shownFreezeSeconds)
+            {
+                _shownFreezeSeconds = seconds;
+                _freezeSeconds.Text = seconds.ToString();
+            }
+            _freezeSeconds.transform.localPosition = Draw.W(p);
+            var fillSource = Art.Get("T46/clock/freeze_bar_fill");
+            if (fillSource == null) Paint(_barFill, fill, p - new Vector2((1 - fraction) * 48 * s, 0), new Vector2(96 * fraction, 10) * s);
+            else
+            {
+                int step = Mathf.CeilToInt(fraction * 100);
+                if (step != _fillStep)
+                {
+                    _fillStep = step;
+                    if (_fillOwner.Owned != null) Object.Destroy(_fillOwner.Owned);
+                    var rect = fillSource.rect; rect.width *= step / 100f;
+                    _fillOwner.Owned = step > 0 ? Sprite.Create(fillSource.texture, rect, new Vector2(.5f, .5f), fillSource.pixelsPerUnit) : null;
+                }
+                _barFill.sprite = _fillOwner.Owned; _barFill.enabled = _barFill.sprite != null;
+                _barFill.transform.localPosition = Draw.W(p - new Vector2((1 - step / 100f) * 48 * s, 0));
+                _barFill.transform.localScale = new Vector3(96 * s / fillSource.bounds.size.x, 10 * s / fillSource.bounds.size.y, 1);
+            }
         }
 
         void DrawClockShield(Vector2 center, Vector2 panel, float scale, float reach)

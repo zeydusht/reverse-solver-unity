@@ -8,8 +8,12 @@ namespace ReverseSolver.Presentation
         public const float PulseAmount = .045f;
         readonly TextView _left, _clock, _piecesTitle, _timeTitle;
         readonly float _scale;
+        // PM_64: the PM_62 live portrait is the default; Codex's fixed arch portrait with &portre=sabit or &saat=kalkan.
+        public static bool FixedPortrait;
         readonly JigoPortrait54 _portrait;
-        public void ShowClockShield(bool away) => _portrait.ShieldAway(away);
+        readonly JigoPortraitLive54 _live;
+        public void ShowClockShield(bool away) => _portrait?.ShieldAway(away);
+        public void ShowClockPortrait(bool showing) { _portrait?.Visible(!showing); _live?.Visible(!showing); }
         bool _frozen, _untimed;
         public void SetFrozen(bool frozen) { _frozen = frozen; }
         int _lastLeft = -1, _lastTime = -1;
@@ -42,7 +46,8 @@ namespace ReverseSolver.Presentation
             var center = JigoCenter(screen.x, safeTop);
             var windowSize = new Vector2(127, 104) * _scale;
             Art54.Stretch(root, Art54.Window, center, windowSize, order + 2);
-            _portrait = new JigoPortrait54(root, center, windowSize, order + 3, session);
+            if (FixedPortrait) _portrait = new JigoPortrait54(root, center, windowSize, order + 3, session);
+            else _live = new JigoPortraitLive54(root, center, windowSize, order + 3, session);
         }
 
         TextView Panel(Transform root, float x, float offset, int order, out TextView title, string label)
@@ -87,7 +92,7 @@ namespace ReverseSolver.Presentation
                 _timeTitle.Text = Lang.T("Time", "Süre");
                 if (_untimed) _clock.Text = Lang.T("No limit", "Sınırsız");
             }
-            _portrait.Update();
+            _portrait?.Update(); _live?.Update();
             if (_untimed) return;
 
             int t = Mathf.Max(0, seconds);
@@ -101,7 +106,7 @@ namespace ReverseSolver.Presentation
             _clock.transform.localScale = Vector3.one * pulse;
         }
 
-        public void OnEvent(GameEvent e, GameSession session) => _portrait.OnEvent(e, session);
+        public void OnEvent(GameEvent e, GameSession session) { _portrait?.OnEvent(e, session); _live?.OnEvent(e, session); }
         public Vector3 ClockPosition => _clock.transform.localPosition;
     }
 }

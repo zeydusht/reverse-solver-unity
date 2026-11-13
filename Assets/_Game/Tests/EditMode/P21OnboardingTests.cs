@@ -166,11 +166,16 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void GuidedOpeningPreservesSaveIdsAndGivesTheFirstTenLevelsMoreTime()
         {
-            Assert.That(P21Onboarding.UseGuided(null, true, false, true, null), Is.True);
-            Assert.That(P21Onboarding.UseGuided("p21", true, false, true, null), Is.True);
-            Assert.That(P21Onboarding.UseGuided("pt1", true, false, true, null), Is.False);
-            Assert.That(P21Onboarding.UseGuided("p21", true, true, true, null), Is.False);
-            Assert.That(P21Onboarding.UseGuided("p21", true, false, true, "0"), Is.False);
+            // PM_64: the 2x2 guided opening is opt-in (&tut=2x2); obstacle lessons are on by default.
+            Assert.That(P21Onboarding.UseGuided(null, true, false, true, null), Is.False);
+            Assert.That(P21Onboarding.UseGuided("p21", true, false, true, null), Is.False);
+            Assert.That(P21Onboarding.UseGuided("p21", true, false, true, "1"), Is.True);
+            Assert.That(P21Onboarding.UseGuided("p22", true, false, true, "1"), Is.True);
+            Assert.That(P21Onboarding.UseGuided("pt1", true, false, true, "1"), Is.False);
+            Assert.That(P21Onboarding.UseGuided("p21", true, true, true, "1"), Is.False);
+            Assert.That(P21Onboarding.UseLessons("p22", true, false, true, null), Is.True);
+            Assert.That(P21Onboarding.UseLessons("p22", true, false, true, "0"), Is.False);
+            Assert.That(P21Onboarding.UseLessons("pt1", true, false, true, null), Is.False);
             var opening = P21Onboarding.ReplaceOpening(Original).Levels;
             Assert.That(opening.Select(l => l.Id), Is.EqualTo(Original.Levels.Select(l => l.Id)));
             Assert.That(opening.Select(l => l.Number), Is.EqualTo(Original.Levels.Select(l => l.Number)));

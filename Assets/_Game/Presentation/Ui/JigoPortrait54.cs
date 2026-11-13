@@ -87,6 +87,10 @@ namespace ReverseSolver.Presentation
         }
 
         public void ShieldAway(bool away) => _shieldAway = away;
+        public void Visible(bool visible)
+        {
+            foreach (var layer in new[] { _front, _back, _shield, _grip }) layer.gameObject.SetActive(visible);
+        }
 
         void Sync(GameSession session)
         {

@@ -20,6 +20,9 @@ namespace ReverseSolver.Core
             return c;
         }
 
+        /* PM_64: p22 is the next preview of the p21 game; both play the p21 flow, rows keep their own cohort. */
+        public static bool P21Line(string c) => c == "p21" || c == "p22";
+
         internal static void Plays(JsonWriter w)
         {
             var m = Current;

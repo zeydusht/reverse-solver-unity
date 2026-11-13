@@ -44,7 +44,7 @@ namespace ReverseSolver.Presentation
         {
             if (Trained(b)) return;
             _data.trained[(int)b] = true;
-            int bonus = Art.T54 && Art.GameplayCohort == "p21" && _data.chestBonus != null ? Math.Max(0, _data.chestBonus[(int)b]) : 0;
+            int bonus = Art.T54 && TelemetryMeta.P21Line(Art.GameplayCohort) && _data.chestBonus != null ? Math.Max(0, _data.chestBonus[(int)b]) : 0;
             _data.stock[(int)b] = (int)Math.Min(int.MaxValue, (long)BoosterStart + bonus);
             if (_data.chestBonus != null) _data.chestBonus[(int)b] = 0;
             Save();

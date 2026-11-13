@@ -181,8 +181,12 @@ namespace ReverseSolver.Presentation
             _boosterView21.TickSelection();
             _bar.ShowScissorsInSlot(_effect21 != Booster.Scissors);
             _boosterView21.Effect(_effect21 == Booster.Clock ? null : _effect21, _effectAge21, _target21, _joint21.vertical);
-            bool shieldAway = _boosterView21.Clock(_clockAge21, _session.FreezeLeft, active, _session.IsOver);
-            _hud.ShowClockShield(shieldAway);
+            if (P21BoosterView.ShieldClock)
+            {
+                bool shieldAway = _boosterView21.Clock(_clockAge21, _session.FreezeLeft, active, _session.IsOver);
+                _hud.ShowClockShield(shieldAway);
+            }
+            else _hud.ShowClockPortrait(_boosterView21.BrushClock(_clockAge21, _session.FreezeLeft, _session.IsOver));
             _hud.SetFrozen(_session.FreezeLeft > 0 && !_session.IsOver);
         }
     }

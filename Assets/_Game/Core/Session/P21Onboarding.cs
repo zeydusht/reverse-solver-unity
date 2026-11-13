@@ -24,15 +24,19 @@ namespace ReverseSolver.Core
             slot == WallLesson || slot == BombLesson;
         // PM60 only changes new art; the legacy art path keeps its PM59 behaviour.
         public static bool Enabled(string cohort, bool redesign, bool playOverride, bool newArt = true, string tut2x2 = null) =>
-            cohort == "p21" && redesign && !playOverride && (!newArt || tut2x2 == "1");
+            TelemetryMeta.P21Line(cohort) && redesign && !playOverride && (!newArt || tut2x2 == "1");
         public static bool IsNewFlow(SaveData save) => save.Best.Count == 0 ||
             HasPreludeProgress(save);
 
         public static bool HasPreludeProgress(SaveData save) =>
             save.Attempts.ContainsKey(TutorialId) || save.Best.ContainsKey(TutorialId);
 
+        // PM_64: Codex's 2x2 guided opening is opt-in (&tut=2x2); the default is the PM_60 story level.
         public static bool UseGuided(string cohort, bool redesign, bool playOverride, bool newArt, string flag) =>
-            (cohort == null || cohort == "p21") && redesign && !playOverride && newArt && flag != "0";
+            (cohort == null || TelemetryMeta.P21Line(cohort)) && redesign && !playOverride && newArt && flag == "1";
+        // PM_64: obstacle lessons at 3/10/14/20 are on by default (&dersler=0 turns them off).
+        public static bool UseLessons(string cohort, bool redesign, bool playOverride, bool newArt, string flag) =>
+            (cohort == null || TelemetryMeta.P21Line(cohort)) && redesign && !playOverride && newArt && flag != "0";
 
         public static LevelSet ReplaceOpening(LevelSet original)
         {

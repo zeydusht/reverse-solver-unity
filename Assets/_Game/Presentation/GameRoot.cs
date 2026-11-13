@@ -153,9 +153,14 @@ namespace ReverseSolver.Presentation
             string launchCohort = TelemetryMeta.CleanCohort(Host.Current.Query("c")) ?? TelemetryMeta.CleanCohort(Host.Current.Store.Get("rs_cohort"));
             Art.CohortOverride = launchCohort;
             _testMode = LaunchPlan.TestMode(Host.Current.Query("c"), Host.Current.Query("test"));
-            string guidedFlag = Host.Current.Query("tut2x2");
+            // PM_64 options (defaults are the PM_62 versions): Codex's shield clock, slow scissors, fixed portrait.
+            P21BoosterView.ShieldClock = Host.Current.Query("saat") == "kalkan";
+            P21BoosterView.SlowScissors = Host.Current.Query("makas") == "yavas";
+            Hud54.FixedPortrait = P21BoosterView.ShieldClock || Host.Current.Query("portre") == "sabit";
+            // PM_64: &tut=2x2 opts into Codex's guided 2x2 opening (old &tut2x2=1 still works).
+            string guidedFlag = Host.Current.Query("tut") == "2x2" || Host.Current.Query("tut2x2") == "1" ? "1" : Host.Current.Query("tut2x2");
             string reset = Host.Current.Query("reset");
-            if (reset == "1" && launchCohort == "p21")
+            if (reset == "1" && TelemetryMeta.P21Line(launchCohort))
                 _resetVisit = SaveData.ResetForQuery(Host.Current.Store, reset, launchCohort, P21Onboarding.Prepend(_set).Levels);
 
             // saved counters and the send queue (M5-pre). Sending is off in the
@@ -167,11 +172,16 @@ namespace ReverseSolver.Presentation
             _p21Flow = P21Onboarding.Enabled(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, keepPrelude ? "1" : null)
                 && P21Onboarding.IsNewFlow(_save);
             _p21Revised = !_p21Flow && P21Onboarding.UseGuided(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, guidedFlag);
+            _p21Lessons = !_p21Flow && P21Onboarding.UseLessons(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, Host.Current.Query("dersler"));
             if (_p21Flow) _set = P21Onboarding.Prepend(_set);
-            else if (_p21Revised) _set = P21Onboarding.SpaceObstacleLessons(P21Onboarding.ReplaceOpening(_set));
+            else
+            {
+                if (_p21Revised) _set = P21Onboarding.ReplaceOpening(_set);
+                if (_p21Lessons) _set = P21Onboarding.SpaceObstacleLessons(_set);
+            }
             Debug.Log($"[p21] flow={_p21Flow} levels={_set.Levels.Count}");
             _stats = PlayStats.Load(host.Store);
-            _stats.ImportLegacy(_save, _p21Revised ? authoredSet : null);
+            _stats.ImportLegacy(_save, _p21Revised || _p21Lessons ? authoredSet : null);
             _log = _save.Restore();
             var queue = new TelemetryQueue(host.Store);
             bool send = host.SendEnabled && !Host.Debug && !Application.isEditor;
@@ -196,7 +206,7 @@ namespace ReverseSolver.Presentation
             _continueQueue = new TelemetryQueue(host.Store, "continue");
             _continueSender = new TelemetrySender(_continueQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "continue_events?on_conflict=row_id");
             _continueSender.Flush();
-            if (cohort == "p21")
+            if (TelemetryMeta.P21Line(cohort))
             {
                 _tutorialQueue = new TelemetryQueue(host.Store, "tutorial");
                 _tutorialSender = new TelemetrySender(_tutorialQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "tutorial_events?on_conflict=row_id");
@@ -407,7 +417,7 @@ namespace ReverseSolver.Presentation
             int no = kind == "start" ? 0 : ++_moveNo;                  // start: move_no 0 (PM_MESAJ_25)
             _moveQueue.Add(_rowId + "-" + no, MoveRow.Json(_rowId, _save.Player, _session.Level.Id, _session.Level.Version, _session.Attempt,
                 no, kind, piece, dir, (int)((now - _moveT0) * 1000), (int)((now - _moveLast) * 1000), _session.TimeLeft, fuses, holdMs,
-                Cohort == "p21" && (kind == "exit" || kind == "jam" || kind == "tut") ? _moveInput : null));
+                TelemetryMeta.P21Line(Cohort) && (kind == "exit" || kind == "jam" || kind == "tut") ? _moveInput : null));
             bool action = kind != "touch" && kind != "hide" && kind != "show" && kind != "start" && kind != "quit";
             if (action) _moveLast = now;
             // sent on hide, on quit and every 10 rows, so a closed tab loses at most the last few (PM_MESAJ_25)
@@ -533,7 +543,7 @@ namespace ReverseSolver.Presentation
             _endAt = -1;
             // web loadLevel(i): the intro shows on a level's first start, not on retries
             bool firstVisit = !_introSeen.Contains(level.Id);
-            _introOpen = !P21Prelude && !P21OpeningLesson && Screens.HasIntro(level, !_p21Revised || _index != 5) && firstVisit;
+            _introOpen = !P21Prelude && !P21OpeningLesson && Screens.HasIntro(level, !_p21Lessons || _index != 5) && firstVisit;
             _introSeen.Add(level.Id);
             ResetScriptedTutorial(firstVisit);
             ResetP21Tutorial();
@@ -591,8 +601,8 @@ namespace ReverseSolver.Presentation
             _tutorialScript ??= TutorialScript.Load();
             int slot = _index + 1 - (_p21Flow ? 2 : 0);
             // Reuse the bomb spotlight on its new teaching board.
-            if (_p21Revised && slot == 6) slot = 0;
-            else if (_p21Revised && slot == P21Onboarding.BombLesson) slot = 6;
+            if (_p21Lessons && slot == 6) slot = 0;
+            else if (_p21Lessons && slot == P21Onboarding.BombLesson) slot = 6;
             _tutorialSteps = _redesignSet && !PlayOverride.Active && !P21Prelude && !P21OpeningLesson && !P21StoryLevel
                 ? _tutorialScript.ForSlot(slot, firstVisit) : new List<TutorialStep>();
             _tutorialSteps.RemoveAll(step => (step.tur == "booster" || step.tur == "booster_hedef") &&
@@ -1545,7 +1555,7 @@ namespace ReverseSolver.Presentation
                 var velocity = dt > .0001 ? (pt - _gestureLast) / (float)dt : Vector2.zero;
                 _gestureLast = pt; _gestureTime = now;
                 var gesture = _flick.Classify(_gestureStart, pt, velocity, released, _board.Cell);
-                if (MoveRow.INPUT_COL && Cohort == "p21" && gesture.Direction != Vector2.zero)
+                if (MoveRow.INPUT_COL && TelemetryMeta.P21Line(Cohort) && gesture.Direction != Vector2.zero)
                 {
                     var d = gesture.Direction.x > 0 ? Dir.R : gesture.Direction.x < 0 ? Dir.L : gesture.Direction.y > 0 ? Dir.D : Dir.U;
                     var lim = _session.Probe(_drag.Piece, d);
