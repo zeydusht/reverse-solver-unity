@@ -213,3 +213,56 @@ GIF'ler: [çekiç](pm60/cekic.gif) · [makas](pm60/makas.gif) · [değnek](pm60/
 
 **Doğrulanmayan:** iPhone'da görünüm ve akıcılık; kilit sayısının 64 pt hücrede uzaktan okunurluğu (Zeyd telefonda bakmalı); Jigo'nun "RM'deki kral kadar canlı" olup olmadığı.
 GIF'ler: [saat](pm62/saat.gif) · [makas](pm62/makas.gif) · [kazanma](pm62/kazanma.gif) · [Jigo geçişi](pm62/jigo_gecis.gif) · [harita hapı](pm62/harita_hap.gif)
+
+## PM_64 — Codex devri birleştirildi → p22 önizleme + PM_63 + kombo merdiveni (14 Kasım gece)
+
+**Durum: p22'de yayında** (gh-pages `8efbc22e`, yeni klasör `p22/`; p20, p21, kök, pt1 değişmedi). Kaynak dal `pm64`.
+- Oyun: https://zeydusht.github.io/reverse-solver-unity/p22/?c=p22&lang=tr
+- Test: https://zeydusht.github.io/reverse-solver-unity/p22/?c=p22&test=1&lang=tr
+
+### 14 dalın birleştirme notları
+Dallar `art` (PM_62) üstüne sıralı bir zincirdi; `codex/14` hepsini içeriyordu, çakışma çıkmadı. Kararlarla çelişenler bayrağa alındı.
+
+| Dal | Ne getiriyor | PM_56–62 ile |
+|---|---|---|
+| 01 onboarding | 2×2 rehberli + 3×3 açılış, 3–10'da süre tabanı | **Çelişki** (Zeyd 2×2'yi reddetti) → varsayılan PM_60 hikâye bölümü; Codex'inki `&tut=2x2` |
+| 02 controls | Fiskede eksen kilidi, yan güvenli alan ≥24 pt | Uyumlu (PM_58) |
+| 03 engel dersleri | Kilit 3, zincir 10, duvar 14, bomba 20; dersler süresiz; 20'den önceki bombalar kalkar | Uyumlu ("yay") → **varsayılan açık**, `&dersler=0` kapatır |
+| 04 parça çıkışı | Patlama tahta kenarında, yavaş oyuncuya yarıda övgü, "weee" | Uyumlu |
+| 05 booster animasyonları | Değnek onayı dar ekranda, süresiz derste saat harcanmaz | Uyumlu |
+| 06 HUD | Süresizde "Sınırsız", kazanınca mutlu Jigo, devam fiyatları | Uyumlu (PM_54) |
+| 07 Jigo kıyafeti | Yalnız sanat dosyası | Oyuna bağlanmadı |
+| 08 Kont | Yalnız sanat dosyası | Oyuna bağlanmadı |
+| 09 açılış storyboard | Yalnız sanat dosyası | Oyuna bağlanmadı; onaylı intro videosu kalır |
+| 10 HUD/booster envanteri | Belge | — |
+| 11 PlayMode açılış testi | `OpeningFlowTests` | 2×2'yi varsayıyor; varsayılan değişti, **PlayMode bu gece koşulmadı** |
+| 12 Jiggle sayacı | Kurtarma toplamı sürüm değişince korunur | Uyumlu |
+| 13 | Doğrulama listesi | — |
+| 14 Jigo/booster cilası | Sabit portre (şader penceresi), düğme kalkanlı saat, makas ~2,1 sn, hedef seçerken süre akar, zaman aşımı harcamadan iptal | **Çelişki** → varsayılan PM_62: canlı portre (nefes, geçiş kareleri), fırçalı saat, makas 1,2 sn. Codex'inkiler `&portre=sabit`, `&saat=kalkan` (sabit portreyi de açar), `&makas=yavas`. Süre akışı ve iptal herkes için açık |
+
+### Bayrak listesi (p22)
+`&test=1` (yalnız `c=ic|p21|p22`) · `&tut=2x2` · `&dersler=0` · `&saat=kalkan` · `&makas=yavas` · `&portre=sabit` · mevcutlar: `&booster=`, `&jigo=`, `&devam=1`, `&coin=`, `&reset=1`, `&fps=1`.
+p22, kodda p21 ile aynı oyun ailesi (`TelemetryMeta.P21Line`); kayıtlar `cohort=p22` gider, test modunda `ic`.
+
+### PM_63 — zincirli parça takılması
+- **Sebep:** zincirli çift çoğunlukla yandan "kayma" kuralıyla duruyor (yumuşak engel). Yumuşak engelde sürükleme payı hücrenin %30'uydu, parça yarım hücreye yakın kayıp boşluk açıyordu. Kural motoru zaten geçersiz sayıyordu; yalnız görünüm kayıyordu.
+- **Düzeltme (`DragModel`):** hiç ilerleyemeyen zincirli çift artık normal parçadaki gibi küçük pay alıyor; geçerlilik `Probe` ile harekete başlamadan biliniyor. Takılma payı %70'e indi (0,07 → 0,049 hücre), fiskede de aynı. Geri yaylanma 0,18 sn (en çok iki salınım). Zincire yalnız küçük dürtü (mevcut `Kick`).
+- **Test:** `ChainedPairThatCannotMoveStaysInItsSlot`: 40 seviyede 168 takılan zincirli hamle (110'u yan engel); hepsinde parça yerinde, jam sayılıyor, hamle sayılmıyor.
+
+### Kombo merdiveni (T47)
+x2 Güzel · x3 Harika · x4 Süper · x5+ Muhteşem (EN Nice/Great/Super/Amazing). Çıkış kenarında patlama (küçük/orta/büyük), rozet ~300 ms sonra (giriş 5 kare, kademeye göre bekleme, çıkış 4 kare, ~650 ms). x4+ çerçeve ışık dalgası, şok halkası, ekran kenarı ve flaş; x5+ ikinci küçük patlama. Tahta sarsıntısı kademeye göre (0,75–3 px). Tahtanın altında 1,2 sn sayaç; takılma komboyu sıfırlar ve sayacı kırar. Puan yazısı yok. Eski "x2" rozeti ve kombo övgüsü kalktı; yavaş oyuncu için yarı yol övgüsü kaldı.
+- Not: yazı tiplerinde "×" glifi yok; rakam "x2" diye yazılıyor.
+
+### Ölçümler
+| | Sonuç |
+|---|---|
+| EditMode | 711 geçti, 0 kaldı, 2 atlandı (Perf dahil geçti) |
+| `verify_build` yerel | 4/4, PC FPS medyan 59,9 |
+| `--send --player TEST_PM64` | 5/7; KALDI yalnız bilinen eski `zeydsend` ve `a6b` |
+| `verify_build` canlı p22 | 4/4 (L40 en düşük 2,5 FPS tek anlık, medyan 59,9) |
+| Build (Brotli) | 30,82 → 36,11 MB (+5,3 MB, çoğu T47 kareleri, 384/512 px'e sınırlandı) |
+
+GIF'ler: [kombo x2→x5+](pm64/kombo_x2_x5.gif) · [zincirli takılma önce/sonra](pm64/zincir_takilma_once_sonra.gif) · [saat: fırça ve kalkan](pm64/saat_firca_ve_kalkan.gif)
+
+**Doğrulanmayan:** iPhone'da görünüm ve akıcılık; PlayMode testleri (`OpeningFlowTests` 2×2 varsayıyor); `&tut=2x2` akışı oynanmadı.
+**Zeyd'e sor:** (1) p21 ve p22 aynı tarayıcı kaydını paylaşıyor (aynı alan adı); `c=p22` ile açınca cohort cihazda p22 olarak kalır, p21 linki `c` içermiyorsa p22 sayılır. (2) Bombalar 20. bölümden önce kalkıyor (codex/03); bu p22 varsayılanı.
