@@ -56,6 +56,12 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - **Kötü adamın adı Kont** (Zeyd, 8 Kasım; "Baron" çalışma adıydı, görsel `Baron-reference-v01.png` aynı). p21'de oyundaki "Baron" metinleri (zor bölüm kartı, i18n) Kont olacak. Animasyon artık **AI video**: Codex 9 anahtar kare + Higgsfield çekim listesi (`docs/art/CODEX_TASK26_DUZELTME.md`), Zeyd Higgsfield'da videoya çevirir, Claude Code birleştirip ilk açılışa koyar.
 - **Açılış hikâye animasyonu (8 Kasım):** `docs/art/CODEX_TASK26.md` (15–20 sn, 6 sahne: çayır → Baron toplar → çerçeveler → koridor → el tabloyu söker "weee" → "Free them all!" ve koridor zoom'u). Önce storyboard, Zeyd onayı, sonra final sprite + tween (≤2 MB). Hikâye kaynağı `docs/HIKAYE.md`.
 
+## PM durum özeti (14 Kasım 00:45)
+- **Canlı p21 = PM_62** (gh-pages `738806cb`). **iPhone'da TestFlight 0.6.0 (7)** (PM_58 hâli).
+- **Codex devir çalışması (12 Kasım, 14 adım) yalnız yerelde**, `codex/*` dallarında; HEAD `codex/14-hud-booster-polish`. p21'e **yayınlanmadı**, Zeyd telefonda görmedi. Not: 2×2 rehberli tutorial'ı geri getirmiş (Zeyd 10 Kasım'da 2×2'yi reddetmişti); engel dersleri 3/10/14/20 (Zeyd'in "yay" isteğine uygun); yeni Jigo kıyafeti (lacivert savaşçı, fırçadan mızrak) + yeni açılış storyboard'u (mevcut onaylı intro videosuyla çelişebilir).
+- **PM_63 (zincirli parça takılması) YAPILMADI.** **TASK47 kombo merdiveni çizildi** (`docs/art/task47/`, PM baktı: iyi), oyuna girmedi.
+- Sıradaki önerilen: Claude Code `codex/*` dallarını gözden geçirip birleştirsin, **ayrı önizleme `p22/`**'ye yayınlasın; aynı işte PM_63 + T47 kombo entegrasyonu. Zeyd telefonda p21 ile p22'yi karşılaştırıp karar verir.
+
 ## Codex devir çalışması
 
 - **1. Onboarding — `codex/01-onboarding`.** Güncel sanatla yerel Redesign ve p21 açılışı, kayıt kimliklerini koruyan 2×2 rehberli ve 3×3 serbest kaydırma bölümleriyle başlar. İkisinde de süre baskısı yok. Rehber sırası sol alt ↓, sağ alt ↑ (takılır) ve ↓, sağ üst ← (takılır) ve →, son parça herhangi bir boş yöne. Yerel Unity Play Mode’da Redesign’ı açıp Seviye 1’den sırayı uygula ve Seviye 2’yi farklı sırayla temizle. İlk iki bölüm ve süresi değişen bölümler yeni sürüm numarası alır. Önceden ek iki bölümü olan p21 kayıtları o akışı sürdürür. Telefon kontrolü ve ilk 10 bölümün engel dengesi açık.

@@ -87,3 +87,7 @@ Crashpad/
 .task*-pip-cache/
 **/.task*-python/
 **/.task*-pip-cache/
+
+# Zeyd screen recordings (too large for git)
+docs/art/reff/*.MP4
+docs/art/reff/*.mp4
