@@ -81,6 +81,7 @@ namespace ReverseSolver.Presentation
         public TextView Title3D()
         {
             Heading(Draw.Hex("#234670"));
+            Outline(Draw.Hex("#234670"), .34f);   // on a cream panel the blue rim carries the letters
             var m = _t.fontMaterial;
             m.SetColor("_UnderlayColor", new Color(.78f, .55f, .16f, 1));
             m.SetFloat("_UnderlayOffsetY", -.7f);

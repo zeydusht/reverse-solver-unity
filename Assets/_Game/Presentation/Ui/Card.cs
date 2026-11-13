@@ -334,8 +334,8 @@ namespace ReverseSolver.Presentation
             }
             if (_banner != null)
             {
-                var titleView = CardText(Root, "title", _banner, T23 ? 24 : 21, Palette.Cream, true, order: _order + 3);
-                if (Cream) titleView.Title3D().FitWidth(_w - 70, 17);
+                var titleView = CardText(Root, "title", _banner, Cream ? 31 : T23 ? 24 : 21, Palette.Cream, true, order: _order + 3);
+                if (Cream) titleView.Title3D().FitWidth(_w - 56, 22);
                 else if (T23) titleView.Heading(TextView.RimTeal).FitWidth(_w - 70, 17); else titleView.Outline(Palette.Navy, .2f);
                 titleView.transform.localPosition = Draw.W(_screen.x / 2, top + (T23 ? 35 : 40));
             }
