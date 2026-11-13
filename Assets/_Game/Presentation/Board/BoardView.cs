@@ -331,7 +331,7 @@ namespace ReverseSolver.Presentation
             {
                 var start = pv.Offset;
                 var axis = new Vector2(dir.Dx(), dir.Dy());
-                var stop = axis * Mathf.Max(Vector2.Dot(start, axis), (travelCells + DragModel.GiveHard) * Cell);
+                var stop = axis * Mathf.Max(Vector2.Dot(start, axis), (travelCells + (travelCells == 0 ? DragModel.JamGive : DragModel.GiveHard)) * Cell);
                 Tweens.Run(pv, .18f, t =>
                 {
                     if (pv != null) pv.SetOffset(Vector2.Lerp(start, stop, t * t));
@@ -342,7 +342,9 @@ namespace ReverseSolver.Presentation
             // .pc.snap: transform .22s cubic-bezier(.34,1.4,.5,1)
             var from = pv.Offset;
             int home = HomeOrder(piece);
-            Tweens.Run(pv, .22f, t =>
+            // PM_63: a jam (no travel) springs back in .18 s, at most two swings; a released drag keeps the web's .22 s.
+            bool jam = travelCells == 0 && result == DragRelease.SnappedBack && from.magnitude <= DragModel.GiveHard * Cell + .5f;
+            Tweens.Run(pv, jam ? .18f : .22f, t =>
             {
                 pv.SetOffset(Vector2.LerpUnclamped(from, Vector2.zero, Tweens.Settle(t)));
                 pv.SetLift(1 - t);

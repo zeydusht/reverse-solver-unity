@@ -7,7 +7,7 @@ namespace ReverseSolver.Presentation
     public sealed class P21JuiceView : MonoBehaviour
     {
         public static bool Enabled => Art.P21Gameplay;
-        const float Quick = 1.2f;
+        const float Quick = ComboLadderView.Window;
         struct Puff
         {
             public SpriteRenderer View;
@@ -26,6 +26,7 @@ namespace ReverseSolver.Presentation
         readonly string[] _combos = new string[100];
         Sprite[] _pop, _confetti, _metal, _praise;
         BoardView _board;
+        ComboLadderView _ladder;
         float _lastExit = -10;
         int _next, _combo, _praisedMove;
         bool _halfwayPraised;
@@ -49,6 +50,7 @@ namespace ReverseSolver.Presentation
             }
             for (int i = 2; i < v._combos.Length; i++) v._combos[i] = "x" + i;
             v._badges[0].View.sprite = Load("combo");
+            v._ladder = ComboLadderView.Create(board);
             return v;
         }
 
@@ -70,6 +72,7 @@ namespace ReverseSolver.Presentation
             if (e.Kind == EventKind.Jammed)
             {
                 _combo = 0; _lastExit = -10;
+                _ladder.Break();
                 foreach (var badge in _badges) { badge.View.enabled = false; badge.Text.gameObject.SetActive(false); }
                 for (int i = 0; i < _badges.Length; i++) _badges[i].At = -1;
                 return;
@@ -88,21 +91,20 @@ namespace ReverseSolver.Presentation
             if (e.Kind == EventKind.NailFreed || (e.Kind == EventKind.PieceRemoved && e.ByHammer && piece.Cells.Length > 1))
                 Burst(_metal, point, Color.white, .45f, 1.8f);
             if (e.Kind != EventKind.PieceRemoved) return;
-            if (e.ByHammer) ExitAt(piece, point);
             float now = Time.unscaledTime;
             _combo = now - _lastExit <= Quick ? _combo + 1 : 1; _lastExit = now;
-            // Badges sit inside the board, away from both the timer and booster bar.
+            // PM_64: the T47 ladder replaces the old xN badge and combo praise; its burst fires at the edge (ExitAt).
+            _ladder.Arm(_combo, point);
+            if (e.ByHammer) ExitAt(piece, point);
+            // A slow player still hears praise once, halfway through the board.
             var badgePoint = new Vector2(_board.Size.x * .5f, _board.Cell * .45f);
-            if (_combo >= 2)
-                ShowBadge(0, _badges[0].View.sprite, _combos[Mathf.Min(_combo, 99)], badgePoint, _board.Cell * 1.3f);
             int left = _board.Session.Board.PresentCount;
             bool halfway = !_halfwayPraised && left <= _board.Session.Level.Pieces.Count / 2;
             int moves = _board.Session.Moves;
-            if (left == 0 || moves - _praisedMove < 3 || (_combo < 2 && !halfway)) return;
-            _halfwayPraised |= halfway;
+            if (left == 0 || _combo >= 2 || !halfway || moves - _praisedMove < 3) return;
+            _halfwayPraised = true;
             _praisedMove = moves;
-            int tier = Mathf.Clamp(_combo - 2, 0, 2);
-            ShowBadge(1, _praise[tier], Texts.JuicePraise(tier), badgePoint + new Vector2(0, _board.Cell * .8f), _board.Cell * 2.6f);
+            ShowBadge(1, _praise[0], Texts.JuicePraise(0), badgePoint + new Vector2(0, _board.Cell * .8f), _board.Cell * 2.6f);
         }
 
         public void ExitAt(PieceView piece, Vector2 point)
@@ -110,6 +112,7 @@ namespace ReverseSolver.Presentation
             var tint = PieceView.CellColor(_board.Session.Level, piece.Cells[0]);
             Burst(_pop, point, tint, .36f, 1.9f);
             Burst(_confetti, point, tint, .65f, 2.5f);
+            _ladder.Hit(point);
         }
 
         void Burst(Sprite[] frames, Vector2 point, Color tint, float life, float size)

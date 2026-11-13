@@ -68,13 +68,19 @@ namespace ReverseSolver.Core
            travelled FlickFraction of the exit distance.
          - A drag the system cancels (edge gesture, focus loss) leaves if the
            42% rule holds at that moment, otherwise springs back (Abort).
-       Neither counts a jam. Time comes in from outside (Move/Release take a
+       Neither counts a jam.
+         - PM_63: a piece that cannot move at all (no cell of travel) only
+           nudges JamGive (70% of the web's hard give), and a chained pair
+           (Rigid) does so even when its stop is a side catch, so it never
+           leaves its slot. Validity is known from Probe before any movement.
+       Time comes in from outside (Move/Release take a
        timestamp in seconds); without one the flick never applies. */
     public sealed class DragModel
     {
         public const float MinSwipe = 7f;
         public const float GiveSoft = .30f;
         public const float GiveHard = .07f;
+        public const float JamGive = GiveHard * .7f;
         public const float ExitOvershoot = 1.15f;
         public const float ExitFraction = .42f;
         public const float JamSlack = 4f;
@@ -101,6 +107,9 @@ namespace ReverseSolver.Core
         readonly float[] _px = new float[16], _py = new float[16];
         readonly double[] _pt = new double[16];
         int _samples;
+
+        /* PM_63: true for a chained pair (a piece with more than one cell). Null: no piece is rigid. */
+        public Func<int, bool> Rigid;
 
         public DragModel(IDragTarget target, float cellSize)
         {
@@ -240,11 +249,17 @@ namespace ReverseSolver.Core
             return (float)(along / dt);
         }
 
+        /* How far past its travel limit a non-exiting piece may be pulled. */
+        public static float GiveFor(TravelLimit limit, bool rigid)
+        {
+            if (limit.Cells == 0 && (limit.Hard || rigid)) return JamGive;
+            return limit.Hard ? GiveHard : GiveSoft;
+        }
+
         float MaxOffset()
         {
             if (Limit.Exit) return (Limit.Cells + ExitOvershoot) * CellSize;
-            float give = Limit.Hard ? GiveHard : GiveSoft;
-            return (Limit.Cells + give) * CellSize;
+            return (Limit.Cells + GiveFor(Limit, Rigid != null && Rigid(Piece))) * CellSize;
         }
     }
 }

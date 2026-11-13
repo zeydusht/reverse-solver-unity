@@ -1171,7 +1171,8 @@ namespace ReverseSolver.Presentation
                 if (!TutorialActive && _session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
                     _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
                                               new Rect(-origin, _screen));
-                _drag = new DragModel(new SessionDragTarget(_session), cell);
+                var level = _session.Level;
+                _drag = new DragModel(new SessionDragTarget(_session), cell) { Rigid = p => level.Pieces[p].Length > 1 };
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder, UseHud54);
                 if (_session.Level.Tutorial > 0 || TutorialActive) ShowTutorialStep();
                 if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder, P21ObstacleLesson));
