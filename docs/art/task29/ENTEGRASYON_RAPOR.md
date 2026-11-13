@@ -266,3 +266,27 @@ GIF'ler: [kombo x2→x5+](pm64/kombo_x2_x5.gif) · [zincirli takılma önce/sonr
 
 **Doğrulanmayan:** iPhone'da görünüm ve akıcılık; PlayMode testleri (`OpeningFlowTests` 2×2 varsayıyor); `&tut=2x2` akışı oynanmadı.
 **Zeyd'e sor:** (1) p21 ve p22 aynı tarayıcı kaydını paylaşıyor (aynı alan adı); `c=p22` ile açınca cohort cihazda p22 olarak kalır, p21 linki `c` içermiyorsa p22 sayılır. (2) Bombalar 20. bölümden önce kalkıyor (codex/03); bu p22 varsayılanı.
+
+## PM_65 — Stil denetimi ve düzeltme (14 Kasım gece)
+
+**Durum: p22 güncellendi** (gh-pages `e5cd7c5b`; p20, p21, kök, pt1 değişmedi). Tablo: [`docs/art/STIL_DENETIM_14KASIM.md`](../STIL_DENETIM_14KASIM.md), görüntüler `docs/art/stil_denetim/` (önce/sonra). Codex'e kalan çizimler: [`docs/art/CODEX_TASK48.md`](../CODEX_TASK48.md) (çalıştırılmadı).
+
+**Eski el nereden geliyordu:** 1. bölümün yeni akışı (sohbet kutusu + altın parlama) yalnız `c=p21/p22`'de açılıyordu. Test linki `c=ic` ya da cohort'suz link eski "Tutorial 1"e düşüyor, eldivenli el + büyük sarı ok + karartma çıkıyordu. Booster dersleri (5, 9, 15, 23) ve sandık ekranı da eldiven gösteriyordu.
+
+**Düzeltilenler (kod):**
+- `ic` ve cohort'suz giriş de p21/p22 oyunu (`TelemetryMeta.P21Line`, `P21Onboarding.Enabled`); eski el (`TutorialHand`) bu oyunda hiç açılmaz.
+- `TutorialSpotlight`: p21/p22'de eldiven ve büyük ok yok, yazı Baloo; "Sıfır / olunca" satır bölme hatası düzeldi.
+- Bütün T23 kartları (engel, booster, zor bölüm, Durdur): kurdeleli turkuaz panel yerine onaylı krem gövde + mavi çerçeve (`devam_v2/panel`, 9-slice 72 px), başlık kurdelesiz 3B yazı (`TextView.Title3D`: krem dolgu, mavi kontur, altın gölge).
+- Sandık: eldivenli dokunma eli kaldırıldı.
+- EN "Chest in 1 level!"; sürüm etiketi ve `app_version` `p22-2026-11-14`.
+
+| Ölçüm | Sonuç |
+|---|---|
+| EditMode | 711 geçti, 0 kaldı, 2 atlandı (son düzeltmeden sonra yeniden koşuldu) |
+| `verify_build` yerel | 4/4 (L40'ta tek anlık 3,3 FPS düşüşü, medyan 59,9) |
+| `--send` (A6b, M5, zeydsend) | M5 geçti; `a6b` ve `zeydsend` bilinen eski KALDI (değişmedi) |
+| `verify_build` canlı p22 | 4/4 |
+| Build (Brotli) | 36,12 MB |
+
+**Zeyd'e sor:** menü kurdeleli başlıkları ve turkuaz menü şeritleri; Ayarlar/Profil yeni dile geçsin mi; T45 Durdur paneli bağlansın mı (şimdi krem panel ama turkuaz Ses/Çık düğmeleri); booster seçim başlık plakası.
+**Doğrulanmayan:** iPhone'da görünüm; `&tut=2x2` akışı ve PlayMode testleri.
