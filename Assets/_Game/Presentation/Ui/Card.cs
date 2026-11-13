@@ -69,6 +69,9 @@ namespace ReverseSolver.Presentation
         }
 
         string _banner;
+        /* PM_65: in the p21/p22 game the ribboned T23 panels give way to the approved cream panel with a blue frame. */
+        const string CreamPanel = "devam_v2/panel";
+        bool Cream => T23 && Art.P21Gameplay && Art.Get(CreamPanel) != null;
         /* Cards with questions (👍/👎, 1-10) use the compact Task 14 buttons so they fit a 375x667 phone. */
         public bool Compact;
         // Both feedback questions can be visible together; retain every action at phone height.
@@ -319,7 +322,7 @@ namespace ReverseSolver.Presentation
             _content.localPosition = Draw.W(_screen.x / 2, top);
             // .card: #14484c, 1px rgba(255,255,255,.16), radius 18
             ShapeView.Create(Root, "card", new Vector2(_w, h), 4, _order + 1)
-                .Radius(18).Fill(Draw.Hex("#14484c")).Stroke(Draw.Rgba(255, 255, 255, .16f), 1).Skin(T23 ? Art.T23Panel(_t23) : "popup-card")
+                .Radius(18).Fill(Draw.Hex("#14484c")).Stroke(Draw.Rgba(255, 255, 255, .16f), 1).Skin(Cream ? CreamPanel : T23 ? Art.T23Panel(_t23) : "popup-card")
                 .transform.localPosition = Draw.W(_screen.x / 2, top + h / 2);
             // preview art (#7): 9-sliced frame over the panel's edge, under the content
             var frame = T23 || Art.Get("popup-card") != null ? null : Art.Place(Root, "frame", new Vector2(_w + 8, h + 8), _order + 1, sliced: true);
@@ -332,7 +335,8 @@ namespace ReverseSolver.Presentation
             if (_banner != null)
             {
                 var titleView = CardText(Root, "title", _banner, T23 ? 24 : 21, Palette.Cream, true, order: _order + 3);
-                if (T23) titleView.Heading(TextView.RimTeal).FitWidth(_w - 70, 17); else titleView.Outline(Palette.Navy, .2f);
+                if (Cream) titleView.Title3D().FitWidth(_w - 70, 17);
+                else if (T23) titleView.Heading(TextView.RimTeal).FitWidth(_w - 70, 17); else titleView.Outline(Palette.Navy, .2f);
                 titleView.transform.localPosition = Draw.W(_screen.x / 2, top + (T23 ? 35 : 40));
             }
             Height = h;

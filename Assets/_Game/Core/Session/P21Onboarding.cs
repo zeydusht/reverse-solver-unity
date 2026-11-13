@@ -24,7 +24,7 @@ namespace ReverseSolver.Core
             slot == WallLesson || slot == BombLesson;
         // PM60 only changes new art; the legacy art path keeps its PM59 behaviour.
         public static bool Enabled(string cohort, bool redesign, bool playOverride, bool newArt = true, string tut2x2 = null) =>
-            TelemetryMeta.P21Line(cohort) && redesign && !playOverride && (!newArt || tut2x2 == "1");
+            (cohort == null || TelemetryMeta.P21Line(cohort)) && redesign && !playOverride && (!newArt || tut2x2 == "1");
         public static bool IsNewFlow(SaveData save) => save.Best.Count == 0 ||
             HasPreludeProgress(save);
 

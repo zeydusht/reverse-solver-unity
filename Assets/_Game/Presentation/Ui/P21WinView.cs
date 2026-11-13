@@ -163,7 +163,8 @@ namespace ReverseSolver.Presentation
             }
             Paint(_case, key, At(195, 350), new Vector2(310, 268) * _scale);
             Paint(_light, light, At(195, 350), new Vector2(310, 268) * _scale);
-            Paint(_hand, _taps < 3 ? Frame("Reward/Touch/Hand", 1 + (int)(now * 10) % 5) : null, At(252, 460), new Vector2(85, 100) * _scale);
+            // PM_65: no gloved hand anywhere (PM_60); the wobbling chest and "Tap the chest!" carry the hint.
+            Paint(_hand, null, At(252, 460), new Vector2(85, 100) * _scale);
             _hint.Text = _taps < 3 ? Texts.TapChest21 : "";
             _hint.Alpha = .8f + .2f * Mathf.Sin(now * 4);
             if (_taps < 3 || age < .67f || _done) return;

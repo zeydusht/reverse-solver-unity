@@ -74,6 +74,20 @@ namespace ReverseSolver.Presentation
             return this;
         }
 
+        /* Tutorial instruction over the veil: Baloo heading in the p21/p22 game (PM_65), the old banner elsewhere. */
+        public TextView Instruction() => Art.P21Gameplay ? Heading(RimTeal) : Banner(OnTeal);
+
+        /* PM_65: approved title style without a ribbon: cream fill, blue rim, a gold "thickness" below. */
+        public TextView Title3D()
+        {
+            Heading(Draw.Hex("#234670"));
+            var m = _t.fontMaterial;
+            m.SetColor("_UnderlayColor", new Color(.78f, .55f, .16f, 1));
+            m.SetFloat("_UnderlayOffsetY", -.7f);
+            _t.UpdateMeshPadding();
+            return this;
+        }
+
         /* PM_MESAJ_27 A3: menu banners in Nunito Black, cream-to-yellow fill, thick dark outline, soft shadow below. */
         public TextView Banner(Vector4 outline)
         {

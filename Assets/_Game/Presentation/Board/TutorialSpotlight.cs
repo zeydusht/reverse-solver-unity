@@ -253,7 +253,7 @@ namespace ReverseSolver.Presentation
             v._end = v._start;
             v.Finger(board.Cell * 1.85f);
             var label = TextView.Create(v.transform, "Instruction", Texts.TutorialCopy(step.metinAnahtari).Length > 48 ? Wrap(Texts.TutorialCopy(step.metinAnahtari)) : Texts.TutorialCopy(step.metinAnahtari), 24,
-                Palette.Cream, order: 3350).Banner(TextView.OnTeal).FitWidth(screen.x - 32, 14);
+                Palette.Cream, order: 3350).Instruction().FitWidth(screen.x - 32, 14);
             label.transform.localPosition = Draw.W(screen.x / 2, Mathf.Min(button.yMin - 38, board.Origin.y + board.Size.y + 38));
             v.Animate(0);
             return v;
@@ -296,7 +296,7 @@ namespace ReverseSolver.Presentation
                 : step.tur == "surukle" ? Texts.TutorialDrag(move.Dir) : Texts.TutorialCopy(step.metinAnahtari);
             // Replace the booster row while the tutorial owns input. Wrap long obstacle copy first.
             if (text.Length > 48) text = Wrap(text);
-            var label = TextView.Create(v.transform, "Instruction", text, 24, Palette.Cream, order: 3350).Banner(TextView.OnTeal).FitWidth(screen.x - 32, 14);
+            var label = TextView.Create(v.transform, "Instruction", text, 24, Palette.Cream, order: 3350).Instruction().FitWidth(screen.x - 32, 14);
             label.transform.localPosition = Draw.W(screen.x / 2, Mathf.Min(screen.y - 60, board.Origin.y + board.Size.y + 65));
             v._instruction = label;
             v._instructionWidth = screen.x - 32;
@@ -305,6 +305,7 @@ namespace ReverseSolver.Presentation
 
         void Finger(float size)
         {
+            if (Art.P21Gameplay) return;   // PM_65 (PM_60 decision): no gloved hand in the p21/p22 game
             _finger = new GameObject("FingerPivot").transform;
             _finger.SetParent(transform, false);
             // PM_MESAJ_36: the gloved back of the hand (hand-glove-back, 256x360, fingertip at (128, 4)); never rotated
@@ -316,12 +317,14 @@ namespace ReverseSolver.Presentation
 
         static string Wrap(string text)
         {
+            if (text.Contains("\n")) return text;   // PM_65: already split by the copy; a second break left "Sıfır / olunca"
             int mid = text.Length / 2, split = text.IndexOf(' ', mid);
             return split < 0 ? text : text.Substring(0, split) + "\n" + text.Substring(split + 1);
         }
 
         void Arrow(Vector2 from, Vector2 to, float width, bool rule = false)
         {
+            if (!rule && Art.P21Gameplay) return;   // PM_65: no big arrows; the lit lane still shows the way
             var d = (to - from).normalized;
             var n = new Vector2(-d.y, d.x);
             float head = Mathf.Max(18, width * 1.5f);

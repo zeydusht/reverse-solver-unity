@@ -621,7 +621,7 @@ namespace ReverseSolver.Presentation
                 ShowScriptedTutorial();
                 return;
             }
-            if (_board == null || !Tutorial.Step(_session, out var m)) return;
+            if (_board == null || Art.P21Gameplay || !Tutorial.Step(_session, out var m)) return;   // PM_65: never the old hand
             // Zeyd 2026-10-28: the hand on level 1's first two moves only, never on level 2 (tutorial 2)
             int done = _session.Level.Pieces.Count - _session.Board.PresentCount;
             if (_session.Level.Tutorial != 1 || done >= 2) return;
@@ -1168,7 +1168,7 @@ namespace ReverseSolver.Presentation
                 if (_session.IsOver && _session.Outcome == Outcome.Win && _paintSet && _board.Image != null) ShowFinishedPicture(false);
                 _hand = null;
                 bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active && !_p21Flow && !P21OpeningLesson && !P21StoryLevel;
-                if (!TutorialActive && _session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
+                if (!TutorialActive && !Art.P21Gameplay && _session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
                     _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
                                               new Rect(-origin, _screen));
                 var level = _session.Level;

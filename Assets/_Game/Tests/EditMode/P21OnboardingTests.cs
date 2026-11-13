@@ -143,8 +143,11 @@ namespace ReverseSolver.Core.Tests
                 Assert.That(P21Onboarding.Enabled(cohort, true, false), Is.False);
             Assert.That(P21Onboarding.Enabled("p21", true, false), Is.False);
             Assert.That(P21Onboarding.Enabled("p21", true, false, true, "1"), Is.True);
-            foreach (var cohort in new[] { null, "p20", "pt1", "root" })
+            foreach (var cohort in new[] { "p20", "pt1", "root" })
                 Assert.That(P21Onboarding.Enabled(cohort, true, false, true, "1"), Is.False);
+            // PM_65: a link without a cohort, the internal cohort and p22 play the same new-art game.
+            foreach (var cohort in new[] { null, "ic", "p22" })
+                Assert.That(P21Onboarding.Enabled(cohort, true, false, true, "1"), Is.True);
             Assert.That(P21Onboarding.Enabled("p21", true, false, false), Is.True, "art=eski keeps its existing PM59 flow");
             Assert.That(P21Onboarding.Enabled("p21", true, false, true, "0"), Is.False);
             Assert.That(P21Onboarding.Enabled("p21", false, false, true, "1"), Is.False);

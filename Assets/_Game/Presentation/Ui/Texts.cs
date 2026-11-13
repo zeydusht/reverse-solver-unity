@@ -9,7 +9,7 @@ namespace ReverseSolver.Presentation
         public static string Chest21 => Lang.T("Chest!", "Sandık!");
         public static string TapChest21 => Lang.T("Tap the chest!", "Sandığa dokun!");
         public static string NextLevel21 => Lang.T("Next Level", "Sonraki Seviye");
-        public static string ChestIn21(int n) => Lang.T($"Chest in {n} levels!", $"{n} bölüm sonra sandık!");
+        public static string ChestIn21(int n) => Lang.T(n == 1 ? "Chest in 1 level!" : $"Chest in {n} levels!", $"{n} bölüm sonra sandık!");
         public static string Rescued21(int n) => Lang.T($"{n} Jiggles rescued!", $"{n} Jiggle kurtarıldı!");
 
         public static string JuicePraise(int tier) => tier == 0 ? Lang.T("Great!", "Harika!")

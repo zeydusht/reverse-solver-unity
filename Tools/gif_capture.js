@@ -4,6 +4,8 @@
 //   step: ["wait", ms] | ["tap", x, y] | ["flick", x, y, dx, dy, ms] | ["drag", x, y, dx, dy, ms, holdMs]
 //         | ["rec", true|false]   (frames are kept only while recording; default on after load)
 //         | ["name", "GIF"]       (fills the first-visit name gate)
+//         | ["shot", "file"]      (a full-size PNG screenshot to <out dir>/file.png)
+//         | ["nav", "?query"]     (opens another URL of the same build, storage kept)
 // The Chrome profile lives in %TEMP% and is deleted afterwards; Supabase is blocked (no rows written).
 const fs = require('fs'), path = require('path'), http = require('http'), os = require('os'), { spawn } = require('child_process');
 const args = process.argv.slice(2);
@@ -81,6 +83,13 @@ function serve(root) {
     else if (kind === 'flick') await move(a[0], a[1], a[2], a[3], a[4] ?? 70);
     else if (kind === 'drag') await move(a[0], a[1], a[2], a[3], a[4] ?? 320, a[5] ?? 0);
     else if (kind === 'rec') recording = a[0];
+    else if (kind === 'shot') fs.writeFileSync(path.join(outDir, a[0] + '.png'), Buffer.from((await cdp('Page.captureScreenshot', { format: 'png' })).result.data, 'base64'));
+    else if (kind === 'nav') {
+      const u = new URL(base + '/' + a[0].replace(/^\//, '')); if (!u.searchParams.has('intro')) u.searchParams.set('intro', '0');
+      await cdp('Page.navigate', { url: u.href });
+      for (let i = 0; i < 120; i++) { await sleep(1000); if (await ev("!!(window.LT && LT.end) || !!document.getElementById('rs-name')")) break; }
+      await sleep(a[1] ?? 4000);
+    }
     else if (kind === 'name') await ev(`(function(){ var i=document.getElementById('rs-name-in'); if(!i) return false; i.value='${a[0]}'; document.getElementById('rs-name-go').click(); return true; })()`);
   }
   await cdp('Page.stopScreencast');
