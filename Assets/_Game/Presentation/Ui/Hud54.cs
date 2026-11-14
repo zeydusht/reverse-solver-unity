@@ -12,7 +12,13 @@ namespace ReverseSolver.Presentation
         public static bool FixedPortrait;
         readonly JigoPortrait54 _portrait;
         readonly JigoPortraitLive54 _live;
-        public void ShowClockShield(bool away) => _portrait?.ShieldAway(away);
+        // PM_66: with the live portrait the shield clock borrows the fixed (shieldless) face while the shield is away.
+        public void ShowClockShield(bool away)
+        {
+            _portrait?.ShieldAway(away);
+            if (_live == null || _portrait == null) return;
+            _live.Visible(!away); _portrait.Visible(away);
+        }
         public void ShowClockPortrait(bool showing) { _portrait?.Visible(!showing); _live?.Visible(!showing); }
         bool _frozen, _untimed;
         public void SetFrozen(bool frozen) { _frozen = frozen; }
@@ -46,8 +52,9 @@ namespace ReverseSolver.Presentation
             var center = JigoCenter(screen.x, safeTop);
             var windowSize = new Vector2(127, 104) * _scale;
             Art54.Stretch(root, Art54.Window, center, windowSize, order + 2);
-            if (FixedPortrait) _portrait = new JigoPortrait54(root, center, windowSize, order + 3, session);
-            else _live = new JigoPortraitLive54(root, center, windowSize, order + 3, session);
+            if (FixedPortrait || P21BoosterView.ShieldClock) _portrait = new JigoPortrait54(root, center, windowSize, order + 3, session);
+            if (!FixedPortrait) _live = new JigoPortraitLive54(root, center, windowSize, order + 3, session);
+            if (_live != null) _portrait?.Visible(false);
         }
 
         TextView Panel(Transform root, float x, float offset, int order, out TextView title, string label)

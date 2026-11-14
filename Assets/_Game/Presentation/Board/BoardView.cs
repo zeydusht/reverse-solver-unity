@@ -537,21 +537,44 @@ namespace ReverseSolver.Presentation
             }, () => { if (pv != null) Destroy(pv.gameObject); });
         }
 
-        public void RegionDance(int quadrant)
+        /* PM_66: the wand's quadrant lifts and turns once, its pieces settle with their new tabs, and the pieces it
+           freed glow gold for a moment. Chained pairs only lift (their rope stays put). */
+        public void RegionDance(int quadrant, System.Collections.Generic.IReadOnlyList<int> freed = null)
         {
             var region = WandRegion.Quadrant(Session.Level, quadrant);
+            var gold = Draw.Hex("#FFC93C");
             foreach (var pair in _pieces)
             {
                 bool inside = true;
                 foreach (var c in pair.Value.Cells) if (!region.Contains(c)) { inside = false; break; }
                 if (!inside) continue;
                 var pv = pair.Value;
-                Tweens.Run(pv, .35f, t =>
+                var center = Vector2.zero;
+                foreach (var c in pv.Cells) center += Center(c);
+                center /= pv.Cells.Length;
+                bool spin = pv.Cells.Length == 1;
+                bool lit = freed != null && System.Linq.Enumerable.Contains(freed, pair.Key);
+                Tweens.Run(pv, lit ? 1.6f : .5f, k =>
                 {
                     if (pv == null) return;
-                    pv.SetOffset(new Vector2(Mathf.Sin(t * Mathf.PI * 2) * Cell * .15f, -Mathf.Sin(t * Mathf.PI) * Cell * .3f));
-                    pv.SetLift(Mathf.Sin(t * Mathf.PI));
-                }, () => { if (pv != null) { pv.SetOffset(Vector2.zero); pv.SetLift(0); } });
+                    float t = Mathf.Clamp01(k * (lit ? 1.6f : .5f) / .5f);
+                    float up = Mathf.Sin(t * Mathf.PI);
+                    pv.SetLift(up);
+                    var rotation = Quaternion.Euler(0, 0, spin ? 360 * Mathf.SmoothStep(0, 1, t) : 0);
+                    pv.transform.localRotation = rotation;
+                    pv.transform.localPosition = Draw.W(center + new Vector2(0, -up * Cell * .22f)) - rotation * Draw.W(center);
+                    if (lit)
+                    {
+                        float after = Mathf.Max(0, k * 1.6f - .45f) / 1.15f;   // two soft pulses after landing
+                        float glow = after <= 0 ? 0 : Mathf.Sin(Mathf.Min(1, after) * Mathf.PI * 2.5f) * .5f + .5f;
+                        pv.SetGlow(gold, glow * (1 - after * after));
+                    }
+                }, () =>
+                {
+                    if (pv == null) return;
+                    pv.SetOffset(Vector2.zero); pv.SetLift(0); pv.SetGlow(Vector4.zero, 0);
+                    pv.transform.localRotation = Quaternion.identity; pv.transform.localPosition = Vector3.zero;
+                });
             }
         }
 

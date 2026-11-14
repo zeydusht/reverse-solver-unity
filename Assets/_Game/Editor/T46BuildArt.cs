@@ -15,6 +15,9 @@ namespace ReverseSolver.EditorTools
             Copy("T46", 0);
             // T47 frames are drawn at 2x (bursts 640 px for ~320 pt); 384 px keeps them sharp enough and the build small.
             Copy("T47", 384);
+            // T45 (PM_66): only the pause panel's toggles and the button faces are used so far.
+            Copy("T45/Pause/Toggle", 0);
+            Copy("T45/Buttons", 512);
         }
 
         static void Copy(string set, int maxSize)

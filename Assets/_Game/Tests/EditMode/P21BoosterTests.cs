@@ -22,7 +22,8 @@ namespace ReverseSolver.Core.Tests
             return LevelParser.Parse(json).Levels[0];
         }
 
-        static GameSession Session(LevelData level = null, uint seed = 1) => new GameSession(level ?? Grid(), 1, "test", new Mulberry32(seed));
+        // These cover the wand's joint mechanics on full boards; "must free a piece" (PM_66) is in WandFreedTests.
+        static GameSession Session(LevelData level = null, uint seed = 1) => new GameSession(level ?? Grid(), 1, "test", new Mulberry32(seed)) { WandMustFree = false };
         static int[] Joints(Board b) => Enumerable.Range(0, b.Level.Height).SelectMany(y => Enumerable.Range(0, b.Level.Width + 1).Select(x => b.VJoint(x, y)))
             .Concat(Enumerable.Range(0, b.Level.Height + 1).SelectMany(y => Enumerable.Range(0, b.Level.Width).Select(x => b.HJoint(x, y)))).ToArray();
 

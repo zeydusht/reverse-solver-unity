@@ -44,8 +44,8 @@ namespace ReverseSolver.Presentation
             _w = T23 ? Mathf.Min(335f, screen.x - 40f) : Mathf.Min(340f, screen.x - 52f);
             Root = new GameObject(name).transform;
             Root.SetParent(parent, false);
-            ShapeView.Create(Root, "veil", screen, 0, order).Radius(0).Fill(Draw.Rgba(8, 32, 34, .9f))
-                .transform.localPosition = Draw.W(screen / 2);
+            _veil = ShapeView.Create(Root, "veil", screen, 0, order).Radius(0).Fill(Draw.Rgba(8, 32, 34, .9f));
+            _veil.transform.localPosition = Draw.W(screen / 2);
             _content = new GameObject("content").transform;
             _content.SetParent(Root, false);
         }
@@ -69,6 +69,9 @@ namespace ReverseSolver.Presentation
         }
 
         string _banner;
+        ShapeView _veil;
+        /* PM_66: the pause panel hides the board completely (no peeking while the clock is stopped). */
+        public Card OpaqueVeil(Vector4 color) { _veil.Fill(color); return this; }
         /* PM_65: in the p21/p22 game the ribboned T23 panels give way to the approved cream panel with a blue frame. */
         const string CreamPanel = "devam_v2/panel";
         bool Cream => T23 && Art.P21Gameplay && Art.Get(CreamPanel) != null;

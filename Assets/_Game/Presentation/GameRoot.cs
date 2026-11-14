@@ -153,10 +153,11 @@ namespace ReverseSolver.Presentation
             string launchCohort = TelemetryMeta.CleanCohort(Host.Current.Query("c")) ?? TelemetryMeta.CleanCohort(Host.Current.Store.Get("rs_cohort"));
             Art.CohortOverride = launchCohort;
             _testMode = LaunchPlan.TestMode(Host.Current.Query("c"), Host.Current.Query("test"));
-            // PM_64 options (defaults are the PM_62 versions): Codex's shield clock, slow scissors, fixed portrait.
-            P21BoosterView.ShieldClock = Host.Current.Query("saat") == "kalkan";
+            // PM_64/66 options: the clock is Codex's left-hand shield by default (&saat=firca: the PM_62 brush),
+            // the portrait stays live (&portre=sabit: Codex's fixed one), scissors PM_62 (&makas=yavas: Codex's).
+            P21BoosterView.ShieldClock = Host.Current.Query("saat") != "firca";
             P21BoosterView.SlowScissors = Host.Current.Query("makas") == "yavas";
-            Hud54.FixedPortrait = P21BoosterView.ShieldClock || Host.Current.Query("portre") == "sabit";
+            Hud54.FixedPortrait = Host.Current.Query("portre") == "sabit";
             // PM_64: &tut=2x2 opts into Codex's guided 2x2 opening (old &tut2x2=1 still works).
             string guidedFlag = Host.Current.Query("tut") == "2x2" || Host.Current.Query("tut2x2") == "1" ? "1" : Host.Current.Query("tut2x2");
             string reset = Host.Current.Query("reset");
@@ -1171,8 +1172,7 @@ namespace ReverseSolver.Presentation
                 if (!TutorialActive && !Art.P21Gameplay && _session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
                     _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
                                               new Rect(-origin, _screen));
-                var level = _session.Level;
-                _drag = new DragModel(new SessionDragTarget(_session), cell) { Rigid = p => level.Pieces[p].Length > 1 };
+                _drag = new DragModel(new SessionDragTarget(_session), cell);
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder, UseHud54);
                 if (_session.Level.Tutorial > 0 || TutorialActive) ShowTutorialStep();
                 if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder, P21ObstacleLesson));
@@ -1353,6 +1353,7 @@ namespace ReverseSolver.Presentation
 
         void OpenPause54()
         {
+            if (Art.P21Gameplay && Art.Get("T45/Buttons/primary-normal") != null) { OpenPause45(); return; }
             OpenCard("pause", new Card(_world, _screen, CardOrder, "Pause")
                 .Title(Lang.T("Level ", "Seviye ") + _session.Level.Number)
                 .Button("resume", Lang.T("Resume", "Devam"), true)
@@ -1360,12 +1361,51 @@ namespace ReverseSolver.Presentation
                 .Button("menu", Lang.T("Quit", "Çık"), false).Finish());
         }
 
+        /* PM_66: the T45 pause panel. Cream panel and 3D title (PM_65), big green Resume, round Sound / Music /
+           Vibration toggles, a small red Quit. The veil is opaque: the board stays hidden while paused. */
+        void OpenPause45()
+        {
+            var card = new Card(_world, _screen, CardOrder, "Pause").OpaqueVeil(Draw.Hex("#0E2244"))
+                .Title(Lang.T("Level ", "Seviye ") + _session.Level.Number);
+            void Face(Transform content, string id, string key, string label, Vector2 size, float y, Vector4 rim)
+            {
+                var sprite = Art.Place(content, key, size, CardOrder + 2);
+                if (sprite != null) sprite.transform.localPosition = Draw.W(0, y + size.y / 2);
+                var text = TextView.Create(content, "label " + id, label, size.y * .3f, Palette.Cream, order: CardOrder + 3).Heading(rim).FitWidth(size.x * .7f, size.y * .2f);
+                text.transform.localPosition = Draw.W(0, y + size.y / 2 - 3);
+                card.Buttons.Add((new Rect(-size.x / 2, y + size.y * .1f, size.x, size.y * .8f), id));
+            }
+            var resume = new Vector2(208, 102);
+            card.Custom(resume.y + 10, (content, y, w, order) => Face(content, "resume", "T45/Buttons/primary-normal", Lang.T("Resume", "Devam"), resume, y, TextView.RimGreen));
+            const float round = 66, gap = 22;
+            var toggles = new[] { ("sound", "T45/Pause/Toggle/sound-", !Art.Muted, Lang.T("Sound", "Ses")),
+                                  ("music", "T45/Pause/Toggle/music-", Music.On, Lang.T("Music", "Müzik")),
+                                  ("haptics", "T45/Pause/Toggle/vibration-", Haptics.On, Lang.T("Vibration", "Titreşim")) };
+            card.Custom(round + 30, (content, y, w, order) =>
+            {
+                for (int i = 0; i < toggles.Length; i++)
+                {
+                    var (id, key, on, label) = toggles[i];
+                    float x = (i - 1) * (round + gap);
+                    var sprite = Art.Place(content, key + (on ? "on" : "off"), Vector2.one * round, CardOrder + 2);
+                    if (sprite != null) sprite.transform.localPosition = Draw.W(x, y + round / 2);
+                    var text = TextView.Create(content, "toggle " + id, label, 12, Draw.Hex("#234670"), order: CardOrder + 3);
+                    text.transform.localPosition = Draw.W(x, y + round + 12);
+                    card.Buttons.Add((new Rect(x - round / 2 - 4, y - 4, round + 8, round + 24), id));
+                }
+            });
+            var quit = new Vector2(150, 74);
+            card.Custom(quit.y + 6, (content, y, w, order) => Face(content, "menu", "T45/Buttons/exit-normal", Lang.T("Quit", "Çık"), quit, y, TextView.RimRed));
+            OpenCard("pause", card.Finish());
+        }
+
         void RefreshPlaying()
         {
             if (_hud == null) return;
             _hud.SetLeft(_session.Board.PresentCount);
             _hud.SetTime(_session.TimeLeft);
-            _bar.Refresh(_boosters, _session, TutorialActive);
+            // PM_66: the selection view shows its own title and hint; no second faint line above the bar.
+            _bar.Refresh(_boosters, _session, TutorialActive || BoosterSelection21);
             bool wantJoints = _boosters.Armed == Booster.Scissors && !_session.IsOver;
             if (wantJoints && !_jointsShown) _board.ShowJoints(_boosters.Joints());
             if (!wantJoints && _jointsShown) _board.HideJoints();
@@ -1717,6 +1757,8 @@ namespace ReverseSolver.Presentation
                     case "intro": _introOpen = false; CloseCard(); ShowScriptedTutorial(); break;
                     case "pause":                                   // the attempt ends as a quit when left (LeaveLevel)
                         if (UseHud54 && id == "sound") { Art.Muted = !Art.Muted; CloseCard(); OpenPause54(); break; }
+                        if (UseHud54 && id == "music") { Music.On = !Music.On; CloseCard(); OpenPause54(); break; }
+                        if (UseHud54 && id == "haptics") { Haptics.On = !Haptics.On; CloseCard(); OpenPause54(); break; }
                         CloseCard();
                         if (id == "restart") StartLevel(_index);
                         else if (id == "menu") ShowMenu();

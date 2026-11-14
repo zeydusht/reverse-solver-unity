@@ -89,7 +89,19 @@ namespace ReverseSolver.Presentation
                     int stock = _session.Stock(b);
                     _session.SetStock(b, System.Math.Max(1, stock)); _boosters.Tap(b); _session.SetStock(b, stock);
                 }
-                if (b == Booster.Wand) for (int i = 0; i < 4; i++) _regions21[i] = _session.CanWandRegion(i);
+                if (b == Booster.Wand)
+                {
+                    bool any = false;
+                    for (int i = 0; i < 4; i++) any |= _regions21[i] = _session.CanWandRegion(i);
+                    // PM_66: the wand must free a piece; when no quadrant can, say so and spend nothing.
+                    if (!any)
+                    {
+                        _selected21 = null;
+                        if (_trainingUse == b) { _trainingUse = null; _session.FreeUse = null; }
+                        _bar.Notice(Texts.WandNothing, 2f);
+                        _boosterView21?.Selection(null, -1, _regions21); RefreshPlaying(); return;
+                    }
+                }
             }
             _boosterView21?.Selection(_selected21, _region21, _regions21);
             RefreshPlaying();
@@ -163,7 +175,11 @@ namespace ReverseSolver.Presentation
                     if (result == CommandResult.Ok)
                     {
                         if (b == Booster.Hammer) _board.BoosterShake();
-                        if (b == Booster.Wand) _board.RegionDance(_region21);
+                        if (b == Booster.Wand)
+                        {
+                            _board.RegionDance(_region21, _session.WandFreed);
+                            if (_session.WandFreed.Count > 0) _bar.Notice(Texts.WandFreed(_session.WandFreed.Count), 1.8f);
+                        }
                         if (_session.Outcome == Outcome.Win) _endAt = Mathf.Max(_endAt, Time.unscaledTime + (b == Booster.Wand ? 1.5f : 1) - _effectAge21 + .03f);
                     }
                     else

@@ -33,9 +33,9 @@ namespace ReverseSolver.Core.Tests
 
         static (float x, float y) Along(Dir d, float dist) => (d.Dx() * dist, d.Dy() * dist);
 
-        // PM_63: a chained pair that cannot move stays in its slot (only the small jam nudge) and nothing changes.
+        // PM_63/PM_66: any piece that cannot move stays in its slot (only the small jam nudge) and nothing changes.
         [Test]
-        public void ChainedPairThatCannotMoveStaysInItsSlot()
+        public void AnyPieceThatCannotMoveStaysInItsSlot()
         {
             int checkedMoves = 0, softStops = 0;
             foreach (var level in TestData.Levels.Levels)
@@ -43,12 +43,12 @@ namespace ReverseSolver.Core.Tests
                 var s = new GameSession(level, 1, "test", new Mulberry32(1));
                 for (int p = 0; p < level.Pieces.Count; p++)
                 {
-                    if (level.Pieces[p].Length < 2 || s.NailAt(p) > 0) continue;
+                    if (s.NailAt(p) > 0) continue;   // a nailed piece does not start a drag at all
                     foreach (var d in DirExt.All)
                     {
                         var lim = s.Probe(p, d);
                         if (lim.Exit || lim.Cells != 0) continue;
-                        var drag = new DragModel(new SessionDragTarget(s), S) { Rigid = i => level.Pieces[i].Length > 1 };
+                        var drag = new DragModel(new SessionDragTarget(s), S);
                         int jams = s.Jams;
                         Assert.That(drag.Press(p, 0, 0));
                         var (x, y) = Along(d, 10 * S);
@@ -62,8 +62,8 @@ namespace ReverseSolver.Core.Tests
                     }
                 }
             }
-            Assert.That(checkedMoves, Is.GreaterThan(0), "the level set has a blocked chained pair");
-            TestContext.WriteLine($"blocked chained moves {checkedMoves}, side-catch stops {softStops}");
+            Assert.That(checkedMoves, Is.GreaterThan(0), "the level set has blocked moves");
+            TestContext.WriteLine($"blocked moves {checkedMoves}, side-catch stops {softStops}");
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace ReverseSolver.Core.Tests
                 drag.Press(p, 0, 0);
                 var (x, y) = Along(d, 10 * S);
                 drag.Move(x, y);
-                float give = DragModel.GiveFor(lim, false);
+                float give = DragModel.GiveFor(lim);
                 Assert.That(drag.Offset, Is.EqualTo((lim.Cells + give) * S).Within(1e-3), hard ? "hard stop" : "catch");
                 Assert.That(drag.Blocker, Is.EqualTo(lim.Blocker));
                 Assert.That(drag.Release(out _, out _), Is.EqualTo(DragRelease.SnappedBack));
@@ -132,7 +132,7 @@ namespace ReverseSolver.Core.Tests
             var drag = new DragModel(new SessionDragTarget(s), S);
             drag.Press(p, 0, 0);
 
-            var (x, y) = Along(d, (lim.Cells + DragModel.GiveFor(lim, false)) * S + DragModel.JamSlack - 0.5f);
+            var (x, y) = Along(d, (lim.Cells + DragModel.GiveFor(lim)) * S + DragModel.JamSlack - 0.5f);
             drag.Move(x, y);
             Assert.That(s.Jams, Is.Zero, "within the slack");
             (x, y) = Along(d, 5 * S);
