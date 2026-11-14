@@ -394,3 +394,67 @@ Dersler ve yumuşak bölümler ≥%85 (test `FirstTwentyFirstWinTable` bunu koru
 
 **PM'e soru:** 11–20'deki bomba duvarı (FunSim %0–45) için ne yapalım: 11–13'e de yumuşak bomba (sayaç cömert) mi, yoksa bu bölümleri ayarlamak mı?
 **Doğrulanmayan:** iPhone; değnek dersinin (9. bölüm) baştan sona oynanması; kazanmadan sandık ekranına geçiş (sandık ekranı eski lacivert).
+
+## PM_68 — 11–20 bomba duvarı + sandık ekranı (14 Kasım)
+
+**Durum: p22 güncel** (gh-pages `455f3429`; p20, p21, kök, pt1 değişmedi). Build 38,01 MB.
+
+### 1. Kalibrasyon
+pt1 gerçek veri (Supabase `v_attempts`, cohort pt1, attempt=1, slot 1–20; bölüm başına 12–51 oyuncu). Araç `Assets/_Game/Editor/Pm68Tune.cs` (`unity_batch.sh method ReverseSolver.EditorTools.Pm68Tune.Run`): özgün 1–20 (pt1'in oynadığı hâli), 160 sanal oyuncu, tür × hız × bomba dikkati × beceri ızgarası (160 birleşim), oyuncu sayısıyla ağırlıklı mutlak hata.
+**En iyi:** Kolay, hız ×1,2, bomba dikkati +0,4, beceri +0,1 (`FunSim.Calibrated`). **Ağırlıklı ortalama mutlak hata 0,112, düz 0,153.**
+
+| Bölüm | Kimlik | pt1 | Kalibre sim | Fark |
+|---|---|---|---|---|
+| 1 | S41 | 0,98 | 1,00 | +0,02 |
+| 2 | S42 | 0,94 | 1,00 | +0,06 |
+| 3 | S43 | 0,95 | 1,00 | +0,05 |
+| 4 | S06 | 0,75 | 0,76 | +0,01 |
+| 5 | S44 | 1,00 | 0,97 | −0,03 |
+| 6 | S45 | 0,97 | 1,00 | +0,03 |
+| 7 | S46 | 0,97 | 0,99 | +0,02 |
+| 8 | S47 | 0,63 | 0,54 | −0,09 |
+| 9 | S20 | 0,38 | 0,79 | +0,41 |
+| 10 | Z24 | 0,74 | 0,77 | +0,03 |
+| 11 | S21 | 0,29 | 0,28 | −0,02 |
+| 12 | S51 | 0,71 | 0,64 | −0,07 |
+| 13 | S34 | 0,60 | 0,33 | −0,28 |
+| 14 | Z21 | 0,94 | 0,73 | −0,21 |
+| 15 | S13 | 0,94 | 0,48 | −0,46 |
+| 16 | Z04 | 0,43 | 0,54 | +0,11 |
+| 17 | S18 | 0,14 | 0,38 | +0,24 |
+| 18 | S22 | 0,69 | 0,09 | −0,60 |
+| 19 | S28 | 0,00 | 0,00 | 0,00 |
+| 20 | S24 | 0,33 | 0,00 | −0,33 |
+
+Simülasyon 1–10'da ve bazı bölümlerde iyi, ama tek tek bölümlerde büyük sapma var (9, 15, 18, 20). Bu yüzden ayarlar **gerçek veriye dayalı tahminle** seçildi: *tahmin = pt1 gerçek + (ayarlı sim − pt1'in oynadığı hâlin simi)*. Simülasyon yalnız değişikliğin etkisini ölçüyor. pt1'in o slotta görmediği bölümde (19'a gelen S50) yalnız sim.
+
+### 2–3. Sonuç (p22, 1–20)
+| Bölüm | Önce | Sonra | pt1 gerçek | p22 önce (sim) | Tahmin sonra | Değişiklik |
+|---|---|---|---|---|---|---|
+| 1–6 | — | — | 0,75–1,00 | | | yok (PM_67) |
+| 7 | S46 ders | aynı | 0,97 | 1,00 | | yok |
+| 8–9 | yumuşak | aynı | 0,63 / 0,38 | 0,94 / 0,97 | | yok |
+| 10 | Z24 ders | aynı | 0,74 | 0,77 | | yok |
+| 11 | S21 | S21 v2 | 0,29 | 0,28 | **0,62** | bomba +3, süre +10 |
+| 12 | S51 | aynı | 0,71 | 0,64 | 0,71 | yok |
+| 13 | S34 | aynı | 0,60 | 0,33 | 0,60 | yok |
+| 14 | Z21 ders | aynı | 0,94 | 0,73 | 0,94 | yok |
+| 15 | S13 | S13 v2 | 0,94 | 0,48 | **0,67** | süre −15 (fazla kolaydı) |
+| 16 | Z04 | Z04 v2 | 0,43 | 0,54 | **0,63** | süre +20 (zor kartı yoktu → hedefe çekildi) |
+| 17 | S18 | S18 v3 | 0,14 | 0,38 | **0,57** | bomba +3, süre +20 |
+| 18 | S22 | aynı | 0,69 | 0,09 | 0,69 | yok |
+| 19 | S28 (4 bomba, zor) | **S50 v3** (1 bomba) | 0,00 | 0,00 | **0,68** (sim) | S28 ↔ S50 |
+| 20 | S24 | S24 v2 | 0,33 | 0,00 | **0,58** | bomba +6 |
+| 39 | S40 | **S28 v2** (zor) | — | | sim 0,46 | bomba +4; 28–38 bir slot öne kaydı |
+
+Tahta düzenlerine dokunulmadı; yalnız bomba sayacı ve süre. Değişen her bölüm yeni sürüm (telemetri karışmaz); kimlikler aynı (kayıt/sayım uyumlu). 11–20'de zor bölüm kalmadı (en çok 2 kuralı sağlanıyor; art arda yok). 37 S38 ve 39 S28 zor, arada 38 normal. Uygulama `P21Onboarding.TuneSecondTen` (yalnız ders düzeni açıkken, yani p22). Test `SecondTenHitsTheTargetsOnTheCalibratedSim` aralıkları korur.
+
+### 4. Sandık ekranı
+Kazanma kartıyla aynı dil: krem panel + mavi çerçeve (`devam_v2/panel`), altın hüzme ve 3B "Sandık!/Chest!", sandığın arkasında altın ışık, koyu mavi "Sandığa dokun!", ödüller açıldıktan sonra katmanlı yeşil **Topla/Collect** (sonraki bölüm) ve mavi **Menü**. Yeni çizim gerekmedi (T48 parçaları); CODEX_TASK49 yazılmadı. Görüntüler `pm68/tr_sandik`, `tr_sandik_odul`, `tr_sandik_topla`, `en_sandik`, `en_sandik_topla`.
+
+| Ölçüm | Sonuç |
+|---|---|
+| EditMode | 714 geçti, 0 kaldı, 2 atlandı |
+| `verify_build` yerel / canlı p22 | 4/4 / 4/4 |
+
+**Doğrulanmayan:** iPhone; tahminler gerçek oyuncuyla doğrulanmadı (p22'nin kendi verisi gelince karşılaştırılmalı); 39'daki S28 sim %46, zor bölüm hedefinin (%35–45) bir puan üstünde.
