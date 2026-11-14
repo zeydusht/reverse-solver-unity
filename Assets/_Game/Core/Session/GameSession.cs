@@ -111,7 +111,8 @@ namespace ReverseSolver.Core
         public int FuseAt(int piece) => _bombs.TryGetValue(piece, out int n) ? n : 0;
         public IReadOnlyDictionary<int, int> Nails => _nails;
         public IReadOnlyDictionary<int, int> Bombs => _bombs;
-        public int Stock(Booster b) => TestMode ? 99 : _stock[(int)b];
+        public const int TestStock = 999;   // PM_72: &test=1 shows 999 of every booster
+        public int Stock(Booster b) => TestMode ? TestStock : _stock[(int)b];
 
         /* PM_MESAJ_30: the player's inventory replaces the level's table (set before the first command). */
         public void SetStock(Booster b, int n) => _stock[(int)b] = Math.Max(0, n);

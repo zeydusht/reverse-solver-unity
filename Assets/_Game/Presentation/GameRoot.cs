@@ -27,7 +27,7 @@ namespace ReverseSolver.Presentation
         // plays.client: the web build or the iOS app (TestFlight)
         public static readonly string Client = Application.platform == RuntimePlatform.IPhonePlayer ? "unity-ios" : "unity-web";
         const float BodyPad = 4f, StripBottom = 6f, BottomReserve = BoosterBar.PromptH + BoosterBar.Height, MaxCell = 78f;
-        const int HandOrder = 1400, HudOrder = 3000, BarOrder = 3200, CardOrder = 5000, FlashOrder = 4500, CorridorOrder = 5600, DebugOrder = 6000;
+        const int HudOrder = 3000, BarOrder = 3200, CardOrder = 5000, FlashOrder = 4500, CorridorOrder = 5600, DebugOrder = 6000;
 
         [SerializeField] TextAsset levels;
         [SerializeField] TextAsset designs;          // level editor output; only with ?debug=1&set=designs
@@ -49,7 +49,7 @@ namespace ReverseSolver.Presentation
         bool _introPlaying, _endingEligible, _endingPlayed;
         TelemetryQueue _introQueue;
         TelemetrySender _introSender;
-        readonly ContinueRules _continueRules = new ContinueRules();
+        ContinueRules _continueRules = new ContinueRules();
         TelemetryQueue _continueQueue;
         TelemetrySender _continueSender;
         ContinuePanel _continuePanel;
@@ -86,8 +86,6 @@ namespace ReverseSolver.Presentation
         int _moveNo;
         float _pressAt;
         bool _newArt;                 // SET40 v3 preview: the corridor menu art (live set keeps the old menu)
-        bool _tutorialDone;           // web tutDone: first removal anywhere ends the hand for this visit
-        TutorialHand _hand;
         TutorialScript _tutorialScript;
         List<TutorialStep> _tutorialSteps = new List<TutorialStep>();
         int _tutorialAt;
@@ -152,14 +150,17 @@ namespace ReverseSolver.Presentation
             var authoredSet = _set;
             string launchCohort = TelemetryMeta.CleanCohort(Host.Current.Query("c")) ?? TelemetryMeta.CleanCohort(Host.Current.Store.Get("rs_cohort"));
             Art.CohortOverride = launchCohort;
+            if (Host.Current is TestHost wrapped) Host.Current = wrapped.Inner;   // static: no domain reload between Play sessions
             _testMode = LaunchPlan.TestMode(Host.Current.Query("c"), Host.Current.Query("test"));
+            // PM_72: test play keeps its writes in memory and sends nothing; free continues
+            if (_testMode) { Host.Current = new TestHost(Host.Current); _continueRules = new ContinueRules(new[] { 0, 0, 0 }); }
+            string jamTap = Host.Current.Query("takilmatitresim");   // PM_72: Zeyd's switch for the jam tap (default on)
+            if (jamTap == "0" || jamTap == "1") Haptics.JamOn = jamTap == "1";
             // PM_64/66 options: the clock is Codex's left-hand shield by default (&saat=firca: the PM_62 brush),
             // the portrait stays live (&portre=sabit: Codex's fixed one), scissors PM_62 (&makas=yavas: Codex's).
             P21BoosterView.ShieldClock = Host.Current.Query("saat") != "firca";
             P21BoosterView.SlowScissors = Host.Current.Query("makas") == "yavas";
             Hud54.FixedPortrait = Host.Current.Query("portre") == "sabit";
-            // PM_64: &tut=2x2 opts into Codex's guided 2x2 opening (old &tut2x2=1 still works).
-            string guidedFlag = Host.Current.Query("tut") == "2x2" || Host.Current.Query("tut2x2") == "1" ? "1" : Host.Current.Query("tut2x2");
             string reset = Host.Current.Query("reset");
             if (reset == "1" && TelemetryMeta.P21Line(launchCohort))
                 _resetVisit = SaveData.ResetForQuery(Host.Current.Store, reset, launchCohort, P21Onboarding.Prepend(_set).Levels);
@@ -169,17 +170,12 @@ namespace ReverseSolver.Presentation
             System.Func<string> newId = () => System.Guid.NewGuid().ToString("N");
             var host = Host.Current;
             _save = new SaveData(host.Store, newId);
-            bool keepPrelude = guidedFlag != "0" && P21Onboarding.HasPreludeProgress(_save);
-            _p21Flow = P21Onboarding.Enabled(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, keepPrelude ? "1" : null)
-                && P21Onboarding.IsNewFlow(_save);
-            _p21Revised = !_p21Flow && P21Onboarding.UseGuided(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, guidedFlag);
-            _p21Lessons = !_p21Flow && P21Onboarding.UseLessons(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, Host.Current.Query("dersler"));
-            if (_p21Flow) _set = P21Onboarding.Prepend(_set);
-            else
-            {
-                if (_p21Revised) _set = P21Onboarding.ReplaceOpening(_set);
-                if (_p21Lessons) _set = P21Onboarding.P22(_set);
-            }
+            // PM_72: p22 opens only with the PM_60 story level. The old prelude (kept alive by a saved P21_T01 from an
+            // earlier &tut=2x2 visit) and Codex's guided 2x2 opening (&tut=2x2) are gone, whatever the save or the link.
+            _p21Flow = false;
+            _p21Revised = false;
+            _p21Lessons = P21Onboarding.UseLessons(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, Host.Current.Query("dersler"));
+            if (_p21Lessons) _set = P21Onboarding.P22(_set);
             Debug.Log($"[p21] flow={_p21Flow} levels={_set.Levels.Count}");
             _stats = PlayStats.Load(host.Store);
             _stats.ImportLegacy(_save, _p21Revised || _p21Lessons ? authoredSet : null);
@@ -241,6 +237,7 @@ namespace ReverseSolver.Presentation
             }
             // web name gate: once per browser; the HTML input sits over the canvas
             if (_showSet && string.IsNullOrEmpty(_save.Player)) _save.SetPlayer("SHOW");   // demo visitors are tagged SHOW
+            if (_testMode && string.IsNullOrEmpty(_save.Player)) _save.SetPlayer("TEST");   // PM_72: no name gate on the test link (memory only)
             _debugCorridor = Host.Debug && host.Query("corridor") == "1";   // PM_MESAJ_28 B2: the corridor once over the menu, for FPS
             if (Host.Debug && !string.IsNullOrEmpty(host.Query("player"))) _save.SetPlayer(host.Query("player"));   // PM_MESAJ_26 QA: a long name
             bool askName = string.IsNullOrEmpty(_save.Player) && !Host.Debug && !_showSet;
@@ -622,13 +619,7 @@ namespace ReverseSolver.Presentation
                 ShowScriptedTutorial();
                 return;
             }
-            if (_board == null || Art.P21Gameplay || !Tutorial.Step(_session, out var m)) return;   // PM_65: never the old hand
-            // Zeyd 2026-10-28: the hand on level 1's first two moves only, never on level 2 (tutorial 2)
-            int done = _session.Level.Pieces.Count - _session.Board.PresentCount;
-            if (_session.Level.Tutorial != 1 || done >= 2) return;
-            var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out _);
-            _hand = TutorialHand.Show(_board, _board.PieceViewOf(m.Piece), m, HandOrder, new Rect(-origin, _screen));
-            if (_session.Level.Tutorial == 1 || done == 0) _bar?.Notice(done == 0 ? Texts.TutorialFirst : Texts.TutorialNext, 2.5f);
+            // PM_72: the old hand is gone for good (PM_60: the Jigo chat box and the gold glow teach level 1)
         }
 
         void ShowScriptedTutorial()
@@ -915,8 +906,6 @@ namespace ReverseSolver.Presentation
             if (e.Kind == EventKind.ValveReleased) _bar?.Notice(Texts.NailReleased, 1.6f);   // web says "söktü"; PM: grammar fix
             if (e.Kind == EventKind.PieceRemoved)
             {
-                _tutorialDone = true;                          // web clearTutorial() in flyOut and the hammer
-                if (_hand != null) { _hand.Remove(); _hand = null; }
                 if (TutorialActive && _tutorialSteps[_tutorialAt].tur == "surukle" && e.Piece == _tutorialMove.Piece)
                 {
                     _tutorialUntil = Time.unscaledTime + .3f;
@@ -926,14 +915,19 @@ namespace ReverseSolver.Presentation
             }
             // Codex sounds (preview art only; silent when Art is off)
             // PM_MESAJ_19: no sound per piece; the jam keeps its knock; the last piece gets the whole sparkle, then the fanfare
+            // PM_72: every exit a short tick and a light tap; a bomb piece a defuse sound and a medium tap; a lock
+            // breaking a crack and a light tap; a jam a very short weak tap; the last piece the success tap (Finished).
             if (e.Kind == EventKind.PieceRemoved)
             {
                 bool last = _session.Board.PresentCount == 0;
-                if (P21JuiceView.Enabled || last) PlaySound(last ? "popfull" : "pop");
-                if (!last) Haptics.Play(Haptics.Kind.Light);
+                bool bomb = _session.Level.Bombs.ContainsKey(e.Piece);
+                if (last) PlaySound("popfull");
+                else if (P21JuiceView.Enabled) PlaySound(bomb ? "pm72-defuse" : "pm72-tick");
+                if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
             }
-            else if (P21JuiceView.Enabled && (e.Kind == EventKind.NailFreed || e.Kind == EventKind.JointCut)) PlaySound("piece");
-            else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Medium); }
+            else if (P21JuiceView.Enabled && e.Kind == EventKind.NailFreed) { PlaySound("pm72-unlock"); Haptics.Play(Haptics.Kind.Light); }
+            else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) PlaySound("piece");
+            else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
             if (e.Kind != EventKind.Finished) return;
@@ -1167,11 +1161,6 @@ namespace ReverseSolver.Presentation
                     if (ready != null) _board.SetImage(ready);
                 }
                 if (_session.IsOver && _session.Outcome == Outcome.Win && _paintSet && _board.Image != null) ShowFinishedPicture(false);
-                _hand = null;
-                bool firstLevel = _index == 0 && !_designSet && !PlayOverride.Active && !_p21Flow && !P21OpeningLesson && !P21StoryLevel;
-                if (!TutorialActive && !Art.P21Gameplay && _session.Level.Tutorial == 0 && Tutorial.Hint(_session, firstLevel, _tutorialDone, out var hint))
-                    _hand = TutorialHand.Show(_board, _board.PieceViewOf(hint.Piece), hint, HandOrder,
-                                              new Rect(-origin, _screen));
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder, UseHud54);
                 if (_session.Level.Tutorial > 0 || TutorialActive) ShowTutorialStep();
@@ -1204,9 +1193,15 @@ namespace ReverseSolver.Presentation
         Vector2 PlayingBoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell)
         {
             if (!UseHud54) return BoardPlacement(screen, safe, l, out cell);
+            return Hud54BoardPlacement(screen, safe, l, out cell, P21OpeningLesson);
+        }
+
+        /* The p22 board placement (Hud54 layout); public for the screenshot tour (Pm72Tour). */
+        public static Vector2 Hud54BoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell, bool openingLesson = false)
+        {
             cell = BoardSizing.CellSize(screen, safe, l);
             float top = Hud54.TopBottom(screen, safe.y), bottom = Hud54.ButtonsTop(screen, safe.w);
-            if (P21OpeningLesson) bottom -= P21TutorialView.ChatClearance;
+            if (openingLesson) bottom -= P21TutorialView.ChatClearance;
             // Include the tray and sealed-edge walls in the clearance.
             float margin = Mathf.Max(18.2f, cell * .25f);
             if (l.Height * cell + 2 * margin > bottom - top)

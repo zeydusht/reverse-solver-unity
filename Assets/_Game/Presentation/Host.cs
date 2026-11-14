@@ -37,6 +37,38 @@ namespace ReverseSolver.Presentation
         event Action<bool> VisibilityChanged;
     }
 
+    /* PM_72: the &test=1 link. Reads the device's save (name, settings) but keeps every write in memory, so test
+       progress never reaches the normal save, and sends nothing (no telemetry rows from test play). */
+    public sealed class TestHost : IHost
+    {
+        public readonly IHost Inner;
+        public TestHost(IHost inner) { Inner = inner; Store = new OverlayStore(inner.Store); }
+        public string Query(string name) => Inner.Query(name);
+        public float PixelRatio => Inner.PixelRatio;
+        public Vector4 SafeInsets => Inner.SafeInsets;
+        public void ReportBoot(string message) => Inner.ReportBoot(message);
+        public IKeyValueStore Store { get; }
+        public ITelemetryTransport Transport => null;
+        public string SupabaseUrl => null;
+        public string AnonKey => null;
+        public bool SendEnabled => false;
+        public void AskName(Action<string> done) => Inner.AskName(done);
+        public void PlayIntro(string parts, string wake, string skip, string ending, bool sound, Action<string> events) =>
+            Inner.PlayIntro(parts, wake, skip, ending, sound, events);
+        public event Action<bool> VisibilityChanged { add => Inner.VisibilityChanged += value; remove => Inner.VisibilityChanged -= value; }
+
+        public sealed class OverlayStore : IKeyValueStore
+        {
+            readonly IKeyValueStore _base;
+            readonly System.Collections.Generic.Dictionary<string, string> _own = new System.Collections.Generic.Dictionary<string, string>();
+            public OverlayStore(IKeyValueStore inner) { _base = inner; }
+            public string Get(string key) => _own.TryGetValue(key, out var v) ? v : _base.Get(key);
+            public void Set(string key, string value) => _own[key] = value;
+            public void Delete(string key) => _own[key] = null;
+            public void Save() { }
+        }
+    }
+
     public static class Host
     {
         public static IHost Current { get; set; } = new EditorHost();

@@ -1,5 +1,5 @@
 // PM_MESAJ_19/45: Haptics.cs -> 0 light (piece out), 1 heavy (bomb), 2 success (win), 3 selection (drag start, buttons),
-// 4 medium (jam). The generators are kept and re-prepared so the tap has no start-up delay.
+// 4 medium (bomb piece out), 5 jam (PM_72: a very short weak tap). The generators are kept and re-prepared so the tap has no start-up delay.
 #import <UIKit/UIKit.h>
 
 static UIImpactFeedbackGenerator *rsLight, *rsMedium, *rsHeavy;
@@ -23,6 +23,7 @@ extern "C" void RS_Haptic(int kind)
             case 2: [rsNotify notificationOccurred:UINotificationFeedbackTypeSuccess]; [rsNotify prepare]; break;
             case 3: [rsSelect selectionChanged]; [rsSelect prepare]; break;
             case 4: [rsMedium impactOccurred]; [rsMedium prepare]; break;
+            case 5: [rsLight impactOccurredWithIntensity:0.4]; [rsLight prepare]; break;
             default: [rsLight impactOccurred]; [rsLight prepare]; break;
         }
     });

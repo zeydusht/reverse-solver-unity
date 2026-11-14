@@ -6,15 +6,14 @@ using UnityEditor.Build.Reporting;
 namespace ReverseSolver.EditorTools
 {
     // Copy only at build time. Never import or write source art metadata here.
-    // T46 (clock, Jigo) and T47 (combo ladder, PM_64) go to Resources/Art/yeni/<set>.
+    // T46 (clock, Jigo) goes to Resources/Art/yeni/<set>.
     public sealed class T46BuildArt : IPreprocessBuildWithReport
     {
         public int callbackOrder => -100;
         public void OnPreprocessBuild(BuildReport report)
         {
             Copy("T46", 0);
-            // T47 frames are drawn at 2x (bursts 640 px for ~320 pt); 384 px keeps them sharp enough and the build small.
-            Copy("T47", 384);
+            // T47 (the PM_64 combo ladder) is not used since PM_72.
             // T45 (PM_66): only the pause panel's toggles and the button faces are used so far.
             Copy("T45/Pause/Toggle", 0);
             Copy("T45/Buttons", 512);

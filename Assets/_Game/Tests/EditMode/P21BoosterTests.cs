@@ -129,9 +129,9 @@ namespace ReverseSolver.Core.Tests
             var level = Grid(); level.Number = 1;
             level.Unlock = BoosterExt.All.ToDictionary(b => b.Id(), b => 99);
             var s = Session(level); s.TestMode = true;
-            foreach (var b in BoosterExt.All) { s.SetStock(b, 0); Assert.That(s.IsUnlocked(b), Is.True); Assert.That(s.Stock(b), Is.EqualTo(99)); }
+            foreach (var b in BoosterExt.All) { s.SetStock(b, 0); Assert.That(s.IsUnlocked(b), Is.True); Assert.That(s.Stock(b), Is.EqualTo(999)); }
             for (int i = 0; i < 105; i++) Assert.That(s.UseClock(), Is.EqualTo(CommandResult.Ok));
-            Assert.That(s.Stock(Booster.Clock), Is.EqualTo(99));
+            Assert.That(s.Stock(Booster.Clock), Is.EqualTo(999));
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace ReverseSolver.Core.Tests
         {
             var store = new MemoryStore(); var save = new SaveData(store, () => "test");
             save.SetCoins(4321); save.TestMode = true; save.SetCoins(0);
-            Assert.That(save.Coins, Is.EqualTo(99999));
+            Assert.That(save.Coins, Is.EqualTo(999999));
             Assert.That(new SaveData(store, () => "test").Coins, Is.EqualTo(4321));
         }
 

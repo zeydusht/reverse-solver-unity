@@ -23,6 +23,7 @@ namespace ReverseSolver.Presentation
             if (preview)
             {
                 save = new SaveData(new MemoryStore(), () => "chest-preview");
+                save.TestMode = _testMode;   // PM_72: the test link shows its gold in the preview too
                 save.RecordChestWin21(chest ? 3 : _session.Level.Number);
             }
             else _save.RecordChestWin21(_session.Level.Number);

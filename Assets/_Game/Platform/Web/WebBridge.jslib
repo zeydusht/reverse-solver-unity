@@ -1,5 +1,10 @@
 // Calls from C# into the page (Assets/WebGLTemplates/ReverseSolver/index.html).
 mergeInto(LibraryManager.library, {
+  // PM_72: Android web vibration (Haptics.cs); iPhone Safari has no navigator.vibrate, so nothing happens there.
+  RS_Vibrate: function (ms) {
+    try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { }
+  },
+
 
   // Load-time panel line (shown with ?debug=1).
   RS_BootReport: function (msgPtr) {

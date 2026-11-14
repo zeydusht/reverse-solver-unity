@@ -3,54 +3,35 @@ using UnityEngine;
 
 namespace ReverseSolver.Presentation
 {
-    // Board-owned, prewarmed pools. No tweens, coroutines or loads in the animation loop.
+    /* PM_72: no combo (no praise words, badges, frame wave, shock ring or counter; T47 is gone). Every exit gets a
+       small satisfying moment instead: a small opaque gold spark where the piece leaves the board (0.25 s, never
+       covering the board); a bomb piece a slightly bigger burst and its bomb icon going out. Sound and haptics are
+       played by GameRoot. Board-owned, prewarmed pools: no tweens, coroutines or loads in the animation loop. */
     public sealed class P21JuiceView : MonoBehaviour
     {
         public static bool Enabled => Art.P21Gameplay;
-        const float Quick = ComboLadderView.Window;
+        public const float SparkLife = .25f, SparkSize = .95f, BombSparkLife = .32f, BombSparkSize = 1.45f, FizzleLife = .38f;
         struct Puff
         {
             public SpriteRenderer View;
             public Sprite[] Frames;
             public float At, Life, Size;
             public Color Tint;
+            public bool Fizzle;
         }
-        struct Badge
-        {
-            public SpriteRenderer View;
-            public TextView Text;
-            public float At;
-        }
-        readonly Puff[] _puffs = new Puff[16];
-        readonly Badge[] _badges = new Badge[2];
-        readonly string[] _combos = new string[100];
-        Sprite[] _pop, _confetti, _metal, _praise;
+        readonly Puff[] _puffs = new Puff[12];
+        Sprite[] _spark, _metal, _bomb;
         BoardView _board;
-        ComboLadderView _ladder;
-        float _lastExit = -10;
-        int _next, _combo, _praisedMove;
-        bool _halfwayPraised;
+        int _next;
 
         public static P21JuiceView Create(BoardView board)
         {
             var v = Draw.Child<P21JuiceView>(board.transform, "P21 juice");
             v._board = board;
-            v._praisedMove = board.Session.Moves;
-            v._pop = Frames("pop", 9); v._confetti = Frames("confetti", 6); v._metal = Frames("metal", 9);
-            v._praise = new[] { Load("great"), Load("super"), Load("perfect") };
+            v._spark = Frames("spark", 6); v._metal = Frames("metal", 9);   // spark: Tools/make_pm72_spark.py
+            v._bomb = new[] { Art.Get("bomb-v2") ?? Art.Get("board-bomb") };
             for (int i = 0; i < v._puffs.Length; i++)
-                v._puffs[i] = new Puff { View = Layer(v.transform, "puff", 2200), At = -1 };
-            for (int i = 0; i < v._badges.Length; i++)
-            {
-                var r = Layer(v.transform, "badge", 2250);
-                var text = TextView.Create(r.transform, "label", "", i == 0 ? 27 : 23, Vector4.one, order: 2251)
-                    .Heading(TextView.RimTeal);
-                v._badges[i] = new Badge { View = r, Text = text, At = -1 };
-                text.gameObject.SetActive(false);
-            }
-            for (int i = 2; i < v._combos.Length; i++) v._combos[i] = "x" + i;
-            v._badges[0].View.sprite = Load("combo");
-            v._ladder = ComboLadderView.Create(board);
+                v._puffs[i] = new Puff { View = Layer(v.transform, "spark", 2200), At = -1 };
             return v;
         }
 
@@ -69,18 +50,10 @@ namespace ReverseSolver.Presentation
 
         public void OnEvent(GameEvent e, PieceView piece)
         {
-            if (e.Kind == EventKind.Jammed)
-            {
-                _combo = 0; _lastExit = -10;
-                _ladder.Break();
-                foreach (var badge in _badges) { badge.View.enabled = false; badge.Text.gameObject.SetActive(false); }
-                for (int i = 0; i < _badges.Length; i++) _badges[i].At = -1;
-                return;
-            }
             if (e.Kind == EventKind.JointCut)
             {
                 var at = e.Vertical ? new Vector2(e.X, e.Y + .5f) : new Vector2(e.X + .5f, e.Y);
-                Burst(_metal, at * _board.Cell, Color.white, .45f, 1.8f);
+                Burst(_metal, at * _board.Cell, Color.white, .4f, 1.2f);
                 return;
             }
             if (piece == null) return;
@@ -88,49 +61,25 @@ namespace ReverseSolver.Presentation
             foreach (var c in piece.Cells) point += new Vector2(c.X + .5f, c.Y + .5f) * _board.Cell;
             point /= piece.Cells.Length;
             point += piece.Offset;
-            if (e.Kind == EventKind.NailFreed || (e.Kind == EventKind.PieceRemoved && e.ByHammer && piece.Cells.Length > 1))
-                Burst(_metal, point, Color.white, .45f, 1.8f);
-            if (e.Kind != EventKind.PieceRemoved) return;
-            float now = Time.unscaledTime;
-            _combo = now - _lastExit <= Quick ? _combo + 1 : 1; _lastExit = now;
-            // PM_64: the T47 ladder replaces the old xN badge and combo praise; its burst fires at the edge (ExitAt).
-            _ladder.Arm(_combo, point);
-            if (e.ByHammer) ExitAt(piece, point);
-            // A slow player still hears praise once, halfway through the board.
-            var badgePoint = new Vector2(_board.Size.x * .5f, _board.Cell * .45f);
-            int left = _board.Session.Board.PresentCount;
-            bool halfway = !_halfwayPraised && left <= _board.Session.Level.Pieces.Count / 2;
-            int moves = _board.Session.Moves;
-            if (left == 0 || _combo >= 2 || !halfway || moves - _praisedMove < 3) return;
-            _halfwayPraised = true;
-            _praisedMove = moves;
-            ShowBadge(1, _praise[0], Texts.JuicePraise(0), badgePoint + new Vector2(0, _board.Cell * .8f), _board.Cell * 2.6f);
+            if (e.Kind == EventKind.NailFreed) Burst(_metal, point, Color.white, .35f, 1.1f);   // the lock breaking
+            if (e.Kind == EventKind.PieceRemoved && e.ByHammer) ExitAt(piece, point);
         }
 
+        /* Where the piece leaves the board (BoardView, as it crosses the edge). */
         public void ExitAt(PieceView piece, Vector2 point)
         {
-            var tint = PieceView.CellColor(_board.Session.Level, piece.Cells[0]);
-            Burst(_pop, point, tint, .36f, 1.9f);
-            Burst(_confetti, point, tint, .65f, 2.5f);
-            _ladder.Hit(point);
+            bool bomb = _board.Session.Level.Bombs.ContainsKey(piece.Index);
+            Burst(_spark, point, Color.white, bomb ? BombSparkLife : SparkLife, bomb ? BombSparkSize : SparkSize);
+            if (bomb && _bomb[0] != null) Burst(_bomb, point, Color.white, FizzleLife, .55f, fizzle: true);
         }
 
-        void Burst(Sprite[] frames, Vector2 point, Color tint, float life, float size)
+        void Burst(Sprite[] frames, Vector2 point, Color tint, float life, float size, bool fizzle = false)
         {
             ref var p = ref _puffs[_next++ % _puffs.Length];
-            p.Frames = frames; p.At = Time.unscaledTime; p.Life = life; p.Size = _board.Cell * size; p.Tint = tint;
+            p.Frames = frames; p.At = Time.unscaledTime; p.Life = life; p.Size = _board.Cell * size; p.Tint = tint; p.Fizzle = fizzle;
             p.View.transform.localPosition = Draw.W(point);
         }
-        void ShowBadge(int index, Sprite sprite, string label, Vector2 point, float width)
-        {
-            ref var b = ref _badges[index];
-            b.At = Time.unscaledTime; b.View.sprite = sprite;
-            b.View.transform.localPosition = Draw.W(point);
-            // Keep text in points: scale the renderer's size rather than its transform.
-            b.View.drawMode = SpriteDrawMode.Sliced;
-            b.View.size = sprite != null ? new Vector2(width, width * sprite.bounds.size.y / sprite.bounds.size.x) : Vector2.one;
-            b.Text.Text = label; b.Text.gameObject.SetActive(true);
-        }
+
         void Update()
         {
             float now = Time.unscaledTime;
@@ -143,20 +92,17 @@ namespace ReverseSolver.Presentation
                 var sprite = p.Frames[Mathf.Min((int)(t * p.Frames.Length), p.Frames.Length - 1)];
                 p.View.sprite = sprite; p.View.enabled = sprite != null;
                 if (sprite == null) continue;
-                float scale = p.Size / sprite.bounds.size.x * (1 + .12f * Mathf.Sin(t * Mathf.PI));
+                if (p.Fizzle)
+                {
+                    // the bomb going out: it greys, shrinks a little and fades
+                    p.View.transform.localScale = Vector3.one * (p.Size / sprite.bounds.size.x * Mathf.Lerp(1f, .7f, t));
+                    float g = Mathf.Lerp(1f, .45f, Mathf.Clamp01(t * 2));
+                    p.View.color = new Color(g, g, g, 1 - t * t);
+                    continue;
+                }
+                float scale = p.Size / sprite.bounds.size.x * (.85f + .25f * Mathf.Sin(t * Mathf.PI * .5f));
                 p.View.transform.localScale = Vector3.one * scale;
-                var tint = p.Tint; tint.a *= 1 - t * t; p.View.color = tint;
-            }
-            for (int i = 0; i < _badges.Length; i++)
-            {
-                ref var b = ref _badges[i];
-                if (b.At < 0) continue;
-                float t = (now - b.At) / .8f;
-                if (t >= 1) { b.View.enabled = false; b.Text.gameObject.SetActive(false); b.At = -1; continue; }
-                b.View.enabled = b.View.sprite != null;
-                b.View.transform.localScale = Vector3.one * (1 + .12f * Mathf.Sin(Mathf.Min(1, t * 4) * Mathf.PI));
-                float alpha = 1 - Mathf.InverseLerp(.65f, 1, t);
-                b.View.color = new Color(1, 1, 1, alpha); b.Text.Alpha = alpha;
+                var tint = p.Tint; tint.a = t < .6f ? 1 : 1 - (t - .6f) / .4f; p.View.color = tint;   // opaque, then a quick fade
             }
         }
     }

@@ -6,6 +6,7 @@
 #   Tools/unity_batch.sh tests                              EditMode tests except Perf
 #   Tools/unity_batch.sh tests Perf                         performance tests only
 #   Tools/unity_batch.sh tests "ReverseSolver.Tests.FunSim" one fixture/namespace (-testFilter)
+#   Tools/unity_batch.sh ptests [filter]                    PlayMode tests (Game scene, batchmode with graphics)
 #   Tools/unity_batch.sh method <Namespace.Class.Method> [extra Unity args...]
 #
 # UNITY_TIMEOUT_MIN (default 300): the run is killed after this many minutes (exit 124).
@@ -27,15 +28,17 @@ summary_log() {  # $1 = log file
 }
 
 case "$mode" in
-  tests)
-    log="$OUT/tests-$stamp.log"; xml="$OUT/tests-$stamp.xml"
+  tests|ptests)
+    platform=EditMode; gfx=(-nographics)
+    [ "$mode" = ptests ] && platform=PlayMode && gfx=()
+    log="$OUT/$mode-$stamp.log"; xml="$OUT/$mode-$stamp.xml"
     filter=(-testCategory '!Perf')
     if [ $# -gt 0 ]; then
       if [ "$1" = Perf ]; then filter=(-testCategory Perf)
       else filter=(-testFilter "$1"); fi
     fi
     start=$(date +%s)
-    timeout "$LIMIT" "$UNITY" -batchmode -nographics -projectPath "$ROOT" -runTests -testPlatform EditMode \
+    timeout "$LIMIT" "$UNITY" -batchmode "${gfx[@]}" -projectPath "$ROOT" -runTests -testPlatform "$platform" \
       -testResults "$xml" "${filter[@]}" -logFile "$log" >/dev/null 2>&1
     code=$?
     echo "tests: $(( $(date +%s) - start )) s, Unity exit $code, log $log"

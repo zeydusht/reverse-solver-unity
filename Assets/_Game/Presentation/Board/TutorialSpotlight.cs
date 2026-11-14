@@ -42,8 +42,12 @@ namespace ReverseSolver.Presentation
         Mesh _veilMesh;
         float _veilAlpha;
 
+        // PM_72 (PM_60 decision, any cohort or flag): the screen is never darkened; the lit lane / glow shows the way.
+        public static readonly bool Darken = false, Glove = false;
+
         void Veil(Vector2 screen, List<Hole> holes, float alpha = .6f)
         {
+            if (!Darken) return;
             if (holes.Count > MaxHoles) throw new System.ArgumentException("Tutorial veil supports at most 16 holes.");
             var shader = Resources.Load<Shader>("Shaders/Veil");
             if (shader == null) throw new System.InvalidOperationException("Missing Shaders/Veil resource.");
@@ -305,7 +309,7 @@ namespace ReverseSolver.Presentation
 
         void Finger(float size)
         {
-            if (Art.P21Gameplay) return;   // PM_65 (PM_60 decision): no gloved hand in the p21/p22 game
+            if (!Glove) return;   // PM_72: the gloved hand is gone for good (PM_60 decision), whatever the art or cohort flag
             _finger = new GameObject("FingerPivot").transform;
             _finger.SetParent(transform, false);
             // PM_MESAJ_36: the gloved back of the hand (hand-glove-back, 256x360, fingertip at (128, 4)); never rotated
@@ -324,7 +328,7 @@ namespace ReverseSolver.Presentation
 
         void Arrow(Vector2 from, Vector2 to, float width, bool rule = false)
         {
-            if (!rule && Art.P21Gameplay) return;   // PM_65: no big arrows; the lit lane still shows the way
+            if (!rule) return;   // PM_65/72: no big arrows anywhere; the lit lane still shows the way
             var d = (to - from).normalized;
             var n = new Vector2(-d.y, d.x);
             float head = Mathf.Max(18, width * 1.5f);

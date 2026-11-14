@@ -5,13 +5,13 @@ using TMPro;
 namespace ReverseSolver.Presentation
 {
     // Passive art only: GameRoot owns the four steps and all input still goes through DragModel/Core.
-    sealed class P21TutorialView : MonoBehaviour
+    public sealed class P21TutorialView : MonoBehaviour
     {
         const int Order = 3350;
         const float ChatHeight = 86, ChatGap = 10;
         public const float ChatClearance = ChatHeight + ChatGap;
         TextView _speech;
-        SpriteRenderer _hand, _mark;
+        SpriteRenderer _mark;
         Transform _guide;
         ShapeView[] _trail;
         ShapeView _glow;
@@ -84,6 +84,8 @@ namespace ReverseSolver.Presentation
             _typedAt = Time.unscaledTime; _typed.maxVisibleCharacters = 0;
         }
 
+        public bool Glowing => _storyPiece != null;   // PM_72 test: the gold glow is on a piece
+
         public void StoryTarget(BoardView board, int piece)
         {
             if (_storyPiece != null) _storyPiece.SetGlow(Vector4.zero, 0);
@@ -130,16 +132,7 @@ namespace ReverseSolver.Presentation
             v._glow.transform.localPosition = Draw.W(center);
             v._mark = Place(v.transform, "Correct/01", center, Vector2.one * 55, Order + 4);
             if (v._mark != null) v._mark.enabled = false;
-            if (arrow.HasValue)
-            {
-                v._guide = new GameObject("guide").transform; v._guide.SetParent(v.transform, false);
-                string path = arrow == Dir.D ? "down" : arrow == Dir.L ? "left" : "right";
-                var d = new Vector2(arrow.Value.Dx(), arrow.Value.Dy());
-                var point = center + d * cell * .65f;
-                point.x = Mathf.Clamp(point.x, 28, screen.x - 28);
-                Place(v._guide, "Path/straight-" + path, point, new Vector2(42, 64), Order + 1);
-                v._hand = Place(v._guide, "Hand/drag/01", center + new Vector2(16, 18), new Vector2(60, 78), Order + 2);
-            }
+            // PM_72: no hand and no arrow (PM_60); the glow alone marks the piece
             return v;
         }
 
@@ -164,7 +157,6 @@ namespace ReverseSolver.Presentation
             if (_trail != null)
                 for (int i = 0; i < _trail.Length; i++)
                     _trail[i].Alpha(.66f + .34f * Mathf.Sin(Time.unscaledTime * 7 - i));
-            if (_hand != null) _hand.sprite = Sprite("Hand/drag/" + (1 + (int)(Time.unscaledTime * 7) % 5).ToString("00"));
             if (_glow != null) _glow.Alpha(.65f + .25f * Mathf.Sin(Time.unscaledTime * 4));
             if (_mark != null)
             {

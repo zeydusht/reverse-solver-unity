@@ -169,28 +169,36 @@ namespace ReverseSolver.Presentation
                     float plateRight = counterLeft - (counterIconSize / 2 - counterIconInset) - gap;
                     float plateWidth = plateRight - plateLeft, plateHeight = 34;
                     if (MenuUi.T48)
-                    {
-                        // PM_67: the old money blue top strip behind the header, the blue name plate.
-                        MenuUi.Put48(Root, "top-strip", new Vector2(w / 2, (top + 88) / 2), new Vector2(w, top + 88), order + 1, true);
-                        MenuUi.Put48(Root, "profile-pill", new Vector2((plateLeft + plateRight) / 2, hy), new Vector2(plateWidth, plateHeight), order + 2, true);
-                    }
+                        // PM_72: no top strip on the menu; small half-clear cream pills sit on the background.
+                        CreamPill(Root, new Vector2((plateLeft + plateRight) / 2, hy), new Vector2(plateWidth, plateHeight), order + 2);
                     else MenuUi.Sprite21(Root, "profile-name-plate", new Vector2((plateLeft + plateRight) / 2, hy), new Vector2(plateWidth, plateHeight), order + 2, true);
                     float textLeft = plateLeft + overlap + 8, textWidth = plateRight - 8 - textLeft;
                     var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? Texts.Player : player, 15, Palette.Cream, false,
                         align: TMPro.TextAlignmentOptions.Left, order: order + 3);
-                    if (MenuUi.T48) name.Heading(Draw.Hex("#0E2244")); else name.Banner(TextView.OnTeal);
+                    if (MenuUi.T48) { name.Font(TextView.HeadingFont); name.Color = Palette.Navy; } else name.Banner(TextView.OnTeal);   // PM_72: navy on the cream pill
                     name.GetComponent<TMPro.TextMeshPro>().richText = false;
                     name.GetComponent<TMPro.TextMeshPro>().rectTransform.sizeDelta = new Vector2(textWidth, plateHeight);
                     name.FitWidth(textWidth, 11);
                     name.transform.localPosition = Draw.W(textLeft + textWidth / 2, hy);
                     Profile = new Rect(left, hy - avatarSize / 2, plateRight - left, avatarSize);
-                    MenuUi.Sprite21(Root, "counter-pill-v2", new Vector2(counterRight - counterWidth / 2, hy), new Vector2(counterWidth, 30), order + 2, true);
+                    if (MenuUi.T48) CreamPill(Root, new Vector2(counterRight - counterWidth / 2, hy), new Vector2(counterWidth, 30), order + 2);
+                    else MenuUi.Sprite21(Root, "counter-pill-v2", new Vector2(counterRight - counterWidth / 2, hy), new Vector2(counterWidth, 30), order + 2, true);
                     var tok = Art.Place(Root, "jiggle-counter", Vector2.one * counterIconSize, order + 3);
                     if (tok != null) tok.transform.localPosition = Draw.W(counterLeft + counterIconInset, hy);
                     MenuUi.Label(Root, saved.ToString(), new Vector2(counterRight - (counterWidth - 38) / 2 - 4, hy), 18, order + 4, true, counterWidth - 42, true);
-                    var gear = Sprite("m13-settings-button", new Vector2(gx, hy), Vector2.one * gearSize, order + 2);
                     Settings = new Rect(gx - gearSize / 2, hy - gearSize / 2, gearSize, gearSize);
-                    if (gear != null) _press.Add((Settings, gear, "m13-settings-button", "m13-settings-button-pressed", null));
+                    if (MenuUi.T48)
+                    {
+                        // PM_72: the gear on a small cream pill instead of the big blue-gold button
+                        CreamPill(Root, new Vector2(gx, hy), Vector2.one * 40, order + 2);
+                        var cog = Art.Place(Root, "pm72-gear", Vector2.one * 28, order + 3);
+                        if (cog != null) cog.transform.localPosition = Draw.W(gx, hy);
+                    }
+                    else
+                    {
+                        var gear = Sprite("m13-settings-button", new Vector2(gx, hy), Vector2.one * gearSize, order + 2);
+                        if (gear != null) _press.Add((Settings, gear, "m13-settings-button", "m13-settings-button-pressed", null));
+                    }
                 }
                 else
                 {
@@ -253,6 +261,14 @@ namespace ReverseSolver.Presentation
 
                 // PM_MESAJ_16: no "Jiggles rescued" bar on the menu
             }
+        }
+
+        /* PM_72: the menu header's small cream pill, half clear over the background, thin gold rim. */
+        static void CreamPill(Transform root, Vector2 c, Vector2 size, int order)
+        {
+            var pill = ShapeView.Create(root, "cream pill", size, 2, order).Radius(size.y / 2)
+                .Fill(Draw.Rgba(255, 246, 224, .78f)).Stroke(Draw.Rgba(214, 170, 82, .9f), 1.5f);
+            pill.transform.localPosition = Draw.W(c);
         }
 
         static Rect Button(Transform root, Vector2 c, float w, string label, bool primary, int order, float h = 46, float font = 15)

@@ -51,7 +51,7 @@ namespace ReverseSolver.Presentation
             _session.TestBoosterUnlock = b;
             _session.SetStock(b.Value, System.Math.Max(1, _session.Stock(b.Value)));
             _introOpen = false; _tutorialSteps.Clear(); if (_spotlight != null) Destroy(_spotlight.gameObject); _spotlight = null;
-            _hand?.Remove(); _hand = null; CloseCard(); _bar.ShowTutorial(false);
+            CloseCard(); _bar.ShowTutorial(false);
             SelectBooster21(b.Value);
         }
 

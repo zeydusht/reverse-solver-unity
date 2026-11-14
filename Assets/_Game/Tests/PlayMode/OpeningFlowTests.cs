@@ -57,69 +57,41 @@ namespace ReverseSolver.PlayMode.Tests
             Host.Current = _previousHost;
         }
 
+        /* PM_72: whatever the link, level 1 is the PM_60 story opening: the Jigo chat box and the gold glow; no hand, no
+           big arrow, no darkening. The device carries an old P21_T01 win (an &tut=2x2 visit), which used to bring the
+           prelude with the hand back on every visit without reset=1. */
         [UnityTest]
-        public IEnumerator GuidedSwipesWinAndNextButtonStartsEasyLevel()
+        public IEnumerator LevelOneIsTheStoryOpeningOnEveryLink()
         {
-            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
-            yield return WaitFor(() => MenuPlay != null, "the menu play button");
-            yield return Click(LayoutPoint(MenuPlay));
-            yield return WaitFor(() => Board != null && Board.Session.Level.Number == 1, "the first board");
-            var first = Board;
-            var session = first.Session;
-            Assert.That((session.Level.Width, session.Level.Height, session.Board.PresentCount), Is.EqualTo((2, 2, 4)));
-            Assert.That(first.Cell, Is.GreaterThan(0));
-            int initialTime = session.TimeLeft, jams = 0;
-            session.EventRaised += e => { if (e.Kind == EventKind.Jammed) jams++; };
-            yield return WaitFor(() => GuideText.Contains(Lang.T("glowing piece down", "parçayı aşağı kaydır")), "the first swipe cue");
-            yield return Swipe(first, 2, Dir.D);
-            Assert.That(session.Moves, Is.EqualTo(1));
-
-            yield return WaitFor(() => GuideText.Contains(Lang.T("piece up", "yukarı kaydırmayı")), "the first blocked swipe cue");
-            yield return Swipe(first, 3, Dir.U);
-            Assert.That(session.Moves, Is.EqualTo(1));
-            Assert.That(jams, Is.EqualTo(1));
-            yield return WaitFor(() => GuideText.Contains(Lang.T("bottom is open", "Altı açık")), "the first recovery cue");
-            yield return Swipe(first, 3, Dir.D);
-            Assert.That(session.Moves, Is.EqualTo(2));
-
-            yield return WaitFor(() => GuideText.Contains(Lang.T("upper-right", "Sağ üstteki")), "the second blocked swipe cue");
-            yield return Swipe(first, 1, Dir.L);
-            Assert.That(session.Moves, Is.EqualTo(2));
-            Assert.That(jams, Is.EqualTo(2));
-            yield return WaitFor(() => GuideText.Contains(Lang.T("right side is open", "Sağ taraf açık")), "the second recovery cue");
-            yield return Swipe(first, 1, Dir.R);
-            Assert.That(session.Moves, Is.EqualTo(3));
-
-            yield return WaitFor(() => GuideText == Texts.P21StoryLast, "the final rescue cue");
-            yield return Swipe(first, 0, Dir.L);
-            Assert.That(session.Outcome, Is.EqualTo(Outcome.Win));
-            Assert.That(session.Jams, Is.Zero);
-            Assert.That(session.TimeLeft, Is.EqualTo(initialTime));
-
-            yield return WaitFor(() => Next != null, "the victory screen and its next button");
-            yield return new WaitForSecondsRealtime(.3f);
-            yield return Click(LayoutPoint(Next));
-            yield return WaitFor(() => Board != null && Board.Session.Level.Number == 2, "the easy board via Next");
-            var easy = Board;
-            var easySession = easy.Session;
-            Assert.That((easySession.Level.Width, easySession.Level.Height, easySession.Board.PresentCount), Is.EqualTo((3, 3, 9)));
-            Assert.That(easySession.Level.Nails.Count + easySession.Level.Bombs.Count + easySession.Level.Sealed.Count, Is.Zero);
-            initialTime = easySession.TimeLeft;
-            while (!easySession.IsOver)
+            var links = new[] { "c=p22", "c=p22&reset=1", "c=p22&test=1", "", "c=p22&tut=2x2", "c=p22&tut2x2=1" };
+            foreach (string link in links)
             {
-                int piece = TravelRule.FreePieces(easySession.Board).Last();
-                Dir dir = TravelRule.ExitDirs(easySession.Board, piece)[0];
-                int moves = easySession.Moves;
-                yield return Swipe(easy, piece, dir);
-                Assert.That(easySession.Moves, Is.EqualTo(moves + 1), $"piece {piece} {dir}");
+                _host.Links = link;
+                _host.Store = new MemoryStore();
+                var save = new SaveData(_host.Store, () => "seed");
+                save.SetPlayer("QA");
+                save.MergeBest(new System.Collections.Generic.Dictionary<string, int> { [P21Onboarding.TutorialId] = 3 });
+                var old = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+                if (old != null) { UnityEngine.Object.Destroy(old.gameObject); yield return null; }
+                yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+                yield return WaitFor(() => MenuPlay != null, $"the menu play button ({link})");
+                yield return Click(LayoutPoint(MenuPlay));
+                yield return WaitFor(() => Board != null && Board.Session.Level.Number == 1, $"the first board ({link})");
+                yield return new WaitForSecondsRealtime(.6f);
+                string id = Board.Session.Level.Id;
+                Assert.That(id, Is.Not.EqualTo(P21Onboarding.TutorialId).And.Not.EqualTo(P21Onboarding.EasyId), link);
+                Assert.That(UnityEngine.Object.FindObjectsByType<TutorialHand>(FindObjectsSortMode.None), Is.Empty, $"old hand ({link})");
+                Assert.That(UnityEngine.Object.FindObjectsByType<TutorialSpotlight>(FindObjectsSortMode.None), Is.Empty, $"spotlight ({link})");
+                foreach (string name in new[] { "Veil", "FingerPivot", "ArrowShaft", "ArrowHead", "Swipe path", "guide", "P21 tutorial" })
+                    Assert.That(GameObject.Find(name), Is.Null, $"{name} ({link})");
+                var hands = UnityEngine.Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None)
+                    .Where(r => r.sprite != null && (r.sprite.name.ToLowerInvariant().Contains("hand") || r.sprite.name.ToLowerInvariant().Contains("glove")));
+                Assert.That(hands.Select(r => r.sprite.name), Is.Empty, $"hand sprites ({link})");
+                var story = GameObject.Find("P21 story");
+                Assert.That(story, Is.Not.Null, $"chat box ({link})");
+                Assert.That(story.transform.Find("chat").gameObject.activeSelf, Is.True, $"chat box shown ({link})");
+                Assert.That(story.GetComponent<P21TutorialView>().Glowing, Is.True, $"gold glow on the target piece ({link})");
             }
-            Assert.That(easySession.Outcome, Is.EqualTo(Outcome.Win));
-            Assert.That(easySession.TimeLeft, Is.EqualTo(initialTime));
-            var save = new SaveData(_host.Store, () => "unused");
-            Assert.That(save.Best.Keys, Is.EquivalentTo(new[] { session.Level.Id, easySession.Level.Id }));
-            var stats = PlayStats.Load(_host.Store);
-            Assert.That(stats.Of(session.Level.Id).FirstRescueCount, Is.EqualTo(4));
-            Assert.That(stats.Of(easySession.Level.Id).FirstRescueCount, Is.EqualTo(9));
         }
 
         [UnityTest]
@@ -139,7 +111,8 @@ namespace ReverseSolver.PlayMode.Tests
             int afterTargeting = session.TimeLeft;
             yield return Click(target);
             yield return WaitFor(() => session.Stock(Booster.Scissors) < stock, "the scissors cutting the joint");
-            Assert.That(session.TimeLeft, Is.LessThan(afterTargeting));
+            // PM_72: the flight is shorter than a second; the clock keeps running through and after the cut
+            yield return WaitFor(() => session.TimeLeft < afterTargeting, "the countdown after the cut");
             Assert.That(GameObject.Find("P21 boosters").transform.Find("trail").GetComponent<SpriteRenderer>().enabled, Is.False);
         }
 
@@ -233,7 +206,8 @@ namespace ReverseSolver.PlayMode.Tests
         sealed class LocalHost : IHost
         {
             public string Booster;
-            public string Query(string name) => name switch
+            public string Links;   // a link's query ("c=p22&test=1"); null: the debug QA host
+            public string Query(string name) => Links != null ? Link(name) : name switch
             {
                 "debug" => "1",
                 "lv" when Booster != null => "S10",
@@ -242,7 +216,17 @@ namespace ReverseSolver.PlayMode.Tests
             };
             public float PixelRatio => 1;
             public Vector4 SafeInsets => Vector4.zero;
-            public IKeyValueStore Store { get; } = new MemoryStore();
+            string Link(string name)
+            {
+                if (name == "intro") return "0";
+                foreach (string pair in Links.Split('&'))
+                {
+                    int eq = pair.IndexOf('=');
+                    if (eq > 0 && pair.Substring(0, eq) == name) return pair.Substring(eq + 1);
+                }
+                return null;
+            }
+            public IKeyValueStore Store { get; set; } = new MemoryStore();
             public ITelemetryTransport Transport => null;
             public string SupabaseUrl => null;
             public string AnonKey => null;

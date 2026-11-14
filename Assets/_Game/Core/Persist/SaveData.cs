@@ -55,7 +55,8 @@ namespace ReverseSolver.Core
 
         int _coins;
         public bool TestMode { get; set; }
-        public int Coins { get => TestMode ? 99999 : _coins; private set => _coins = value; }
+        public const int TestCoins = 999999;   // PM_72: &test=1 gold
+        public int Coins { get => TestMode ? TestCoins : _coins; private set => _coins = value; }
         public string Player { get; private set; }
         public string Install { get; private set; }
         public Dictionary<string, int> Attempts { get; } = new Dictionary<string, int>();

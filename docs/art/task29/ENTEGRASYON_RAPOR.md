@@ -550,3 +550,123 @@ Eğri ve kurallar (test `P22ElevenToFortyHitsTheCurveAndTheRules`):
 - Modelin S47/S08 tipi bölümlerde iyimser olduğu biliniyor (PM: ±25 puan). 20 S24, 27 S10, 30 S08 ve 19 S50 bu tipte; gerçekte daha zor çıkabilir.
 - Zincir dar anı modelde zorluğu azaltıyor. Tek veri setine dayanıyor; p22 verisiyle sınanmalı.
 - iPhone'da denenmedi.
+
+## PM_72 — Görsel toparlama: tutorial, menü şeridi, kombo yerine tatmin anı, test linki, T50 seçenekleri (15 Kasım)
+
+Görüntüler `docs/art/task29/pm72/` klasöründe:
+- `once/`: canlı p22, `0d63cc99`
+- `sonra/`: yeni build
+- yan yana karşılaştırmalar: `menu_once_sonra.png`, `bolum1_once_sonra.png`
+
+Tur aracı: `Tools/pm72_tour.js`, bölüm verisi `Pm72Tour.Dump` ile üretiliyor. Turda kayıtlı çözümle bölümler kazanılıyor.
+
+### 0. Sorunların kaynağı
+
+| Sorun | Nereden geldi |
+|---|---|
+| 1. bölümde eski el, büyük ok, kararma | 3 ayrı kaynak var, aşağıda. |
+| Ana menüde üst mavi şerit | PM_67 (`ff85c438`): TASK48 `top-strip` ve mavi `profile-pill` menüye bağlandı. |
+| Kombo yazıları, rozetler, çerçeve dalgası, şok halkası | PM_64 (`fbd86994`): T47 kombo merdiveni (`ComboLadderView`). |
+| Test linkinde booster 99, altın 99 999, ilerleme normal kayda yazılıyor, telemetri `ic` kohortuyla gidiyor | PM_6x test modu yalnız stoğu ve kilitleri açıyordu. |
+
+1. bölümdeki el, ok ve kararmanın üç kaynağı:
+1. **`7530365c`** (12 Kasım, Codex devri, "Rework the guided opening"): `keepPrelude` eklendi. Kayıtta eski öğretici bölümü (`P21_T01`) olan cihaz, `reset=1` olmayan her açılışta eski açılış akışına (`Prepend`) dönüyordu. O akışta `Hand/drag` eli ve `Path/straight` okları var.
+2. **PM_64** (`355a0324`): 2×2 açılışı `&tut=2x2` arkasına aldı, ama `keepPrelude` yolunu bıraktı. `&tut=2x2` bir kez açılınca `P21_T01` kaydı oluşuyor ve eski akış o cihazda kalıcı oluyor.
+3. **PM_65**: yalnız `TutorialSpotlight` eldivenini ve okları `Art.P21Gameplay` ile kapattı. Ama:
+   - eski açılışın kendi eli (`P21TutorialView.Show`) korunmasız kaldı;
+   - kararma (`Veil`) hiç korunmadı;
+   - eski el `art=eski` bayrağıyla da açılabiliyordu.
+
+PlayerPrefs her build yolunda ayrı tutuluyor. Zeyd'in p22 kaydında böyle bir `P21_T01` var. Test linki `reset=1` içermediği için eski akış geri geldi.
+
+### 1. Tutorial: yalnız PM_60 akışı
+
+- **Açılış:** `_p21Flow` ve `_p21Revised` artık hep kapalı. `&tut=2x2`, `&tut2x2=1` ve kayıttaki `P21_T01` hiçbir şeyi değiştirmiyor.
+- **Eski el kaldırıldı:**
+  - `GameRoot` içindeki iki `TutorialHand.Show` çağrısı,
+  - `P21TutorialView.Show` içindeki el ve ok,
+  - `TutorialSpotlight` eldiveni: `Glove = false`, bayrağa bakmıyor.
+- **Büyük ok:** kural kartı dışında hiç çizilmiyor.
+- **Kararma:** `TutorialSpotlight.Darken = false`. `Veil` hiçbir akışta çizilmiyor.
+- **Kalıcı test:** PlayMode `LevelOneIsTheStoryOpeningOnEveryLink`.
+  - Linkler: `c=p22`, `c=p22&reset=1`, `c=p22&test=1`, kohortsuz, `&tut=2x2`, `&tut2x2=1`.
+  - Her linkte cihazda eski `P21_T01` kazancı var.
+  - 1. bölümde bulunmaması gerekenler: `TutorialHand`, `TutorialSpotlight`, `Veil`, `FingerPivot`, `ArrowShaft`, `ArrowHead`, `Swipe path`, `guide`, `P21 tutorial`, el ya da eldiven sprite'ı. Hiçbiri yok.
+  - Bulunması gerekenler: "P21 story" sohbet kutusu açık ve altın parlama bir parçada. İkisi de var.
+- `Tools/unity_batch.sh ptests` eklendi (PlayMode, grafikli batch). PlayMode 4/4.
+  - Eski 2×2 açılış testi kaldırıldı, çünkü o akış artık yok.
+  - Makas testi uçuşun 1 saniyeden kısa olduğu durumda takılıyordu. Kesimden sonra saatin aktığını bekleyecek şekilde düzeltildi.
+
+### 2. Ana menü üst şeridi
+
+- Menüde şerit yok.
+- Oyuncu adı, Jiggle sayacı ve dişli, arka planın üstünde küçük, yarı saydam (%78) krem haplarda. Kenarları ince altın, yazılar lacivert.
+- Dişli simgesi `settings-normal`'den kesildi: `Resources/Art/pm72-gear.png`.
+- Alt sekme şeridi aynı kaldı.
+- Karşılaştırma: `menu_once_sonra.png`.
+
+### 3. Kombo yerine her çıkışta küçük tatmin anı
+
+**Kaldırılanlar:**
+- `ComboLadderView` (kombo yazıları, rozetler, çerçeve ışık dalgası, şok halkası, sayaç)
+- yarı yol övgüsü
+- konfeti
+- `Resources/Art/yeni/T47`, 220 dosya. Build'e artık kopyalanmıyor.
+- `juice21` içindeki `combo`, `great`, `super`, `perfect`, `confetti` ve `pop`
+
+| An | Görüntü | Ses | Titreşim |
+|---|---|---|---|
+| Her çıkış | Parçanın tahtadan ayrıldığı yerde küçük, opak altın kıvılcım. 0,25 sn, ~0,95 hücre. Kareleri `Tools/make_pm72_spark.py` çiziyor. | `pm72-tick` (70 ms pop) | hafif |
+| Bombalı parça çıkışı | Daha büyük kıvılcım (1,45 hücre, 0,32 sn), bomba ikonu grileşip küçülerek söner (0,38 sn). | `pm72-defuse` (pop + kısa tıslama) | orta |
+| Kilit açılınca | Küçük metal kıvılcım | `pm72-unlock` (kırılma) | hafif |
+| Son parça | Mevcut parıltı | `popfull`, sonra fanfar | başarı (notification success), sonra kazanma ekranı |
+| Takılma | — | mevcut tık | çok kısa, zayıf; kendi anahtarı var |
+
+Sesleri `Tools/make_pm72_sounds.py` üretiyor.
+
+**Titreşim altyapısı:**
+- **iOS uygulaması:** `RSHaptics.mm`, UIImpactFeedbackGenerator ve UINotificationFeedbackGenerator. Takılma için 0,4 şiddetli hafif impact eklendi.
+- **Web, Android:** `navigator.vibrate`, jslib `RS_Vibrate`. Süreler: hafif 12 ms, orta 22, başarı 30, takılma 8 ms. Seçim tıkı web'de yok.
+- **iPhone Safari:** web titreşimi yok. Orada yalnız görüntü ve ses var.
+- **Ayarlar:** "Titreşim" anahtarı hepsini kapatıyor.
+- **Takılma titreşimi:** ayrı anahtar, varsayılan açık. Linkle açılıp kapanıyor: `&takilmatitresim=0` ya da `=1`. Ayar cihazda kalıyor.
+- Kareler: `sonra/cikis_kivilcim_kareler.jpg`, `sonra/bombali_parca_cikis_kareler.jpg`.
+
+### 4. Test linki (`&test=1`)
+
+- **Bölümler:** 1–40 açık (mevcut `UnlockAll`).
+- **Booster:** her biri 999 (`GameSession.TestStock`).
+- **Altın:** 999 999 (`SaveData.TestCoins`).
+- **Devam:** ücretsiz, fiyat 0.
+- **Kayıt:** `TestHost` cihaz kaydını okuyor; ad ve ayarlar oradan geliyor. Bütün yazmalar bellekte kalıyor, test ilerlemesi normal kayda yazılmıyor. Test için `reset=1` de normal kayda dokunmuyor.
+- **Ad kutusu:** test linkinde çıkmıyor, ad "TEST" (yalnız bellekte).
+- **Telemetri:** test modunda hiç gönderilmiyor (transport yok). pt1 ve p22 verisi kirlenmiyor.
+- **Normal link:** etkilenmiyor.
+- **EditMode testleri** (`Pm72Tests`):
+  - bellek kaydı cihaza yazmıyor,
+  - stok ve altın değerleri,
+  - titreşim anahtarları.
+- **Not:** `&sandik=1` önizlemesi de artık test altınını gösteriyor.
+
+### 5. T50: kazanma ekranı ve harita düğmeleri
+
+- Codex iki ayrı `codex exec` çağrısıyla çalıştı (`timeout 1800`, `< /dev/null`). İkisi de ilk denemede bitti, tarza uygun; yeniden deneme gerekmedi.
+- Kazanma: 30 parça. Harita: 39 parça. Her öğe için A/B/C önizlemesi var.
+- Seçim sayfası: `docs/art/task50/SECENEKLER.md`.
+- Oyuna bağlanmadı.
+
+### Ölçümler
+
+- **EditMode:** 724/0, 2 atlandı.
+- **PlayMode:** 4/4.
+- **Build:** Brotli toplam 36,5 MB (önce 38). T47 ve kullanılmayan efektler çıktı.
+- **verify_build:** yerel 4/4, canlı 4/4.
+- **Doğrulanmadı:**
+  - iPhone'da his (titreşim yok, ses ve kıvılcım),
+  - Android'de titreşim,
+  - iOS uygulamasında haptic (native build yapılmadı).
+
+### Fark edilen ama bu işin dışında kalanlar
+
+- Bomba tanıtım kartında ikon "2" gösteriyor, metin "16 hamle" diyor (bölüm 7).
+- "Süre doldu" devam panelinin başlığı kurdele/afiş biçiminde. PM_65 ölçütüne göre kurdele olmamalı.
