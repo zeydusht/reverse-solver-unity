@@ -18,7 +18,7 @@ Veri: pt1, 51 oyuncu, 1259 deneme, 82 bin hamle kaydı (`v_attempts`, `moves`, `
 | Bomba sıkılığı `exp(−pay/2)` | **+2,02** | pay 0 → +2,0; pay 1 → +1,2; pay 2 → +0,74; pay 4 → +0,27 |
 | Bombanın erken gitmesi gerekmesi `1 − fitil/parça` | **+2,88** | fitil 8 / 54 parça → +2,45; fitil yarısı → +1,44 |
 | Süre bolluğu `log(sn/hamle)` | **−1,17** | 2 sn → 1,5 sn: +0,34 |
-| Kilit, zincir, duvar sayısı, parça sayısı | ≈ 0 | modeli iyileştirmiyor |
+| Kilit, zincir, duvar sayısı, parça sayısı | ≈ 0 | **kaybettirmiyor**, ama düşündürüyor ve takıltıyor (bulgu 7) |
 
 Ortalama oyuncunun ilk denemede kazanma şansı (2 sn/hamle):
 
@@ -56,6 +56,12 @@ Süreden kaybeden yavaş değil, parçanın yönünü anlamamış.
 - **S28:** üç boğaz var: 8., 19. ve 33. çıkış. Oyuncu her seferinde bir sonrakine kadar ilerliyor (ortalama 5,6 deneme).
 
 Bu "ezber merdiveni" eğlenceli zorluk değil, deneme-yanılma.
+
+**7. Kilit, zincir ve duvar "bulma" zorluğu yaratıyor (Zeyd'in çerçevesi).** Bu engeller kazanma oranını düşürmedi, çünkü pt1'de süre boldu. Ama kazananlarda takılma/çıkış (R² 0,70) ve saniye/çıkış (R² 0,55) değerlerini artırdılar; en güçlü etki duvarda. Yani iki ayrı zorluk var:
+- **A. Kaçırma:** bomba, tahtada çok boş hamle varken tehlikeli. S47 ve S08 açık, engelsiz tahtalar; pay büyük olmasına rağmen oyuncular fitili başka parçalara harcadı.
+- **B. Bulma:** kilit, zincir ve duvar seçenekleri 1–2'ye indirip doğru hamleyi gizliyor. İyi zorluk; kayba ancak süre sıkıysa dönüşüyor.
+
+Engel sayısı bunu ölçemiyor; ölçü "dar an" ve "çeldirici" sayısı olmalı (PM_69).
 
 ## 2. 40 bölüm: beklenen / olan / kök neden
 Sütunlar:
@@ -129,3 +135,48 @@ Not: 25'ten sonra 7–10 oyuncu var, düzeltilmiş değerler yine de belirsiz (�
 6. **pt1 replay:** 82 bin hamleyi motorda yeniden oynat. Her bomba ölümünde kaç hamle "yol dışı" gitmiş, her takılmanın nedeni ne.
 
 Bunlar gelince aynı modeli bu özelliklerle yeniden kuracağım (hedef: hata 1,13 → ~0,7). Generator bu modelle puanlayacak: her bölümün "ortalama oyuncu ilk deneme şansı" tahmin edilip hedef aralığa uyanlar seçilecek. Zeyd'in kendi oyunları da beceri ekseninde en üste yerleştirilecek; botun neden iyimser olduğu sayısal görünecek.
+
+## 5. Model v2 sonucu (PM_69 ölçüleriyle, 14 Kasım akşam)
+Kod: `docs/analiz/v2/m2.py`, `m3.py`, `final.py`. Katsayılar: `model_v2.json`. Bütün havuzun puanı: `pool_scored.csv` (250 bölüm).
+
+**Kazanma modeli** (ortalama oyuncu, ilk deneme; birini dışarıda bırakarak sınanmış hata **±10,7 puan**). Eski modelin hatası ±13,8, bot tahmininin (v1) ±13,5, v0.1'in ±18'di.
+
+`zorluk = 1,61 + 0,53 · B − 1,71 · log(sn/parça) − 1,84 · (zincirin yarattığı dar an / parça)`
+
+- **B (bomba riski):** insanı **%85 "bombaya bakan" + %15 "rastgele oynayan"** oyuncu karışımı olarak simüle edince hayatta kalamama logiti. Yani oyuncuların çoğu bombayı izliyor; asıl kayıp, bombaya bakmayan %15'lik andan geliyor (S47, S08).
+- **Süre:** sn/parça yarıya inerse +1,2 logit zorluk.
+- **Zincir dar anı modelde zorluğu azaltıyor.** Zincir seçenekleri kısıp oyuncuyu doğru yola yönlendiriyor, bombayı kaçırmayı azaltıyor. Zeyd'in "daraltılmış tahtada bomba kaçmaz" sözüyle uyumlu. Bu bulgu tek veri setine dayanıyor, p22 ile doğrulanmalı.
+
+**Düşündürme modeli (eksen B)** (bölüm başına takılma/çıkış, R² 0,71):
+
+`takılma/çıkış ≈ 0,18 + 2,07·(kilit dar anı/parça) + 0,57·(duvar dar anı/parça) + 0,56·(zincir dar anı/parça) + 0,40·yön belirsizliği`
+
+En çok düşündüren kilit; zincir ve duvar onun yaklaşık dörtte biri.
+
+**Modelin hâlâ açıklayamadıkları** (fark > 25 puan):
+- S17 ve S10 (gerçek %95, model %50).
+- S47 ve S08 (gerçek %42 ve %32, model %65).
+- Z25 (gerçek %83, model %55).
+
+Simülasyonda dördü de "bombaya bakan oyuncu kurtulur, rastgele ölür" tipinde. İnsanlar S10 ve S17'de bombayı fark ediyor, S47 ve S08'de etmiyor. Muhtemel neden: bombalı parçanın konumu ya da görünürlüğü (kenarda mı, ortada mı, ilk ekranda dikkat çekiyor mu). Sonraki ölçü adayı.
+
+### p22 (şu anki sürüm) 1–20 tahmini
+| # | Bölüm | Tahmin | PM_68 hedefi | Durum |
+|---|---|---|---|---|
+| 1–3 | S41, S42, S43 | ,99 / ,99 / ,94 | ≥ ,85 | ✓ |
+| 4 | S06 | ,87 | ≥ ,85 | ✓ sınırda (süre) |
+| 5–7 | S44, S45, S46 | ,91 / ,94 / ,99 | ≥ ,85 | ✓ |
+| 8–9 | S47 v3, S20 v3 | ,88 / ,90 | ≥ ,85 | ✓ |
+| 10 | Z24 v3 | ,91 | ders ≥ ,85 | ✓ |
+| 11 | S21 v2 | ,67 | ,55–,75 | ✓ |
+| 12 | S51 v2 | ,58 | ,55–,75 | ✓ |
+| 13 | S34 | **,42** | ,55–,75 | zor bölüm gibi |
+| 14 | Z21 v3 | ,88 | ders | ✓ |
+| 15 | S13 v2 | **,80** | ,55–,75 | biraz kolay |
+| 16 | Z04 v2 | **,49** | zor ,35–,45 / normal ,55 | arada |
+| 17 | S18 v3 | ,62 | ,55–,75 | ✓ |
+| 18 | S22 | ,59 | ,55–,75 | ✓ |
+| 19 | S50 v3 | ,65 | ,55–,75 | ✓ |
+| 20 | S24 v2 | **,49** | ,55–,75 | biraz zor |
+
+21–40 hâlâ pt1 hâli: 21, 25, 29, 32, 33, 35, 37, 40 tahmini %6–27 (ezber merdivenleri). Bunlar PM_70'te.
