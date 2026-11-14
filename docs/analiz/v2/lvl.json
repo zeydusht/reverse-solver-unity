@@ -1,0 +1,1653 @@
+[
+{
+"slot": 1,
+"id": "S41",
+"pieces": 9,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 0,
+"chains": 0,
+"walls": 0,
+"timer": 120,
+"spm": 13.333,
+"n": 51,
+"win1": 0.98,
+"f1_bomb": 0.0,
+"f1_time": 0.0,
+"f1_quit": 0.02,
+"neverwin": 0,
+"att_mean": 1.0,
+"lc": {
+"1": 0.98,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.0,
+"jam_per_exit_l": 0.5,
+"ft_w": 1937,
+"ft_l": 2262,
+"left_med_w": 112,
+"boost_w": 0.0
+},
+{
+"slot": 2,
+"id": "S42",
+"pieces": 16,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 0,
+"chains": 0,
+"walls": 0,
+"timer": 120,
+"spm": 7.5,
+"n": 49,
+"win1": 0.94,
+"f1_bomb": 0.0,
+"f1_time": 0.02,
+"f1_quit": 0.04,
+"neverwin": 0,
+"att_mean": 1.1,
+"lc": {
+"1": 0.94,
+"2": 1.0,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": 11.0,
+"jam_per_exit_w": 0.12,
+"jam_per_exit_l": 0.08,
+"ft_w": 1999,
+"ft_l": 1562,
+"left_med_w": 108,
+"boost_w": 0.0
+},
+{
+"slot": 3,
+"id": "S43",
+"pieces": 20,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 1,
+"chains": 0,
+"walls": 0,
+"timer": 60,
+"spm": 3.0,
+"n": 44,
+"win1": 0.95,
+"f1_bomb": 0.0,
+"f1_time": 0.02,
+"f1_quit": 0.02,
+"neverwin": 1,
+"att_mean": 1.1,
+"lc": {
+"1": 0.95,
+"2": 1.0,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": 3.0,
+"jam_per_exit_w": 0.43,
+"jam_per_exit_l": 1.8,
+"ft_w": 9175,
+"ft_l": 5806,
+"left_med_w": 36,
+"boost_w": 0.0
+},
+{
+"slot": 4,
+"id": "S06",
+"pieces": 30,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 1,
+"chains": 0,
+"walls": 0,
+"timer": 55,
+"spm": 1.833,
+"n": 40,
+"win1": 0.75,
+"f1_bomb": 0.0,
+"f1_time": 0.25,
+"f1_quit": 0.0,
+"neverwin": 2,
+"att_mean": 1.3,
+"lc": {
+"1": 0.75,
+"2": 0.82,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": 14.0,
+"jam_per_exit_w": 0.3,
+"jam_per_exit_l": 1.35,
+"ft_w": 1724,
+"ft_l": 1981,
+"left_med_w": 22,
+"boost_w": 0.0
+},
+{
+"slot": 5,
+"id": "S44",
+"pieces": 25,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 2,
+"chains": 0,
+"walls": 0,
+"timer": 60,
+"spm": 2.4,
+"n": 36,
+"win1": 1.0,
+"f1_bomb": 0.0,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.0,
+"lc": {
+"1": 1.0,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.16,
+"jam_per_exit_l": null,
+"ft_w": 1542,
+"ft_l": null,
+"left_med_w": 41,
+"boost_w": 0.22
+},
+{
+"slot": 6,
+"id": "S45",
+"pieces": 20,
+"bombs": 1,
+"slack": 10,
+"fuse": 23,
+"locks": 0,
+"chains": 0,
+"walls": 0,
+"timer": 60,
+"spm": 3.0,
+"n": 33,
+"win1": 0.97,
+"f1_bomb": 0.0,
+"f1_time": 0.0,
+"f1_quit": 0.03,
+"neverwin": 0,
+"att_mean": 1.0,
+"lc": {
+"1": 0.97,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.12,
+"jam_per_exit_l": 0.0,
+"ft_w": 4450,
+"ft_l": 0,
+"left_med_w": 46,
+"boost_w": 0.03
+},
+{
+"slot": 7,
+"id": "S46",
+"pieces": 25,
+"bombs": 1,
+"slack": 8,
+"fuse": 33,
+"locks": 0,
+"chains": 0,
+"walls": 0,
+"timer": 60,
+"spm": 2.4,
+"n": 33,
+"win1": 0.97,
+"f1_bomb": 0.0,
+"f1_time": 0.0,
+"f1_quit": 0.03,
+"neverwin": 1,
+"att_mean": 1.0,
+"lc": {
+"1": 0.97,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.12,
+"jam_per_exit_l": 0.0,
+"ft_w": 1740,
+"ft_l": 2242,
+"left_med_w": 43,
+"boost_w": 0.0
+},
+{
+"slot": 8,
+"id": "S47",
+"pieces": 30,
+"bombs": 2,
+"slack": 12,
+"fuse": 20,
+"locks": 0,
+"chains": 0,
+"walls": 0,
+"timer": 60,
+"spm": 2.0,
+"n": 32,
+"win1": 0.62,
+"f1_bomb": 0.34,
+"f1_time": 0.03,
+"f1_quit": 0.0,
+"neverwin": 3,
+"att_mean": 1.9,
+"lc": {
+"1": 0.62,
+"2": 0.27,
+"3": 0.38,
+"4+": 0.3
+},
+"bomb_deaths": 26,
+"killers": {
+"18": 21,
+"7": 5
+},
+"death_ex": [
+[
+20,
+19
+],
+[
+24,
+5
+]
+],
+"time_left_pieces": 22.0,
+"jam_per_exit_w": 0.2,
+"jam_per_exit_l": 0.12,
+"ft_w": 1830,
+"ft_l": 1532,
+"left_med_w": 35,
+"boost_w": 0.07
+},
+{
+"slot": 9,
+"id": "S20",
+"pieces": 30,
+"bombs": 1,
+"slack": 5,
+"fuse": 7,
+"locks": 0,
+"chains": 0,
+"walls": 0,
+"timer": 65,
+"spm": 2.167,
+"n": 29,
+"win1": 0.38,
+"f1_bomb": 0.52,
+"f1_time": 0.07,
+"f1_quit": 0.03,
+"neverwin": 3,
+"att_mean": 1.8,
+"lc": {
+"1": 0.38,
+"2": 0.69,
+"3": 0.6,
+"4+": null
+},
+"bomb_deaths": 21,
+"killers": {
+"11": 20
+},
+"death_ex": [
+[
+7,
+20
+]
+],
+"time_left_pieces": 24.0,
+"jam_per_exit_w": 0.15,
+"jam_per_exit_l": 0.0,
+"ft_w": 3457,
+"ft_l": 2360,
+"left_med_w": 46,
+"boost_w": 0.38
+},
+{
+"slot": 10,
+"id": "Z24",
+"pieces": 41,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 1,
+"chains": 1,
+"walls": 0,
+"timer": 80,
+"spm": 1.951,
+"n": 23,
+"win1": 0.74,
+"f1_bomb": 0.0,
+"f1_time": 0.17,
+"f1_quit": 0.09,
+"neverwin": 1,
+"att_mean": 1.3,
+"lc": {
+"1": 0.74,
+"2": 0.83,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": 12.0,
+"jam_per_exit_w": 0.54,
+"jam_per_exit_l": 0.63,
+"ft_w": 4361,
+"ft_l": 6640,
+"left_med_w": 23,
+"boost_w": 0.04
+},
+{
+"slot": 11,
+"id": "S21",
+"pieces": 40,
+"bombs": 1,
+"slack": 2,
+"fuse": 16,
+"locks": 2,
+"chains": 2,
+"walls": 0,
+"timer": 60,
+"spm": 1.5,
+"n": 21,
+"win1": 0.29,
+"f1_bomb": 0.57,
+"f1_time": 0.14,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 2.8,
+"lc": {
+"1": 0.29,
+"2": 0.4,
+"3": 0.33,
+"4+": 0.43
+},
+"bomb_deaths": 21,
+"killers": {
+"3": 21
+},
+"death_ex": [
+[
+16,
+21
+]
+],
+"time_left_pieces": 9.0,
+"jam_per_exit_w": 0.57,
+"jam_per_exit_l": 0.59,
+"ft_w": 1955,
+"ft_l": 1865,
+"left_med_w": 10,
+"boost_w": 0.05
+},
+{
+"slot": 12,
+"id": "S51",
+"pieces": 29,
+"bombs": 2,
+"slack": 5,
+"fuse": 10,
+"locks": 0,
+"chains": 1,
+"walls": 0,
+"timer": 60,
+"spm": 2.069,
+"n": 21,
+"win1": 0.71,
+"f1_bomb": 0.24,
+"f1_time": 0.0,
+"f1_quit": 0.05,
+"neverwin": 1,
+"att_mean": 1.4,
+"lc": {
+"1": 0.71,
+"2": 0.67,
+"4+": null
+},
+"bomb_deaths": 8,
+"killers": {
+"23": 4,
+"12": 4
+},
+"death_ex": [
+[
+10,
+4
+],
+[
+21,
+4
+]
+],
+"time_left_pieces": 5.0,
+"jam_per_exit_w": 0.26,
+"jam_per_exit_l": 0.33,
+"ft_w": 1752,
+"ft_l": 1638,
+"left_med_w": 37,
+"boost_w": 0.0
+},
+{
+"slot": 13,
+"id": "S34",
+"pieces": 39,
+"bombs": 1,
+"slack": 2,
+"fuse": 21,
+"locks": 2,
+"chains": 3,
+"walls": 0,
+"timer": 65,
+"spm": 1.667,
+"n": 20,
+"win1": 0.6,
+"f1_bomb": 0.3,
+"f1_time": 0.1,
+"f1_quit": 0.0,
+"neverwin": 1,
+"att_mean": 2.4,
+"lc": {
+"1": 0.6,
+"2": 0.43,
+"3": 0.5,
+"4+": 0.12
+},
+"bomb_deaths": 22,
+"killers": {
+"6": 22
+},
+"death_ex": [
+[
+21,
+21
+],
+[
+19,
+1
+]
+],
+"time_left_pieces": 10.0,
+"jam_per_exit_w": 0.46,
+"jam_per_exit_l": 0.67,
+"ft_w": 1756,
+"ft_l": 1324,
+"left_med_w": 16,
+"boost_w": 0.05
+},
+{
+"slot": 14,
+"id": "Z21",
+"pieces": 42,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 1,
+"chains": 0,
+"walls": 1,
+"timer": 80,
+"spm": 1.905,
+"n": 17,
+"win1": 0.94,
+"f1_bomb": 0.0,
+"f1_time": 0.0,
+"f1_quit": 0.06,
+"neverwin": 0,
+"att_mean": 1.1,
+"lc": {
+"1": 0.94,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.52,
+"jam_per_exit_l": 0.91,
+"ft_w": 4274,
+"ft_l": 4379,
+"left_med_w": 35,
+"boost_w": 0.0
+},
+{
+"slot": 15,
+"id": "S13",
+"pieces": 34,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 1,
+"chains": 2,
+"walls": 1,
+"timer": 50,
+"spm": 1.471,
+"n": 16,
+"win1": 0.94,
+"f1_bomb": 0.0,
+"f1_time": 0.06,
+"f1_quit": 0.0,
+"neverwin": 1,
+"att_mean": 1.0,
+"lc": {
+"1": 0.94,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": 16.0,
+"jam_per_exit_w": 0.59,
+"jam_per_exit_l": 0.5,
+"ft_w": 1626,
+"ft_l": 2440,
+"left_med_w": 33,
+"boost_w": 0.27
+},
+{
+"slot": 16,
+"id": "Z04",
+"pieces": 39,
+"bombs": 1,
+"slack": 2,
+"fuse": 22,
+"locks": 2,
+"chains": 3,
+"walls": 1,
+"timer": 60,
+"spm": 1.538,
+"n": 14,
+"win1": 0.43,
+"f1_bomb": 0.43,
+"f1_time": 0.14,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 2.5,
+"lc": {
+"1": 0.43,
+"2": 0.75,
+"4+": 0.18
+},
+"bomb_deaths": 11,
+"killers": {
+"13": 11
+},
+"death_ex": [
+[
+22,
+11
+]
+],
+"time_left_pieces": 9.0,
+"jam_per_exit_w": 0.62,
+"jam_per_exit_l": 0.38,
+"ft_w": 3451,
+"ft_l": 1678,
+"left_med_w": 14,
+"boost_w": 0.29
+},
+{
+"slot": 17,
+"id": "S18",
+"pieces": 33,
+"bombs": 1,
+"slack": 2,
+"fuse": 17,
+"locks": 1,
+"chains": 3,
+"walls": 1,
+"timer": 50,
+"spm": 1.515,
+"n": 14,
+"win1": 0.14,
+"f1_bomb": 0.64,
+"f1_time": 0.14,
+"f1_quit": 0.07,
+"neverwin": 1,
+"att_mean": 3.5,
+"lc": {
+"1": 0.14,
+"2": 0.18,
+"3": 0.4,
+"4+": 0.38
+},
+"bomb_deaths": 24,
+"killers": {
+"15": 24
+},
+"death_ex": [
+[
+17,
+24
+]
+],
+"time_left_pieces": 6.0,
+"jam_per_exit_w": 0.55,
+"jam_per_exit_l": 0.82,
+"ft_w": 1059,
+"ft_l": 1237,
+"left_med_w": 14,
+"boost_w": 0.31
+},
+{
+"slot": 18,
+"id": "S22",
+"pieces": 39,
+"bombs": 1,
+"slack": 2,
+"fuse": 21,
+"locks": 2,
+"chains": 3,
+"walls": 2,
+"timer": 70,
+"spm": 1.795,
+"n": 13,
+"win1": 0.69,
+"f1_bomb": 0.15,
+"f1_time": 0.15,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.5,
+"lc": {
+"1": 0.69,
+"2": 0.5,
+"4+": null
+},
+"bomb_deaths": 3,
+"killers": {
+"19": 3
+},
+"death_ex": [
+[
+21,
+3
+]
+],
+"time_left_pieces": 11.0,
+"jam_per_exit_w": 0.38,
+"jam_per_exit_l": 0.72,
+"ft_w": 1432,
+"ft_l": 915,
+"left_med_w": 24,
+"boost_w": 0.0
+},
+{
+"slot": 19,
+"id": "S28",
+"pieces": 54,
+"bombs": 4,
+"slack": 0,
+"fuse": 8,
+"locks": 3,
+"chains": 2,
+"walls": 3,
+"timer": 130,
+"spm": 2.407,
+"n": 13,
+"win1": 0.0,
+"f1_bomb": 0.92,
+"f1_time": 0.08,
+"f1_quit": 0.0,
+"neverwin": 1,
+"att_mean": 5.6,
+"lc": {
+"1": 0.0,
+"2": 0.15,
+"3": 0.18,
+"4+": 0.2
+},
+"bomb_deaths": 65,
+"killers": {
+"32": 33,
+"30": 22,
+"24": 5
+},
+"death_ex": [
+[
+8,
+33
+],
+[
+19,
+21
+]
+],
+"time_left_pieces": 52.0,
+"jam_per_exit_w": 0.4,
+"jam_per_exit_l": 0.38,
+"ft_w": null,
+"ft_l": 2534,
+"left_med_w": 58,
+"boost_w": 0.0
+},
+{
+"slot": 20,
+"id": "S24",
+"pieces": 39,
+"bombs": 1,
+"slack": 1,
+"fuse": 21,
+"locks": 2,
+"chains": 3,
+"walls": 0,
+"timer": 55,
+"spm": 1.41,
+"n": 12,
+"win1": 0.33,
+"f1_bomb": 0.67,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 2.2,
+"lc": {
+"1": 0.33,
+"2": 0.62,
+"4+": 0.5
+},
+"bomb_deaths": 12,
+"killers": {
+"1": 12
+},
+"death_ex": [
+[
+21,
+12
+]
+],
+"time_left_pieces": 16.0,
+"jam_per_exit_w": 0.54,
+"jam_per_exit_l": 0.43,
+"ft_w": 3764,
+"ft_l": 1661,
+"left_med_w": 7,
+"boost_w": 0.0
+},
+{
+"slot": 21,
+"id": "Z23",
+"pieces": 54,
+"bombs": 4,
+"slack": 1,
+"fuse": 9,
+"locks": 4,
+"chains": 2,
+"walls": 4,
+"timer": 150,
+"spm": 2.778,
+"n": 11,
+"win1": 0.27,
+"f1_bomb": 0.73,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 1,
+"att_mean": 3.2,
+"lc": {
+"1": 0.27,
+"2": 0.5,
+"3": 0.0,
+"4+": 0.25
+},
+"bomb_deaths": 21,
+"killers": {
+"19": 16,
+"31": 3,
+"32": 2
+},
+"death_ex": [
+[
+9,
+16
+],
+[
+18,
+3
+]
+],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.83,
+"jam_per_exit_l": 1.06,
+"ft_w": 1917,
+"ft_l": 3124,
+"left_med_w": 65,
+"boost_w": 0.1
+},
+{
+"slot": 22,
+"id": "S19",
+"pieces": 33,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 2,
+"chains": 3,
+"walls": 2,
+"timer": 50,
+"spm": 1.515,
+"n": 10,
+"win1": 0.9,
+"f1_bomb": 0.0,
+"f1_time": 0.1,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.1,
+"lc": {
+"1": 0.9,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": 15.0,
+"jam_per_exit_w": 0.59,
+"jam_per_exit_l": 0.5,
+"ft_w": 1548,
+"ft_l": 2483,
+"left_med_w": 14,
+"boost_w": 0.1
+},
+{
+"slot": 23,
+"id": "S27",
+"pieces": 39,
+"bombs": 2,
+"slack": 4,
+"fuse": 6,
+"locks": 1,
+"chains": 3,
+"walls": 1,
+"timer": 60,
+"spm": 1.538,
+"n": 10,
+"win1": 0.4,
+"f1_bomb": 0.6,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 2.2,
+"lc": {
+"1": 0.4,
+"2": 0.67,
+"4+": 0.25
+},
+"bomb_deaths": 11,
+"killers": {
+"23": 10,
+"3": 1
+},
+"death_ex": [
+[
+7,
+6
+],
+[
+8,
+4
+]
+],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.32,
+"jam_per_exit_l": 0.0,
+"ft_w": 2419,
+"ft_l": 2910,
+"left_med_w": 28,
+"boost_w": 0.2
+},
+{
+"slot": 24,
+"id": "S14",
+"pieces": 35,
+"bombs": 0,
+"slack": -1,
+"fuse": 0,
+"locks": 2,
+"chains": 1,
+"walls": 1,
+"timer": 50,
+"spm": 1.429,
+"n": 10,
+"win1": 0.9,
+"f1_bomb": 0.0,
+"f1_time": 0.1,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.1,
+"lc": {
+"1": 0.9,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": 14.0,
+"jam_per_exit_w": 0.46,
+"jam_per_exit_l": 2.19,
+"ft_w": 1873,
+"ft_l": 3700,
+"left_med_w": 16,
+"boost_w": 0.0
+},
+{
+"slot": 25,
+"id": "S35",
+"pieces": 54,
+"bombs": 4,
+"slack": 0,
+"fuse": 29,
+"locks": 0,
+"chains": 2,
+"walls": 4,
+"timer": 105,
+"spm": 1.944,
+"n": 10,
+"win1": 0.0,
+"f1_bomb": 0.8,
+"f1_time": 0.1,
+"f1_quit": 0.1,
+"neverwin": 2,
+"att_mean": 7.1,
+"lc": {
+"1": 0.0,
+"2": 0.0,
+"3": 0.0,
+"4+": 0.24
+},
+"bomb_deaths": 42,
+"killers": {
+"25": 42
+},
+"death_ex": [
+[
+29,
+42
+]
+],
+"time_left_pieces": 26.0,
+"jam_per_exit_w": 0.61,
+"jam_per_exit_l": 0.79,
+"ft_w": null,
+"ft_l": 2246,
+"left_med_w": 28,
+"boost_w": 0.38
+},
+{
+"slot": 26,
+"id": "S17",
+"pieces": 33,
+"bombs": 1,
+"slack": 2,
+"fuse": 19,
+"locks": 1,
+"chains": 3,
+"walls": 1,
+"timer": 55,
+"spm": 1.667,
+"n": 8,
+"win1": 1.0,
+"f1_bomb": 0.0,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.0,
+"lc": {
+"1": 1.0,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.64,
+"jam_per_exit_l": null,
+"ft_w": 2059,
+"ft_l": null,
+"left_med_w": 20,
+"boost_w": 0.0
+},
+{
+"slot": 27,
+"id": "S10",
+"pieces": 36,
+"bombs": 1,
+"slack": 10,
+"fuse": 17,
+"locks": 1,
+"chains": 0,
+"walls": 1,
+"timer": 55,
+"spm": 1.528,
+"n": 8,
+"win1": 1.0,
+"f1_bomb": 0.0,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.0,
+"lc": {
+"1": 1.0,
+"4+": null
+},
+"bomb_deaths": 0,
+"killers": {},
+"death_ex": [],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.5,
+"jam_per_exit_l": null,
+"ft_w": 2489,
+"ft_l": null,
+"left_med_w": 21,
+"boost_w": 0.0
+},
+{
+"slot": 28,
+"id": "S50",
+"pieces": 28,
+"bombs": 1,
+"slack": 1,
+"fuse": 18,
+"locks": 0,
+"chains": 2,
+"walls": 0,
+"timer": 60,
+"spm": 2.143,
+"n": 8,
+"win1": 0.88,
+"f1_bomb": 0.12,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.1,
+"lc": {
+"1": 0.88,
+"4+": null
+},
+"bomb_deaths": 1,
+"killers": {
+"16": 1
+},
+"death_ex": [
+[
+18,
+1
+]
+],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.18,
+"jam_per_exit_l": 0.28,
+"ft_w": 1674,
+"ft_l": 1032,
+"left_med_w": 41,
+"boost_w": 0.0
+},
+{
+"slot": 29,
+"id": "S52",
+"pieces": 25,
+"bombs": 1,
+"slack": 9,
+"fuse": 14,
+"locks": 0,
+"chains": 0,
+"walls": 1,
+"timer": 60,
+"spm": 2.4,
+"n": 8,
+"win1": 0.88,
+"f1_bomb": 0.12,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.1,
+"lc": {
+"1": 0.88,
+"4+": null
+},
+"bomb_deaths": 1,
+"killers": {
+"17": 1
+},
+"death_ex": [
+[
+14,
+1
+]
+],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.2,
+"jam_per_exit_l": 0.29,
+"ft_w": 1277,
+"ft_l": 1886,
+"left_med_w": 46,
+"boost_w": 0.0
+},
+{
+"slot": 30,
+"id": "S37",
+"pieces": 54,
+"bombs": 4,
+"slack": 0,
+"fuse": 20,
+"locks": 4,
+"chains": 2,
+"walls": 4,
+"timer": 135,
+"spm": 2.5,
+"n": 8,
+"win1": 0.38,
+"f1_bomb": 0.5,
+"f1_time": 0.0,
+"f1_quit": 0.12,
+"neverwin": 0,
+"att_mean": 2.8,
+"lc": {
+"1": 0.38,
+"2": 0.6,
+"4+": 0.29
+},
+"bomb_deaths": 10,
+"killers": {
+"20": 6,
+"25": 3,
+"35": 1
+},
+"death_ex": [
+[
+20,
+6
+],
+[
+52,
+3
+]
+],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.7,
+"jam_per_exit_l": 1.2,
+"ft_w": 7593,
+"ft_l": 687,
+"left_med_w": 65,
+"boost_w": 0.0
+},
+{
+"slot": 31,
+"id": "S08",
+"pieces": 36,
+"bombs": 1,
+"slack": 11,
+"fuse": 18,
+"locks": 2,
+"chains": 0,
+"walls": 2,
+"timer": 70,
+"spm": 1.944,
+"n": 8,
+"win1": 0.5,
+"f1_bomb": 0.5,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 2.4,
+"lc": {
+"1": 0.5,
+"2": 0.25,
+"4+": 0.5
+},
+"bomb_deaths": 11,
+"killers": {
+"14": 11
+},
+"death_ex": [
+[
+18,
+11
+]
+],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.42,
+"jam_per_exit_l": 0.33,
+"ft_w": 2259,
+"ft_l": 3457,
+"left_med_w": 37,
+"boost_w": 0.0
+},
+{
+"slot": 32,
+"id": "S31",
+"pieces": 54,
+"bombs": 4,
+"slack": 0,
+"fuse": 28,
+"locks": 2,
+"chains": 2,
+"walls": 4,
+"timer": 170,
+"spm": 3.148,
+"n": 8,
+"win1": 0.75,
+"f1_bomb": 0.12,
+"f1_time": 0.0,
+"f1_quit": 0.12,
+"neverwin": 0,
+"att_mean": 1.6,
+"lc": {
+"1": 0.75,
+"4+": null
+},
+"bomb_deaths": 2,
+"killers": {
+"35": 2
+},
+"death_ex": [
+[
+32,
+2
+]
+],
+"time_left_pieces": null,
+"jam_per_exit_w": 0.7,
+"jam_per_exit_l": 1.07,
+"ft_w": 3594,
+"ft_l": 2411,
+"left_med_w": 100,
+"boost_w": 0.12
+},
+{
+"slot": 33,
+"id": "S39",
+"pieces": 54,
+"bombs": 4,
+"slack": 0,
+"fuse": 22,
+"locks": 2,
+"chains": 2,
+"walls": 3,
+"timer": 115,
+"spm": 2.13,
+"n": 8,
+"win1": 0.25,
+"f1_bomb": 0.62,
+"f1_time": 0.12,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 2.5,
+"lc": {
+"1": 0.25,
+"2": 0.33,
+"3": 0.5,
+"4+": null
+},
+"bomb_deaths": 11,
+"killers": {
+"37": 8,
+"32": 2,
+"19": 1
+},
+"death_ex": [
+[
+32,
+8
+],
+[
+22,
+2
+]
+],
+"time_left_pieces": 44.0,
+"jam_per_exit_w": 0.91,
+"jam_per_exit_l": 1.03,
+"ft_w": 8324,
+"ft_l": 1999,
+"left_med_w": 50,
+"boost_w": 0.12
+},
+{
+"slot": 34,
+"id": "S32",
+"pieces": 54,
+"bombs": 4,
+"slack": 0,
+"fuse": 17,
+"locks": 1,
+"chains": 2,
+"walls": 4,
+"timer": 110,
+"spm": 2.037,
+"n": 8,
+"win1": 0.0,
+"f1_bomb": 1.0,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 1,
+"att_mean": 4.3,
+"lc": {
+"1": 0.0,
+"2": 0.0,
+"3": 0.25,
+"4+": 0.56
+},
+"bomb_deaths": 24,
+"killers": {
+"36": 19,
+"26": 5
+},
+"death_ex": [
+[
+17,
+18
+],
+[
+18,
+5
+]
+],
+"time_left_pieces": 42.0,
+"jam_per_exit_w": 0.52,
+"jam_per_exit_l": 1.09,
+"ft_w": null,
+"ft_l": 2407,
+"left_med_w": 53,
+"boost_w": 0.0
+},
+{
+"slot": 35,
+"id": "S36",
+"pieces": 47,
+"bombs": 3,
+"slack": 1,
+"fuse": 15,
+"locks": 3,
+"chains": 2,
+"walls": 4,
+"timer": 80,
+"spm": 1.702,
+"n": 7,
+"win1": 0.43,
+"f1_bomb": 0.0,
+"f1_time": 0.57,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.9,
+"lc": {
+"1": 0.43,
+"2": 0.5,
+"4+": null
+},
+"bomb_deaths": 1,
+"killers": {
+"46": 1
+},
+"death_ex": [
+[
+23,
+1
+]
+],
+"time_left_pieces": 17.0,
+"jam_per_exit_w": 0.89,
+"jam_per_exit_l": 1.88,
+"ft_w": 7284,
+"ft_l": 61212,
+"left_med_w": 13,
+"boost_w": 0.14
+},
+{
+"slot": 36,
+"id": "S29",
+"pieces": 62,
+"bombs": 4,
+"slack": 1,
+"fuse": 7,
+"locks": 4,
+"chains": 2,
+"walls": 4,
+"timer": 110,
+"spm": 1.774,
+"n": 7,
+"win1": 0.29,
+"f1_bomb": 0.57,
+"f1_time": 0.14,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 3.6,
+"lc": {
+"1": 0.29,
+"2": 0.2,
+"3": 0.25,
+"4+": 0.33
+},
+"bomb_deaths": 8,
+"killers": {
+"24": 4,
+"47": 3,
+"57": 1
+},
+"death_ex": [
+[
+21,
+4
+],
+[
+17,
+3
+]
+],
+"time_left_pieces": 12.0,
+"jam_per_exit_w": 1.11,
+"jam_per_exit_l": 1.21,
+"ft_w": 2940,
+"ft_l": 6869,
+"left_med_w": 14,
+"boost_w": 0.14
+},
+{
+"slot": 37,
+"id": "Z25",
+"pieces": 54,
+"bombs": 4,
+"slack": 1,
+"fuse": 28,
+"locks": 1,
+"chains": 2,
+"walls": 4,
+"timer": 145,
+"spm": 2.685,
+"n": 7,
+"win1": 0.86,
+"f1_bomb": 0.14,
+"f1_time": 0.0,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.1,
+"lc": {
+"1": 0.86,
+"4+": null
+},
+"bomb_deaths": 1,
+"killers": {
+"25": 1
+},
+"death_ex": [
+[
+28,
+1
+]
+],
+"time_left_pieces": null,
+"jam_per_exit_w": 1.33,
+"jam_per_exit_l": 3.93,
+"ft_w": 2977,
+"ft_l": 660,
+"left_med_w": 39,
+"boost_w": 0.14
+},
+{
+"slot": 38,
+"id": "S38",
+"pieces": 40,
+"bombs": 3,
+"slack": 0,
+"fuse": 8,
+"locks": 3,
+"chains": 2,
+"walls": 4,
+"timer": 70,
+"spm": 1.75,
+"n": 7,
+"win1": 0.0,
+"f1_bomb": 0.57,
+"f1_time": 0.43,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 8.1,
+"lc": {
+"1": 0.0,
+"2": 0.0,
+"3": 0.0,
+"4+": 0.19
+},
+"bomb_deaths": 38,
+"killers": {
+"8": 19,
+"29": 14,
+"30": 5
+},
+"death_ex": [
+[
+29,
+19
+],
+[
+17,
+14
+]
+],
+"time_left_pieces": 12.0,
+"jam_per_exit_w": 0.53,
+"jam_per_exit_l": 1.2,
+"ft_w": null,
+"ft_l": 4915,
+"left_med_w": 21,
+"boost_w": 0.0
+},
+{
+"slot": 39,
+"id": "S40",
+"pieces": 47,
+"bombs": 3,
+"slack": 1,
+"fuse": 16,
+"locks": 3,
+"chains": 2,
+"walls": 4,
+"timer": 80,
+"spm": 1.702,
+"n": 7,
+"win1": 0.57,
+"f1_bomb": 0.14,
+"f1_time": 0.29,
+"f1_quit": 0.0,
+"neverwin": 0,
+"att_mean": 1.9,
+"lc": {
+"1": 0.57,
+"4+": null
+},
+"bomb_deaths": 4,
+"killers": {
+"15": 2,
+"14": 2
+},
+"death_ex": [
+[
+26,
+2
+],
+[
+40,
+2
+]
+],
+"time_left_pieces": 8.0,
+"jam_per_exit_w": 0.91,
+"jam_per_exit_l": 1.11,
+"ft_w": 2165,
+"ft_l": 5218,
+"left_med_w": 18,
+"boost_w": 0.0
+},
+{
+"slot": 40,
+"id": "S33",
+"pieces": 62,
+"bombs": 4,
+"slack": 1,
+"fuse": 8,
+"locks": 4,
+"chains": 2,
+"walls": 4,
+"timer": 105,
+"spm": 1.694,
+"n": 7,
+"win1": 0.0,
+"f1_bomb": 0.86,
+"f1_time": 0.0,
+"f1_quit": 0.14,
+"neverwin": 0,
+"att_mean": 4.4,
+"lc": {
+"1": 0.0,
+"2": 0.29,
+"3": 0.0,
+"4+": 0.43
+},
+"bomb_deaths": 23,
+"killers": {
+"8": 11,
+"38": 10,
+"10": 2
+},
+"death_ex": [
+[
+8,
+11
+],
+[
+27,
+10
+]
+],
+"time_left_pieces": 7.0,
+"jam_per_exit_w": 0.86,
+"jam_per_exit_l": 0.78,
+"ft_w": null,
+"ft_l": 4368,
+"left_med_w": 22,
+"boost_w": 0.0
+}
+]
