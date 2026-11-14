@@ -81,6 +81,9 @@ namespace ReverseSolver.Core.Tests
                         {
                             int freed = Free(trial).Count(p => !before.Contains(p));
                             wholeUsed++; wholeFreed += freed; any = true;
+                            if (moves.Count <= 6 && level.Width <= 6)
+                                TestContext.WriteLine($"whole example {level.Id} lv{level.Number} {level.Width}x{level.Height} moves " +
+                                    string.Join(" ", moves.Select(m => $"{m.Piece}{m.Dir}@{level.Pieces[m.Piece][0].X},{level.Pieces[m.Piece][0].Y}")));
                             Assert.That(freed, Is.GreaterThan(0), "the whole-board wand frees a piece too");
                         }
                     }

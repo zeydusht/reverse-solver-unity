@@ -18,6 +18,8 @@ namespace ReverseSolver.Presentation
 
         public static SpriteRenderer Sprite(Transform root, string key, Vector2 c, Vector2 size, int order, bool sliced = false)
         {
+            // PM_67: the turquoise pills and small buttons become T48's blue plate.
+            if (T48 && (key == "counter-pill" || key == "button-small")) return Put48(root, "profile-pill", c, size, order, true);
             var r = Art.Place(root, "t20-" + key, size, order, sliced);
             if (r != null) r.transform.localPosition = Draw.W(c);
             return r;
@@ -35,7 +37,8 @@ namespace ReverseSolver.Presentation
         /* PM_MESAJ_27 A3: banners, counters and button labels (TextView.Banner). */
         public static TextView Banner(Transform root, string text, Vector2 c, float size, int order, float width = 0, bool green = false)
         {
-            var t = TextView.Create(root, "banner", text, size, Palette.Cream, false, order: order).Banner(green ? TextView.OnGreen : TextView.OnTeal);
+            var t = TextView.Create(root, "banner", text, size, Palette.Cream, false, order: order);
+            if (T48) t.Heading(green ? TextView.RimGreen : Draw.Hex("#0E2244")); else t.Banner(green ? TextView.OnGreen : TextView.OnTeal);
             if (width > 0) t.FitWidth(width, 8);
             t.transform.localPosition = Draw.W(c);
             return t;
@@ -117,7 +120,15 @@ namespace ReverseSolver.Presentation
         public static Rect Button(Transform root, string key, string text, Vector2 c, Vector2 size, int order)
         {
             Sprite(root, key, c, size, order, key == "button-secondary" || key == "button-small");
-            if (!string.IsNullOrEmpty(text)) Banner(root, text, c, 18, order + 1, size.x - 18);
+            if (!string.IsNullOrEmpty(text))
+            {
+                if (T48 && key == "button-small")
+                {
+                    var t = TextView.Create(root, "banner", text, 16, Palette.Cream, false, order: order + 1).Heading(Draw.Hex("#0E2244")).FitWidth(size.x - 18, 8);
+                    t.transform.localPosition = Draw.W(c);
+                }
+                else Banner(root, text, c, 18, order + 1, size.x - 18);
+            }
             return new Rect(c - size / 2, size);
         }
 
