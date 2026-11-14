@@ -86,8 +86,24 @@ namespace ReverseSolver.Presentation
             if (ready != null) show(ready);
         }
 
+        /* PM_67: TASK48 menu (old money blue strips, ribbonless 3D tab titles). */
+        public static bool T48 => Art.Get("T48/menu/bottom-strip") != null;
+        public static SpriteRenderer Put48(Transform root, string key, Vector2 c, Vector2 size, int order, bool sliced = false)
+        {
+            var r = Art.Place(root, "T48/menu/" + key, size, order, sliced);
+            if (r != null) r.transform.localPosition = Draw.W(c);
+            return r;
+        }
+
         public static void Title(Transform root, Vector2 screen, float top, string title, int order, bool heading = false)
         {
+            if (T48)
+            {
+                Put48(root, "menu_baslik_isik", new Vector2(screen.x / 2, top + 32), new Vector2(screen.x, 56), order);
+                var t3 = TextView.Create(root, "banner", title, 32, Palette.Cream, false, order: order + 1).Title3D().FitWidth(screen.x - 120, 20);
+                t3.transform.localPosition = Draw.W(screen.x / 2, top + 31);
+                return;
+            }
             Sprite(root, "title-plaque", new Vector2(screen.x / 2, top + 34), new Vector2(240, 60), order, true);
             if (heading)   // PM_MESAJ_42: Baloo heading style
             {
@@ -138,20 +154,29 @@ namespace ReverseSolver.Presentation
         readonly SpriteRenderer _badge;
         readonly TextView _badgeText;
         int _selected;
+        bool _t48;
 
         public MenuTabs(Transform root, Vector2 screen, Vector4 safe, MenuTab selected, int order, int TrophyBadge = 0)
         {
             _width = screen.x; _bottom = screen.y; _selected = (int)selected;
             Top = screen.y - Mathf.Max(34, safe.w) - 52;
             // The importer pads 1125x258 to 1128x260; push that transparent right/bottom padding offscreen.
-            MenuUi.Sprite21(root, "tabbar-bg", new Vector2((screen.x + 1) / 2, (Top + screen.y + 2f / 3) / 2), new Vector2(screen.x + 1, screen.y - Top + 2f / 3), order, true);
+            _t48 = MenuUi.T48;
+            if (_t48) MenuUi.Put48(root, "bottom-strip", new Vector2(screen.x / 2, (Top - 4 + screen.y) / 2), new Vector2(screen.x, screen.y - Top + 4), order, true);
+            else MenuUi.Sprite21(root, "tabbar-bg", new Vector2((screen.x + 1) / 2, (Top + screen.y + 2f / 3) / 2), new Vector2(screen.x + 1, screen.y - Top + 2f / 3), order, true);
             for (int i = 0; i < 4; i++)
             {
                 _weights[i] = i == _selected ? 1 : 0;
-                _slots[i] = MenuUi.Sprite21(root, "tab-slot", Vector2.zero, Vector2.one, order + 1, true);
+                _slots[i] = _t48 ? MenuUi.Put48(root, "tab-selected", Vector2.zero, Vector2.one, order + 1, true)
+                                 : MenuUi.Sprite21(root, "tab-slot", Vector2.zero, Vector2.one, order + 1, true);
                 _icons[i] = MenuUi.Sprite21(root, "tab-icon-" + _keys[i] + "-normal", Vector2.zero, Vector2.one, order + 3);
-                _labels[i] = MenuUi.Banner(root, Texts.Tab(i), Vector2.zero, 15, order + 5, screen.x * .4f - 12);
-                if (i > 0) _dividers[i - 1] = MenuUi.Sprite21(root, "tab-divider", Vector2.zero, Vector2.one, order + 2, true);
+                if (_t48)
+                {
+                    _labels[i] = TextView.Create(root, "banner", Texts.Tab(i), 15, Palette.Cream, false, order: order + 5).Heading(Draw.Hex("#0E2244")).FitWidth(screen.x * .4f - 12, 8);
+                }
+                else _labels[i] = MenuUi.Banner(root, Texts.Tab(i), Vector2.zero, 15, order + 5, screen.x * .4f - 12);
+                if (i > 0) _dividers[i - 1] = _t48 ? MenuUi.Put48(root, "tab-divider", Vector2.zero, Vector2.one, order + 2, true)
+                                                   : MenuUi.Sprite21(root, "tab-divider", Vector2.zero, Vector2.one, order + 2, true);
             }
             if (TrophyBadge > 0)
             {
@@ -167,7 +192,15 @@ namespace ReverseSolver.Presentation
             {
                 float active = _weights[i], width = _width * (1 + active) / 5, cx = x + width / 2;
                 _edges[i] = x; x += width;
-                if (_slots[i] != null)
+                if (_slots[i] != null && _t48)
+                {
+                    // T48: only the active tab has a lacquered face; the strip shows through the others.
+                    _slots[i].enabled = active > .01f;
+                    _slots[i].color = new Color(1, 1, 1, active);
+                    _slots[i].size = new Vector2(width, slotHeight);
+                    _slots[i].transform.localPosition = Draw.W(cx, slotTop + slotHeight / 2);
+                }
+                else if (_slots[i] != null)
                 {
                     _slots[i].sprite = Art.Get("t21-tab-slot" + (i == _selected ? "-selected" : ""));
                     _slots[i].size = new Vector2(width, slotHeight);

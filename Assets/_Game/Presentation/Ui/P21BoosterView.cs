@@ -143,7 +143,13 @@ namespace ReverseSolver.Presentation
             Art54.Place(_selection, Art54.Boosters[(int)b], button.center, button.size * .84f, Order + 2);
             _ring = Layer(_selection, "sparkle ring", Order + 3);
             if (b != Booster.Wand) return;
-            for (int i = 0; i < 4; i++)
+            bool whole = zone == WandRegion.WholeBoard;
+            if (whole)
+            {
+                var r = ZoneRect(zone);
+                Paint(Layer(_selection, "region", Order + 1), "Boosters/Wand/zone-selected", r.center, r.size);
+            }
+            for (int i = 0; i < 4 && !whole; i++)
             {
                 var r = ZoneRect(i);
                 Paint(Layer(_selection, "region", Order + 1), "Boosters/Wand/zone-" + (zone == i ? "selected" : "idle"), r.center, r.size);
@@ -152,9 +158,11 @@ namespace ReverseSolver.Presentation
             }
             if (zone < 0) return;
             var center = new Vector2(_screen.x / 2, confirmAbove ? area.yMin - 29 * scale : below);
-            ConfirmRect = new Rect(center - new Vector2(82, 24) * scale, new Vector2(164, 48) * scale);
+            var half = whole ? new Vector2(128, 26) : new Vector2(82, 24);
+            ConfirmRect = new Rect(center - half * scale, half * 2 * scale);
             Paint(Layer(_selection, "confirm", Order + 3), "Boosters/Wand/confirm-normal", center, ConfirmRect.size);
-            var confirm = TextView.Create(_selection, "confirm label", Texts.RegionShuffle, 24 * scale, Palette.Cream, order: Order + 4).Heading(TextView.RimTeal);
+            var confirm = TextView.Create(_selection, "confirm label", whole ? Texts.WholeBoardShuffle : Texts.RegionShuffle, (whole ? 20 : 24) * scale, Palette.Cream, order: Order + 4)
+                .Heading(TextView.RimTeal).FitWidth(ConfirmRect.width * .84f, 14 * scale);
             confirm.transform.localPosition = Draw.W(center);
         }
 

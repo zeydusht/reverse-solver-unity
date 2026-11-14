@@ -60,6 +60,7 @@ namespace ReverseSolver.Presentation
             if (_content != null) UnityEngine.Object.Destroy(_content.gameObject);
             _content = new GameObject("surface").transform; _content.SetParent(_root, false);
             ShapeView.Create(_content, "shade", screen, 0, Order).Fill(Draw.Rgba(10, 18, 46, .88f)).transform.localPosition = Draw.W(screen * .5f);
+            if (!_chestMode && T48) { LayoutT48(); _language = Lang.Revision; Tick(); return; }
             Image("Victory/panel", 195, 380, 370, 740);
             Image("Titles/light", 195, 105, 340, 125, 2);
             // Live Baloo lettering: gold extrusion behind the blue rim and cream face.
@@ -105,6 +106,49 @@ namespace ReverseSolver.Presentation
             }
             _language = Lang.Revision; Tick();
         }
+        /* PM_67: the T48 win card (docs/art/task48/LISTE.md, 390x844 mock-up; y here = mock-up y - 42). Cream panel
+           with a blue frame, 3D "Great!", happy Jigo in a gold glow, chest progress in a cream tray, the rescued count
+           in dark blue, a layered green Next Level and a small blue Menu. */
+        static bool T48 => Art.Get("T48/win/next-button") != null;
+        SpriteRenderer T48Image(string key, float x, float y, float w, float h, int layer, bool sliced = false)
+        {
+            var r = Art.Place(_content, key.StartsWith("devam_v2") ? key : "T48/win/" + key, new Vector2(w, h) * _scale, Order + layer, sliced);
+            if (r != null) r.transform.localPosition = Draw.W(At(x, y));
+            return r;
+        }
+        TextView Dark(string text, float x, float y, float size, int layer = 10)
+        {
+            var t = TextView.Create(_content, "label", text, size * _scale, Draw.Hex("#234670"), order: Order + layer);
+            if (TextView.HeadingFont != null) t.Font(TextView.HeadingFont);
+            t.transform.localPosition = Draw.W(At(x, y)); return t;
+        }
+        void LayoutT48()
+        {
+            T48Image("devam_v2/panel", 195, 380, 342, 684, 1, sliced: true);
+            T48Image("title-light", 195, 109, 344, 144, 2);
+            Label(Texts.Win21, 195, 116, 50, 3).Heading(Draw.Hex("#D79A26"));
+            Label(Texts.Win21, 195, 109, 50, 4).Heading(Draw.Hex("#153E75"));
+            T48Image("portrait-light", 195, 272, 318, 264, 2);
+            T48Image("jigo-happy", 195, 272, 210, 210, 3);
+            T48Image("progress-tray", 195, 457.5f, 282, 107, 2, sliced: true);
+            int progress = _save.ChestProgress21, pending = _save.PendingChest21;
+            int next = pending > 0 ? pending : P21ChestRules.Next(progress), previous = P21ChestRules.Previous(next - 1);
+            int slots = next - previous;
+            float slotStep = Mathf.Min(44, 190f / Mathf.Max(1, slots));
+            for (int i = 0; i < slots; i++)
+                T48Image(previous + i < progress ? "slot-complete" : "slot-empty", 85 + i * slotStep, 436, 40, 39, 3);
+            T48Image("chest", 300, 433, 62, 58, 3);
+            Dark(pending > 0 ? Texts.Chest21 : Texts.ChestIn21(next - progress), 195, 483, 17);
+            _rescuedLabel = Dark(Texts.Rescued21(0), 207, 535, 22);
+            var icon = T48Image("jiggle-icon", 82, 535, 32, 32, 5);
+            _nextRect = new Rect(At(60, 577), new Vector2(270, 64) * _scale);
+            _menuRect = new Rect(At(135, 662), new Vector2(120, 40) * _scale);
+            T48Image("next-button", 195, 609, 270, 64, 3, sliced: true);
+            Label(Texts.NextLevel21, 195, 607, 25).Heading(TextView.RimGreen).FitWidth(230 * _scale, 16 * _scale);
+            T48Image("menu-button", 195, 682, 120, 40, 3, sliced: true);
+            Label(Lang.T("Menu", "Menü"), 195, 681, 18).Heading(Draw.Hex("#153E75"));
+        }
+
         void NextButton()
         {
             ShapeView.Create(_content, "next green", new Vector2(250, 70) * _scale, 0, Order + 3).Radius(18 * _scale).Fill(Draw.Hex("#398A49")).transform.localPosition = Draw.W(At(195, 630));

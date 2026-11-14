@@ -8,9 +8,12 @@ namespace ReverseSolver.Core
         public readonly int X, Y, Width, Height;
         public WandRegion(int x, int y, int width, int height) { X = x; Y = y; Width = width; Height = height; }
         public bool Contains(Cell c) => c.X >= X && c.Y >= Y && c.X < X + Width && c.Y < Y + Height;
+        /* PM_67 (option b): index 4 is the whole board, offered only when no quadrant can free a piece. */
+        public const int WholeBoard = 4;
         public static WandRegion Quadrant(LevelData level, int index)
         {
-            if (index < 0 || index > 3) throw new ArgumentOutOfRangeException(nameof(index));
+            if (index < 0 || index > WholeBoard) throw new ArgumentOutOfRangeException(nameof(index));
+            if (index == WholeBoard) return new WandRegion(0, 0, level.Width, level.Height);
             int w = (level.Width + 1) / 2, h = (level.Height + 1) / 2;
             return new WandRegion(index % 2 == 0 ? 0 : w, index < 2 ? 0 : h,
                 index % 2 == 0 ? w : level.Width - w, index < 2 ? h : level.Height - h);

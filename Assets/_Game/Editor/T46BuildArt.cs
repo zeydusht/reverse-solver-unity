@@ -18,15 +18,18 @@ namespace ReverseSolver.EditorTools
             // T45 (PM_66): only the pause panel's toggles and the button faces are used so far.
             Copy("T45/Pause/Toggle", 0);
             Copy("T45/Buttons", 512);
+            // T48 (PM_67): panels are devam_v2/panel already in the build; the mock-up and title sample are references.
+            Copy("T48", 0, "panel.png", "maket-390x844.png", "title-sample.png");
         }
 
-        static void Copy(string set, int maxSize)
+        static void Copy(string set, int maxSize, params string[] skip)
         {
             string source = "Assets/Art/_yeni/" + set;
             string target = "Assets/_Game/Presentation/Resources/Art/yeni/" + set;
             if (!Directory.Exists(source)) return;
             foreach (string file in Directory.GetFiles(source, "*.png", SearchOption.AllDirectories))
             {
+                if (System.Array.IndexOf(skip, Path.GetFileName(file)) >= 0) continue;
                 string dest = target + file.Substring(source.Length);
                 Directory.CreateDirectory(Path.GetDirectoryName(dest));
                 File.Copy(file, dest, true);

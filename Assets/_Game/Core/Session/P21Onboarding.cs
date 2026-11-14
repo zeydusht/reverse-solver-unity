@@ -19,7 +19,9 @@ namespace ReverseSolver.Core
     public static class P21Onboarding
     {
         public const string TutorialId = "P21_T01", EasyId = "P21_E01";
-        public const int LockLesson = 3, ChainLesson = 10, WallLesson = 14, BombLesson = 20;
+        // PM_67: the bomb lesson moved from 20 to 7; 8 and 9 are its soft follow-ups.
+        public const int LockLesson = 3, ChainLesson = 10, WallLesson = 14, BombLesson = 7;
+        public static bool IsSoftBomb(int slot) => slot == BombLesson + 1 || slot == BombLesson + 2;
         public static bool IsObstacleLesson(int slot) => slot == LockLesson || slot == ChainLesson ||
             slot == WallLesson || slot == BombLesson;
         // PM60 only changes new art; the legacy art path keeps its PM59 behaviour.
@@ -72,12 +74,23 @@ namespace ReverseSolver.Core
         public static LevelSet SpaceObstacleLessons(LevelSet original)
         {
             var levels = new List<LevelData>(original.Levels);
-            for (int i = 0; i < Math.Min(BombLesson, levels.Count); i++)
+            int last = Math.Max(Math.Max(ChainLesson, WallLesson), BombLesson + 2);
+            for (int i = 0; i < Math.Min(last, levels.Count); i++)
             {
                 int slot = i + 1;
                 var level = levels[i];
                 bool deferBomb = slot < BombLesson && (level.Bombs.Count > 0 || level.Intro?.Icon == "bomb");
                 bool isolateLesson = slot == ChainLesson || slot == WallLesson;
+                if (IsSoftBomb(slot) && level.Bombs.Count > 0)
+                {
+                    // One bomb, a fuse longer than the board: the second meeting with a bomb cannot be lost to it.
+                    var soft = level.CopyNextVersion();
+                    int keep = -1, fuse = -1;
+                    foreach (var b in level.Bombs) if (b.Value > fuse) { keep = b.Key; fuse = b.Value; }
+                    soft.Bombs = new Dictionary<int, int> { [keep] = Math.Max(fuse, level.Pieces.Count + 4) };
+                    levels[i] = soft;
+                    continue;
+                }
                 if (slot == BombLesson)
                 {
                     levels[i] = CreateBombLesson(level);
@@ -93,6 +106,7 @@ namespace ReverseSolver.Core
                 if (isolateLesson)
                 {
                     lesson.Nails = new Dictionary<int, int>();
+                    lesson.Bombs = new Dictionary<int, int>();
                     var board = new Board(lesson);
                     var path = GreedySolver.Solve(board);
                     if (path.Solved)

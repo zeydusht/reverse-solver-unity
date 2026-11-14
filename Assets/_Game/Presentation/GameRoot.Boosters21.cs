@@ -93,7 +93,9 @@ namespace ReverseSolver.Presentation
                 {
                     bool any = false;
                     for (int i = 0; i < 4; i++) any |= _regions21[i] = _session.CanWandRegion(i);
-                    // PM_66: the wand must free a piece; when no quadrant can, say so and spend nothing.
+                    // PM_67 (b): no quadrant frees a piece -> the whole board is the one option (preselected).
+                    if (!any && _session.CanWandRegion(WandRegion.WholeBoard)) { _region21 = WandRegion.WholeBoard; any = true; }
+                    // PM_66: nothing anywhere frees a piece: say so and spend nothing.
                     if (!any)
                     {
                         _selected21 = null;

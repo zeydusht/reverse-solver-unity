@@ -33,6 +33,7 @@ namespace ReverseSolver.Core.Tests
             var rng = new Mulberry32(66);
             int states = 0, eligible = 0, used = 0, withFreed = 0, freedTotal = 0, blocked = 0;
             var histogram = new int[6];
+            int wholeUsed = 0, wholeFreed = 0;
             int statesWithWand = 0; var byStage = new int[3, 2];   // removed <20%, 20-40%, 40%+: states, states with an eligible quadrant
             foreach (var level in levels)
             {
@@ -72,13 +73,25 @@ namespace ReverseSolver.Core.Tests
                                 string.Join(" ", moves.Select(m => $"{m.Piece}{m.Dir}@{level.Pieces[m.Piece][0].X},{level.Pieces[m.Piece][0].Y}")) +
                                 " freed " + string.Join(",", trial.WandFreed));
                     }
+                    if (!any)
+                    {
+                        // PM_67 (b): the whole board is offered when no quadrant frees a piece
+                        var trial = Replay(level, moves);
+                        if (trial.CanWandRegion(WandRegion.WholeBoard) && trial.UseWandRegion(WandRegion.WholeBoard) == CommandResult.Ok)
+                        {
+                            int freed = Free(trial).Count(p => !before.Contains(p));
+                            wholeUsed++; wholeFreed += freed; any = true;
+                            Assert.That(freed, Is.GreaterThan(0), "the whole-board wand frees a piece too");
+                        }
+                    }
                     if (any) { statesWithWand++; byStage[stage, 1]++; }
                 }
             }
             TestContext.WriteLine($"states {states}, quadrant tries {states * 4}, eligible {eligible}, not eligible {blocked}, used {used}");
             TestContext.WriteLine($"uses freeing >= 1 piece: {withFreed}/{used} ({100.0 * withFreed / System.Math.Max(1, used):0.0}%), mean freed {(double)freedTotal / System.Math.Max(1, used):0.00}");
             TestContext.WriteLine($"freed 0/1/2/3/4/5+: {string.Join("/", histogram)}");
-            TestContext.WriteLine($"states with a usable quadrant: {statesWithWand}/{states}; by removed share <20% {byStage[0, 1]}/{byStage[0, 0]}, 20-40% {byStage[1, 1]}/{byStage[1, 0]}, 40%+ {byStage[2, 1]}/{byStage[2, 0]}");
+            TestContext.WriteLine($"whole board used {wholeUsed}, mean freed {(double)wholeFreed / System.Math.Max(1, wholeUsed):0.00}");
+            TestContext.WriteLine($"states with a usable wand (quadrant or whole board): {statesWithWand}/{states}; by removed share <20% {byStage[0, 1]}/{byStage[0, 0]}, 20-40% {byStage[1, 1]}/{byStage[1, 0]}, 40%+ {byStage[2, 1]}/{byStage[2, 0]}");
             Assert.That(used, Is.GreaterThan(0));
             Assert.That(withFreed, Is.EqualTo(used), "every wand use frees at least one piece");
         }

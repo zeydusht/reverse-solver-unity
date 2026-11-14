@@ -60,7 +60,7 @@ namespace ReverseSolver.Presentation
         {
 #if UNITY_EDITOR
             // Preview the source art without changing the art team's files.
-            if (On && (key.StartsWith("T45/") || key.StartsWith("T46/") || key.StartsWith("T47/")))
+            if (On && (key.StartsWith("T45/") || key.StartsWith("T46/") || key.StartsWith("T47/") || key.StartsWith("T48/")))
             {
                 var source = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/_yeni/" + key + ".png");
                 if (source != null) return source;

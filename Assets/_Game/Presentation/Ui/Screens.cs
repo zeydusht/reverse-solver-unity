@@ -168,10 +168,17 @@ namespace ReverseSolver.Presentation
                     float plateLeft = left + avatarSize - overlap;
                     float plateRight = counterLeft - (counterIconSize / 2 - counterIconInset) - gap;
                     float plateWidth = plateRight - plateLeft, plateHeight = 34;
-                    MenuUi.Sprite21(Root, "profile-name-plate", new Vector2((plateLeft + plateRight) / 2, hy), new Vector2(plateWidth, plateHeight), order + 2, true);
+                    if (MenuUi.T48)
+                    {
+                        // PM_67: the old money blue top strip behind the header, the blue name plate.
+                        MenuUi.Put48(Root, "top-strip", new Vector2(w / 2, (top + 88) / 2), new Vector2(w, top + 88), order + 1, true);
+                        MenuUi.Put48(Root, "profile-pill", new Vector2((plateLeft + plateRight) / 2, hy), new Vector2(plateWidth, plateHeight), order + 2, true);
+                    }
+                    else MenuUi.Sprite21(Root, "profile-name-plate", new Vector2((plateLeft + plateRight) / 2, hy), new Vector2(plateWidth, plateHeight), order + 2, true);
                     float textLeft = plateLeft + overlap + 8, textWidth = plateRight - 8 - textLeft;
                     var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? Texts.Player : player, 15, Palette.Cream, false,
-                        align: TMPro.TextAlignmentOptions.Left, order: order + 3).Banner(TextView.OnTeal);
+                        align: TMPro.TextAlignmentOptions.Left, order: order + 3);
+                    if (MenuUi.T48) name.Heading(Draw.Hex("#0E2244")); else name.Banner(TextView.OnTeal);
                     name.GetComponent<TMPro.TextMeshPro>().richText = false;
                     name.GetComponent<TMPro.TextMeshPro>().rectTransform.sizeDelta = new Vector2(textWidth, plateHeight);
                     name.FitWidth(textWidth, 11);

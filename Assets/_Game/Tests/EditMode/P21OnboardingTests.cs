@@ -227,8 +227,8 @@ namespace ReverseSolver.Core.Tests
             Assert.That(First(l => l.Nails.Count > 0), Is.EqualTo(3));
             Assert.That(First(l => l.Pieces.Any(p => p.Length > 1)), Is.EqualTo(10));
             Assert.That(First(l => l.Sealed.Count > 0), Is.EqualTo(14));
-            Assert.That(First(l => l.Bombs.Count > 0), Is.EqualTo(20));
-            foreach (int slot in new[] { 3, 10, 14, 20 })
+            Assert.That(First(l => l.Bombs.Count > 0), Is.EqualTo(7));
+            foreach (int slot in new[] { 3, 7, 10, 14 })
             {
                 var l = levels[slot - 1];
                 int obstacles = new[] { l.Nails.Count > 0, l.Pieces.Any(p => p.Length > 1), l.Sealed.Count > 0, l.Bombs.Count > 0 }.Count(has => has);
@@ -236,15 +236,23 @@ namespace ReverseSolver.Core.Tests
                 Assert.That(P21Onboarding.IsObstacleLesson(slot), Is.True);
             }
             Assert.That(levels[5].Intro, Is.Null);
-            Assert.That(levels[19].Intro.Icon, Is.EqualTo("bomb"));
-            Assert.That(levels[20], Is.SameAs(Original.Levels[20]));
+            Assert.That(levels[6].Intro.Icon, Is.EqualTo("bomb"));
+            // PM_67: 8 and 9 keep at most one bomb with a fuse longer than the board; from 11 on the bombs are back
+            foreach (int slot in new[] { 8, 9 })
+            {
+                var l = levels[slot - 1];
+                Assert.That(l.Bombs.Count, Is.LessThanOrEqualTo(1), l.ToString());
+                foreach (int fuse in l.Bombs.Values) Assert.That(fuse, Is.GreaterThanOrEqualTo(l.Pieces.Count + 4), l.ToString());
+            }
+            for (int slot = 15; slot <= 40 && slot <= levels.Count; slot++)
+                Assert.That(levels[slot - 1], Is.SameAs(Original.Levels[slot - 1]), "slot " + slot);
         }
 
         [Test]
         public void ObstacleLessonsClearOnRecordedPathsWithoutABoosterOrValve()
         {
             var levels = P21Onboarding.SpaceObstacleLessons(P21Onboarding.ReplaceOpening(Original)).Levels;
-            foreach (int slot in new[] { 3, 10, 14, 20 })
+            foreach (int slot in new[] { 3, 7, 10, 14 })
             {
                 var level = levels[slot - 1];
                 var s = Session(level);
@@ -258,7 +266,7 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void BombLessonCanLeaveItsBombUntilNoOtherPieceCanGo()
         {
-            var level = P21Onboarding.SpaceObstacleLessons(Original).Levels[19];
+            var level = P21Onboarding.SpaceObstacleLessons(Original).Levels[P21Onboarding.BombLesson - 1];
             var s = Session(level);
             int bomb = level.Bombs.Keys.Single();
             while (!s.IsOver)
@@ -283,6 +291,24 @@ namespace ReverseSolver.Core.Tests
                 TestContext.WriteLine($"{level} first-win={r.FirstWinRate:0.000}");
                 Assert.That(r.FirstWinRate, Is.GreaterThanOrEqualTo(.85), level.ToString());
             }
+        }
+
+        // PM_67: first-try wins for 1-20 of the p22 default set (obstacle lessons, no 2x2 opening).
+        [Test]
+        public void FirstTwentyFirstWinTable()
+        {
+            var levels = P21Onboarding.SpaceObstacleLessons(Original).Levels;
+            var players = FunSim.Population(96);
+            var rows = new System.Text.StringBuilder();
+            for (int slot = 1; slot <= 20; slot++)
+            {
+                var level = levels[slot - 1];
+                var r = FunSim.Run(level, Genre.Kolay, players);
+                string kind = P21Onboarding.IsObstacleLesson(slot) ? "ders" : P21Onboarding.IsSoftBomb(slot) ? "yumusak" : "";
+                rows.AppendLine($"| {slot} | {level.Id} v{level.Version} | {level.Bombs.Count} | {r.FirstWinRate:0.00} | {kind} |");
+                if (kind != "") Assert.That(r.FirstWinRate, Is.GreaterThanOrEqualTo(.85), $"{slot} {level}");
+            }
+            TestContext.WriteLine(rows.ToString());
         }
 
         [Test]
