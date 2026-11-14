@@ -135,7 +135,8 @@ namespace ReverseSolver.Presentation
                 Paint(Layer(_selection, "title badge", Order + 1), "Selection/title-badge", new Vector2(_screen.x / 2, top + 57 * scale), new Vector2(260, 48) * scale);
                 var title = TextView.Create(_selection, "title", Texts.BoosterTitle21(b), 22 * scale, Palette.Cream, order: Order + 3).Heading(TextView.RimTeal);
                 title.transform.localPosition = Draw.W(_screen.x / 2, top + 57 * scale);
-                var hint = TextView.Create(_selection, "instruction", Texts.BoosterHint21(b), 13 * scale, Palette.Cream, order: Order + 3);
+                string hintText = b == Booster.Wand && zone == WandRegion.WholeBoard ? Texts.WholeBoardHint : Texts.BoosterHint21(b);
+                var hint = TextView.Create(_selection, "instruction", hintText, 13 * scale, Palette.Cream, order: Order + 3);
                 hint.transform.localPosition = Draw.W(_screen.x / 2, top + 94 * scale);
             }
             var button = _bar.RectOf(b);
