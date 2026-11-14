@@ -290,3 +290,55 @@ GIF'ler: [kombo x2→x5+](pm64/kombo_x2_x5.gif) · [zincirli takılma önce/sonr
 
 **Zeyd'e sor:** menü kurdeleli başlıkları ve turkuaz menü şeritleri; Ayarlar/Profil yeni dile geçsin mi; T45 Durdur paneli bağlansın mı (şimdi krem panel ama turkuaz Ses/Çık düğmeleri); booster seçim başlık plakası.
 **Doğrulanmayan:** iPhone'da görünüm; `&tut=2x2` akışı ve PlayMode testleri.
+
+## PM_66 — Zeyd'in p22 kararları (14 Kasım)
+
+**Durum: p22 güncel** (gh-pages `b9187df4`; p20, p21, kök, pt1 değişmedi).
+
+### 1. Takılma: bütün parçalar
+Hiç ilerleyemeyen her parça (normal, zincirli, bombalı; sert ya da yumuşak engel) yalnız 0,049 hücre kıpırdar, 0,18 sn'de geri oturur. Yumuşak engeldeki %30 pay tamamen kalktı; ilerleyebilen parça sert engel payıyla (0,07) durur. Kilitli parça zaten sürüklenmez. Test `AnyPieceThatCannotMoveStaysInItsSlot`: 40 bölümde **4692 takılan hamle** (3008'i yan engel, eskiden %30 kayıyordu); hepsinde parça yuvasında, jam sayılıyor, hamle sayılmıyor.
+
+### 2. Saat
+Varsayılan Codex'in sol el + düğme kalkanı akışı. Portre canlı kalır; kalkan uçarken portre kısa süre kalkansız yüze geçer, sonra canlı portreye döner. PM_62 fırçası `&saat=firca`, sabit portre `&portre=sabit`.
+
+### 3. Değnek — ölçüm ve yeni davranış
+**Eski davranış ölçümü** (40 bölüm, 191 rastgele oyun ortası durum, 764 çeyrek denemesi): değnek 693 kullanımın **hiçbirinde** yeni serbest parça doğurmadı (%0). Sebep: kuralda yan komşudan kayma düz kenarlara ve parçanın ev hücresi kenarına bağlı; değnek yalnız iki parça arasındaki çıkıntıları değiştiriyordu, serbestliği belirleyen kenarlar ise çoğunlukla parça ile boş hücre arasında.
+**Yeni:** değnek çeyrekteki parça–boş hücre kenarlarını da değiştirebilir (çeyrek sınırı değişmez) ve yalnız **en az 1 parçayı serbest bırakan**, çözülebilir düzeni seçer (en çok parça açanı). Yoksa çeyrek gri; hiç çeyrek yoksa "Değnek şu an bir parçayı açamıyor. Birkaç hamle sonra dene." uyarısı, booster harcanmaz. Ders (9. bölüm, bedava kullanım) eski davranışla çalışır, yoksa dolu tahtada ders kilitlenirdi.
+**Yeni ölçüm:** kullanımların %100'ü ≥1 parça açıyor (47/47, ortalama 1,04; 45'inde 1, 2'sinde 2). Ama durumların yalnız **%24'ünde** (45/191) en az bir çeyrek kullanılabiliyor (oyunun başında 11/82, ortasında 20/71, sonunda 14/38).
+**Görsel:** çeyrekteki parçalar havalanıp bir tur dönerek yeni çıkıntılarıyla oturur (zincirliler yalnız havalanır); serbest kalanlar iki kez altın parlar; alt şeritte "N parça serbest!".
+
+### 4. Bomba sırası (değişmedi, bilgi)
+p22'de 20. bölümden önce bombası kaldırılan bölümler (11 bölüm, 16 bomba):
+
+| Bölüm | Kimlik | Bomba |
+|---|---|---|
+| 6 | S45 | 1 (bomba tanıtım kartı da kalkıyor) |
+| 7 | S46 | 1 |
+| 8 | S47 | 2 |
+| 9 | S20 | 1 |
+| 11 | S21 | 1 |
+| 12 | S51 | 2 |
+| 13 | S34 | 1 |
+| 16 | Z04 | 1 |
+| 17 | S18 | 1 |
+| 18 | S22 | 1 |
+| 19 | S28 | 4 |
+
+Bomba dersi 20'de (S24, 6×7, 1 bomba). Ders öne alınırsa (ör. 7) yalnız `P21Onboarding.BombLesson` değişir.
+
+### 5. Makas ipucu
+Seçim modunda alt şeridin üstündeki ikinci soluk ipucu satırı kalktı (seçim görünümü kendi başlığını ve ipucunu gösteriyor).
+
+### 6. Durdur: T45 paneli
+Krem panel + 3B "Seviye N" başlık, büyük yeşil Devam, yuvarlak Ses/Müzik/Titreşim (açık/kapalı görselleri, dokununca değişir), küçük kırmızı Çık; arka plan opak lacivert (tahta görünmez). Codex TASK48 görselleri gelince bağlanacak.
+
+| Ölçüm | Sonuç |
+|---|---|
+| EditMode | 712 geçti, 0 kaldı, 2 atlandı |
+| `verify_build` yerel / canlı p22 | 4/4 / 4/4, PC FPS medyan 59,9 |
+| Build (Brotli) | 36,35 MB (+0,2 MB, T45 düğmeleri) |
+
+GIF'ler: [takılma önce/sonra](pm66/takilma_butun_parcalar_once_sonra.gif) · [değnek](pm66/degnek_serbest_parca.gif) · [saat (kalkan, canlı portre)](pm66/saat_kalkan_canli_portre.gif) · [Durdur T45](pm66/durdur_t45.gif)
+
+**PM'e soru:** değnek artık her kullanımda parça açıyor ama oyunun %76'sında hiç kullanılamıyor (gri). Seçenekler: (a) böyle kalsın; (b) hiçbir çeyrek açamıyorsa bütün tahtada dene; (c) değnek çeyrekteki çıkıntıları düzleştirsin (kayma serbestleşir, çok daha güçlü ama kural değişikliği).
+**Doğrulanmayan:** iPhone; değnek dersinin (9. bölüm) baştan sona oynanması; Durdur'daki Müzik/Titreşim düğmelerinin telefonda etkisi.

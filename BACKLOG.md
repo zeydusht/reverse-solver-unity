@@ -184,6 +184,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_62 p21'de: test modu `&test=1`, yeni saat, makas yavaş, değnekte süre akar, kilit okunur, kombo takılmada sıfır, sade kazanma, Jigo geçişleri, harita hapı; canlı verify 4/4 — 11 Kasım
 - ✅ PM_64 p22'de: Codex devri birleşti (PM_62 varsayılan, bayraklı seçenekler), PM_63 zincirli takılma, T47 kombo merdiveni; canlı verify 4/4 — 14 Kasım
 - ✅ PM_65 p22'de: stil denetimi, eski el/ok kaldırıldı, kurdelesiz krem kartlar; Codex TASK48 ve 4 "Zeyd'e sor" bekliyor — 14 Kasım
+- ✅ PM_66 p22'de: takılma bütün parçalar, değnek parça açar + altın parlama, saat kalkan varsayılan, Durdur T45, makas ipucu tekrarı kalktı — 14 Kasım
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular
