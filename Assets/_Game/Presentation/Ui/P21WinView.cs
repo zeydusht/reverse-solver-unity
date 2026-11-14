@@ -61,6 +61,19 @@ namespace ReverseSolver.Presentation
             _content = new GameObject("surface").transform; _content.SetParent(_root, false);
             ShapeView.Create(_content, "shade", screen, 0, Order).Fill(Draw.Rgba(10, 18, 46, .88f)).transform.localPosition = Draw.W(screen * .5f);
             if (!_chestMode && T48) { LayoutT48(); _language = Lang.Revision; Tick(); return; }
+            if (_chestMode && T48)
+            {
+                // PM_68: the chest in the win card's language (cream panel, blue frame, 3D title, dark text on cream).
+                T48Image("devam_v2/panel", 195, 380, 342, 684, 1, sliced: true);
+                T48Image("title-light", 195, 109, 344, 144, 2);
+                Label(Texts.Chest21, 195, 116, 50, 3).Heading(Draw.Hex("#D79A26"));
+                Label(Texts.Chest21, 195, 109, 50, 4).Heading(Draw.Hex("#153E75"));
+                T48Image("portrait-light", 195, 350, 340, 282, 2);
+                _hint = Dark("", 195, 560, 22);
+                _amount = Label("", 195, 458, 32, 16).Title3D();
+            }
+            else
+            {
             Image("Victory/panel", 195, 380, 370, 740);
             Image("Titles/light", 195, 105, 340, 125, 2);
             // Live Baloo lettering: gold extrusion behind the blue rim and cream face.
@@ -68,6 +81,7 @@ namespace ReverseSolver.Presentation
             Label(_chestMode ? Texts.Chest21 : Texts.Win21, 195, 105, 48, 4).Heading(Draw.Hex("#153E75"));
             _hint = Label("", 195, 575, 22);
             _amount = Label("", 195, 458, 30, 16).Heading(TextView.RimTeal);
+            }
             _case = Layer("chest", Order + 5); _light = Layer("light", Order + 6); _hand = Layer("hand", Order + 7);
             _glow = Layer("reward glow", Order + 12); _item = Layer("reward", Order + 14);
             _trail = Layer("flight trail", Order + 13); _arrival = Layer("arrival", Order + 15);
@@ -151,6 +165,16 @@ namespace ReverseSolver.Presentation
 
         void NextButton()
         {
+            if (T48)
+            {
+                _nextRect = new Rect(At(60, 577), new Vector2(270, 64) * _scale);
+                _menuRect = new Rect(At(135, 662), new Vector2(120, 40) * _scale);
+                T48Image("next-button", 195, 609, 270, 64, 3, sliced: true);
+                Label(_chestMode ? Texts.Collect21 : Texts.NextLevel21, 195, 607, 25).Heading(TextView.RimGreen).FitWidth(230 * _scale, 16 * _scale);
+                T48Image("menu-button", 195, 682, 120, 40, 3, sliced: true);
+                Label(Lang.T("Menu", "Menü"), 195, 681, 18).Heading(Draw.Hex("#153E75"));
+                return;
+            }
             ShapeView.Create(_content, "next green", new Vector2(250, 70) * _scale, 0, Order + 3).Radius(18 * _scale).Fill(Draw.Hex("#398A49")).transform.localPosition = Draw.W(At(195, 630));
             Label(Texts.NextLevel21, 195, 630, 25).Heading(TextView.RimGreen);
             ShapeView.Create(_content, "menu secondary", new Vector2(150, 44) * _scale, 0, Order + 3).Radius(14 * _scale).Fill(Draw.Hex("#274B68")).transform.localPosition = Draw.W(At(195, 702));

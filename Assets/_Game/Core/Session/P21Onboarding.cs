@@ -125,6 +125,48 @@ namespace ReverseSolver.Core
             return new LevelSet(original.Format, levels);
         }
 
+        /* PM_68: the 11-20 wall. Calibrated to pt1 (FunSim Kolay, speed x1.2, bomb attention +.4, skill +.1; weighted
+           MAE .112), estimate = pt1 real + (sim tuned - sim as played). Bomb fuses and timers only, boards untouched.
+           S28 (4 bombs, 0/13 in pt1) leaves slot 19 for slot 39 as a hard level; S50 (one bomb) takes 19. */
+        public static readonly (string Id, int Fuse, int Timer)[] SecondTenTuning =
+            { ("S21", 3, 10), ("S13", 0, -15), ("Z04", 0, 20), ("S18", 3, 20), ("S24", 6, 0), ("S28", 4, 0) };
+        public const string WallLevel = "S28", WallReplacement = "S50";
+        public const int WallSlot = 19, WallNewSlot = 39;
+
+        public static LevelSet TuneSecondTen(LevelSet original)
+        {
+            var levels = new List<LevelData>(original.Levels);
+            int wall = levels.FindIndex(l => l.Id == WallLevel), swap = levels.FindIndex(l => l.Id == WallReplacement);
+            if (wall != WallSlot - 1 || swap < 0 || levels.Count < WallNewSlot) return original;   // only the authored order
+            var moved = levels[wall]; var incoming = levels[swap];
+            levels.RemoveAt(Math.Max(wall, swap)); levels.RemoveAt(Math.Min(wall, swap));
+            levels.Insert(WallSlot - 1, incoming.CopyNextVersion());
+            levels.Insert(WallNewSlot - 1, moved);
+            for (int i = 0; i < levels.Count; i++)
+            {
+                var l = levels[i];
+                foreach (var t in SecondTenTuning)
+                    if (l.Id == t.Id) { l = Tuned(l, t.Fuse, t.Timer); break; }
+                if (l.Number != i + 1) { l = l.Clone(); l.Number = i + 1; }
+                levels[i] = l;
+            }
+            return new LevelSet(original.Format, levels);
+        }
+
+        /* PM_68: a gentler copy (next version): every bomb fuse +fuse, the timer +timer seconds (may be negative). */
+        public static LevelData Tuned(LevelData level, int fuse, int timer)
+        {
+            var t = level.CopyNextVersion();
+            if (fuse != 0)
+            {
+                var bombs = new Dictionary<int, int>();
+                foreach (var b in level.Bombs) bombs[b.Key] = b.Value + fuse;
+                t.Bombs = bombs;
+            }
+            t.TimerSeconds = Math.Max(20, level.TimerSeconds + timer);
+            return t;
+        }
+
         static LevelData CreateBombLesson(LevelData previous)
         {
             var lesson = Grid(previous.Id, 4, previous.Number);

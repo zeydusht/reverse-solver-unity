@@ -77,6 +77,8 @@ namespace ReverseSolver.Core
             return level;
         }
 
+        internal LevelData Clone() => (LevelData)MemberwiseClone();
+
         internal LevelData CopyNextVersion()
         {
             var level = (LevelData)MemberwiseClone();

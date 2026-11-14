@@ -9,6 +9,7 @@ namespace ReverseSolver.Presentation
         public static string Chest21 => Lang.T("Chest!", "Sandık!");
         public static string WandNothing => Lang.T("The wand can't free a piece yet.", "Değnek şu an parça açamıyor.");
         public static string WandFreed(int n) => Lang.T(n == 1 ? "1 piece free!" : $"{n} pieces free!", $"{n} parça serbest!");
+        public static string Collect21 => Lang.T("Collect", "Topla");
         public static string TapChest21 => Lang.T("Tap the chest!", "Sandığa dokun!");
         public static string NextLevel21 => Lang.T("Next Level", "Sonraki Seviye");
         public static string ChestIn21(int n) => Lang.T(n == 1 ? "Chest in 1 level!" : $"Chest in {n} levels!", $"{n} bölüm sonra sandık!");

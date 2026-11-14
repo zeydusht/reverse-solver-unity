@@ -293,6 +293,40 @@ namespace ReverseSolver.Core.Tests
             }
         }
 
+        // PM_68: 11-20 on the pt1-calibrated sim. Estimate = pt1 real + (sim now - sim as pt1 played it); a level pt1
+        // never saw at that slot uses the sim alone. Normal 55-75 %, hard 35-45 %, at most two hard, never two in a row.
+        static readonly double[] Pt1Second = { .29, .71, .60, .94, .94, .43, .14, .69, .00, .33 };
+
+        [Test]
+        public void SecondTenHitsTheTargetsOnTheCalibratedSim()
+        {
+            var tuned = P21Onboarding.TuneSecondTen(P21Onboarding.SpaceObstacleLessons(Original)).Levels;
+            var players = FunSim.Calibrated(FunSim.Population(160));
+            double Sim(LevelData l) => FunSim.Run(l, Genre.Kolay, players).FirstWinRate;
+            var rows = new System.Text.StringBuilder();
+            int hard = 0, lastHard = -9;
+            for (int slot = 11; slot <= 20; slot++)
+            {
+                var now = tuned[slot - 1]; var was = Original.Levels[slot - 1];
+                double sim = Sim(now), est = now.Id == was.Id ? System.Math.Min(1, System.Math.Max(0, Pt1Second[slot - 11] + sim - Sim(was))) : sim;
+                rows.AppendLine($"| {slot} | {was.Id} -> {now.Id} v{now.Version} | pt1 {Pt1Second[slot - 11]:0.00} | est {est:0.00} | hard {now.Hard} |");
+                if (P21Onboarding.IsObstacleLesson(slot)) continue;
+                if (now.Hard)
+                {
+                    hard++; Assert.That(slot - lastHard, Is.GreaterThan(1), "two hard levels in a row"); lastHard = slot;
+                    Assert.That(est, Is.InRange(.35, .45), now.ToString());
+                }
+                else Assert.That(est, Is.InRange(.55, .75), now.ToString());
+            }
+            Assert.That(hard, Is.LessThanOrEqualTo(2));
+            var wall = tuned[P21Onboarding.WallNewSlot - 1];
+            Assert.That(wall.Id, Is.EqualTo(P21Onboarding.WallLevel)); Assert.That(wall.Hard, Is.True);
+            rows.AppendLine($"| {P21Onboarding.WallNewSlot} | {wall.Id} v{wall.Version} | sim {Sim(wall):0.00} | hard |");
+            for (int i = 0; i < tuned.Count; i++) Assert.That(tuned[i].Number, Is.EqualTo(i + 1));
+            Assert.That(tuned.Select(l => l.Id).OrderBy(x => x), Is.EqualTo(Original.Levels.Select(l => l.Id).OrderBy(x => x)), "same 40 levels");
+            TestContext.WriteLine(rows.ToString());
+        }
+
         // PM_67: first-try wins for 1-20 of the p22 default set (obstacle lessons, no 2x2 opening).
         [Test]
         public void FirstTwentyFirstWinTable()

@@ -178,7 +178,7 @@ namespace ReverseSolver.Presentation
             else
             {
                 if (_p21Revised) _set = P21Onboarding.ReplaceOpening(_set);
-                if (_p21Lessons) _set = P21Onboarding.SpaceObstacleLessons(_set);
+                if (_p21Lessons) _set = P21Onboarding.TuneSecondTen(P21Onboarding.SpaceObstacleLessons(_set));
             }
             Debug.Log($"[p21] flow={_p21Flow} levels={_set.Levels.Count}");
             _stats = PlayStats.Load(host.Store);

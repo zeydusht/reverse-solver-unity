@@ -98,6 +98,16 @@ namespace ReverseSolver.Generation
             return list;
         }
 
+        /* PM_68: the population shifted to pt1's first tries (Pm68Tune: Kolay, speed x1.2, bomb attention +.4, skill +.1). */
+        public static List<Player> Calibrated(List<Player> players, double speed = 1.2, double attention = .4, double skill = .1)
+        {
+            var list = new List<Player>(players.Count);
+            foreach (var p in players)
+                list.Add(new Player { Speed = p.Speed * speed, Skill = Math.Min(1, Math.Max(0, p.Skill + skill)),
+                    BombAttention = Math.Min(1, Math.Max(0, p.BombAttention + attention)), Patience = p.Patience, Retry = p.Retry });
+            return list;
+        }
+
         public enum Verdict { Enjoyed, Frustrated, Bored }
 
         /// <summary>
