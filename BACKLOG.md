@@ -187,6 +187,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_66 p22'de: takılma bütün parçalar, değnek parça açar + altın parlama, saat kalkan varsayılan, Durdur T45, makas ipucu tekrarı kalktı — 14 Kasım
 - ✅ PM_67 p22'de: TASK48 ekranları, değnek bütün tahta seçeneği, bomba dersi 7 + yumuşak 8–9 — 14 Kasım
 - ✅ PM_68 p22'de: pt1 kalibrasyonu, 11–20 duvarı kırıldı, sandık ekranı yeni dilde — 14 Kasım
+- ✅ PM_69 ölçüm: level_features_v2 (CSV) + pt1 replay (%97,7 uyum) — 14 Kasım. Kalan: Supabase'e yükleme (Zeyd onayı)
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular
