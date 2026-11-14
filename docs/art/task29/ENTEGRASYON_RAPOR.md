@@ -342,3 +342,55 @@ GIF'ler: [takılma önce/sonra](pm66/takilma_butun_parcalar_once_sonra.gif) · [
 
 **PM'e soru:** değnek artık her kullanımda parça açıyor ama oyunun %76'sında hiç kullanılamıyor (gri). Seçenekler: (a) böyle kalsın; (b) hiçbir çeyrek açamıyorsa bütün tahtada dene; (c) değnek çeyrekteki çıkıntıları düzleştirsin (kayma serbestleşir, çok daha güçlü ama kural değişikliği).
 **Doğrulanmayan:** iPhone; değnek dersinin (9. bölüm) baştan sona oynanması; Durdur'daki Müzik/Titreşim düğmelerinin telefonda etkisi.
+
+## PM_67 — TASK48 bağlandı + değnek (b) + bomba dersi 7 (14 Kasım)
+
+**Durum: p22 güncel** (gh-pages `87aca776`; p20, p21, kök, pt1 değişmedi). Build 38,01 MB (+1,7 MB, T48 katmanları; paneller oyundaki `devam_v2/panel` ile paylaşıldı, maket ve örnek başlık build'e girmedi).
+
+### 1. TASK48 görselleri
+- **Menü:** üstte old money mavi şerit (altın alt bordür) + mavi ad plakası; altta mavi sekme şeridi, etkin sekmede mavi lake yüz, ayırıcılar. Sekme başlıkları (Bölümler/Levels, Koleksiyon/Collection, Jiggles, Başarılar) kurdelesiz 3B yazı + krem-altın ışık. Haritadaki "En üste/En alta" ve Koleksiyon/Başarılar sayaçları turkuaz plaka yerine mavi plaka; menü afiş yazıları Baloo + lacivert kontur.
+- **Ayarlar:** krem panel + mavi çerçeve, 3B başlık, krem satırlar, mavi simge diskleri, yeşil/gri anahtar + topuz, dil tepsisi, mavi Gizlilik/Bize yaz ve yeşil Hikâye düğmeleri (basılı hâlleri), kırmızı X, sürüm `p22-2026-11-14d`.
+- **Profil:** krem panel, 3B başlık, açık mavi avatar diski, ad alanı + mavi düzenle düğmesi, krem-açık mavi istatistik kutuları, yeşil "Avatarı değiştir", kırmızı X.
+- **Kazanma:** krem kart, altın hüzme + 3B "Harika!", büyük mutlu Jigo, krem tepside altın çerçeveli yuvalar + sandık, koyu mavi "N Jiggle kurtarıldı!" + Jiggle ikonu, katmanlı yeşil **Sonraki Seviye** ve mavi **Menü**. Sandık ekranı aynı (lacivert).
+Görüntüler (TR/EN): `pm67/tr_menu`, `tr_harita`, `tr_koleksiyon`, `tr_ayarlar`, `tr_profil`, `tr_kazanma` ve `en_*` karşılıkları.
+
+### 2. Değnek (b)
+Hiçbir çeyrek parça açamıyorsa seçim, bütün tahta + "**Bütün tahtayı değiştir!**" onayıyla açılır (ipucu: "Hiçbir bölge parça açmıyor: bütün tahta değişir"); bütün tahtada da ≥1 parça açan çözülebilir düzen seçilir. O da yoksa kısa uyarı ("Değnek şu an parça açamıyor."), booster harcanmaz.
+**Ölçüm** (aynı 191 rastgele durum): değneğin kullanılabildiği durumlar **%24 → %30** (45 → 57). Bütün tahta 12 durumda devreye girdi, ortalama **1,00** parça açtı; çeyrek kullanımlarında ortalama 1,04. Oyunun başında (ilk %20) hâlâ 13/82'de kullanılabiliyor: başlangıç tahtaları çok sıkı, yan kaymayı belirleyen kenarlar düz. Görüntü: `pm67/degnek_butun_tahta` (6. bölüm, dört hamle sonra).
+
+### 3. Bomba dersi 7
+Ders 7'de (S46 yerine 4×4, tek bomba, sayaç = parça sayısı, süresiz, kayıp yok; tanıtım kartı `pm67/tr_bolum7_bomba_karti`). 1–6'da bomba yok. 8 ve 9: tek bomba (en uzun sayaçlısı), sayaç ≥ parça + 4. 10'dan sonra bombalar özgün hâliyle geri geldi; 20 (S24) normal bölüm. Kilit 3, zincir 10, duvar 14 aynı.
+
+**FunSim, 1–20 ilk deneme kazanma** (96 sanal oyuncu, Kolay profil):
+
+| Bölüm | Kimlik | Bomba | İlk deneme | |
+|---|---|---|---|---|
+| 2 | S42 | 0 | 1,00 | |
+| 3 | S43 | 0 | 1,00 | ders |
+| 4 | S06 | 0 | 0,89 | |
+| 5 | S44 | 0 | 0,98 | |
+| 6 | S45 | 0 | 1,00 | |
+| 7 | S46 (ders) | 1 | 1,00 | ders |
+| 8 | S47 | 1 | 0,96 | yumuşak |
+| 9 | S20 | 1 | 0,98 | yumuşak |
+| 10 | Z24 | 0 | 0,91 | ders |
+| 11 | S21 | 1 | 0,31 | |
+| 12 | S51 | 2 | 0,38 | |
+| 13 | S34 | 1 | 0,19 | |
+| 14 | Z21 | 0 | 0,86 | ders |
+| 15 | S13 | 0 | 0,66 | |
+| 16 | Z04 | 1 | 0,45 | |
+| 17 | S18 | 1 | 0,23 | |
+| 18 | S22 | 1 | 0,06 | |
+| 19 | S28 | 4 | 0,00 | |
+| 20 | S24 | 1 | 0,00 | |
+
+Dersler ve yumuşak bölümler ≥%85 (test `FirstTwentyFirstWinTable` bunu korur). **Uyarı:** 11'den sonra bombalar geri gelince ilk deneme kazanma sert düşüyor (11: %31, 13: %19, 17: %23, 18: %6, 19–20: %0). pt1'de 8: %63, 9: %38 duvarı vardı; şimdi duvar 11–13 ve 16–20'ye kayıyor.
+
+| Ölçüm | Sonuç |
+|---|---|
+| EditMode | 713 geçti, 0 kaldı, 2 atlandı |
+| `verify_build` yerel / canlı p22 | 4/4 / 4/4, PC FPS medyan 59,9 |
+
+**PM'e soru:** 11–20'deki bomba duvarı (FunSim %0–45) için ne yapalım: 11–13'e de yumuşak bomba (sayaç cömert) mi, yoksa bu bölümleri ayarlamak mı?
+**Doğrulanmayan:** iPhone; değnek dersinin (9. bölüm) baştan sona oynanması; kazanmadan sandık ekranına geçiş (sandık ekranı eski lacivert).
