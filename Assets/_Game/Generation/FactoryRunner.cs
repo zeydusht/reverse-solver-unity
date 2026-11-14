@@ -117,7 +117,9 @@ namespace ReverseSolver.Generation
                 var boosted = FunSim.Run(level, spec.Genre, pop, options: FunSim.OptionsFor(spec, boosters: true));
                 var t = FunThresholds.For(spec.Genre);
                 if (e.Scores.ContainsKey("erkenGevsetildi") || e.Scores.ContainsKey("bantGevsetildi")) t = t.Relaxed();
-                var why = t.Check(plain, boosted);
+                var v2 = DifficultyModelV2.Of(level, e.Slot, DifficultyModelV2.RoleOf(spec.Genre), 1000);
+                var why = t.Check(plain, boosted, v2);
+                e.Scores["v2Ilk"] = Math.Round(v2.PWin1, 3); e.Scores["v2Dusundurme"] = Math.Round(v2.JamPerExit, 3); e.Scores["v2Bogaz"] = v2.Features.ChokeN;
                 RedesignStore.FunScores(e, plain, boosted);
                 e.Notes.RemoveAll(n => n.StartsWith("booster'a dayalı"));
                 if (e.Scores.ContainsKey("boosteraDayali")) e.Notes.Add($"booster'a dayalı: booster'lı keyif booster'sızdan {(boosted.EnjoyRate - plain.EnjoyRate) * 100:0} puan yüksek");

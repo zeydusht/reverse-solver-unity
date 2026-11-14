@@ -458,3 +458,95 @@ Kazanma kartıyla aynı dil: krem panel + mavi çerçeve (`devam_v2/panel`), alt
 | `verify_build` yerel / canlı p22 | 4/4 / 4/4 |
 
 **Doğrulanmayan:** iPhone; tahminler gerçek oyuncuyla doğrulanmadı (p22'nin kendi verisi gelince karşılaştırılmalı); 39'daki S28 sim %46, zor bölüm hedefinin (%35–45) bir puan üstünde.
+
+## PM_70 — Zorluk modeli v2 üreticide + p22'de 11–40 ayarı (14 Kasım)
+
+p22 `0d63cc99` (gh-pages), sürüm `p22-2026-11-14f`. EditMode 721 geçti / 0 kaldı (2 atlandı). `verify_build`: yerel 4/4, canlı 4/4. `--send` koşulmadı (PM: Supabase'e yazma yok). Tahtalar değişmedi; yalnız bomba (fitil, bomba sayısı), süre, kilit ve zor kartı. Bölüm kimlikleri aynı, değişen her bölümün sürümü +1.
+
+**Model v2 kodda.** `Generation/DifficultyModelV2.cs`:
+- `PWin1`: ortalama oyuncunun ilk denemede kazanma şansı.
+- `JamPerExit`: çıkış başına takılma (düşündürme).
+- `Rules`: tasarım kuralları.
+- `CheckCurve`: hedef eğri.
+
+Test `ModelV2ReproducesThePoolScores`: `pool_scored.csv`'deki 250 `p_pred` ±0,01 içinde.
+
+Süresiz bölümde sn/parça 10 sayılıyor. pt1'in en bol süresi 13,3 idi; yoksa ln(0) çıkıyor ve tahmin 0 oluyordu.
+
+**Üretici.** `Factory.RunSlot` adayları model v2 ile değerlendiriyor (`FactoryOptions.ModelV2` = açık, 1000 oyun):
+- İlk deneme eşiği model v2'den, tasarım kuralları da ret nedeni.
+- Sıralama model v2'nin ilk denemesine göre.
+- Raporda yeni sütunlar `v2Ilk`, `v2Dusundurme`, `v2Bogaz`. FunSim'in `ilkDeneme` sütunu yan sütun olarak kaldı.
+- `FactoryRunner` yeniden kontrolü de aynı.
+- **Bant ayarı:** model v2 ölçeğinde tanıtım ≥ %85, nefes ≥ %75 (PM_68/70 eğrisi). FunSim için konan tanıtım ≥ %95 eşiğinde 3×3–4×5 tanıtım bölümleri %94 çıkıp reddediliyordu. Kolay, orta, zor ve çok zor bantları aynı kaldı. Bunlar FunSim ölçeğinde konmuştu; model v2 ile yeniden bakılmalı. **Zeyd'e sor / PM.**
+
+**Kurallar** `docs/kit/KIT_NOTLARI.md`'ye yazıldı:
+- boğaz ≤ 1 (zor bölümde ≤ 2);
+- açık tahtada sıkı bomba yok;
+- sn/parça 1,7–2,3;
+- 21–40'ta düşündürme ≥ 0,5.
+
+**Roller:**
+- Zor: 21, 23, 33, 35, 40.
+- Nefes: 22, 24 (bombasız) ve 39.
+- Diğerleri normal; 1–10 ve 14 değişmedi.
+
+Rol kararları:
+- **13 S34 normal yapıldı**, zor değil. Zor bandına (,35–,45) inmek için payı 1–2'ye düşürmek gerekiyor. Tahta açık (adım başına 5,9 çeldirici), bu da "açık tahtada sıkı bomba" kuralını bozuyor. PM'in iki seçeneğinden ikincisi.
+- **15 S13'e bomba eklendi.** Süre kuralı içinde (≥ 1,7 sn/parça) bombasız bir bölüm modelde her zaman ≥ %85. 1,03 sn/parçayla %80 veriyordu.
+- **39 S28 nefes oldu.** 40 zor; art arda iki zor olmasın.
+
+Bombası azaltılan bölümler:
+- 21 Z23 ve 38 S40'ta 2 bomba kaldı (4'ten ve 3'ten).
+- 31 S31, 35 S29, 36 Z25 ve 39 S28'de 3 bomba kaldı (4'ten).
+
+Bütün bombaları tutan seçenekler hedefe ve boğaz kuralına aynı anda uymadı.
+
+Eklenen kilitler (düşündürme kuralı için): 23, 28, 30 ve 33'te birer kilit.
+
+**Sonuç** (model v2, 2000 oyun; `fun` = PM_68'deki pt1'e kalibre FunSim'in ilk deneme tahmini, yan sütun):
+
+| slot | bölüm | rol | p_win1 önce → sonra | düşündürme | boğaz | fun | değişiklik |
+|---|---|---|---|---|---|---|---|
+| 11 | S21 v2→v2 | normal | 0,67 → **0,67** | 0,62 → 0,62 | 0 → 0 | 0,61 | — |
+| 12 | S51 v2→v2 | normal | 0,58 → **0,58** | 0,38 → 0,38 | 0 → 0 | 0,64 | — |
+| 13 | S34 v1→v2 | normal | 0,42 → **0,60** | 0,53 → 0,53 | 0 → 0 | 0,57 | bomba 6:21 → 6:24; süre 65 → 67 sn |
+| 14 | Z21 v3→v3 | ders | 0,88 → **0,88** | 0,54 → 0,54 | 0 → 0 | 0,73 | — |
+| 15 | S13 v2→v3 | normal | 0,80 → **0,66** | 0,70 → 0,67 | 0 → 0 | 0,78 | bomba — → 10:15; süre 35 → 70 sn |
+| 16 | Z04 v2→v3 | normal | 0,49 → **0,66** | 0,70 → 0,70 | 0 → 0 | 0,71 | bomba 13:22 → 13:26; süre 80 → 67 sn |
+| 17 | S18 v3→v4 | normal | 0,62 → **0,64** | 0,61 → 0,61 | 0 → 0 | 0,81 | süre 70 → 74 sn |
+| 18 | S22 v1→v2 | normal | 0,59 → **0,71** | 0,67 → 0,67 | 0 → 0 | 0,24 | bomba 19:21 → 19:24; süre 70 → 67 sn |
+| 19 | S50 v3→v3 | normal | 0,65 → **0,65** | 0,42 → 0,42 | 0 → 0 | 0,68 | — |
+| 20 | S24 v2→v3 | normal | 0,49 → **0,65** | 0,49 → 0,49 | 0 → 0 | 0,33 | süre 55 → 81 sn |
+| 21 | Z23 v1→v2 | **zor** | 0,24 → **0,40** | 0,97 → 0,97 | 4 → 0 | 0,21 | bomba 19:9,31:18,32:11,37:22 → 19:10,31:19 (2/4 bomba); süre 150 → 115 sn |
+| 22 | S19 v1→v2 | nefes | 0,90 → **0,92** | 0,58 → 0,58 | 0 → 0 | 0,59 | süre 50 → 57 sn |
+| 23 | S27 v1→v2 | **zor** | 0,53 → **0,43** | 0,43 → 0,92 | 0 → 0 | 0,21 | bomba 3:6,23:8 → 3:3,23:5; süre 60 → 77 sn; kilit +8:24 |
+| 24 | S14 v1→v2 | nefes | 0,84 → **0,88** | 0,53 → 0,53 | 0 → 0 | 0,68 | süre 50 → 60 sn |
+| 25 | S35 v1→v2 | normal | 0,06 → **0,59** | 0,66 → 0,66 | 4 → 0 | 0,51 | bomba 18:33,19:33,24:32,25:29 → 18:36,19:36,24:35,25:32; süre 105 → 124 sn |
+| 26 | S17 v2→v3 | normal | 0,56 → **0,66** | 0,60 → 0,60 | 0 → 0 | 0,64 | bomba 21:19 → 21:20; süre 55 → 57 sn |
+| 27 | S10 v2→v3 | normal | 0,51 → **0,60** | 0,51 → 0,51 | 0 → 0 | 0,57 | süre 55 → 68 sn |
+| 28 | S52 v2→v3 | normal | 0,68 → **0,59** | 0,45 → 0,60 | 0 → 0 | 0,68 | bomba 17:14 → 17:15; süre 60 → 46 sn; kilit +19:24 |
+| 29 | S37 v1→v2 | normal | 0,28 → **0,61** | 0,85 → 0,85 | 4 → 0 | 0,05 | bomba 20:20,25:52,35:46,37:44 → 20:21,25:53,35:48,37:45; süre 135 → 101 sn |
+| 30 | S08 v2→v3 | normal | 0,62 → **0,65** | 0,48 → 0,79 | 0 → 0 | 0,65 | kilit +16:24 |
+| 31 | S31 v1→v2 | normal | 0,69 → **0,64** | 1,08 → 1,08 | 4 → 0 | 0,08 | bomba 23:30,25:28,30:33,35:32 → 23:31,30:34,35:33 (3/4 bomba); süre 170 → 92 sn |
+| 32 | S39 v1→v2 | normal | 0,12 → **0,56** | 0,77 → 0,77 | 4 → 1 | 0,14 | bomba 19:36,25:36,32:22,37:32 → 19:48,25:48,32:22,37:44; süre 115 → 98 sn |
+| 33 | S32 v1→v2 | **zor** | 0,06 → **0,40** | 0,41 → 0,60 | 0 → 0 | 0,26 | bomba 26:18,31:27,36:17,37:18 → 26:26,31:32,36:25,37:26; süre 110 → 100 sn; kilit +50:24 |
+| 34 | S36 v1→v2 | normal | 0,41 → **0,55** | 1,12 → 1,12 | 3 → 0 | 0,13 | bomba 7:35,29:15,46:23 → 7:36,29:16,46:24; süre 80 → 85 sn |
+| 35 | S29 v1→v2 | **zor** | 0,21 → **0,38** | 1,03 → 1,08 | 3 → 0 | 0,18 | bomba 7:7,24:21,47:17,57:43 → 7:8,24:22,47:18 (3/4 bomba); süre 110 → 133 sn |
+| 36 | Z25 v1→v2 | normal | 0,57 → **0,55** | 1,40 → 1,40 | 4 → 0 | 0,17 | bomba 25:28,30:31,31:30,32:29 → 25:29,31:31,32:30 (3/4 bomba); süre 145 → 93 sn |
+| 37 | S38 v1→v2 | normal | 0,18 → **0,56** | 1,45 → 1,45 | 3 → 1 | 0,33 | bomba 8:29,29:17,30:8 → 8:34,29:22,30:8; süre 70 → 90 sn |
+| 38 | S40 v1→v2 | normal | 0,41 → **0,57** | 0,87 → 0,87 | 3 → 1 | 0,01 | bomba 14:40,15:26,43:16 → 14:42,15:26 (2/3 bomba); süre 80 → 106 sn |
+| 39 | S28 v2→v3 | nefes | 0,75 → **0,83** | 0,71 → 0,70 | 0 → 0 | 0,46 | bomba 18:37,24:38,30:23,32:12 → 18:38,24:39,30:24 (3/4 bomba); süre 130 → 119 sn |
+| 40 | S33 v1→v2 | **zor** | 0,08 → **0,33** | 0,82 → 0,82 | 4 → 0 | 0,12 | bomba 8:8,10:31,38:27,47:44 → 8:10,10:33,38:29,47:46; süre 105 → 115 sn |
+
+Eğri ve kurallar (test `P22ElevenToFortyHitsTheCurveAndTheRules`):
+- 11–20 normal ,58–,71; zor yok.
+- 21–30 normal ,59–,66; zor ,40 / ,43; ardından nefes ,92 / ,88.
+- 31–40 normal ,55–,64; zor ,40 / ,38 / ,33; nefes yalnız 39 (,83).
+- Boğaz en çok 1, sn/parça 1,7–2,3, 21–40 düşündürme ≥ ,51.
+
+**Doğrulanmayanlar ve riskler:**
+- **FunSim ile model v2 21–40'ta çok ayrışıyor.** FunSim'in tahmini birçok bölümde ,01–,33. Model v2 pt1'e birini dışarıda bırakarak ±10,7 puan hatayla oturmuş; FunSim'in 21–40 kalibrasyonu yok. Bu yüzden karar model v2'ye göre verildi, ama gerçek veri gelmeden ikisi de tahmin.
+- Modelin S47/S08 tipi bölümlerde iyimser olduğu biliniyor (PM: ±25 puan). 20 S24, 27 S10, 30 S08 ve 19 S50 bu tipte; gerçekte daha zor çıkabilir.
+- Zincir dar anı modelde zorluğu azaltıyor. Tek veri setine dayanıyor; p22 verisiyle sınanmalı.
+- iPhone'da denenmedi.

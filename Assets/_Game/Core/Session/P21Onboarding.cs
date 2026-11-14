@@ -153,6 +153,83 @@ namespace ReverseSolver.Core
             return new LevelSet(original.Format, levels);
         }
 
+        /* PM_70: slots 11-40 tuned on difficulty model v2 (docs/art/task29/ENTEGRASYON_RAPOR.md "PM_70"). Each entry
+           replaces what it names on the PM_68 set: Timer (0 keeps), Bombs / Nails as "piece:count,..." (null keeps,
+           "" clears), Hard (the "zor bölüm" card; null keeps). Boards are untouched. Next version for each. */
+        public readonly struct Retune
+        {
+            public readonly string Id, Bombs, Nails; public readonly int Timer; public readonly bool? Hard;
+            public Retune(string id, int timer = 0, string bombs = null, string nails = null, bool? hard = null)
+            { Id = id; Timer = timer; Bombs = bombs; Nails = nails; Hard = hard; }
+        }
+
+        public static readonly Retune[] LateTuning =
+        {
+            new Retune("S34", 67, "6:24"),                                   // 13 normal (not hard: a tight bomb on an open board)
+            new Retune("S13", 70, "10:15"),                                  // 15 one bomb, sec/piece 2.06 instead of 1.03
+            new Retune("Z04", 67, "13:26"),                                  // 16
+            new Retune("S18", 74),                                           // 17 sec/piece 2.24
+            new Retune("S22", 67, "19:24"),                                  // 18 open board: fuse +3
+            new Retune("S24", 81),                                           // 20 sec/piece 2.08
+            new Retune("Z23", 115, "19:10,31:19", hard: true),               // 21 hard, 2 of 4 bombs
+            new Retune("S19", 57),                                           // 22 breather
+            new Retune("S27", 77, "3:3,23:5", "8:24,28:11", true),          // 23 hard, a lock (jams)
+            new Retune("S14", 60),                                           // 24 breather
+            new Retune("S35", 124, "18:36,19:36,24:35,25:32", hard: false),  // 25
+            new Retune("S17", 57, "21:20"),                                  // 26
+            new Retune("S10", 68),                                           // 27
+            new Retune("S08", 0, null, "16:24,20:11,21:11"),                 // 30 a lock (jams)
+            new Retune("S52", 46, "17:15", "19:24"),                         // 28 a lock (jams)
+            new Retune("S37", 101, "20:21,25:53,35:48,37:45", hard: false),  // 29
+            new Retune("S31", 92, "23:31,30:34,35:33"),                      // 31 3 of 4 bombs
+            new Retune("S39", 98, "19:48,25:48,32:22,37:44"),                // 32
+            new Retune("S32", 100, "26:26,31:32,36:25,37:26", "25:14,50:24", true), // 33 hard, a lock (jams)
+            new Retune("S36", 85, "7:36,29:16,46:24", hard: false),          // 34
+            new Retune("S29", 133, "7:8,24:22,47:18", hard: true),           // 35 hard, 3 of 4 bombs
+            new Retune("Z25", 93, "25:29,31:31,32:30"),                      // 36 3 of 4 bombs
+            new Retune("S38", 90, "8:34,29:22,30:8", hard: false),           // 37
+            new Retune("S40", 106, "14:42,15:26"),                           // 38 2 of 3 bombs
+            new Retune("S28", 119, "18:38,24:39,30:24", hard: false),        // 39 breather, 3 of 4 bombs
+            new Retune("S33", 115, "8:10,10:33,38:29,47:46", hard: true),    // 40 hard, ~.35
+        };
+
+        /* PM_70 roles on 11-40 (the rest of 11-40 is normal; 1-10 and 14 are lessons / soft). */
+        public static readonly int[] HardSlots22 = { 21, 23, 33, 35, 40 };
+        public static readonly int[] BreatherSlots22 = { 22, 24, 39 };
+
+        public static LevelSet TuneLate(LevelSet original)
+        {
+            var levels = new List<LevelData>(original.Levels);
+            for (int i = 0; i < levels.Count; i++)
+                foreach (var r in LateTuning)
+                    if (levels[i].Id == r.Id) { levels[i] = Retuned(levels[i], r); break; }
+            return new LevelSet(original.Format, levels);
+        }
+
+        /* The p22 set: lessons, PM_68's 11-20, PM_70's 11-40. */
+        public static LevelSet P22(LevelSet original) => TuneLate(TuneSecondTen(SpaceObstacleLessons(original)));
+
+        public static LevelData Retuned(LevelData level, Retune r)
+        {
+            var t = level.CopyNextVersion();
+            if (r.Timer > 0) t.TimerSeconds = r.Timer;
+            if (r.Bombs != null) t.Bombs = Counters(r.Bombs);
+            if (r.Nails != null) t.Nails = Counters(r.Nails);
+            if (r.Hard.HasValue) t.Hard = r.Hard.Value;
+            return t;
+        }
+
+        public static Dictionary<int, int> Counters(string s)
+        {
+            var d = new Dictionary<int, int>();
+            foreach (var kv in s.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                var p = kv.Split(':');
+                d[int.Parse(p[0].Trim())] = int.Parse(p[1].Trim());
+            }
+            return d;
+        }
+
         /* PM_68: a gentler copy (next version): every bomb fuse +fuse, the timer +timer seconds (may be negative). */
         public static LevelData Tuned(LevelData level, int fuse, int timer)
         {

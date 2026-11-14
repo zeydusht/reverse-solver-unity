@@ -42,7 +42,7 @@ namespace ReverseSolver.EditorTools
             if (File.Exists(old))
                 foreach (var l in Load(old).Levels)
                     if (!v4.Levels.Any(x => x.Id == l.Id && x.Version == l.Version)) pool.Add(("redesign-v4", l));
-            foreach (var l in P21Onboarding.TuneSecondTen(P21Onboarding.SpaceObstacleLessons(v4)).Levels) pool.Add(("p22", l));
+            foreach (var l in P21Onboarding.P22(v4).Levels) pool.Add(("p22", l));
             foreach (var (file, set) in new[] { ("redesign_v3.json", "redesign-v3"), ("redesign_v2.json", "redesign-v2"),
                          ("zeydbot.json", "zeydbot"), ("levels.json", "web-v1"), ("designs.json", "designs") })
                 foreach (var l in Load("Assets/_Game/Levels/" + file).Levels) pool.Add((set, l));

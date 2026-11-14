@@ -20,6 +20,9 @@ namespace ReverseSolver.Generation
         public int BudgetEasy = 150, BudgetOrta = 400, BudgetZor = 800, BudgetCokZor = 800;
         public int BandWant = 12;                 // band finalists to keep searching for before the fun estimate
         public int Finalists = 3;
+        /* PM_70: judge the first try and the design rules on difficulty model v2 (FunSim stays as a side column). */
+        public bool ModelV2 = true;
+        public int ModelV2Games = 1000;
         public int Players = 1000;
         public int SearchPlayers = 200;            // fun estimate inside the search (first-try target); finalists get Players
         public bool MemoryTable = true;            // m = 0 / 0.5 / 1.0 side by side for the report
@@ -103,14 +106,19 @@ namespace ReverseSolver.Generation
         /// simulation separately. The caller must supply a non-null plain result and
         /// meaningful simulation data; this method only compares the reported rates.
         /// </remarks>
-        public List<string> Check(FunSim.Result plain, FunSim.Result boosted = null)
+        public List<string> Check(FunSim.Result plain, FunSim.Result boosted = null, DifficultyModelV2.Estimate v2 = null)
         {
             var f = boosted ?? plain;
+            // PM_70: the first-try band and the design rules are judged on difficulty model v2 when it is given
+            double firstWin = v2?.PWin1 ?? plain.FirstWinRate;
             var u = new List<string>();
             if (f.EnjoyRate < MinEnjoy - 1e-9) u.Add($"keyif %{f.EnjoyRate * 100:0.0} (≥ %{MinEnjoy * 100:0})");
             if (f.FrustrationRate > MaxFrustration + 1e-9) u.Add($"hayal kırıklığı %{f.FrustrationRate * 100:0.0} (≤ %{MaxFrustration * 100:0})");
             if (f.UnfairRate > MaxUnfair + 1e-9) u.Add($"haksız hayal kırıklığı %{f.UnfairRate * 100:0.0} (≤ %{MaxUnfair * 100:0})");
-            if (!FirstWin.Contains(plain.FirstWinRate)) u.Add($"ilk deneme %{plain.FirstWinRate * 100:0} (hedef {Pct(FirstWin)})");
+            // model v2 scale: lessons >= .85, breathers >= .75 (PM_68 / PM_70 curve); the other genres keep their bands
+            var band = v2 == null ? FirstWin : Genre == Genre.Tanitim ? new Band(.85, null) : Genre == Genre.Nefes ? new Band(.75, null) : FirstWin;
+            if (!band.Contains(firstWin)) u.Add($"ilk deneme{(v2 != null ? " (model v2)" : "")} %{firstWin * 100:0} (hedef {Pct(band)})");
+            if (v2 != null) u.AddRange(v2.Broken);
             if (plain.EarlyTimeoutRate > MaxEarlyTimeout + 1e-9) u.Add($"erken süre bitmesi %{plain.EarlyTimeoutRate * 100:0.0} (≤ %{MaxEarlyTimeout * 100:0})");
             return u;
         }
@@ -138,6 +146,9 @@ namespace ReverseSolver.Generation
         /* Fun: without boosters (first try, early time-out, near-miss); Boosted: V5 (fun, frustration). */
         public FunSim.Result Fun, Boosted;
         public FunSim.Result Feel => Boosted ?? Fun;
+        /* PM_70: difficulty model v2 (first-try estimate, jams per exit, rules); FunSim's first try stays as a side column. */
+        public DifficultyModelV2.Estimate V2;
+        public double FirstWin => V2?.PWin1 ?? Fun.FirstWinRate;
         public readonly List<string> Psych = new List<string>();
         public bool Accepted => Psych.Count == 0;
         public Candidate Candidate => Assessment.Candidate;
@@ -157,8 +168,8 @@ namespace ReverseSolver.Generation
 
         /* PM's order: first-try win close to the band's middle, then fun, then near-miss close to its band. */
         public (double, double, double) RankKey => FunFirst
-            ? (-Feel.EnjoyRate, Thresholds.FirstWinOffCentre(Fun.FirstWinRate), Thresholds.NearMissOff(Fun.NearMissRate))
-            : (Thresholds.FirstWinOffCentre(Fun.FirstWinRate), -Feel.EnjoyRate, Thresholds.NearMissOff(Fun.NearMissRate));
+            ? (-Feel.EnjoyRate, Thresholds.FirstWinOffCentre(FirstWin), Thresholds.NearMissOff(Fun.NearMissRate))
+            : (Thresholds.FirstWinOffCentre(FirstWin), -Feel.EnjoyRate, Thresholds.NearMissOff(Fun.NearMissRate));
         public double Score => -RankKey.Item1 * 10 + RankKey.Item2 * -1 - RankKey.Item3;
     }
 
@@ -190,9 +201,10 @@ namespace ReverseSolver.Generation
                 {
                     Assessment = a, Thresholds = th, FunFirst = funFirst,
                     Fun = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: fun),
-                    Boosted = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: boosted)
+                    Boosted = FunSim.Run(a.Candidate.Level, spec.Genre, players, options: boosted),
+                    V2 = o.ModelV2 ? DifficultyModelV2.Of(a.Candidate.Level, spec.Slot, DifficultyModelV2.RoleOf(spec.Genre), o.ModelV2Games) : null
                 };
-                f.Psych.AddRange(th.Check(f.Fun, f.Boosted));
+                f.Psych.AddRange(th.Check(f.Fun, f.Boosted, f.V2));
                 return f;
             }
             outc.Search = Search.Run(spec, o.Seed, o.BudgetFor(spec.Genre), o.BandWant, catalog, o.SearchPlayers, o.Relax, o.Deadline);
@@ -229,8 +241,8 @@ namespace ReverseSolver.Generation
                     for (int i = 0; i < outc.Checked.Count && FunThresholds.RelaxAllowed(spec.Genre, outc.Chosen.Count, o.Relax); i++)
                     {
                         var f0 = outc.Checked[i];
-                        if (f0.Accepted || f0.CurveException || relaxed.Check(f0.Fun, f0.Boosted).Count > 0) continue;
-                        var f = new Finalist { Assessment = f0.Assessment, Thresholds = relaxed, Fun = f0.Fun, Boosted = f0.Boosted, ByMemory = f0.ByMemory, FunFirst = funFirst, BandRelaxed = true };
+                        if (f0.Accepted || f0.CurveException || relaxed.Check(f0.Fun, f0.Boosted, f0.V2).Count > 0) continue;
+                        var f = new Finalist { Assessment = f0.Assessment, Thresholds = relaxed, Fun = f0.Fun, Boosted = f0.Boosted, ByMemory = f0.ByMemory, V2 = f0.V2, FunFirst = funFirst, BandRelaxed = true };
                         outc.Checked[i] = f;
                     }
             }
@@ -297,6 +309,12 @@ namespace ReverseSolver.Generation
             var m = a.Structure;
             var l = f.Candidate.Level;
             FunScores(e, f.Fun, f.Boosted);
+            if (f.V2 != null)
+            {
+                e.Scores["v2Ilk"] = Math.Round(f.V2.PWin1, 3);
+                e.Scores["v2Dusundurme"] = Math.Round(f.V2.JamPerExit, 3);
+                e.Scores["v2Bogaz"] = f.V2.Features.ChokeN;
+            }
             e.Scores["okuma"] = Math.Round(m.ReadingPerMove, 2);
             e.Scores["k0"] = m.FreeAtStart;
             e.Scores["acikDikis"] = LevelStats.Of(l).OpenPercent;
