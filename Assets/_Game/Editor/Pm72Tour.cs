@@ -27,7 +27,7 @@ namespace ReverseSolver.EditorTools
                     return $"[{F(o.x + (c.X + .5f) * cell)},{F(o.y + (c.Y + .5f) * cell)},\"{m.Dir}\",{m.Piece}]";
                 });
                 sb.Append(sb.Length > 1 ? ",\n" : "").Append($"{{\"n\":{l.Number},\"id\":\"{l.Id}\",\"w\":{l.Width},\"h\":{l.Height},\"cell\":{F(cell)},\"x\":{F(o.x)},\"y\":{F(o.y)}," +
-                    $"\"timer\":{l.TimerSeconds},\"bombs\":{l.Bombs.Count},\"nails\":{l.Nails.Count},\"sol\":[{string.Join(",", sol)}]}}");
+                    $"\"timer\":{l.TimerSeconds},\"bombs\":{l.Bombs.Count},\"nails\":{l.Nails.Count},\"bombPieces\":[{string.Join(",", l.Bombs.Keys)}],\"sol\":[{string.Join(",", sol)}]}}");
             }
             Directory.CreateDirectory("Logs/pm72");
             File.WriteAllText("Logs/pm72/p22_levels.json", sb.Append("]").ToString());

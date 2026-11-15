@@ -206,8 +206,31 @@ namespace ReverseSolver.Core
             return new LevelSet(original.Format, levels);
         }
 
-        /* The p22 set: lessons, PM_68's 11-20, PM_70's 11-40. */
-        public static LevelSet P22(LevelSet original) => TuneLate(TuneSecondTen(SpaceObstacleLessons(original)));
+        /* PM_71: eight levels tuned again on the data-blended p_win1 (pt1's real results; ENTEGRASYON_RAPOR "PM_71").
+           Same form as LateTuning, applied on PM_70's levels; boards untouched, next version. */
+        public static readonly Retune[] DataTuning =
+        {
+            new Retune("S21", 0, "3:22"),                                    // 11 fuse +3: .53 -> .59
+            new Retune("S17", 0, "21:16"),                                   // 26 fuse -4: .87 -> .61
+            new Retune("S10", 0, "15:19"),                                   // 27 the bomb from 8 to 15 (a fuse cut alone breaks the open-board rule): .85 -> .63
+            new Retune("S08", 63, "14:20"),                                  // 30 fuse +2, 70 -> 63 s: .52 -> .58
+            new Retune("S39", 100, "19:41,25:48,32:22,37:44"),               // 32 bomb 19 -7, 98 -> 100 s: .66 -> .57
+            new Retune("S32", 0, "26:26,31:32,36:25,37:24"),                 // 33 hard, bomb 37 -2: .47 -> .40
+            new Retune("Z25", 0, "25:29,31:30,32:30"),                       // 36 bomb 31 -1: .67 -> .57
+            new Retune("S38", 0, "8:32,29:17,30:9"),                         // 37 bomb 30 +1 (pt1's deaths), 29 -5, 8 -2: .39 -> .54
+        };
+
+        public static LevelSet TuneData(LevelSet original)
+        {
+            var levels = new List<LevelData>(original.Levels);
+            for (int i = 0; i < levels.Count; i++)
+                foreach (var r in DataTuning)
+                    if (levels[i].Id == r.Id) { levels[i] = Retuned(levels[i], r); break; }
+            return new LevelSet(original.Format, levels);
+        }
+
+        /* The p22 set: lessons, PM_68's 11-20, PM_70's 11-40, PM_71's data tuning. */
+        public static LevelSet P22(LevelSet original) => TuneData(TuneLate(TuneSecondTen(SpaceObstacleLessons(original))));
 
         public static LevelData Retuned(LevelData level, Retune r)
         {

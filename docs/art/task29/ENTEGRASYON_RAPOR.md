@@ -670,3 +670,180 @@ Sesleri `Tools/make_pm72_sounds.py` üretiyor.
 
 - Bomba tanıtım kartında ikon "2" gösteriyor, metin "16 hamle" diyor (bölüm 7).
 - "Süre doldu" devam panelinin başlığı kurdele/afiş biçiminde. PM_65 ölçütüne göre kurdele olmamalı.
+
+## PM_73 — T50 seçimleri, kayma izi, nefes anı, iki küçük hata (16 Kasım)
+
+Zeyd'in seçimi: kazanma ekranı B, harita düğmeleri C.
+- p22 build `p22-2026-11-16a` (gh-pages `a15a03d2`).
+- Görüntüler ve GIF'ler `docs/art/task29/pm73/` klasöründe:
+  - `sonra/`: yeni ekranlar.
+  - Yan yana karşılaştırmalar: `kazanma_once_sonra.png`, `harita_once_sonra.png`, `sure_doldu_once_sonra.png`, `sandik_once_sonra.png`.
+
+### 1. Kazanma ekranı: T50 B
+**Parçalar:** `Tools/make_pm73_art.py`, `Assets/Art/_yeni/T50/kazanma/B` kaynağını `Resources/Art/yeni/T50/win` klasörüne kopyalıyor.
+- Düğme yüzlerindeki gömülü Türkçe yazı silindi. Yazılar oyunun fontuyla (Baloo) çiziliyor, bu yüzden İngilizce de çalışıyor.
+- Işık resmi 472×1024'e indirildi.
+- Bütün parçalar 4'ün katı boyutunda, sıkıştırılabiliyor.
+
+**Ekran (`P21WinView.LayoutB`):**
+- Kart yok. Gölgelenmiş tahtanın üstünde mavi ışık, altın huzmeler ve konfeti.
+- 3B "Harika!", İngilizcede "Great!" (Codex'in resimleri).
+- Zıplayan Jigo.
+- "+50" oyunun fontuyla (krem dolgu, mavi kontur) ve yanında altın simgesi. Bozuk "÷" görünümü giderildi.
+- "+50" gerçek ödül: `WinCoins` her kazanmada 50. Ödül yoksa satır gizleniyor.
+- Beş bölmeli sandık çubuğu. İki sandık arasındaki ilerleme orantılı doluyor; en son dolan bölme hafifçe büyüyüp yerine oturuyor.
+- Yeşil "Sonraki Seviye" / "Next Level" ve mavi "Menü" / "Menu".
+
+**Giriş animasyonu, toplam 1,15 sn:**
+1. Işık açılır (0–0,3 sn).
+2. Başlık 1,3×'ten 1×'e oturur (0,12–0,45).
+3. Jigo zıplar ve hafifçe ezilerek iner (0,3–0,78).
+4. Altın 0'dan 50'ye sayılır, çubuk görünür (0,6–0,92).
+5. Düğmeler aşağıdan gelir (0,82–1,15).
+
+Dokunmak girişi hemen tamamlıyor. Giriş bitince Jigo hafifçe sallanıyor.
+
+**Sandık ekranı:** aynı dile geçti. Krem panel yerine mavi ışık, 3B "Sandık!" ve aynı düğmeler.
+
+**T48 kaldırıldı:** kazanma kartı koddan çıktı, `Resources/Art/yeni/T48/win` silindi. `T46BuildArt` artık yalnız T48'in menü, profil ve ayar klasörlerini kopyalıyor.
+
+### 2. Harita: T50 C (yapboz düğmeleri)
+`LevelsMap.NodeC` beş durumu çiziyor:
+- **Tamamlandı:** mavi gövde, altın kenar, tik.
+- **Şu anki:** 1,25× (82 pt), hale. Hafif nefes alıyor: 1,0 ↔ 1,04, 2 sn.
+- **Kilitli:** gri gövde, asma kilit.
+- **Zor:** bordo gövde, Kont mührü.
+- **Engel dersi:** 3 kilit, 7 bomba, 10 zincir, 14 duvar rozeti.
+
+Rozetler:
+- 24 pt.
+- Türü gösteren rozetler (Kont, engel) sağ üstte, durumu gösterenler (tik, kilit) sağ altta; üst üste binmiyorlar.
+
+Diğer ayrıntılar:
+- Bölüm numaraları Baloo fontunda.
+- **Jigo işareti:** düğme yüksekliğinin %70'i. Kenar boşluğu kırpıldı. 1,5 sn'de bir aşağı yukarı sallanıyor.
+- Düğmeler arasında altın noktalı yol var, her 10 pt'de bir nokta.
+- Eski "Oyna" baloncuğu ve avatar kaldırıldı. Dokunma alanı 66 pt.
+
+### 3. Kayma izi (`ExitTrail`)
+Doğru yönde atılan parça çıkarken arkasında iz bırakıyor. Takılmada ve çekiçte iz yok.
+
+**`&iz=serit` (varsayılan):**
+- Parça genişliğinde bir şerit. İlk üçte birde tam genişlikte, sonra incelip solan "uçurtma kuyruğu".
+- Rengi parçanın altındaki resmin baskın tonu. Bu ton resim yüklenirken 16×16 ızgaradan bir kez okunuyor.
+- Bombalı parçada iz altın.
+- Ucunda iki altın kıvılcım var.
+
+**`&iz=hayalet`:** parçanın soluk kopyaları, 45 ms arayla en çok 3 tane.
+
+**Ortak kurallar:**
+- **Ömür:** her iz noktası 0,22 sn yaşıyor; parça gidince iz 0,22 sn içinde siliniyor.
+- **Uzunluk:** bırakma hızına göre 0,6–2,6 hücre; hızlı fiske uzun, yavaş itiş kısa iz bırakıyor.
+- **Komşular:** iz, parçanın kendi başlangıç hücresinin arkasına geçmiyor. Bütün parçaların altında çiziliyor (sıra 98), komşu parçalar her zaman üstte kalıyor.
+- **Sınır:** ekranda en çok 3 iz.
+- **Ayarlar:** `ExitTrail.LengthCells`, `MinCells`, `Opacity`, `Life`.
+
+**Düzeltilen sorun:**
+- **Belirti:** ilk sürümde iz görünmüyordu.
+- **Ölçüm:** tarayıcı konsoluna yazdırılan tanı satırları ve piksel ölçümüyle sebep bulundu: iz çiziliyordu, ama baş kısmı parçanın altında kalıyor, kuyruğu da hızla şeffaflaşıyordu.
+- **Düzeltme:** ilk üçte birlik bölümün opaklığı ve genişliği artırıldı, renk canlandırıldı.
+- Şerit artık bir sprite, nesneleri tahtayla birlikte önceden yaratılıyor. Oyun sırasında yeni nesne yaratılmıyor.
+
+**GIF'ler:** `iz_serit.gif`, `iz_hayalet.gif`.
+
+### 4. Nefes anı (`BoardView.FlyOut`)
+**Ne zaman:**
+- Bombalı parça çıkarken,
+- bir kilidi açan çıkışta,
+- zincirli parçada,
+- son parçada.
+
+**Nasıl:**
+- Parça tahtanın kenarını geçtiği anda yalnız o parçanın saati 90 ms boyunca %20 hıza iniyor. Son parçada bu süre 160 ms.
+- Son %30'luk kısımda parça yeniden hızlanıyor.
+- **Etkilenmeyenler:** oyun saati, girdi ve diğer parçalar durmuyor.
+- **Kıvılcım, ses, titreşim:** aynı kenar anında geliyor.
+  - Kıvılcım ya da bomba sönme efekti patlıyor.
+  - Ses ve titreşim de o anda çalıyor (`BoardView.ExitBurst`). PM_72'de bunlar parmak bırakıldığı anda çalıyordu, artık kıvılcımla aynı anda.
+  - Kilit sesi, kilidi açan çıkışın kenar anına taşındı.
+  - Son parçanın başarı titreşimi de kenar anına taşındı.
+- **Kazanma ekranı:** son parçanın uçuşu bitmeden açılmıyor (`FlyingUntil`).
+
+**Bayraklar:**
+- `&nefes=onemli` (varsayılan).
+- `&nefes=hep`: her çıkışta 50 ms; önemli çıkışlarda kendi süreleri.
+- `&nefes=yok`.
+
+**GIF'ler:**
+- `nefes_bomba_once_sonra.gif`: bölüm 7'nin bombalı parçası.
+- `nefes_son_parca_once_sonra.gif`: bölüm 1'in son parçası ve kazanma ekranı.
+- 30 fps. Sağ tarafta parça kenarda 3–5 kare daha uzun kalıyor.
+
+### 5. İki küçük hata
+- **7. bölüm bomba kartı:** simge bombanın gerçek sayacını gösteriyor (16) ve metindeki sayıyla aynı. Birden çok bomba varsa en küçük sayaç gösteriliyor. Simge artık 3-2-1 saymıyor; 1,6 sn'de bir yerinde tıklıyor.
+- **"Süre doldu" / "Bomba patladı" paneli:** kurdele kaldırıldı. Başlık krem panelde 3B yazı (krem dolgu, mavi kontur, altın derinlik).
+
+### Ölçümler
+- **EditMode:** 733/0, 2 atlandı.
+  - Yeni `Pm73Tests`: giriş ≤ 1,2 sn, rozet ≥ 22, Jigo payı, nefes süreleri, iz sınırları, bomba kartı.
+  - Yeni `Pm71Tests`.
+- **PlayMode:** 4/4.
+- **Build:** Brotli 35,86 MB. PM_72'de 36,48 MB idi; T48 kazanma parçaları çıktı.
+- **verify_build:**
+  - Yerel 4/4.
+  - `--send --player TEST_PM73`: 5/7. KALDI'lar yalnız PM_54'ten beri bilinen eski `zeydsend` ve `a6b`.
+  - Canlı 4/4.
+
+**Doğrulanmadı:**
+- iPhone'da his (iz, nefes, giriş animasyonu).
+- Android titreşimi.
+
+## PM_71 — Veriyle düzeltme + 8 bölüme ince ayar (16 Kasım)
+
+### 1. `PWin1Blended`
+`DifficultyModelV2.PWin1Parts` model, veriyle ve birleşik değeri birlikte veriyor. `PlayData` sınıfı:
+- **pt1 verisi:** `docs/analiz/v2/irt_level_d.csv` ve oynanan sürümler `redesign.json`. Sürümlerin 40'ı da tutuyor.
+- **Kohort parametre:** ileride `irt_level_d_<kohort>.csv` aynı yoldan okunacak.
+
+Formül:
+- veriyle = σ(−d_obs + logit p_model(yeni) − logit p_model(pt1 sürümü))
+- birleşik = σ((1−w)·logit p_model + w·logit veriyle), w = n/(n+10)
+
+Davranış:
+- Verisi olmayan bölümde birleşik değer `PWin1` ile aynı.
+- **Kullananlar:**
+  - üretici (`Estimate.Of`, `PWin1Model` ve `PWin1Data` yan alanlarıyla),
+  - eğri testi (`P22CurveTests`),
+  - `Pm71Tune.Report`.
+- **Ayar aracı:** `Pm71Tune.Search` ve `Eval`. Birleşik hedefi modelin hedefine çeviriyor: birleşik logit = model logit − w(d_obs + logit p_pt1).
+
+**Testler:**
+- S38 v2 için birleşik değer 0,391 (PM: 0,39).
+- Verisi olmayan bölümde `Blended == PWin1`.
+- Kohort parametresi çalışıyor.
+
+**Eğri kontrolüne ek:** bant artık iki basamağa yuvarlanmış değerle karşılaştırılıyor; PM'in tabloları da böyle okunuyor.
+- Sebep: 13 (0,547), 19 (0,754) ve 31 (0,651) bandın 0,005 içinde. PM tablosunda üçü de bantta, "diğer bölümler kalsın" dendiği için dokunulmadı.
+
+### 2. İnce ayar (`P21Onboarding.DataTuning`)
+- PM_70'in bölümleri üzerine uygulandı. Tahtalar değişmedi, her bölümün sürümü +1.
+- Sıra: fitil → süre → bomba taşıma. Engel eklenmedi.
+
+| slot | bölüm | rol | model | veriyle | birleşik | değişiklik |
+|---|---|---|---|---|---|---|
+| 11 | S21 v3 | normal | ,67 → ,73 | ,46 → ,52 | ,53 → ,59 | fitil 19 → 22 |
+| 26 | S17 v4 | normal | ,66 → ,31 | ,97 → ,88 | ,87 → ,61 | fitil 20 → 16 |
+| 27 | S10 v4 | normal | ,60 → ,31 | ,97 → ,90 | ,85 → ,63 | bomba 8:17 → 15:19 (açık tahtada yalnız fitil kısmak "sıkı bomba" kuralını bozuyordu) |
+| 30 | S08 v4 | normal | ,65 → ,71 | ,35 → ,41 | ,52 → ,58 | fitil 18 → 20, süre 70 → 63 sn |
+| 32 | S39 v3 | normal | ,56 → ,47 | ,76 → ,69 | ,66 → ,57 | bomba 19 fitil 48 → 41, süre 98 → 100 |
+| 33 | S32 v3 | zor | ,40 → ,33 | ,57 → ,50 | ,47 → ,40 | bomba 37 fitil 26 → 24 |
+| 36 | Z25 v3 | normal | ,55 → ,44 | ,81 → ,73 | ,67 → ,57 | bomba 31 fitil 31 → 30 |
+| 37 | S38 v3 | normal | ,56 → ,70 | ,19 → ,30 | ,39 → ,54 | bomba 30: 8 → 9 (pt1'deki ölümler); 29: 22 → 17; 8: 34 → 32 |
+
+**S38 neden üç bomba birden değişti:** yalnız 30'u gevşetmek bölümü 0,93'e çıkarıyordu.
+
+**Eğri:**
+- 11–40'ta eğri ve kurallar birleşik değere göre temiz: art arda zor yok, 31–40'ta 3 zor, nefes bölümleri yerinde.
+- `Rules.Check` hiçbir bölümde ihlal göstermiyor.
+
+**Doğrulanmadı:** gerçek oyuncu sonucu. p22 verisi gelince tablo `irt_level_d_p22.csv` ile güncellenecek.

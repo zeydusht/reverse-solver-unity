@@ -53,6 +53,10 @@ function serve(root) {
   ws.addEventListener('message', e => {
     const m = JSON.parse(e.data);
     if (m.id && pend.has(m.id)) { pend.get(m.id)(m); pend.delete(m.id); }
+    if (m.method === 'Runtime.consoleAPICalled' && process.env.TOUR_LOG) {
+      const text = m.params.args.map(a => a.value ?? '').join(' ');
+      if (text.includes(process.env.TOUR_LOG)) console.log(text.slice(0, 300));
+    }
     if (m.method === 'Page.screencastFrame') {
       cdp('Page.screencastFrameAck', { sessionId: m.params.sessionId });
       if (!recording) return;

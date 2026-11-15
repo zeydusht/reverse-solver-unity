@@ -156,6 +156,10 @@ namespace ReverseSolver.Presentation
             if (_testMode) { Host.Current = new TestHost(Host.Current); _continueRules = new ContinueRules(new[] { 0, 0, 0 }); }
             string jamTap = Host.Current.Query("takilmatitresim");   // PM_72: Zeyd's switch for the jam tap (default on)
             if (jamTap == "0" || jamTap == "1") Haptics.JamOn = jamTap == "1";
+            // PM_73: exit trail style (&iz=serit default, &iz=hayalet) and the breath (&nefes=onemli default, hep, yok)
+            ExitTrail.Style = Host.Current.Query("iz") == "hayalet" ? ExitTrail.Kind.Ghost : ExitTrail.Kind.Strip;
+            string breath = Host.Current.Query("nefes");
+            BoardView.Breath = breath == "hep" ? BoardView.BreathMode.Always : breath == "yok" ? BoardView.BreathMode.None : BoardView.BreathMode.Important;
             // PM_64/66 options: the clock is Codex's left-hand shield by default (&saat=firca: the PM_62 brush),
             // the portrait stays live (&portre=sabit: Codex's fixed one), scissors PM_62 (&makas=yavas: Codex's).
             P21BoosterView.ShieldClock = Host.Current.Query("saat") != "firca";
@@ -875,6 +879,38 @@ namespace ReverseSolver.Presentation
             _late.PlayDelayed(delay);
         }
 
+        // PM_73: dragged exits waiting for the edge (piece -> when removed); a lock freed by that same move
+        readonly System.Collections.Generic.Dictionary<int, (float at, bool unused)> _pendingExits = new System.Collections.Generic.Dictionary<int, (float, bool)>();
+        int _exitFrame = -1;
+        bool _unlockPending;
+        void ExitSound(bool bomb, bool last, bool unlocked, bool lastTap = true)
+        {
+            if (last) PlaySound("popfull");
+            else if (P21JuiceView.Enabled) PlaySound(bomb ? "pm72-defuse" : "pm72-tick");
+            if (unlocked) PlaySound("pm72-unlock");
+            if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
+            else if (lastTap) Haptics.Play(Haptics.Kind.Success);   // otherwise Finished taps
+        }
+        void OnExitBurst(int piece, bool bomb, bool last, bool unlocked)
+        {
+            if (!_pendingExits.Remove(piece)) return;
+            bool freed = _unlockPending; _unlockPending = false;
+            ExitSound(bomb, last && _session.Outcome == Outcome.Win, freed);
+        }
+        /* An exit that never reached the edge on screen (the board was rebuilt) still gets its sound. */
+        void FlushExits()
+        {
+            if (_pendingExits.Count == 0) return;
+            foreach (var kv in new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<int, (float at, bool unused)>>(_pendingExits))
+                if (Time.unscaledTime - kv.Value.at > .6f || _board == null)
+                {
+                    _pendingExits.Remove(kv.Key);
+                    bool last = _session.IsOver && _session.Outcome == Outcome.Win && _pendingExits.Count == 0;
+                    ExitSound(_session.Level.Bombs.ContainsKey(kv.Key), last, _unlockPending);
+                    _unlockPending = false;
+                }
+        }
+
         void OnEvent(GameEvent e)
         {
             OnP21TutorialEvent(e);
@@ -917,15 +953,20 @@ namespace ReverseSolver.Presentation
             // PM_MESAJ_19: no sound per piece; the jam keeps its knock; the last piece gets the whole sparkle, then the fanfare
             // PM_72: every exit a short tick and a light tap; a bomb piece a defuse sound and a medium tap; a lock
             // breaking a crack and a light tap; a jam a very short weak tap; the last piece the success tap (Finished).
+            // PM_73: a dragged exit plays at the moment the piece crosses the edge (BoardView.ExitBurst, with the spark
+            // and the breath); a hammer or any other removal plays now.
             if (e.Kind == EventKind.PieceRemoved)
             {
                 bool last = _session.Board.PresentCount == 0;
                 bool bomb = _session.Level.Bombs.ContainsKey(e.Piece);
-                if (last) PlaySound("popfull");
-                else if (P21JuiceView.Enabled) PlaySound(bomb ? "pm72-defuse" : "pm72-tick");
-                if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
+                if (!e.ByHammer && P21JuiceView.Enabled && _board != null) { _pendingExits[e.Piece] = (Time.unscaledTime, false); _exitFrame = Time.frameCount; }
+                else ExitSound(bomb, last, false, lastTap: false);
             }
-            else if (P21JuiceView.Enabled && e.Kind == EventKind.NailFreed) { PlaySound("pm72-unlock"); Haptics.Play(Haptics.Kind.Light); }
+            else if (P21JuiceView.Enabled && e.Kind == EventKind.NailFreed)
+            {
+                if (_exitFrame == Time.frameCount && _pendingExits.Count > 0) _unlockPending = true;
+                else { PlaySound("pm72-unlock"); Haptics.Play(Haptics.Kind.Light); }
+            }
             else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) PlaySound("piece");
             else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
@@ -952,7 +993,7 @@ namespace ReverseSolver.Presentation
             }
             if (e.Outcome == Outcome.Quit) return;
             if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
-            if (e.Outcome == Outcome.Win) { Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s
+            if (e.Outcome == Outcome.Win) { if (_pendingExits.Count == 0) Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s; a dragged last piece taps at the edge
             _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
             // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
             if (!P21WinArt && e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
@@ -1145,6 +1186,8 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_p21Flow ? _index + 1 : _session.Level.Number);
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin, P21Boosters);
+                _board.ExitBurst = OnExitBurst;
+                _pendingExits.Clear();
                 // Zeyd 2026-10-26 chose the thick dark navy edge (#06161D, 1.5x rim, 80 % cream band, soft halo) for painted boards
                 Shader.SetGlobalFloat("_RSEdge", _showSet || _paintSet ? 1 : 0);
                 if (_showSet)
@@ -1465,7 +1508,8 @@ namespace ReverseSolver.Presentation
                 TickBoosters21();
                 TickP21Tutorial();
                 if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil && !BoosterBusy21) NextScriptedTutorial();
-                if (_endAt > 0 && Time.unscaledTime >= _endAt)
+                FlushExits();
+                if (_endAt > 0 && Time.unscaledTime >= _endAt && (_board == null || Time.unscaledTime >= _board.FlyingUntil))
                 {
                     _endAt = -1;
                     if (P21WinArt && _session.Outcome == Outcome.Win) ShowWin21();

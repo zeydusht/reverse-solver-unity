@@ -27,7 +27,23 @@ namespace ReverseSolver.Presentation
         readonly Dictionary<int, ChainRope> _ropes = new Dictionary<int, ChainRope>();
         int _blocker = -1, _dragged = -1;
         P21JuiceView _juice;
+        ExitTrail _trail;
         bool _animatedBoosters;
+
+        /* PM_73 "nefes": at an important exit (a bomb piece, the exit that frees a lock, a chained piece, the last
+           piece) the piece's own flight slows to 20 % for ~90 ms as it crosses the edge (160 ms for the last piece),
+           with the spark, sound and tap at that moment; the game clock, input and other pieces go on.
+           &nefes=onemli (default), &nefes=hep (every exit 50 ms, important ones as above), &nefes=yok. */
+        public enum BreathMode { Important, Always, None }
+        public static BreathMode Breath = BreathMode.Important;
+        public const float BreathSpeed = .2f, BreathSeconds = .09f, LastBreathSeconds = .16f, LightBreathSeconds = .05f;
+        public const float FlySeconds = .34f;
+        /* The moment a dragged piece crosses the board edge: piece, bomb piece, last piece, freed a lock. */
+        public System.Action<int, bool, bool, bool> ExitBurst;
+        public float FlyingUntil { get; private set; } = -1;
+        int _freedFrame = -1;
+        float _dragSpeed, _dragAt = -1;
+        Vector2 _dragOffset;
 
         public static BoardView Create(Transform parent, GameSession session, float cell, Vector2 origin, bool animatedBoosters = false)
         {
@@ -39,7 +55,7 @@ namespace ReverseSolver.Presentation
             v._animatedBoosters = animatedBoosters;
             v.transform.localPosition = Draw.W(origin);
             v.Build();
-            if (P21JuiceView.Enabled) v._juice = P21JuiceView.Create(v);
+            if (P21JuiceView.Enabled) { v._juice = P21JuiceView.Create(v); v._trail = ExitTrail.Create(v.transform, cell); }
             session.EventRaised += v.OnEvent;
             return v;
         }
@@ -306,6 +322,7 @@ namespace ReverseSolver.Presentation
             if (_dragged != drag.Piece)
             {
                 _dragged = drag.Piece;
+                _dragSpeed = 0; _dragAt = -1;
                 if (_ropes.TryGetValue(drag.Piece, out var rope) && rope != null) { rope.Kick(); rope.SetOrder(LiftOrder + PieceStride); }
                 Tweens.Kill(pv);
                 Tweens.Kill((pv, "deal"));
@@ -316,6 +333,14 @@ namespace ReverseSolver.Presentation
             }
             var d = drag.Direction;
             pv.SetOffset(d.HasValue ? new Vector2(d.Value.Dx(), d.Value.Dy()) * drag.Offset : Vector2.zero);
+            // release speed for the exit trail: smoothed over the last frames of the drag
+            float now = Time.unscaledTime;
+            if (_dragAt >= 0 && now > _dragAt)
+            {
+                float v = (pv.Offset - _dragOffset).magnitude / (now - _dragAt);
+                _dragSpeed = Mathf.Lerp(_dragSpeed, v, Mathf.Clamp01((now - _dragAt) / .05f));
+            }
+            _dragAt = now; _dragOffset = pv.Offset;
             SetBlocker(drag.Blocker);
         }
 
@@ -324,8 +349,10 @@ namespace ReverseSolver.Presentation
             SetBlocker(-1);
             if (_ropes.TryGetValue(piece, out var rope) && rope != null) rope.Kick();
             _dragged = -1;
+            float releaseSpeed = _dragAt >= 0 && Time.unscaledTime - _dragAt < .12f ? _dragSpeed : 0;
+            _dragAt = -1;
             if (!_pieces.TryGetValue(piece, out var pv)) return;
-            if (result == DragRelease.Exited) { FlyOut(pv, dir, travelCells); return; }
+            if (result == DragRelease.Exited) { FlyOut(pv, dir, travelCells, true, releaseSpeed); return; }
 
             if (autoSlide)
             {
@@ -356,9 +383,26 @@ namespace ReverseSolver.Presentation
             // T28 ropes have their own sorting order, so only the chain needs that priority.
             PieceOrder + piece * PieceStride + (!(Art.T28 && Art.On) && Session.Level.Pieces[piece].Length > 1 ? ChainedBoost : 0);
 
-        void FlyOut(PieceView pv, Dir dir, int travelCells)
+        void FlyOut(PieceView pv, Dir dir, int travelCells, bool dragged = false, float releaseSpeed = 0)
         {
             bool pop = _juice != null;
+            bool bomb = Session.Level.Bombs.ContainsKey(pv.Index);
+            bool last = dragged && Session.IsOver && Session.Outcome == Outcome.Win;
+            bool unlocked = dragged && _freedFrame == Time.frameCount;
+            bool chained = Session.Level.Pieces[pv.Index].Length > 1;
+            bool important = bomb || last || unlocked || chained;
+            float breath = !dragged || !pop || Breath == BreathMode.None ? 0
+                : important ? (last ? LastBreathSeconds : BreathSeconds)
+                : Breath == BreathMode.Always ? LightBreathSeconds : 0;
+            float total = FlySeconds + breath * (1 - BreathSpeed);
+            FlyingUntil = Mathf.Max(FlyingUntil, Time.unscaledTime + total);
+            if (dragged && _trail != null)
+            {
+                // the finger's speed at release; a piece pushed to a stop still gets a short trail
+                float speed = Mathf.Max(releaseSpeed, Cell * 4);
+                _trail.Begin(pv, new Vector2(dir.Dx(), dir.Dy()), speed, bomb ? ExitTrail.Gold : ToneOf(pv));
+            }
+            float clock = 0, lastReal = 0, slowFrom = -1;
             // Move the actual piece transform so the attached rope follows the slide.
             var from = pv.Offset;
             var axis = new Vector2(dir.Dx(), dir.Dy());
@@ -377,8 +421,18 @@ namespace ReverseSolver.Presentation
             bool burstPending = pop;
             _ropes.Remove(pv.Index);
             _pieces.Remove(pv.Index);
-            Tweens.Run(pv, .34f, t =>
+            Tweens.Run(pv, total, real01 =>
             {
+                // the piece's own clock: 20 % speed for `breath` seconds from the edge, easing back over the last 30 %
+                float real = real01 * total, dt = real - lastReal; lastReal = real;
+                float speed = 1;
+                if (slowFrom >= 0 && real - slowFrom < breath)
+                {
+                    float k = (real - slowFrom) / breath;
+                    speed = k < .7f ? BreathSpeed : Mathf.Lerp(BreathSpeed, 1, (k - .7f) / .3f);
+                }
+                clock = real01 >= 1 ? FlySeconds : Mathf.Min(FlySeconds, clock + dt * speed);
+                float t = clock / FlySeconds;
                 float progress = t * t;
                 var offset = Vector2.LerpUnclamped(from, to, progress);
                 float along = Vector2.Dot(offset, axis);
@@ -386,6 +440,8 @@ namespace ReverseSolver.Presentation
                 {
                     burstPending = false;
                     _juice.ExitAt(pv, center + axis * burstDistance);
+                    if (breath > 0) slowFrom = real;
+                    if (dragged) ExitBurst?.Invoke(pv.Index, bomb, last, unlocked);
                 }
                 float puff = Mathf.Clamp01((along - (travelCells + .65f) * Cell) / (1.95f * Cell));
                 float stretch = .07f * Mathf.Sin(t * Mathf.PI);
@@ -399,6 +455,23 @@ namespace ReverseSolver.Presentation
                 pv.SetOffset(offset + center - Vector2.Scale(center, scale));
                 pv.SetAlpha(1 - puff);
             }, () => Destroy(pv.gameObject));
+        }
+
+        /* The trail colour: the picture tone under the piece (the cell colours without a picture), a little
+           livelier so it reads on the board. */
+        Color ToneOf(PieceView pv)
+        {
+            var sum = Color.clear; int n = 0;
+            foreach (var c in pv.Cells)
+            {
+                var uv = new Vector2((c.X + .5f) / Session.Level.Width, (c.Y + .5f) / Session.Level.Height);
+                if (_image != null && LevelImages.Tone(_image, uv, out var tone)) sum += tone;
+                else sum += PieceView.CellColor(Session.Level, c);
+                n++;
+            }
+            var avg = n > 0 ? sum / n : Color.gray;
+            Color.RGBToHSV(avg, out float h, out float sat, out float val);
+            return Color.HSVToRGB(h, Mathf.Clamp(sat * 1.4f, .35f, 1f), Mathf.Clamp(val * 1.15f, .65f, 1f));
         }
 
         void SetBlocker(int piece)
@@ -487,6 +560,10 @@ namespace ReverseSolver.Presentation
                     foreach (var n in _nails.Values) n.Tick();
                     break;
                 case EventKind.NailFreed:
+                    _freedFrame = Time.frameCount;
+                    RefreshNails();
+                    Popped(e.Piece);
+                    break;
                 case EventKind.ValveReleased:
                     RefreshNails();
                     Popped(e.Piece);

@@ -17,8 +17,10 @@ namespace ReverseSolver.EditorTools
             // T45 (PM_66): only the pause panel's toggles and the button faces are used so far.
             Copy("T45/Pause/Toggle", 0);
             Copy("T45/Buttons", 512);
-            // T48 (PM_67): panels are devam_v2/panel already in the build; the mock-up and title sample are references.
-            Copy("T48", 0, "panel.png", "maket-390x844.png", "title-sample.png");
+            // T48 (PM_67): menu, profile and settings; the T48 win card left with PM_73 (T50 B, Resources/Art/yeni/T50,
+            // made by Tools/make_pm73_art.py). Panels are devam_v2/panel already in the build.
+            foreach (var part in new[] { "T48/menu", "T48/profile", "T48/settings" })
+                Copy(part, 0, "panel.png", "maket-390x844.png", "title-sample.png");
         }
 
         static void Copy(string set, int maxSize, params string[] skip)

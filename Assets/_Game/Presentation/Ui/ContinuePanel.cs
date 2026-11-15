@@ -26,9 +26,10 @@ namespace ReverseSolver.Presentation
             content.SetParent(_root, false);
             content.localPosition = Draw.W(c);
             Art54.Stretch(content, "devam_v2/panel", Vector2.zero, new Vector2(w, h), order + 1);
-            Art54.Place(content, "hud40/headers/continue", new Vector2(0, -h / 2 + 26), new Vector2(w, 78), order + 2);
-            Label(content, Lang.T(offer.Kind == ContinueKind.Time ? "Time's up" : "Bomb exploded",
-                offer.Kind == ContinueKind.Time ? "Süre doldu" : "Bomba patladı"), new Vector2(0, -h / 2 + 24), 23, w - 96, order + 3);
+            // PM_73: no ribbon (PM_65): the approved 3D lettering on the cream panel (cream face, blue rim, gold depth)
+            TextView.Create(content, "title", Lang.T(offer.Kind == ContinueKind.Time ? "Time's up" : "Bomb exploded",
+                    offer.Kind == ContinueKind.Time ? "Süre doldu" : "Bomba patladı"), 30, Palette.Cream, true, order: order + 3)
+                .Title3D().FitWidth(w - 100, 22).transform.localPosition = Draw.W(0, -h / 2 + 34);
             Vector2 close = new Vector2(w / 2 - 22, -h / 2 + 6);
             Art54.Place(content, "devam_v2/close-button", close, Vector2.one * 48, order + 4);
             Art54.Place(content, "devam_v2/icon-close", close, Vector2.one * 25, order + 5);

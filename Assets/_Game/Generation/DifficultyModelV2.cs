@@ -37,6 +37,31 @@ namespace ReverseSolver.Generation
         public static double PWin1(DifficultyV2.Features f) => PWin1(f, SecPerMove(f.Level));
         public static double PWin1(DifficultyV2.Features f, double secPerMove) => secPerMove <= 0 ? PWin1(f, UntimedSecPerMove) :
             PWin1(f.BombPieces.Length > 0, f.Aware.PSurvive, f.Rand.PSurvive, secPerMove, f.Prof.NarrowByChain, f.Level.Pieces.Count);
+        /* PM_71: the model blended with what a cohort really did (PlayData; pt1 by default).
+             veriyle  = sigmoid(-d_obs + logit p_model(now) - logit p_model(as played))   the data, moved by the model's change
+             birlesik = sigmoid((1 - w) logit p_model + w logit veriyle),  w = n / (n + 10)
+           A level the cohort never played (a factory candidate, a new id) gets the model alone. */
+        public readonly struct Blend
+        {
+            public readonly double Model, Data, Blended, Weight; public readonly int N;
+            public Blend(double model, double data, double blended, double weight, int n) { Model = model; Data = data; Blended = blended; Weight = weight; N = n; }
+            public bool HasData => N > 0;
+        }
+        public static double Logit0(double p) { p = Math.Min(1 - 1e-4, Math.Max(1e-4, p)); return Math.Log(p / (1 - p)); }
+        public static double Sigmoid(double x) => 1 / (1 + Math.Exp(-x));
+        public static Blend PWin1Parts(DifficultyV2.Features f, PlayData data = null)
+        {
+            double m = PWin1(f);
+            data = data ?? PlayData.Pt1;
+            var row = data?.Find(f.Level.Id);
+            if (row == null) return new Blend(m, double.NaN, m, 0, 0);
+            double data1 = Sigmoid(-row.D + Logit0(m) - Logit0(data.ModelAtPlay(row)));
+            double w = row.N / (row.N + PlayData.Prior);
+            return new Blend(m, data1, Sigmoid((1 - w) * Logit0(m) + w * Logit0(data1)), w, row.N);
+        }
+        public static double PWin1Blended(DifficultyV2.Features f, PlayData data = null) => PWin1Parts(f, data).Blended;
+        public static double PWin1Blended(LevelData level, PlayData data = null) => PWin1Blended(DifficultyV2.Compute(level), data);
+
         public static double JamPerExit(DifficultyV2.Features f) =>
             JamPerExit(f.Prof.NarrowByLock, f.Prof.NarrowByWall, f.Prof.NarrowByChain, f.Prof.DirAmbiguity, f.Level.Pieces.Count);
 
@@ -62,14 +87,16 @@ namespace ReverseSolver.Generation
         public sealed class Estimate
         {
             public DifficultyV2.Features Features;
-            public double PWin1, JamPerExit;
+            public double PWin1, JamPerExit;   // PWin1: blended with the data (PM_71) when the level was played
+            public double PWin1Model, PWin1Data = double.NaN;
             public List<string> Broken;
         }
 
         public static Estimate Of(LevelData level, int slot, Role role, int games = 2000)
         {
             var f = DifficultyV2.Compute(level, games);
-            return new Estimate { Features = f, PWin1 = PWin1(f), JamPerExit = JamPerExit(f), Broken = Rules.Check(f, slot, role) };
+            var b = PWin1Parts(f);
+            return new Estimate { Features = f, PWin1 = b.Blended, PWin1Model = b.Model, PWin1Data = b.Data, JamPerExit = JamPerExit(f), Broken = Rules.Check(f, slot, role) };
         }
 
         /* PM_70 target curve (p22, model v2). Breather: >= .75. */
@@ -118,7 +145,9 @@ namespace ReverseSolver.Generation
             foreach (var r in rows)
             {
                 var (lo, hi) = Band(r.slot, r.role);
-                if (r.p < lo - 1e-9 || r.p > hi + 1e-9) u.Add($"{r.slot} {r.role} {r.p:0.00} ({lo:0.00}–{hi:0.00})");
+                // PM_71: the bands are read to two decimals (the PM's tables); .754 counts as .75
+                double read = Math.Round(r.p, 2, MidpointRounding.AwayFromZero);
+                if (read < lo - 1e-9 || read > hi + 1e-9) u.Add($"{r.slot} {r.role} {r.p:0.000} ({lo:0.00}–{hi:0.00})");
                 if (r.role == Role.Hard && by.TryGetValue(r.slot + 1, out var next) && next.role == Role.Hard) u.Add($"{r.slot}–{r.slot + 1} art arda zor");
                 if (r.role == Role.Hard && r.slot >= 21 && r.slot <= 30 && (!by.TryGetValue(r.slot + 1, out var b) || b.p < .75 - 1e-9))
                     u.Add($"{r.slot} zorun ardından nefes yok");

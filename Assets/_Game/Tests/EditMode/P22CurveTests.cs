@@ -39,7 +39,7 @@ namespace ReverseSolver.Core.Tests
             P21Onboarding.HardSlots22.Contains(slot) ? Role.Hard :
             P21Onboarding.BreatherSlots22.Contains(slot) ? Role.Breather : Role.Normal;
 
-        /* p22 11-40 on model v2: the target bands, hard counts and breathers, and every design rule from 13 on. */
+        /* p22 11-40 on model v2 blended with pt1 (PM_71): the target bands, hard counts and breathers, and every design rule from 13 on. */
         [Test]
         public void P22ElevenToFortyHitsTheCurveAndTheRules()
         {
@@ -55,7 +55,7 @@ namespace ReverseSolver.Core.Tests
                 var role = RoleOf(slot);
                 Assert.That(l.Hard, Is.EqualTo(role == Role.Hard), $"{slot} {l.Id}: the hard card matches the role");
                 var f = DifficultyV2.Compute(l);
-                double p = DifficultyModelV2.PWin1(f);
+                double p = DifficultyModelV2.PWin1Blended(f);   // PM_71: the model blended with pt1's results
                 rows.Add((slot, role, p));
                 if (slot >= 13) broken.AddRange(DifficultyModelV2.Rules.Check(f, slot, role).Select(u => $"{slot} {l.Id}: {u}"));
                 TestContext.WriteLine($"{slot} {l.Id} v{l.Version} {role} p {p:0.00} jam {DifficultyModelV2.JamPerExit(f):0.00} choke {f.ChokeN}");
@@ -71,9 +71,11 @@ namespace ReverseSolver.Core.Tests
             var before = P21Onboarding.TuneSecondTen(P21Onboarding.SpaceObstacleLessons(Original())).Levels.ToDictionary(l => l.Id);
             var after = P21Onboarding.P22(Original()).Levels;
             var tuned = new HashSet<string>(P21Onboarding.LateTuning.Select(r => r.Id));
+            var data = new HashSet<string>(P21Onboarding.DataTuning.Select(r => r.Id));   // PM_71: once more
             Assert.That(tuned.Count, Is.EqualTo(P21Onboarding.LateTuning.Length), "one entry per level");
+            Assert.That(data.Count, Is.EqualTo(P21Onboarding.DataTuning.Length), "one entry per level");
             foreach (var l in after)
-                Assert.That(l.Version, Is.EqualTo(before[l.Id].Version + (tuned.Contains(l.Id) ? 1 : 0)), l.Id);
+                Assert.That(l.Version, Is.EqualTo(before[l.Id].Version + (tuned.Contains(l.Id) ? 1 : 0) + (data.Contains(l.Id) ? 1 : 0)), l.Id);
         }
     }
 }

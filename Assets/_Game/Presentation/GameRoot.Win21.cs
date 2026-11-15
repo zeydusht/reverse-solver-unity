@@ -28,7 +28,7 @@ namespace ReverseSolver.Presentation
             }
             else _save.RecordChestWin21(_session.Level.Number);
             _win21 = new P21WinView(transform, _screen, WinTargets21(), save, _session.Level.Pieces.Count,
-                chest, NextWin21, () =>
+                preview || ContinueEnabled ? _continueRules.WinCoins : 0, chest, NextWin21, () =>
                 {
                     if (preview) return;
                     _inventory = new BoosterInventory(Host.Current.Store, _session.Level, i => i >= 0 && i < _set.Levels.Count && _progress.Won(i));

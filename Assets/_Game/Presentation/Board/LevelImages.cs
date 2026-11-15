@@ -58,7 +58,38 @@ namespace ReverseSolver.Presentation
             var keep = new HashSet<string>();
             foreach (var i in images) if (!string.IsNullOrEmpty(i)) keep.Add(i);
             foreach (var name in new List<string>(_ready.Keys))
-                if (!keep.Contains(name)) { Destroy(_ready[name]); _ready.Remove(name); }
+                if (!keep.Contains(name)) { Tones.Remove(_ready[name]); Destroy(_ready[name]); _ready.Remove(name); }
+        }
+
+        /* PM_73 (ExitTrail): the picture's tone on a coarse grid, read once while the pixels are still on the CPU. */
+        public const int ToneSize = 16;
+        static readonly Dictionary<Texture, Color[]> Tones = new Dictionary<Texture, Color[]>();
+        static Color[] ToneGrid(Texture2D tex)
+        {
+            var px = tex.GetPixels32();
+            int w = tex.width, h = tex.height;
+            var sum = new Vector4[ToneSize * ToneSize]; var n = new int[ToneSize * ToneSize];
+            int step = Mathf.Max(1, Mathf.Min(w, h) / 96);
+            for (int y = 0; y < h; y += step)
+                for (int x = 0; x < w; x += step)
+                {
+                    var c = px[y * w + x];
+                    int k = Mathf.Min(ToneSize - 1, y * ToneSize / h) * ToneSize + Mathf.Min(ToneSize - 1, x * ToneSize / w);
+                    sum[k] += new Vector4(c.r, c.g, c.b, 0); n[k]++;
+                }
+            var grid = new Color[ToneSize * ToneSize];
+            for (int k = 0; k < grid.Length; k++)
+                grid[k] = n[k] == 0 ? Color.gray : new Color(sum[k].x / n[k] / 255f, sum[k].y / n[k] / 255f, sum[k].z / n[k] / 255f, 1);
+            return grid;
+        }
+        /* uv 0..1 from the picture's top left. */
+        public static bool Tone(Texture tex, Vector2 uv, out Color tone)
+        {
+            tone = Color.gray;
+            if (tex == null || !Tones.TryGetValue(tex, out var grid)) return false;
+            int x = Mathf.Clamp((int)(uv.x * ToneSize), 0, ToneSize - 1), y = Mathf.Clamp((int)((1 - uv.y) * ToneSize), 0, ToneSize - 1);
+            tone = grid[y * ToneSize + x];
+            return true;
         }
 
         IEnumerator Fetch(string image)
@@ -79,13 +110,15 @@ namespace ReverseSolver.Presentation
             var callbacks = _waiting[image];
             _waiting.Remove(image);
             var tex = data == null ? null : new Texture2D(2, 2, TextureFormat.RGB24, false);
-            if (tex == null || !tex.LoadImage(data, true))                      // true: no CPU copy kept
+            if (tex == null || !tex.LoadImage(data, false))
             {
                 if (tex != null) Destroy(tex);
                 _failed.Add(image);
                 if (Host.Debug && data != null) Debug.Log($"[image] {image}: not a picture");
                 yield break;
             }
+            Tones[tex] = ToneGrid(tex);
+            tex.Apply(false, true);                                             // then no CPU copy kept
             tex.wrapMode = TextureWrapMode.Clamp;
             tex.name = image;
             _ready[image] = tex;
@@ -94,7 +127,7 @@ namespace ReverseSolver.Presentation
 
         void OnDestroy()
         {
-            foreach (var t in _ready.Values) if (t != null) Destroy(t);
+            foreach (var t in _ready.Values) if (t != null) { Tones.Remove(t); Destroy(t); }
             _ready.Clear();
         }
     }

@@ -605,9 +605,12 @@ namespace ReverseSolver.Presentation
             LevelData level, bool obstacleLesson = false)
         {
             var card = new Card(parent, screen, order, "Intro", Art.T23Intro);
+            // PM_73: the badge and the text show the same, real fuse (the smallest when there are several)
+            int fuse = 0;
+            foreach (int f in level.Bombs.Values) fuse = fuse == 0 ? f : System.Math.Min(fuse, f);
             if (scene == "bomb")
                 card.Custom(112, (root, y, w, o) =>
-                    Draw.Child<BombIntroLoop>(root, "Bomb countdown demo").Init(new Vector2(0, y + 56), o + 2));
+                    Draw.Child<BombIntroLoop>(root, "Bomb countdown demo").Init(new Vector2(0, y + 56), o + 2, fuse > 0 ? fuse : 3));
             else Picture(card, Art.T23Intro + "-" + scene, 144);
             // Use the actual count when all locks share it; differing counters retain the generic N.
             int lockMoves = 0;
@@ -618,7 +621,7 @@ namespace ReverseSolver.Presentation
             }
             string body = scene == "nail" ? Texts.LockIntro(lockMoves) : Texts.ObstacleIntro(scene);
             if (obstacleLesson && scene == "bomb")
-                foreach (int fuse in level.Bombs.Values) { body = Texts.BombLessonIntro(fuse); break; }
+                if (fuse > 0) body = Texts.BombLessonIntro(fuse);
             return card.Title(title).Body(body, sizePt: 18, gapAfter: 18).Button("ok", button, true).Finish();
         }
 

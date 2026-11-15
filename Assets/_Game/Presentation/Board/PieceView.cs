@@ -141,6 +141,25 @@ namespace ReverseSolver.Presentation
             foreach (var t in GetComponentsInChildren<TextView>()) t.Alpha = a;
         }
 
+        /* PM_73 (ExitTrail ghost): a copy of the piece's body where it is now, same mesh and look, no badges or rope. */
+        public MeshRenderer Ghost(Transform parent, int order)
+        {
+            var go = new GameObject("ghost");
+            go.transform.SetParent(parent, false);
+            go.transform.localPosition = transform.localPosition; go.transform.localScale = transform.localScale;
+            go.AddComponent<MeshFilter>().sharedMesh = GetComponent<MeshFilter>().sharedMesh;
+            var r = go.AddComponent<MeshRenderer>();
+            r.sharedMaterial = _r.sharedMaterial; r.sortingOrder = order;
+            var b = new MaterialPropertyBlock(); _r.GetPropertyBlock(b); b.SetFloat(LiftId, 0); r.SetPropertyBlock(b);
+            return r;
+        }
+        static MaterialPropertyBlock _ghostBlock;
+        public static void SetGhostAlpha(MeshRenderer r, float a)
+        {
+            _ghostBlock ??= new MaterialPropertyBlock();
+            r.GetPropertyBlock(_ghostBlock); _ghostBlock.SetFloat(AlphaId, a); r.SetPropertyBlock(_ghostBlock);
+        }
+
         public int SortingOrder
         {
             get => _r.sortingOrder;

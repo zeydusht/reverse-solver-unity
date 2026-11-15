@@ -33,6 +33,12 @@ namespace ReverseSolver.Presentation
         }
         public void Tick()
         {
+            if (_breathing != null)
+            {
+                float now = Time.unscaledTime;
+                _breathing.localScale = Vector3.one * (1.02f + .02f * Mathf.Sin(now * Mathf.PI * 2 / 2f));   // 1.0 <-> 1.04, 2 s
+                if (_marker != null) _marker.localPosition = Draw.W(_markerAt + new Vector2(0, -3.5f * Mathf.Sin(now * Mathf.PI * 2 / 1.5f)));
+            }
             float y = _currentY - Scroll.Offset;
             bool above = y < Scroll.Top + 35, below = y > Scroll.Bottom - 35;
             _currentPill.gameObject.SetActive(above || below);
@@ -43,6 +49,69 @@ namespace ReverseSolver.Presentation
             _currentLabel.Text = Lang.T($"Level {_currentLevel}", $"Seviye {_currentLevel}") + (above ? " ↑" : " ↓");
         }
         readonly List<(Rect rect, int index)> _nodes = new List<(Rect, int)>();
+        /* PM_73: T50 map option C (docs/art/task50/SECENEKLER.md): jigsaw-piece buttons. Done = blue with a gold rim,
+           current = 1.25x with a halo and Jigo above it, locked = slate, hard = burgundy with the Kont seal, an obstacle
+           lesson = its obstacle badge. Type badges (Kont, obstacle) top right, state badges (tick, lock) bottom right;
+           all 24 pt. Numbers in the game's font. A gold dotted path joins the buttons. Jigo bobs (1.5 s) and the current
+           button breathes (1.0-1.04, 2 s): LevelsMap.Tick. */
+        const string MapArt = "T50/map/";
+        public static bool C => Art.Get(MapArt + "node_current") != null;
+        public const float NodeSize = 66, CurrentSize = 82, BadgeSize = 24, MarkerShare = .7f;
+        Transform _breathing, _marker;
+        Vector2 _markerAt;
+        static SpriteRenderer PutC(Transform parent, string key, Vector2 c, float size, int order)
+        {
+            var r = Art.Place(parent, MapArt + key, Vector2.one * size, order);
+            if (r != null) r.transform.localPosition = Draw.W(c);
+            return r;
+        }
+        static string LessonBadge(int slot, LevelData l)
+        {
+            if (!P21Onboarding.IsObstacleLesson(slot)) return null;
+            if (slot == P21Onboarding.BombLesson && l.Bombs.Count > 0) return "badge_bomb";
+            if (slot == P21Onboarding.LockLesson && l.Nails.Count > 0) return "badge_lock";
+            if (slot == P21Onboarding.WallLesson && l.Sealed.Count > 0) return "badge_wall";
+            if (slot == P21Onboarding.ChainLesson) return "badge_chain";
+            return null;
+        }
+        void NodeC(Transform cell, int i, LevelData level, bool current, bool won, bool locked, int order)
+        {
+            float size = current ? CurrentSize : NodeSize;
+            string node = locked ? "node_locked" : current ? "node_current" : level.Hard ? "node_hard" : LessonBadge(i + 1, level) != null ? "node_lesson" : "node_completed";
+            // a hard level keeps its burgundy body when current
+            if (current && level.Hard) node = "node_hard";
+            var body = new GameObject("node").transform; body.SetParent(cell, false);
+            PutC(body, node, Vector2.zero, current && node == "node_hard" ? size * 1.0f : size, order + 2);
+            if (current && node == "node_hard") PutC(body, "node_current", Vector2.zero, size * 1.12f, order + 1);   // the halo
+            var number = TextView.Create(body, "number", (i + 1).ToString(), current ? 29 : 24, Palette.Cream, order: order + 5)
+                .Heading(locked ? Draw.Hex("#3C4A5E") : level.Hard ? Draw.Hex("#5A1414") : Draw.Hex("#153E75"));
+            number.transform.localPosition = Draw.W(0, -1);
+            if (locked) number.Alpha = .85f;
+            float edge = size * .36f;
+            string type = level.Hard ? "badge_kont" : LessonBadge(i + 1, level);
+            if (type != null) PutC(body, type, new Vector2(edge, -edge), BadgeSize, order + 7);
+            if (locked) PutC(body, "badge_lock", new Vector2(edge, edge), BadgeSize, order + 7);
+            else if (won && !current) PutC(body, "badge_check", new Vector2(edge, edge), BadgeSize, order + 7);
+            if (!current) return;
+            _breathing = body;
+            // Jigo above the button: ~70 % of its height, bobbing
+            var marker = Art.Get(MapArt + "jigo_marker");
+            if (marker == null) return;
+            float h = size * MarkerShare, w = h * marker.bounds.size.x / marker.bounds.size.y;
+            _markerAt = new Vector2(0, -size * .44f - h * .45f);
+            _marker = Art.Place(cell, MapArt + "jigo_marker", new Vector2(w, h), order + 8).transform;
+            _marker.localPosition = Draw.W(_markerAt);
+        }
+        /* Gold dots from one button to the next (straight, a dot every 10 pt, none under the buttons). */
+        static void PathC(Transform root, Vector2 a, Vector2 b, float ra, float rb, int order)
+        {
+            var d = b - a; float len = d.magnitude;
+            if (len < 1) return;
+            var u = d / len;
+            for (float s = ra + 6; s <= len - rb - 6; s += 10)
+                PutC(root, "path_dot", a + u * s, 6.5f, order);
+        }
+
         public LevelsMap(Transform root, Vector2 screen, float top, float bottom, IReadOnlyList<LevelData> levels, Progress progress, LevelImages images, int order, float? offset)
         {
             MenuUi.Scene(root, "levels", screen, order - 10);
@@ -76,6 +145,21 @@ namespace ReverseSolver.Presentation
                 float x = screen.x / 2 + (i % 2 == 0 ? -64 : 64), y = start + 90 + (levels.Count - 1 - i) * pitch;
                 var cell = Scroll.Cell(x, y, current ? 108 : 44);
                 bool locked = !open && !won;
+                if (C)
+                {
+                    NodeC(cell, i, levels[i], current, won, locked, order);
+                    if (i + 1 < levels.Count)
+                    {
+                        // the dotted path up to the next button
+                        float nx = screen.x / 2 + ((i + 1) % 2 == 0 ? -64 : 64), ny = y - pitch;
+                        var link = Scroll.Cell((x + nx) / 2, (y + ny) / 2, pitch * .6f);
+                        bool nextCurrent = i + 1 == progress.Next();
+                        PathC(link, new Vector2((x - nx) / 2, (y - ny) / 2), new Vector2((nx - x) / 2, (ny - y) / 2),
+                            (current ? CurrentSize : NodeSize) * .5f, (nextCurrent ? CurrentSize : NodeSize) * .5f, order + 1);
+                    }
+                    if (open || won) _nodes.Add((new Rect(x - 33, y - 33, 66, 66), i));
+                    continue;
+                }
                 float diameter = current ? 66 : 54;
                 // The node sits on its step: a soft contact shadow under the coin, no outer glow.
                 MenuUi.Sprite(cell, ShadowSprite, new Vector2(0, diameter / 2 - 2), new Vector2(diameter * .93f, diameter * .24f), order + 1);
