@@ -109,7 +109,7 @@ GIF'ler `booster/` klasöründe:
 - **Kaybetme ve devam:**
   - Kazanma ekranının dili: kart yok, mavi ışık, kabartma başlık, üzgün Jigo (seyrek göz kırpar), tek satır yardım, büyük yeşil ve küçük mavi düğme.
   - Giriş 0,7 sn; dokununca hemen biter.
-- **İsim ekranı:** krem panel, mavi çerçeve, altın iç çizgi, Baloo kabartma başlık, kurdele yok (Baloo alt kümesi 22 KB).
+- **İsim ekranı:** krem panel, mavi çerçeve, altın iç çizgi, Baloo kabartma başlık, kurdele yok (Baloo alt kümesi 22 KB). Düğme ve yazı tipi sayfayla birlikte ön yükleniyor. Yükleme ekranında eski ikonun bir an görünmesi de düzeldi.
 - **Diğerleri:**
   - Sandık: altın sayacı başlığın altına indi, Süre kutusuyla çakışmıyor.
   - Kazanma: "Menü" dokunma alanı ≥ 44 pt.
