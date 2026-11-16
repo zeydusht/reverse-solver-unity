@@ -46,7 +46,7 @@ namespace ReverseSolver.Presentation
             var center = new Vector2(_width / 2, above ? Scroll.Top + 22 : Scroll.Bottom - 22);
             _pill = new Rect(center - new Vector2(68, 18), new Vector2(136, 36));
             _currentPill.localPosition = Draw.W(center);
-            _currentLabel.Text = Lang.T($"Level {_currentLevel}", $"Seviye {_currentLevel}") + (above ? " ↑" : " ↓");
+            _currentLabel.Text = Lang.T($"Level {_currentLevel}", $"Bölüm {_currentLevel}") + (above ? " ↑" : " ↓");
         }
         readonly List<(Rect rect, int index)> _nodes = new List<(Rect, int)>();
         /* PM_73: T50 map option C (docs/art/task50/SECENEKLER.md): jigsaw-piece buttons. Done = blue with a gold rim,

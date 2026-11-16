@@ -549,7 +549,7 @@ namespace ReverseSolver.Presentation
                     // a drag-out is animated by EndDrag; anything else (hammer, M4) just leaves
                     if (e.ByHammer && _pieces.TryGetValue(e.Piece, out var hv))
                     {
-                        if (_animatedBoosters) HammerFall(hv);
+                        if (_animatedBoosters) { if (Shatter74) HammerPop(hv); else HammerFall(hv); }
                         else FlyOut(hv, Dir.U, 0);
                     }
                     _nails.Remove(e.Piece);
@@ -594,6 +594,32 @@ namespace ReverseSolver.Presentation
             {
                 if (this != null) transform.localPosition = home + new Vector3(Mathf.Sin(t * Mathf.PI * 8) * 5, Mathf.Sin(t * Mathf.PI * 6) * 4, 0) * (1 - t);
             }, () => { if (this != null) transform.localPosition = home; });
+        }
+
+        /* PM_74: the hammer's piece cracks (BoosterFx74 draws the cracks and the shards) and pops away. */
+        public static bool Shatter74;
+        void HammerPop(PieceView pv)
+        {
+            _pieces.Remove(pv.Index); _ropes.Remove(pv.Index);
+            var center = Vector2.zero;
+            foreach (var c in pv.Cells) center += Center(c);
+            center /= pv.Cells.Length;
+            pv.SortingOrder = LiftOrder;
+            Tweens.Run(pv, .16f, t =>
+            {
+                if (pv == null) return;
+                float k = t < .3f ? Mathf.Lerp(1, 1.08f, t / .3f) : Mathf.Lerp(1.08f, .35f, (t - .3f) / .7f);
+                pv.transform.localScale = new Vector3(k, k, 1);
+                pv.SetOffset(center - center * k);
+                pv.SetAlpha(t < .3f ? 1 : 1 - (t - .3f) / .7f);
+            }, () => { if (pv != null) Destroy(pv.gameObject); });
+        }
+
+        /* The picture tone under a board point (the piece there), for effects tinted like the picture. */
+        public Color ToneAt(Vector2 point)
+        {
+            int piece = PieceAt(point);
+            return piece >= 0 && _pieces.TryGetValue(piece, out var pv) ? ToneOf(pv) : new Color(.95f, .9f, .8f);
         }
 
         void HammerFall(PieceView pv)

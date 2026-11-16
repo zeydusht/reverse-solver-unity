@@ -1,0 +1,665 @@
+fileFormatVersion: 2
+guid: 4b0d726869ec0b24ca29716a2b1390bb
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7522744429615582269
+    second: frost_burst_05_0
+  - first:
+      213: 4756580320436858863
+    second: frost_burst_05_1
+  - first:
+      213: 4619014897618158230
+    second: frost_burst_05_2
+  - first:
+      213: 4447816451304145340
+    second: frost_burst_05_3
+  - first:
+      213: 4507879131508772012
+    second: frost_burst_05_4
+  - first:
+      213: 1335134863082275046
+    second: frost_burst_05_5
+  - first:
+      213: 4265280351553019262
+    second: frost_burst_05_6
+  - first:
+      213: -3537198494964926608
+    second: frost_burst_05_7
+  - first:
+      213: -3562680909699633742
+    second: frost_burst_05_8
+  - first:
+      213: -2985087348554366718
+    second: frost_burst_05_9
+  - first:
+      213: -4739117195300232345
+    second: frost_burst_05_10
+  - first:
+      213: -2280192255404180078
+    second: frost_burst_05_11
+  - first:
+      213: -9100520095872706327
+    second: frost_burst_05_12
+  - first:
+      213: -2029192925985667358
+    second: frost_burst_05_13
+  - first:
+      213: -4361831978395893811
+    second: frost_burst_05_14
+  - first:
+      213: 3885570104885155109
+    second: frost_burst_05_15
+  - first:
+      213: 2296081174356059675
+    second: frost_burst_05_16
+  - first:
+      213: -6196181737866439851
+    second: frost_burst_05_17
+  - first:
+      213: -7716577742889213496
+    second: frost_burst_05_18
+  - first:
+      213: 5881784134148722299
+    second: frost_burst_05_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: frost_burst_05_0
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 430
+        width: 10
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3c09479338266860800000000000000
+      internalID: 7522744429615582269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_1
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 335
+        width: 141
+        height: 160
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fefa0499994c20240800000000000000
+      internalID: 4756580320436858863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_2
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 390
+        width: 32
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69284c8a3990a1040800000000000000
+      internalID: 4619014897618158230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_3
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 320
+        width: 89
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb14f163f71d9bd30800000000000000
+      internalID: 4447816451304145340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_4
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 377
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cac0af3bf243f8e30800000000000000
+      internalID: 4507879131508772012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_5
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 386
+        width: 29
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e04249851a578210800000000000000
+      internalID: 1335134863082275046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_6
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 346
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7d55cd91e1513b30800000000000000
+      internalID: 4265280351553019262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_7
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 238
+        width: 63
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 077b19fa5b859eec0800000000000000
+      internalID: -3537198494964926608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_8
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 180
+        width: 60
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bda949a690de8ec0800000000000000
+      internalID: -3562680909699633742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_9
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 226
+        width: 100
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20187e54fd6d296d0800000000000000
+      internalID: -2985087348554366718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 105
+        width: 92
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7632f2115064b3eb0800000000000000
+      internalID: -4739117195300232345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_11
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 205
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29d790589312b50e0800000000000000
+      internalID: -2280192255404180078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_12
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 119
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e8143e703574b180800000000000000
+      internalID: -9100520095872706327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_13
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 98
+        width: 81
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e683e1f8cbd6d3e0800000000000000
+      internalID: -2029192925985667358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_14
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 119
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcff5c5fce8a773c0800000000000000
+      internalID: -4361831978395893811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_15
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 80
+        width: 38
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5259e8b7c615ce530800000000000000
+      internalID: 3885570104885155109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_16
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 18
+        width: 40
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1664f4b9a15ddf10800000000000000
+      internalID: 2296081174356059675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_17
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 79
+        width: 41
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55355b6c98db20aa0800000000000000
+      internalID: -6196181737866439851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_18
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 66
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c127615d6539e490800000000000000
+      internalID: -7716577742889213496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frost_burst_05_19
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 59
+        width: 10
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7e8679c18b40a150800000000000000
+      internalID: 5881784134148722299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      frost_burst_05_0: 7522744429615582269
+      frost_burst_05_1: 4756580320436858863
+      frost_burst_05_10: -4739117195300232345
+      frost_burst_05_11: -2280192255404180078
+      frost_burst_05_12: -9100520095872706327
+      frost_burst_05_13: -2029192925985667358
+      frost_burst_05_14: -4361831978395893811
+      frost_burst_05_15: 3885570104885155109
+      frost_burst_05_16: 2296081174356059675
+      frost_burst_05_17: -6196181737866439851
+      frost_burst_05_18: -7716577742889213496
+      frost_burst_05_19: 5881784134148722299
+      frost_burst_05_2: 4619014897618158230
+      frost_burst_05_3: 4447816451304145340
+      frost_burst_05_4: 4507879131508772012
+      frost_burst_05_5: 1335134863082275046
+      frost_burst_05_6: 4265280351553019262
+      frost_burst_05_7: -3537198494964926608
+      frost_burst_05_8: -3562680909699633742
+      frost_burst_05_9: -2985087348554366718
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -8,6 +8,7 @@
 //         | ["name", "GIF"]       (fills the first-visit name gate)
 //         | ["shot", "file"]      (a full-size PNG screenshot to <out dir>/file.png)
 //         | ["nav", "?query"]     (opens another URL of the same build, storage kept)
+//         | ["eval", "js"]        (prints the value of a page expression, e.g. the load timings)
 // The Chrome profile lives in %TEMP% and is deleted afterwards; Supabase is blocked (no rows written).
 const fs = require('fs'), path = require('path'), http = require('http'), os = require('os'), { spawn } = require('child_process');
 const args = process.argv.slice(2);
@@ -77,6 +78,11 @@ function serve(root) {
   await cdp('Network.setBlockedURLs', { urls: ['*supabase.co*'] });
   await cdp('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 2, mobile: true });
   await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
+  if (opt('safe')) {   // --safe top,bottom: an iPhone home-screen notch and home bar (env(safe-area-inset-*))
+    const [top, bottom] = opt('safe').split(',').map(Number);
+    const r = await cdp('Emulation.setSafeAreaInsetsOverride', { insets: { top, topMax: top, bottom, bottomMax: bottom, left: 0, leftMax: 0, right: 0, rightMax: 0 } });
+    if (r.error) console.log('safe area override failed:', r.error.message);
+  }
   const url = new URL(base + '/' + scenario.url.replace(/^\//, ''));
   if (!url.searchParams.has('intro')) url.searchParams.set('intro', '0');
   await cdp('Page.navigate', { url: url.href });
@@ -106,6 +112,7 @@ function serve(root) {
       for (let i = 0; i < 120; i++) { await sleep(1000); if (await ev("!!(window.LT && LT.end) || !!document.getElementById('rs-name')")) break; }
       await sleep(a[1] ?? 4000);
     }
+    else if (kind === 'eval') console.log('[eval]', JSON.stringify(await ev(a[0])));
     else if (kind === 'name') await ev(`(function(){ var i=document.getElementById('rs-name-in'); if(!i) return false; i.value='${a[0]}'; document.getElementById('rs-name-go').click(); return true; })()`);
   }
   await cdp('Page.stopScreencast');

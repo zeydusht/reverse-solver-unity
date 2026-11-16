@@ -11,7 +11,7 @@ namespace ReverseSolver.Presentation
         public static string WandFreed(int n) => Lang.T(n == 1 ? "1 piece free!" : $"{n} pieces free!", $"{n} parça serbest!");
         public static string Collect21 => Lang.T("Collect", "Topla");
         public static string TapChest21 => Lang.T("Tap the chest!", "Sandığa dokun!");
-        public static string NextLevel21 => Lang.T("Next Level", "Sonraki Seviye");
+        public static string NextLevel21 => Lang.T("Next Level", "Sonraki Bölüm");
         public static string ChestIn21(int n) => Lang.T(n == 1 ? "Chest in 1 level!" : $"Chest in {n} levels!", $"{n} bölüm sonra sandık!");
         public static string Rescued21(int n) => Lang.T($"{n} Jiggles rescued!", $"{n} Jiggle kurtarıldı!");
 
@@ -36,7 +36,11 @@ namespace ReverseSolver.Presentation
             "chain" => Lang.T("Two chained pieces move <b>together</b>.", "Zincirli iki parça <b>birlikte</b> hareket eder."),
             _ => TutorialCopy(scene)
         };
-        public static string LockIntro(int moves) => string.Format(Lang.T("A locked piece can't move for <b>{0} moves</b>. Play other pieces; at 0 the lock opens.", "Kilitli parça <b>{0} hamle</b> boyunca hareket etmez. Başka parçaları oyna; sayı 0 olunca kilit açılır."), moves > 0 ? moves.ToString() : "N");
+        /* PM_74: locks with different counters used to read "N moves"; the number on each lock says it instead. */
+        public static string LockIntro(int moves) => moves > 0
+            ? string.Format(Lang.T("A locked piece can't move for <b>{0} moves</b>. Play other pieces; at 0 the lock opens.", "Kilitli parça <b>{0} hamle</b> boyunca hareket etmez. Başka parçaları oyna; sayı 0 olunca kilit açılır."), moves)
+            : Lang.T("A locked piece can't move for <b>as many moves as its number</b>. Play other pieces; at 0 the lock opens.",
+                     "Kilitli parça <b>üstündeki sayı kadar hamle</b> hareket etmez. Başka parçaları oyna; sayı 0 olunca kilit açılır.");
         public static string BombLessonIntro(int moves) => string.Format(Lang.T(
             "The bomb starts at <b>{0} moves</b>. Each piece you clear drops the number by 1. Clear the bomb before 0, or it blows.",
             "Bombanın sayacı <b>{0} hamle</b>. Çıkardığın her parça sayıyı 1 azaltır. Bomba 0’da patlar. Önce onu çıkar."), moves);
@@ -146,7 +150,7 @@ namespace ReverseSolver.Presentation
         public static string TimeUp => Lang.T("Time's up", "Süre doldu");
         public static string WinStats => Lang.T("{0} seconds left, {1} jams.", "{0} saniye kaldı, {1} kez takıldın.");
         public static string BombHint => Lang.T("Clear the bomb's path before the fuse runs out. The hammer removes it in one move.", "Fitil bitmeden bombanın yolunu açman gerekiyordu. Çekiç onu tek hamlede söker.");
-        public static string TimeHint => P21BoosterArt ? Lang.T("{0} pieces left. ", "{0} gövde kaldı. ") + ClockFreeze : Lang.T("{0} pieces left. The clock booster adds 20 seconds.", "{0} gövde kaldı. Saat booster'ı 20 saniye ekler.");
+        public static string TimeHint => P21BoosterArt ? Lang.T("{0} pieces left. ", "{0} parça kaldı. ") + ClockFreeze : Lang.T("{0} pieces left. The clock booster adds 20 seconds.", "{0} parça kaldı. Saat booster'ı 20 saniye ekler.");
         public static string NextLevel => Lang.T("Next level", "Sonraki bölüm");
         public static string Retry => Lang.T("Try again", "Tekrar dene");
         public static string Congratulations => Lang.T("Well done!", "Tebrikler!");

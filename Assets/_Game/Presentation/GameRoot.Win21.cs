@@ -40,7 +40,108 @@ namespace ReverseSolver.Presentation
             bool preview = _winPreview21;
             _win21?.Destroy(); _win21 = null; _winPreview21 = false;
             if (preview) { Layout(); return; }
-            if (_index + 1 < _set.Levels.Count) StartLevel(_index + 1); else ShowMenu();
+            if (_index + 1 < _set.Levels.Count) { if (!DiveToNext()) StartLevel(_index + 1); } else ShowMenu();
+        }
+
+        // ---- PM_74: the dive into the painting ------------------------------------------------------------------
+
+        bool _diving;
+        const int DiveOrder = 9000;
+
+        /* Menu -> level: into the menu's painting (the one the level frees), then out of the board's. */
+        bool DiveFromMenu(int index)
+        {
+            if (!Dive74.On || _menu == null || !(_menu.PaintingBounds is Bounds b) || !_p21Lessons) return false;
+            _diving = true;
+            Dive74.Run(_cam, new Vector3(b.center.x, b.center.y, -10), Dive74.CoverSize(b.size, _screen), Dive74.In, true, () =>
+            {
+                StartLevel(index);
+                DiveOut();
+            });
+            return true;
+        }
+
+        /* Win -> next: the finished picture shrinks to the wall on the left as the next one comes in from the right
+           in its frame; the camera dives into the new one; the level comes out of it. */
+        bool DiveToNext()
+        {
+            if (!Dive74.On || _board == null || !_p21Lessons) return false;
+            int next = _index + 1;
+            var won = _board.Image;
+            var nextTex = _images.Get(ImageOf(next));
+            if (won == null || nextTex == null) return false;
+            _diving = true;
+            var rect = new Rect(_board.Origin, _board.Size);
+            var gallery = new GameObject("PM74 gallery").transform;
+            var wall = ShapeView.Create(gallery, "wall", _screen * 1.2f, 0, DiveOrder).Radius(0).Fill(Draw.Hex("#0E2244"));
+            wall.transform.localPosition = Draw.W(_screen / 2);
+            Transform Framed(string name, Texture tex, Vector2 size)
+            {
+                var holder = new GameObject(name).transform; holder.SetParent(gallery, false);
+                PicturePiece.Create(holder, tex, size, DiveOrder + 2);
+                float band = 13f, fk = band / (300f / 3f);
+                var frame = Art.Place(holder, "board-frame", new Vector2((size.x + band * 1.4f) / fk, (size.y + band * 1.4f) / fk), DiveOrder + 3, sliced: true);
+                if (frame != null) frame.transform.localScale = new Vector3(fk, fk, 1);
+                return holder;
+            }
+            var a = Framed("won", won, rect.size);
+            // the next picture keeps its own proportions, at the won board's width
+            var levelNext = _set.Levels[next];
+            var nextSize = new Vector2(rect.width, rect.width * levelNext.Height / levelNext.Width);
+            if (nextSize.y > rect.height * 1.25f) nextSize *= rect.height * 1.25f / nextSize.y;
+            var bNext = Framed("next", nextTex, nextSize);
+            var centre = rect.center;
+            const float Hang = .3f, small = .62f;
+            Tweens.Run(gallery, Hang, t =>
+            {
+                if (gallery == null) return;
+                float e = BoosterFx74.InOutCubic(t);
+                wall.Alpha(Mathf.Clamp01(t * 3));
+                a.localPosition = Draw.W(Vector2.Lerp(centre, new Vector2(-_screen.x * .2f, centre.y - 20), e));
+                a.localScale = Vector3.one * Mathf.Lerp(1, small * .8f, e);
+                bNext.localPosition = Draw.W(Vector2.Lerp(new Vector2(_screen.x * 1.25f, centre.y + 10), centre, e));
+                bNext.localScale = Vector3.one * Mathf.Lerp(small * .8f, small, e);
+            }, () =>
+            {
+                var target = new Rect(centre - nextSize * small / 2, nextSize * small);
+                Dive74.Run(_cam, new Vector3(target.center.x, -target.center.y, -10), Dive74.CoverSize(target.size, _screen), .3f, true, () =>
+                {
+                    if (gallery != null) Destroy(gallery.gameObject);
+                    StartLevel(next);
+                    DiveOut();
+                });
+            });
+            return true;
+        }
+
+        /* After StartLevel: the camera starts on the board's picture, pulls back; the HUD and the bar slide in. */
+        void DiveOut()
+        {
+            if (_board == null || _hud == null || _bar == null) { _diving = false; return; }
+            var home = _cam.transform.position; float homeSize = _cam.orthographicSize;
+            var rect = new Rect(_board.Origin, _board.Size);
+            _cam.transform.position = new Vector3(rect.center.x, -rect.center.y, -10);
+            _cam.orthographicSize = Dive74.CoverSize(rect.size, _screen);
+            Dive74.Flash(_cam, Dive74.Light, DiveOrder + 10);
+            var hud = _hud.Root; var bar = _bar.Root;
+            float top = Hud54.TopBottom(_screen, _safe.y) + 20, bottom = _screen.y - Hud54.BottomTop(_screen, _safe.w) + 20;
+            var card = _card?.Root;
+            if (card != null) card.gameObject.SetActive(false);
+            void Slide(float k)
+            {
+                if (hud != null) hud.localPosition = Draw.W(0, -top * (1 - k));
+                if (bar != null) bar.localPosition = Draw.W(0, bottom * (1 - k));
+            }
+            Slide(0);
+            Dive74.Run(_cam, home, homeSize, Dive74.Out, false, () =>
+            {
+                Tweens.Run(new object(), Dive74.HudSlide * .4f, t => Slide(Mathf.Lerp(.6f, 1, BoosterFx74.OutCubic(t))), () =>
+                {
+                    Slide(1);
+                    _diving = false;
+                    if (card != null) card.gameObject.SetActive(true);
+                });
+            }, e => Slide(Mathf.Clamp01((e - .55f) / .45f) * .6f));
         }
         void TestWin21()
         {

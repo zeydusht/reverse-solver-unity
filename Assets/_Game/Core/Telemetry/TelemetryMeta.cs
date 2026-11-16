@@ -22,7 +22,8 @@ namespace ReverseSolver.Core
 
         /* PM_64: p22 is the next preview of the p21 game; both play the p21 flow, rows keep their own cohort.
            PM_65: the internal cohort (ic, test links) plays the same game, so no old tutorial shows up there. */
-        public static bool P21Line(string c) => c == "p21" || c == "p22" || c == "ic";
+        /* PM_74: p23 is the overnight polish preview, the same game. */
+        public static bool P21Line(string c) => c == "p21" || c == "p22" || c == "p23" || c == "ic";
 
         internal static void Plays(JsonWriter w)
         {

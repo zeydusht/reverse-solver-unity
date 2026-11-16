@@ -31,8 +31,8 @@ Shader "ReverseSolver/JigoPortrait"
                 float _Opacity;
             CBUFFER_END
 
-            struct Attributes { float4 position : POSITION; float2 uv : TEXCOORD0; };
-            struct Varyings { float4 position : SV_POSITION; float2 uv : TEXCOORD0; float2 world : TEXCOORD1; };
+            struct Attributes { float4 position : POSITION; float2 uv : TEXCOORD0; half4 color : COLOR; };
+            struct Varyings { float4 position : SV_POSITION; float2 uv : TEXCOORD0; float2 world : TEXCOORD1; half4 color : COLOR; };
             Varyings vert(Attributes input)
             {
                 Varyings output;
@@ -40,6 +40,7 @@ Shader "ReverseSolver/JigoPortrait"
                 output.position = TransformWorldToHClip(world);
                 output.world = world.xy;
                 output.uv = input.uv;
+                output.color = input.color;   // PM_74: the live portrait fades its two layers with the sprite colour
                 return output;
             }
 
@@ -64,6 +65,7 @@ Shader "ReverseSolver/JigoPortrait"
                     half3 closed = SAMPLE_TEXTURE2D(_ClosedEyes, sampler_ClosedEyes, uv).rgb;
                     colour.rgb = lerp(colour.rgb, closed, eyes * lid);
                 }
+                colour *= input.color;
                 colour.a *= _Opacity * smoothstep(0, .019, aperture);
                 return colour;
             }

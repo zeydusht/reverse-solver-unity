@@ -9,6 +9,7 @@ namespace ReverseSolver.Presentation
         public const float Height = 46f, TopPad = 10f, Side = 13f, Gap = 9f;
 
         readonly Transform _root;
+        public Transform Root => _root;   // PM_74: the dive slides it in
         readonly Hud54 _t54;
         public void SetFrozen(bool frozen) => _t54?.SetFrozen(frozen);
         public void ShowClockShield(bool away) => _t54?.ShowClockShield(away);

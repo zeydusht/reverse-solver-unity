@@ -38,7 +38,7 @@ namespace ReverseSolver.Presentation
             public Rect Play, Levels, Settings, Profile;
 
             public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false,
-                        string player = null, int saved = 0, int stars = 0, string playLabel = null, bool hard = false)
+                        string player = null, int saved = 0, int stars = 0, string playLabel = null, bool hard = false, bool levelsButton = true)
             {
                 Root = new GameObject("Menu").transform;
                 Root.SetParent(parent, false);
@@ -56,7 +56,7 @@ namespace ReverseSolver.Presentation
                     bg.transform.localScale = new Vector3(k, k, 1);
                     bg.transform.localPosition = Draw.W(screen.x / 2, screen.y / 2);
                     _bg = bg;
-                    Task13(screen, safe, nextNumber, order, player, saved, stars, playLabel, hard);
+                    Task13(screen, safe, nextNumber, order, player, saved, stars, playLabel, hard, levelsButton);
                     return;
                 }
 
@@ -129,6 +129,9 @@ namespace ReverseSolver.Presentation
             /* PM_MESAJ_18: a painting inside the corridor's big gold frame. The opening (menu_bg pixels, y down) has
                upright sides and a top and bottom in perspective; the picture is centre-cropped to the opening's
                bounding box and its sprite outline cut to the opening, the frame itself untouched. */
+            /* PM_74: where the painting sits (world bounds), for the dive into it. */
+            public Bounds? PaintingBounds => _painting != null ? _painting.bounds : (Bounds?)null;
+
             public void SetPainting(Texture2D tex)
             {
                 if (_bg == null || tex == null) return;
@@ -149,7 +152,7 @@ namespace ReverseSolver.Presentation
                 _painting.transform.localPosition = new Vector3((x0 + x1) / 2 - size.x / 2, size.y / 2 - (y0 + y1) / 2) / _bg.sprite.pixelsPerUnit;
             }
 
-            void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel, bool hard = false)
+            void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel, bool hard = false, bool levelsButton = true)
             {
                 float w = screen.x, top = safe.y, hy = top + 34;
                 if (Art.On)
@@ -231,13 +234,15 @@ namespace ReverseSolver.Presentation
                 }
 
                 // bottom: big Level button and the Levels shortcut, above the safe area
-                float bw = Mathf.Min(228f, w - 130f), bh = bw * 112f / 228f;
+                // PM_74: a player's menu has one big "Play · Level N" button; the Levels shortcut only on the test link
+                float bw = levelsButton ? Mathf.Min(228f, w - 130f) : Mathf.Min(262f, w - 96f), bh = bw * 112f / 228f;
+                if (!levelsButton) bh = Mathf.Min(228f, w - 130f) * 112f / 228f;
                 // PM_MESAJ_29: 12 pt clear of the selected tab icon that rises over the bar
                 float x0 = (w - bw) / 2, cy = screen.y - safe.w - (Art.On ? 28 : 22) - bh / 2;
                 var play = Sprite("level-button", new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
                 // PM_MESAJ_42: Baloo heading; a hard level adds "Hard level" under it (40 % / 27 % of the inner height)
                 bool second = Art.On && hard && playLabel == null;
-                var label = TextView.Create(Root, "play", playLabel ?? string.Format(Texts.Level, next), bh * (second ? .27f : .34f), Palette.Cream, false, order: order + 2);
+                var label = TextView.Create(Root, "play", playLabel ?? string.Format(Art.On ? Texts.PlayLevel : Texts.Level, next), bh * (second ? .27f : .34f), Palette.Cream, false, order: order + 2);
                 if (Art.On) label.Heading(TextView.RimGreen).FitWidth(bw - 40, bh * (second ? .19f : .24f));
                 else label.Font(Lilita).Outline(Draw.Hex("#1E5C0E"), .22f);
                 label.transform.localPosition = Draw.W(x0 + bw / 2, cy - (second ? bh * .12f : 2));
@@ -250,7 +255,7 @@ namespace ReverseSolver.Presentation
                 Play = new Rect(x0, cy - bh / 2, bw, bh);
                 if (play != null) _press.Add((Play, play, "level-button", "level-button-pressed", label.transform));
 
-                if (Art.On)
+                if (Art.On && levelsButton)
                 {
                     var lc = new Vector2(x0 - 29, cy);
                     var levels = Sprite("t20-button-levels", lc, Vector2.one * 44, order);

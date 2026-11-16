@@ -164,6 +164,11 @@ namespace ReverseSolver.Presentation
             // the portrait stays live (&portre=sabit: Codex's fixed one), scissors PM_62 (&makas=yavas: Codex's).
             P21BoosterView.ShieldClock = Host.Current.Query("saat") != "firca";
             P21BoosterView.SlowScissors = Host.Current.Query("makas") == "yavas";
+            P21BoosterView.Fx74 = Host.Current.Query("fx") != "eski";   // PM_74 booster moments; &fx=eski: the old ones
+            Dive74.On = Host.Current.Query("gecis") != "yok";           // PM_74 dive into the painting; &gecis=yok: off
+            string clockIdea = Host.Current.Query("saatfx");             // PM_74 clock ideas: a (default), b, c
+            BoosterFx74.ClockStyle = clockIdea == "b" ? BoosterFx74.ClockIdea.B : clockIdea == "c" ? BoosterFx74.ClockIdea.C : BoosterFx74.ClockIdea.A;
+            BoardView.Shatter74 = P21BoosterView.Fx74;
             Hud54.FixedPortrait = Host.Current.Query("portre") == "sabit";
             string reset = Host.Current.Query("reset");
             if (reset == "1" && TelemetryMeta.P21Line(launchCohort))
@@ -756,7 +761,7 @@ namespace ReverseSolver.Presentation
             if (_menu == null) return;
             if (_menu.Settings.Contains(pt)) OpenSettings();
             else if (_menu.Profile.Contains(pt) && Art.On) OpenPlayerProfile();
-            else if (_menu.Play.Contains(pt)) StartLevel(_progress.Next());
+            else if (_menu.Play.Contains(pt)) { if (!DiveFromMenu(_progress.Next())) StartLevel(_progress.Next()); }
             else if (_menu.Levels.Contains(pt))
             {
                 if (Art.On) { _levelsMapOpen = true; _mapOffset = null; Layout(); }
@@ -886,7 +891,8 @@ namespace ReverseSolver.Presentation
         void ExitSound(bool bomb, bool last, bool unlocked, bool lastTap = true)
         {
             if (last) PlaySound("popfull");
-            else if (P21JuiceView.Enabled) PlaySound(bomb ? "pm72-defuse" : "pm72-tick");
+            // PM_74: the tick (every exit) was the loudest sound (-14 dB peak window); -4 dB, the defuse -1.5 dB
+            else if (P21JuiceView.Enabled) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
             if (unlocked) PlaySound("pm72-unlock");
             if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
             else if (lastTap) Haptics.Play(Haptics.Kind.Success);   // otherwise Finished taps
@@ -926,18 +932,23 @@ namespace ReverseSolver.Presentation
                 _spotlight?.Stuck();
             }
             if (e.Kind == EventKind.TimeAdded) _hud?.ShowTimeBonus(e.Value);
-            if (!_testMode && _inventory != null && e.Kind == EventKind.BoosterUsed)
+            // PM_74: the test link keeps its 999 (no inventory write) but a booster lesson still ends on the use; it used to
+            // stay on the "tap the booster" step there, and that step takes every tap (nothing else could be pressed).
+            if (_inventory != null && e.Kind == EventKind.BoosterUsed)
             {
                 if (_trainingUse == e.Booster)
                 {
-                    _inventory.Complete(e.Booster);
-                    _session.SetStock(e.Booster, _inventory.Stock(e.Booster));
+                    if (!_testMode)
+                    {
+                        _inventory.Complete(e.Booster);
+                        _session.SetStock(e.Booster, _inventory.Stock(e.Booster));
+                    }
                     _trainingUse = null;
                     _tutorialClockHold = !P21Boosters || !_session.ClockStarted;
                     _tutorialUntil = Time.unscaledTime + .2f;
                     _spotlight?.Success();
                 }
-                else { _inventory.Spend(e.Booster); _tutorialClockHold = false; }
+                else { if (!_testMode) _inventory.Spend(e.Booster); _tutorialClockHold = false; }
             }
             if (e.Kind == EventKind.ValveReleased) _bar?.Notice(Texts.NailReleased, 1.6f);   // web says "söktü"; PM: grammar fix
             if (e.Kind == EventKind.PieceRemoved)
@@ -1137,7 +1148,7 @@ namespace ReverseSolver.Presentation
             _continuePanel = null;
             _card = null; _cardKind = null; _menu = null; _list = null; _board = null; _hud = null; _bar = null;
             _tabs = null; _collection = null; _levelsMap = null; _paintingDetail = null; _menuSettings = null;
-            _jiggles = null; _achievements = null; _profileCard = null;
+            _jiggles = null; _achievements = null; _profileCard = null; _loss74 = null;
             _menuPointer = _menuDragging = _tabAnimating = false;
             _jointsShown = false;
 
@@ -1169,7 +1180,7 @@ namespace ReverseSolver.Presentation
                     menuSafe.w = _screen.y - _tabs.Top;   // Home: the Level button sits 16 pt above the bar
                 }
                 if (!Art.On || (!_levelsMapOpen && _tab == MenuTab.Home))
-                    _menu = new Screens.Menu(_world, _screen, menuSafe, _p21Flow ? _progress.Next() + 1 : _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[_progress.Next()].Hard);
+                    _menu = new Screens.Menu(_world, _screen, menuSafe, _p21Flow ? _progress.Next() + 1 : _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[_progress.Next()].Hard, levelsButton: _testMode || !_p21Lessons);
                 // PM_MESAJ_18: the corridor's big frame shows the painting the next level frees
                 if (_paintSet && _newArt && _menu != null)
                 {
@@ -1240,15 +1251,19 @@ namespace ReverseSolver.Presentation
         }
 
         /* The p22 board placement (Hud54 layout); public for the screenshot tour (Pm72Tour). */
+        /* PM_74: the gold frame reaches FrameBand past the cells; BoardAir more is kept clear on every side (screen
+           edges, HUD, booster bar), so a wide board no longer touches the screen edge. */
+        public const float FrameBand = 18.2f, BoardAir = 12f;
         public static Vector2 Hud54BoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell, bool openingLesson = false)
         {
             cell = BoardSizing.CellSize(screen, safe, l);
+            cell = Mathf.Min(cell, Mathf.Floor((screen.x - safe.x - safe.z - 2 * (FrameBand + BoardAir)) / l.Width));
             float top = Hud54.TopBottom(screen, safe.y), bottom = Hud54.ButtonsTop(screen, safe.w);
             if (openingLesson) bottom -= P21TutorialView.ChatClearance;
             // Include the tray and sealed-edge walls in the clearance.
-            float margin = Mathf.Max(18.2f, cell * .25f);
+            float margin = Mathf.Max(FrameBand, cell * .25f) + BoardAir;
             if (l.Height * cell + 2 * margin > bottom - top)
-                cell = Mathf.Floor(Mathf.Min(cell, (bottom - top - 36.4f) / l.Height, (bottom - top) / (l.Height + .5f)));
+                cell = Mathf.Floor(Mathf.Min(cell, (bottom - top - 2 * margin) / l.Height));
             return new Vector2(BoardSizing.Left(screen.x, safe, l.Width * cell), (top + bottom - l.Height * cell) / 2);
         }
 
@@ -1313,6 +1328,14 @@ namespace ReverseSolver.Presentation
         {
             if (P21WinArt && _session.Outcome == Outcome.Win) { ShowWin21(); return; }
             if (_deferredLoss != null) { ShowContinue(); return; }
+            // PM_74: a p21 loss in the T50 B win language (LossView74)
+            if (P21WinArt && _session.Outcome != Outcome.Win && LossView74.Available)
+            {
+                CancelCardTap(); _card?.Destroy(); _card = null; _cardKind = null;
+                _loss74?.Destroy();
+                _loss74 = LossView74.Loss(_world, _screen, CardOrder, _session);
+                return;
+            }
             CancelCardTap();
             _card?.Destroy();
             _card = null;
@@ -1393,7 +1416,7 @@ namespace ReverseSolver.Presentation
         {
             if (Art.P21Gameplay && Art.Get("T45/Buttons/primary-normal") != null) { OpenPause45(); return; }
             OpenCard("pause", new Card(_world, _screen, CardOrder, "Pause")
-                .Title(Lang.T("Level ", "Seviye ") + _session.Level.Number)
+                .Title(Lang.T("Level ", "Bölüm ") + _session.Level.Number)
                 .Button("resume", Lang.T("Resume", "Devam"), true)
                 .Button("sound", Lang.T("Sound: ", "Ses: ") + (Art.Muted ? Lang.T("Off", "Kapalı") : Lang.T("On", "Açık")), false)
                 .Button("menu", Lang.T("Quit", "Çık"), false).Finish());
@@ -1404,7 +1427,7 @@ namespace ReverseSolver.Presentation
         void OpenPause45()
         {
             var card = new Card(_world, _screen, CardOrder, "Pause").OpaqueVeil(Draw.Hex("#0E2244"))
-                .Title(Lang.T("Level ", "Seviye ") + _session.Level.Number);
+                .Title(Lang.T("Level ", "Bölüm ") + _session.Level.Number);
             void Face(Transform content, string id, string key, string label, Vector2 size, float y, Vector4 rim)
             {
                 var sprite = Art.Place(content, key, size, CardOrder + 2);
@@ -1472,6 +1495,7 @@ namespace ReverseSolver.Presentation
         {
             if (_introPlaying) return;
             _continuePanel?.Tick();
+            _loss74?.Tick();
             _win21?.Tick();
             _levelsMap?.Tick();
             if (Screen.width != _screenPx.x || Screen.height != _screenPx.y)
@@ -1532,6 +1556,7 @@ namespace ReverseSolver.Presentation
             if (_fpsLabel != null) UpdateFpsLabel();
         }
         bool _debugCorridor;
+        LossView74 _loss74;
 
         void TickPlayingClock()
         {
@@ -1557,6 +1582,7 @@ namespace ReverseSolver.Presentation
         {
             var p = Pointer.current;
             if (p == null) return;
+            if (_diving) return;   // PM_74: no taps while the camera dives
             if (_continuePanel != null)
             {
                 Vector2 pos = p.position.ReadValue();
@@ -1733,6 +1759,12 @@ namespace ReverseSolver.Presentation
         void Press(Vector2 pt)
         {
             if (_win21 != null) { _win21.Press(pt); return; }
+            if (_loss74 != null)
+            {
+                string lossId = _loss74.Hit(pt);
+                if (lossId != null) { _loss74.Destroy(); _loss74 = null; NavigateResult(lossId); }
+                return;
+            }
             if (_corridor != null) { _corridor.Skip(); return; }   // a tap skips the slide
 
             // level list (over menu or game)

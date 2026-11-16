@@ -192,6 +192,10 @@ namespace ReverseSolver.Presentation
             m.transform.localPosition = Draw.W(menu + new Vector2(0, -2 * _bScale));
             _nextRect = new Rect(next - new Vector2(150, 36) * _bScale, new Vector2(300, 72) * _bScale);
             _menuRect = new Rect(menu - new Vector2(68, 24) * _bScale, new Vector2(136, 48) * _bScale);
+            // PM_74: the touch area is at least 44 pt tall (and 150 wide), never over the Next button
+            float hh = Mathf.Max(_menuRect.height, 48f), ww = Mathf.Max(_menuRect.width, 150f);
+            float top = Mathf.Max(menu.y - hh / 2, _nextRect.yMax + 2);
+            _menuRect = new Rect(menu.x - ww / 2, top, ww, Mathf.Max(44f, menu.y + hh / 2 - top));
         }
         static float Ease(float t) => 1 - (1 - t) * (1 - t) * (1 - t);
         static float Span(float t, float a, float b) => Mathf.Clamp01((t - a) / (b - a));

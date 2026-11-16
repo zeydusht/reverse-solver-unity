@@ -15,6 +15,7 @@ namespace ReverseSolver.Presentation
         public const float Height = 97f, PromptH = 17f;
 
         readonly Transform _root;
+        public Transform Root => _root;   // PM_74: the dive slides it in
         readonly float _screenWidth;
         readonly BoosterBar54 _t54;
         public BarAction HitAction(Vector2 pt) => _t54?.HitAction(pt) ?? BarAction.None;
@@ -32,7 +33,7 @@ namespace ReverseSolver.Presentation
             float x = Mathf.Clamp(rect.center.x, 88, _screenWidth - 88);
             bubble.localPosition = Draw.W(x, rect.yMin - 28);
             ShapeView.Create(bubble, "balloon", new Vector2(172, 34), 0, 3900).Radius(12).Fill(Palette.Navy);
-            TextView.Create(bubble, "unlock level", Lang.T($"Unlocks at level {level}", $"Seviye {level}'de açılır"), 14, Vector4.one, order: 3901);
+            TextView.Create(bubble, "unlock level", Lang.T($"Unlocks at level {level}", $"Bölüm {level}'de açılır"), 14, Vector4.one, order: 3901);
             Tweens.Run(bubble, 1.5f, t => {
                 if (bubble == null) return;
                 var label = bubble.GetComponentInChildren<TextView>();

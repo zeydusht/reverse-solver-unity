@@ -10,10 +10,16 @@ namespace ReverseSolver.Presentation
         readonly Sprite[] _frames = new Sprite[6];
         readonly Rect _close, _buy, _no;
         readonly bool _affordable, _showNo;
+        readonly LossView74 _v74;   // PM_74: the p21 game shows the offer in the T50 B win language
 
         public ContinuePanel(Transform parent, Vector2 screen, Vector4 safe, int order,
             ContinueOffer offer, int coins, bool showNo, bool preview = false)
         {
+            if (Art.T54 && TelemetryMeta.P21Line(Art.GameplayCohort) && LossView74.Available)
+            {
+                _v74 = LossView74.Continue(parent, screen, safe, order, offer, coins, showNo, preview);
+                return;
+            }
             _affordable = offer.Affordable || preview; _showNo = showNo;
             _root = new GameObject("Continue offer").transform;
             _root.SetParent(parent, false);
@@ -63,9 +69,9 @@ namespace ReverseSolver.Presentation
             TextView.Create(parent, "label", text, size, Palette.Cream, true, order: order)
                 .Heading(TextView.RimTeal).FitWidth(width, size * .7f).transform.localPosition = Draw.W(at);
         }
-        public void Tick() { if (_jigo != null) _jigo.sprite = _frames[(int)(Time.unscaledTime * 8) % 6]; }
-        public string Hit(Vector2 pt) => _close.Contains(pt) || _showNo && _no.Contains(pt) ? "declined"
+        public void Tick() { if (_v74 != null) { _v74.Tick(); return; } if (_jigo != null) _jigo.sprite = _frames[(int)(Time.unscaledTime * 8) % 6]; }
+        public string Hit(Vector2 pt) => _v74 != null ? _v74.Hit(pt) : _close.Contains(pt) || _showNo && _no.Contains(pt) ? "declined"
             : _buy.Contains(pt) && _affordable ? "accepted" : null;
-        public void Destroy() { if (_root != null) Object.Destroy(_root.gameObject); }
+        public void Destroy() { _v74?.Destroy(); if (_root != null) Object.Destroy(_root.gameObject); }
     }
 }

@@ -10,12 +10,21 @@ namespace ReverseSolver.Presentation
         const int Order = 3500;
         // PM_64 options: PM_62 is the default; Codex's versions with &makas=yavas and &saat=kalkan.
         public static bool SlowScissors, ShieldClock;
+        // PM_74: the redone booster moments (BoosterFx74) are the default; &fx=eski shows the PM_62/66 ones.
+        public static bool Fx74 = true;
         static float ScissorsTravelSeconds => SlowScissors ? .72f : .45f;
         static float ScissorsCutSeconds => SlowScissors ? .64f : .3f;
         static float ScissorsReturnSeconds => SlowScissors ? .72f : .45f;
-        public static float ScissorsHitSeconds => ScissorsTravelSeconds + ScissorsCutSeconds / 2;
-        public static float ScissorsDuration => ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsReturnSeconds;
-        public static float ClockTouchSeconds => ShieldClock ? .62f : .5f;
+        public static float ScissorsHitSeconds => Fx74 ? BoosterFx74.ScissorsSnap : ScissorsTravelSeconds + ScissorsCutSeconds / 2;
+        public static float ScissorsDuration => Fx74 ? BoosterFx74.ScissorsEnd : ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsReturnSeconds;
+        public static float ClockTouchSeconds => Fx74 ? BoosterFx74.ClockTouchFor(BoosterFx74.ClockStyle) : ShieldClock ? .62f : .5f;
+        /* When GameRoot applies the Core command, and when the effect is over. */
+        public static float HitSeconds(Booster b) => b == Booster.Hammer ? (Fx74 ? BoosterFx74.HammerShatter : .47f)
+            : b == Booster.Scissors ? ScissorsHitSeconds : b == Booster.Clock ? ClockTouchSeconds : Fx74 ? BoosterFx74.WandHit : .7f;
+        public static float DurationSeconds(Booster b) => b == Booster.Hammer ? (Fx74 ? BoosterFx74.HammerEnd : 1f)
+            : b == Booster.Scissors ? ScissorsDuration : b == Booster.Clock ? ClockTouchSeconds : Fx74 ? BoosterFx74.WandEnd : 1.5f;
+        readonly BoosterFx74 _fx;
+        public BoosterFx74 Fx => _fx;
         const float IceBreakSeconds = 7f / 18;
         static float ClockRetractSeconds => ShieldClock ? .55f : 5f / 12;
         const string ClockShield = "Clock/Layers/button-shield";
@@ -62,6 +71,7 @@ namespace ReverseSolver.Presentation
             _freezeSeconds = TextView.Create(_root, "Freeze seconds", "", 10 * Hud54.Scale(screen.x), Palette.Cream, order: Order - 92)
                 .Heading(TextView.RimTeal);
             _freezeSeconds.gameObject.SetActive(false);
+            _fx = new BoosterFx74(parent, screen, safeTop, board, bar);
         }
 
         static SpriteRenderer Layer(Transform parent, string name, int order)
@@ -179,6 +189,7 @@ namespace ReverseSolver.Presentation
         public void Effect(Booster? booster, float age, Vector2 target, bool vertical)
         {
             _tool.enabled = _shadow.enabled = _burst.enabled = _trail.enabled = _cut.enabled = false;
+            if (Fx74) { _fx.Effect(booster, age, target, vertical); return; }
             if (!booster.HasValue) return;
             var b = booster.Value;
             if (b == Booster.Scissors)
@@ -290,6 +301,28 @@ namespace ReverseSolver.Presentation
             else if (_clockWasActive && !frozen)
                 Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(ending * 18))), panel, new Vector2(113, 434f / 3) * s);
             return pose;
+        }
+
+        /* PM_74: the flying alarm clock (BoosterFx74.Clock); the freeze shows as the glazed Time box and the freeze bar
+           with its seconds; at the thaw the glaze breaks (T46 ice_break). Jigo's portrait is not involved. */
+        public void Clock74(float age, double freezeLeft, bool active, bool stopped)
+        {
+            _clockShield.enabled = _clockGrip.enabled = _ice.enabled = _spark.enabled = _barFrame.enabled = _barFill.enabled = false;
+            _clockArm.gameObject.SetActive(false); _clockBacking.gameObject.SetActive(false);
+            _freezeSeconds.gameObject.SetActive(false);
+            _fx.Clock(age, freezeLeft, stopped);
+            if (age < 0 || stopped) { _clockWasActive = false; _thawAge = 0; return; }
+            float s = Hud54.Scale(_screen.x);
+            var panel = Hud54.TimePanelCenter(_screen.x, _safeTop);
+            bool frozen = age >= ClockTouchSeconds && freezeLeft > 0;
+            if (frozen) { _clockWasActive = true; _thawAge = 0; }   // the glaze and the "+10 sn" chip are BoosterFx74's
+            else if (_clockWasActive)
+            {
+                if (active) _thawAge += Time.unscaledDeltaTime;
+                if (_thawAge < IceBreakSeconds)
+                    Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(_thawAge * 18))), panel, new Vector2(113, 434f / 3) * s);
+                else _clockWasActive = false;
+            }
         }
 
         public bool Clock(float age, double freezeLeft, bool active, bool stopped)

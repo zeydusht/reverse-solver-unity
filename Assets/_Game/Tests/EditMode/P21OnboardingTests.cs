@@ -45,8 +45,9 @@ namespace ReverseSolver.Core.Tests
                     string text = ReverseSolver.Presentation.Texts.ObstacleIntro(scene);
                     Assert.That(text, Is.Not.Empty);
                     Assert.That(text, Does.Contain("<b>"));
-                    Assert.That(text, Does.Contain(turkish ? (scene == "bomb" ? "bitmeden" : scene == "nail" ? "N hamle" : "birlikte")
-                        : (scene == "bomb" ? "before" : scene == "nail" ? "N moves" : "together")));
+                    Assert.That(text, Does.Contain(turkish ? (scene == "bomb" ? "bitmeden" : scene == "nail" ? "sayı kadar hamle" : "birlikte")
+                        : (scene == "bomb" ? "before" : scene == "nail" ? "as many moves as its number" : "together")));
+                    Assert.That(text, Does.Not.Contain(" N "), "PM_74: no N placeholder");
                 }
                 Assert.That(ReverseSolver.Presentation.Texts.LockWarning(7), Is.EqualTo(turkish ? "Kilit 7 hamle sonra açılacak." : "The lock opens in 7 moves."));
                 Assert.That(ReverseSolver.Presentation.Texts.LockIntro(7), Does.Contain(turkish ? "<b>7 hamle</b>" : "<b>7 moves</b>"));

@@ -138,19 +138,93 @@ namespace ReverseSolver.PlayMode.Tests
                 .Single(r => r.sortingOrder == 3203 && r.sprite != null && r.sprite.name == "clock");
             Assert.That(session.FreezeLeft, Is.Zero);
             yield return Click(LayoutPoint(clockSlot.transform));
-            yield return WaitFor(() => session.FreezeLeft > 0, "the clock shield contacting the timer");
+            yield return WaitFor(() => session.FreezeLeft > 0, "the flying clock reaching the timer");
             int frozenAt = session.TimeLeft;
-            var shield = GameObject.Find("Jigo clock shield").GetComponent<SpriteRenderer>();
-            var ice = GameObject.Find("time panel ice").GetComponent<SpriteRenderer>();
-            Assert.That(shield.enabled && ice.enabled, Is.True);
-            Assert.That(Vector3.Distance(shield.transform.position, ice.transform.position), Is.LessThan(.01f));
+            // PM_74: the alarm clock rings over the Time box and glazes it; Jigo keeps his portrait
+            yield return new WaitForSecondsRealtime(.3f);
+            var glaze = GameObject.Find("fx glaze").GetComponent<SpriteRenderer>();
+            Assert.That(glaze.enabled, Is.True, "the Time box glazed while frozen");
             yield return WaitFor(() => session.FreezeLeft < 9.5, "the freeze bar decreasing");
             Assert.That(session.TimeLeft, Is.EqualTo(frozenAt));
             Assert.That(session.FreezeLeft, Is.GreaterThan(0));
-            Assert.That(GameObject.Find("Jigo portrait").GetComponent<SpriteRenderer>().enabled, Is.True);
-            Assert.That(GameObject.Find("Freeze seconds").activeInHierarchy, Is.True);
+            Assert.That(GameObject.Find("fx freeze chip text").activeInHierarchy, Is.True, "the +10 s chip under the Time box");
+            yield return new WaitForSecondsRealtime(.5f);
+            Assert.That(GameObject.Find("fx clock").GetComponent<SpriteRenderer>().enabled, Is.False, "the flying clock is gone after 1.35 s");
+            Assert.That(session.FreezeLeft, Is.GreaterThan(0));
             session.Tick(session.FreezeLeft);
             yield return WaitFor(() => session.TimeLeft < frozenAt, "the countdown resuming after thaw");
+        }
+
+        /* PM_74: on the test link (stock 999) a booster lesson used to stay on its "tap the booster" step after the use,
+           and that step takes every tap: no piece, booster or pause could be pressed. After the use the game is back to
+           normal input, the stock is unchanged, and one tap off the board cancels a booster selection. */
+        [UnityTest]
+        public IEnumerator BoosterLessonOnTheTestLinkGivesInputBack()
+        {
+            foreach (var (level, booster) in new[] { (9, Booster.Wand), (15, Booster.Clock) })
+            {
+                _host.Links = $"c=p22&test=1&lv={level}";
+                _host.Store = new MemoryStore();
+                var old = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+                if (old != null) { UnityEngine.Object.Destroy(old.gameObject); yield return null; }
+                yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+                yield return WaitFor(() => Board != null && Board.Session.Level.Number == level, $"level {level}");
+                yield return new WaitForSecondsRealtime(.5f);
+                var card = Field<Card>("_card");
+                if (card != null) { yield return Click(card.Buttons[0].rect.center); yield return WaitFor(() => Field<Card>("_card") == null, "the lesson card closed"); }
+                yield return new WaitForSecondsRealtime(.8f);
+                var session = Board.Session;
+                var bar = Field<BoosterBar>("_bar");
+                int stock = session.Stock(booster);
+                Assert.That(Prop("TutorialActive"), Is.True, $"the {booster} lesson");
+                yield return Click(bar.RectOf(booster).center);
+                if (booster == Booster.Wand)
+                {
+                    yield return WaitFor(() => Field<Booster?>("_selected21") == Booster.Wand,
+                        $"the wand selection (hit {bar.Hit(bar.RectOf(booster).center)}, step {Field<int>("_tutorialAt")}, card {Field<string>("_cardKind")}, intro {Field<bool>("_introOpen")})");
+                    yield return new WaitForSecondsRealtime(.4f);
+                    var view = Field<object>("_boosterView21");
+                    var regions = Field<bool[]>("_regions21");
+                    int zone = Field<int>("_region21");
+                    if (zone < 0)
+                    {
+                        zone = Array.IndexOf(regions, true);
+                        Assert.That(zone, Is.GreaterThanOrEqualTo(0), "a wand region");
+                        var rect = (Rect)view.GetType().GetMethod("ZoneRect").Invoke(view, new object[] { zone });
+                        yield return Click(rect.center);
+                        yield return WaitFor(() => Field<int>("_region21") == zone, "the region chosen");
+                        yield return new WaitForSecondsRealtime(.3f);
+                    }
+                    yield return Click(((Rect)view.GetType().GetProperty("ConfirmRect").GetValue(view)).center);
+                }
+                yield return WaitFor(() => session.Used(booster) > 0 || Field<Booster?>("_effect21") == null && !Prop("TutorialActive"), $"the {booster} used");
+                float until = Time.realtimeSinceStartup + 4f;
+                while ((Prop("TutorialActive") || Field<Booster?>("_effect21") != null) && Time.realtimeSinceStartup < until) yield return null;
+                Assert.That(Prop("TutorialActive"), Is.False, $"the {booster} lesson ended after the use");
+                Assert.That(session.Stock(booster), Is.EqualTo(stock), "the test stock is unchanged");
+                // normal input: the hammer arms, one tap off the board disarms it
+                yield return Click(bar.RectOf(Booster.Hammer).center);
+                yield return WaitFor(() => Field<Booster?>("_selected21") == Booster.Hammer, $"the hammer selected after the {booster} lesson");
+                yield return Click(new Vector2(Board.Origin.x + Board.Size.x / 2, Board.Origin.y - 30));
+                yield return WaitFor(() => Field<Booster?>("_selected21") == null, "one tap off the board cancels the hammer");
+                var clockSlot = bar.RectOf(Booster.Clock);
+                var pause = Enumerable.Range(0, 200).Select(i => new Vector2(clockSlot.xMax + i, clockSlot.center.y))
+                    .First(pt => bar.HitAction(pt) == BarAction.Pause);
+                yield return Click(pause);
+                yield return WaitFor(() => Field<string>("_cardKind") == "pause", "the pause button opens the pause card");
+            }
+        }
+
+        static T Field<T>(string name)
+        {
+            var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+            var f = typeof(GameRoot).GetField(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            return (T)f.GetValue(root);
+        }
+        static bool Prop(string name)
+        {
+            var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+            return (bool)typeof(GameRoot).GetProperty(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(root);
         }
 
         IEnumerator OpenTimedBooster(string booster)

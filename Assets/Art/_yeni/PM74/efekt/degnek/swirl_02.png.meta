@@ -1,0 +1,769 @@
+fileFormatVersion: 2
+guid: 32148b70b90533a469f631cf8a96a576
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3257248403694416416
+    second: swirl_02_0
+  - first:
+      213: -4883673431702600630
+    second: swirl_02_1
+  - first:
+      213: 5752436729260015840
+    second: swirl_02_2
+  - first:
+      213: 3942039970640978419
+    second: swirl_02_3
+  - first:
+      213: -3480877520022848347
+    second: swirl_02_4
+  - first:
+      213: -4957490986521330491
+    second: swirl_02_5
+  - first:
+      213: -6389068904086619793
+    second: swirl_02_6
+  - first:
+      213: 1634849516846584514
+    second: swirl_02_7
+  - first:
+      213: 7372838105773135622
+    second: swirl_02_8
+  - first:
+      213: 2786899815729941789
+    second: swirl_02_9
+  - first:
+      213: -2312564735388625435
+    second: swirl_02_10
+  - first:
+      213: -5800254947478110486
+    second: swirl_02_11
+  - first:
+      213: 7781816756617640132
+    second: swirl_02_12
+  - first:
+      213: -8754423674418373411
+    second: swirl_02_13
+  - first:
+      213: 8388245770168180943
+    second: swirl_02_14
+  - first:
+      213: 5758309665982132575
+    second: swirl_02_15
+  - first:
+      213: 908240085227368320
+    second: swirl_02_16
+  - first:
+      213: -3644476793876980649
+    second: swirl_02_17
+  - first:
+      213: -7169419643409496010
+    second: swirl_02_18
+  - first:
+      213: 2285004282639946979
+    second: swirl_02_19
+  - first:
+      213: -72117183156819248
+    second: swirl_02_20
+  - first:
+      213: -2766371156660754716
+    second: swirl_02_21
+  - first:
+      213: 5466025483971264322
+    second: swirl_02_22
+  - first:
+      213: 2855816640103405990
+    second: swirl_02_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: swirl_02_0
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 432
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 022f96f5a22143d20800000000000000
+      internalID: 3257248403694416416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_1
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 436
+        width: 13
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a448a5083e4b93cb0800000000000000
+      internalID: -4883673431702600630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_2
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 392
+        width: 44
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e004704ab2c4df40800000000000000
+      internalID: 5752436729260015840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_3
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 95
+        width: 383
+        height: 323
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f1627ca770f4b630800000000000000
+      internalID: 3942039970640978419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_4
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 377
+        width: 18
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ac3568865071bfc0800000000000000
+      internalID: -3480877520022848347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_5
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 326
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ccf133b634733bb0800000000000000
+      internalID: -4957490986521330491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_6
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 292
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f693c66bea77557a0800000000000000
+      internalID: -6389068904086619793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_7
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 289
+        width: 12
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c21cd849f620b610800000000000000
+      internalID: 1634849516846584514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_8
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 272
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6075219b135915660800000000000000
+      internalID: 7372838105773135622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_9
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 242
+        width: 6
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1d4f25ed9e0da620800000000000000
+      internalID: 2786899815729941789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_10
+      rect:
+        serializedVersion: 2
+        x: 428
+        y: 246
+        width: 26
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e5d01b20ae18efd0800000000000000
+      internalID: -2312564735388625435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_11
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 211
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aee7dd83bda518fa0800000000000000
+      internalID: -5800254947478110486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_12
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 220
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c8706d3c119efb60800000000000000
+      internalID: 7781816756617640132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_13
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 218
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddcd5011d0a028680800000000000000
+      internalID: -8754423674418373411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_14
+      rect:
+        serializedVersion: 2
+        x: 428
+        y: 214
+        width: 7
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc02c8bc519096470800000000000000
+      internalID: 8388245770168180943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_15
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 214
+        width: 13
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f513093e120a9ef40800000000000000
+      internalID: 5758309665982132575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_16
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 199
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08f6fb2ab87ba9c00800000000000000
+      internalID: 908240085227368320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_17
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 193
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75cdecc4aa73c6dc0800000000000000
+      internalID: -3644476793876980649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_18
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 191
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6388edcc1da118c90800000000000000
+      internalID: -7169419643409496010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_19
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 131
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e41001e947f5bf10800000000000000
+      internalID: 2285004282639946979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_20
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 119
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0da6cb3ddc9cffef0800000000000000
+      internalID: -72117183156819248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_21
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 99
+        width: 18
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e669520710eb99d0800000000000000
+      internalID: -2766371156660754716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_22
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 114
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24ff659a7393bdb40800000000000000
+      internalID: 5466025483971264322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swirl_02_23
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 76
+        width: 19
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a953097a16e1a720800000000000000
+      internalID: 2855816640103405990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      swirl_02_0: 3257248403694416416
+      swirl_02_1: -4883673431702600630
+      swirl_02_10: -2312564735388625435
+      swirl_02_11: -5800254947478110486
+      swirl_02_12: 7781816756617640132
+      swirl_02_13: -8754423674418373411
+      swirl_02_14: 8388245770168180943
+      swirl_02_15: 5758309665982132575
+      swirl_02_16: 908240085227368320
+      swirl_02_17: -3644476793876980649
+      swirl_02_18: -7169419643409496010
+      swirl_02_19: 2285004282639946979
+      swirl_02_2: 5752436729260015840
+      swirl_02_20: -72117183156819248
+      swirl_02_21: -2766371156660754716
+      swirl_02_22: 5466025483971264322
+      swirl_02_23: 2855816640103405990
+      swirl_02_3: 3942039970640978419
+      swirl_02_4: -3480877520022848347
+      swirl_02_5: -4957490986521330491
+      swirl_02_6: -6389068904086619793
+      swirl_02_7: 1634849516846584514
+      swirl_02_8: 7372838105773135622
+      swirl_02_9: 2786899815729941789
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -46,9 +46,9 @@ namespace ReverseSolver.Presentation
             float offset = TopOffset(screen.x, safeTop), bottom = TopBottom(screen, safeTop);
             Art54.Stretch(root, Art54.Top, new Vector2(screen.x / 2, bottom / 2), new Vector2(screen.x, bottom), order);
             _language = Lang.Revision;
-            _left = Panel(root, 201f / 3, offset, order, out _piecesTitle, Lang.T("Pieces", "Parça"));
+            // PM_74: the Pieces box shows only the count, big and centred (no puzzle icon)
+            _left = Panel(root, 201f / 3, offset, order, out _piecesTitle, Lang.T("Pieces", "Parça"), .44f);
             _clock = Panel(root, 972f / 3, offset, order, out _timeTitle, Lang.T("Time", "Süre"));
-            Art54.Place(root, Art54.Piece, new Vector2(39, 87) * _scale + new Vector2(0, offset), Vector2.one * (19 * _scale), order + 3);
             var center = JigoCenter(screen.x, safeTop);
             var windowSize = new Vector2(127, 104) * _scale;
             Art54.Stretch(root, Art54.Window, center, windowSize, order + 2);
@@ -57,7 +57,7 @@ namespace ReverseSolver.Presentation
             if (_live != null) _portrait?.Visible(false);
         }
 
-        TextView Panel(Transform root, float x, float offset, int order, out TextView title, string label)
+        TextView Panel(Transform root, float x, float offset, int order, out TextView title, string label, float numberShare = .34f)
         {
             var shift = new Vector2(0, offset);
             var body = new Vector2(113, 290f / 3) * _scale;
@@ -67,7 +67,7 @@ namespace ReverseSolver.Presentation
                 new Vector2(364f / 3, 166f / 3) * _scale, order + 2);
             title = TextView.Create(root, "title", label, 16 * _scale, Palette.Cream, order: order + 4).Heading(TextView.RimTeal);
             title.transform.localPosition = Draw.W(new Vector2(x, 62) * _scale + shift);
-            var number = TextView.Create(root, "number", "", body.y * .34f, Palette.Cream, order: order + 4)
+            var number = TextView.Create(root, "number", "", body.y * numberShare, Palette.Cream, order: order + 4)
                 .Heading(TextView.RimTeal);   // same thick rim as the titles: cream fill alone vanishes on the cream body
             number.transform.localPosition = Draw.W(center);
             return number;
