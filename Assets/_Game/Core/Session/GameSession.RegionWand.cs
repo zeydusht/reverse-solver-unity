@@ -31,6 +31,12 @@ namespace ReverseSolver.Core
            for tests of the joint mechanics. */
         public bool WandMustFree { get; set; } = true;
         bool RequireFree => WandMustFree && FreeUse != Booster.Wand;
+        /* PM_76 (PM decision): when no re-decision of the tabs frees a piece, the wand flattens the tabs of the piece
+           in the region that holds the most (it turns into a plain rectangle; at least one piece comes free), so the
+           wand always does something. Off: &degnek=eski (PM_75 behaviour). */
+        public bool WandFlattens { get; set; } = true;
+        /* PM_76: the joints the last wand use turned flat (the view melts those tabs away). */
+        public IReadOnlyList<(int x, int y, bool vertical)> WandFlattened { get; private set; } = new List<(int, int, bool)>();
 
         HashSet<int> FreeNow(Board board)
         {
@@ -48,8 +54,14 @@ namespace ReverseSolver.Core
             var arrangement = RegionArrangement(quadrant, _random) ?? RegionArrangement(quadrant, new Mulberry32(21));
             if (arrangement == null) return CommandResult.NoArrangement;
             var before = FreeNow(Board);
+            var flattened = new List<(int, int, bool)>();
             foreach (var j in arrangement)
+            {
+                int was = j.vertical ? Board.VJoint(j.x, j.y) : Board.HJoint(j.x, j.y);
+                if (was != 0 && j.value == 0) flattened.Add((j.x, j.y, j.vertical));
                 if (j.vertical) Board.SetVJoint(j.x, j.y, j.value); else Board.SetHJoint(j.x, j.y, j.value);
+            }
+            WandFlattened = flattened;
             var freed = new List<int>();
             foreach (int p in FreeNow(Board)) if (!before.Contains(p)) freed.Add(p);
             WandFreed = freed;
@@ -85,7 +97,7 @@ namespace ReverseSolver.Core
             for (int y = region.Y + 1; y < region.Y + region.Height; y++)
                 for (int x = region.X; x < region.X + region.Width; x++)
                     if (Board.HJoint(x, y) != 0 && Pair(x, y - 1, x, y)) joints.Add((x, y, false, Board.HJoint(x, y)));
-            if (joints.Count == 0) return null;
+            if (joints.Count == 0) return RequireFree && WandFlattens ? FlattenArrangement(region, FreeNow(Board)) : null;
             var before = FreeNow(Board);
             var candidate = Board.Clone();
             // Small regions are enumerated exactly; larger ones sampled. Rank by pieces freed (cheap), then
@@ -124,7 +136,66 @@ namespace ReverseSolver.Core
                 return result;
             }
             // PM_75: the sampling can miss the few tabs that matter on a big region; aim at them directly
-            return RequireFree && TargetedSearch ? TargetedArrangement(region, joints, before, random) : null;
+            var targeted = RequireFree && TargetedSearch ? TargetedArrangement(region, joints, before, random) : null;
+            // PM_76: still nothing: flatten the tabs of the piece that holds the most
+            return targeted ?? (RequireFree && WandFlattens ? FlattenArrangement(region, before) : null);
+        }
+
+        /* PM_76: the flattening fallback. Each present piece wholly in the region (not nailed): all its tabs and
+           sockets turn flat (edges with the board rim stay). The one that frees the most pieces wins (ties: the one
+           that held the most neighbours by a tab). Flat edges never catch, so the board stays solvable. */
+        List<(int x, int y, bool vertical, int value)> FlattenArrangement(WandRegion region, HashSet<int> before)
+        {
+            List<(int x, int y, bool vertical, int value)> best = null;
+            int bestScore = 0;
+            var work = Board.Clone();
+            foreach (int p in Board.PresentPieces())
+            {
+                bool inside = true;
+                foreach (var c in Level.Pieces[p]) if (!region.Contains(c)) { inside = false; break; }
+                if (!inside) continue;
+                var joints = PieceJoints(p);
+                if (joints.Count == 0) continue;
+                int held = 0;
+                foreach (var j in joints)
+                {
+                    if (Board.PieceAt(j.other) >= 0) held++;
+                    if (j.vertical) work.SetVJoint(j.x, j.y, 0); else work.SetHJoint(j.x, j.y, 0);
+                }
+                int freed = 0;
+                foreach (int q in FreeNow(work)) if (!before.Contains(q)) freed++;
+                foreach (var j in joints)
+                {
+                    int was = j.vertical ? Board.VJoint(j.x, j.y) : Board.HJoint(j.x, j.y);
+                    if (j.vertical) work.SetVJoint(j.x, j.y, was); else work.SetHJoint(j.x, j.y, was);
+                }
+                if (freed == 0) continue;
+                int score = freed * 100 + held;
+                if (score <= bestScore) continue;
+                bestScore = score;
+                best = new List<(int, int, bool, int)>();
+                foreach (var j in joints) best.Add((j.x, j.y, j.vertical, 0));
+            }
+            return best;
+        }
+
+        /* A piece's non-flat joints with anything but itself (the board rim has none). */
+        List<(int x, int y, bool vertical, Cell other)> PieceJoints(int piece)
+        {
+            var list = new List<(int, int, bool, Cell)>();
+            var cells = Level.Pieces[piece];
+            foreach (var c in cells)
+                foreach (var side in DirExt.All)
+                {
+                    if (!JointOf(c, side, out int x, out int y, out bool vertical)) continue;
+                    var other = c.Step(side);
+                    if (Array.IndexOf(cells, other) >= 0) continue;
+                    if ((vertical ? Board.VJoint(x, y) : Board.HJoint(x, y)) == 0) continue;
+                    bool dup = false;
+                    foreach (var j in list) if (j.Item1 == x && j.Item2 == y && j.Item3 == vertical) { dup = true; break; }
+                    if (!dup) list.Add((x, y, vertical, other));
+                }
+            return list;
         }
 
         /* PM_75: a cheap geometric test, no solver: can re-deciding the tabs free any piece on this board at all?
@@ -143,7 +214,8 @@ namespace ReverseSolver.Core
                 foreach (var d in DirExt.All)
                     if (FreeingFlips(work, region, inside, p, d) != null) return true;
             }
-            return false;
+            // PM_76: or flattening a piece's tabs frees one
+            return WandFlattens && FlattenArrangement(region, before) != null;
         }
 
         /* For each piece that cannot leave, the tabs along one of its ways out are turned hollow (only tabs the wand

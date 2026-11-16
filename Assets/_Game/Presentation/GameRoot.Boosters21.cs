@@ -202,7 +202,9 @@ namespace ReverseSolver.Presentation
                         if (b == Booster.Hammer) _board.BoosterShake();
                         if (b == Booster.Wand)
                         {
-                            _board.RegionDance(_region21, _session.WandFreed);
+                            // PM_76: a flattening melts its tabs (BoardView.MeltTabs); the freed pieces still glow
+                            if (_session.WandFlattened.Count > 0) _board.GlowFreed(_session.WandFreed);
+                            else _board.RegionDance(_region21, _session.WandFreed);
                             if (_session.WandFreed.Count > 0) _bar.Notice(Texts.WandFreed(_session.WandFreed.Count), 1.8f);
                         }
                         if (_session.Outcome == Outcome.Win) _endAt = Mathf.Max(_endAt, Time.unscaledTime + P21BoosterView.DurationSeconds(b) - _effectAge21 + .03f);

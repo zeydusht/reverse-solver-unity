@@ -215,21 +215,23 @@ namespace ReverseSolver.PlayMode.Tests
             }
         }
 
-        /* PM_75: on the test link the wand either works or says why before it is pressed. Levels 9, 15, 23 and ten
-           more: at the start (pieces packed) the wand is dimmed and a press shows the short explanation, nothing is
-           selected and input stays free; pieces are then taken out along the level's solution until the wand is no
-           longer dimmed, and from then on a press offers a region that frees at least one piece. */
+        /* PM_75/PM_76: on the test link the wand works. Levels 9, 15, 23 and ten more: even at the start (pieces
+           packed) it is lit and a press offers a region that frees at least one piece (PM_76: by flattening a piece's
+           tabs). With &degnek=eski (PM_75) it is dimmed at the start, a press explains and selects nothing; pieces are
+           taken out along the solution until it lights up, then it works the same way. */
         [UnityTest]
         public IEnumerator WandWorksOrExplainsOnTheTestLink()
         {
             var random = new System.Random(75);
             var levels = new System.Collections.Generic.List<int> { 9, 15, 23 };
             while (levels.Count < 13) { int n = random.Next(10, 41); if (!levels.Contains(n)) levels.Add(n); }
-            int used = 0;
+            int used = 0, flattenedAtStart = 0;
             var report = new System.Text.StringBuilder();
-            foreach (int level in levels)
+            var runs = new System.Collections.Generic.List<(int level, bool old)> { (9, true) };
+            foreach (int n in levels) runs.Add((n, false));
+            foreach (var (level, oldWand) in runs)
             {
-                _host.Links = $"c=p23&test=1&lv={level}";
+                _host.Links = $"c=p23&test=1&lv={level}" + (oldWand ? "&degnek=eski" : "");
                 _host.Store = new MemoryStore();
                 var old = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
                 if (old != null) { UnityEngine.Object.Destroy(old.gameObject); yield return null; }
@@ -247,6 +249,13 @@ namespace ReverseSolver.PlayMode.Tests
                 session.FreeUse = null;
                 yield return new WaitForSecondsRealtime(.6f);
                 var bar = Field<BoosterBar>("_bar");
+                if (!oldWand)
+                {
+                    Assert.That(session.WandCanHelp(), Is.True, $"level {level}: PM_76: the wand can help even on a packed board");
+                    Assert.That(bar.Idle, Is.Null, $"level {level}: the wand is lit at the start");
+                }
+                else
+                {
                 Assert.That(session.WandCanHelp(), Is.False, $"level {level}: no tab change frees a piece while the board is packed");
                 Assert.That(bar.Idle, Is.EqualTo((Booster?)Booster.Wand), $"level {level}: the wand looks dimmed at the start");
                 yield return Click(bar.RectOf(Booster.Wand).center);
@@ -256,6 +265,7 @@ namespace ReverseSolver.PlayMode.Tests
                     $"card {Field<string>("_cardKind")}, mode {typeof(GameRoot).GetField("_mode", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(root)}, " +
                     $"tutorial {Prop("TutorialActive")}, over {session.IsOver}, intro {Field<bool>("_introOpen")}, stock {session.Stock(Booster.Wand)}, unlocked {session.IsUnlocked(Booster.Wand)}, spot {Field<object>("_spotlight") != null}, " +
                     $"diving {Field<bool>("_diving")}, effect {Field<Booster?>("_effect21")}, committed {Field<bool>("_committedTouch")}, cardTap {Field<object>("_cardTap") != null}, gateRelease {Field<bool>("_gateRelease")})");
+                }
                 // take pieces out along the solution until the wand can help
                 var plan = SmartPlayer.Play(session.Level).Moves;
                 int at = 0;
@@ -287,10 +297,12 @@ namespace ReverseSolver.PlayMode.Tests
                 while (Field<Booster?>("_effect21") != null && Time.realtimeSinceStartup < until) yield return null;
                 Assert.That(Field<Booster?>("_effect21"), Is.Null, $"level {level}: the wand effect ends");
                 used++;
-                report.Append($" {level}:{at}out/q{zone}/freed{session.WandFreed.Count}");
+                if (!oldWand && at == 0 && session.WandFlattened.Count > 0) flattenedAtStart++;
+                report.Append($" {level}{(oldWand ? "(eski)" : "")}:{at}out/q{zone}/freed{session.WandFreed.Count}/flat{session.WandFlattened.Count}");
             }
-            Debug.Log("[wand75] play mode:" + report);
-            Assert.That(used, Is.GreaterThanOrEqualTo(10), "the wand worked on most of the 13 levels once pieces were out");
+            Debug.Log("[wand76] play mode:" + report);
+            Assert.That(used, Is.GreaterThanOrEqualTo(13), "the wand worked on the 13 levels (and the old one once pieces were out)");
+            Assert.That(flattenedAtStart, Is.EqualTo(13), "PM_76: at the start of each level it flattened a piece's tabs");
         }
 
         static T Field<T>(string name)

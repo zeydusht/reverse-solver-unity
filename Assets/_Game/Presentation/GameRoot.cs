@@ -558,6 +558,7 @@ namespace ReverseSolver.Presentation
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
             _session.TestMode = _testMode;
             _session.ClockFreezesTime = P21Boosters;
+            _session.WandFlattens = Host.Current.Query("degnek") != "eski";   // PM_76: the wand flattens a piece's tabs when nothing else frees one
             _rowId = _telemetry.NewRowId();
             Perf("session");
             if (!_previewWins) _save.Store(_log);                                 // the attempt counter, before anything can go wrong

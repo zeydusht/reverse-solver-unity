@@ -707,6 +707,8 @@ namespace ReverseSolver.Presentation
                     break;
                 case EventKind.JointCut:
                 case EventKind.JointsReshuffled:
+                    // PM_76: tabs the wand flattened melt away in light (the old outlines fade over the new ones)
+                    if (e.Kind == EventKind.JointsReshuffled && Session.WandFlattened.Count > 0) MeltTabs(Session.WandFlattened);
                     // tabs moved: every piece's outline may have changed
                     foreach (var p in _pieces.Values) p.Rebuild(Session.Board);
                     break;
@@ -715,6 +717,57 @@ namespace ReverseSolver.Presentation
                         foreach (var b in _bombs)
                             if (Session.FuseAt(b.Key) <= 0) b.Value.Explode();
                     break;
+            }
+        }
+
+        /* PM_76: the wand's flattening, slow and readable: the pieces around the flattened joints keep their old
+           outline as a copy over the new one; the copy warms to gold, then fades (.95 s) while a soft light swells
+           and dies on each joint. What disappears is exactly the tabs (and the sockets fill). */
+        public const float MeltSeconds = .95f;
+        void MeltTabs(System.Collections.Generic.IReadOnlyList<(int x, int y, bool vertical)> joints)
+        {
+            var touched = new System.Collections.Generic.HashSet<int>();
+            var points = new System.Collections.Generic.List<Vector2>();
+            foreach (var (x, y, vertical) in joints)
+            {
+                var a = vertical ? new Cell(x - 1, y) : new Cell(x, y - 1);
+                var b = new Cell(x, y);
+                int pa = Session.Board.PieceAt(a), pb = Session.Board.PieceAt(b);
+                if (pa >= 0) touched.Add(pa);
+                if (pb >= 0) touched.Add(pb);
+                points.Add(vertical ? new Vector2(x * Cell, (y + .5f) * Cell) : new Vector2((x + .5f) * Cell, y * Cell));
+            }
+            var gold = Draw.Hex("#FFD27A");
+            foreach (int piece in touched)
+            {
+                if (!_pieces.TryGetValue(piece, out var pv)) continue;
+                var ghost = pv.Ghost(transform, HomeOrder(piece) + 2, ownMesh: true);
+                var mesh = ghost.GetComponent<MeshFilter>().sharedMesh;
+                Tweens.Run(ghost, MeltSeconds, t =>
+                {
+                    if (ghost == null) return;
+                    float warm = Mathf.Clamp01(t / .35f);
+                    PieceView.SetGhostGlow(ghost, gold, warm * (1 - Mathf.Clamp01((t - .7f) / .3f)));
+                    PieceView.SetGhostAlpha(ghost, 1 - Mathf.SmoothStep(0, 1, Mathf.Clamp01((t - .3f) / .65f)));
+                }, () => { if (ghost != null) Destroy(ghost.gameObject); if (mesh != null) Destroy(mesh); });
+            }
+            var sparkle = Resources.Load<Sprite>("Art/yeni/pm74/degnek/sparkle");
+            if (sparkle == null) return;
+            foreach (var at in points)
+            {
+                var r = new GameObject("melt light").AddComponent<SpriteRenderer>();
+                r.transform.SetParent(transform, false);
+                r.transform.localPosition = Draw.W(at);
+                r.sprite = sparkle; r.sortingOrder = LiftOrder + 40;
+                float size = Cell * .55f / sparkle.bounds.size.x;
+                Tweens.Run(r, MeltSeconds, t =>
+                {
+                    if (r == null) return;
+                    float k = Mathf.Sin(Mathf.Clamp01(t / .8f) * Mathf.PI);
+                    r.transform.localScale = Vector3.one * size * Mathf.Lerp(.3f, 1.1f, k);
+                    r.transform.localRotation = Quaternion.Euler(0, 0, 90 * t);
+                    r.color = new Color(1, .95f, .8f, k);
+                }, () => { if (r != null) Destroy(r.gameObject); });
             }
         }
 
@@ -773,6 +826,23 @@ namespace ReverseSolver.Presentation
 
         /* PM_66: the wand's quadrant lifts and turns once, its pieces settle with their new tabs, and the pieces it
            freed glow gold for a moment. Chained pairs only lift (their rope stays put). */
+        /* PM_76: after a flattening, the freed pieces pulse gold twice (no lift, the melt is the show). */
+        public void GlowFreed(System.Collections.Generic.IReadOnlyList<int> freed)
+        {
+            var gold = Draw.Hex("#FFC93C");
+            foreach (int piece in freed)
+            {
+                if (!_pieces.TryGetValue(piece, out var pv)) continue;
+                Tweens.Run((pv, "freed"), 1.4f, k =>
+                {
+                    if (pv == null) return;
+                    float after = Mathf.Max(0, k * 1.4f - .55f) / .85f;
+                    float glow = after <= 0 ? 0 : Mathf.Sin(Mathf.Min(1, after) * Mathf.PI * 2.5f) * .5f + .5f;
+                    pv.SetGlow(gold, glow * (1 - after * after));
+                }, () => { if (pv != null) pv.SetGlow(Vector4.zero, 0); });
+            }
+        }
+
         public void RegionDance(int quadrant, System.Collections.Generic.IReadOnlyList<int> freed = null)
         {
             var region = WandRegion.Quadrant(Session.Level, quadrant);
