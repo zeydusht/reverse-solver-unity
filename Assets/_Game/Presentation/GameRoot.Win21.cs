@@ -107,6 +107,10 @@ namespace ReverseSolver.Presentation
             var gallery = new GameObject("PM74 gallery").transform;
             var wall = ShapeView.Create(gallery, "wall", _screen * 1.2f, 0, DiveOrder).Radius(0).Fill(Draw.Hex("#0E2244"));
             wall.transform.localPosition = Draw.W(_screen / 2);
+            // the win screen's blue light stays on the wall, so the win and the gallery read as one moment
+            float cover = Mathf.Max(_screen.x / 390, _screen.y / 844);
+            var glow = Art.Place(gallery, "T50/win/win_bg_glow", new Vector2(390, 844) * cover, DiveOrder + 1);
+            if (glow != null) { glow.transform.localPosition = Draw.W(_screen / 2); glow.color = new Color(1, 1, 1, .85f); }
             Transform Framed(string name, Texture tex, Vector2 size)
             {
                 var holder = new GameObject(name).transform; holder.SetParent(gallery, false);

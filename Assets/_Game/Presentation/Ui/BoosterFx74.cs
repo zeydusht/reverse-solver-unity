@@ -256,6 +256,7 @@ namespace ReverseSolver.Presentation
             if (age >= shatter && Once(4))
             {
                 Shake(5 * _s, .14f);
+                Sound?.Invoke("pm72-defuse", .7f);   // the crumble under the knock
                 var shards = new[] { Get("cekic/shard_a"), Get("cekic/shard_b"), Get("cekic/shard_c") };
                 for (int i = 0; i < 10; i++)
                 {

@@ -4,7 +4,7 @@
 - Test: https://zeydusht.github.io/reverse-solver-unity/p23/?c=p23&test=1&lang=tr
 - Sıfırdan oyuncu: https://zeydusht.github.io/reverse-solver-unity/p23/?c=p23&reset=1&lang=tr
 
-p22, p21, p20, kök ve pt1'e dokunulmadı. Denetim listesi: [DENETIM.md](DENETIM.md) (27 madde, önce görüntüleri `once/`).
+p22, p21, p20, kök ve pt1'e dokunulmadı. Denetim listesi: [DENETIM.md](DENETIM.md) (29 madde, önce görüntüleri `once/`).
 
 ## Kısaca
 - **Değnek hatası:** test linkinde booster dersinden sonra oyunun donması düzeldi. Hata dört booster dersinde de vardı. Tahtanın dışına tek dokunuş artık seçimi iptal ediyor.
@@ -46,7 +46,7 @@ p22, p21, p20, kök ve pt1'e dokunulmadı. Denetim listesi: [DENETIM.md](DENETIM
   - Nefes alma daha yumuşak.
   - Önce/sonra GIF: [jigo_goz_once_sonra.gif](jigo_goz_once_sonra.gif).
 - **Parça kutusu:** ikon kalktı, sayı %30 büyük ve ortada.
-- **Menü:** normal oyuncuda tek büyük "Oyna · Bölüm N". "Bölümler" düğmesi ve harita yalnız `&test=1`'de.
+- **Menü:** normal oyuncuda tek büyük "Oyna · Bölüm N"; düğme 1,6 sn'de bir hafifçe nefes alır (%3). "Bölümler" düğmesi ve harita yalnız `&test=1`'de.
 
 ## Aşama 3: Booster'lar ve saat
 Her biri için döngü:
@@ -86,7 +86,7 @@ GIF'ler `booster/` klasöründe:
   - Tabloya yakınlaşma 0,42 sn (ease-in), kısa krem ışık.
   - Kamera tahtanın resminden 0,38 sn'de geri çekilir (ease-out). Parçalar dağıtılmadan yerinde durur, resim yapboza dönüşür gibi görünür.
   - HUD ve booster çubuğu en son kayarak gelir. Toplam ≈ 0,95 sn.
-- **Kazanma → Sonraki bölüm:** biten resim çerçevesiyle küçülüp sola "asılır", yeni tablo sağdan gelir (0,26 sn), içine dalınır (0,26 sn), bölüm aynı biçimde açılır. Toplam ≈ 1 sn.
+- **Kazanma → Sonraki bölüm:** kazanma ekranının mavi ışığı yerinde kalır. Biten resim çerçevesiyle küçülüp sola "asılır", yeni tablo sağdan gelir (0,26 sn), içine dalınır (0,26 sn), bölüm aynı biçimde açılır. Toplam ≈ 1 sn.
 - **Kapatma:** `&gecis=yok`. Dalış sırasında dokunuşlar yok sayılır.
 - **İlk açılış donması giderildi:**
   - Ölçüm (`&perf=1`): oturumdaki ilk bölüm açılışında ~0,3 sn'lik tek bir uzun kare vardı. Kurulum ~0,2 sn; ardından ilk çizimde gölgelendirici ve doku hazırlığı. Resim çözme yalnız 30–50 ms.

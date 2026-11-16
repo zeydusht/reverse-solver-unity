@@ -254,6 +254,7 @@ namespace ReverseSolver.Presentation
                 }
                 Play = new Rect(x0, cy - bh / 2, bw, bh);
                 if (play != null) _press.Add((Play, play, "level-button", "level-button-pressed", label.transform));
+                if (play != null && Art.On) Pulse74.On(play.gameObject, play.transform, label.transform);   // PM_74
 
                 if (Art.On && levelsButton)
                 {
