@@ -51,11 +51,11 @@ namespace ReverseSolver.Presentation
             t.transform.localPosition = Draw.W(at); return t;
         }
 
-        void Title(string text)
+        void Title(string text, float width = 340)
         {
             _title = Group("title");
-            _title.localPosition = Draw.W(At(195, 150));
-            TextView.Create(_title, "title", text, 50 * _k, Palette.Cream, order: _order + 6).Title3D().FitWidth(340 * _k, 30 * _k);
+            _title.localPosition = Draw.W(At(width < 340 ? 182 : 195, 150));
+            TextView.Create(_title, "title", text, 50 * _k, Palette.Cream, order: _order + 6).Title3D().FitWidth(width * _k, 26 * _k);
         }
 
         void Jigo(float y, float size)
@@ -109,7 +109,7 @@ namespace ReverseSolver.Presentation
             var v = new LossView74(parent, screen, order, true, offer.Affordable || preview);
             v._showNo = showNo;
             bool time = offer.Kind == ContinueKind.Time;
-            v.Title(time ? Lang.T("Time's up", "Süre doldu") : Lang.T("Bomb exploded", "Bomba patladı"));
+            v.Title(time ? Lang.T("Time's up", "Süre doldu") : Lang.T("Bomb exploded", "Bomba patladı"), 250);   // room for the close button
             v.Jigo(330, 230);
             string benefit = time ? string.Format(Lang.T("+{0} s", "+{0} sn"), offer.Seconds) : Lang.T("Reset the bomb", "Bombayı sıfırla");
             var b = v.Text(v._root, benefit, v.At(time ? 215 : 195, 490), 40, 7).Title3D();
@@ -121,8 +121,8 @@ namespace ReverseSolver.Presentation
             v.Text(v._buttons, offer.Price.ToString(), v.At(214, 607), 30, 8).Heading(TextView.RimGreen);
             Art54.Place(v._root, "devam_v2/continue-coin", v.At(140, 668), Vector2.one * 24 * v._k, order + 7);
             v._coins = v.Text(v._root, string.Format(Lang.T("{0} coins", "{0} altın"), coins), v.At(210, 668), 18, 7).Heading(TextView.RimTeal);
-            // close: top right, clear of the HUD's time box
-            var close = new Vector2(screen.x - 34, Mathf.Max(safe.y, 0) + 34);
+            // close: on the title row, at the right (it used to sit on the HUD's Time box)
+            var close = new Vector2(Mathf.Min(screen.x - 28, v.At(354, 150).x), v.At(354, 150).y);
             Art54.Place(v._root, "devam_v2/close-button", close, Vector2.one * 48, order + 7);
             Art54.Place(v._root, "devam_v2/icon-close", close, Vector2.one * 25, order + 8);
             v._close = new Rect(close - Vector2.one * 26, Vector2.one * 52);

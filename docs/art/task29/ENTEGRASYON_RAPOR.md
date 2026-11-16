@@ -900,5 +900,6 @@ Yeni önizleme `p23/` (p22 yedek). Ayrıntı ve önce/sonra görüntüler: `docs
 - Durdur kartının arkasında mavi ışık (örtü bir sıra alta indi).
 - Booster seçim ikonu başlık rozetinin solunda (`&secim=eski` eski düzen).
 - Hikâye → 1. bölüm: `DiveOutOfStory`, geri çekilme video solduktan sonra (0,32 sn). `Dive74` zamanlayıcısı ilk karede başlıyor (uzun ilk kare hareketi atlatmasın).
+- Devam ekranında X başlık satırının sağında (HUD'daki Süre kutusuna binmiyordu artık); başlık 250 pt'ye sığdırılıyor.
 
 **Doğrulanmadı:** iPhone'da his, FPS ve titreşim.
