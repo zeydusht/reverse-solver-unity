@@ -11,6 +11,9 @@
 <meta name="apple-mobile-web-app-title" content="Reverse Solver">
 <meta name="theme-color" content="#0e2a2e">
 <link rel="apple-touch-icon" href="TemplateData/icon-180.png">
+<!-- PM_74: the name screen's button and font arrive with the page (the button used to appear a moment late) -->
+<link rel="preload" as="image" href="TemplateData/t23-name-button-primary.png">
+<link rel="preload" as="font" type="font/ttf" href="TemplateData/pm74-baloo.ttf" crossorigin>
 <link rel="icon" href="TemplateData/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <script>
@@ -320,7 +323,7 @@ window.ltBoot = function (msg) {
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/a7b1d37efb25d1197168f0c65932dd35.data.unityweb",
+    dataUrl: "Build/b45356f478a67af0a51de93c5274ae4d.data.unityweb",
     frameworkUrl: "Build/60dca181867689496579b6df77396eb2.framework.js.unityweb",
     codeUrl: "Build/5abbe4708ff2357dab57026e374c249c.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
