@@ -166,10 +166,15 @@ namespace ReverseSolver.Presentation
             P21BoosterView.SlowScissors = Host.Current.Query("makas") == "yavas";
             P21BoosterView.Fx74 = Host.Current.Query("fx") != "eski";   // PM_74 booster moments; &fx=eski: the old ones
             Dive74.On = Host.Current.Query("gecis") != "yok";           // PM_74 dive into the painting; &gecis=yok: off
+            BoosterFx74.HammerIdea = BoosterFx74.ParseIdea(Host.Current.Query("cekicfx"));      // PM_74 ideas: a (default), b, c
+            BoosterFx74.ScissorsIdea = BoosterFx74.ParseIdea(Host.Current.Query("makasfx"));
+            BoosterFx74.WandIdea = BoosterFx74.ParseIdea(Host.Current.Query("degnekfx"));
             string clockIdea = Host.Current.Query("saatfx");             // PM_74 clock ideas: a (default), b, c
             BoosterFx74.ClockStyle = clockIdea == "b" ? BoosterFx74.ClockIdea.B : clockIdea == "c" ? BoosterFx74.ClockIdea.C : BoosterFx74.ClockIdea.A;
             BoardView.Shatter74 = P21BoosterView.Fx74;
             Hud54.FixedPortrait = Host.Current.Query("portre") == "sabit";
+            Hud54.Ribbons = Host.Current.Query("hud") == "kurdele";
+            Hud54.NavyTitles = Host.Current.Query("hud") == "lacivert";
             string reset = Host.Current.Query("reset");
             if (reset == "1" && TelemetryMeta.P21Line(launchCohort))
                 _resetVisit = SaveData.ResetForQuery(Host.Current.Store, reset, launchCohort, P21Onboarding.Prepend(_set).Levels);
@@ -1450,8 +1455,9 @@ namespace ReverseSolver.Presentation
                     float x = (i - 1) * (round + gap);
                     var sprite = Art.Place(content, key + (on ? "on" : "off"), Vector2.one * round, CardOrder + 2);
                     if (sprite != null) sprite.transform.localPosition = Draw.W(x, y + round / 2);
-                    var text = TextView.Create(content, "toggle " + id, label, 12, Draw.Hex("#234670"), order: CardOrder + 3);
-                    text.transform.localPosition = Draw.W(x, y + round + 12);
+                    // PM_74: the labels were 9 px on the phone; 15 pt, bold
+                    var text = TextView.Create(content, "toggle " + id, label, 15, Draw.Hex("#234670"), true, order: CardOrder + 3);
+                    text.transform.localPosition = Draw.W(x, y + round + 13);
                     card.Buttons.Add((new Rect(x - round / 2 - 4, y - 4, round + 8, round + 24), id));
                 }
             });

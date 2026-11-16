@@ -34,8 +34,6 @@ PARTS = [
     ("efekt/makas/open.png", "makas/open", True),
     ("efekt/makas/half.png", "makas/half", True),
     ("efekt/makas/closed.png", "makas/closed", True),
-    ("efekt/makas/link_a.png", "makas/link_a", False),
-    ("efekt/makas/link_b.png", "makas/link_b", False),
     ("efekt/makas/snip_flash.png", "makas/snip_flash", True),
     ("efekt/cekic/crack_01.png", "cekic/crack_01", True),
     ("efekt/cekic/crack_02.png", "cekic/crack_02", True),
@@ -52,6 +50,7 @@ PARTS = [
     ("efekt/degnek/swirl_04.png", "degnek/swirl_04", True),
     ("efekt/degnek/swirl_05.png", "degnek/swirl_05", True),
     ("efekt/degnek/swirl_06.png", "degnek/swirl_06", True),
+    ("efekt/degnek/trail.png", "degnek/trail", True),
 ]
 
 

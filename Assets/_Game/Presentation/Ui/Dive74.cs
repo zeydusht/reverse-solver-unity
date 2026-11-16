@@ -10,7 +10,7 @@ namespace ReverseSolver.Presentation
     public sealed class Dive74 : MonoBehaviour
     {
         public static bool On = true;
-        public const float In = .45f, Out = .4f, HudSlide = .26f, Light = .16f;
+        public const float In = .42f, Out = .38f, HudSlide = .26f, Light = .16f;
 
         Camera _cam;
         Vector3 _fromPos, _toPos;
@@ -48,6 +48,49 @@ namespace ReverseSolver.Presentation
             }
         }
 
+        /* The light that hides the level being built: it rises over the last part of the dive in (so the build's
+           frame shows the light, not a frozen picture), then fades as the camera pulls back. */
+        static SpriteRenderer _light;
+        static Texture2D _lightTex;
+        public static void Rise(Camera cam, float delay, float seconds, int order)
+        {
+            if (_light == null)
+            {
+                var go = new GameObject("PM74 dive light");
+                _light = go.AddComponent<SpriteRenderer>();
+                if (_lightTex == null)
+                {
+                    _lightTex = new Texture2D(2, 2) { hideFlags = HideFlags.HideAndDontSave };
+                    _lightTex.SetPixels(new[] { Color.white, Color.white, Color.white, Color.white }); _lightTex.Apply(false, true);
+                }
+                _light.sprite = Sprite.Create(_lightTex, new Rect(0, 0, 2, 2), new Vector2(.5f, .5f), 2);
+            }
+            _light.transform.SetParent(cam.transform, false);
+            _light.transform.localPosition = new Vector3(0, 0, 9);
+            _light.sortingOrder = order;
+            float start = Time.unscaledTime + delay;
+            Tweens.Run(_light, delay + seconds, k =>
+            {
+                if (_light == null || cam == null) return;
+                float t = Mathf.Clamp01((Time.unscaledTime - start) / seconds);
+                LightAt(_light, cam, BoosterFx74.InCubic(t) * .92f);
+            });
+        }
+        public static void Fade(Camera cam, float seconds)
+        {
+            if (_light == null) return;
+            var light = _light;
+            Tweens.Run(light, seconds, t => { if (light != null && cam != null) LightAt(light, cam, .92f * (1 - t) * (1 - t)); },
+                () => { if (light != null) Destroy(light.gameObject); });
+            _light = null;
+        }
+        static void LightAt(SpriteRenderer light, Camera cam, float alpha)
+        {
+            float h = cam.orthographicSize * 2, w = h * cam.aspect;
+            light.transform.localScale = new Vector3(w * 1.1f, h * 1.1f, 1);
+            light.color = new Color(1f, .96f, .86f, alpha);
+        }
+
         /* A soft cream light over the whole view, fading out (hides the switch from the painting to the board). */
         public static void Flash(Camera cam, float seconds, int order)
         {
@@ -66,7 +109,7 @@ namespace ReverseSolver.Presentation
                 if (r == null || cam == null) return;
                 float h = cam.orthographicSize * 2, w = h * cam.aspect;
                 go.transform.localScale = new Vector3(w * 1.1f, h * 1.1f, 1);
-                r.color = new Color(light.r, light.g, light.b, .85f * (1 - t) * (1 - t));
+                r.color = new Color(light.r, light.g, light.b, .6f * (1 - t) * (1 - t));
             }, () => { if (go != null) Destroy(go); Destroy(tex); });
         }
     }

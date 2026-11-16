@@ -43,8 +43,10 @@ namespace ReverseSolver.EditorTools
             var args = Environment.GetCommandLineArgs();
             string label = "ci";
             for (int i = 0; i < args.Length - 1; i++) if (args[i] == "-rsLabel") label = args[i + 1];
+            // PM_74: -rsBrotliOnly skips the gzip backup (previews like p23 ship the Brotli build only)
+            bool brotliOnly = Array.IndexOf(args, "-rsBrotliOnly") >= 0;
             bool ok = Build(label + " Brotli", OutputDir, ShippedCompression)
-                    & Build(label + " gzip", GzipOutputDir, WebGLCompressionFormat.Gzip);
+                    & (brotliOnly || Build(label + " gzip", GzipOutputDir, WebGLCompressionFormat.Gzip));
             if (Application.isBatchMode) EditorApplication.Exit(ok ? 0 : 1);
         }
 

@@ -53,6 +53,7 @@ namespace ReverseSolver.Presentation
         {
             if (!Dive74.On || _menu == null || !(_menu.PaintingBounds is Bounds b) || !_p21Lessons) return false;
             _diving = true;
+            Dive74.Rise(_cam, Dive74.In * .6f, Dive74.In * .4f, DiveOrder + 10);
             Dive74.Run(_cam, new Vector3(b.center.x, b.center.y, -10), Dive74.CoverSize(b.size, _screen), Dive74.In, true, () =>
             {
                 StartLevel(index);
@@ -91,7 +92,7 @@ namespace ReverseSolver.Presentation
             if (nextSize.y > rect.height * 1.25f) nextSize *= rect.height * 1.25f / nextSize.y;
             var bNext = Framed("next", nextTex, nextSize);
             var centre = rect.center;
-            const float Hang = .3f, small = .62f;
+            const float Hang = .26f, small = .62f;
             Tweens.Run(gallery, Hang, t =>
             {
                 if (gallery == null) return;
@@ -104,7 +105,8 @@ namespace ReverseSolver.Presentation
             }, () =>
             {
                 var target = new Rect(centre - nextSize * small / 2, nextSize * small);
-                Dive74.Run(_cam, new Vector3(target.center.x, -target.center.y, -10), Dive74.CoverSize(target.size, _screen), .3f, true, () =>
+                Dive74.Rise(_cam, .26f * .5f, .26f * .5f, DiveOrder + 10);
+                Dive74.Run(_cam, new Vector3(target.center.x, -target.center.y, -10), Dive74.CoverSize(target.size, _screen), .26f, true, () =>
                 {
                     if (gallery != null) Destroy(gallery.gameObject);
                     StartLevel(next);
@@ -118,11 +120,12 @@ namespace ReverseSolver.Presentation
         void DiveOut()
         {
             if (_board == null || _hud == null || _bar == null) { _diving = false; return; }
+            _board.SkipDeal();
             var home = _cam.transform.position; float homeSize = _cam.orthographicSize;
             var rect = new Rect(_board.Origin, _board.Size);
             _cam.transform.position = new Vector3(rect.center.x, -rect.center.y, -10);
             _cam.orthographicSize = Dive74.CoverSize(rect.size, _screen);
-            Dive74.Flash(_cam, Dive74.Light, DiveOrder + 10);
+            Dive74.Fade(_cam, Dive74.Light + .08f);
             var hud = _hud.Root; var bar = _bar.Root;
             float top = Hud54.TopBottom(_screen, _safe.y) + 20, bottom = _screen.y - Hud54.BottomTop(_screen, _safe.w) + 20;
             var card = _card?.Root;

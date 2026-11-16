@@ -10,6 +10,8 @@ namespace ReverseSolver.Presentation
         readonly float _scale;
         // PM_64: the PM_62 live portrait is the default; Codex's fixed arch portrait with &portre=sabit or &saat=kalkan.
         public static bool FixedPortrait;
+        // PM_74: ribbonless titles (approved style); &hud=kurdele brings the PM_54 ribboned header back
+        public static bool Ribbons, NavyTitles;
         readonly JigoPortrait54 _portrait;
         readonly JigoPortraitLive54 _live;
         // PM_66: with the live portrait the shield clock borrows the fixed (shieldless) face while the shield is away.
@@ -63,8 +65,21 @@ namespace ReverseSolver.Presentation
             var body = new Vector2(113, 290f / 3) * _scale;
             var center = new Vector2(x, (181 + 145) / 3f) * _scale + shift;
             Art54.Stretch(root, Art54.Panel, center, body, order + 1);
-            Art54.Place(root, Art54.Header, new Vector2(x, (123 + 83) / 3f) * _scale + shift,
-                new Vector2(364f / 3, 166f / 3) * _scale, order + 2);
+            if (Ribbons)
+                Art54.Place(root, Art54.Header, new Vector2(x, (123 + 83) / 3f) * _scale + shift,
+                    new Vector2(364f / 3, 166f / 3) * _scale, order + 2);
+            else
+            {
+                // PM_74: the approved style has no ribbons: the title sits on a cream pill with the blue rim
+                // (&hud=lacivert: a navy tab instead of the cream pill; both kept for Zeyd)
+                var at = new Vector2(x, 62) * _scale + shift;
+                ShapeView.Create(root, "title shadow", new Vector2(86, 26) * _scale, 2, order + 2).Radius(13 * _scale)
+                    .Fill(Draw.Hex("#0D2C5E")).transform.localPosition = Draw.W(at + new Vector2(0, 2.5f * _scale));
+                var pill = ShapeView.Create(root, "title pill", new Vector2(86, 26) * _scale, 2, order + 3).Radius(13 * _scale);
+                if (NavyTitles) pill.Gradient(Draw.Hex("#1A3F7E"), Draw.Hex("#0D2C5E")).Stroke(Draw.Hex("#E3B54E"), 1.5f * _scale);
+                else pill.Gradient(Draw.Hex("#FFF9E9"), Draw.Hex("#F3E2BC")).Stroke(Draw.Hex("#1D4C92"), 2.5f * _scale);
+                pill.transform.localPosition = Draw.W(at);
+            }
             title = TextView.Create(root, "title", label, 16 * _scale, Palette.Cream, order: order + 4).Heading(TextView.RimTeal);
             title.transform.localPosition = Draw.W(new Vector2(x, 62) * _scale + shift);
             var number = TextView.Create(root, "number", "", body.y * numberShare, Palette.Cream, order: order + 4)

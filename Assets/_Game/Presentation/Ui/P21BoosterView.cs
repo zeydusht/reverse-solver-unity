@@ -15,14 +15,14 @@ namespace ReverseSolver.Presentation
         static float ScissorsTravelSeconds => SlowScissors ? .72f : .45f;
         static float ScissorsCutSeconds => SlowScissors ? .64f : .3f;
         static float ScissorsReturnSeconds => SlowScissors ? .72f : .45f;
-        public static float ScissorsHitSeconds => Fx74 ? BoosterFx74.ScissorsSnap : ScissorsTravelSeconds + ScissorsCutSeconds / 2;
-        public static float ScissorsDuration => Fx74 ? BoosterFx74.ScissorsEnd : ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsReturnSeconds;
+        public static float ScissorsHitSeconds => Fx74 ? BoosterFx74.ScissorsHit(BoosterFx74.ScissorsIdea) : ScissorsTravelSeconds + ScissorsCutSeconds / 2;
+        public static float ScissorsDuration => Fx74 ? BoosterFx74.ScissorsDone(BoosterFx74.ScissorsIdea) : ScissorsTravelSeconds + ScissorsCutSeconds + ScissorsReturnSeconds;
         public static float ClockTouchSeconds => Fx74 ? BoosterFx74.ClockTouchFor(BoosterFx74.ClockStyle) : ShieldClock ? .62f : .5f;
         /* When GameRoot applies the Core command, and when the effect is over. */
-        public static float HitSeconds(Booster b) => b == Booster.Hammer ? (Fx74 ? BoosterFx74.HammerShatter : .47f)
-            : b == Booster.Scissors ? ScissorsHitSeconds : b == Booster.Clock ? ClockTouchSeconds : Fx74 ? BoosterFx74.WandHit : .7f;
-        public static float DurationSeconds(Booster b) => b == Booster.Hammer ? (Fx74 ? BoosterFx74.HammerEnd : 1f)
-            : b == Booster.Scissors ? ScissorsDuration : b == Booster.Clock ? ClockTouchSeconds : Fx74 ? BoosterFx74.WandEnd : 1.5f;
+        public static float HitSeconds(Booster b) => b == Booster.Hammer ? (Fx74 ? BoosterFx74.HammerHit(BoosterFx74.HammerIdea) : .47f)
+            : b == Booster.Scissors ? ScissorsHitSeconds : b == Booster.Clock ? ClockTouchSeconds : Fx74 ? BoosterFx74.WandHitAt(BoosterFx74.WandIdea) : .7f;
+        public static float DurationSeconds(Booster b) => b == Booster.Hammer ? (Fx74 ? BoosterFx74.HammerDone(BoosterFx74.HammerIdea) : 1f)
+            : b == Booster.Scissors ? ScissorsDuration : b == Booster.Clock ? ClockTouchSeconds : Fx74 ? BoosterFx74.WandDone(BoosterFx74.WandIdea) : 1.5f;
         readonly BoosterFx74 _fx;
         public BoosterFx74 Fx => _fx;
         const float IceBreakSeconds = 7f / 18;

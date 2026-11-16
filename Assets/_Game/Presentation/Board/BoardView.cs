@@ -251,6 +251,17 @@ namespace ReverseSolver.Presentation
             }
         }
 
+        /* PM_74: the dive comes out of the whole picture: the pieces are already in place (no deal). */
+        public void SkipDeal()
+        {
+            foreach (var pv in _pieces.Values)
+            {
+                if (pv == null) continue;
+                Tweens.Kill((pv, "deal"));
+                pv.SetDeal(1, 0); pv.SetAlpha(1);
+            }
+        }
+
         /* .pc.clang: a pinned piece pressed shakes -3, +3 pt over .3s. */
         public void Clang(int piece)
         {

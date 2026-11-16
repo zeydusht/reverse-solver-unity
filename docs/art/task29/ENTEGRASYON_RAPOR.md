@@ -847,3 +847,46 @@ Davranış:
 - `Rules.Check` hiçbir bölümde ihlal göstermiyor.
 
 **Doğrulanmadı:** gerçek oyuncu sonucu. p22 verisi gelince tablo `irt_level_d_p22.csv` ile güncellenecek.
+
+## PM_74 — Gece cilası: hatalar, yerleşim, booster'lar, resme dalış, kayıp ekranları (16 Kasım)
+
+Yeni önizleme `p23/` (p22 yedek). Ayrıntı ve önce/sonra görüntüler: `docs/art/pm74/RAPOR.md`, denetim `docs/art/pm74/DENETIM.md`.
+
+**Hatalar**
+- Test linkinde booster dersi bitmiyordu (değnek, saat, makas, çekiç): `OnEvent` test modunda envanteri yazmasın diye ders ilerlemesini de atlıyordu. Ders adımı artık her modda bitiyor, envanter test modunda yine yazılmıyor. PlayMode `BoosterLessonOnTheTestLinkGivesInputBack` (9. ve 15. bölüm).
+- Seçimde tahtanın dışına tek dokunuş iptal ediyor (`PressBooster21`; rehberli ders seçimi hariç).
+- Kilit kartı "N hamle" → "üstündeki sayı kadar hamle"; "gövde" → "parça"; TR'de "Seviye" → "Bölüm".
+
+**Yerleşim ve HUD**
+- `Hud54BoardPlacement`: çerçeve bandı (18,2) + 12 pt hava her yanda; yalnız 8 sütunlu iki bölümde hücre 42 → 41.
+- Jigo canlı portresi `JigoPortrait` gölgelendiricisiyle kemere kırpılıyor (gölgelendirici artık sprite rengini de çarpıyor).
+  - Boy %72,5; yüksük kemerin 3 pt altında.
+  - Açık göz tek kare; kırpma 3–6 sn'de bir.
+- Parça kutusu yalnız sayı (%44 yükseklik). Başlıklar kurdelesiz krem hap; `&hud=kurdele` eski başlık.
+- Menü: normal oyuncuda tek "Oyna · Bölüm N"; Bölümler yalnız test linkinde.
+
+**Booster'lar (`BoosterFx74`)**
+- Codex (xhigh) parçaları: `Assets/Art/_yeni/PM74`. `Tools/make_pm74_art.py` bunları `Resources/Art/yeni/pm74`'e alıyor.
+- Her booster için üç fikir; varsayılan A, `&cekicfx` / `&makasfx` / `&degnekfx` / `&saatfx` = b|c ile diğerleri. `&fx=eski` PM_62/66 animasyonları.
+- Zamanlama sözleşmesi `P21BoosterView.HitSeconds` / `DurationSeconds`.
+- Kamera sarsıntısı seviye değişiminde geri alınıyor (`FxGuard74`).
+- Saat kuralı aynı (10 sn durdurur). Kutunun altında geri sayan "+N sn" rozeti eski donma çubuğunun yerini aldı.
+
+**Resme dalış (`Dive74`)**
+- Menü → bölüm: tabloya kamera yakınlaşması, bölüm kurulur, dağıtma atlanır (`SkipDeal`), kamera tahtadan geri çekilir, HUD ve çubuk kayar.
+- Kazanma → sonraki: biten resim sola, yenisi ortaya, dalış.
+- Dalışta dokunuş yok sayılır. `&gecis=yok` kapatır.
+
+**Kayıp ve devam (`LossView74`)**
+- T50 B dilinde; `ContinuePanel` p21 hattında ona devrediyor, kayıp `ShowResult`'tan açılıyor.
+
+**Diğer**
+- İsim ekranı CSS: krem panel, mavi çerçeve, Baloo alt kümesi `TemplateData/pm74-baloo.ttf` (22 KB).
+- Sandık altın sayacı başlığın altında.
+- Kazanma "Menü" dokunma alanı ≥ 44 pt.
+- Tık sesi −4 dB.
+- Durdur yazıları 15 pt.
+- `WebBuild -rsBrotliOnly`.
+- Tur aracında `eval` ve `--safe top,bottom` (güvenli alan taklidi).
+
+**Doğrulanmadı:** iPhone'da his, FPS ve titreşim.

@@ -10,6 +10,8 @@
 //         | ["nav", "?query"]     (opens another URL of the same build, storage kept)
 //         | ["eval", "js"]        (prints the value of a page expression, e.g. the load timings)
 // The Chrome profile lives in %TEMP% and is deleted afterwards; Supabase is blocked (no rows written).
+// One tour at a time: Chrome's debugging port is fixed (--port to change). Under a heavy Unity build a run can
+// come back empty (no times.json); run it again.
 const fs = require('fs'), path = require('path'), http = require('http'), os = require('os'), { spawn } = require('child_process');
 const args = process.argv.slice(2);
 const opt = (n, d) => { const i = args.indexOf('--' + n); return i >= 0 ? args[i + 1] : d; };

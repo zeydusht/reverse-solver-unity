@@ -34,6 +34,9 @@ namespace ReverseSolver.Presentation
             Layout(screen, targets);
         }
         Vector2 At(float x, float y) => new Vector2(_screen.x * .5f + (x - 195) * _scale, _top + y * _scale);
+        bool BChest => _chestMode && B;
+        float CoinX => BChest ? 195 : 290;
+        float CoinY => BChest ? 168 : 52;
         SpriteRenderer Layer(string name, int order) { var r = Draw.Child<SpriteRenderer>(_content, name); r.sortingOrder = order; return r; }
         void Paint(SpriteRenderer r, string key, Vector2 point, Vector2 size, float alpha = 1)
         {
@@ -106,9 +109,10 @@ namespace ReverseSolver.Presentation
             else
             {
                 _rescuedLabel = null;
-                Image("Reward/Flight/coin-counter", 290, 52, 116, 37, 8);
-                Image("Reward/Flight/coin", 251, 52, 30, 30, 9);
-                _coins = Label(_save.Coins.ToString(), 299, 52, 18);
+                // PM_74: the coin counter under the title, clear of the HUD's Time box (it sat on it at y 52)
+                Image("Reward/Flight/coin-counter", CoinX, CoinY, 116, 37, 8);
+                Image("Reward/Flight/coin", CoinX - 39, CoinY, 30, 30, 9);
+                _coins = Label(_save.Coins.ToString(), CoinX + 9, CoinY, 18);
                 if (_done) NextButton();
                 foreach (var b in BoosterExt.All)
                 {
@@ -336,7 +340,7 @@ namespace ReverseSolver.Presentation
             }
             float t = rewardAge - reward * cycle;
             string item = reward == 0 ? "gold" : _booster.Id();
-            Vector2 center = At(195, 375), target = reward == 0 ? At(290, 52) : _targets[(int)_booster].center;
+            Vector2 center = At(195, 375), target = reward == 0 ? At(CoinX, CoinY) : _targets[(int)_booster].center;
             Vector2 position = t < pop ? Vector2.Lerp(At(195, 350), center, t / pop) : t < pop + hold ? center : Vector2.Lerp(center, target, Mathf.Clamp01((t - pop - hold) / fly));
             float size = t < pop + hold ? 135 : Mathf.Lerp(135, 32, Mathf.Clamp01((t - pop - hold) / fly));
             Paint(_item, t >= pop + hold + fly ? null : t < pop ? Frame("Reward/Reveal/Pop/" + item, Mathf.Min(4, 1 + (int)(t * 12))) : "Reward/Reveal/Items/" + item, position, Vector2.one * size * _scale);
