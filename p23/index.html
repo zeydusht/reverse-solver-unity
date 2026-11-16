@@ -238,7 +238,9 @@ window.ltBoot = function (msg) {
 <canvas id="unity-canvas" class="full" tabindex="-1"></canvas>
 
 <div id="loader" class="full">
-  <img src="TemplateData/icon-192.png" alt="">
+  <img id="loader-icon" alt="" style="opacity:0;transition:opacity .2s" onload="this.style.opacity=1">
+  <script>/* PM_74: the right icon from the first paint (the old one used to flash for a moment) */
+    document.getElementById('loader-icon').src = document.documentElement.classList.contains('v3') ? 'TemplateData/icon-v3-192.png' : 'TemplateData/icon-192.png';</script>
   <div class="track"><div class="fill" id="fill"></div></div>
   <div class="msg" id="msg"></div>
 </div>
@@ -318,9 +320,9 @@ window.ltBoot = function (msg) {
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/2ed9994998739b901d45b5b0d7674429.data.unityweb",
-    frameworkUrl: "Build/bdc2de68239ef27d4f34fe704407e924.framework.js.unityweb",
-    codeUrl: "Build/9ceb777e5ee36091ed2eb21dbbe517ed.wasm.unityweb",
+    dataUrl: "Build/ba0a650930acce33e0fa665b47ff7f12.data.unityweb",
+    frameworkUrl: "Build/60dca181867689496579b6df77396eb2.framework.js.unityweb",
+    codeUrl: "Build/0dc0e5a5d13eaa5c3a59dc7aa703f3f1.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
