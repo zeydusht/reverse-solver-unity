@@ -184,10 +184,26 @@ namespace ReverseSolver.Presentation
             _bSettled = false;
         }
         /* Green Next Level (300x72) and blue Menu (136x48) with their labels in the game's font. */
+        /* PM_75: "Level N+1" on the Next button (GameRoot sets it before the view is built); null: "Next Level". */
+        public static string NextTitle;
+
         void Buttons(Vector2 next, Vector2 menu, string nextText, Transform parent = null)
         {
             parent = parent != null ? parent : _content;
             if (_bScale <= 0) _bScale = _scale;
+            if (Button75.Available)
+            {
+                // PM_75: the same buttons as the menu's "Level N": green for Next, its navy twin for Menu
+                if (nextText == Texts.NextLevel21 && !string.IsNullOrEmpty(NextTitle)) nextText = NextTitle;
+                next += new Vector2(0, -4 * _bScale);
+                var main = Button75.Main(parent, next, new Vector2(262, 92) * _bScale, nextText, Order + 9);
+                var small = Button75.Small(parent, menu, new Vector2(150, 50) * _bScale, Lang.T("Menu", "Menü"), Order + 9);
+                _nextRect = main.Rect;
+                float h = Mathf.Max(small.Rect.height, 48f), w = Mathf.Max(small.Rect.width, 150f);
+                float y0 = Mathf.Max(menu.y - h / 2, _nextRect.yMax + 2);
+                _menuRect = new Rect(menu.x - w / 2, y0, w, Mathf.Max(44f, menu.y + h / 2 - y0));
+                return;
+            }
             PlaceB(parent, "btn_green_big", next, 300, 72, 6);
             var n = TextView.Create(parent, "next label", nextText, 28 * _bScale, Palette.Cream, order: Order + 11).Heading(TextView.RimGreen).FitWidth(250 * _bScale, 16 * _bScale);
             n.transform.localPosition = Draw.W(next + new Vector2(0, -2 * _bScale));

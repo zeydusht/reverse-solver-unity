@@ -98,6 +98,9 @@ namespace ReverseSolver.Core
         public TravelLimit Limit { get; private set; }
         /* Current displacement along Direction, never negative. */
         public float Offset { get; private set; }
+        /* PM_75: how far the finger has pulled along Direction, uncapped (the view slides a stuck piece up to
+           where it really touches, Contact.Distance, which can be past Offset). */
+        public float Pull { get; private set; }
         /* The piece currently stopping the drag, -1 if none (for highlighting). */
         public int Blocker { get; private set; } = -1;
         /* How the previous drag ended; null before the first one. */
@@ -133,7 +136,7 @@ namespace ReverseSolver.Core
             _axisChosen = false;
             _jammed = false;
             Direction = null;
-            Offset = 0;
+            Offset = 0; Pull = 0;
             Blocker = -1;
             _outside = outside;
             _samples = 0;
@@ -166,6 +169,7 @@ namespace ReverseSolver.Core
 
             float max = MaxOffset();
             float want = Math.Abs(raw);
+            Pull = want;
             Offset = Math.Min(want, max);
             if (!Limit.Exit && want > max + JamSlack && !_jammed)
             {
@@ -216,6 +220,7 @@ namespace ReverseSolver.Core
             Piece = -1;
             Blocker = -1;
             Offset = 0;
+            Pull = 0;
             Direction = null;
         }
 

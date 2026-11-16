@@ -31,12 +31,12 @@ namespace ReverseSolver.Presentation
         public static float Ease(float t) { t = Mathf.Clamp01(t); return t * t * t * (t * (t * 6 - 15) + 10); }
 
         /* null when the strip is missing: the caller goes straight on. `next` may be null and come later (SetNext). */
-        public static CorridorTransition Play(Vector2 screen, int order, Texture2D won, Texture2D next, Action done)
+        public static CorridorTransition Play(Vector2 screen, int order, Texture2D won, Texture2D next, Action done, bool handoff = false)
         {
             var sprite = Resources.Load<Sprite>("corridor_strip");
             if (sprite == null) return null;
             var c = new GameObject("Corridor").AddComponent<CorridorTransition>();
-            c._order = order; c._done = done; c._start = Time.unscaledTime;
+            c._order = order; c._done = done; c._start = Time.unscaledTime; c._handoff = handoff;
             // cover-fit the 9:19.5 view; a wide window crops at most 23 % of its height (the painting stays whole)
             // and the strip, only one bay wide, gets dark sides
             float k = Mathf.Min(Mathf.Max(screen.x / ViewW, screen.y / ViewH), MaxCrop * screen.y / ViewH);
@@ -61,6 +61,46 @@ namespace ReverseSolver.Presentation
 
         Vector2 _screen;
         float _k;
+        bool _handoff;
+        Texture2D _next;
+
+        /* PM_75: at the end of the slide the dive takes over: the strip, the next painting and where it is now. */
+        public SpriteRenderer Strip => _strip;
+        public Texture2D NextTexture => _next;
+        /* The next painting's crop (uv), as Mesh() centre-crops it to its aperture. */
+        public Rect NextCrop
+        {
+            get
+            {
+                if (_next == null) return new Rect(0, 0, 1, 1);
+                var q = BayQuad(Period);
+                float aw = ((q[1] - q[0]).magnitude + (q[2] - q[3]).magnitude) / 2, ah = ((q[3] - q[0]).magnitude + (q[2] - q[1]).magnitude) / 2;
+                float ta = (float)_next.width / _next.height, a = aw / ah;
+                float uw = ta > a ? a / ta : 1, vh = ta > a ? 1 : ta / a;
+                return new Rect((1 - uw) / 2, (1 - vh) / 2, uw, vh);
+            }
+        }
+        /* The next painting's aperture on the screen now, layout points (TL, TR, BR, BL). */
+        public Vector2[] NextQuad()
+        {
+            var q = BayQuad(Period);
+            var r = new Vector2[4];
+            for (int i = 0; i < 4; i++)
+            {
+                var w = _slide.TransformPoint(Draw.W(q[i]));
+                r[i] = new Vector2(w.x, -w.y);
+            }
+            return r;
+        }
+        static Vector2[] BayQuad(float dx)
+        {
+            var q = new Vector2[4];
+            Vector2 mid = Vector2.zero;
+            foreach (var p in Bay) mid += p / 4;
+            for (int i = 0; i < 4; i++) q[i] = mid + (Bay[i] - mid) * Grow + new Vector2(dx, 0);
+            return q;
+        }
+        public void DestroyNow() { if (this != null) Destroy(gameObject); }
 
         /* The view's left edge at strip x = offset, centred on the screen. */
         void Place(Vector2 screen, float k, float offset) =>
@@ -69,6 +109,7 @@ namespace ReverseSolver.Presentation
         public void SetNext(Texture2D next)
         {
             if (next == null || this == null || _paintings.Count > 1) return;
+            _next = next;
             AddPainting(next, Period, Time.unscaledTime - _start > .05f);   // late: a short fade over the dark placeholder
         }
 
@@ -77,6 +118,8 @@ namespace ReverseSolver.Presentation
 
         void End()
         {
+            // PM_75: a skipped slide jumps to its end, so the dive starts from the next painting
+            if (_handoff) Place(_screen, _k, Period);
             _endAt = Time.unscaledTime;
             var d = _done; _done = null;
             d?.Invoke();

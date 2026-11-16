@@ -206,6 +206,7 @@ namespace ReverseSolver.Presentation
 
         public Rect RectOf(Booster b) => _t54 != null ? _t54.RectOf(b) : _slots.Find(s => s.B == b).Rect;
         public void ShowScissorsInSlot(bool show) => _t54?.ShowScissorsInSlot(show);
+        public void ShowInSlot(Booster b, bool show) => _t54?.ShowInSlot(b, show);
 
         public Booster? Hit(Vector2 pt)
         {

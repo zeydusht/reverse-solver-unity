@@ -140,7 +140,7 @@ namespace ReverseSolver.Presentation
         public static string Restart => Lang.T("Restart", "Yeniden başla");
         public static string MainMenu => Lang.T("Main menu", "Ana menü");
         public static string MenuHint => Lang.T("Drag each piece the right way to clear the board.", "Her parçayı doğru yönde sürükleyip tahtayı boşalt.");
-        public static string PlayLevel => Lang.T("Play · Level {0}", "Oyna · Bölüm {0}");
+        public static string PlayLevel => Lang.T("Level {0}", "Bölüm {0}");   // PM_75: "Play ·" gone
         public static string Levels => Lang.T("Levels", "Bölümler");
         public static string Player => Lang.T("Player", "Oyuncu");
         public static string NamePrompt => Lang.T("Your name", "Adın");

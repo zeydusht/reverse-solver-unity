@@ -343,7 +343,25 @@ namespace ReverseSolver.Presentation
                 pv.SetLift(1);
             }
             var d = drag.Direction;
-            pv.SetOffset(d.HasValue ? new Vector2(d.Value.Dx(), d.Value.Dy()) * drag.Offset : Vector2.zero);
+            float shown = drag.Offset;
+            if (d.HasValue && !drag.Limit.Exit)
+            {
+                // PM_75: a stuck piece follows the finger up to where it really touches, knocks once there
+                if (_contactPiece != drag.Piece || _contactDir != d.Value)
+                {
+                    _contactPiece = drag.Piece; _contactDir = d.Value; _contactKnocked = false;
+                    _contactCells = Contact.Distance(Session.Board, drag.Piece, d.Value, drag.Limit);
+                }
+                if (_contactCells >= SlamMin)
+                {
+                    float reach = _contactCells * Cell;
+                    shown = Mathf.Min(drag.Pull, reach);
+                    if (drag.Pull >= reach && !_contactKnocked) { _contactKnocked = true; Knock(drag.Piece, d.Value, drag.Limit.Blocker); }
+                }
+                else if (drag.Blocker >= 0 && !_contactKnocked) { _contactKnocked = true; FlashBlocker(drag.Blocker); }
+            }
+            else _contactPiece = -1;
+            pv.SetOffset(d.HasValue ? new Vector2(d.Value.Dx(), d.Value.Dy()) * shown : Vector2.zero);
             // release speed for the exit trail: smoothed over the last frames of the drag
             float now = Time.unscaledTime;
             if (_dragAt >= 0 && now > _dragAt)
@@ -352,7 +370,98 @@ namespace ReverseSolver.Presentation
                 _dragSpeed = Mathf.Lerp(_dragSpeed, v, Mathf.Clamp01((now - _dragAt) / .05f));
             }
             _dragAt = now; _dragOffset = pv.Offset;
-            SetBlocker(drag.Blocker);
+            SetBlocker(-1);   // PM_75: no lasting red; the piece in the way flashes once at the contact
+        }
+
+        // ---- PM_75: a stuck piece slides to where it touches ------------------------------
+        public const float SlamMin = .06f;                 // less room than this (interlocked): the short jiggle
+        public const float Squash = .06f, HoldSeconds = .08f, SquashSeconds = .05f, SpringSeconds = .34f;
+        /* The moment a stuck piece touches what stops it (the knock sound and the haptic). */
+        public System.Action<int> ContactHit;
+        int _contactPiece = -1;
+        Dir _contactDir;
+        float _contactCells;
+        bool _contactKnocked;
+
+        /* True when a pull of `piece` towards `dir` will slide visibly before it stops (the jam's sound then waits
+           for the contact). */
+        public bool WillSlide(int piece, Dir? dir) =>
+            dir.HasValue && Session.Board.IsPresent(piece) && Session.NailAt(piece) <= 0 &&
+            !TravelRule.Limit(Session.Board, piece, dir.Value).Exit && Contact.Distance(Session.Board, piece, dir.Value) >= SlamMin;
+
+        void Knock(int piece, Dir dir, int blocker)
+        {
+            if (blocker >= 0) FlashBlocker(blocker);
+            ContactHit?.Invoke(piece);
+        }
+
+        void FlashBlocker(int piece)
+        {
+            if (!_pieces.TryGetValue(piece, out var pv)) return;
+            var coral = Draw.Hex("#e8674c");
+            Tweens.Run((pv, "contact"), .32f, t => { if (pv != null) pv.SetGlow(coral, (1 - t) * (1 - t)); },
+                () => { if (pv != null) pv.SetGlow(Vector4.zero, 0); });
+        }
+
+        /* The edge of the piece that leads towards dir, at home, in board layout points: the squash keeps it on
+           the contact. */
+        Vector2 LeadingEdge(int piece, Dir dir)
+        {
+            var cells = Session.Level.Pieces[piece];
+            int x0 = int.MaxValue, y0 = int.MaxValue, x1 = int.MinValue, y1 = int.MinValue;
+            foreach (var c in cells) { x0 = Mathf.Min(x0, c.X); y0 = Mathf.Min(y0, c.Y); x1 = Mathf.Max(x1, c.X + 1); y1 = Mathf.Max(y1, c.Y + 1); }
+            var center = new Vector2(x0 + x1, y0 + y1) * .5f * Cell;
+            var half = new Vector2(x1 - x0, y1 - y0) * .5f * Cell;
+            return center + Vector2.Scale(new Vector2(dir.Dx(), dir.Dy()), half);
+        }
+
+        void SetSquash(PieceView pv, Vector2 offset, Vector2 axis, Vector2 anchor, float amount)
+        {
+            var scale = axis.x != 0 ? new Vector2(1 - amount, 1 + amount * .5f) : new Vector2(1 + amount * .5f, 1 - amount);
+            pv.transform.localScale = new Vector3(scale.x, scale.y, 1);
+            pv.transform.localPosition = Draw.W(offset + Vector2.Scale(anchor + offset, Vector2.one - scale));
+        }
+
+        /* Slide to the contact (a light acceleration, like a thrown piece), squash 6 % against it, knock, hold,
+           then spring back home. slideIn false: it is already there (the finger took it). */
+        void Slam(PieceView pv, int piece, Dir dir, float contactCells, bool slideIn)
+        {
+            var axis = new Vector2(dir.Dx(), dir.Dy());
+            float from = Mathf.Max(0, Vector2.Dot(pv.Offset, axis)), reach = contactCells * Cell;
+            int blocker = TravelRule.Limit(Session.Board, piece, dir).Blocker;
+            var anchor = LeadingEdge(piece, dir);
+            int home = HomeOrder(piece);
+            _ropes.TryGetValue(piece, out var rope);
+            Tweens.Kill(pv);
+            void Bounce()
+            {
+                if (pv == null) return;
+                if (slideIn) Knock(piece, dir, blocker);
+                float total = SquashSeconds + HoldSeconds + SpringSeconds;
+                Tweens.Run(pv, total, k =>
+                {
+                    if (pv == null) return;
+                    float s = k * total;
+                    if (s < SquashSeconds + HoldSeconds)
+                        SetSquash(pv, axis * reach, axis, anchor, Squash * Mathf.Clamp01(s / SquashSeconds));
+                    else
+                    {
+                        float u = (s - SquashSeconds - HoldSeconds) / SpringSeconds;
+                        var at = Vector2.LerpUnclamped(axis * reach, Vector2.zero, Tweens.Settle(u));
+                        SetSquash(pv, at, axis, anchor, Squash * Mathf.Clamp01(1 - u / .35f));
+                        pv.SetLift(1 - u);
+                    }
+                }, () =>
+                {
+                    if (pv == null) return;
+                    pv.transform.localScale = Vector3.one; pv.SetOffset(Vector2.zero);
+                    pv.SortingOrder = home; pv.SetLift(0);
+                    if (rope != null) rope.SetOrder(ChainOrder);
+                });
+            }
+            if (!slideIn) { pv.SetOffset(axis * reach); Bounce(); return; }
+            float seconds = Mathf.Clamp(.07f + .15f * Mathf.Max(0, reach - from) / Cell, .08f, .28f);
+            Tweens.Run(pv, seconds, t => { if (pv != null) pv.SetOffset(axis * Mathf.Lerp(from, reach, t * (.55f + .45f * t))); }, Bounce);
         }
 
         public void EndDrag(int piece, DragRelease result, Dir dir, int travelCells, bool autoSlide = false)
@@ -365,15 +474,26 @@ namespace ReverseSolver.Presentation
             if (!_pieces.TryGetValue(piece, out var pv)) return;
             if (result == DragRelease.Exited) { FlyOut(pv, dir, travelCells, true, releaseSpeed); return; }
 
+            if (Session.Board.IsPresent(piece) && Session.NailAt(piece) <= 0)
+            {
+                // PM_75: a thrown stuck piece slides to where it touches; one the finger already took there bounces
+                var stop = TravelRule.Limit(Session.Board, piece, dir);
+                float contact = stop.Exit ? -1 : Contact.Distance(Session.Board, piece, dir, stop);
+                bool touched = _contactPiece == piece && _contactKnocked && contact >= SlamMin;
+                _contactPiece = -1;
+                if (contact >= SlamMin && (autoSlide || touched)) { Slam(pv, piece, dir, contact, !touched); return; }
+            }
+            _contactPiece = -1;
             if (autoSlide)
             {
                 var start = pv.Offset;
                 var axis = new Vector2(dir.Dx(), dir.Dy());
                 var stop = axis * Mathf.Max(Vector2.Dot(start, axis), (travelCells + (travelCells == 0 ? DragModel.JamGive : DragModel.GiveHard)) * Cell);
+                int jammedBy = Session.Board.IsPresent(piece) ? TravelRule.Limit(Session.Board, piece, dir).Blocker : -1;
                 Tweens.Run(pv, .18f, t =>
                 {
                     if (pv != null) pv.SetOffset(Vector2.Lerp(start, stop, t * t));
-                }, () => { if (pv != null) EndDrag(piece, DragRelease.SnappedBack, dir, travelCells); });
+                }, () => { if (jammedBy >= 0) FlashBlocker(jammedBy); if (pv != null) EndDrag(piece, DragRelease.SnappedBack, dir, travelCells); });
                 return;
             }
 

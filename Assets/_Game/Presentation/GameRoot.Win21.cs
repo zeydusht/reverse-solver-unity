@@ -27,20 +27,24 @@ namespace ReverseSolver.Presentation
                 save.RecordChestWin21(chest ? 3 : _session.Level.Number);
             }
             else _save.RecordChestWin21(_session.Level.Number);
+            // PM_75: the Next button reads "Level N+1", like the menu's "Level N"
+            P21WinView.NextTitle = _index + 1 < _set.Levels.Count
+                ? string.Format(Texts.PlayLevel, _p21Flow ? _index + 2 : _set.Levels[_index + 1].Number) : null;
             _win21 = new P21WinView(transform, _screen, WinTargets21(), save, _session.Level.Pieces.Count,
                 preview || ContinueEnabled ? _continueRules.WinCoins : 0, chest, NextWin21, () =>
                 {
                     if (preview) return;
                     _inventory = new BoosterInventory(Host.Current.Store, _session.Level, i => i >= 0 && i < _set.Levels.Count && _progress.Won(i));
                     _inventory.Apply(_session); RefreshPlaying();
-                }, () => { _win21?.Destroy(); _win21 = null; _winPreview21 = false; ShowMenu(); });
+                }, () => { _win21?.Destroy(); _win21 = null; _winPreview21 = false; if (!CorridorToMenu75()) ShowMenu(); });   // PM_75: the corridor back
         }
         void NextWin21()
         {
             bool preview = _winPreview21;
             _win21?.Destroy(); _win21 = null; _winPreview21 = false;
             if (preview) { Layout(); return; }
-            if (_index + 1 < _set.Levels.Count) { if (!DiveToNext()) StartLevel(_index + 1); } else ShowMenu();
+            // PM_75: the corridor slides to the next painting, the slow dive takes over at its end
+            if (_index + 1 < _set.Levels.Count) { if (!CorridorToNext75()) StartLevel(_index + 1); } else ShowMenu();
         }
 
         // ---- PM_74: warm-up ---------------------------------------------------------------------------------------

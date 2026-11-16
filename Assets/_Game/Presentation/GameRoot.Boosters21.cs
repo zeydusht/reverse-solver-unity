@@ -221,6 +221,9 @@ namespace ReverseSolver.Presentation
             _boosterView21.Selection(_selected21, _region21, _regions21);
             _boosterView21.TickSelection();
             _bar.ShowScissorsInSlot(_effect21 != Booster.Scissors);
+            // PM_75: the slow hammer leaves its slot and comes home at the end
+            _bar.ShowInSlot(Booster.Hammer, !(_effect21 == Booster.Hammer && P21BoosterView.Fx74 && BoosterFx74.HammerIdea == BoosterFx74.Idea.A));
+            _bar.ShowInSlot(Booster.Wand, !(_effect21 == Booster.Wand && P21BoosterView.Fx74 && BoosterFx74.WandIdea == BoosterFx74.Idea.A));
             _boosterView21.Effect(_effect21 == Booster.Clock ? null : _effect21, _effectAge21, _target21, _joint21.vertical);
             if (P21BoosterView.Fx74)
             {

@@ -71,6 +71,19 @@ namespace ReverseSolver.Presentation
         void Buttons(string primary, string secondary, float y)
         {
             _buttons = Group("buttons");
+            if (Button75.Available)
+            {
+                // PM_75: the menu's button family (green main, navy small)
+                var main = Button75.Main(_buttons, At(195, y), new Vector2(262, 88) * _k, primary, _order + 6);
+                if (_offer && !_affordable && main.Body != null) main.Body.color = new Color(.5f, .5f, .5f, .95f);
+                _primary = main.Rect;
+                if (secondary == null) return;
+                var small = Button75.Small(_buttons, At(195, y + 86), new Vector2(150, 50) * _k, secondary, _order + 6);
+                var sc = small.Rect.center;
+                float sTop = Mathf.Max(sc.y - 26, _primary.yMax + 2);
+                _secondary = new Rect(sc.x - 80, sTop, 160, Mathf.Max(44, sc.y + 26 - sTop));
+                return;
+            }
             var g = Place(_buttons, "btn_green_big", At(195, y), 300, 72, 6);
             if (g != null && _offer && !_affordable) g.color = new Color(.5f, .5f, .5f, .95f);
             var p = Text(_buttons, primary, At(195, y - 2), 28, 8).Heading(TextView.RimGreen).FitWidth(250 * _k, 16 * _k);

@@ -166,7 +166,10 @@ namespace ReverseSolver.Presentation
             P21BoosterView.SlowScissors = Host.Current.Query("makas") == "yavas";
             P21BoosterView.Fx74 = Host.Current.Query("fx") != "eski";   // PM_74 booster moments; &fx=eski: the old ones
             P21BoosterView.OldSelection = Host.Current.Query("secim") == "eski";
-            Dive74.On = Host.Current.Query("gecis") != "yok";           // PM_74 dive into the painting; &gecis=yok: off
+            Dive74.On = Dive75.On = Host.Current.Query("gecis") != "yok";
+            // PM_75: the menu top's three options (Codex); B by default, &ust=a / &ust=c show the other two
+            var top = (Host.Current.Query("ust") ?? "").ToUpperInvariant();
+            if (top == "A" || top == "B" || top == "C") Screens.TopOption = top;           // PM_74 dive into the painting; &gecis=yok: off
             BoosterFx74.HammerIdea = BoosterFx74.ParseIdea(Host.Current.Query("cekicfx"));      // PM_74 ideas: a (default), b, c
             BoosterFx74.ScissorsIdea = BoosterFx74.ParseIdea(Host.Current.Query("makasfx"));
             BoosterFx74.WandIdea = BoosterFx74.ParseIdea(Host.Current.Query("degnekfx"));
@@ -788,7 +791,7 @@ namespace ReverseSolver.Presentation
             if (_menu == null) return;
             if (_menu.Settings.Contains(pt)) OpenSettings();
             else if (_menu.Profile.Contains(pt) && Art.On) OpenPlayerProfile();
-            else if (_menu.Play.Contains(pt)) { if (!DiveFromMenu(_progress.Next())) StartLevel(_progress.Next()); }
+            else if (_menu.Play.Contains(pt)) { if (!DiveFromMenu75(_progress.Next())) StartLevel(_progress.Next()); }   // PM_75: the slow dive
             else if (_menu.Levels.Contains(pt))
             {
                 if (Art.On) { _levelsMapOpen = true; _mapOffset = null; Layout(); }
@@ -1007,7 +1010,9 @@ namespace ReverseSolver.Presentation
                 else { PlaySound("pm72-unlock"); Haptics.Play(Haptics.Kind.Light); }
             }
             else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) PlaySound("piece");
-            else if (e.Kind == EventKind.Jammed) { PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
+            // PM_75: a stuck piece that slides first knocks at the contact (BoardView.ContactHit), not here
+            else if (e.Kind == EventKind.Jammed && !(_board != null && _drag != null && _drag.Piece == e.Piece && _board.WillSlide(e.Piece, _drag.Direction)))
+            { PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
             if (e.Kind != EventKind.Finished) return;
@@ -1208,7 +1213,7 @@ namespace ReverseSolver.Presentation
                     menuSafe.w = _screen.y - _tabs.Top;   // Home: the Level button sits 16 pt above the bar
                 }
                 if (!Art.On || (!_levelsMapOpen && _tab == MenuTab.Home))
-                    _menu = new Screens.Menu(_world, _screen, menuSafe, _p21Flow ? _progress.Next() + 1 : _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[_progress.Next()].Hard, levelsButton: _testMode || !_p21Lessons);
+                    _menu = new Screens.Menu(_world, _screen, menuSafe, _p21Flow ? _progress.Next() + 1 : _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[_progress.Next()].Hard, levelsButton: _testMode || !_p21Lessons, coins: _save.Coins);
                 // PM_MESAJ_18: the corridor's big frame shows the painting the next level frees
                 if (_paintSet && _newArt && _menu != null)
                 {
@@ -1228,6 +1233,7 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_p21Flow ? _index + 1 : _session.Level.Number);
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin, P21Boosters);
+                _board.ContactHit = _ => { PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
                 Perf("board");
                 _board.ExitBurst = OnExitBurst;
                 _pendingExits.Clear();
@@ -1633,7 +1639,7 @@ namespace ReverseSolver.Presentation
         {
             var p = Pointer.current;
             if (p == null) return;
-            if (_diving) return;   // PM_74: no taps while the camera dives
+            if (_diving) { if (p.press.wasPressedThisFrame) _dive75?.Tap(); return; }   // PM_75: a tap speeds the dive up, a second ends it
             if (_continuePanel != null)
             {
                 Vector2 pos = p.position.ReadValue();

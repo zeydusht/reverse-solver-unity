@@ -1,0 +1,365 @@
+{
+  "tool": "built-in image_gen",
+  "source_spec": "docs/art/pm75/CODEX_PM75.md",
+  "prompts": {
+    "blade_upper": "Use case: precise-object-edit. Asset type: one rig-ready 3D mobile puzzle game scissor component.\nInput image: the reference CLOSED scissor, design reference and edit target.\nCreate ONLY the UPPER HALF of this exact scissors: its glossy cherry red handle loop in the upper-left, connected via a red neck to a white-silver metal blade extending horizontally RIGHT. Remove the lower handle, lower blade, and the gold screw entirely. Preserve the reference's rounded toy silhouette, specular lighting and red/silver materials faithfully. This is a disconnected animation component, not a full scissors.\nOutput square 512x512 RGBA transparent canvas. Crucial registration: the center of the circular hinge MUST be exactly at canvas (256,256). Upper handle centered near (128,168), spanning x48..213, y86..247. Upper blade extends from hinge to common tip (474,256). Its straight INNER cutting edge is horizontal at y256; the solid blade occupies y214..256, with a clean sharp lower edge and rounded upper outline. It is the UPPER half of the CLOSED scissors at rest, no upwards blade angle. Keep a small plain hinge pad around (256,256), WITHOUT screw. Hole inside red handle is truly transparent.\nNo lower half, no gold hardware, no text, no background, no cast shadow, no glow, no fake checkerboard. Fully opaque solid surfaces, clean antialiasing only on boundaries. Premium casual game polished 3D rendering.",
+    "blade_lower": "Use case: precise-object-edit. Create only the LOWER HALF of the CLOSED scissors in the reference, as an independent rig-ready component. Exact same glossy cherry-red handle and white-silver blade toy design. Lower red loop centered near (128,344), left bottom, connected to a small plain hinge pad at EXACT (256,256) on 512x512 square transparent canvas. Silver blade extends horizontally RIGHT from hinge to (474,256), and occupies y256..298 with its sharp straight INNER cutting edge horizontal along y256 and a curved lower outer outline. This is the lower half at ZERO degrees, NOT angled down. Entire upper handle and upper blade removed; gold pivot screw entirely removed. Handle hole actually transparent. Same camera and highlights as reference. No text, no background, no cast shadow, no glow. Fully opaque material interiors and clean edges. Output only ONE lower half of scissors, 512x512 RGBA.",
+    "pivot": "Use case: precise-object-edit. Extract and faithfully recreate ONLY the round GOLD PIVOT SCREW HEAD from the provided scissors reference, deleting everything else. One circular golden raised toy screw head facing camera straight-on, chunky shiny yellow gold rim, warm amber bottom internal shading, small bright upper-left highlight, plain domed center like reference, no slot or text. Gold disc perfectly centered at (64,64) on a 128x128 transparent RGBA canvas, disc diameter 116px. No red plastic, no blades, no other parts. No cast shadow, no glow, no background. Opaque gold with antialiased circular edge.",
+    "hammer_down": "Use case: precise-object-edit. Repose the exact glossy BLUE TOY MALLET from the reference, keeping its sapphire blue thick spool-shaped round double-ended head, ring seams and short warm CREAM handle. New pose for a mobile puzzle game strike: mallet HEAD axis stands VERTICALLY, its lower circular striking face faces straight DOWN onto a horizontal board; it will move straight up and down without rotation. Slightly elevated 3D camera shows the lower face as a shallow horizontal ellipse, center exactly (230,470) on a 512x512 transparent square. All hammer material must lie ABOVE and around this anchor with room for the bottom elliptical face: head roughly x115..345, y220..490. The cream handle exits the SIDE of the vertical head toward UPPER RIGHT at about 35 degrees above horizontal, ending near (458,182). Head is cobalt/sapphire BLUE, glossy rounded cylinder with sculpted rim at both ends, handle cream. Lower ellipse is blue and points downward, NOT sideways. Keep reference toy design and premium polished casual 3D game quality. No ground plane, no cast shadow, no FX, no text, no background, no ring. Actual transparent RGBA. Fully opaque surfaces with clean edges. Output 512x512.",
+    "A_name_plate": "Use case: stylized-concept. Asset type: production mobile puzzle game EMPTY PLAYER NAME PLATE. Canvas 720x192 (3.75:1 aspect), transparent RGBA. Make a polished chunky 3D horizontal UI plaque, FRONT VIEW, nearly filling canvas with just 3px outer padding. At LEFT a circular profile portrait FRAME with a perfectly circular EMPTY TRANSPARENT aperture centered at (96,96), aperture diameter 156px (~85% of height). Outer frame diameter 186px. The profile hole MUST be transparent: no picture, no tinted fill, no glass, no color, no checkerboard. To the right a large smooth CREAM name writing panel extends from x175 to x710 with rounded right end. Cream panel must be solid OPAQUE warm ivory #FFF0CF, no background bleeding through. Top light, slight bottom material darkening, clean baked internal bevel depth. Match the supplied old-money navy/cream/gold casual game references (#153E75, #0E2244). No actual name/text/letters/numbers, no ribbons, no icon beyond empty portrait ring, no background, no cast drop shadow, no glow. Opaque surfaces. VARIANT A: elegant simple warm cream body, THIN dark navy-blue outer edge. Circular left portrait frame in polished warm GOLD, a delicate navy inner lip. The cream body dominates, restrained slim frame, friendly rounded capsule shape, luxurious clarity.",
+    "B_name_plate": "Use case: stylized-concept. Asset type: production mobile puzzle game EMPTY PLAYER NAME PLATE. Canvas 720x192 (3.75:1 aspect), transparent RGBA. Make a polished chunky 3D horizontal UI plaque, FRONT VIEW, nearly filling canvas with just 3px outer padding. At LEFT a circular profile portrait FRAME with a perfectly circular EMPTY TRANSPARENT aperture centered at (96,96), aperture diameter 156px (~85% of height). Outer frame diameter 186px. The profile hole MUST be transparent: no picture, no tinted fill, no glass, no color, no checkerboard. To the right a large smooth CREAM name writing panel extends from x175 to x710 with rounded right end. Cream panel must be solid OPAQUE warm ivory #FFF0CF, no background bleeding through. Top light, slight bottom material darkening, clean baked internal bevel depth. Match the supplied old-money navy/cream/gold casual game references (#153E75, #0E2244). No actual name/text/letters/numbers, no ribbons, no icon beyond empty portrait ring, no background, no cast drop shadow, no glow. Opaque surfaces. VARIANT B: bold architectural THICK NAVY-BLUE sculpted outer frame and a fine GOLD inset line around the cream writing panel. Circular left portrait surround has thick navy outer rim and narrow gold inner ring, like the royal badge in the victory reference. Chunky substantial dimensional rim, cream center opaque, visibly heavier than variant A.",
+    "C_name_plate": "Use case: stylized-concept. Asset type: production mobile puzzle game EMPTY PLAYER NAME PLATE. Canvas 720x192 (3.75:1 aspect), transparent RGBA. Make a polished chunky 3D horizontal UI plaque, FRONT VIEW, nearly filling canvas with just 3px outer padding. At LEFT a circular profile portrait FRAME with a perfectly circular EMPTY TRANSPARENT aperture centered at (96,96), aperture diameter 156px (~85% of height). Outer frame diameter 186px. The profile hole MUST be transparent: no picture, no tinted fill, no glass, no color, no checkerboard. To the right a large smooth CREAM name writing panel extends from x175 to x710 with rounded right end. Cream panel must be solid OPAQUE warm ivory #FFF0CF, no background bleeding through. Top light, slight bottom material darkening, clean baked internal bevel depth. Match the supplied old-money navy/cream/gold casual game references (#153E75, #0E2244). No actual name/text/letters/numbers, no ribbons, no icon beyond empty portrait ring, no background, no cast drop shadow, no glow. Opaque surfaces. VARIANT C: bright cream body with broad sculpted GOLD perimeter bevel, distinct dark NAVY-BLUE extrusion band integrated along lower edge. Circular portrait rim also gold with navy underside, elegant jewelry-like warm edges. Keep navy accents clearly visible and fine inner blue pinstripe, same round hole and opaque cream panel. Distinct gold-forward design.",
+    "A_coin_pill": "Use case: stylized-concept. Asset type: EMPTY GOLD COIN COUNTER PILL matching the provided name plate style reference. One horizontal rounded capsule, output 360x132 on true transparent RGBA. On LEFT one prominent shiny gold coin circular disc facing the viewer with slight 3D thickness, embossed simple four-point sparkle (no letters, no currency symbols). Coin diameter112px and centered at(64,66), allowed to overlap the capsule. To its RIGHT a large solid OPAQUE warm CREAM panel for future number, body x80..354 and y16..116, clean generous empty writing area. Old-money navy #153E75 / #0E2244 with warm ivory #FFF0CF and polished gold, professional casual game 3D UI, front view, bright upper highlight and subtle lower internal bevel. A: slim navy-blue border, simple ivory capsule, restrained shiny gold coin. No text, no digits, no ribbons, no extra icons, no background, no outside drop shadow, no glow, no glass or translucency. Materials entirely opaque. Keep full object inside canvas with 4px margin.",
+    "B_coin_pill": "Use case: stylized-concept. Asset type: EMPTY GOLD COIN COUNTER PILL matching the provided name plate style reference. One horizontal rounded capsule, output 360x132 on true transparent RGBA. On LEFT one prominent shiny gold coin circular disc facing the viewer with slight 3D thickness, embossed simple four-point sparkle (no letters, no currency symbols). Coin diameter112px and centered at(64,66), allowed to overlap the capsule. To its RIGHT a large solid OPAQUE warm CREAM panel for future number, body x80..354 and y16..116, clean generous empty writing area. Old-money navy #153E75 / #0E2244 with warm ivory #FFF0CF and polished gold, professional casual game 3D UI, front view, bright upper highlight and subtle lower internal bevel. B: noticeably THICK sculpted navy-blue outer frame, fine gold inner trim, royal badge-like depth. No text, no digits, no ribbons, no extra icons, no background, no outside drop shadow, no glow, no glass or translucency. Materials entirely opaque. Keep full object inside canvas with 4px margin.",
+    "C_coin_pill": "Use case: stylized-concept. Asset type: EMPTY GOLD COIN COUNTER PILL matching the provided name plate style reference. One horizontal rounded capsule, output 360x132 on true transparent RGBA. On LEFT one prominent shiny gold coin circular disc facing the viewer with slight 3D thickness, embossed simple four-point sparkle (no letters, no currency symbols). Coin diameter112px and centered at(64,66), allowed to overlap the capsule. To its RIGHT a large solid OPAQUE warm CREAM panel for future number, body x80..354 and y16..116, clean generous empty writing area. Old-money navy #153E75 / #0E2244 with warm ivory #FFF0CF and polished gold, professional casual game 3D UI, front view, bright upper highlight and subtle lower internal bevel. C: thick shiny GOLD outer bevel, fine navy inner pinstripe, dark navy extrusion strip below cream face. No text, no digits, no ribbons, no extra icons, no background, no outside drop shadow, no glow, no glass or translucency. Materials entirely opaque. Keep full object inside canvas with 4px margin.",
+    "A_settings": "Use case: stylized-concept. Asset type: one clear SETTINGS BUTTON for a polished 3D mobile casual puzzle game. Produce one circular button on transparent 192x192 RGBA canvas, centered (96,96), outside bounds x6..186 y5..186. Front orthographic UI view, no perspective tilt. A saturated NAVY/ROYAL BLUE circular face #153E75 with glossy bright upper half-moon highlight, clean strong lower edge depth, and ONE large solid WHITE GEAR in center, 8 evenly spaced teeth and round BLUE center hole. White gear is raised and visually unmistakable at small sizes. VARIANT A: polished thin warm GOLD outer circular rim, slim navy depth base, royal blue glossy face. Matching the supplied cream/navy/gold nameplate style, high-end royal casual game rendering. Normal RELEASED state, thick visible bottom extrusion integral to button. No outside drop shadow, no translucent glass, no text, no ribbon, no background, no extra decorations, no FX, no plus, no sparkles. Fully opaque materials and antialiased boundary only.",
+    "B_settings": "Use case: stylized-concept. Asset type: one clear SETTINGS BUTTON for a polished 3D mobile casual puzzle game. Produce one circular button on transparent 192x192 RGBA canvas, centered (96,96), outside bounds x6..186 y5..186. Front orthographic UI view, no perspective tilt. A saturated NAVY/ROYAL BLUE circular face #153E75 with glossy bright upper half-moon highlight, clean strong lower edge depth, and ONE large solid WHITE GEAR in center, 8 evenly spaced teeth and round BLUE center hole. White gear is raised and visually unmistakable at small sizes. VARIANT B: noticeably thick sculpted DARK NAVY outside bezel and fine GOLD inset rim, deep sapphire blue face. Matching the supplied cream/navy/gold nameplate style, high-end royal casual game rendering. Normal RELEASED state, thick visible bottom extrusion integral to button. No outside drop shadow, no translucent glass, no text, no ribbon, no background, no extra decorations, no FX, no plus, no sparkles. Fully opaque materials and antialiased boundary only.",
+    "C_settings": "Use case: stylized-concept. Asset type: one clear SETTINGS BUTTON for a polished 3D mobile casual puzzle game. Produce one circular button on transparent 192x192 RGBA canvas, centered (96,96), outside bounds x6..186 y5..186. Front orthographic UI view, no perspective tilt. A saturated NAVY/ROYAL BLUE circular face #153E75 with glossy bright upper half-moon highlight, clean strong lower edge depth, and ONE large solid WHITE GEAR in center, 8 evenly spaced teeth and round BLUE center hole. White gear is raised and visually unmistakable at small sizes. VARIANT C: prominent warm GOLD outside bevel with distinct dark NAVY lower extrusion band, brighter blue face. Matching the supplied cream/navy/gold nameplate style, high-end royal casual game rendering. Normal RELEASED state, thick visible bottom extrusion integral to button. No outside drop shadow, no translucent glass, no text, no ribbon, no background, no extra decorations, no FX, no plus, no sparkles. Fully opaque materials and antialiased boundary only.",
+    "A_settings_pressed": "Use case: precise-object-edit. Edit target: the provided normal A settings button. Make ONLY the PRESSED state of this SAME exact button. Lock its identity, colors, white eight-tooth gear shape, outer rim design, materials, horizontal alignment, camera and overall width. Transparent square 192x192 canvas. Move the face and white gear DOWN by EXACTLY 4 pixels compared with released state; the bottom outside edge of button base stays at same y. Compress the apparent upper raised thickness and reduce the visible lower extrusion depth, so the top becomes lower and slightly flatter, with subtly dimmer upper gloss. This is a small animation state change, not a redesign. Opaque blue and gold solid materials. No text, no background, no outside cast shadow, no glow, no extra elements. Output only pressed circular button on true transparent RGBA.",
+    "B_settings_pressed": "Use case: precise-object-edit. Edit target: the provided normal B settings button. Make ONLY the PRESSED state of this SAME exact button. Lock its identity, colors, white eight-tooth gear shape, outer rim design, materials, horizontal alignment, camera and overall width. Transparent square 192x192 canvas. Move the face and white gear DOWN by EXACTLY 4 pixels compared with released state; the bottom outside edge of button base stays at same y. Compress the apparent upper raised thickness and reduce the visible lower extrusion depth, so the top becomes lower and slightly flatter, with subtly dimmer upper gloss. This is a small animation state change, not a redesign. Opaque blue and gold solid materials. No text, no background, no outside cast shadow, no glow, no extra elements. Output only pressed circular button on true transparent RGBA.",
+    "C_settings_pressed": "Use case: precise-object-edit. Edit target: the provided normal C settings button. Make ONLY the PRESSED state of this SAME exact button. Lock its identity, colors, white eight-tooth gear shape, outer rim design, materials, horizontal alignment, camera and overall width. Transparent square 192x192 canvas. Move the face and white gear DOWN by EXACTLY 4 pixels compared with released state; the bottom outside edge of button base stays at same y. Compress the apparent upper raised thickness and reduce the visible lower extrusion depth, so the top becomes lower and slightly flatter, with subtly dimmer upper gloss. This is a small animation state change, not a redesign. Opaque blue and gold solid materials. No text, no background, no outside cast shadow, no glow, no extra elements. Output only pressed circular button on true transparent RGBA.",
+    "hammer_down_squash": "Use case: precise-object-edit. Edit target: the provided blue vertical mallet with cream handle angled upper right. Make the impact SQUASH animation frame of this EXACT same hammer. Preserve same identity, camera, pose, colors, glossy blue head with spool seams and cream handle. The blue mallet HEAD is compressed VERTICALLY by EXACTLY 8 percent (height 92% of original), anchored on the center of the LOWER STRIKING ELLIPSE, which stays in the exact same location in the image. Do not rotate the hammer. Cream handle keeps its same angle and length, its attachment follows the compressed head slightly down. No stretch sideways. Square transparent RGBA canvas, same framing as input. Intended final 512x512 registration: lower striking face center (230,470), head above. No impact effects or ground or text or shadow or background; only the very slightly squashed same mallet.",
+    "impact_ring": "Use case: stylized-concept. Asset type: one game strike shock ring sprite. Transparent square 384x384 RGBA canvas. A single thin brilliant WHITE-GOLD HORIZONTAL ELLIPTICAL ring, centered exactly (192,192), outer ellipse width340px and height110px, lying flat on the floor plane. Center is fully EMPTY and TRANSPARENT, only the narrow continuous elliptical band is visible, ring thickness about6px. Pearl-white bright top edge with thin rich gold underside, crisp solid opaque ring, polished casual mobile puzzle game effect, restrained tiny rim gleams integrated on ring. No translucent haze, no radial filling, no particles, no starbursts, no concentric rings, no cast shadow, no floor, no background, no text, no vignette. Keep a large clear transparent margin above and below. Make one continuous clean horizontal oval shock wave with a completely transparent middle."
+  },
+  "registration": {
+    "blade_upper": {
+      "pivot": [
+        256,
+        256
+      ],
+      "zero_degree_cutting_edge_y": 256,
+      "common_tip": [
+        474,
+        256
+      ],
+      "source_anchor": [
+        620,
+        635
+      ]
+    },
+    "blade_lower": {
+      "pivot": [
+        256,
+        256
+      ],
+      "zero_degree_cutting_edge_y": 256,
+      "common_tip": [
+        474,
+        256
+      ],
+      "source_anchor": [
+        610,
+        625
+      ]
+    },
+    "pivot": {
+      "center": [
+        64,
+        64
+      ],
+      "recommended_diameter_on_512_canvas": 64
+    },
+    "hammer_down": {
+      "striking_face_center": [
+        230,
+        470
+      ],
+      "head_height_factor": 1,
+      "source_face_center": [
+        510,
+        974
+      ],
+      "resample_scale": [
+        0.46,
+        0.46
+      ]
+    },
+    "hammer_down_squash": {
+      "striking_face_center": [
+        230,
+        470
+      ],
+      "head_height_factor": 0.92,
+      "source_face_center": [
+        510,
+        974
+      ],
+      "resample_scale": [
+        0.46,
+        0.44647600000000004
+      ]
+    },
+    "impact_ring": {
+      "center": [
+        192,
+        192
+      ],
+      "outer_ellipse": [
+        340,
+        110
+      ],
+      "center_alpha": 0
+    },
+    "A_name_plate": {
+      "avatar_center": [
+        96,
+        96
+      ],
+      "avatar_aperture_diameter": 163,
+      "opaque_name_panel": true
+    },
+    "A_settings_pressed": {
+      "face_shift_px": 4,
+      "released_gear_center": [
+        96.0,
+        100.0
+      ],
+      "pressed_gear_center": [
+        96.0,
+        98.5
+      ],
+      "base_bottom": 186
+    },
+    "B_name_plate": {
+      "avatar_center": [
+        96,
+        96
+      ],
+      "avatar_aperture_diameter": 163,
+      "opaque_name_panel": true
+    },
+    "B_settings_pressed": {
+      "face_shift_px": 4,
+      "released_gear_center": [
+        95.5,
+        101.0
+      ],
+      "pressed_gear_center": [
+        96.0,
+        96.0
+      ],
+      "base_bottom": 186
+    },
+    "C_name_plate": {
+      "avatar_center": [
+        96,
+        96
+      ],
+      "avatar_aperture_diameter": 163,
+      "opaque_name_panel": true
+    },
+    "C_settings_pressed": {
+      "face_shift_px": 4,
+      "released_gear_center": [
+        96.0,
+        100.5
+      ],
+      "pressed_gear_center": [
+        96.0,
+        99.5
+      ],
+      "base_bottom": 186
+    }
+  },
+  "postprocessing": "Mechanical RGBA cleanup, exact canvas sizing and anchor registration; circular aperture normalization; preview composition. No code or scenes modified.",
+  "menu_preview": {
+    "size": [
+      780,
+      1688
+    ],
+    "safe_area_pt": 47,
+    "avatar_source": "docs/art/pm74/sonra/menu.jpg",
+    "labels": [
+      "ZEYD",
+      "120"
+    ],
+    "name_plate_preview_pt": [
+      196,
+      52.5
+    ],
+    "counter_preview_pt": [
+      106,
+      39
+    ],
+    "settings_preview_pt": [
+      48,
+      48
+    ]
+  },
+  "validation": {
+    "asset_count": 18,
+    "required_preview_count": 5,
+    "checks": [
+      {
+        "file": "makas/blade_upper.png",
+        "size": [
+          512,
+          512
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "makas/blade_lower.png",
+        "size": [
+          512,
+          512
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "makas/pivot.png",
+        "size": [
+          128,
+          128
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "cekic/hammer_down.png",
+        "size": [
+          512,
+          512
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "cekic/hammer_down_squash.png",
+        "size": [
+          512,
+          512
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "cekic/impact_ring.png",
+        "size": [
+          384,
+          384
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/A_name_plate.png",
+        "size": [
+          720,
+          192
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/A_coin_pill.png",
+        "size": [
+          360,
+          132
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/A_settings.png",
+        "size": [
+          192,
+          192
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/A_settings_pressed.png",
+        "size": [
+          192,
+          192
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/B_name_plate.png",
+        "size": [
+          720,
+          192
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/B_coin_pill.png",
+        "size": [
+          360,
+          132
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/B_settings.png",
+        "size": [
+          192,
+          192
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/B_settings_pressed.png",
+        "size": [
+          192,
+          192
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/C_name_plate.png",
+        "size": [
+          720,
+          192
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/C_coin_pill.png",
+        "size": [
+          360,
+          132
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/C_settings.png",
+        "size": [
+          192,
+          192
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      },
+      {
+        "file": "menu/C_settings_pressed.png",
+        "size": [
+          192,
+          192
+        ],
+        "RGBA": true,
+        "transparent_and_opaque_alpha": true
+      }
+    ],
+    "profile_hole_center": [
+      96,
+      96
+    ],
+    "profile_hole_diameter": 163,
+    "profile_hole_transparent": true,
+    "cream_panel_alpha": 255,
+    "max_file_bytes": 101963
+  }
+}

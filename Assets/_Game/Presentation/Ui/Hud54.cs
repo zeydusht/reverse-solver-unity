@@ -51,6 +51,7 @@ namespace ReverseSolver.Presentation
             // PM_74: the Pieces box shows only the count, big and centred (no puzzle icon)
             _left = Panel(root, 201f / 3, offset, order, out _piecesTitle, Lang.T("Pieces", "Parça"), .44f);
             _clock = Panel(root, 972f / 3, offset, order, out _timeTitle, Lang.T("Time", "Süre"));
+            TimeBar(root, 972f / 3, offset, order, session);
             var center = JigoCenter(screen.x, safeTop);
             var windowSize = new Vector2(127, 104) * _scale;
             Art54.Stretch(root, Art54.Window, center, windowSize, order + 2);
@@ -88,6 +89,69 @@ namespace ReverseSolver.Presentation
             return number;
         }
 
+        /* PM_75: a thin bar under the Time box, the share of the time left: green, yellow under half, red under a
+           quarter. While the clock booster holds the time it turns ice blue, a light runs along it and a snowflake
+           sits at its end (the pause reads on the bar too). */
+        ShapeView _barTrack, _barFill, _barShine;
+        SpriteRenderer _barFlake;
+        Vector2 _barLeft;
+        float _barW, _barH, _barShown = -1;
+        int _timer;
+        public const float BarWidth = 96, BarHeight = 6;
+
+        void TimeBar(Transform root, float x, float offset, int order, GameSession session)
+        {
+            _timer = session != null ? session.Level.TimerSeconds : 0;
+            if (_timer <= 0) return;
+            var center = new Vector2(x, (181 + 145) / 3f) * _scale + new Vector2(0, offset);
+            float boxBottom = center.y + 290f / 6 * _scale;
+            _barW = BarWidth * _scale; _barH = BarHeight * _scale;
+            var at = new Vector2(center.x, boxBottom - 2 * _scale);   // the box art ends ~8 pt above its frame: between the box and the band edge
+            _barLeft = at - new Vector2(_barW / 2, 0);
+            _barTrack = ShapeView.Create(root, "time bar", new Vector2(_barW + 2.4f * _scale, _barH + 2.4f * _scale), 2, order + 4)
+                .Radius((_barH + 2.4f * _scale) / 2).Fill(Draw.Hex("#0A1E3F")).Stroke(Draw.Hex("#E3B54E"), 1.2f * _scale);
+            _barTrack.transform.localPosition = Draw.W(at);
+            _barFill = ShapeView.Create(root, "time bar fill", new Vector2(_barW, _barH), 1, order + 5).Radius(_barH / 2);
+            _barShine = ShapeView.Create(root, "time bar shine", new Vector2(_barH * 2.4f, _barH), 1, order + 6).Radius(_barH / 2)
+                .Fill(new Vector4(1, 1, 1, .55f));
+            _barShine.gameObject.SetActive(false);
+            _barFlake = Art.Place(root, "yeni/pm74/saat/snowflake", Vector2.one * 15 * _scale, order + 7);
+            if (_barFlake == null) { var r = Resources.Load<Sprite>("Art/yeni/pm74/saat/snowflake"); if (r != null) { _barFlake = new GameObject("time bar flake").AddComponent<SpriteRenderer>(); _barFlake.transform.SetParent(root, false); _barFlake.sprite = r; _barFlake.sortingOrder = order + 7; _barFlake.transform.localScale = Vector3.one * (15 * _scale / r.bounds.size.x); } }
+            if (_barFlake != null) _barFlake.enabled = false;
+        }
+
+        void UpdateTimeBar(int seconds)
+        {
+            if (_barFill == null) return;
+            if (_untimed) { _barTrack.gameObject.SetActive(false); _barFill.gameObject.SetActive(false); _barShine.gameObject.SetActive(false); if (_barFlake != null) _barFlake.enabled = false; return; }
+            float share = Mathf.Clamp01(seconds / (float)_timer);
+            // ease the bar towards the time (whole seconds would make it step)
+            _barShown = _barShown < 0 ? share : Mathf.MoveTowards(_barShown, share, Time.unscaledDeltaTime * Mathf.Max(.25f, 2f / _timer));
+            float w = Mathf.Max(_barH, _barW * _barShown);
+            _barFill.Resize(new Vector2(w, _barH), 1).Radius(_barH / 2);
+            _barFill.transform.localPosition = Draw.W(_barLeft + new Vector2(w / 2, 0));
+            Vector4 top, bottom;
+            if (_frozen) { top = Draw.Hex("#CFF3FF"); bottom = Draw.Hex("#6FC6EE"); }
+            else if (_barShown > .5f) { top = Draw.Hex("#8BE04E"); bottom = Draw.Hex("#3E9E26"); }
+            else if (_barShown > .25f) { top = Draw.Hex("#FFE066"); bottom = Draw.Hex("#E3A21A"); }
+            else { top = Draw.Hex("#FF7A66"); bottom = Draw.Hex("#D7392B"); }
+            _barFill.Gradient(top, bottom);
+            _barFill.gameObject.SetActive(_barShown > 0);
+            _barShine.gameObject.SetActive(_frozen);
+            if (_frozen)
+            {
+                float k = Mathf.Repeat(Time.unscaledTime / 1.1f, 1);
+                _barShine.transform.localPosition = Draw.W(_barLeft + new Vector2(Mathf.Lerp(_barH, w - _barH, k), 0));
+                _barShine.Alpha(Mathf.Sin(k * Mathf.PI));
+            }
+            if (_barFlake != null)
+            {
+                _barFlake.enabled = _frozen;
+                _barFlake.transform.localPosition = Draw.W(_barLeft + new Vector2(w, 0));
+                _barFlake.transform.localRotation = Quaternion.Euler(0, 0, Time.unscaledTime * 40);
+            }
+        }
+
         public void SetLeft(int n)
         {
             if (n == _lastLeft) return;
@@ -103,6 +167,7 @@ namespace ReverseSolver.Presentation
             _clock.Text = Lang.T("No limit", "Sınırsız");
             _clock.Color = Palette.Cream;
             _clock.transform.localScale = Vector3.one;
+            UpdateTimeBar(0);
         }
 
         public void SetTime(int seconds)
@@ -118,6 +183,7 @@ namespace ReverseSolver.Presentation
             if (_untimed) return;
 
             int t = Mathf.Max(0, seconds);
+            UpdateTimeBar(t);
             if (t != _lastTime)
             {
                 _lastTime = t;

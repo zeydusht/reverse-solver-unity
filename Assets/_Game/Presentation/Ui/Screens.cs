@@ -37,9 +37,11 @@ namespace ReverseSolver.Presentation
             public readonly Transform Root;
             public Rect Play, Levels, Settings, Profile;
 
+            int _coins = -1;
             public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false,
-                        string player = null, int saved = 0, int stars = 0, string playLabel = null, bool hard = false, bool levelsButton = true)
+                        string player = null, int saved = 0, int stars = 0, string playLabel = null, bool hard = false, bool levelsButton = true, int coins = -1)
             {
+                _coins = coins;
                 Root = new GameObject("Menu").transform;
                 Root.SetParent(parent, false);
                 float cx = screen.x / 2, cy = (screen.y + safe.y - safe.w) / 2;
@@ -95,6 +97,9 @@ namespace ReverseSolver.Presentation
                         var s = Art.Get(p.pressed);
                         if (s != null) p.sr.sprite = s;
                         if (p.label != null) p.label.localPosition += Draw.W(0, 2);
+                        // PM_75: a press shrinks the button a little (about its own centre)
+                        p.sr.transform.localScale *= .96f;
+                        if (p.label != null) p.label.localScale *= .96f;
                         return true;
                     }
                 return false;
@@ -132,13 +137,35 @@ namespace ReverseSolver.Presentation
             /* PM_74: where the painting sits (world bounds), for the dive into it. */
             public Bounds? PaintingBounds => _painting != null ? _painting.bounds : (Bounds?)null;
 
+            /* PM_75: the slow dive warps the wall and redraws the painting itself. */
+            public SpriteRenderer Background => _bg;
+            public SpriteRenderer PaintingSprite => _painting;
+            public Texture2D PaintingTexture { get; private set; }
+            public Rect PaintingCrop { get; private set; } = new Rect(0, 0, 1, 1);
+            static readonly Vector2[] Opening = { new Vector2(349, 296), new Vector2(662, 359), new Vector2(663, 832), new Vector2(348, 815) };
+            /* The opening's corners in layout points: top left, top right, bottom right, bottom left. */
+            public Vector2[] PaintingQuad()
+            {
+                if (_bg == null) return null;
+                var size = _bg.sprite.rect.size; float ppu = _bg.sprite.pixelsPerUnit;
+                var quad = new Vector2[4];
+                for (int i = 0; i < 4; i++)
+                {
+                    var w = _bg.transform.TransformPoint(new Vector3((Opening[i].x - size.x / 2) / ppu, (size.y / 2 - Opening[i].y) / ppu, 0));
+                    quad[i] = new Vector2(w.x, -w.y);
+                }
+                return quad;
+            }
+
             public void SetPainting(Texture2D tex)
             {
                 if (_bg == null || tex == null) return;
                 if (_painting != null) Object.Destroy(_painting.gameObject);
-                var q = new[] { new Vector2(349, 296), new Vector2(662, 359), new Vector2(663, 832), new Vector2(348, 815) };
+                var q = Opening;
                 const float x0 = 348, x1 = 663, y0 = 296, y1 = 832;
                 float bw = x1 - x0, bh = y1 - y0, s = Mathf.Min(tex.width / bw, tex.height / bh), rw = bw * s, rh = bh * s;
+                PaintingTexture = tex;
+                PaintingCrop = new Rect((tex.width - rw) / 2 / tex.width, (tex.height - rh) / 2 / tex.height, rw / tex.width, rh / tex.height);
                 var sp = UnityEngine.Sprite.Create(tex, new Rect((tex.width - rw) / 2, (tex.height - rh) / 2, rw, rh), new Vector2(.5f, .5f),
                                        s * _bg.sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect);
                 var v = new Vector2[4];
@@ -152,10 +179,46 @@ namespace ReverseSolver.Presentation
                 _painting.transform.localPosition = new Vector3((x0 + x1) / 2 - size.x / 2, size.y / 2 - (y0 + y1) / 2) / _bg.sprite.pixelsPerUnit;
             }
 
+            bool Top75(Vector2 screen, Vector4 safe, int order, string player)
+            {
+                if (!Top75Available) return false;
+                float w = screen.x, hy = safe.y + 44;
+                float left = Mathf.Max(10, safe.x), right = Mathf.Max(10, safe.z);
+                const float gear = 54, gap = 8, coinW = 104, coinH = 42, plateH = 60;
+                float plateW = w - left - right - gear - coinW - 2 * gap;
+                Sprite(Top75Key("name_plate"), new Vector2(left + plateW / 2, hy), new Vector2(plateW, plateH), order + 2, sliced: true);
+                // the portrait centred in the plate's ring
+                var ring = RingOf.TryGetValue(TopOption, out var r) ? r : new Vector2(.5f, .8f);
+                var rc = new Vector2(left + plateH * ring.x, hy);
+                AvatarTile(Root, rc, plateH * ring.y / .8f * .97f, Art.AvatarIndex, order + 3, frame: false, round: true);
+                float textLeft = left + plateH * (ring.x + ring.y / 2) + 8, textRight = left + plateW - 16, textWidth = textRight - textLeft;
+                var name = TextView.Create(Root, "name", string.IsNullOrEmpty(player) ? Texts.Player : player, 19, Palette.Navy, false,
+                    align: TMPro.TextAlignmentOptions.Left, order: order + 4);
+                name.Font(TextView.HeadingFont); name.Color = Palette.Navy;
+                name.GetComponent<TMPro.TextMeshPro>().richText = false;
+                name.GetComponent<TMPro.TextMeshPro>().rectTransform.sizeDelta = new Vector2(textWidth, plateH);
+                name.FitWidth(textWidth, 12);
+                name.transform.localPosition = Draw.W(textLeft + textWidth / 2, hy + 1);
+                Profile = new Rect(left, hy - plateH / 2, plateW, plateH);
+                // the gold
+                float coinLeft = left + plateW + gap;
+                Sprite(Top75Key("coin_pill"), new Vector2(coinLeft + coinW / 2, hy), new Vector2(coinW, coinH), order + 2);
+                var gold = TextView.Create(Root, "gold", Mathf.Max(0, _coins).ToString(), 19, Palette.Navy, false, order: order + 4);
+                gold.Font(TextView.HeadingFont); gold.Color = Palette.Navy; gold.FitWidth(coinW * .55f, 11);
+                gold.transform.localPosition = Draw.W(coinLeft + coinW * .62f, hy + 1);
+                // settings: one clear round button
+                float gx = w - right - gear / 2;
+                Settings = new Rect(gx - gear / 2, hy - gear / 2, gear, gear);
+                var cog = Sprite(Top75Key("settings"), new Vector2(gx, hy), Vector2.one * gear, order + 2);
+                if (cog != null) _press.Add((Settings, cog, Top75Key("settings"), Top75Key("settings_pressed"), null));
+                return true;
+            }
+
             void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel, bool hard = false, bool levelsButton = true)
             {
                 float w = screen.x, top = safe.y, hy = top + 34;
-                if (Art.On)
+                if (Art.On && Top75(screen, safe, order, player)) { }
+                else if (Art.On)
                 {
                     hy = top + 45;
                     const float avatarSize = 62, overlap = 8, gap = 10, gearSize = 48;
@@ -254,7 +317,7 @@ namespace ReverseSolver.Presentation
                 }
                 Play = new Rect(x0, cy - bh / 2, bw, bh);
                 if (play != null) _press.Add((Play, play, "level-button", "level-button-pressed", label.transform));
-                if (play != null && Art.On) Pulse74.On(play.gameObject, play.transform, label.transform);   // PM_74
+                // PM_75: no breathing (Zeyd: it should not move by itself); a press shrinks it
 
                 if (Art.On && levelsButton)
                 {
@@ -268,6 +331,17 @@ namespace ReverseSolver.Presentation
                 // PM_MESAJ_16: no "Jiggles rescued" bar on the menu
             }
         }
+
+        /* PM_75: the menu's top (Zeyd: "why so busy?"): an opaque name plate (round portrait centred in its ring, cream
+           body, blue rim, the name in Baloo), the gold counter and one clear round settings button; nothing else, nothing
+           see-through. Three Codex options, &ust=a|b|c (the best one is the default). */
+        public static string TopOption = "B";   // PM_75: B (navy frame, gold inner line) scored best; A and C kept
+        public static readonly System.Collections.Generic.Dictionary<string, Vector2> RingOf = new System.Collections.Generic.Dictionary<string, Vector2>
+        {   // the ring's centre (x from the plate's left, as a share of its height) and inner diameter (share of the height)
+            { "A", new Vector2(.497f, .85f) }, { "B", new Vector2(.497f, .85f) }, { "C", new Vector2(.497f, .85f) }   // measured: hole 14..177 of 192 px
+        };
+        static string Top75Key(string part) => $"yeni/pm75/menu/{TopOption}_{part}";
+        public static bool Top75Available => Art.Get(Top75Key("name_plate")) != null;
 
         /* PM_72: the menu header's small cream pill, half clear over the background, thin gold rim. */
         static void CreamPill(Transform root, Vector2 c, Vector2 size, int order)

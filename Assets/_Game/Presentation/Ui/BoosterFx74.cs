@@ -24,7 +24,7 @@ namespace ReverseSolver.Presentation
         readonly BoardView _board;
         readonly BoosterBar _bar;
         readonly Dictionary<string, Sprite> _sprites = new Dictionary<string, Sprite>();
-        readonly SpriteRenderer _tool, _flash, _ring, _crack, _glaze, _shadow, _clock, _bells, _clockRing, _frost;
+        readonly SpriteRenderer _tool, _flash, _ring, _crack, _glaze, _shadow, _clock, _bells, _clockRing, _frost, _blade2, _pivot, _impact;
         readonly TextView _plus;
         readonly List<Particle> _particles = new List<Particle>();
         readonly Stack<SpriteRenderer> _pool = new Stack<SpriteRenderer>();
@@ -49,6 +49,7 @@ namespace ReverseSolver.Presentation
             _screen = screen; _safeTop = safeTop; _board = board; _bar = bar; _s = Hud54.Scale(screen.x);
             _shadow = Layer("fx shadow", Order); _crack = Layer("fx crack", Order + 9); _glaze = Layer("fx glaze", Order + 1);
             _ring = Layer("fx ring", Order + 2); _tool = Layer("fx tool", Order + 6); _flash = Layer("fx flash", Order + 8);
+            _blade2 = Layer("fx tool lower blade", Order + 5); _pivot = Layer("fx tool pivot", Order + 7); _impact = Layer("fx impact ring", Order + 4);
             _frost = Layer("fx clock frost", Order + 2); _clockRing = Layer("fx clock ring", Order + 3);
             _clock = Layer("fx clock", Order + 10); _bells = Layer("fx clock bells", Order + 11);
             _plus = TextView.Create(_root, "fx plus seconds", "", 30 * _s, Palette.Cream, order: Order + 9).Heading(TextView.RimTeal);
@@ -81,6 +82,13 @@ namespace ReverseSolver.Presentation
             return sprite;
         }
 
+        /* PM_75 art (Codex): Art/yeni/pm75/... */
+        Sprite Get75(string key)
+        {
+            if (!_sprites.TryGetValue("75/" + key, out var sprite)) _sprites["75/" + key] = sprite = Resources.Load<Sprite>("Art/yeni/pm75/" + key);
+            return sprite;
+        }
+
         void Paint(SpriteRenderer r, Sprite sprite, Vector2 point, Vector2 size, float alpha = 1, float angle = 0, Color? tint = null)
         {
             if (sprite == null || alpha <= 0) { r.enabled = false; return; }
@@ -107,7 +115,7 @@ namespace ReverseSolver.Presentation
 
         bool ClockOnce(int bit) { if ((_clockFired & (1 << bit)) != 0) return false; _clockFired |= 1 << bit; return true; }
 
-        void Hide() { _tool.enabled = _flash.enabled = _ring.enabled = _crack.enabled = _shadow.enabled = false; }
+        void Hide() { _tool.enabled = _flash.enabled = _ring.enabled = _crack.enabled = _shadow.enabled = _blade2.enabled = _pivot.enabled = _impact.enabled = false; }
         void HideClock() { _clock.enabled = _bells.enabled = _clockRing.enabled = _frost.enabled = false; }
 
         /* Once per frame, after Effect and Clock. */
@@ -134,22 +142,34 @@ namespace ReverseSolver.Presentation
              hammer   A arc + wind-up + strike (Royal Match)   B drops from above and slams   C two knocks
              scissors A fly, open wide, snap                     B two snips ("çıt çıt")         C dashes across the seam
              wand     A one loop drawing a swirl                 B three taps                    C a diagonal sweep */
-        public enum Idea { A, B, C }
+        /* PM_75 (Zeyd: "no need to be fast, slowly looks better"): A is now the slow, readable one for the hammer and
+           the scissors; D (&cekicfx=d, &makasfx=d) is PM_74's A. */
+        public enum Idea { A, B, C, D }
         public static Idea HammerIdea = Idea.A, ScissorsIdea = Idea.A, WandIdea = Idea.A;
-        public static Idea ParseIdea(string v) => v == "b" ? Idea.B : v == "c" ? Idea.C : Idea.A;
+        public static Idea ParseIdea(string v) => v == "b" ? Idea.B : v == "c" ? Idea.C : v == "d" ? Idea.D : Idea.A;
         static float[] HammerContacts(Idea i) => i == Idea.B ? new[] { .30f } : i == Idea.C ? new[] { .40f, .66f } : new[] { HammerContact };
-        public static float HammerHit(Idea i) => i == Idea.B ? .46f : i == Idea.C ? .80f : HammerShatter;
-        public static float HammerDone(Idea i) => i == Idea.B ? .85f : i == Idea.C ? 1.2f : HammerEnd;
-        public static float ScissorsHit(Idea i) => i == Idea.B ? .58f : i == Idea.C ? .30f : ScissorsSnap;
-        public static float ScissorsDone(Idea i) => i == Idea.B ? 1.2f : i == Idea.C ? .78f : ScissorsEnd;
-        public static float WandHitAt(Idea i) => i == Idea.B ? .76f : i == Idea.C ? .66f : WandHit;
-        public static float WandDone(Idea i) => i == Idea.B ? 1.3f : i == Idea.C ? 1.2f : WandEnd;
+        public static float HammerHit(Idea i) => i == Idea.A ? Slam.Shatter : i == Idea.B ? .46f : i == Idea.C ? .80f : HammerShatter;
+        public static float HammerDone(Idea i) => i == Idea.A ? Slam.End : i == Idea.B ? .85f : i == Idea.C ? 1.2f : HammerEnd;
+        public static float ScissorsHit(Idea i) => i == Idea.A ? Snip.Break : i == Idea.B ? .58f : i == Idea.C ? .30f : ScissorsSnap;
+        public static float ScissorsDone(Idea i) => i == Idea.A ? Snip.End : i == Idea.B ? 1.2f : i == Idea.C ? .78f : ScissorsEnd;
+
+        /* The slow hammer: over the piece head down, up (wind-up), down like a sledgehammer, cracks from the struck
+           point, shatters, back up and home to its slot. */
+        static class Slam { public const float Arrive = .45f, Raise = .78f, Strike = .9f, Shatter = 1.08f, Lift = 1.38f, End = 1.9f; }
+        /* The slow scissors: over the tab, the jaws open slowly, close in on it, cut through it (.5 s), the tab breaks
+           off, home to the slot. */
+        static class Snip { public const float Arrive = .5f, Open = .9f, Close = 1.08f, Break = 1.58f, Leave = 1.66f, End = 2.15f; public const float Wide = 32; }
+        public static float WandHitAt(Idea i) => i == Idea.A ? Swirl.Hit : i == Idea.B ? .76f : i == Idea.C ? .66f : WandHit;
+        public static float WandDone(Idea i) => i == Idea.A ? Swirl.End : i == Idea.B ? 1.3f : i == Idea.C ? 1.2f : WandEnd;
+        /* The slow wand (PM_75): flies over, one slow loop drawing the swirl, the change, home to its slot. D: PM_74's A. */
+        static class Swirl { public const float Arrive = .6f, Hit = 1.15f, End = 2.0f; }
 
         // ---- hammer ---------------------------------------------------------------------------------------------
 
         void Hammer(float age, Vector2 target)
         {
             var idea = HammerIdea;
+            if (idea == Idea.A) { HammerSlow(age, target); return; }
             var start = _bar.RectOf(Booster.Hammer).center;
             float cell = _board.Cell, size = Mathf.Clamp(cell * 1.9f, 84 * _s, 124 * _s);
             // the path is the head's: it lands on the piece's centre (the sprite is placed from it below)
@@ -274,11 +294,200 @@ namespace ReverseSolver.Presentation
             }
         }
 
+        void HammerSlow(float age, Vector2 target)
+        {
+            var slot = _bar.RectOf(Booster.Hammer).center;
+            float cell = _board.Cell, size = Mathf.Clamp(cell * 1.9f, 92 * _s, 128 * _s);
+            var down = Get75("cekic/hammer_down");
+            var squash = Get75("cekic/hammer_down_squash");
+            // the striking face's centre in the sprite: (230, 470) of 512 (Codex), else the old hammer turned head down
+            var face = down != null ? new Vector2(230 - 256, 470 - 256) / 512f : new Vector2(0, -.28f);
+            var sprite = down ?? Get("cekic/hammer", "Boosters/Hammer/flight/01");
+            float baseAngle = down != null ? 0 : 180;
+            var over = target - new Vector2(0, cell * .55f);           // where the face hovers before the wind-up
+            var high = target - new Vector2(0, cell * 1.45f);          // the top of the wind-up
+            Vector2 point; float angle = baseAngle, scale = 1, alpha = 1, squashed = 0;
+            if (age < Slam.Arrive)
+            {
+                float t = InOutCubic(Span(age, 0, Slam.Arrive));
+                point = Vector2.Lerp(slot, over, t) - Vector2.up * (Mathf.Sin(t * Mathf.PI) * 70 * _s);
+                scale = Mathf.Lerp(.5f, 1, t); angle = baseAngle + 8 * (1 - t);
+            }
+            else if (age < Slam.Raise)
+            {
+                // the wind-up: up, a touch bigger (nearer), a few degrees back
+                float t = OutCubic(Span(age, Slam.Arrive, Slam.Raise));
+                point = Vector2.Lerp(over, high, t); scale = 1 + .06f * t; angle = baseAngle + 6 * t;
+            }
+            else if (age < Slam.Strike)
+            {
+                // the slam: accelerating straight down onto the point
+                float t = InCubic(Span(age, Slam.Raise, Slam.Strike));
+                point = Vector2.Lerp(high, target, t); scale = 1.06f - .06f * t; angle = baseAngle + 6 * (1 - t);
+            }
+            else if (age < Slam.Shatter)
+            {
+                point = target; squashed = 1 - Span(age, Slam.Strike, Slam.Strike + .12f);
+            }
+            else if (age < Slam.Lift)
+            {
+                float t = OutCubic(Span(age, Slam.Shatter, Slam.Lift));
+                point = Vector2.Lerp(target, high, t); angle = baseAngle - 4 * t;
+            }
+            else
+            {
+                // home: back to its slot, shrinking into the icon
+                float t = InOutCubic(Span(age, Slam.Lift, Slam.End));
+                point = Vector2.Lerp(high, slot, t) - Vector2.up * (Mathf.Sin(t * Mathf.PI) * 50 * _s);
+                scale = Mathf.Lerp(1, .5f, t); angle = baseAngle - 4 * (1 - t);
+                alpha = 1 - Span(age, Slam.End - .06f, Slam.End);
+            }
+            // the shadow under the face: small and pale while it is high, dark on contact
+            float height = Mathf.Clamp01((target.y - point.y) / (cell * 1.45f));
+            if (age < Slam.Lift + .1f)
+                Paint(_shadow, Get("cekic/shadow", "Boosters/Hammer/soft-shadow"), target + new Vector2(0, cell * .12f),
+                    new Vector2(size * .55f, size * .18f) * Mathf.Lerp(1, .6f, height), .55f * (1 - .6f * height) * Span(age, .1f, Slam.Arrive));
+            var useSprite = squashed > .5f && squash != null ? squash : sprite;
+            var sc = new Vector2(1 + .05f * squashed, 1 - .08f * squashed) * size * scale;
+            var centre = point - RotL(Vector2.Scale(face, sc), angle);
+            Paint(_tool, useSprite, centre, sc, alpha, angle);
+            if (age >= Slam.Strike && Once(0))
+            {
+                Shake(10 * _s, .22f);
+                Haptics.Play(Haptics.Kind.Heavy);
+                Sound?.Invoke("piece", 1f);
+                for (int i = 0; i < 10; i++)
+                {
+                    float a = Random.Range(Mathf.PI * 1.05f, Mathf.PI * 1.95f), v = Random.Range(240, 420) * _s;
+                    Spawn(Get("cekic/spark", "Boosters/Hammer/impact/03"), target, new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * v, Random.Range(-360, 360),
+                        Random.Range(16, 26) * _s, 4 * _s, .42f, 900 * _s, 3f, new Color(1, .93f, .62f));
+                }
+            }
+            if (age >= Slam.Strike && age < Slam.Strike + .32f)
+            {
+                // the ring on the struck point
+                float f = Span(age, Slam.Strike, Slam.Strike + .32f);
+                var ring = Get75("cekic/impact_ring") ?? Get("saat/glow_ring");
+                Paint(_impact, ring, target, new Vector2(cell * Mathf.Lerp(.4f, 1.6f, OutCubic(f)), cell * Mathf.Lerp(.25f, .9f, OutCubic(f))), 1 - f);
+                Paint(_flash, Get("cekic/spark", "Boosters/Hammer/impact/03"), target, Vector2.one * cell * Mathf.Lerp(.6f, 1.1f, OutCubic(f)), (1 - f) * (1 - f));
+            }
+            if (age >= Slam.Strike && age < Slam.Shatter + .04f)
+            {
+                // the crack spreads from the struck point
+                float c = Span(age, Slam.Strike, Slam.Shatter);
+                var crack = Get(c < .3f ? "cekic/crack_01" : c < .65f ? "cekic/crack_02" : "cekic/crack_03");
+                Paint(_crack, crack, target, Vector2.one * cell * Mathf.Lerp(.85f, 1.2f, c), 1);
+            }
+            if (age >= Slam.Shatter && Once(1))
+            {
+                Shake(6 * _s, .16f);
+                Haptics.Play(Haptics.Kind.Medium);
+                Sound?.Invoke("pm72-defuse", .75f);
+                var shards = new[] { Get("cekic/shard_a"), Get("cekic/shard_b"), Get("cekic/shard_c") };
+                for (int i = 0; i < 12; i++)
+                {
+                    float a = (i / 12f) * Mathf.PI * 2 + Random.Range(-.25f, .25f), v = Random.Range(160, 340) * _s;
+                    var at = target + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * cell * Random.Range(.08f, .3f);
+                    var vel = new Vector2(Mathf.Cos(a), Mathf.Sin(a) - .5f) * v;
+                    if (shards[i % 3] != null) Spawn(shards[i % 3], at, vel, Random.Range(-540, 540), cell * Random.Range(.24f, .38f), cell * .18f, .66f, 1400 * _s, .6f, _tone);
+                    else SpawnSquare(at, vel, cell * Random.Range(.14f, .24f), .62f, _tone);
+                }
+                for (int i = 0; i < 4; i++)
+                    Spawn(Get("cekic/dust", "Boosters/Hammer/impact/07"), target + Random.insideUnitCircle * cell * .25f, Random.insideUnitCircle * 60 * _s, 0,
+                        cell * .7f, cell * 1.3f, .55f, -40 * _s, 2f, new Color(1, .96f, .88f, .8f));
+            }
+        }
+
+        void ScissorsSlow(float age, Vector2 target, bool vertical)
+        {
+            var slot = _bar.RectOf(Booster.Scissors).center;
+            float cell = _board.Cell, size = Mathf.Clamp(cell * 1.6f, 92 * _s, 128 * _s);
+            float seamAngle = vertical ? -90 : 0;
+            var tip = vertical ? new Vector2(0, 1) : new Vector2(1, 0);       // the blades point along the seam
+            // the pivot sits behind the tab so the blades' cutting point (a fifth of the size ahead) is on it
+            var cutAt = target - tip * size * .2f;
+            var waitAt = cutAt - tip * size * .16f;                             // open, a little back from the tab
+            Vector2 point; float angle = seamAngle, scale = 1, alpha = 1, open = 0;
+            if (age < Snip.Arrive)
+            {
+                float t = InOutCubic(Span(age, 0, Snip.Arrive));
+                point = Vector2.Lerp(slot, waitAt, t) - Vector2.up * (Mathf.Sin(t * Mathf.PI) * 60 * _s);
+                scale = Mathf.Lerp(.5f, 1, t); angle = seamAngle + 30 * (1 - t);
+            }
+            else if (age < Snip.Open)
+            {
+                // the jaws open slowly
+                point = waitAt; open = InOutCubic(Span(age, Snip.Arrive, Snip.Open));
+            }
+            else if (age < Snip.Close)
+            {
+                // in around the tab, wide open
+                point = Vector2.Lerp(waitAt, cutAt, InOutCubic(Span(age, Snip.Open, Snip.Close))); open = 1;
+            }
+            else if (age < Snip.Break)
+            {
+                // the cut: the blades close through the tab, slow then biting (≈ .5 s)
+                float t = Span(age, Snip.Close, Snip.Break);
+                open = 1 - (t < .7f ? .55f * (t / .7f) : .55f + .45f * InCubic((t - .7f) / .3f));
+                point = cutAt + Random.insideUnitCircle * 1.2f * _s * Mathf.Sin(t * Mathf.PI);
+                if (t > .05f && Once(5)) { Haptics.Play(Haptics.Kind.Light); Sound?.Invoke("pm72-tick", .5f); }
+            }
+            else if (age < Snip.Leave) { point = cutAt; open = 0; }
+            else
+            {
+                // home to its slot (no spin), shrinking into the icon
+                float t = InOutCubic(Span(age, Snip.Leave, Snip.End));
+                point = Vector2.Lerp(cutAt, slot, t) - Vector2.up * (Mathf.Sin(t * Mathf.PI) * 70 * _s);
+                scale = Mathf.Lerp(1, .5f, t); angle = seamAngle + 30 * t;
+                alpha = 1 - Span(age, Snip.End - .06f, Snip.End);
+            }
+            var upper = Get75("makas/blade_upper"); var lower = Get75("makas/blade_lower");
+            if (upper != null && lower != null)
+            {
+                float a = Snip.Wide * open;
+                Paint(_tool, upper, point, Vector2.one * size * scale, alpha, angle + a);
+                Paint(_blade2, lower, point, Vector2.one * size * scale, alpha, angle - a);
+                Paint(_pivot, Get75("makas/pivot"), point, Vector2.one * size * scale * .25f, alpha, angle);
+            }
+            else
+            {
+                string pose = open > .66f ? "open" : open > .2f ? "half" : "closed";
+                Paint(_tool, Get("makas/" + pose, pose == "open" ? "Boosters/Scissors/walk/04" : pose == "half" ? "Boosters/Scissors/walk/03" : "Boosters/Scissors/walk/01"),
+                    point, Vector2.one * size * scale, alpha, angle);
+            }
+            if (age >= Snip.Break - .02f && Once(0))
+            {
+                Haptics.Play(Haptics.Kind.Medium);
+                Sound?.Invoke("pm72-unlock", 1f);
+                Shake(4 * _s, .12f);
+                // the tab breaks off: Codex's knobbed shard in the picture's tone, falling away; crumbs and sparks
+                var tab = Get("cekic/shard_c");
+                var dir = vertical ? new Vector2(.8f, -.7f) : new Vector2(.4f, -1);
+                if (tab != null) Spawn(tab, target, dir.normalized * 240 * _s, 360, cell * .5f, cell * .38f, .8f, 1300 * _s, .4f, _tone);
+                else SpawnDisc(target, dir.normalized * 220 * _s, cell * .26f, .7f, _tone);
+                var bits = new[] { Get("cekic/shard_a"), Get("cekic/shard_b"), Get("cekic/spark") };
+                for (int i = 0; i < 8; i++)
+                {
+                    float r = Random.Range(0, Mathf.PI * 2), v = Random.Range(120, 260) * _s;
+                    var bit = bits[i % 3]; bool gold = i % 3 == 2;
+                    var vel = new Vector2(Mathf.Cos(r), Mathf.Sin(r) - .6f) * v;
+                    if (bit != null) Spawn(bit, target, vel, Random.Range(-600, 600), cell * (gold ? .2f : Random.Range(.14f, .22f)), cell * .08f, .5f, gold ? 0 : 1200 * _s, gold ? 3f : .5f, gold ? Color.white : _tone);
+                    else SpawnSquare(target, vel, cell * Random.Range(.07f, .12f), .5f, _tone);
+                }
+            }
+            if (age >= Snip.Break - .02f && age < Snip.Break + .2f)
+            {
+                float f = Span(age, Snip.Break - .02f, Snip.Break + .2f);
+                Paint(_flash, Get("makas/snip_flash", "Boosters/Hammer/impact/03"), target, Vector2.one * cell * Mathf.Lerp(.7f, 1.3f, OutCubic(f)), 1 - f, seamAngle + 45);
+            }
+        }
+
         // ---- scissors -------------------------------------------------------------------------------------------
 
         void Scissors(float age, Vector2 target, bool vertical)
         {
             var idea = ScissorsIdea;
+            if (idea == Idea.A) { ScissorsSlow(age, target, vertical); return; }
             var slot = _bar.RectOf(Booster.Scissors);
             float cell = _board.Cell, size = Mathf.Clamp(cell * 1.5f, 84 * _s, 118 * _s);
             // the blades point along the seam they cut across: a vertical joint (left|right pieces) is cut top-down
@@ -389,6 +598,7 @@ namespace ReverseSolver.Presentation
             var slot = _bar.RectOf(Booster.Wand);
             float cell = _board.Cell, size = Mathf.Clamp(cell * 1.6f, 80 * _s, 110 * _s);
             float radius = cell * .9f, hit = WandHitAt(idea), end = WandDone(idea);
+            float arrive = idea == Idea.A ? Swirl.Arrive : WandArrive;   // PM_75: A slower, and it flies home
             Vector2 point; float angle = 20, alpha = 1, scale = 1;
             var tipOffset = new Vector2(-.18f, -.32f);
             if (idea == Idea.C)
@@ -407,9 +617,9 @@ namespace ReverseSolver.Presentation
                             -Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg);
                 }
             }
-            else if (age < WandArrive)
+            else if (age < arrive)
             {
-                float t = OutCubic(Span(age, 0, WandArrive));
+                float t = OutCubic(Span(age, 0, arrive));
                 var dest = idea == Idea.B ? target + new Vector2(cell * .35f, -cell * .55f) : target + new Vector2(radius, 0);
                 point = Vector2.Lerp(slot.center, dest, t) - Vector2.up * (Mathf.Sin(t * Mathf.PI) * 110 * _s);
                 angle = Mathf.Lerp(-20, 20, t); scale = Mathf.Lerp(.6f, 1, t);
@@ -441,10 +651,18 @@ namespace ReverseSolver.Presentation
             else if (idea == Idea.A && age < hit + .18f)
             {
                 // one loop around the region's centre, drawing the swirl
-                float t = InOutCubic(Span(age, WandArrive, hit + .18f));
+                float t = InOutCubic(Span(age, arrive, hit + .18f));
                 float a = t * Mathf.PI * 2;
                 point = target + new Vector2(Mathf.Cos(a), -Mathf.Sin(a)) * radius;
                 angle = 20 + 30 * Mathf.Sin(a * 2);
+            }
+            else if (idea == Idea.A)
+            {
+                // PM_75: home to its slot, shrinking into the icon
+                float t = InOutCubic(Span(age, hit + .18f, end));
+                var leave = target + new Vector2(radius, 0);
+                point = Vector2.Lerp(leave, slot.center, t) - Vector2.up * (Mathf.Sin(t * Mathf.PI) * 80 * _s);
+                angle = Mathf.Lerp(20, -20, t); scale = Mathf.Lerp(1, .55f, t); alpha = 1 - Span(age, end - .06f, end);
             }
             else
             {
@@ -465,7 +683,7 @@ namespace ReverseSolver.Presentation
                     Random.Range(-200, 200), Random.Range(10, 18) * _s, 2 * _s, .45f, 120 * _s, 1f, Random.value < .5f ? new Color(1, .9f, .5f) : new Color(.86f, .7f, 1f));
             }
             // the swirl: drawn by the loop (A), or bursting at the change (B, C)
-            float swirlFrom = idea == Idea.A ? WandArrive : hit - .1f;
+            float swirlFrom = idea == Idea.A ? arrive : hit - .1f;
             if (age >= swirlFrom)
             {
                 float f = Span(age, swirlFrom, hit + .5f);
@@ -700,7 +918,8 @@ namespace ReverseSolver.Presentation
             if (left != _chipShown) { _chipShown = left; _chipText.Text = string.Format(Lang.T("+{0} s", "+{0} sn"), left); }
         }
 
-        Vector2 ChipCenter(Vector2 panel) => panel + new Vector2(0, 57.33f) * _s;
+        // PM_75: just under the new time bar (Hud54.TimeBar), which shows the pause too
+        Vector2 ChipCenter(Vector2 panel) => panel + new Vector2(0, 70f) * _s;
 
         // ---- particles and shake --------------------------------------------------------------------------------
 
