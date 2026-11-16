@@ -9,7 +9,7 @@ namespace ReverseSolver.Presentation
     {
         const int Order = 3500;
         // PM_64 options: PM_62 is the default; Codex's versions with &makas=yavas and &saat=kalkan.
-        public static bool SlowScissors, ShieldClock;
+        public static bool SlowScissors, ShieldClock, OldSelection;
         // PM_74: the redone booster moments (BoosterFx74) are the default; &fx=eski shows the PM_62/66 ones.
         public static bool Fx74 = true;
         static float ScissorsTravelSeconds => SlowScissors ? .72f : .45f;
@@ -139,12 +139,17 @@ namespace ReverseSolver.Presentation
             float scale = Hud54.Scale(_screen.x), top = Mathf.Max(_safeTop + 40 * scale, area.yMin - 130 * scale);
             float below = area.yMax + 32 * scale;
             bool confirmAbove = b == Booster.Wand && zone >= 0 && below + 24 * scale > _bar.RectOf(b).yMin;
-            Paint(Layer(_selection, "icon", Order + 2), "Selection/Icons/" + b.Id(), new Vector2(_screen.x / 2, top), Vector2.one * (78 * scale));
+            // PM_74: the icon sits on the title badge's left end like a medallion (it used to float over Jigo's window);
+            // &secim=eski: above the badge, as before
+            bool medallion = !confirmAbove && !OldSelection;
+            if (medallion) Paint(Layer(_selection, "icon", Order + 4), "Selection/Icons/" + b.Id(), new Vector2(_screen.x / 2 - 128 * scale, top + 55 * scale), Vector2.one * (64 * scale));
+            else Paint(Layer(_selection, "icon", Order + 2), "Selection/Icons/" + b.Id(), new Vector2(_screen.x / 2, top), Vector2.one * (78 * scale));
             if (!confirmAbove)
             {
                 Paint(Layer(_selection, "title badge", Order + 1), "Selection/title-badge", new Vector2(_screen.x / 2, top + 57 * scale), new Vector2(260, 48) * scale);
-                var title = TextView.Create(_selection, "title", Texts.BoosterTitle21(b), 22 * scale, Palette.Cream, order: Order + 3).Heading(TextView.RimTeal);
-                title.transform.localPosition = Draw.W(_screen.x / 2, top + 57 * scale);
+                var title = TextView.Create(_selection, "title", Texts.BoosterTitle21(b), 22 * scale, Palette.Cream, order: Order + 3).Heading(TextView.RimTeal)
+                    .FitWidth(196 * scale, 16 * scale);
+                title.transform.localPosition = Draw.W(_screen.x / 2 + (medallion ? 14 * scale : 0), top + 57 * scale);
                 string hintText = b == Booster.Wand && zone == WandRegion.WholeBoard ? Texts.WholeBoardHint : Texts.BoosterHint21(b);
                 var hint = TextView.Create(_selection, "instruction", hintText, 13 * scale, Palette.Cream, order: Order + 3);
                 hint.transform.localPosition = Draw.W(_screen.x / 2, top + 94 * scale);

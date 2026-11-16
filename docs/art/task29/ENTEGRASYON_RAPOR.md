@@ -897,5 +897,7 @@ Yeni önizleme `p23/` (p22 yedek). Ayrıntı ve önce/sonra görüntüler: `docs
 - Menü "Oyna" düğmesi `Pulse74` ile nefes alıyor (1,6 sn, %3).
 - Galeri anında kazanma ışığı (`T50/win/win_bg_glow`) duruyor.
 - Çekiç kırılmasında `pm72-defuse` sesi.
+- Durdur kartının arkasında mavi ışık (örtü bir sıra alta indi).
+- Booster seçim ikonu başlık rozetinin solunda (`&secim=eski` eski düzen).
 
 **Doğrulanmadı:** iPhone'da his, FPS ve titreşim.

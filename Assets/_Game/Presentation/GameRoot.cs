@@ -165,6 +165,7 @@ namespace ReverseSolver.Presentation
             P21BoosterView.ShieldClock = Host.Current.Query("saat") != "firca";
             P21BoosterView.SlowScissors = Host.Current.Query("makas") == "yavas";
             P21BoosterView.Fx74 = Host.Current.Query("fx") != "eski";   // PM_74 booster moments; &fx=eski: the old ones
+            P21BoosterView.OldSelection = Host.Current.Query("secim") == "eski";
             Dive74.On = Host.Current.Query("gecis") != "yok";           // PM_74 dive into the painting; &gecis=yok: off
             BoosterFx74.HammerIdea = BoosterFx74.ParseIdea(Host.Current.Query("cekicfx"));      // PM_74 ideas: a (default), b, c
             BoosterFx74.ScissorsIdea = BoosterFx74.ParseIdea(Host.Current.Query("makasfx"));
@@ -1462,6 +1463,15 @@ namespace ReverseSolver.Presentation
         {
             var card = new Card(_world, _screen, CardOrder, "Pause").OpaqueVeil(Draw.Hex("#0E2244"))
                 .Title(Lang.T("Level ", "Bölüm ") + _session.Level.Number);
+            // PM_74: the win/loss screens' blue light behind the card (the veil stays opaque: no planning while paused)
+            var veil = card.Root.Find("veil")?.GetComponent<Renderer>();
+            if (veil != null)
+            {
+                veil.sortingOrder = CardOrder - 1;
+                float cover = Mathf.Max(_screen.x / 390, _screen.y / 844);
+                var glow = Art.Place(card.Root, "T50/win/win_bg_glow", new Vector2(390, 844) * cover, CardOrder);
+                if (glow != null) { glow.transform.localPosition = Draw.W(_screen / 2); glow.color = new Color(.85f, .9f, 1f, .7f); }
+            }
             void Face(Transform content, string id, string key, string label, Vector2 size, float y, Vector4 rim)
             {
                 var sprite = Art.Place(content, key, size, CardOrder + 2);

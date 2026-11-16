@@ -102,6 +102,8 @@ GIF'ler `booster/` klasöründe:
 | Kaybetme | ![](once/28_kaybetme_govde.jpg) | ![](sonra/kaybetme.jpg) |
 | Sandık | ![](once/34_en_sandik_altin_hap.jpg) | ![](sonra/sandik.jpg) |
 | Bölüm 30 kartı | ![](once/12_bolum30_kart_N_hamle.jpg) | ![](sonra/kart30.jpg) |
+| Durdur | ![](once/21_durdur.jpg) | ![](sonra/durdur.jpg) |
+| Booster seçimi | ![](once/16_cekic_secim.jpg) | ![](sonra/secim_cekic.jpg) |
 
 - **Kaybetme ve devam:**
   - Kazanma ekranının dili: kart yok, mavi ışık, kabartma başlık, üzgün Jigo (seyrek göz kırpar), tek satır yardım, büyük yeşil ve küçük mavi düğme.
@@ -111,7 +113,8 @@ GIF'ler `booster/` klasöründe:
   - Sandık: altın sayacı başlığın altına indi, Süre kutusuyla çakışmıyor.
   - Kazanma: "Menü" dokunma alanı ≥ 44 pt.
   - Ses: her çıkışta çalan tık −4 dB, bomba −1,5 dB.
-  - Durdur: düğme yazıları 15 pt.
+  - Durdur: düğme yazıları 15 pt; kartın arkasında kazanma/kaybetme ekranlarındaki mavi ışık (tahta yine görünmüyor). `sonra/durdur.jpg`
+  - Booster seçimi: ikon, Jigo penceresinin üstünde asılı durmak yerine başlık rozetinin solunda madalyon (`sonra/secim_cekic.jpg`; eski düzen `&secim=eski`).
 - **HUD başlıkları:** Parça/Süre başlıkları kurdelesiz krem hap + mavi kenar oldu (onaylı tarz). İkinci seçenek `&hud=lacivert`: lacivert hap + altın kenar. Eski kurdeleli başlık `&hud=kurdele` ile durur. Görüntüler: `sonra/bolum20.jpg`, `sonra/bolum20_hud_lacivert.jpg`.
 
 ## Zeyd'e kalan seçimler
