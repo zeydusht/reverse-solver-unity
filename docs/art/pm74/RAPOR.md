@@ -88,7 +88,10 @@ GIF'ler `booster/` klasöründe:
   - HUD ve booster çubuğu en son kayarak gelir. Toplam ≈ 0,95 sn.
 - **Kazanma → Sonraki bölüm:** biten resim çerçevesiyle küçülüp sola "asılır", yeni tablo sağdan gelir (0,26 sn), içine dalınır (0,26 sn), bölüm aynı biçimde açılır. Toplam ≈ 1 sn.
 - **Kapatma:** `&gecis=yok`. Dalış sırasında dokunuşlar yok sayılır.
-- **Bilinen:** menüden dalışta tablonun içinde ~0,3 sn duraklama var (PC). Bu, bölümün kurulma süresi; normal açılışta da var, burada hareketin ortasında görünüyor. Kısa ışık bunu kısmen örtüyor. iPhone'da daha uzun olabilir. Kurulumu dalıştan önceye almak ayrı bir iş.
+- **İlk açılış donması giderildi:**
+  - Ölçüm (`&perf=1`): oturumdaki ilk bölüm açılışında ~0,3 sn'lik tek bir uzun kare vardı. Kurulum ~0,2 sn; ardından ilk çizimde gölgelendirici ve doku hazırlığı. Resim çözme yalnız 30–50 ms.
+  - Çözüm: menü kurulurken bir sonraki bölümün HUD, tahta ve çubuğu iki kare boyunca arka planın arkasında çizilip siliniyor (ısınma, `&isinma=0` kapatır).
+  - Sonuç: ilk açılışta en uzun kare 32 ms. Dalış boyunca en kötü kare 58,5 FPS (PC).
 - GIF'ler: [gecis/menu_dalis.gif](gecis/menu_dalis.gif), [gecis/sonraki_dalis.gif](gecis/sonraki_dalis.gif).
 
 ## Aşama 5: Genel cila
@@ -119,3 +122,4 @@ GIF'ler `booster/` klasöründe:
 ## Doğrulanmadı
 - **iPhone:** his, 60 FPS ve titreşim.
 - **Dalış:** ilk açılışta resmin geç inmesi. Resim yoksa dalış atlanır, bölüm doğrudan açılır.
+- **Isınma:** menüdeki ısınmanın iPhone'da menü açılışına eklediği süre.

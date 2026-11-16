@@ -43,6 +43,37 @@ namespace ReverseSolver.Presentation
             if (_index + 1 < _set.Levels.Count) { if (!DiveToNext()) StartLevel(_index + 1); } else ShowMenu();
         }
 
+        // ---- PM_74: warm-up ---------------------------------------------------------------------------------------
+
+        /* The first level start of a visit spent one ~0.3 s frame on first use (shaders, textures, fonts); later starts
+           do not. Once per visit, while the menu is built, the next level's HUD, board and booster bar are drawn for two
+           frames behind the menu's opaque background (a sorting group under it), then dropped. */
+        static bool _warmed;
+        void WarmLevelOnce()
+        {
+            if (_warmed || !_p21Lessons || _set == null || _progress == null || Host.Current.Query("isinma") == "0") return;
+            _warmed = true;
+            var level = _set.Levels[Mathf.Clamp(_progress.Next(), 0, _set.Levels.Count - 1)];
+            var root = new GameObject("PM74 warm-up").transform; root.SetParent(_world, false);
+            var group = root.gameObject.AddComponent<UnityEngine.Rendering.SortingGroup>();
+            group.sortingOrder = -32000;   // under the background (-1000): drawn, never seen
+            try
+            {
+                var session = new GameSession(level, 1, "warm", new Mulberry32(1));
+                var origin = PlayingBoardPlacement(_screen, _safe, level, out float cell);
+                BoardView.Create(root, session, cell, origin, P21Boosters);
+                new Hud(root, _screen.x, _safe.y + BodyPad, HudOrder, _screen, _safe.y, session, UseHud54);
+                new BoosterBar(root, _screen, _safe.w, BarOrder, UseHud54);
+            }
+            catch (System.Exception e) { Debug.LogWarning("[warm] " + e.Message); }
+            StartCoroutine(DropWarm(root.gameObject));
+        }
+        System.Collections.IEnumerator DropWarm(GameObject warm)
+        {
+            yield return null; yield return null;
+            if (warm != null) Destroy(warm);
+        }
+
         // ---- PM_74: the dive into the painting ------------------------------------------------------------------
 
         bool _diving;

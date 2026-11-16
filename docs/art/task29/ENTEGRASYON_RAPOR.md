@@ -889,4 +889,10 @@ Yeni önizleme `p23/` (p22 yedek). Ayrıntı ve önce/sonra görüntüler: `docs
 - `WebBuild -rsBrotliOnly`.
 - Tur aracında `eval` ve `--safe top,bottom` (güvenli alan taklidi).
 
+**İlk açılış ve yükleme**
+- `&perf=1`: bölüm açılışının süre dökümü ve sonraki 3 kare, `[perf]` satırları. Resim çözme süresi de yazılır.
+- İlk açılıştaki ~300 ms'lik kare ilk kullanım maliyetiydi. `WarmLevelOnce` menüde bir kez, sonraki bölümün HUD/tahta/çubuğunu `SortingGroup` (-32000) altında 2 kare çizip siliyor. Sonuç: ilk kare 32 ms, dalış en kötü 58,5 FPS. `&isinma=0` kapatır.
+- PlayMode `Board` yardımcısı ısınma tahtasını atlıyor.
+- Yükleme ekranında eski ikon bir an görünüyordu; ikon ilk boyamadan doğru dosyayla geliyor.
+
 **Doğrulanmadı:** iPhone'da his, FPS ve titreşim.

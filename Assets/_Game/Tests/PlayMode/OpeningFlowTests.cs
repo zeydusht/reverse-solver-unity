@@ -238,7 +238,9 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(session.ClockStarted, Is.True);
         }
 
-        static BoardView Board => UnityEngine.Object.FindAnyObjectByType<BoardView>();
+        // PM_74: the menu's one-time warm-up board (under a SortingGroup, two frames) is not the game's board
+        static BoardView Board => UnityEngine.Object.FindObjectsByType<BoardView>(FindObjectsSortMode.None)
+            .FirstOrDefault(b => b.GetComponentInParent<UnityEngine.Rendering.SortingGroup>() == null);
         static Transform MenuPlay => GameObject.Find("Menu")?.transform.Find("play");
         static Transform Next => GameObject.Find("P21 win and chest")?.transform.Find("surface/next green");
         static string GuideText => GameObject.Find("P21 story")?.GetComponentInChildren<TextView>()?.Text ?? "";

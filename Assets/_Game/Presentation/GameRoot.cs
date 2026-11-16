@@ -521,9 +521,23 @@ namespace ReverseSolver.Presentation
             AskProfile();
         }
 
+        /* PM_74 &perf=1: where a level start spends its time ([perf] lines in the console). */
+        static readonly System.Diagnostics.Stopwatch PerfClock = new System.Diagnostics.Stopwatch();
+        static readonly System.Text.StringBuilder PerfLine = new System.Text.StringBuilder();
+        static bool PerfOn => Host.Current != null && Host.Current.Query("perf") == "1";
+        static void Perf(string what)
+        {
+            if (!PerfOn) return;
+            PerfLine.Append(what).Append(' ').Append(PerfClock.Elapsed.TotalMilliseconds.ToString("0")).Append(" | ");
+            PerfClock.Restart();
+        }
+        static void PerfFlush(string head) { if (!PerfOn) return; Debug.Log("[perf] " + head + " " + PerfLine); PerfLine.Clear(); }
+
         void StartLevel(int index)
         {
+            PerfClock.Restart(); PerfLine.Clear();
             LeaveLevel();
+            Perf("leave");
             _index = Mathf.Clamp(index, 0, _set.Levels.Count - 1);
             var level = _set.Levels[_index];
             // G1: this level's picture and the next one's; let go of the rest
@@ -535,11 +549,14 @@ namespace ReverseSolver.Presentation
             _funAnswered = false;
             _askFun = false;
             _hardAnswered = _askHard = false;
+            Perf("images");
             _session = _log.Start(level, Client, new Mulberry32((uint)System.Environment.TickCount));
             _session.TestMode = _testMode;
             _session.ClockFreezesTime = P21Boosters;
             _rowId = _telemetry.NewRowId();
+            Perf("session");
             if (!_previewWins) _save.Store(_log);                                 // the attempt counter, before anything can go wrong
+            Perf("save");
             _trainingUse = null;
             _tutorialClockHold = false;
             _inventory = _redesignSet ? new BoosterInventory(Host.Current.Store, level,
@@ -559,8 +576,11 @@ namespace ReverseSolver.Presentation
             _introSeen.Add(level.Id);
             ResetScriptedTutorial(firstVisit);
             ResetP21Tutorial();
+            Perf("prep");
             Layout();
+            Perf("layout");
             _board?.Deal();                                    // web render(true): pieces deal in on a fresh start
+            PerfFlush("start " + level.Id); _perfFrames = 3;
             TestBooster21();
             TestWin21();
             if (Host.Debug) Debug.Log("[level-ready] " + level.Id);   // PM_MESAJ_28 B2: verify_build --only perf times this
@@ -1195,13 +1215,17 @@ namespace ReverseSolver.Presentation
                 }
                 MenuArt.Busy = () => this != null && _mode == Mode.Playing;
                 MenuArt.Instance.Preload();
+                WarmLevelOnce();
             }
             else
             {
+                Perf("world");
                 _hud = new Hud(_world, _screen.x, _safe.y + BodyPad, HudOrder, _screen, _safe.y, _session, UseHud54);
+                Perf("hud");
                 _hud.SetLevel(_p21Flow ? _index + 1 : _session.Level.Number);
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin, P21Boosters);
+                Perf("board");
                 _board.ExitBurst = OnExitBurst;
                 _pendingExits.Clear();
                 // Zeyd 2026-10-26 chose the thick dark navy edge (#06161D, 1.5x rim, 80 % cream band, soft halo) for painted boards
@@ -1221,13 +1245,18 @@ namespace ReverseSolver.Presentation
                 }
                 if (_session.IsOver && _session.Outcome == Outcome.Win && _paintSet && _board.Image != null) ShowFinishedPicture(false);
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
+                Perf("image+drag");
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder, UseHud54);
+                Perf("bar");
                 if (_session.Level.Tutorial > 0 || TutorialActive) ShowTutorialStep();
                 if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder, P21ObstacleLesson));
                 else if (_session.IsOver && _endAt < 0 && _celebration == null && _deferredLoss == null) ShowResult();
                 RefreshPlaying();
+                Perf("refresh");
                 BuildP21Tutorial();
+                Perf("tutorial");
                 BuildBoosters21();
+                Perf("boosters");
             }
 
             if (Host.Debug && Host.Current.Query("hud") != "0")   // ?hud=0: clean QA shots
@@ -1497,8 +1526,10 @@ namespace ReverseSolver.Presentation
             if (result) ShowResult();
         }
 
+        static int _perfFrames;
         void Update()
         {
+            if (_perfFrames > 0 && PerfOn) { Debug.Log($"[perf] frame {Time.unscaledDeltaTime * 1000:0} ms"); _perfFrames--; }
             if (_introPlaying) return;
             _continuePanel?.Tick();
             _loss74?.Tick();

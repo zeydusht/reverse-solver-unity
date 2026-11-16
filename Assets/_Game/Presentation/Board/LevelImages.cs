@@ -110,6 +110,7 @@ namespace ReverseSolver.Presentation
             var callbacks = _waiting[image];
             _waiting.Remove(image);
             var tex = data == null ? null : new Texture2D(2, 2, TextureFormat.RGB24, false);
+            var sw = System.Diagnostics.Stopwatch.StartNew();   // PM_74 &perf=1
             if (tex == null || !tex.LoadImage(data, false))
             {
                 if (tex != null) Destroy(tex);
@@ -117,8 +118,12 @@ namespace ReverseSolver.Presentation
                 if (Host.Debug && data != null) Debug.Log($"[image] {image}: not a picture");
                 yield break;
             }
+            double decode = sw.Elapsed.TotalMilliseconds; sw.Restart();
             Tones[tex] = ToneGrid(tex);
+            double tone = sw.Elapsed.TotalMilliseconds; sw.Restart();
             tex.Apply(false, true);                                             // then no CPU copy kept
+            if (Host.Current != null && Host.Current.Query("perf") == "1")
+                Debug.Log($"[perf] image {image} {tex.width}x{tex.height}: decode {decode:0} ms, tone {tone:0} ms, upload {sw.Elapsed.TotalMilliseconds:0} ms");
             tex.wrapMode = TextureWrapMode.Clamp;
             tex.name = image;
             _ready[image] = tex;

@@ -88,6 +88,10 @@ function serve(root) {
   const url = new URL(base + '/' + scenario.url.replace(/^\//, ''));
   if (!url.searchParams.has('intro')) url.searchParams.set('intro', '0');
   await cdp('Page.navigate', { url: url.href });
+  for (const ms of scenario.early || []) {   // "early": [ms, …] screenshots while the page loads (the loader)
+    await sleep(ms);
+    fs.writeFileSync(path.join(outDir, `early_${ms}.png`), Buffer.from((await cdp('Page.captureScreenshot', { format: 'png' })).result.data, 'base64'));
+  }
   for (let i = 0; i < 120; i++) { await sleep(1000); if (await ev("!!(window.LT && LT.end) || !!document.getElementById('rs-name')")) break; }
   await sleep(scenario.wait ?? 6000);
   await cdp('Page.startScreencast', { format: 'jpeg', quality: 80, maxWidth: W, maxHeight: H, everyNthFrame: 1 });

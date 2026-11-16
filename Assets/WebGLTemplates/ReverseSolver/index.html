@@ -242,7 +242,9 @@ window.ltBoot = function (msg) {
 <canvas id="unity-canvas" class="full" tabindex="-1"></canvas>
 
 <div id="loader" class="full">
-  <img src="TemplateData/icon-192.png" alt="">
+  <img id="loader-icon" alt="" style="opacity:0;transition:opacity .2s" onload="this.style.opacity=1">
+  <script>/* PM_74: the right icon from the first paint (the old one used to flash for a moment) */
+    document.getElementById('loader-icon').src = document.documentElement.classList.contains('v3') ? 'TemplateData/icon-v3-192.png' : 'TemplateData/icon-192.png';</script>
   <div class="track"><div class="fill" id="fill"></div></div>
   <div class="msg" id="msg"></div>
 </div>
