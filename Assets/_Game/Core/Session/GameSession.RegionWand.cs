@@ -123,7 +123,153 @@ namespace ReverseSolver.Core
                 for (int i = 0; i < joints.Count; i++) result.Add((joints[i].x, joints[i].y, joints[i].vertical, option.values[i]));
                 return result;
             }
+            // PM_75: the sampling can miss the few tabs that matter on a big region; aim at them directly
+            return RequireFree && TargetedSearch ? TargetedArrangement(region, joints, before, random) : null;
+        }
+
+        /* PM_75: a cheap geometric test, no solver: can re-deciding the tabs free any piece on this board at all?
+           False when the pieces are still packed (a piece blocked by a present neighbour stays blocked whatever
+           side owns the tab) or one piece is left: the wand button dims and explains instead. */
+        public bool WandCanHelp()
+        {
+            if (IsOver || Board.PresentCount < 2) return false;
+            var region = WandRegion.Quadrant(Level, WandRegion.WholeBoard);
+            var inside = new HashSet<int>(Board.PresentPieces());
+            var before = FreeNow(Board);
+            var work = Board.Clone();
+            foreach (int p in inside)
+            {
+                if (before.Contains(p) || NailAt(p) > 0) continue;
+                foreach (var d in DirExt.All)
+                    if (FreeingFlips(work, region, inside, p, d) != null) return true;
+            }
+            return false;
+        }
+
+        /* For each piece that cannot leave, the tabs along one of its ways out are turned hollow (only tabs the wand
+           may change: inside the region, flat joints stay flat); the first such change that frees a piece and keeps
+           the board solvable wins. The other tabs of the region are kept, then re-drawn a few times if the board
+           would not be solvable. */
+        List<(int x, int y, bool vertical, int value)> TargetedArrangement(WandRegion region,
+            List<(int x, int y, bool vertical, int value)> joints, HashSet<int> before, IRandom random)
+        {
+            var inside = new HashSet<int>();
+            foreach (int p in Board.PresentPieces())
+            {
+                bool full = true;
+                foreach (var c in Level.Pieces[p]) if (!region.Contains(c)) { full = false; break; }
+                if (full) inside.Add(p);
+            }
+            var pieces = new List<int>(inside);
+            int start = pieces.Count == 0 ? 0 : (int)(random.NextDouble() * pieces.Count);
+            var work = Board.Clone();
+            for (int n = 0; n < pieces.Count; n++)
+            {
+                int p = pieces[(start + n) % pieces.Count];
+                if (before.Contains(p) || NailAt(p) > 0) continue;
+                foreach (var d in DirExt.All)
+                {
+                    var flips = FreeingFlips(work, region, inside, p, d);
+                    if (flips == null) continue;
+                    var fixedAt = new HashSet<(int, int, bool)>();
+                    foreach (var f in flips) fixedAt.Add((f.x, f.y, f.vertical));
+                    for (int tryNo = 0; tryNo < TargetedRedraws; tryNo++)
+                    {
+                        var values = new int[joints.Count];
+                        bool changed = false;
+                        var candidate = Board.Clone();
+                        for (int i = 0; i < joints.Count; i++)
+                        {
+                            var j = joints[i];
+                            int value = j.value;
+                            if (fixedAt.Contains((j.x, j.y, j.vertical)))
+                                foreach (var f in flips) { if (f.x == j.x && f.y == j.y && f.vertical == j.vertical) value = f.value; }
+                            else if (tryNo > 0 && random.NextDouble() < .5) value = -value;
+                            values[i] = value;
+                            changed |= value != j.value;
+                            if (j.vertical) candidate.SetVJoint(j.x, j.y, value); else candidate.SetHJoint(j.x, j.y, value);
+                        }
+                        if (!changed) continue;
+                        bool frees = false;
+                        foreach (int q in FreeNow(candidate)) if (!before.Contains(q)) { frees = true; break; }
+                        if (!frees || !GreedySolver.Solve(candidate).Solved) continue;
+                        var result = new List<(int, int, bool, int)>();
+                        for (int i = 0; i < joints.Count; i++) result.Add((joints[i].x, joints[i].y, joints[i].vertical, values[i]));
+                        return result;
+                    }
+                }
+            }
             return null;
+        }
+        const int TargetedRedraws = 24;
+        internal static bool TargetedSearch = true;   // tests measure the PM_66 sampling alone with false
+
+        /* The tab changes that let piece p slide out towards d, or null if no change the wand may make is enough:
+           p's own sides beside an empty cell turn hollow, and every present neighbour along the way turns its
+           facing side hollow. `work` is a scratch copy of the board; it is restored before returning. */
+        List<(int x, int y, bool vertical, int value)> FreeingFlips(Board work, WandRegion region, HashSet<int> inside, int p, Dir d)
+        {
+            var cells = Level.Pieces[p];
+            Dir perpA = d.IsVertical() ? Dir.L : Dir.U, perpB = d.IsVertical() ? Dir.R : Dir.D;
+            var flips = new List<(int x, int y, bool vertical, int value)>();
+            var original = new List<(int x, int y, bool vertical, int value)>();
+            void Hollow(Cell c, Dir side)
+            {
+                if (!JointOf(c, side, out int x, out int y, out bool vertical)) return;
+                int now = vertical ? work.VJoint(x, y) : work.HJoint(x, y);
+                if (now == 0) return;                                            // flat stays flat
+                Cell a = vertical ? new Cell(x - 1, y) : new Cell(x, y - 1), b = new Cell(x, y);
+                if (!region.Contains(a) || !region.Contains(b)) return;
+                int pa = work.PieceAt(a), pb = work.PieceAt(b);
+                if (pa == pb || !(pa < 0 || inside.Contains(pa)) || !(pb < 0 || inside.Contains(pb))) return;
+                if (TravelRule.EdgeOf(work, c.X, c.Y, side) <= 0) return;      // already hollow
+                foreach (var f in flips) if (f.x == x && f.y == y && f.vertical == vertical) return;   // claimed the other way
+                original.Add((x, y, vertical, now));
+                flips.Add((x, y, vertical, -now));
+                if (vertical) work.SetVJoint(x, y, -now); else work.SetHJoint(x, y, -now);
+            }
+            foreach (var h in cells)
+                foreach (var side in new[] { perpA, perpB })
+                {
+                    var n = h.Step(side);
+                    if (Level.OnBoard(n) && work.PieceAt(n) < 0) Hollow(h, side);
+                }
+            for (int k = 1; k <= Math.Max(Level.Width, Level.Height) + 2; k++)
+            {
+                bool anyOn = false;
+                foreach (var h in cells)
+                {
+                    var at = h.Step(d, k);
+                    if (!Level.OnBoard(at)) continue;
+                    anyOn = true;
+                    foreach (var side in new[] { perpA, perpB })
+                    {
+                        var n = at.Step(side);
+                        int o = work.PieceAt(n);
+                        if (o >= 0 && o != p) Hollow(n, side.Opposite());
+                    }
+                }
+                if (!anyOn) break;
+            }
+            bool exits = flips.Count > 0 && TravelRule.Limit(work, p, d).Exit;
+            for (int i = original.Count - 1; i >= 0; i--)
+            {
+                var o = original[i];
+                if (o.vertical) work.SetVJoint(o.x, o.y, o.value); else work.SetHJoint(o.x, o.y, o.value);
+            }
+            return exits ? flips : null;
+        }
+
+        bool JointOf(Cell c, Dir side, out int x, out int y, out bool vertical)
+        {
+            x = c.X; y = c.Y; vertical = !side.IsVertical();
+            switch (side)
+            {
+                case Dir.L: return c.X >= 1 && c.X < Level.Width && Level.OnBoard(c);
+                case Dir.R: x = c.X + 1; return c.X + 1 < Level.Width && Level.OnBoard(c);
+                case Dir.U: return c.Y >= 1 && Level.OnBoard(c);
+                default: y = c.Y + 1; return c.Y + 1 < Level.Height && Level.OnBoard(c);
+            }
         }
     }
 }

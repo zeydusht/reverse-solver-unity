@@ -7,7 +7,10 @@ namespace ReverseSolver.Presentation
     {
         public static string Win21 => Lang.T("Great!", "Harika!");
         public static string Chest21 => Lang.T("Chest!", "Sandık!");
-        public static string WandNothing => Lang.T("The wand can't free a piece yet.", "Değnek şu an parça açamıyor.");
+        public static string WandNothing => Lang.T("The wand found no way out on this board.", "Değnek bu tahtada bir çıkış bulamadı.");
+        /* PM_75: why the wand is dimmed. Packed: two pieces side by side stay locked whichever side owns the tab. */
+        public static string WandPacked => Lang.T("The wand helps once there is room.\nTake out a few pieces first.", "Değnek boşluk açılınca işe yarar.\nÖnce birkaç parça çıkar.");
+        public static string WandAllFree => Lang.T("Every piece can already leave.", "Her parça zaten çıkabiliyor.");
         public static string WandFreed(int n) => Lang.T(n == 1 ? "1 piece free!" : $"{n} pieces free!", $"{n} parça serbest!");
         public static string Collect21 => Lang.T("Collect", "Topla");
         public static string TapChest21 => Lang.T("Tap the chest!", "Sandığa dokun!");

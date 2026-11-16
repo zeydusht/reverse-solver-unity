@@ -101,7 +101,7 @@ namespace ReverseSolver.Presentation
                     {
                         _selected21 = null;
                         if (_trainingUse == b) { _trainingUse = null; _session.FreeUse = null; }
-                        _bar.Notice(Texts.WandNothing, 2f);
+                        _bar.Explain(Booster.Wand, WandWhy());
                         _boosterView21?.Selection(null, -1, _regions21); RefreshPlaying(); return;
                     }
                 }
@@ -109,6 +109,24 @@ namespace ReverseSolver.Presentation
             _boosterView21?.Selection(_selected21, _region21, _regions21);
             RefreshPlaying();
         }
+
+        /* PM_75: the wand dims while no tab change can free a piece (pieces still packed, or every piece already
+           free); recomputed after each change on the board (~.5 ms). */
+        bool _wandIdleDirty = true;
+        int _wandIdleKey = -1;
+        void RefreshWandIdle()
+        {
+            if (_bar == null || _session == null) return;
+            int key = (TutorialActive ? 1 : 0) + (_session.FreeUse == Booster.Wand ? 2 : 0) + (_session.IsOver ? 4 : 0);
+            if (!_wandIdleDirty && key == _wandIdleKey) return;
+            _wandIdleDirty = false; _wandIdleKey = key;
+            bool idle = P21Boosters && !TutorialActive && _session.FreeUse != Booster.Wand && _session.IsUnlocked(Booster.Wand) &&
+                        !_session.IsOver && !_session.WandCanHelp();
+            _bar.Idle = idle ? Booster.Wand : (Booster?)null;
+        }
+        string WandWhy() =>
+            _session.WandCanHelp() ? Texts.WandNothing
+            : TravelRule.FreePieces(_session.Board).Count >= _session.Board.PresentCount ? Texts.WandAllFree : Texts.WandPacked;
 
         bool PressBooster21(Vector2 point)
         {

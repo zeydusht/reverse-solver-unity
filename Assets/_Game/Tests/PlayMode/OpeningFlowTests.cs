@@ -215,6 +215,84 @@ namespace ReverseSolver.PlayMode.Tests
             }
         }
 
+        /* PM_75: on the test link the wand either works or says why before it is pressed. Levels 9, 15, 23 and ten
+           more: at the start (pieces packed) the wand is dimmed and a press shows the short explanation, nothing is
+           selected and input stays free; pieces are then taken out along the level's solution until the wand is no
+           longer dimmed, and from then on a press offers a region that frees at least one piece. */
+        [UnityTest]
+        public IEnumerator WandWorksOrExplainsOnTheTestLink()
+        {
+            var random = new System.Random(75);
+            var levels = new System.Collections.Generic.List<int> { 9, 15, 23 };
+            while (levels.Count < 13) { int n = random.Next(10, 41); if (!levels.Contains(n)) levels.Add(n); }
+            int used = 0;
+            var report = new System.Text.StringBuilder();
+            foreach (int level in levels)
+            {
+                _host.Links = $"c=p23&test=1&lv={level}";
+                _host.Store = new MemoryStore();
+                var old = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+                if (old != null) { UnityEngine.Object.Destroy(old.gameObject); yield return null; }
+                yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+                yield return WaitFor(() => Board != null && Board.Session.Level.Number == level, $"level {level}");
+                yield return new WaitForSecondsRealtime(.5f);
+                var card = Field<Card>("_card");
+                if (card != null) { yield return Click(card.Buttons[0].rect.center); yield return WaitFor(() => Field<Card>("_card") == null, "the lesson card closed"); }
+                // a booster lesson (9 wand, 15 clock, 23 hammer) is not what this test is about: end it
+                var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+                var steps = (System.Collections.IList)typeof(GameRoot).GetField("_tutorialSteps", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(root);
+                typeof(GameRoot).GetField("_tutorialAt", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(root, steps.Count);
+                typeof(GameRoot).GetMethod("ShowScriptedTutorial", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(root, null);
+                var session = Board.Session;
+                session.FreeUse = null;
+                yield return new WaitForSecondsRealtime(.6f);
+                var bar = Field<BoosterBar>("_bar");
+                Assert.That(session.WandCanHelp(), Is.False, $"level {level}: no tab change frees a piece while the board is packed");
+                Assert.That(bar.Idle, Is.EqualTo((Booster?)Booster.Wand), $"level {level}: the wand looks dimmed at the start");
+                yield return Click(bar.RectOf(Booster.Wand).center);
+                yield return null;
+                Assert.That(Field<Booster?>("_selected21"), Is.Null, $"level {level}: a dimmed wand selects nothing");
+                Assert.That(GameObject.Find("Booster explanation"), Is.Not.Null, $"level {level}: the press explains (hit {bar.Hit(bar.RectOf(Booster.Wand).center)}, " +
+                    $"card {Field<string>("_cardKind")}, mode {typeof(GameRoot).GetField("_mode", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(root)}, " +
+                    $"tutorial {Prop("TutorialActive")}, over {session.IsOver}, intro {Field<bool>("_introOpen")}, stock {session.Stock(Booster.Wand)}, unlocked {session.IsUnlocked(Booster.Wand)}, spot {Field<object>("_spotlight") != null}, " +
+                    $"diving {Field<bool>("_diving")}, effect {Field<Booster?>("_effect21")}, committed {Field<bool>("_committedTouch")}, cardTap {Field<object>("_cardTap") != null}, gateRelease {Field<bool>("_gateRelease")})");
+                // take pieces out along the solution until the wand can help
+                var plan = SmartPlayer.Play(session.Level).Moves;
+                int at = 0;
+                while (!session.WandCanHelp() && at < plan.Count && session.Board.PresentCount > 2 && !session.IsOver)
+                {
+                    session.TryExit(plan[at].Piece, plan[at].Dir); at++;
+                    yield return null;
+                }
+                yield return new WaitForSecondsRealtime(.4f);
+                if (!session.WandCanHelp()) { report.Append($" {level}:never"); continue; }
+                Assert.That(bar.Idle, Is.Null, $"level {level}: the wand is lit once it can help ({at} pieces out)");
+                yield return Click(bar.RectOf(Booster.Wand).center);
+                yield return WaitFor(() => Field<Booster?>("_selected21") == Booster.Wand, $"level {level}: the wand selection");
+                yield return new WaitForSecondsRealtime(.3f);
+                var view = Field<object>("_boosterView21");
+                int zone = Field<int>("_region21");
+                if (zone < 0)
+                {
+                    zone = Array.IndexOf(Field<bool[]>("_regions21"), true);
+                    Assert.That(zone, Is.GreaterThanOrEqualTo(0), $"level {level}: a wand region");
+                    var rect = (Rect)view.GetType().GetMethod("ZoneRect").Invoke(view, new object[] { zone });
+                    yield return Click(rect.center);
+                    yield return WaitFor(() => Field<int>("_region21") == zone, "the region chosen");
+                    yield return new WaitForSecondsRealtime(.3f);
+                }
+                yield return Click(((Rect)view.GetType().GetProperty("ConfirmRect").GetValue(view)).center);
+                yield return WaitFor(() => session.WandFreed.Count > 0, $"level {level}: the wand freed a piece");
+                float until = Time.realtimeSinceStartup + 4f;
+                while (Field<Booster?>("_effect21") != null && Time.realtimeSinceStartup < until) yield return null;
+                Assert.That(Field<Booster?>("_effect21"), Is.Null, $"level {level}: the wand effect ends");
+                used++;
+                report.Append($" {level}:{at}out/q{zone}/freed{session.WandFreed.Count}");
+            }
+            Debug.Log("[wand75] play mode:" + report);
+            Assert.That(used, Is.GreaterThanOrEqualTo(10), "the wand worked on most of the 13 levels once pieces were out");
+        }
+
         static T Field<T>(string name)
         {
             var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();

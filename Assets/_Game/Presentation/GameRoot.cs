@@ -946,6 +946,7 @@ namespace ReverseSolver.Presentation
 
         void OnEvent(GameEvent e)
         {
+            _wandIdleDirty = true;
             OnP21TutorialEvent(e);
             OnP21LockedAttempt(e);
             _hud?.OnEvent(e, _session);
@@ -1249,6 +1250,7 @@ namespace ReverseSolver.Presentation
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
                 Perf("image+drag");
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder, UseHud54);
+                _wandIdleDirty = true;
                 Perf("bar");
                 if (_session.Level.Tutorial > 0 || TutorialActive) ShowTutorialStep();
                 if (_introOpen) OpenCard("intro", Screens.Intro(_world, _screen, _session.Level, CardOrder, P21ObstacleLesson));
@@ -1512,6 +1514,7 @@ namespace ReverseSolver.Presentation
             _hud.SetLeft(_session.Board.PresentCount);
             _hud.SetTime(_session.TimeLeft);
             // PM_66: the selection view shows its own title and hint; no second faint line above the bar.
+            RefreshWandIdle();
             _bar.Refresh(_boosters, _session, TutorialActive || BoosterSelection21);
             bool wantJoints = _boosters.Armed == Booster.Scissors && !_session.IsOver;
             if (wantJoints && !_jointsShown) _board.ShowJoints(_boosters.Joints());

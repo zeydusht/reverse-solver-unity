@@ -41,6 +41,29 @@ namespace ReverseSolver.Presentation
             }, () => { if (bubble != null) Object.Destroy(bubble.gameObject); });
         }
 
+        /* PM_75: a booster that is in stock but can do nothing on this board right now (the wand while the pieces
+           are packed) looks dimmed; a press explains why in a short bubble instead of a warning. */
+        public Booster? Idle { get => _idle; set { _idle = value; if (_t54 != null) _t54.Idle = value; } }
+        Booster? _idle;
+        public void Explain(Booster booster, string text, float seconds = 2.6f)
+        {
+            if (_lockNotice != null) Object.Destroy(_lockNotice.gameObject);
+            var bubble = _lockNotice = new GameObject("Booster explanation").transform;
+            bubble.SetParent(_root, false);
+            var rect = RectOf(booster);
+            float x = Mathf.Clamp(rect.center.x, 136, _screenWidth - 136);
+            bubble.localPosition = Draw.W(x, rect.yMin - 40);
+            var back = ShapeView.Create(bubble, "balloon", new Vector2(260, 56), 0, 3900).Radius(16).Fill(Palette.Navy);
+            var label = TextView.Create(bubble, "explanation", text, 15, Vector4.one, order: 3901);
+            label.FitWidth(236, 11);
+            Tweens.Run(bubble, seconds, t => {
+                if (bubble == null) return;
+                float a = Mathf.Clamp01((1 - t) * 6) * Mathf.Clamp01(t * 12);
+                label.Alpha = a;
+                back.Alpha(a);
+            }, () => { if (bubble != null) Object.Destroy(bubble.gameObject); });
+        }
+
         public void ShowTutorial(bool showing) => _root.gameObject.SetActive(!showing);
 
         sealed class Slot

@@ -13,7 +13,7 @@ namespace ReverseSolver.Presentation
             public SpriteRenderer Body, Icon, Badge, Lock;
             public TextView Count;
             public BoosterButton State;
-            public bool Armed, Fresh, Initialized;
+            public bool Armed, Fresh, Initialized, Idle;
             public int Stock, Language;
         }
 
@@ -23,6 +23,7 @@ namespace ReverseSolver.Presentation
         readonly TextView _pauseLabel, _prompt;
         readonly float _scale;
         int _language;
+        public Booster? Idle;   // PM_75: in stock but useless on this board right now: dimmed, the badge stays
         string _notice;
         float _noticeUntil, _pressedUntil;
 
@@ -100,11 +101,12 @@ namespace ReverseSolver.Presentation
                 int stock = session.Stock(b);
                 float glow = fresh ? .9f + .1f * Mathf.Sin(Time.unscaledTime * Mathf.PI * 2 / 1.3f) : 1;
                 s.Body.color = new Color(1, glow, glow, 1);
-                if (s.Initialized && s.State == state && s.Armed == armed && s.Fresh == fresh && s.Stock == stock && s.Language == language) continue;
-                s.Initialized = true; s.State = state; s.Armed = armed; s.Fresh = fresh; s.Stock = stock; s.Language = language;
+                bool idle = Idle == b && state == BoosterButton.Ready && !armed;
+                if (s.Initialized && s.State == state && s.Armed == armed && s.Fresh == fresh && s.Stock == stock && s.Language == language && s.Idle == idle) continue;
+                s.Initialized = true; s.State = state; s.Armed = armed; s.Fresh = fresh; s.Stock = stock; s.Language = language; s.Idle = idle;
                 bool locked = state == BoosterButton.Locked;
-                s.Body.sprite = Art.Get(Art54.Bodies[armed ? 1 : locked ? 2 : state == BoosterButton.Out ? 3 : 0]);
-                s.Icon.color = locked || state == BoosterButton.Out ? new Color(.55f, .55f, .55f, 1) : Color.white;
+                s.Body.sprite = Art.Get(Art54.Bodies[armed ? 1 : locked ? 2 : state == BoosterButton.Out || idle ? 3 : 0]);
+                s.Icon.color = locked || state == BoosterButton.Out || idle ? new Color(.55f, .55f, .55f, 1) : Color.white;
                 s.Badge.gameObject.SetActive(!locked);
                 s.Lock.gameObject.SetActive(locked);
                 s.Count.Text = locked ? "" : stock.ToString();
