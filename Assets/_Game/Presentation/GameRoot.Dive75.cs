@@ -30,7 +30,9 @@ namespace ReverseSolver.Presentation
                 Backdrop = Draw.Hex("#0B2A3A"), FadeUi = fade,
                 Hide = () => { if (bg != null) bg.enabled = false; if (_menu?.PaintingSprite != null) _menu.PaintingSprite.enabled = false; },
             };
-            setup.Walls.Add(bg);
+            // PM_76: the camera arc through the drawn views (when they are loaded); else the facing homography
+            setup.Arc = ArcAssets76.Views; setup.ArcSize = ArcAssets76.Size;
+            if (setup.Arc == null) setup.Walls.Add(bg);
             return StartDive75(setup, index);
         }
 
@@ -56,6 +58,9 @@ namespace ReverseSolver.Presentation
                     Backdrop = new Color(.09f, .07f, .06f, 1),
                 };
                 setup.Walls.Add(c.Strip);
+                foreach (var column in c.NearColumns) setup.Walls.Add(column);   // PM_76: the near columns ride along
+                // PM_76: the slide is still moving at the handover (80 %): the turn starts at speed, the approach soon after
+                setup.FaceSeconds = .4f; setup.NearAt = .12f; setup.FaceFromMotion = true;
                 if (tex == null || quad == null || !StartDive75(setup, next)) { StartLevel(next); return; }
                 c.DestroyNow();
             }, handoff: Dive75.On);

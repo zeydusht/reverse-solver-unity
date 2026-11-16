@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "coordinate_origin": "top-left",
+  "units": "pixels",
+  "corner_order": [
+    "top_left",
+    "top_right",
+    "bottom_right",
+    "bottom_left"
+  ],
+  "frame_bounds_order": [
+    "left",
+    "top",
+    "right",
+    "bottom"
+  ],
+  "working_size": [
+    1180,
+    1770
+  ],
+  "a0_mapping": {
+    "source_size": [
+      1024,
+      1536
+    ],
+    "target_size": [
+      1180,
+      1770
+    ],
+    "scale": 1.15,
+    "translation": [
+      1.2,
+      1.8
+    ],
+    "matrix": [
+      [
+        1.15,
+        0,
+        1.2
+      ],
+      [
+        0,
+        1.15,
+        1.8
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "note": "Native a0 files preserve source pixels. Explicit 1180x1770 versions use centered 15% enlargement with replicated outer edge."
+  },
+  "angles": {
+    "a0": {
+      "camera_angle_degrees": 38,
+      "orbit_right_degrees": 0,
+      "size": [
+        1024,
+        1536
+      ],
+      "fg": "a0_fg.png",
+      "bg": "a0_bg.png",
+      "working_fg": "a0_fg_1180x1770.png",
+      "working_bg": "a0_bg_1180x1770.png",
+      "canvas_corners_native": [
+        [
+          349,
+          296
+        ],
+        [
+          662,
+          359
+        ],
+        [
+          663,
+          832
+        ],
+        [
+          348,
+          815
+        ]
+      ],
+      "canvas_corners": [
+        [
+          402.55,
+          342.2
+        ],
+        [
+          762.5,
+          414.65
+        ],
+        [
+          763.65,
+          958.6
+        ],
+        [
+          401.4,
+          939.05
+        ]
+      ],
+      "frame_outer_bounds_native": [
+        276,
+        223,
+        715,
+        922
+      ],
+      "frame_outer_bounds": [
+        318.6,
+        258.25,
+        823.45,
+        1062.1
+      ]
+    },
+    "a1": {
+      "camera_angle_degrees": 25,
+      "orbit_right_degrees": 13,
+      "size": [
+        1180,
+        1770
+      ],
+      "fg": "a1_fg.png",
+      "bg": "a1_bg.png",
+      "canvas_corners": [
+        [
+          382.5781,
+          357.2266
+        ],
+        [
+          796.2695,
+          399.8633
+        ],
+        [
+          796.2695,
+          957.5977
+        ],
+        [
+          382.5781,
+          948.3789
+        ]
+      ],
+      "frame_outer_bounds": [
+        290.3906,
+        255.8203,
+        868.8672,
+        1067.0703
+      ],
+      "frame_identity": "Original menu_bg frame ornaments projected onto the new camera wall plane; room and foreground drawn by reference-based imagegen."
+    },
+    "a2": {
+      "camera_angle_degrees": 12,
+      "orbit_right_degrees": 26,
+      "size": [
+        1180,
+        1770
+      ],
+      "fg": "a2_fg.png",
+      "bg": "a2_bg.png",
+      "canvas_corners": [
+        [
+          367.5977,
+          362.9883
+        ],
+        [
+          812.4023,
+          380.2734
+        ],
+        [
+          812.4023,
+          957.5977
+        ],
+        [
+          367.5977,
+          952.9883
+        ]
+      ],
+      "frame_outer_bounds": [
+        273.1055,
+        245.4492,
+        894.2188,
+        1070.5273
+      ],
+      "frame_identity": "Original menu_bg frame ornaments projected onto the new camera wall plane; room and foreground drawn by reference-based imagegen."
+    },
+    "a3": {
+      "camera_angle_degrees": 0,
+      "orbit_right_degrees": 38,
+      "size": [
+        1180,
+        1770
+      ],
+      "fg": "a3_fg.png",
+      "bg": "a3_bg.png",
+      "canvas_corners": [
+        [
+          359.5312,
+          369.9023
+        ],
+        [
+          820.4688,
+          369.9023
+        ],
+        [
+          820.4688,
+          957.5977
+        ],
+        [
+          359.5312,
+          957.5977
+        ]
+      ],
+      "frame_outer_bounds": [
+        263.8867,
+        241.9922,
+        906.8945,
+        1073.9844
+      ],
+      "frame_identity": "Original menu_bg frame ornaments projected onto the new camera wall plane; room and foreground drawn by reference-based imagegen."
+    }
+  }
+}

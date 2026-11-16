@@ -129,7 +129,9 @@ namespace ReverseSolver.Presentation
            settles from 1.3x, Jigo jumps, the gold counts, the buttons come; 1.15 s in all, a tap finishes it. */
         public static bool B => Art.Get(WinArt + "btn_green_big") != null;
         const string WinArt = "T50/win/";
-        public const float EntranceSeconds = 1.15f;
+        // PM_76: the same timeline played in 1.0 s (screen arrivals .6–1.0 s); the title and the buttons spring into place
+        public const float EntranceSeconds = 1.0f;
+        const float Timeline = 1.15f;
         float _bScale, _bTop;
         SpriteRenderer _bGlow, _bTitle, _bJigo, _bCoin, _bNewSlot;
         TextView _bPlus;
@@ -228,11 +230,11 @@ namespace ReverseSolver.Presentation
         public bool Entering => B && !_chestMode && Time.unscaledTime - _started < EntranceSeconds;
         void TickB(float now)
         {
-            float t = now - _started;
+            float t = (now - _started) * (Timeline / EntranceSeconds);
             if (_bSettled)
             {
                 // idle: Jigo bobs softly
-                if (_bJigo != null) _bJigo.transform.localPosition = Draw.W(_bJigoAt + new Vector2(0, -4 * _bScale * Mathf.Sin((t - EntranceSeconds) * Mathf.PI * 2 / 1.6f)));
+                if (_bJigo != null) _bJigo.transform.localPosition = Draw.W(_bJigoAt + new Vector2(0, -4 * _bScale * Mathf.Sin((t - Timeline) * Mathf.PI * 2 / 1.6f)));
                 return;
             }
             // the light opens
@@ -240,7 +242,7 @@ namespace ReverseSolver.Presentation
             if (_bGlow != null) { Alpha(_bGlow, g); _bGlow.transform.localScale = Vector3.Scale(Base(_bGlow), new Vector3(.9f + .1f * g, .35f + .65f * g, 1)); }
             // the title settles from 1.3x
             float h = Span(t, .12f, .45f);
-            if (_bTitle != null) { Alpha(_bTitle, Mathf.Clamp01(h * 3)); _bTitle.transform.localScale = Base(_bTitle) * Mathf.Lerp(1.3f, 1f, Ease(h)); }
+            if (_bTitle != null) { Alpha(_bTitle, Mathf.Clamp01(h * 3)); _bTitle.transform.localScale = Base(_bTitle) * Mathf.LerpUnclamped(1.3f, 1f, PanelMotion76.OutBack(h, 1.2f)); }
             // Jigo jumps: up from below, over the top, lands with a small squash
             float j = Span(t, .3f, .78f);
             if (_bJigo != null)
@@ -263,9 +265,9 @@ namespace ReverseSolver.Presentation
                 _bNewSlot.transform.localScale = Base(_bNewSlot) * (p <= 0 ? 0 : 1 + .35f * Mathf.Sin(p * Mathf.PI));
             }
             // the buttons come up
-            float b = Ease(Span(t, .82f, EntranceSeconds));
-            if (_bButtons != null) { Fade(_bButtons, b); _bButtons.localPosition = Draw.W(0, 36 * _bScale * (1 - b)); }
-            if (t >= EntranceSeconds) { _bSettled = true; if (_bJigo != null) _bJigo.transform.localScale = Base(_bJigo); }
+            float b = Ease(Span(t, .82f, Timeline));
+            if (_bButtons != null) { Fade(_bButtons, b); _bButtons.localPosition = Draw.W(0, 36 * _bScale * (1 - PanelMotion76.OutBack(Span(t, .82f, Timeline), 1.25f))); }
+            if (t >= Timeline) { _bSettled = true; if (_bJigo != null) _bJigo.transform.localScale = Base(_bJigo); }
         }
         readonly System.Collections.Generic.Dictionary<SpriteRenderer, Vector3> _bases = new System.Collections.Generic.Dictionary<SpriteRenderer, Vector3>();
         Vector3 Base(SpriteRenderer r)

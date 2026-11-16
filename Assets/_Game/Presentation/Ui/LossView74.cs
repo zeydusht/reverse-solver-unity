@@ -9,7 +9,7 @@ namespace ReverseSolver.Presentation
        coordinates, scaled like the win screen. */
     sealed class LossView74
     {
-        public const float EntranceSeconds = .7f;
+        public const float EntranceSeconds = .55f;   // PM_76: was .7 s; the title and the buttons spring into place
         const string WinArt = "T50/win/";
         readonly Transform _root;
         readonly Vector2 _screen;
@@ -150,7 +150,7 @@ namespace ReverseSolver.Presentation
             float t = Time.unscaledTime - _started;
             float e = Mathf.Clamp01(t / EntranceSeconds);
             if (_settled) e = 1;
-            if (_title != null) _title.localScale = Vector3.one * Mathf.Lerp(1.3f, 1, BoosterFx74.OutCubic(Mathf.Clamp01(e / .45f)));
+            if (_title != null) _title.localScale = Vector3.one * Mathf.LerpUnclamped(1.3f, 1, PanelMotion76.OutBack(Mathf.Clamp01(e / .5f), 1.2f));
             if (_title != null) foreach (var tv in _title.GetComponentsInChildren<TextView>()) tv.Alpha = Mathf.Clamp01(e / .25f);
             if (_jigo != null)
             {
@@ -169,8 +169,8 @@ namespace ReverseSolver.Presentation
             }
             if (_buttons != null)
             {
-                float b = BoosterFx74.OutCubic(Mathf.Clamp01((e - .55f) / .45f));
-                _buttons.localPosition = Draw.W(0, 24 * _k * (1 - b));
+                float b = BoosterFx74.OutCubic(Mathf.Clamp01((e - .5f) / .5f));
+                _buttons.localPosition = Draw.W(0, 24 * _k * (1 - PanelMotion76.OutBack(Mathf.Clamp01((e - .5f) / .5f), 1.25f)));
                 foreach (var r in _buttons.GetComponentsInChildren<SpriteRenderer>()) { var c = r.color; c.a = b; r.color = c; }
                 foreach (var tv in _buttons.GetComponentsInChildren<TextView>()) tv.Alpha = b;
             }

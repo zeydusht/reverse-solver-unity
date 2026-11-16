@@ -167,6 +167,7 @@ namespace ReverseSolver.Presentation
             P21BoosterView.Fx74 = Host.Current.Query("fx") != "eski";   // PM_74 booster moments; &fx=eski: the old ones
             P21BoosterView.OldSelection = Host.Current.Query("secim") == "eski";
             Dive74.On = Dive75.On = Host.Current.Query("gecis") != "yok";
+            Dive75.Gap = Host.Current.Query("dalisbosluk") == "1";   // PM_76: magenta backdrop for the edge-gap count
             // PM_75: the menu top's three options (Codex); B by default, &ust=a / &ust=c show the other two
             var top = (Host.Current.Query("ust") ?? "").ToUpperInvariant();
             if (top == "A" || top == "B" || top == "C") Screens.TopOption = top;           // PM_74 dive into the painting; &gecis=yok: off
@@ -266,7 +267,12 @@ namespace ReverseSolver.Presentation
             {
                 bool fresh = _save.Best.Count == 0;
                 _save.SetPlayer(name); _awaitingName = false;
-                if (_mode == Mode.Menu) Layout();
+                // PM_76: only the name changes (a full rebuild cost a 200 ms frame); the menu arrives as the gate goes
+                if (_mode == Mode.Menu)
+                {
+                    if (_menu != null && _menu.SetPlayer(_save.Player)) MenuEnter76.Run(_menu.Root, _tabs?.Root, _screen, false, Vector4.zero, 0);
+                    else Layout();
+                }
                 if (fresh) StartCoroutine(RecoverProgress(name));
             };
             if (opening)
@@ -504,8 +510,12 @@ namespace ReverseSolver.Presentation
             _session.EventRaised -= OnEvent;
         }
 
+        /* PM_76: the next menu build arrives (MenuEnter76); from a paused level the pause's navy fades away over it. */
+        bool _menuEnter = true, _menuEnterVeil;
         void ShowMenu()
         {
+            _menuEnter = true;
+            _menuEnterVeil = _cardKind == "pause" || _corridor == null && _mode == Mode.Playing && _session != null && !_session.IsOver;
             CommitPendingHard();
             _rated = null;
             LeaveLevel();
@@ -887,7 +897,12 @@ namespace ReverseSolver.Presentation
 
         void OpenSettings()
         {
-            if (Art.On) { _menuSettings?.Destroy(); _menuSettings = new MenuSettings(_world, _screen, CardOrder); return; }
+            if (Art.On)
+            {
+                _menuSettings?.Destroy(); _menuSettings = new MenuSettings(_world, _screen, CardOrder);
+                PanelMotion76.Open(_menuSettings.Root, _screen / 2 + new Vector2(0, 17));   // PM_76: a soft open
+                return;
+            }
             OpenCard("settings", new Card(_world, _screen, CardOrder, "Settings") { Compact = true }.Title(Texts.Settings)
             .Button("sound", Art.Muted ? Texts.SoundOff : Texts.SoundOn, false)
             .Button("music", Music.On ? Texts.MusicOn : Texts.MusicOff, false)
@@ -1225,6 +1240,13 @@ namespace ReverseSolver.Presentation
                 MenuArt.Busy = () => this != null && _mode == Mode.Playing;
                 MenuArt.Instance.Preload();
                 WarmLevelOnce();
+                ArcAssets76.Preload(this, transform);   // PM_76: the dive's views and the corridor's layers, ahead of time
+                if (_menuEnter && _menu != null && Art.On)
+                {
+                    _menuEnter = false;
+                    MenuEnter76.Run(_menu.Root, _tabs?.Root, _screen, _menuEnterVeil, Draw.Hex("#0E2244"), CardOrder + 50);
+                    _menuEnterVeil = false;
+                }
             }
             else
             {

@@ -154,6 +154,6 @@ namespace ReverseSolver.Presentation
             _buttons.Add((new Rect(c - hitSize / 2, hitSize), id));
         }
         public string Hit(Vector2 pt) { foreach (var b in _buttons) if (b.rect.Contains(pt)) return b.id; return null; }
-        public void Destroy() { Tweens.Kill(this); if (Root != null) Object.Destroy(Root.gameObject); }
+        public void Destroy() { Tweens.Kill(this); if (Root != null && !PanelMotion76.Close(Root)) Object.Destroy(Root.gameObject); }
     }
 }

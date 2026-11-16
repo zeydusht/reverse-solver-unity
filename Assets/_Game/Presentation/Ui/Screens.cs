@@ -179,6 +179,17 @@ namespace ReverseSolver.Presentation
                 _painting.transform.localPosition = new Vector3((x0 + x1) / 2 - size.x / 2, size.y / 2 - (y0 + y1) / 2) / _bg.sprite.pixelsPerUnit;
             }
 
+            /* PM_76: the name typed at the gate goes onto the plate without rebuilding the menu (a 200 ms frame). */
+            TextView _nameView;
+            float _nameWidth;
+            public bool SetPlayer(string player)
+            {
+                if (_nameView == null) return false;
+                _nameView.Text = string.IsNullOrEmpty(player) ? Texts.Player : player;
+                _nameView.FitWidth(_nameWidth, 12);
+                return true;
+            }
+
             bool Top75(Vector2 screen, Vector4 safe, int order, string player)
             {
                 if (!Top75Available) return false;
@@ -199,6 +210,7 @@ namespace ReverseSolver.Presentation
                 name.GetComponent<TMPro.TextMeshPro>().rectTransform.sizeDelta = new Vector2(textWidth, plateH);
                 name.FitWidth(textWidth, 12);
                 name.transform.localPosition = Draw.W(textLeft + textWidth / 2, hy + 1);
+                _nameView = name; _nameWidth = textWidth;
                 Profile = new Rect(left, hy - plateH / 2, plateW, plateH);
                 // the gold
                 float coinLeft = left + plateW + gap;

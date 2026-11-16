@@ -13,9 +13,25 @@ namespace ReverseSolver.Presentation
          5 hud   .3 s  the HUD and the booster bar slide in last
        A tap makes it three times faster; a second tap ends it. The screen-space layers ride on the camera, so the
        camera can already sit on the board while the picture still covers the screen. */
+    /* PM_76 (Zeyd: "the wall turns towards us, robotic"): from the menu the camera now travels on an arc round the
+       painting to face it, through four drawn views of the same room (Codex, a0 = today's menu view .. a3 = square
+       on). Two neighbouring views are shown at once, each warped so their canvases meet on the same in-between quad
+       (the frame never doubles) and the newer one fades in over the older; the near foreground slides faster. The
+       approach begins before the arc ends (one move, no stop): arc .85 s, approach from .61 s for .7 s, hold .45 s,
+       back .6 s, the HUD's last .2 s — 2.56 s. The corridor keeps the facing homography (it arrives nearly square on). */
     public sealed class Dive75 : MonoBehaviour
     {
         public const float Face = .5f, Near = .6f, Hold = .5f, Back = .6f, HudIn = .3f;
+        public const float ArcSeconds = .85f, ArcNearAt = .72f, ArcNear = .7f, ArcHold = .45f, ArcHudTail = .2f;
+        public static bool Gap;   // &dalisbosluk=1: a magenta backdrop, to count uncovered edge pixels in captures
+
+        /* One drawn view of the menu's room (working pixels, 1180x1770, y down). */
+        public sealed class ArcView
+        {
+            public Texture Bg, Fg;
+            public Rect FgPx;
+            public Vector2[] Canvas;
+        }
         public const float Total = Face + Near + Hold + Back + HudIn;
         public static bool On = true;
 
@@ -36,6 +52,10 @@ namespace ReverseSolver.Presentation
             public Func<BoardView> Build;        // builds the level (during the hold); its board, or null
             public Action<float> Slide;          // the HUD and bar, 0 (out) .. 1 (home)
             public Action Done;
+            public List<ArcView> Arc;            // PM_76: the camera arc (menu); null: the facing homography (corridor)
+            public float FaceSeconds = .5f, NearAt = .38f;   // PM_76: the approach overlaps the facing turn
+            public bool FaceFromMotion;          // the corridor is still moving at the handover: the turn starts at speed
+            public Vector2 ArcSize = new Vector2(1180, 1770);
         }
 
         Setup _s;
@@ -51,6 +71,9 @@ namespace ReverseSolver.Presentation
         Reveal _reveal;
         Rect _r, _c;
         double[] _faceH;
+        readonly List<Layer> _arcBg = new List<Layer>(), _arcFg = new List<Layer>();
+        readonly List<Vector2[]> _arcQuads = new List<Vector2[]>();
+        Rect _cropA3;
 
         public static Dive75 Run(Setup s)
         {
@@ -86,6 +109,32 @@ namespace ReverseSolver.Presentation
                 _walls.Add(Layer.FromSprite(_overlay, w, _s.Order + 1, screen));
             }
             baseMat = baseMat ?? SpriteMaterial();
+            if (Gap) _backdrop.Fill(new Color(1, 0, 1, 1));
+            if (_s.Arc != null && _s.Arc.Count >= 2)
+            {
+                // under the views: the painting shows through their cut-out canvases
+                _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 1);
+                var size = _s.ArcSize;
+                float k = Mathf.Max(screen.x / size.x, screen.y / size.y);
+                Vector2 V(Vector2 px) => screen / 2 + (px - size / 2) * k;
+                for (int i = 0; i < _s.Arc.Count; i++)
+                {
+                    var v = _s.Arc[i];
+                    _arcBg.Add(Layer.FromTexture(_overlay, v.Bg, baseMat, new Rect(Vector2.zero, size), V, 24, 36, _s.Order + 2 + i * 2));
+                    _arcFg.Add(v.Fg != null ? Layer.FromTexture(_overlay, v.Fg, baseMat, v.FgPx, V, 4, 16, _s.Order + 12 + i) : null);
+                    var quad = new Vector2[4];
+                    for (int c = 0; c < 4; c++) quad[c] = V(v.Canvas[c]);
+                    _arcQuads.Add(quad);
+                }
+                var last = _arcQuads[_arcQuads.Count - 1];
+                _r = Rect.MinMaxRect(last[0].x, last[0].y, last[2].x, last[2].y);
+                float ch2 = Mathf.Max(screen.y, screen.x / Mathf.Max(.1f, _s.BoardAspect)), cw2 = ch2 * _s.BoardAspect;
+                _c = new Rect(screen.x / 2 - cw2 / 2, screen.y / 2 - ch2 / 2, cw2, ch2);
+                // the picture's crop at the square-on view: the canvas's proportions, centred
+                float ta = _s.Picture != null ? (float)_s.Picture.width / _s.Picture.height : 1, ca = _r.width / _r.height;
+                _cropA3 = ta > ca ? new Rect((1 - ca / ta) / 2, 0, ca / ta, 1) : new Rect(0, (1 - ta / ca) / 2, 1, ta / ca);
+                return;
+            }
             _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 2);
             // 1: upright, centred, the opening's near side tall, the crop's proportions
             var q = _s.Quad;
@@ -130,17 +179,125 @@ namespace ReverseSolver.Presentation
                 _overlay.localPosition = new Vector3(-_s.Screen.x / 2 * k, _s.Screen.y / 2 * k, 10);
             }
             if (!_raised && t >= .22f) Raise();
-            if (t < Face) { FacePhase(BoosterFx74.InOutCubic(t / Face)); return; }
-            if (t < Face + Near) { NearPhase((t - Face) / Near); return; }
-            if (t < Face + Near + Hold) { NearPhase(1); if (!_built) BuildLevel(); return; }
+            if (_arcBg.Count > 0) { ArcStep(t); return; }
+            FaceStep(t);
+        }
+
+        /* PM_76: the facing turn (homography) and the approach overlap: one move, no stop. */
+        void FaceStep(float t)
+        {
+            float nearStart = _s.NearAt;
+            if (t < nearStart + ArcNear + ArcHold)
+            {
+                _s.FadeUi?.Invoke(1 - Mathf.Clamp01(t / .22f));
+                float f = Mathf.Clamp01(t / _s.FaceSeconds);
+                FacePose(_s.FaceFromMotion ? BoosterFx74.OutCubic(f) : BoosterFx74.InOutCubic(f), BoosterFx74.InOutCubic(Mathf.Clamp01((t - nearStart) / ArcNear)));
+                if (t >= nearStart + ArcNear && !_built) BuildLevel();
+                return;
+            }
+            Tail(t, nearStart + ArcNear + ArcHold);
+        }
+
+        void FacePose(float ef, float e)
+        {
+            var q = _s.Quad; var r = Corners(_r);
+            var to = new Vector2[4];
+            for (int i = 0; i < 4; i++) to[i] = Vector2.Lerp(q[i], r[i], ef);
+            var rect = LogLerp(_r, _c, e);
+            var zoom = Similarity(_r.center, rect.center, rect.height / _r.height);
+            var wall = Mul(zoom, Homography(q, to));
+            const float wallAlpha = 1;   // PM_76: the wall never fades: the picture covers the screen by the end (no gap)
+            foreach (var w in _walls) w.Warp(wall, wallAlpha);
+            var zq = new Vector2[4];
+            for (int c = 0; c < 4; c++) zq[c] = Apply(zoom, to[c]);
+            PaintInto(zq, e, _s.Crop, 1f, ef < 1 ? q : null, wall);
+            _backdrop.Alpha(1);
+        }
+
+        /* The painting: in the canvas quad zq (perspective-correct) and, with the approach e, the board's framing;
+           its crop eases from crop0 to the whole picture. While a wall still turns (start != null) the picture
+           follows the same homography as the wall. */
+        void PaintInto(Vector2[] zq, float e, Rect crop0, float enlarge, Vector2[] start, double[] wall)
+        {
+            var crop = new Rect(Vector2.Lerp(crop0.position, Vector2.zero, e), Vector2.Lerp(crop0.size, Vector2.one, e));
+            var zr = Rect.MinMaxRect(Mathf.Min(zq[0].x, zq[3].x), Mathf.Min(zq[0].y, zq[1].y), Mathf.Max(zq[1].x, zq[2].x), Mathf.Max(zq[2].y, zq[3].y));
+            float boardW = zr.height * Mathf.Lerp(zr.width / Mathf.Max(1, zr.height), _s.BoardAspect, e);
+            float w = Mathf.Max(boardW, zr.width);
+            var target = new Rect(zr.center.x - w / 2, zr.yMin, w, zr.height);
+            var tq = Corners(target);
+            var pq = new Vector2[4];
+            for (int c = 0; c < 4; c++) pq[c] = Vector2.Lerp(zq[c], tq[c], e);
+            var pc = (pq[0] + pq[1] + pq[2] + pq[3]) / 4;
+            for (int c = 0; c < 4; c++) pq[c] = pc + (pq[c] - pc) * enlarge;
+            if (start != null && e <= 0) _paint.Positions((x, y) => Apply(wall, CorridorTransition.Project(start, x, y)), crop, 1);
+            else _paint.Positions((x, y) => CorridorTransition.Project(pq, x, y), crop, 1);
+        }
+
+        /* The pull back to the board (with its drawn cuts), then the HUD's last part. */
+        void Tail(float t, float holdEnd)
+        {
             if (!_built) BuildLevel();
             if (!_revealed) StartReveal();
-            float b = (t - Face - Near - Hold) / Back;
+            float b = (t - holdEnd) / Back;
             if (b < 1) { BackPhase(b); return; }
             BackPhase(1);
-            float hud = (t - Face - Near - Hold - Back) / HudIn;
+            float hud = (t - holdEnd - Back) / ArcHudTail;
             _s.Slide?.Invoke(Mathf.Lerp(.6f, 1, BoosterFx74.OutCubic(Mathf.Clamp01(hud))));
             if (hud >= 1) Finish();
+        }
+
+        void ArcStep(float t)
+        {
+            float nearStart = ArcSeconds * ArcNearAt, nearEnd = nearStart + ArcNear, holdEnd = nearEnd + ArcHold;
+            if (t < holdEnd)
+            {
+                _s.FadeUi?.Invoke(1 - Mathf.Clamp01(t / .22f));
+                ArcPose(BoosterFx74.InOutCubic(Mathf.Clamp01(t / ArcSeconds)), BoosterFx74.InOutCubic(Mathf.Clamp01((t - nearStart) / ArcNear)));
+                if (t >= nearEnd && !_built) BuildLevel();
+                return;
+            }
+            Tail(t, holdEnd);
+        }
+
+
+        /* p: the arc 0..1 (eased); e: the approach 0..1 (eased). */
+        void ArcPose(float p, float e)
+        {
+            int n = _arcQuads.Count;
+            float theta = p * (n - 1);
+            int i = Mathf.Min(n - 2, Mathf.FloorToInt(theta));
+            float u = theta - i;
+            var qa = _arcQuads[i]; var qb = _arcQuads[i + 1];
+            var qm = new Vector2[4];
+            for (int c = 0; c < 4; c++) qm[c] = Vector2.Lerp(qa[c], qb[c], u);
+            // the camera also moves in a little along the arc (10 %), about the canvas: no edge ever uncovered
+            var mid = (qm[0] + qm[1] + qm[2] + qm[3]) / 4;
+            float dolly = 1 + .1f * p * (1 - e);   // handed over to the approach: the cover framing ends exact
+            var rect = LogLerp(_r, _c, e);
+            float s = rect.height / _r.height;
+            var zoom = Mul(Similarity(_r.center, rect.center, s), Similarity(mid, mid, dolly));
+            var ha = Mul(zoom, Homography(qa, qm)); var hb = Mul(zoom, Homography(qb, qm));
+            float w = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.15f, .85f, u));
+            for (int k = 0; k < n; k++)
+            {
+                bool shown = k == i || k == i + 1;
+                _arcBg[k].SetActive(shown);
+                _arcFg[k]?.SetActive(shown);
+            }
+            const float wallAlpha = 1;   // PM_76: the wall never fades: the picture covers the screen by the end (no gap)
+            _arcBg[i].Warp(ha, wallAlpha);
+            _arcBg[i + 1].Warp(hb, w * wallAlpha);
+            // the near foreground slides further than the wall (parallax) and crossfades
+            float slide = -.08f * _s.Screen.x;
+            _arcFg[i]?.Warp(Mul(Similarity(Vector2.zero, new Vector2(slide * u, 0), 1), ha), (1 - w) * wallAlpha);
+            _arcFg[i + 1]?.Warp(Mul(Similarity(Vector2.zero, new Vector2(slide * (u - 1), 0), 1), hb), w * wallAlpha);
+            // the painting: in the canvas (perspective) during the arc, then the board's framing; its crop eases from
+            // the menu's to the square-on canvas's, then to the whole picture; a hair larger than the cut-out (no seam)
+            var crop0 = new Rect(Vector2.Lerp(_s.Crop.position, _cropA3.position, p), Vector2.Lerp(_s.Crop.size, _cropA3.size, p));
+            var zq = new Vector2[4];
+            for (int c = 0; c < 4; c++) zq[c] = Apply(zoom, qm[c]);
+            PaintInto(zq, e, crop0, 1.015f, null, null);
+            _backdrop.Alpha(1);
         }
 
         void Raise()
@@ -148,32 +305,7 @@ namespace ReverseSolver.Presentation
             _raised = true;
             int d = _s.TopOrder - _s.Order;
             if (d == 0 || _overlay == null) return;
-            foreach (var r in _overlay.GetComponentsInChildren<Renderer>()) r.sortingOrder += d;
-        }
-
-        void FacePhase(float e)
-        {
-            _s.FadeUi?.Invoke(1 - Mathf.Clamp01(_clock / .22f));
-            var q = _s.Quad; var r = Corners(_r);
-            var to = new Vector2[4];
-            for (int i = 0; i < 4; i++) to[i] = Vector2.Lerp(q[i], r[i], e);
-            var h = Homography(q, to);
-            foreach (var w in _walls) w.Warp(h, 1);
-            _paint.Positions((u, v) => Apply(h, CorridorTransition.Project(q, u, v)), _s.Crop, 1);
-        }
-
-        void NearPhase(float t)
-        {
-            _s.FadeUi?.Invoke(0);
-            float e = BoosterFx74.InOutCubic(Mathf.Clamp01(t));
-            var rect = LogLerp(_r, _c, e);
-            float s = rect.height / _r.height;
-            var wall = Mul(Similarity(_r.center, rect.center, s), _faceH);
-            float wallAlpha = 1 - Mathf.Clamp01((e - .7f) / .3f);
-            foreach (var w in _walls) w.Warp(wall, wallAlpha);
-            var crop = new Rect(Vector2.Lerp(_s.Crop.position, Vector2.zero, e), Vector2.Lerp(_s.Crop.size, Vector2.one, e));
-            _paint.Positions((u, v) => new Vector2(rect.x + u * rect.width, rect.y + v * rect.height), crop, 1);
-            _backdrop.Alpha(1);
+            foreach (var r in _overlay.GetComponentsInChildren<Renderer>(true)) r.sortingOrder += d;   // the views not shown yet too
         }
 
         static Rect LogLerp(Rect a, Rect b, float e)
@@ -205,6 +337,9 @@ namespace ReverseSolver.Presentation
             _overlay = null;
             foreach (var w in _walls) w.Dispose();
             _walls.Clear();
+            foreach (var w in _arcBg) w.Dispose();
+            foreach (var w in _arcFg) w?.Dispose();
+            _arcBg.Clear(); _arcFg.Clear();
             _paint?.Dispose(); _paint = null;
         }
 
@@ -218,6 +353,12 @@ namespace ReverseSolver.Presentation
                 float fromSize = Dive74.CoverSize(rect.size, _s.Screen);
                 _s.Cam.orthographicSize = Mathf.Exp(Mathf.Lerp(Mathf.Log(fromSize), Mathf.Log(_homeSize), e));
                 _s.Cam.transform.position = Vector3.Lerp(from, _homePos, e);
+                // PM_76: the board settles with a small spring (it dips 2.5 % below its size and comes back); only the
+                // board moves, so no screen edge is ever uncovered
+                float k = Mathf.Clamp01((t - .7f) / .3f);
+                float scale = 1 - .025f * Mathf.Sin(k * Mathf.PI);
+                _board.transform.localScale = new Vector3(scale, scale, 1);
+                _board.transform.localPosition = Draw.W(_board.Origin + _board.Size / 2 * (1 - scale));
             }
             _reveal?.Show(t);
             _s.Slide?.Invoke(Mathf.Clamp01((t - .55f) / .45f) * .6f);
@@ -231,6 +372,7 @@ namespace ReverseSolver.Presentation
             if (!_revealed) StartReveal();
             _finished = true;
             if (_s.Cam != null) { _s.Cam.transform.position = _homePos; _s.Cam.orthographicSize = _homeSize; }
+            if (_board != null) { _board.transform.localScale = Vector3.one; _board.transform.localPosition = Draw.W(_board.Origin); }
             _reveal?.Dispose(); _reveal = null;
             _s.FadeUi?.Invoke(0);
             _s.Slide?.Invoke(1);
@@ -243,6 +385,8 @@ namespace ReverseSolver.Presentation
         {
             if (_overlay != null) Destroy(_overlay.gameObject);
             foreach (var w in _walls) w.Dispose();
+            foreach (var w in _arcBg) w.Dispose();
+            foreach (var w in _arcFg) w?.Dispose();
             _paint?.Dispose();
             _reveal?.Dispose();
         }
@@ -332,6 +476,25 @@ namespace ReverseSolver.Presentation
                 l.Make(parent, "wall", new Material(sr.sharedMaterial) { mainTexture = tex }, src.ToArray(), uv.ToArray(), tris, order);
                 return l;
             }
+
+            /* A texture's pixel rect `px` (working pixels, y down) laid out by `toLayout`, as an nx x ny grid. */
+            public static Layer FromTexture(Transform parent, Texture tex, Material baseMat, Rect px, Func<Vector2, Vector2> toLayout, int nx, int ny, int order)
+            {
+                var l = new Layer { _n = nx };
+                var src = new List<Vector2>(); var uv = new List<Vector2>(); var tris = new List<int>();
+                for (int j = 0; j <= ny; j++)
+                    for (int i = 0; i <= nx; i++)
+                    {
+                        float u = (float)i / nx, v = (float)j / ny;
+                        src.Add(toLayout(new Vector2(px.x + u * px.width, px.y + v * px.height)));
+                        uv.Add(new Vector2(u, 1 - v));
+                        if (i < nx && j < ny) { int s = j * (nx + 1) + i; tris.AddRange(new[] { s, s + 1, s + nx + 2, s, s + nx + 2, s + nx + 1 }); }
+                    }
+                l.Make(parent, "view", new Material(baseMat) { mainTexture = tex != null ? tex : Texture2D.whiteTexture }, src.ToArray(), uv.ToArray(), tris, order);
+                return l;
+            }
+
+            public void SetActive(bool on) { if (_r != null && _r.gameObject.activeSelf != on) _r.gameObject.SetActive(on); }
 
             public static Layer Grid(Transform parent, Texture tex, Material baseMat, int n, int order)
             {

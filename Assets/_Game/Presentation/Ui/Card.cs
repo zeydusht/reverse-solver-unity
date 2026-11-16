@@ -344,8 +344,10 @@ namespace ReverseSolver.Presentation
             }
             Height = h;
             Top = top;
+            PanelMotion76.Open(Root, new Vector2(_screen.x / 2, top + h / 2));   // PM_76: a soft open
             return this;
         }
+
 
         public float Height { get; private set; }
         public float Top { get; private set; }
@@ -357,6 +359,7 @@ namespace ReverseSolver.Presentation
             return null;
         }
 
-        public void Destroy() { if (Root != null) Object.Destroy(Root.gameObject); }
+        /* PM_76: closes with a short fade and shrink; the game no longer holds the card, its presses are gone. */
+        public void Destroy() { if (Root != null && !PanelMotion76.Close(Root)) Object.Destroy(Root.gameObject); }
     }
 }

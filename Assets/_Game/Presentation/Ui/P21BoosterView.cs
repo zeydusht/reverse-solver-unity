@@ -100,7 +100,41 @@ namespace ReverseSolver.Presentation
             return new Rect(_board.Origin + new Vector2(r.X, r.Y) * _board.Cell, new Vector2(r.Width, r.Height) * _board.Cell);
         }
 
+        /* PM_76: the selection fades in (.3 s, ease out) with its title dropping into place with a small spring, and
+           fades out in .24 s (ease in-out); a change of region inside it is instant. */
+        public const float SelectionInSeconds = .3f, SelectionOutSeconds = .24f;
         public void Selection(Booster? selected, int zone, bool[] valid)
+        {
+            bool entering = _selection == null;
+            SelectionBuild(selected, zone, valid);
+            if (entering && _selection != null) SelectionEnter(_selection);
+        }
+
+        void SelectionEnter(Transform sel)
+        {
+            var shapes = sel.GetComponentsInChildren<ShapeView>(); var sprites = sel.GetComponentsInChildren<SpriteRenderer>();
+            var labels = sel.GetComponentsInChildren<TextView>();
+            var alphas = new float[sprites.Length];
+            for (int i = 0; i < sprites.Length; i++) alphas[i] = sprites[i].color.a;
+            var drop = new System.Collections.Generic.List<(Transform t, Vector3 home)>();
+            foreach (Transform child in sel)
+                if (child.name == "title badge" || child.name == "title" || child.name == "instruction" || child.name == "icon")
+                    drop.Add((child, child.localPosition));
+            float lift = 14 * Hud54.Scale(_screen.x);
+            void Pose(float t)
+            {
+                float a = BoosterFx74.OutCubic(t);
+                foreach (var shape in shapes) if (shape != null) shape.Alpha(a);
+                for (int i = 0; i < sprites.Length; i++) if (sprites[i] != null) { var c = sprites[i].color; c.a = alphas[i] * a; sprites[i].color = c; }
+                foreach (var label in labels) if (label != null) label.Alpha = a;
+                float y = 1 - PanelMotion76.OutBack(t, 1.25f);
+                foreach (var (t2, home) in drop) if (t2 != null) t2.localPosition = home + new Vector3(0, lift * y, 0);
+            }
+            Pose(0);
+            Tweens.Run(sel, SelectionInSeconds, Pose, () => Pose(1));
+        }
+
+        void SelectionBuild(Booster? selected, int zone, bool[] valid)
         {
             if (_selected == selected && _zone == zone && _language == Lang.Revision) return;
             _selected = selected; _zone = zone; _language = Lang.Revision;
@@ -112,11 +146,13 @@ namespace ReverseSolver.Presentation
                 {
                     var shapes = old.GetComponentsInChildren<ShapeView>(); var sprites = old.GetComponentsInChildren<SpriteRenderer>();
                     var labels = old.GetComponentsInChildren<TextView>();
-                    Tweens.Run(old, .1f, t =>
+                    Tweens.Kill(old);
+                    Tweens.Run(old, SelectionOutSeconds, t =>
                     {
-                        foreach (var shape in shapes) if (shape != null) shape.Alpha(1 - t);
-                        foreach (var sprite in sprites) if (sprite != null) sprite.color = new Color(1, 1, 1, 1 - t);
-                        foreach (var label in labels) if (label != null) label.Alpha = 1 - t;
+                        float a = 1 - t * t * (3 - 2 * t);
+                        foreach (var shape in shapes) if (shape != null) shape.Alpha(a);
+                        foreach (var sprite in sprites) if (sprite != null) { var c = sprite.color; c.a = Mathf.Min(c.a, a); sprite.color = c; }
+                        foreach (var label in labels) if (label != null) label.Alpha = a;
                     }, () => { if (old != null) Object.Destroy(old.gameObject); });
                 }
                 _selection = null;

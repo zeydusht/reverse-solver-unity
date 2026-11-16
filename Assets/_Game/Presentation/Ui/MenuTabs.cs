@@ -167,8 +167,10 @@ namespace ReverseSolver.Presentation
         int _selected;
         bool _t48;
 
+        public readonly Transform Root;   // PM_76: one group, so the bar can rise in (MenuEnter76)
         public MenuTabs(Transform root, Vector2 screen, Vector4 safe, MenuTab selected, int order, int TrophyBadge = 0)
         {
+            Root = new GameObject("tabs").transform; Root.SetParent(root, false); root = Root;
             _width = screen.x; _bottom = screen.y; _selected = (int)selected;
             Top = screen.y - Mathf.Max(34, safe.w) - 52;
             // The importer pads 1125x258 to 1128x260; push that transparent right/bottom padding offscreen.
