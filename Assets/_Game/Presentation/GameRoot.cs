@@ -167,6 +167,7 @@ namespace ReverseSolver.Presentation
             P21BoosterView.Fx74 = Host.Current.Query("fx") != "eski";   // PM_74 booster moments; &fx=eski: the old ones
             P21BoosterView.OldSelection = Host.Current.Query("secim") == "eski";
             Dive74.On = Dive75.On = Host.Current.Query("gecis") != "yok";
+            Dive75.Orbit = Host.Current.Query("gecis") == "yay";   // PM_77: the 3D orbit from the menu, for Zeyd's approval
             Dive75.Gap = Host.Current.Query("dalisbosluk") == "1";   // PM_76: magenta backdrop for the edge-gap count
             // PM_75: the menu top's three options (Codex); B by default, &ust=a / &ust=c show the other two
             var top = (Host.Current.Query("ust") ?? "").ToUpperInvariant();
@@ -511,10 +512,10 @@ namespace ReverseSolver.Presentation
         }
 
         /* PM_76: the next menu build arrives (MenuEnter76); from a paused level the pause's navy fades away over it. */
-        bool _menuEnter = true, _menuEnterVeil;
+        bool _menuEnter = true, _menuEnterVeil, _menuEnterQuiet;
         void ShowMenu()
         {
-            _menuEnter = true;
+            _menuEnter = !_menuEnterQuiet; _menuEnterQuiet = false;   // PM_77: after the old corridor, the menu as it was
             _menuEnterVeil = _cardKind == "pause" || _corridor == null && _mode == Mode.Playing && _session != null && !_session.IsOver;
             CommitPendingHard();
             _rated = null;
@@ -1244,6 +1245,8 @@ namespace ReverseSolver.Presentation
                     var pic = _images.Get(ImageOf(_progress.Next()), t => { if (_menu == menu) menu.SetPainting(t); });
                     if (pic != null) _menu.SetPainting(pic);
                 }
+                // PM_77 &gecis=yay: the menu's room is the diorama's start view (loaded now if the warm-up has not yet)
+                if (Dive75.Orbit && _newArt && _menu != null) _menu.UseDiorama(ArcAssets76.LoadDioramaNow(), _screen);
                 MenuArt.Busy = () => this != null && _mode == Mode.Playing;
                 MenuArt.Instance.Preload();
                 WarmLevelOnce();

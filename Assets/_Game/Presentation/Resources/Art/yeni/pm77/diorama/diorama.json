@@ -1,0 +1,23 @@
+{
+ "wall_size": [
+  3908,
+  1364
+ ],
+ "floor_size": [
+  4096,
+  1024
+ ],
+ "column_size": [
+  408,
+  2048
+ ],
+ "canvas": [
+  1820.89,
+  830.34,
+  2087.11,
+  1171.34
+ ],
+ "px_per_unit": 341.31,
+ "floor_px_per_unit": 341.3333,
+ "column_px_per_unit": 340.0
+}

@@ -195,6 +195,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_74 p23'te (gece cilası): booster dersi donması (test linki), tek dokunuşla iptal, tahta payı, Jigo kemerde + seyrek göz kırpma, Parça kutusu sayı, tek Oyna düğmesi, 4 booster × 3 fikir (Codex), resme dalış geçişi, kayıp/devam/isim ekranları yeni dilde, kurdelesiz HUD başlığı — 16 Kasım. Açık: Zeyd booster fikirlerini, HUD başlığını ve saat kuralını seçecek; iPhone hissi
 - ✅ PM_75 p23'te: değnek soluk + açıklama (hedefli arama), takılmada temasa kadar kayış (+ "tok", %6 sıkışma), koridor + yavaş açılı dalış (çizgi çizimi), yavaş makas/çekiç/değnek (yuvaya dönüş), süre çubuğu, menü üstü (Codex B; A/C `&ust=`), "Bölüm N" düğme ailesi — 16 Kasım. Açık: değnek kuralı kararı (PM/Zeyd); iPhone hissi.
 - ✅ PM_76 p23'te: yay çizen kamera (Codex 4 açı, katmanlı, kenar boşluğu 0), koridor 1 sn + parallax + iz, paneller/seçim/menü giriş-çıkış animasyonu, ön yükleme (açılış 217→17 ms), değnek düzleştirme (`&degnek=eski` eski hâl) — 16 Kasım. Açık: panelleri önceden kurmak (tek 33 ms kare), iPhone hissi.
+- ✅ PM_77 p23'te: eski koridor (3 sn) + doğrudan dalış, dalış adım adım (3,4 sn, nefesli; dokunuş 2×), tek karelik dalış sıçraması düzeldi, 3D diorama yayı `&gecis=yay` ile (kenar boşluğu 0) — 17 Kasım. Açık: yay için Zeyd onayı (ret → Codex ara açıları), iPhone hissi.
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular

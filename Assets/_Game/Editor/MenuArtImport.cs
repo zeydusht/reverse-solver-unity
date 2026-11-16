@@ -43,19 +43,20 @@ namespace ReverseSolver.EditorTools
             }
             // PM_76: the dive's drawn views and the corridor's layers: at their own size (multiples of 4, under 2048),
             // crunched (a 1024 cap rescaled them to odd sizes and they shipped uncompressed: +7.5 MB)
-            if (assetPath.Contains("Presentation/Resources/Art/yeni/pm76/"))
+            if (assetPath.Contains("Presentation/Resources/Art/yeni/pm76/") || assetPath.Contains("Presentation/Resources/Art/yeni/pm77/"))
             {
                 var v = (TextureImporter)assetImporter;
                 v.textureType = TextureImporterType.Sprite; v.spriteImportMode = SpriteImportMode.Single;
                 v.spritePixelsPerUnit = 1; v.alphaIsTransparency = true; v.mipmapEnabled = false;
                 v.npotScale = TextureImporterNPOTScale.None;
                 v.wrapMode = UnityEngine.TextureWrapMode.Clamp; v.filterMode = UnityEngine.FilterMode.Bilinear;
-                v.maxTextureSize = 2048;
+                int cap = assetPath.Contains("/pm77/") ? 4096 : 2048;   // PM_77: the diorama's wall is 4096 px wide
+                v.maxTextureSize = cap;
                 v.textureCompression = TextureImporterCompression.Compressed; v.crunchedCompression = true; v.compressionQuality = 50;
-                bool opaque = assetPath.EndsWith("/koridor/wall.png");
+                bool opaque = assetPath.EndsWith("/koridor/wall.png") || assetPath.EndsWith("/diorama/zemin.png");
                 v.SetPlatformTextureSettings(new TextureImporterPlatformSettings
                 {
-                    name = "WebGL", overridden = true, maxTextureSize = 2048,
+                    name = "WebGL", overridden = true, maxTextureSize = cap,
                     format = opaque ? TextureImporterFormat.DXT1Crunched : TextureImporterFormat.DXT5Crunched,
                     textureCompression = TextureImporterCompression.Compressed, crunchedCompression = true, compressionQuality = 50
                 });

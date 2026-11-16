@@ -28,11 +28,15 @@ namespace ReverseSolver.Presentation
                 // the copies take the wall's own place (the menu's controls above them fade), then rise over everything
                 BoardAspect = (float)level.Width / level.Height, Order = bg.sortingOrder - 2, TopOrder = DiveOrder,
                 Backdrop = Draw.Hex("#0B2A3A"), FadeUi = fade,
-                Hide = () => { if (bg != null) bg.enabled = false; if (_menu?.PaintingSprite != null) _menu.PaintingSprite.enabled = false; },
+                Hide = () => { if (bg != null) bg.enabled = false; if (_menu?.PaintingSprite != null) _menu.PaintingSprite.enabled = false; _menu?.HideRoom(); },
             };
-            // PM_76: the camera arc through the drawn views (when they are loaded); else the facing homography
-            setup.Arc = ArcAssets76.Views; setup.ArcSize = ArcAssets76.Size;
-            if (setup.Arc == null) setup.Walls.Add(bg);
+            // PM_77: &gecis=yay: the camera orbits the painting in the 3D diorama first (waiting for Zeyd's approval);
+            // otherwise the slow approach straight from the menu's view
+            setup.Diorama = Dive75.Orbit ? ArcAssets76.Diorama : null;
+            setup.Seamless = setup.Diorama != null && _menu.ShowsDiorama;
+            if (setup.Diorama == null) setup.Walls.Add(bg);
+            else if (setup.Seamless) setup.Order = bg.sortingOrder - 4;   // the room's own place, under the menu's controls
+            else setup.Order = bg.sortingOrder + 1;   // over the menu's wall, under its controls: it fades in over the room
             return StartDive75(setup, index);
         }
 
@@ -58,9 +62,8 @@ namespace ReverseSolver.Presentation
                     Backdrop = new Color(.09f, .07f, .06f, 1),
                 };
                 setup.Walls.Add(c.Strip);
-                foreach (var column in c.NearColumns) setup.Walls.Add(column);   // PM_76: the near columns ride along
-                // PM_76: the slide is still moving at the handover (80 %): the turn starts at speed, the approach soon after
-                setup.FaceSeconds = .4f; setup.NearAt = .12f; setup.FaceFromMotion = true;
+                // PM_77: the old slide (PM_MESAJ_24, 3 s) ends with the next painting nearly square on: no arc, the
+                // approach starts from there (its last slight perspective eases out on the way in)
                 if (tex == null || quad == null || !StartDive75(setup, next)) { StartLevel(next); return; }
                 c.DestroyNow();
             }, handoff: Dive75.On);
@@ -76,7 +79,8 @@ namespace ReverseSolver.Presentation
             int next = _index + 1;
             CorridorTransition c = null;
             var nextPic = _images.Get(ImageOf(next), t => { if (c != null) c.SetNext(t); });
-            c = CorridorTransition.Play(_screen, CorridorOrder, _board.Image as Texture2D, nextPic, () => { _corridor = null; ShowMenu(); });
+            // PM_77: the old corridor, then the menu as it was (no entrance animation over the corridor's fade)
+            c = CorridorTransition.Play(_screen, CorridorOrder, _board.Image as Texture2D, nextPic, () => { _corridor = null; _menuEnterQuiet = true; ShowMenu(); });
             if (c == null) return false;
             _corridor = c;
             return true;

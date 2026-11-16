@@ -157,6 +157,56 @@ namespace ReverseSolver.Presentation
                 return quad;
             }
 
+            /* PM_77 &gecis=yay: the room behind the menu is the diorama's start view (Diorama77), so the arc starts
+               from exactly what the menu shows; the drawn background and its painting stay, hidden. */
+            Transform _room;
+            Diorama77.Art _roomArt;
+            Vector2 _roomScreen;
+            public bool ShowsDiorama => _room != null;
+            static readonly List<Dive75.Layer> RoomLayers = new List<Dive75.Layer>();   // one menu at a time: its meshes and materials
+
+            public void UseDiorama(Diorama77.Art art, Vector2 screen)
+            {
+                if (art == null || _bg == null) return;
+                _roomArt = art; _roomScreen = screen;
+                BuildRoom();
+            }
+
+            void BuildRoom()
+            {
+                if (_roomArt == null || _bg == null) return;
+                if (_room != null) Object.Destroy(_room.gameObject);
+                foreach (var l in RoomLayers) l.Dispose();
+                RoomLayers.Clear();
+                _room = new GameObject("background").transform;   // MenuEnter76 leaves the background in place
+                _room.SetParent(Root, false);
+                var group = _room.gameObject.AddComponent<UnityEngine.Rendering.SortingGroup>();
+                group.sortingOrder = _bg.sortingOrder;
+                var dio = new Diorama77(_roomArt, _roomScreen, PaintingQuad());
+                var mat = _bg.sharedMaterial;
+                if (PaintingTexture != null)
+                {
+                    var paint = Dive75.Layer.Grid(_room, PaintingTexture, mat, 12, 0);
+                    var pq = dio.PictureAt(0);
+                    paint.Positions((x, y) => CorridorTransition.Project(pq, x, y), PaintingCrop, 1);
+                    RoomLayers.Add(paint);
+                }
+                var layers = new List<Dive75.Layer>();
+                dio.Build(_room, mat, 1, layers);
+                dio.Pose(0, new double[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 }, layers, 1);
+                RoomLayers.AddRange(layers);
+                _bg.enabled = false;
+                if (_painting != null) _painting.enabled = false;
+            }
+
+            /* The dive took the room over: the menu's own copy goes. */
+            public void HideRoom()
+            {
+                if (_bg != null) _bg.enabled = false;
+                if (_painting != null) _painting.enabled = false;
+                if (_room != null) _room.gameObject.SetActive(false);
+            }
+
             public void SetPainting(Texture2D tex)
             {
                 if (_bg == null || tex == null) return;
@@ -177,6 +227,7 @@ namespace ReverseSolver.Presentation
                 _painting.sortingOrder = _bg.sortingOrder + 1;
                 var size = _bg.sprite.rect.size;
                 _painting.transform.localPosition = new Vector3((x0 + x1) / 2 - size.x / 2, size.y / 2 - (y0 + y1) / 2) / _bg.sprite.pixelsPerUnit;
+                if (_room != null) BuildRoom();
             }
 
             /* PM_76: the name typed at the gate goes onto the plate without rebuilding the menu (a 200 ms frame). */

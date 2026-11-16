@@ -9,22 +9,15 @@ namespace ReverseSolver.Presentation
        (Resources/corridor_strip, Tools/make_corridor_strip.py) slides instead of a video playing; the paintings
        are meshes on the strip's apertures (homography, 1.2 % larger so the frame covers their edge).
        A tap skips; `done` runs once, when the slide ends or is skipped, and the overlay then fades away. */
-    /* PM_76 (Zeyd: "robotic"): the slide takes 1 s (screen transitions .6–1 s) in the same smootherstep; the near
-       columns, banners and vases are their own layer (Codex: koridor/fg over koridor/wall), tiled one per bay and
-       moving twice as fast as the wall (parallax), aligned again at both ends; while it moves fast a faint trail
-       follows the strip. Into the next level the dive takes over at 80 % of the slide, while it is still moving. */
     public sealed class CorridorTransition : MonoBehaviour
     {
-        public const float FadeIn = .2f, Hold = .05f, Slide = 1f, FadeOut = .3f, SkipAfter = .3f, HandoffAt = .8f;
+        public const float FadeIn = .25f, Hold = .35f, Slide = 3f, FadeOut = .3f, SkipAfter = .3f;
         const float ViewW = 780, ViewH = 1688, Period = 862.25f, Grow = 1.012f, Late = .25f, MaxCrop = 1.3f;
         // bay 1's inner corners at the first frame (strip px, y down): top-left, top-right, bottom-right, bottom-left
         static readonly Vector2[] Bay = { new Vector2(208.3f, 291.2f), new Vector2(585.6f, 332.9f), new Vector2(576.9f, 882.2f), new Vector2(196.2f, 865.7f) };
 
-        Transform _slide, _fg;
+        Transform _slide;
         SpriteRenderer _strip;
-        readonly List<SpriteRenderer> _fgTiles = new List<SpriteRenderer>();
-        SpriteRenderer _trailA, _trailB;
-        float _lastOffset;
         ShapeView _backdrop;
         Material _baseMat;
         readonly List<(Mesh mesh, Material mat, float bornAt)> _paintings = new List<(Mesh, Material, float)>();
@@ -59,46 +52,12 @@ namespace ReverseSolver.Presentation
             c._strip.sortingOrder = order;
             c._strip.transform.localPosition = Draw.W(sprite.rect.width / 2, sprite.rect.height / 2);
             c._baseMat = c._strip.sharedMaterial;
-            c.Layers76(sprite, order, k);
             c.AddPainting(won, 0, false);
             c.SetNext(next);
             c._screen = screen; c._k = k;
             c.Update();
             return c;
         }
-
-        /* PM_76: the wall without its near columns, the columns as a tiled layer above the paintings, the trail. */
-        void Layers76(Sprite strip, int order, float k)
-        {
-            var wall = ArcAssets76.CorridorWall; var fg = ArcAssets76.CorridorFg;
-            if (wall == null || fg == null || wall.width != (int)strip.rect.width || wall.height != (int)strip.rect.height || fg.height != wall.height) return;
-            float ppu = strip.pixelsPerUnit;
-            _strip.sprite = Sprite.Create(wall, new Rect(0, 0, wall.width, wall.height), new Vector2(.5f, .5f), ppu);
-            // the trail: two faint copies of the strip behind it, only while it moves fast
-            SpriteRenderer Copy(string name, int o)
-            {
-                var r = new GameObject(name).AddComponent<SpriteRenderer>();
-                r.transform.SetParent(_slide, false); r.sprite = _strip.sprite; r.sortingOrder = o; r.color = new Color(1, 1, 1, 0);
-                r.transform.localPosition = _strip.transform.localPosition;
-                return r;
-            }
-            _trailA = Copy("trail a", order + 1); _trailB = Copy("trail b", order + 1);
-            // the columns: the middle one (strip x 690..950, Tools/import_pm76_angles.py) once per bay
-            _fg = new GameObject("near columns").transform;
-            _fg.SetParent(transform, false);
-            _fg.localScale = new Vector3(k, k, 1);
-            var column = Sprite.Create(fg, new Rect(0, 0, fg.width, fg.height), new Vector2(.5f, .5f), ppu);
-            for (int i = -1; i <= 4; i++)
-            {
-                var r = new GameObject("column " + i).AddComponent<SpriteRenderer>();
-                r.transform.SetParent(_fg, false); r.sprite = column; r.sortingOrder = order + 3;
-                r.transform.localPosition = Draw.W(820 + i * Period, fg.height / 2f);
-                _fgTiles.Add(r);
-            }
-        }
-
-        /* PM_76: the near columns, so the dive can carry them on (they may be on screen when it takes over). */
-        public IReadOnlyList<SpriteRenderer> NearColumns => _fgTiles;
 
         Vector2 _screen;
         float _k;
@@ -144,22 +103,8 @@ namespace ReverseSolver.Presentation
         public void DestroyNow() { if (this != null) Destroy(gameObject); }
 
         /* The view's left edge at strip x = offset, centred on the screen. */
-        void Place(Vector2 screen, float k, float offset)
-        {
+        void Place(Vector2 screen, float k, float offset) =>
             _slide.localPosition = Draw.W(screen.x / 2 - (offset + ViewW / 2) * k, screen.y / 2 - ViewH / 2 * k);
-            // PM_76: the near columns move twice as far (back in line at both ends: one column per bay)
-            if (_fg != null) _fg.localPosition = Draw.W(screen.x / 2 - (2 * offset + ViewW / 2) * k, screen.y / 2 - ViewH / 2 * k);
-            float speed = Mathf.Abs(offset - _lastOffset) / Mathf.Max(1e-4f, Time.unscaledDeltaTime);   // strip px / s
-            _lastOffset = offset;
-            if (_trailA != null)
-            {
-                float blur = Mathf.Clamp01((speed - 600) / 1200);
-                float back = Mathf.Sign(offset) * Mathf.Min(28, speed * .012f);
-                _trailA.color = new Color(1, 1, 1, .22f * blur); _trailB.color = new Color(1, 1, 1, .12f * blur);
-                _trailA.transform.localPosition = _strip.transform.localPosition + new Vector3(back, 0, 0);
-                _trailB.transform.localPosition = _strip.transform.localPosition + new Vector3(back * 2, 0, 0);
-            }
-        }
 
         public void SetNext(Texture2D next)
         {
@@ -169,13 +114,12 @@ namespace ReverseSolver.Presentation
         }
 
         /* Skip: the next screen comes now; only a new touch, not the one that pressed Next or Menu (PM_MESAJ_24B). */
-        public void Skip() { if (!Finished && Time.unscaledTime - _start >= SkipAfter) End(true); }
+        public void Skip() { if (!Finished && Time.unscaledTime - _start >= SkipAfter) End(); }
 
-        void End(bool skipped = false)
+        void End()
         {
             // PM_75: a skipped slide jumps to its end, so the dive starts from the next painting
-            if (_handoff && skipped) Place(_screen, _k, Period);
-            if (_trailA != null) { _trailA.color = Color.clear; _trailB.color = Color.clear; }
+            if (_handoff) Place(_screen, _k, Period);
             _endAt = Time.unscaledTime;
             var d = _done; _done = null;
             d?.Invoke();
@@ -243,7 +187,6 @@ namespace ReverseSolver.Presentation
             if (Finished && alpha <= 0) { Destroy(gameObject); return; }
             if (!Finished) Place(_screen, _k, Period * Ease((t - FadeIn - Hold) / Slide));
             _strip.color = new Color(1, 1, 1, alpha);
-            foreach (var tile in _fgTiles) if (tile != null) tile.color = new Color(1, 1, 1, alpha);
             _backdrop.Alpha(alpha);
             foreach (var (mesh, _, bornAt) in _paintings)
             {
@@ -252,7 +195,7 @@ namespace ReverseSolver.Presentation
                 for (int i = 0; i < cols.Length; i++) cols[i] = new Color(1, 1, 1, a);
                 mesh.colors = cols;
             }
-            if (!Finished && t >= FadeIn + Hold + Slide * (_handoff ? HandoffAt : 1)) End();
+            if (!Finished && t >= FadeIn + Hold + Slide) End();
         }
 
         void OnDestroy()

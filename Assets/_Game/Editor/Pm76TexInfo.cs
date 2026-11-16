@@ -10,7 +10,7 @@ namespace ReverseSolver.EditorTools
          bash Tools/unity_batch.sh method ReverseSolver.EditorTools.Pm76TexInfo.Run */
     public static class Pm76TexInfo
     {
-        const string Folder = "Assets/_Game/Presentation/Resources/Art/yeni/pm76";
+        const string Folder = "Assets/_Game/Presentation/Resources/Art/yeni/pm77";
 
         public static void Fix()
         {
