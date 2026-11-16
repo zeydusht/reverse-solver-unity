@@ -899,5 +899,6 @@ Yeni önizleme `p23/` (p22 yedek). Ayrıntı ve önce/sonra görüntüler: `docs
 - Çekiç kırılmasında `pm72-defuse` sesi.
 - Durdur kartının arkasında mavi ışık (örtü bir sıra alta indi).
 - Booster seçim ikonu başlık rozetinin solunda (`&secim=eski` eski düzen).
+- Hikâye → 1. bölüm: `DiveOutOfStory`, geri çekilme video solduktan sonra (0,32 sn). `Dive74` zamanlayıcısı ilk karede başlıyor (uzun ilk kare hareketi atlatmasın).
 
 **Doğrulanmadı:** iPhone'da his, FPS ve titreşim.

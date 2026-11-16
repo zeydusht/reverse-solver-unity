@@ -268,7 +268,8 @@ namespace ReverseSolver.Presentation
             };
             if (opening)
             {
-                System.Action play = () => PlayStory("AB", false, () => { MarkIntro("rs_intro_shown"); StartLevel(0); });
+                // PM_74: the story ends on a framed painting; level 1 comes out of it (DiveOut)
+                System.Action play = () => PlayStory("AB", false, () => { MarkIntro("rs_intro_shown"); StartLevel(0); DiveOutOfStory(); });
                 if (askName) { ShowMenu(); host.AskName(name => { nameGiven(LaunchPlan.NormalizePlayerName(name)); play(); }); }
                 else play();
             }

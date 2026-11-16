@@ -87,6 +87,7 @@ GIF'ler `booster/` klasöründe:
   - Kamera tahtanın resminden 0,38 sn'de geri çekilir (ease-out). Parçalar dağıtılmadan yerinde durur, resim yapboza dönüşür gibi görünür.
   - HUD ve booster çubuğu en son kayarak gelir. Toplam ≈ 0,95 sn.
 - **Kazanma → Sonraki bölüm:** kazanma ekranının mavi ışığı yerinde kalır. Biten resim çerçevesiyle küçülüp sola "asılır", yeni tablo sağdan gelir (0,26 sn), içine dalınır (0,26 sn), bölüm aynı biçimde açılır. Toplam ≈ 1 sn.
+- **Hikâye → 1. bölüm:** açılış hikâyesi "Uyandır!" ile tabloya yaklaşarak biter. Video solarken yakın tahta görünür, kamera geri çekilir, HUD kayar ([gecis/hikaye_bolum1.gif](gecis/hikaye_bolum1.gif)).
 - **Kapatma:** `&gecis=yok`. Dalış sırasında dokunuşlar yok sayılır.
 - **İlk açılış donması giderildi:**
   - Ölçüm (`&perf=1`): oturumdaki ilk bölüm açılışında ~0,3 sn'lik tek bir uzun kare vardı. Kurulum ~0,2 sn; ardından ilk çizimde gölgelendirici ve doku hazırlığı. Resim çözme yalnız 30–50 ms.

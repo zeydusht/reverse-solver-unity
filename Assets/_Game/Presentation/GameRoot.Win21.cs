@@ -151,8 +151,16 @@ namespace ReverseSolver.Presentation
             return true;
         }
 
+        /* After the opening story: level 1 comes out of the painting the story ends on. */
+        void DiveOutOfStory()
+        {
+            if (!Dive74.On || !_p21Lessons || _board == null || _mode != Mode.Playing) return;
+            _diving = true;
+            DiveOut(.32f);   // the story's video fades out over the zoomed board first
+        }
+
         /* After StartLevel: the camera starts on the board's picture, pulls back; the HUD and the bar slide in. */
-        void DiveOut()
+        void DiveOut(float delay = 0)
         {
             if (_board == null || _hud == null || _bar == null) { _diving = false; return; }
             _board.SkipDeal();
@@ -171,6 +179,18 @@ namespace ReverseSolver.Presentation
                 if (bar != null) bar.localPosition = Draw.W(0, bottom * (1 - k));
             }
             Slide(0);
+            if (delay > 0)
+            {
+                var camAt = _cam.transform.position; float sizeAt = _cam.orthographicSize;
+                Tweens.Run(new object(), delay, _ => { if (_cam != null) { _cam.transform.position = camAt; _cam.orthographicSize = sizeAt; } },
+                    () => DiveOut2(home, homeSize, card, Slide));
+                return;
+            }
+            DiveOut2(home, homeSize, card, Slide);
+        }
+
+        void DiveOut2(Vector3 home, float homeSize, Transform card, System.Action<float> Slide)
+        {
             Dive74.Run(_cam, home, homeSize, Dive74.Out, false, () =>
             {
                 Tweens.Run(new object(), Dive74.HudSlide * .4f, t => Slide(Mathf.Lerp(.6f, 1, BoosterFx74.OutCubic(t))), () =>

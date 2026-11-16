@@ -27,13 +27,14 @@ namespace ReverseSolver.Presentation
             var d = new GameObject("PM74 dive").AddComponent<Dive74>();
             d._cam = cam; d._fromPos = cam.transform.position; d._fromSize = cam.orthographicSize;
             d._toPos = pos; d._toSize = size; d._seconds = seconds; d._easeIn = easeIn; d._done = done; d._step = step;
-            d._start = Time.unscaledTime;
+            d._start = -1;   // set on the first frame: a long first frame (a level just built) must not skip the move
             return d;
         }
 
         void Update()
         {
             if (_cam == null) { Destroy(gameObject); return; }
+            if (_start < 0) _start = Time.unscaledTime;
             float t = Mathf.Clamp01((Time.unscaledTime - _start) / _seconds);
             float e = _easeIn ? BoosterFx74.InCubic(t) : BoosterFx74.OutCubic(t);
             // zoom in log space, so the speed feels even across the scale change
