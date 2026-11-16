@@ -31,10 +31,9 @@ def main():
     cfg = json.load(open(os.path.join(src, "aci.json"), encoding="utf-8"))
     out = os.path.join(DST, "aci")
     os.makedirs(out, exist_ok=True)
-    # 75 % of the working size (they are seen for under a second, moving): 884x1328, both multiples of 4 (ASTC
-    # blocks); the corners and boxes scale with them
-    S = .75
-    W, H = 884, 1328
+    # the working size, both sides multiples of 4 (block compression; Assets/_Game/Editor/MenuArtImport.cs crunches
+    # them): 1180x1768; the corners and boxes scale with them
+    W, H = 1180, 1768
     sx, sy = W / 1180, H / 1770
     views = []
     for k in ["a0", "a1", "a2", "a3"]:

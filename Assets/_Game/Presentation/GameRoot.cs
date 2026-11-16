@@ -1176,6 +1176,13 @@ namespace ReverseSolver.Presentation
 
         void Layout()
         {
+            var layoutPerf = PerfOn ? System.Diagnostics.Stopwatch.StartNew() : null;
+            try { LayoutBody(); }
+            finally { if (layoutPerf != null) Debug.Log($"[perf] layout {layoutPerf.Elapsed.TotalMilliseconds:0.0} ms (mode {_mode})"); }
+        }
+
+        void LayoutBody()
+        {
             _screenPx = new Vector2Int(Screen.width, Screen.height);
             _dpr = Mathf.Max(1f, Host.Current.PixelRatio);
             _screen = new Vector2(Screen.width, Screen.height) / _dpr;
@@ -1727,7 +1734,13 @@ namespace ReverseSolver.Presentation
                 if (!p.press.isPressed) _committedTouch = false;
                 return;
             }
-            if (p.press.wasPressedThisFrame) { if (!gated) Press(pt); }
+            if (p.press.wasPressedThisFrame && !gated)
+            {
+                // PM_76 &perf=1: what a tap costs in its own frame (a panel or a level built on the spot)
+                var perf = PerfOn ? System.Diagnostics.Stopwatch.StartNew() : null;
+                Press(pt);
+                if (perf != null) Debug.Log($"[perf] press {perf.Elapsed.TotalMilliseconds:0.0} ms (card {_cardKind}, mode {_mode})");
+            }
             else if (_drag != null && _drag.Active && (p.press.isPressed || p.press.wasReleasedThisFrame))
             {
                 if (TutorialActive && _tutorialUntil >= 0) return;

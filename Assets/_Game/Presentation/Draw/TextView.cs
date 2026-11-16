@@ -62,16 +62,32 @@ namespace ReverseSolver.Presentation
             _t.enableVertexGradient = true;
             Color32 top = new Color32(0xFC, 0xFA, 0xDE, 255), bottom = new Color32(0xF0, 0xE6, 0xA6, 255);
             _t.colorGradient = new VertexGradient(top, top, bottom, bottom);
-            Outline(rim, .24f);
-            var m = _t.fontMaterial;
-            m.SetFloat(ShaderUtilities.ID_FaceDilate, .2f);   // the rim straddles the edge: keep the face full
-            m.EnableKeyword("UNDERLAY_ON");
-            m.SetColor("_UnderlayColor", new Color(rim.x, rim.y, rim.z, 1));
-            m.SetFloat("_UnderlayOffsetY", -.55f);
-            m.SetFloat("_UnderlayDilate", .44f);
-            m.SetFloat("_UnderlaySoftness", 0f);
-            _t.UpdateMeshPadding();
+            // PM_76: one shared material per look (a material per text made each panel's first frame slow)
+            Shared("heading", rim, .24f, rim, -.55f);
             return this;
+        }
+
+        /* PM_76: the heading looks as shared materials, keyed by font and the look's values. */
+        static readonly System.Collections.Generic.Dictionary<string, Material> _looks = new System.Collections.Generic.Dictionary<string, Material>();
+        void Shared(string look, Vector4 rim, float outline, Vector4 under, float underY)
+        {
+            string C(Vector4 c) => $"{Mathf.RoundToInt(c.x * 255)},{Mathf.RoundToInt(c.y * 255)},{Mathf.RoundToInt(c.z * 255)},{Mathf.RoundToInt(c.w * 255)}";
+            string key = $"{look}|{_t.font.name}|{C(rim)}|{outline}|{C(under)}|{underY}";
+            if (!_looks.TryGetValue(key, out var m) || m == null)
+            {
+                m = new Material(_t.font.material) { name = "TMP " + look };
+                m.SetFloat(ShaderUtilities.ID_FaceDilate, .2f);   // the rim straddles the edge: keep the face full
+                m.SetFloat(ShaderUtilities.ID_OutlineWidth, outline);
+                m.SetColor(ShaderUtilities.ID_OutlineColor, new Color(rim.x, rim.y, rim.z, rim.w));
+                m.EnableKeyword("UNDERLAY_ON");
+                m.SetColor("_UnderlayColor", new Color(under.x, under.y, under.z, 1));
+                m.SetFloat("_UnderlayOffsetY", underY);
+                m.SetFloat("_UnderlayDilate", .44f);
+                m.SetFloat("_UnderlaySoftness", 0f);
+                _looks[key] = m;
+            }
+            _t.fontSharedMaterial = m;
+            _t.UpdateMeshPadding();
         }
 
         /* Tutorial instruction over the veil: Baloo heading in the p21/p22 game (PM_65), the old banner elsewhere. */
@@ -81,11 +97,9 @@ namespace ReverseSolver.Presentation
         public TextView Title3D()
         {
             Heading(Draw.Hex("#234670"));
-            Outline(Draw.Hex("#234670"), .34f);   // on a cream panel the blue rim carries the letters
-            var m = _t.fontMaterial;
-            m.SetColor("_UnderlayColor", new Color(.78f, .55f, .16f, 1));
-            m.SetFloat("_UnderlayOffsetY", -.7f);
-            _t.UpdateMeshPadding();
+            if (HeadingFont == null) return this;
+            // on a cream panel the blue rim carries the letters; a gold "thickness" below (shared, PM_76)
+            Shared("title3d", Draw.Hex("#234670"), .34f, new Vector4(.78f, .55f, .16f, 1), -.7f);
             return this;
         }
 
@@ -159,6 +173,10 @@ namespace ReverseSolver.Presentation
         /* Fit profile names without wrapping, then shorten at the minimum size. */
         public TextView FitWidth(float widthPt, float minSizePt)
         {
+            // PM_76: one proportional step first (width follows the size), then the 1 pt steps only for the last bit
+            float w0 = Width;
+            if (w0 > widthPt && w0 > 0)
+                _t.fontSize = Mathf.Max(minSizePt * PointToFontSize, Mathf.Floor(_t.fontSize * widthPt / w0 / PointToFontSize) * PointToFontSize);
             while (Width > widthPt && _t.fontSize > minSizePt * PointToFontSize)
                 _t.fontSize = Mathf.Max(minSizePt * PointToFontSize, _t.fontSize - PointToFontSize);
             if (Width <= widthPt) return this;

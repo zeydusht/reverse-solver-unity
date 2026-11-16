@@ -51,6 +51,7 @@ namespace ReverseSolver.Presentation
         {
             if (root == null || !root.TryGetComponent<PanelMotion76>(out var m) || m._closing) return false;
             m._closing = true; m._start = Time.unscaledTime;
+            m.enabled = true;   // it rests disabled once open
             return true;
         }
 

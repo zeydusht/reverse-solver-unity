@@ -41,6 +41,26 @@ namespace ReverseSolver.EditorTools
                 k.compressionQuality = 50;   // PM_MESAJ_29 4.2: 2048 px is already the drawn size (cell ~137 px); lighter crunch
                 return;
             }
+            // PM_76: the dive's drawn views and the corridor's layers: at their own size (multiples of 4, under 2048),
+            // crunched (a 1024 cap rescaled them to odd sizes and they shipped uncompressed: +7.5 MB)
+            if (assetPath.Contains("Presentation/Resources/Art/yeni/pm76/"))
+            {
+                var v = (TextureImporter)assetImporter;
+                v.textureType = TextureImporterType.Sprite; v.spriteImportMode = SpriteImportMode.Single;
+                v.spritePixelsPerUnit = 1; v.alphaIsTransparency = true; v.mipmapEnabled = false;
+                v.npotScale = TextureImporterNPOTScale.None;
+                v.wrapMode = UnityEngine.TextureWrapMode.Clamp; v.filterMode = UnityEngine.FilterMode.Bilinear;
+                v.maxTextureSize = 2048;
+                v.textureCompression = TextureImporterCompression.Compressed; v.crunchedCompression = true; v.compressionQuality = 50;
+                bool opaque = assetPath.EndsWith("/koridor/wall.png");
+                v.SetPlatformTextureSettings(new TextureImporterPlatformSettings
+                {
+                    name = "WebGL", overridden = true, maxTextureSize = 2048,
+                    format = opaque ? TextureImporterFormat.DXT1Crunched : TextureImporterFormat.DXT5Crunched,
+                    textureCompression = TextureImporterCompression.Compressed, crunchedCompression = true, compressionQuality = 50
+                });
+                return;
+            }
             if (assetPath.Contains("Presentation/Resources/Art/"))
             {
                 var a = (TextureImporter)assetImporter;

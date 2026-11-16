@@ -212,6 +212,15 @@ namespace ReverseSolver.PlayMode.Tests
                     .First(pt => bar.HitAction(pt) == BarAction.Pause);
                 yield return Click(pause);
                 yield return WaitFor(() => Field<string>("_cardKind") == "pause", "the pause button opens the pause card");
+                // PM_76: the panel opens and closes with a short motion; Resume really takes it off the screen
+                yield return new WaitForSecondsRealtime(.6f);
+                var pauseCard = Field<Card>("_card");
+                var resume = pauseCard.Buttons.Find(button => button.id == "resume");
+                yield return Click(resume.rect.center);
+                yield return WaitFor(() => Field<Card>("_card") == null, "Resume closes the pause card");
+                float gone = Time.realtimeSinceStartup + 1f;
+                while (GameObject.Find("Pause") != null && Time.realtimeSinceStartup < gone) yield return null;
+                Assert.That(GameObject.Find("Pause"), Is.Null, "the pause panel leaves the screen within a second");
             }
         }
 

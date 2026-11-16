@@ -120,8 +120,11 @@ namespace ReverseSolver.Presentation
                 for (int i = 0; i < _s.Arc.Count; i++)
                 {
                     var v = _s.Arc[i];
-                    _arcBg.Add(Layer.FromTexture(_overlay, v.Bg, baseMat, new Rect(Vector2.zero, size), V, 24, 36, _s.Order + 2 + i * 2));
-                    _arcFg.Add(v.Fg != null ? Layer.FromTexture(_overlay, v.Fg, baseMat, v.FgPx, V, 4, 16, _s.Order + 12 + i) : null);
+                    // the walls 8 % past every edge (their edge pixels stretched): the warps never uncover the screen
+                    var whole = new Rect(Vector2.zero, size);
+                    var padded = new Rect(-size * .08f, size * 1.16f);
+                    _arcBg.Add(Layer.FromTexture(_overlay, v.Bg, baseMat, padded, whole, V, 26, 40, _s.Order + 2 + i * 2));
+                    _arcFg.Add(v.Fg != null ? Layer.FromTexture(_overlay, v.Fg, baseMat, v.FgPx, v.FgPx, V, 4, 16, _s.Order + 12 + i) : null);
                     var quad = new Vector2[4];
                     for (int c = 0; c < 4; c++) quad[c] = V(v.Canvas[c]);
                     _arcQuads.Add(quad);
@@ -453,11 +456,12 @@ namespace ReverseSolver.Presentation
             public static Layer FromSprite(Transform parent, SpriteRenderer sr, int order, Vector2 screen)
             {
                 var sp = sr.sprite; var tex = sp.texture;
+                if (tex != null) tex.wrapMode = TextureWrapMode.Clamp;   // the 8 % past top and bottom repeats the edge rows
                 var lb = sp.bounds; var tr = sp.textureRect;
                 // only the part near the screen (the corridor strip is many bays wide)
                 Vector2 Layout(float u, float v)
                 {
-                    var w = sr.transform.TransformPoint(new Vector3(Mathf.Lerp(lb.min.x, lb.max.x, u), Mathf.Lerp(lb.max.y, lb.min.y, v), 0));
+                    var w = sr.transform.TransformPoint(new Vector3(Mathf.LerpUnclamped(lb.min.x, lb.max.x, u), Mathf.LerpUnclamped(lb.max.y, lb.min.y, v), 0));   // past the edges too
                     return new Vector2(w.x, -w.y);
                 }
                 float x0 = Layout(0, 0).x, x1 = Layout(1, 0).x;
@@ -468,7 +472,7 @@ namespace ReverseSolver.Presentation
                 for (int j = 0; j <= ny; j++)
                     for (int i = 0; i <= nx; i++)
                     {
-                        float u = Mathf.Lerp(u0, u1, (float)i / nx), v = (float)j / ny;
+                        float u = Mathf.Lerp(u0, u1, (float)i / nx), v = Mathf.Lerp(-.08f, 1.08f, (float)j / ny);   // PM_76: 8 % past top and bottom
                         src.Add(Layout(u, v));
                         uv.Add(new Vector2((tr.x + u * tr.width) / tex.width, (tr.y + (1 - v) * tr.height) / tex.height));
                         if (i < nx && j < ny) { int s = j * (nx + 1) + i; tris.AddRange(new[] { s, s + 1, s + nx + 2, s, s + nx + 2, s + nx + 1 }); }
@@ -478,7 +482,7 @@ namespace ReverseSolver.Presentation
             }
 
             /* A texture's pixel rect `px` (working pixels, y down) laid out by `toLayout`, as an nx x ny grid. */
-            public static Layer FromTexture(Transform parent, Texture tex, Material baseMat, Rect px, Func<Vector2, Vector2> toLayout, int nx, int ny, int order)
+            public static Layer FromTexture(Transform parent, Texture tex, Material baseMat, Rect px, Rect texPx, Func<Vector2, Vector2> toLayout, int nx, int ny, int order)
             {
                 var l = new Layer { _n = nx };
                 var src = new List<Vector2>(); var uv = new List<Vector2>(); var tris = new List<int>();
@@ -486,8 +490,10 @@ namespace ReverseSolver.Presentation
                     for (int i = 0; i <= nx; i++)
                     {
                         float u = (float)i / nx, v = (float)j / ny;
-                        src.Add(toLayout(new Vector2(px.x + u * px.width, px.y + v * px.height)));
-                        uv.Add(new Vector2(u, 1 - v));
+                        var at = new Vector2(px.x + u * px.width, px.y + v * px.height);
+                        src.Add(toLayout(at));
+                        // outside the texture's own rect the uv runs past 0..1: the clamped edge pixels stretch
+                        uv.Add(new Vector2((at.x - texPx.x) / texPx.width, 1 - (at.y - texPx.y) / texPx.height));
                         if (i < nx && j < ny) { int s = j * (nx + 1) + i; tris.AddRange(new[] { s, s + 1, s + nx + 2, s, s + nx + 2, s + nx + 1 }); }
                     }
                 l.Make(parent, "view", new Material(baseMat) { mainTexture = tex != null ? tex : Texture2D.whiteTexture }, src.ToArray(), uv.ToArray(), tris, order);
