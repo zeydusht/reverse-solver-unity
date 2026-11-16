@@ -1,6 +1,18 @@
 # PM_75 RAPOR: Zeyd'in p23 testi, düzeltmeler (16 Kasım)
 
-(Taslak: build ve çekimlerden sonra sayılar ve GIF'ler eklenecek.)
+**Özet:** p23 güncel (p22 yedek; gh-pages 333aae9a, build 37,0 MB Brotli). EditMode 737/739 (2 atlandı, 0 hata), PlayMode 6/6 (yeni: değnek 13 bölüm). `verify_build` yerel 4/4, canlı 4/4.
+FPS (PC, gerçek GPU; iPhone ölçülmedi): çekiç ortanca 59,9 / en kötü 58,8; saat 59,9 / 58,5; makas 60,2 / 58,5; menü dalışı 59,9 / tek bir 33 ms kare. O kare bölümün kurulduğu bekleme anına denk geliyor; ekranda yalnız durgun resim var, dalışın saati bu kareyi atlamıyor. Görüntüler ve GIF'ler bu klasörde; önceki hâl `docs/art/pm74/sonra/` ve PM_74 GIF'leri.
+
+| Dosya | Ne |
+|---|---|
+| `takilma.gif` | videodaki durum (bölüm 3): parça çıkıntıya değdiği yere kadar iner, "tok", geri döner; sonra parmakla yavaş çekiş |
+| `takilma_bir_hucre.gif` | önde parça varken bir hücre kayıp çarpar (bölüm 4) |
+| `dalis.gif` | menü → "Bölüm 1": karşıya geçiş, yaklaşma, yalnız resim, çizgiler, HUD |
+| `koridor_sonraki.gif` | kazanma → "Bölüm 3": koridor kayışı, sonunda dalış |
+| `koridor_menu.gif` | kazanma → Menü: koridor kayışı, menü |
+| `makas_once_sonra.gif`, `cekic_once_sonra.gif`, `degnek_once_sonra.gif`, `saat_sonra.gif` | booster'lar (solda PM_74) |
+| `menu_once_sonra.jpg`, `kazanma_once_sonra.jpg`, `kaybetme_once_sonra.jpg` | ekranlar |
+| `sonra/` | menü A/B/C, soluk değnek + açıklama, kazanma, devam, kaybetme, süre çubuğu (normal / donmuş) |
 
 ## 1. Değnek
 **Neden "parça açamıyor" diyordu (ölçüm):** 40 bölümün 445 ara durumunda (bölüm başı, %10 … %90 parça çıkmış) değneğin tırnak değişikliği ile **en az bir parçayı serbest bırakabildiği** durumlar:
@@ -41,7 +53,8 @@
 - Makas (~2,1 sn): gelir, tırnağın üstüne yerleşir, ağız yavaşça açılır, tırnağı arasına alır, ~0,5 sn'de görünür şekilde keser, tırnak kopar, makas yuvasına uçup oturur.
 - Çekiç (~1,9 sn): parçanın üstüne başı aşağı gelir, kalkar, balyoz gibi iner; çatlak vurduğu noktadan yayılır, kırılma + kıvılcım + sarsıntı + titreşim; yukarı kalkıp yuvasına döner, dönme yok.
 - Değnek (~2,0 sn): aynı döngü daha yavaş, sonunda yuvasına döner.
-- Saat: Süre kutusunun altında ince süre çubuğu (yeşil → sarı → kırmızı); saat kullanılınca buz mavisi olur, üzerinde ışık gezer ve ucunda kar tanesi döner (duraklama).
+- Saat: Süre kutusunun altında ince süre çubuğu (yeşil → sarı → kırmızı); saat kullanılınca buz mavisi olur, üzerinde ışık gezer ve ucunda kar tanesi döner (duraklama). "+10 sn" rozeti çubuğun altına indi (çubuğu örtmesin).
+- Kalite döngüsü: makas için 3 yol denendi (3 sabit poz arası geçiş / iki parçalı iskelet / PM_74 hızlı kesiş); iskelet seçildi (ağız sürekli açılıp kapanıyor). Çekiç: eski yan görünüşü 180° çevirmek / Codex başı aşağı 3B çizim / PM_74 yay; Codex çizimi seçildi (vuran yüz noktası işaretli, `codex/cekic_asagi.png`). Değnek: aynı döngü, süreler 1,45 → 2,0 sn, uçup kaybolmak yerine yuvaya dönüş.
 - Eski PM_74 fikirleri: `&makasfx=d`, `&cekicfx=d`, `&degnekfx=d` (B ve C de duruyor).
 
 ## 5. Ana menü üstü

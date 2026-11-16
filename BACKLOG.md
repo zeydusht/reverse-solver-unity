@@ -193,6 +193,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_73 p22'de: T50 kazanma B + harita C, kayma izi, nefes anı, bomba kartı sayacı, Süre doldu kurdelesiz — 16 Kasım. Açık: iPhone'da his, iz/nefes seçeneklerini Zeyd karşılaştıracak
 - ✅ PM_71 p22'de: `PWin1Blended` (pt1, kohort parametreli), 8 bölüm birleşik tahmine göre ayarlandı — 16 Kasım. Açık: p22 verisi gelince `irt_level_d_p22.csv`
 - ✅ PM_74 p23'te (gece cilası): booster dersi donması (test linki), tek dokunuşla iptal, tahta payı, Jigo kemerde + seyrek göz kırpma, Parça kutusu sayı, tek Oyna düğmesi, 4 booster × 3 fikir (Codex), resme dalış geçişi, kayıp/devam/isim ekranları yeni dilde, kurdelesiz HUD başlığı — 16 Kasım. Açık: Zeyd booster fikirlerini, HUD başlığını ve saat kuralını seçecek; iPhone hissi
+- ✅ PM_75 p23'te: değnek soluk + açıklama (hedefli arama), takılmada temasa kadar kayış (+ "tok", %6 sıkışma), koridor + yavaş açılı dalış (çizgi çizimi), yavaş makas/çekiç/değnek (yuvaya dönüş), süre çubuğu, menü üstü (Codex B; A/C `&ust=`), "Bölüm N" düğme ailesi — 16 Kasım. Açık: değnek kuralı kararı (PM/Zeyd); iPhone hissi.
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular
