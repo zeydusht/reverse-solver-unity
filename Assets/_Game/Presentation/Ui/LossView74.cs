@@ -18,7 +18,8 @@ namespace ReverseSolver.Presentation
         Transform _title, _jigo, _buttons;
         SpriteRenderer _jigoSprite;
         readonly Sprite[] _sad = new Sprite[6];
-        Rect _primary, _secondary, _close;
+        Rect _primary, _secondary, _close, _ad;
+        bool _adOffer;
         bool _settled;
         readonly bool _offer, _affordable;
 
@@ -117,10 +118,11 @@ namespace ReverseSolver.Presentation
            a close button (and "No, thanks" with &devamhayir=1). */
         TextView _coins;
         bool _showNo;
-        public static LossView74 Continue(Transform parent, Vector2 screen, Vector4 safe, int order, ContinueOffer offer, int coins, bool showNo, bool preview)
+        public static LossView74 Continue(Transform parent, Vector2 screen, Vector4 safe, int order, ContinueOffer offer, int coins, bool showNo, bool preview, bool ad = false)
         {
             var v = new LossView74(parent, screen, order, true, offer.Affordable || preview);
             v._showNo = showNo;
+            v._adOffer = ad && Button75.Available;
             bool time = offer.Kind == ContinueKind.Time;
             v.Title(time ? Lang.T("Time's up", "Süre doldu") : Lang.T("Bomb exploded", "Bomba patladı"), 250);   // room for the close button
             v.Jigo(330, 230);
@@ -128,10 +130,32 @@ namespace ReverseSolver.Presentation
             var b = v.Text(v._root, benefit, v.At(time ? 215 : 195, 490), 40, 7).Title3D();
             if (time) Art54.Place(v._root, "devam_v2/continue-clock", v.At(215, 490) - new Vector2(b.Width / 2 + 30 * v._k, 0), Vector2.one * 46 * v._k, order + 7);
             else v.Text(v._root, string.Format(Lang.T("Fuse: {0}", "Sayaç: {0}"), new ContinueRules().BombFuse), v.At(195, 530), 20, 7).Heading(TextView.RimTeal);
-            v.Buttons("", showNo ? Lang.T("No, thanks", "Hayır") : null, 610);
-            // the price on the green button: a coin and the number
-            Art54.Place(v._buttons, "devam_v2/continue-coin", v.At(160, 608), Vector2.one * 38 * v._k, order + 8);
-            v.Text(v._buttons, offer.Price.ToString(), v.At(214, 607), 30, 8).Heading(TextView.RimGreen);
+            if (v._adOffer)
+            {
+                // PM_81 R1: the gold button and, beside it, "Watch an ad +30 s" (once per attempt)
+                v._buttons = v.Group("buttons");
+                var gold = Button75.Main(v._buttons, v.At(110, 610), new Vector2(176, 84) * v._k, "", order + 6);
+                if (!v._affordable && gold.Body != null) gold.Body.color = new Color(.5f, .5f, .5f, .95f);
+                v._primary = gold.Rect;
+                Art54.Place(v._buttons, "devam_v2/continue-coin", v.At(82, 608), Vector2.one * 34 * v._k, order + 8);
+                v.Text(v._buttons, offer.Price.ToString(), v.At(130, 607), 28, 8).Heading(TextView.RimGreen);
+                var watch = Button75.Small(v._buttons, v.At(286, 610), new Vector2(176, 84) * v._k, "", order + 6);
+                v._ad = watch.Rect;
+                v.Text(v._buttons, Lang.T("Watch an ad", "Reklam izle"), v.At(286, 594), 17, 8).Heading(Draw.Hex("#0E2244")).FitWidth(150 * v._k, 11 * v._k);
+                v.Text(v._buttons, string.Format(Lang.T("+{0} s", "+{0} sn"), offer.Seconds), v.At(286, 620), 26, 8).Heading(Draw.Hex("#0E2244"));
+                if (showNo)
+                {
+                    var no = Button75.Small(v._buttons, v.At(195, 696), new Vector2(150, 50) * v._k, Lang.T("No, thanks", "Hayır"), order + 6);
+                    v._secondary = no.Rect;
+                }
+            }
+            else
+            {
+                v.Buttons("", showNo ? Lang.T("No, thanks", "Hayır") : null, 610);
+                // the price on the green button: a coin and the number
+                Art54.Place(v._buttons, "devam_v2/continue-coin", v.At(160, 608), Vector2.one * 38 * v._k, order + 8);
+                v.Text(v._buttons, offer.Price.ToString(), v.At(214, 607), 30, 8).Heading(TextView.RimGreen);
+            }
             Art54.Place(v._root, "devam_v2/continue-coin", v.At(140, 668), Vector2.one * 24 * v._k, order + 7);
             v._coins = v.Text(v._root, string.Format(Lang.T("{0} coins", "{0} altın"), coins), v.At(210, 668), 18, 7).Heading(TextView.RimTeal);
             // close: on the title row, at the right (it used to sit on the HUD's Time box)
@@ -185,6 +209,7 @@ namespace ReverseSolver.Presentation
             if (_offer)
             {
                 if (_close.Contains(pt) || _showNo && _secondary.Contains(pt)) return "declined";
+                if (_adOffer && _ad.Contains(pt)) return "ad";   // PM_81 R1
                 return _primary.Contains(pt) && _affordable ? "accepted" : null;
             }
             if (_primary.Contains(pt)) return "retry";

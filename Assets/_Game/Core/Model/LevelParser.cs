@@ -85,6 +85,9 @@ namespace ReverseSolver.Core
             l.Open = OptInt(n, "open", at, 0);
             l.Hard = n.TryGet("hard", out var hard) && hard.Kind == JsonKind.Bool && hard.AsBool;
             l.Tutorial = OptInt(n, "tutorial", at, 0);
+            l.Role = OptString(n, "role");
+            l.Placeholder = n.TryGet("placeholder", out var ph) && ph.Kind == JsonKind.Bool && ph.AsBool;
+            l.Lesson = OptString(n, "lesson");
             return l;
         }
 

@@ -30,6 +30,8 @@ namespace ReverseSolver.Presentation
             // PM_75: the Next button reads "Level N+1", like the menu's "Level N"
             P21WinView.NextTitle = _index + 1 < _set.Levels.Count
                 ? string.Format(Texts.PlayLevel, _p21Flow ? _index + 2 : _set.Levels[_index + 1].Number) : null;
+            P21WinView.DoubleOffer = OfferDoubleGold81;      // PM_81 R2
+            P21WinView.DoubleWatch = WatchDoubleGold81;
             _win21 = new P21WinView(transform, _screen, WinTargets21(), save, _session.Level.Pieces.Count,
                 preview || ContinueEnabled ? _continueRules.WinCoins : 0, chest, NextWin21, () =>
                 {
@@ -43,8 +45,15 @@ namespace ReverseSolver.Presentation
             bool preview = _winPreview21;
             _win21?.Destroy(); _win21 = null; _winPreview21 = false;
             if (preview) { Layout(); return; }
-            // PM_75: the corridor slides to the next painting, the slow dive takes over at its end
-            if (_index + 1 < _set.Levels.Count) { if (!CorridorToNext75()) StartLevel(_index + 1); } else ShowMenu();
+            // PM_81: the last level won: "New paintings are on the way!"; otherwise the interstitial when due (I1), then
+            // the corridor to the next painting and the slow dive (PM_75)
+            if (_index + 1 >= _set.Levels.Count) { ShowFinale81(); return; }
+            _diving = true;   // no input while the ad decides
+            AfterWinAd81(() =>
+            {
+                _diving = false;
+                if (!CorridorToNext75()) StartLevel(_index + 1);
+            });
         }
 
         // ---- PM_74: warm-up ---------------------------------------------------------------------------------------

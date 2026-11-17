@@ -118,6 +118,7 @@ namespace ReverseSolver.Presentation
         public static string TutorialFirst => Lang.T("Push this piece to save it", "Bu parçayı it ve kurtar");
         public static string TutorialNext => Lang.T("Now save this one", "Şimdi bunu kurtar");
         public static string HardTitle => Lang.T("Hard level", "Zor bölüm");
+        public static string VeryHardTitle => Lang.T("Very hard level", "Çok zor bölüm");   // PM_82
         public static string HardBody => Lang.T("This one is a bit harder. Take your time, look first.", "Bu bölüm biraz daha zorlu. Acele etme, önce bak.");
         public static string HardStart => Lang.T("Start", "Başla");
         public static string Saved => Lang.T("Jiggles saved: {0}", "Kurtarılan Jiggles: {0}");

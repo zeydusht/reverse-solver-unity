@@ -10,7 +10,8 @@ namespace ReverseSolver.Presentation
         const int Order = 5600;
         readonly Transform _root;
         readonly SaveData _save;
-        readonly int _rescued, _winCoins;
+        readonly int _rescued;
+        int _winCoins;
         readonly Action _next, _refresh, _menu;
         Transform _content;
         Vector2 _screen;
@@ -22,7 +23,12 @@ namespace ReverseSolver.Presentation
         SpriteRenderer _case, _light, _hand, _item, _glow, _trail, _arrival;
         TextView _rescuedLabel;
         TextView _hint, _amount, _coins;
-        Rect _nextRect, _menuRect, _chestRect;
+        Rect _nextRect, _menuRect, _chestRect, _doubleRect;
+        /* PM_81 R2: "Watch an ad, 2x gold" beside +50 when an ad is ready (GameRoot sets these before the view). */
+        public static Func<bool> DoubleOffer;
+        public static Action<Action<bool>> DoubleWatch;
+        bool _double, _doubled, _doubleBusy;
+        Transform _doubleButton;
 
         public P21WinView(Transform parent, Vector2 screen, Rect[] targets, SaveData save, int rescued, int winCoins,
             bool chest, Action next, Action refresh, Action menu)
@@ -156,6 +162,12 @@ namespace ReverseSolver.Presentation
             float cover = Mathf.Max(_screen.x / 390, _screen.y / 844);
             _bGlow = PlaceB(_content, "win_bg_glow", _screen * .5f, 390 * cover / _bScale, 844 * cover / _bScale, 1);
         }
+        /* PM_82: with the bigger buttons the coin row, the chest bar and the buttons sit a little higher. */
+        static bool BigButtons => Art.Get("win-next") != null;
+        static float RowY => BigButtons ? 560 : 578;
+        static float BarY => BigButtons ? 622 : 646;
+        static float NextY => BigButtons ? 700 : 724;
+        static float MenuY => BigButtons ? 778 : 792;
         void LayoutB()
         {
             Glow();
@@ -164,13 +176,27 @@ namespace ReverseSolver.Presentation
             _bJigo = PlaceB(_content, "win_jigo_jump", _bJigoAt, 262, 294, 3);
             // +50: the game's font, not baked art (PM_73: the plus sign must read as a plus)
             _bPlus = TextView.Create(_content, "win coins", "+" + _winCoins, 36 * _bScale, Palette.Cream, order: Order + 10).Heading(Draw.Hex("#153E75"));
+            _double = !_doubled && _winCoins > 0 && Button75.Available && DoubleOffer != null && DoubleOffer();
+            float plusX = _double ? 118 : 195;
             float half = (_bPlus.Width + (6 + 36) * _bScale) * .5f;
-            _bPlus.transform.localPosition = Draw.W(AtB(195, 578) + new Vector2(-half + _bPlus.Width * .5f, 0));
-            _bCoin = PlaceB(_content, "coin", AtB(195, 578) + new Vector2(half - 18 * _bScale, 0), 36, 36, 9);
+            _bPlus.transform.localPosition = Draw.W(AtB(plusX, RowY) + new Vector2(-half + _bPlus.Width * .5f, 0));
+            _bCoin = PlaceB(_content, "coin", AtB(plusX, RowY) + new Vector2(half - 18 * _bScale, 0), 36, 36, 9);
+            _doubleButton = null;
+            if (_double)
+            {
+                // PM_81 R2: the gold doubled with an ad; Next stays one tap below
+                _doubleButton = Group("double gold");
+                var b = Button75.Small(_doubleButton, AtB(282, RowY), new Vector2(170, 58) * _bScale, "", Order + 9);
+                _doubleRect = b.Rect;
+                TextView.Create(_doubleButton, "ad", Lang.T("Watch an ad", "Reklam izle"), 14 * _bScale, Palette.Cream, order: Order + 11)
+                    .Heading(Draw.Hex("#0E2244")).FitWidth(140 * _bScale, 9 * _bScale).transform.localPosition = Draw.W(AtB(282, RowY - 11));
+                TextView.Create(_doubleButton, "x2", Lang.T("2x gold", "2× altın"), 21 * _bScale, Palette.Cream, order: Order + 11)
+                    .Heading(Draw.Hex("#0E2244")).FitWidth(140 * _bScale, 12 * _bScale).transform.localPosition = Draw.W(AtB(282, RowY + 10));
+            }
             if (_winCoins <= 0) { _bPlus.gameObject.SetActive(false); if (_bCoin != null) _bCoin.gameObject.SetActive(false); }
             // chest bar: five slots; between two chests (3, 5, 10, 15 ...) the share of the levels won fills them
             _bBar = Group("chest bar");
-            var barAt = AtB(195, 646);
+            var barAt = AtB(195, BarY);
             PlaceB(_bBar, "chest_bar_bg", barAt, 240, 52, 3);
             int progress = _save.ChestProgress21, pending = _save.PendingChest21;
             int next = pending > 0 ? pending : P21ChestRules.Next(progress), previous = P21ChestRules.Previous(next - 1);
@@ -182,17 +208,31 @@ namespace ReverseSolver.Presentation
                 if (i == filled - 1) _bNewSlot = slot;
             }
             _bButtons = Group("buttons");
-            Buttons(AtB(195, 724), AtB(195, 792), Texts.NextLevel21, _bButtons);
+            Buttons(AtB(195, NextY), AtB(195, MenuY), Texts.NextLevel21, _bButtons);
             _bSettled = false;
         }
         /* Green Next Level (300x72) and blue Menu (136x48) with their labels in the game's font. */
         /* PM_75: "Level N+1" on the Next button (GameRoot sets it before the view is built); null: "Next Level". */
         public static string NextTitle;
+        Button75.View _pressNext, _pressMenu;   // PM_82: the faces that sink when pressed
 
         void Buttons(Vector2 next, Vector2 menu, string nextText, Transform parent = null)
         {
             parent = parent != null ? parent : _content;
             if (_bScale <= 0) _bScale = _scale;
+            if (Art.Get("win-next") != null && Art.Get("win-menu") != null)
+            {
+                // PM_82 (Zeyd: small and dull): Codex's option A: a thick green Next ~70 % of the width, 76 pt tall, and a
+                // blue Menu 196 x 60, both with a deep bottom edge that sinks when pressed; labels in the game's 3D font
+                if (nextText == Texts.NextLevel21 && !string.IsNullOrEmpty(NextTitle)) nextText = NextTitle;
+                var mainB = Button75.Custom(parent, next, new Vector2(272, 76) * _bScale, nextText, Order + 9, "win-next", "win-next-pressed", TextView.RimGreen, .40f);
+                var smallB = Button75.Custom(parent, menu, new Vector2(196, 60) * _bScale, Lang.T("Menu", "Menü"), Order + 9, "win-menu", "win-menu-pressed", Draw.Hex("#0E2244"), .42f);
+                _nextRect = mainB.Rect;
+                float menuTop = Mathf.Max(smallB.Rect.yMin, _nextRect.yMax + 2);
+                _menuRect = new Rect(smallB.Rect.xMin, menuTop, smallB.Rect.width, Mathf.Max(48f, smallB.Rect.yMax - menuTop));
+                _pressNext = mainB; _pressMenu = smallB;
+                return;
+            }
             if (Button75.Available)
             {
                 // PM_75: the same buttons as the menu's "Level N": green for Next, its navy twin for Menu
@@ -258,6 +298,7 @@ namespace ReverseSolver.Presentation
             float c = Span(t, .62f, .92f);
             if (_bPlus != null) { _bPlus.Alpha = Mathf.Clamp01(c * 4); _bPlus.Text = "+" + Mathf.RoundToInt(_winCoins * Ease(c)); }
             Alpha(_bCoin, Mathf.Clamp01(c * 4));
+            if (_doubleButton != null && _doubleButton.gameObject.activeSelf) Fade(_doubleButton, Mathf.Clamp01(c * 4));
             if (_bBar != null) Fade(_bBar, Span(t, .6f, .8f));
             if (_bNewSlot != null)
             {
@@ -297,15 +338,31 @@ namespace ReverseSolver.Presentation
         {
             if (Entering) { _started = Time.unscaledTime - EntranceSeconds; return; }   // PM_73: a tap finishes the entrance
             if (Time.unscaledTime - _started < .25f) return;
-            if ((!_chestMode || _done) && _menuRect.Contains(point)) { _menu(); return; }
+            if (_double && !_doubled && !_doubleBusy && !_chestMode && _doubleRect.Contains(point) && DoubleWatch != null)
+            {
+                _doubleBusy = true;
+                DoubleWatch(ok =>
+                {
+                    _doubleBusy = false;
+                    if (!ok || _root == null) return;
+                    _doubled = true;
+                    _winCoins *= 2;
+                    if (_doubleButton != null) _doubleButton.gameObject.SetActive(false);
+                    if (_bPlus != null) _bPlus.Text = "+" + _winCoins;
+                    if (_coins != null) _coins.Text = _save.Coins.ToString();
+                });
+                return;
+            }
+            if (_pendingAt >= 0) return;
+            if ((!_chestMode || _done) && _menuRect.Contains(point)) { Sink(_pressMenu, _menu); return; }
             if (!_chestMode)
             {
                 if (!_nextRect.Contains(point)) return;
                 if (_save.PendingChest21 > 0) { BeginChest(); Layout(_screen, _targets); }
-                else _next();
+                else Sink(_pressNext, _next);
                 return;
             }
-            if (_done) { if (_nextRect.Contains(point)) _next(); return; }
+            if (_done) { if (_nextRect.Contains(point)) Sink(_pressNext, _next); return; }
             if (_taps >= 3 || !_chestRect.Contains(point) || Time.unscaledTime - _tapAt < 4f / 14) return;
             _taps++; _tapAt = Time.unscaledTime;
             if (_taps == 3)
@@ -314,8 +371,25 @@ namespace ReverseSolver.Presentation
             }
         }
         static string Frame(string path, int frame) => path + "/" + frame.ToString("00");
+        /* PM_82: the pressed face shows for a moment, then the action. */
+        Action _pending;
+        float _pendingAt = -1;
+        void Sink(Button75.View b, Action then)
+        {
+            if (b == null || b.Body == null) { then(); return; }
+            b.Press();
+            _pending = then; _pendingAt = Time.unscaledTime + .12f;
+        }
+
         public void Tick()
         {
+            if (_pendingAt >= 0 && Time.unscaledTime >= _pendingAt)
+            {
+                _pendingAt = -1;
+                var a = _pending; _pending = null;
+                a?.Invoke();
+                return;
+            }
             if (_language != Lang.Revision) { Layout(_screen, _targets); return; }
             float now = Time.unscaledTime, age = now - _tapAt;
             if (!_chestMode && B) { TickB(now); return; }

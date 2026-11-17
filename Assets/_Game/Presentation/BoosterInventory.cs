@@ -49,6 +49,12 @@ namespace ReverseSolver.Presentation
             if (_data.chestBonus != null) _data.chestBonus[(int)b] = 0;
             Save();
         }
+        /* PM_82 R3: +n of a booster (a rewarded ad). */
+        public void Grant(Booster b, int n)
+        {
+            _data.stock[(int)b] = (int)Math.Min(int.MaxValue, (long)Stock(b) + n);
+            Save();
+        }
         public void Spend(Booster b)
         {
             _data.stock[(int)b] = Math.Max(0, Stock(b) - 1);

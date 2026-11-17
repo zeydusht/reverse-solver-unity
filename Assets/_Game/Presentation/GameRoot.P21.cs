@@ -13,7 +13,7 @@ namespace ReverseSolver.Presentation
         P21Story _p21Story;
         bool _p21StoryDismissed, _p21StoryLast;
         bool P21NewArt => Art.T54 && P21Onboarding.Enabled(Art.GameplayCohort, _redesignSet, PlayOverride.Active, true, "1");
-        bool P21StoryLevel => P21NewArt && !_p21Flow && !_p21Revised && _index == 0;
+        bool P21StoryLevel => P21NewArt && !_p21Flow && !_p21Revised && _index == 0 && !_slSet;   // PM_82: sl100 has its guided level 1
         readonly P21LockHints _p21LockHints = new P21LockHints();
         P21TutorialView _p21LockBubble;
 
@@ -32,10 +32,10 @@ namespace ReverseSolver.Presentation
         TelemetrySender _tutorialSender;
         bool P21Prelude => _p21Flow && _index < 2;
         bool P21OpeningLesson => _p21Revised && _index < 2;
-        bool P21ObstacleLesson => _p21Lessons && P21Onboarding.IsObstacleLesson(_index + 1);
-        bool P21Guided => _p21Revised ? _index == 0 : P21Prelude && _index == 0;
+        bool P21ObstacleLesson => _slSet ? _session?.Level?.Lesson != null : _p21Lessons && P21Onboarding.IsObstacleLesson(_index + 1);   // PM_82: sl100's lessons from the data
+        bool P21Guided => Guide82 || (_p21Revised ? _index == 0 : P21Prelude && _index == 0);
         bool P21ClockPaused => P21Guided || P21OpeningLesson || P21ObstacleLesson;
-        (int Step, int Piece, Dir? Direction, bool Blocked) P21Slide => _p21Revised
+        (int Step, int Piece, Dir? Direction, bool Blocked) P21Slide => Guide82 ? Guide82Slide : _p21Revised
             ? P21Onboarding.GuidedSlide(_p21Action)
             : _p21Action switch
             {
@@ -60,6 +60,7 @@ namespace ReverseSolver.Presentation
             bool showBanner = _p21Revised ? _index == 2 : (_p21Flow || P21NewArt) && _index < 3;
             _p21BannerUntil = showBanner ? Time.unscaledTime + 1.5f : -1;
             if (P21Guided) _session.TutorialMove = true;
+            ResetGuide82();
         }
 
         string P21Instruction => _p21Step == 4 ? Texts.P21StoryLast : P21Slide.Direction switch
@@ -75,6 +76,7 @@ namespace ReverseSolver.Presentation
         void BuildP21Tutorial()
         {
             _p21View = null;
+            if (_board != null && Guide82Level) { BuildGuide82(); return; }   // PM_82
             if ((!_p21Flow && !_p21Revised && !P21NewArt) || _board == null) return;
             if (P21StoryLevel && !_session.IsOver)
                 _p21View = P21TutorialView.Story(_world, _screen, _safe.w, _board, _p21Story.Target,
@@ -105,6 +107,7 @@ namespace ReverseSolver.Presentation
 
         void TickP21Tutorial()
         {
+            TickGuide82(); TickIdleHint82();   // PM_82
             if (!P21Guided || _session.IsOver || _p21AdvanceAt < 0 || Time.unscaledTime < _p21AdvanceAt) return;
             _p21AdvanceAt = -1;
             _p21Action++;
@@ -121,6 +124,7 @@ namespace ReverseSolver.Presentation
         void PressP21Tutorial(Vector2 pt)
         {
             if (_session.IsOver || _p21AdvanceAt >= 0) return;
+            if (PressGuide82(pt)) return;   // PM_82: the intro's tap
             int target = _board.GrabAt(pt, out bool outside);
             if (target != P21Slide.Piece)
             {
@@ -157,6 +161,7 @@ namespace ReverseSolver.Presentation
 
         void OnP21TutorialEvent(GameEvent e)
         {
+            if (e.Kind == EventKind.PieceRemoved || e.Kind == EventKind.Jammed) MovedGuide82(e);   // PM_82
             if (P21StoryLevel && e.Kind == EventKind.PieceRemoved)
             {
                 if (e.Piece == _p21Story.Target)
@@ -187,12 +192,29 @@ namespace ReverseSolver.Presentation
                 _p21JamPending = true;
                 if (!slide.Blocked) return;
                 RecordP21Step("jam");
+                if (Guide82)
+                {
+                    // PM_82 step 4: the reason, a short red glow where they touch, time to read it
+                    _p21View?.Feedback(false, Lang.T("Oops! It bumped into its neighbor. A stuck piece can't get out.", "Olmadı! Yanındaki parçaya çarptı. Takılan parça çıkamaz."));
+                    JamGlow82(e.Piece, slide.Direction ?? Dir.R);
+                    _p21AdvanceAt = Time.unscaledTime + 2.6f;
+                    return;
+                }
                 _p21View?.Feedback(false, Lang.T("Blocked! Pieces can't pass through each other.", "Takıldı! Parçalar birbirinin içinden geçemez."));
                 _p21AdvanceAt = Time.unscaledTime + .75f;
             }
             else if (e.Kind == EventKind.PieceRemoved)
             {
                 RecordP21Step("exit");
+                if (Guide82 && _p21Action >= 2)
+                {
+                    // PM_82 step 6: the hand goes, free play
+                    _guideFree82 = true;
+                    RemoveGuideHand82();
+                    _p21View?.Remove();
+                    BuildGuide82();
+                    return;
+                }
                 if (_p21Step == 4)
                 {
                     _p21View?.Remove(); _p21View = null;

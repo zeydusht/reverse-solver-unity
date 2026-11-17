@@ -95,17 +95,27 @@ namespace ReverseSolver.Presentation
         IEnumerator Fetch(string image)
         {
             byte[] data = null;
-            bool disk = DiskCache && Remote(image);
+            bool live = Live.Active;   // PM_81: the store build's paintings: the device's or the app's copy, else live/
+            bool disk = !live && DiskCache && Remote(image);
+            if (live) data = Live.LocalPainting(image);
             if (disk) try { if (File.Exists(CachePath(image))) data = File.ReadAllBytes(CachePath(image)); } catch (Exception) { data = null; }
             if (data == null)
-                using (var req = UnityWebRequest.Get(Url(image)))
+                using (var req = UnityWebRequest.Get(live ? Live.PaintingUrl(image) : Url(image)))
                 {
                     yield return req.SendWebRequest();
                     if (req.result == UnityWebRequest.Result.Success) data = req.downloadHandler.data;
                     else if (Host.Debug) Debug.Log($"[image] {image}: {req.error}");
+                    if (data != null && live) Live.KeepPainting(image, data);
                     if (data != null && disk)
                         try { Directory.CreateDirectory(Path.GetDirectoryName(CachePath(image))); File.WriteAllBytes(CachePath(image), data); }
                         catch (Exception) { }
+                }
+            // PM_81 §6: a painting not published yet (61-100 may come later): one of 1-40, the same one each time
+            if (data == null && !live && image.StartsWith("painting-") && int.TryParse(image.Substring(9), out int n) && n > 40)
+                using (var alt = UnityWebRequest.Get(Url($"painting-{(n - 1) % 40 + 1:00}")))
+                {
+                    yield return alt.SendWebRequest();
+                    if (alt.result == UnityWebRequest.Result.Success) data = alt.downloadHandler.data;
                 }
             var callbacks = _waiting[image];
             _waiting.Remove(image);

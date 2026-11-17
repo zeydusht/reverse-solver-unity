@@ -1,0 +1,8 @@
+{
+  "_not": "PM_81: AppLovin MAX anahtarları. Zeyd göndermeden yer tutucu kalır; yer tutucuyla reklam açılmaz, tuşlar görünmez.",
+  "sdk_key": "BURAYA_SDK_KEY",
+  "ios_rewarded": "BURAYA_IOS_REWARDED_ID",
+  "ios_interstitial": "BURAYA_IOS_INTERSTITIAL_ID",
+  "privacy_url": "https://zeydusht.github.io/reverse-solver-unity/privacy/",
+  "terms_url": "https://zeydusht.github.io/reverse-solver-unity/privacy/#terms"
+}

@@ -13,11 +13,11 @@ namespace ReverseSolver.Presentation
         readonly LossView74 _v74;   // PM_74: the p21 game shows the offer in the T50 B win language
 
         public ContinuePanel(Transform parent, Vector2 screen, Vector4 safe, int order,
-            ContinueOffer offer, int coins, bool showNo, bool preview = false)
+            ContinueOffer offer, int coins, bool showNo, bool preview = false, bool ad = false)
         {
             if (Art.T54 && TelemetryMeta.P21Line(Art.GameplayCohort) && LossView74.Available)
             {
-                _v74 = LossView74.Continue(parent, screen, safe, order, offer, coins, showNo, preview);
+                _v74 = LossView74.Continue(parent, screen, safe, order, offer, coins, showNo, preview, ad);
                 return;
             }
             _affordable = offer.Affordable || preview; _showNo = showNo;

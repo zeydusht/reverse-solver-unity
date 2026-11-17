@@ -1,0 +1,10 @@
+{
+    "name": "MaxSdk.Scripts",
+    "references": [],
+    "includePlatforms": [
+        "Editor",
+        "iOS",
+        "Android"
+    ],
+    "excludePlatforms": []
+}

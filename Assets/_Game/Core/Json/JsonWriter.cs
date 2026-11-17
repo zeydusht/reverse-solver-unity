@@ -26,6 +26,9 @@ namespace ReverseSolver.Core.Json
 
         public JsonWriter Field(string k, string v) => Key(k).Value(v);
         public JsonWriter Field(string k, int v) => Key(k).Value(v);
+        public JsonWriter Field(string k, bool v) => Key(k).Value(v);
+        /* PM_81: a decimal (ad revenue), invariant, round-trip precision. */
+        public JsonWriter Field(string k, double v) { Key(k); Sep(); _sb.Append(v.ToString("R", CultureInfo.InvariantCulture)); _first = false; return this; }
 
         public override string ToString() => _sb.ToString();
 

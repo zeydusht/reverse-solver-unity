@@ -144,7 +144,7 @@ namespace ReverseSolver.Presentation
         readonly List<float> _dragFps = new List<float>();
         float _fpsAcc; int _fpsFrames; float _fpsShown;
 
-        void Start()
+        void StartGame()
         {
             Art.T28 = Host.Current.Query("art") != "eski";
             Music.Start(this);                                 // the menu and the levels share one loop
@@ -208,7 +208,7 @@ namespace ReverseSolver.Presentation
             _p21Flow = false;
             _p21Revised = false;
             _p21Lessons = P21Onboarding.UseLessons(launchCohort, _redesignSet, PlayOverride.Active, Art.T54, Host.Current.Query("dersler"));
-            if (_p21Lessons) _set = P21Onboarding.P22(_set);
+            if (_p21Lessons && !_slSet) _set = P21Onboarding.P22(_set);   // PM_81: a live set comes resolved
             Debug.Log($"[p21] flow={_p21Flow} levels={_set.Levels.Count}");
             _stats = PlayStats.Load(host.Store);
             _stats.ImportLegacy(_save, _p21Revised || _p21Lessons ? authoredSet : null);
@@ -223,7 +223,7 @@ namespace ReverseSolver.Presentation
             string cohort = TelemetryMeta.CleanCohort(host.Query("c"));
             if (cohort != null) { host.Store.Set("rs_cohort", cohort); host.Store.Save(); }
             else cohort = TelemetryMeta.CleanCohort(host.Store.Get("rs_cohort"));
-            TelemetryMeta.Current = new TelemetryMeta { Cohort = _testMode ? "ic" : cohort, DeviceId = _save.Install, Platform = PlatformName(), AppVersion = AppVersion() };
+            TelemetryMeta.Current = new TelemetryMeta { Cohort = _testMode ? "ic" : cohort, DeviceId = DeviceId81(), Platform = PlatformName(), AppVersion = AppVersion() };
             _profileQueue = new TelemetryQueue(host.Store, "profiles");
             _profileSender = new TelemetrySender(_profileQueue, send ? host.Transport : null, host.SupabaseUrl, host.AnonKey, send, "player_profiles?on_conflict=cohort,player,device_id");
             if (_zeydbotSet)
@@ -407,6 +407,9 @@ namespace ReverseSolver.Presentation
             // PM_MESAJ_19: ?lang=en|tr sets the language (shared links, QA); otherwise the saved choice, English first
             string lang = Host.Current.Query("lang");
             if (lang == "tr" || lang == "en") Lang.Tr = lang == "tr";
+            // PM_81: the live set (iOS, &kaynak=live) or ?set=sl100: resolved, played as the p23 game
+            var live = LiveSet();
+            if (live != null) { _zeydbotSet = !Host.Debug; _redesignSet = true; _newArt = Art.On = _paintSet = true; return live; }
             if (Host.Current.Query("lv") == "SHOW1" || Host.Current.Query("lv") == "SHOW_ART")
             {
                 var show = Resources.Load<TextAsset>(Host.Current.Query("lv") == "SHOW_ART" ? "show_art" : "show");
@@ -482,6 +485,7 @@ namespace ReverseSolver.Presentation
         void OnVisibility(bool visible)
         {
             _pageHidden = !visible;
+            SlTelemetry.Visibility(visible);   // PM_81: session_end / session_start
             if (!visible && _deferredLoss != null)
             {
                 ResolveContinue("withdrawn", false);
@@ -565,6 +569,7 @@ namespace ReverseSolver.Presentation
         void StartLevel(int index)
         {
             PerfClock.Restart(); PerfLine.Clear();
+            _r1Used = false;   // PM_81: one R1 ad continue per attempt
             LeaveLevel();
             Perf("leave");
             _index = Mathf.Clamp(index, 0, _set.Levels.Count - 1);
@@ -603,7 +608,8 @@ namespace ReverseSolver.Presentation
             _endAt = -1;
             // web loadLevel(i): the intro shows on a level's first start, not on retries
             bool firstVisit = !_introSeen.Contains(level.Id);
-            _introOpen = !P21Prelude && !P21OpeningLesson && Screens.HasIntro(level, !_p21Lessons || _index != 5) && firstVisit;
+            _introOpen = !P21Prelude && !P21OpeningLesson && (_slSet ? SlIntro82(level, true) : Screens.HasIntro(level, !_p21Lessons || _index != 5)) && firstVisit;
+            QueueHardRibbon82(level, firstVisit);   // PM_82: a short ribbon instead of the hard card
             _introSeen.Add(level.Id);
             ResetScriptedTutorial(firstVisit);
             ResetP21Tutorial();
@@ -666,6 +672,7 @@ namespace ReverseSolver.Presentation
             // Reuse the bomb spotlight on its new teaching board.
             if (_p21Lessons && slot == 6) slot = 0;
             else if (_p21Lessons && slot == P21Onboarding.BombLesson) slot = 6;
+            if (_slSet) slot = ScriptSlot82(_session.Level);   // PM_82: by what the level teaches
             _tutorialSteps = _redesignSet && !PlayOverride.Active && !P21Prelude && !P21OpeningLesson && !P21StoryLevel
                 ? _tutorialScript.ForSlot(slot, firstVisit) : new List<TutorialStep>();
             _tutorialSteps.RemoveAll(step => (step.tur == "booster" || step.tur == "booster_hedef") &&
@@ -678,8 +685,8 @@ namespace ReverseSolver.Presentation
         /* Scripted SET40 steps, with the old hand retained for other tutorials. */
         void ShowTutorialStep()
         {
-            if (P21StoryLevel) return;
-            if (_redesignSet && !PlayOverride.Active && _tutorialScript.ForSlot(_index + 1, true).Count > 0)
+            if (P21StoryLevel || Guide82Level) return;
+            if (_redesignSet && !PlayOverride.Active && _tutorialScript.ForSlot(_slSet ? ScriptSlot82(_session?.Level) : _index + 1, true).Count > 0)
             {
                 ShowScriptedTutorial();
                 return;
@@ -815,8 +822,10 @@ namespace ReverseSolver.Presentation
                 }
             }
             if (_menu == null) return;
+            if (PressGift82(pt)) return;   // PM_82 R4
             if (_menu.Settings.Contains(pt)) OpenSettings();
             else if (_menu.Profile.Contains(pt) && Art.On) OpenPlayerProfile();
+            else if (_menu.Play.Contains(pt) && AllWon81()) ShowFinale81();   // PM_81: after level 100
             else if (_menu.Play.Contains(pt))
             {
                 PerfClock.Restart(); PerfLine.Clear();
@@ -873,9 +882,18 @@ namespace ReverseSolver.Presentation
             }
         }
 
+        int _versionTaps; float _versionTapAt;
         void SettingsAction(string id)
         {
             if (id == null) return;
+            if (id == "version")
+            {
+                // PM_81: the hidden test menu: the version line tapped 5 times (within 3 s) -> MAX's Mediation Debugger
+                _versionTaps = Time.unscaledTime - _versionTapAt > 3 ? 1 : _versionTaps + 1;
+                _versionTapAt = Time.unscaledTime;
+                if (_versionTaps >= 5) { _versionTaps = 0; Ads.Debugger(); }
+                return;
+            }
             if (id == "story")
             {
                 _menuSettings?.Destroy(); _menuSettings = null;
@@ -1108,6 +1126,7 @@ namespace ReverseSolver.Presentation
             if (Host.Debug) Debug.Log("[attempt] " + _session.Record);
             if (!_previewWins && ContinueEnabled && _session.Outcome == Outcome.Win)
                 _save.SetCoins((int)System.Math.Min(int.MaxValue, (long)_save.Coins + _continueRules.WinCoins));
+            if (!_previewWins && _session.Outcome == Outcome.Win) Ads.CountWin();   // PM_81: towards the next interstitial
             if (_session.Continues > 0) RecordContinueFinal(_session.Record, true);
         }
 
@@ -1116,7 +1135,7 @@ namespace ReverseSolver.Presentation
             CancelCardTap();
             _continuePanel?.Destroy();
             _continuePanel = new ContinuePanel(_world, _screen, _safe, CardOrder + 100,
-                _continueOffer, _save.Coins, Host.Current.Query("devamhayir") == "1", _continuePreview);
+                _continueOffer, _save.Coins, Host.Current.Query("devamhayir") == "1", _continuePreview, OfferAdContinue81());
         }
 
         void CloseContinue()
@@ -1134,11 +1153,12 @@ namespace ReverseSolver.Presentation
             var offer = _continueOffer;
             int before = _save.Coins;
             if (decision == "accepted" && before < offer.Price) return;
-            if (decision == "accepted")
+            bool ad = decision == "ad";   // PM_81 R1: the same continue, paid with an ad
+            if (decision == "accepted" || ad)
             {
-                _save.SetCoins(before - offer.Price);
+                if (!ad) _save.SetCoins(before - offer.Price);
                 if (!_session.Continue(offer.Seconds, _continueRules.BombFuse)) { _save.SetCoins(before); return; }
-                RecordContinueDecision(offer, before, decision);
+                RecordContinueDecision(offer, before, "accepted", ad ? "ad" : "gold");
                 _endAt = -1;
                 _deferredLoss = null;
                 CloseContinue();
@@ -1157,13 +1177,14 @@ namespace ReverseSolver.Presentation
             }
         }
 
-        void RecordContinueDecision(ContinueOffer offer, int coinsBefore, string decision)
+        void RecordContinueDecision(ContinueOffer offer, int coinsBefore, string decision, string type = "gold")
         {
             if (!_continueSender.Enabled) return;
             string id = System.Guid.NewGuid().ToString("N");
+            // PM_81: continue_type (gold / ad) only in the soft launch's rows (docs/sql/019 adds the column)
             _continueQueue.Add(id, ContinueRow.Json(id, _rowId, _save.Player, _deferredLoss,
                 _deferredLoss.Continues + 1, offer.Kind == ContinueKind.Time ? "time" : "bomb",
-                offer.Price, offer.Seconds, coinsBefore, decision));
+                type == "ad" ? 0 : offer.Price, offer.Seconds, coinsBefore, decision, Cohort == "sl1" ? type : null));
             if (!_pageHidden) _continueSender.Flush();
         }
 
@@ -1257,7 +1278,9 @@ namespace ReverseSolver.Presentation
                     menuSafe.w = _screen.y - _tabs.Top;   // Home: the Level button sits 16 pt above the bar
                 }
                 if (!Art.On || (!_levelsMapOpen && _tab == MenuTab.Home))
-                    _menu = new Screens.Menu(_world, _screen, menuSafe, _p21Flow ? _progress.Next() + 1 : _set.Levels[_progress.Next()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[_progress.Next()].Hard, levelsButton: _testMode || !_p21Lessons, coins: _save.Coins);
+                    _menu = new Screens.Menu(_world, _screen, menuSafe, _p21Flow ? _progress.Next() + 1 : _set.Levels[MenuNext82()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[MenuNext82()].Hard, levelsButton: _testMode || !_p21Lessons, coins: _save.Coins,
+                        veryHard: _set.Levels[MenuNext82()].Role == "veryhard");
+                BuildGift82();   // PM_82 R4
                 // PM_MESAJ_18: the corridor's big frame shows the painting the next level frees
                 if (_paintSet && _newArt && _menu != null)
                 {
@@ -1602,6 +1625,9 @@ namespace ReverseSolver.Presentation
         static int _perfFrames;
         void Update()
         {
+            if (!_started) return;   // PM_81: the content is still being read
+            AdsTick81();
+            Tick82();
             if (_perfFrames > 0 && PerfOn) { Debug.Log($"[perf] frame {Time.unscaledDeltaTime * 1000:0} ms"); _perfFrames--; }
             if (_introPlaying) return;
             _continuePanel?.Tick();
@@ -1671,7 +1697,7 @@ namespace ReverseSolver.Presentation
         void TickPlayingClock()
         {
             if (_session.IsOver || P21ClockPaused || _introOpen || _card != null || _list != null ||
-                _celebration != null || _win21 != null || _continuePanel != null || P21Boosters && _pageHidden) return;
+                _celebration != null || _win21 != null || _continuePanel != null || P21Boosters && _pageHidden || Ads.Showing) return;
             bool guidedPause = TutorialActive || _tutorialClockHold;
             if (guidedPause && !(P21Boosters && (_session.ClockStarted || _session.FreezeLeft > 0 ||
                 !_session.ClockOnFirstMove && (BoosterSelection21 || BoosterBusy21)))) return;
@@ -1692,6 +1718,8 @@ namespace ReverseSolver.Presentation
         {
             var p = Pointer.current;
             if (p == null) return;
+            if (Ads.Showing) return;   // PM_81: an ad is up
+            if (_finale != null) { if (p.press.wasPressedThisFrame && !InputGated(p)) FinaleTap81(ScreenToPoints(p.position.ReadValue())); return; }
             if (_diving) { if (p.press.wasPressedThisFrame) _dive75?.Tap(); return; }   // PM_75: a tap speeds the dive up, a second ends it
             if (_continuePanel != null)
             {
@@ -1701,7 +1729,8 @@ namespace ReverseSolver.Presentation
                 if (p.press.wasPressedThisFrame && !blocked)
                 {
                     string decision = _continuePanel.Hit(point);
-                    if (decision != null) ResolveContinue(decision);
+                    if (decision == "ad") WatchAdContinue81();   // PM_81 R1
+                    else if (decision != null) ResolveContinue(decision);
                 }
                 return;
             }

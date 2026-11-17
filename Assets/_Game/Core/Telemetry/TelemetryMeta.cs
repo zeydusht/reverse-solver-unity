@@ -23,7 +23,8 @@ namespace ReverseSolver.Core
         /* PM_64: p22 is the next preview of the p21 game; both play the p21 flow, rows keep their own cohort.
            PM_65: the internal cohort (ic, test links) plays the same game, so no old tutorial shows up there. */
         /* PM_74: p23 is the overnight polish preview, the same game. */
-        public static bool P21Line(string c) => c == "p21" || c == "p22" || c == "p23" || c == "ic";
+        /* PM_81: sl1 is the soft launch's store build (iOS), the same game. */
+        public static bool P21Line(string c) => c == "p21" || c == "p22" || c == "p23" || c == "ic" || c == "sl1";
 
         internal static void Plays(JsonWriter w)
         {

@@ -65,6 +65,12 @@ namespace ReverseSolver.Core
         // SET40 v3: "zor bölüm" warning before the level, and the tutorial step (1, 2) that shows the hand.
         public bool Hard { get; internal set; }
         public int Tutorial { get; internal set; }
+        /* PM_81/82 (sl100): the slot's role: lesson, normal, hard, veryhard, breather, combo; null in older sets. */
+        public string Role { get; internal set; }
+        /* PM_81: a copy standing in for a level not designed yet (41-100 until PM_82). */
+        public bool Placeholder { get; internal set; }
+        /* PM_82: the obstacle this level teaches (lock, chain, bomb, wall), or null. */
+        public string Lesson { get; internal set; }
 
         public int CellCount => Width * Height;
         public bool OnBoard(Cell c) => c.X >= 0 && c.X < Width && c.Y >= 0 && c.Y < Height;

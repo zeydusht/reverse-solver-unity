@@ -38,10 +38,14 @@ namespace ReverseSolver.Presentation
             public Rect Play, Levels, Settings, Profile;
 
             int _coins = -1;
+            /* PM_82: a very hard next level (sl100's x9): the dark red button with the Count's seal. */
+            public bool VeryHard;
             public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false,
-                        string player = null, int saved = 0, int stars = 0, string playLabel = null, bool hard = false, bool levelsButton = true, int coins = -1)
+                        string player = null, int saved = 0, int stars = 0, string playLabel = null, bool hard = false, bool levelsButton = true, int coins = -1,
+                        bool veryHard = false)
             {
                 _coins = coins;
+                VeryHard = veryHard;
                 Root = new GameObject("Menu").transform;
                 Root.SetParent(parent, false);
                 float cx = screen.x / 2, cy = (screen.y + safe.y - safe.w) / 2;
@@ -371,21 +375,30 @@ namespace ReverseSolver.Presentation
                 if (!levelsButton) bh = Mathf.Min(228f, w - 130f) * 112f / 228f;
                 // PM_MESAJ_29: 12 pt clear of the selected tab icon that rises over the bar
                 float x0 = (w - bw) / 2, cy = screen.y - safe.w - (Art.On ? 28 : 22) - bh / 2;
-                var play = Sprite("level-button", new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
+                // PM_82: a hard level's button is red, a very hard one dark red with the Count's seal
+                string key = VeryHard ? "level-button-darkred" : hard && Art.On ? "level-button-red" : "level-button";
+                if (Art.Get(key) == null) key = "level-button";
+                var rim = key == "level-button" ? TextView.RimGreen : Draw.Hex(VeryHard ? "#3A0608" : "#6E0B0B");
+                var play = Sprite(key, new Vector2(x0 + bw / 2, cy), new Vector2(bw, bh), order, sliced: true);
                 // PM_MESAJ_42: Baloo heading; a hard level adds "Hard level" under it (40 % / 27 % of the inner height)
-                bool second = Art.On && hard && playLabel == null;
+                bool second = Art.On && (hard || VeryHard) && playLabel == null;
                 var label = TextView.Create(Root, "play", playLabel ?? string.Format(Art.On ? Texts.PlayLevel : Texts.Level, next), bh * (second ? .27f : .34f), Palette.Cream, false, order: order + 2);
-                if (Art.On) label.Heading(TextView.RimGreen).FitWidth(bw - 40, bh * (second ? .19f : .24f));
+                if (Art.On) label.Heading(rim).FitWidth(bw - 40, bh * (second ? .19f : .24f));
                 else label.Font(Lilita).Outline(Draw.Hex("#1E5C0E"), .22f);
                 label.transform.localPosition = Draw.W(x0 + bw / 2, cy - (second ? bh * .12f : 2));
                 if (second)
                 {
-                    var sub = TextView.Create(Root, "play-hard", Texts.HardTitle, bh * .18f, Palette.Cream, false, order: order + 2)
-                        .Heading(TextView.RimGreen).FitWidth(bw - 50, bh * .13f);
+                    var sub = TextView.Create(Root, "play-hard", VeryHard ? Texts.VeryHardTitle : Texts.HardTitle, bh * .18f, Palette.Cream, false, order: order + 2)
+                        .Heading(rim).FitWidth(bw - 50, bh * .13f);
                     sub.transform.localPosition = Draw.W(x0 + bw / 2, cy + bh * .17f);
                 }
+                if (VeryHard)
+                {
+                    var seal = Art.Place(Root, "yeni/T50/map/badge_kont", Vector2.one * bh * .78f, order + 3);
+                    if (seal != null) seal.transform.localPosition = Draw.W(x0 + bh * .18f, cy - bh * .30f);
+                }
                 Play = new Rect(x0, cy - bh / 2, bw, bh);
-                if (play != null) _press.Add((Play, play, "level-button", "level-button-pressed", label.transform));
+                if (play != null) _press.Add((Play, play, key, key + "-pressed", label.transform));
                 // PM_75: no breathing (Zeyd: it should not move by itself); a press shrinks it
 
                 if (Art.On && levelsButton)

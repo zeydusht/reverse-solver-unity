@@ -1,0 +1,101 @@
+slot,role,level_id,level_version,kinds,w,h,pieces,timer_s,p_win1_v2,origin,candidates
+1,guide,S41,1,-,3,3,9,120,0.995,eski (p22 · aynen),1
+2,learn,S42,2,-,4,4,16,72,0.968,eski (p22 · ayarlı),2
+3,lesson,S43,2,kilit,4,5,20,90,0.968,eski (p22 · ayarlı),1
+4,learn,SL004,1,kilit,5,5,25,69,0.930,yeni (üretici),159
+5,learn,SL005,1,kilit,4,5,20,55,0.929,yeni (havuz: fab),157
+6,learn,SL006,1,kilit,5,5,25,69,0.930,yeni (üretici),155
+7,lesson,Z24,4,zincir,6,7,41,90,0.925,eski (p22 · ayarlı),1
+8,learn,SL008,1,kilit+zincir,6,6,34,89,0.930,yeni (üretici),906
+9,learn,SL009,1,kilit+zincir,5,5,23,62,0.930,yeni (üretici),904
+10,learn,SL010,1,kilit+zincir,6,6,34,70,0.930,yeni (havuz: web),902
+11,lesson,S46,3,bomba,4,4,16,120,0.986,eski (p22 · ayarlı),1
+12,learn,SL012,1,kilit+zincir+bomba,5,5,21,73,0.930,yeni (üretici),1471
+13,learn,S47,4,bomba,5,6,30,83,0.930,eski (p22 · ayarlı),1467
+14,hard,SL014,1,kilit+zincir+bomba,6,6,35,64,0.420,yeni (havuz: web),1550
+15,normal,SL015,1,bomba,5,5,25,63,0.800,yeni (üretici),1170
+16,normal,SL016,1,kilit+zincir+bomba,6,6,33,85,0.800,yeni (üretici),1166
+17,normal,SL017,1,bomba,5,5,25,64,0.801,yeni (üretici),1162
+18,normal,SL018,1,bomba,6,6,36,93,0.800,yeni (üretici),1158
+19,veryhard,SL019,1,kilit+zincir+bomba,7,7,47,122,0.219,yeni (havuz: p22),1571
+20,breather,SL020,1,kilit+zincir+bomba,5,5,23,73,0.900,yeni (üretici),953
+21,lesson,Z21,4,duvar,6,7,42,90,0.896,eski (p22 · ayarlı),1
+22,normal,S08,5,kilit+bomba+duvar,6,6,36,83,0.797,eski (p22 · ayarlı),1723
+23,normal,Z04,4,kilit+zincir+bomba+duvar,6,7,39,104,0.796,eski (p22 · ayarlı),1711
+24,hard,S40,3,kilit+zincir+bomba+duvar,7,7,47,78,0.420,eski (p22 · ayarlı),1460
+25,normal,S13,4,kilit+zincir+bomba+duvar,6,6,34,95,0.759,eski (p22 · ayarlı),1703
+26,normal,S22,3,kilit+zincir+bomba+duvar,6,7,39,86,0.793,eski (p22 · ayarlı),1695
+27,normal,SL027,1,bomba+duvar,6,6,36,70,0.791,yeni (üretici),1687
+28,normal,S38,4,kilit+zincir+bomba+duvar,6,7,40,112,0.779,eski (p22 · ayarlı),1681
+29,veryhard,S10,5,kilit+bomba+duvar,6,6,36,60,0.270,eski (p22 · ayarlı),1496
+30,breather,SL030,1,kilit+zincir+bomba+duvar,5,5,23,49,0.900,yeni (üretici),1359
+31,combo,SL031,1,zincir+bomba,7,7,46,88,0.876,yeni (üretici),229
+32,normal,SL032,1,kilit+zincir+bomba,6,6,32,61,0.785,yeni (üretici),2073
+33,normal,SL033,1,kilit+zincir+bomba,7,7,48,86,0.784,yeni (üretici),2069
+34,hard,Z25,4,kilit+zincir+bomba+duvar,7,8,54,87,0.419,eski (p22 · ayarlı),805
+35,normal,SL035,1,kilit+zincir+bomba+duvar,6,6,35,74,0.781,yeni (havuz: fab),2065
+36,normal,SL036,1,zincir+bomba,7,7,45,111,0.780,yeni (üretici),2057
+37,normal,SL037,1,kilit+zincir+bomba,6,6,34,69,0.779,yeni (havuz: fab),2053
+38,normal,SL038,1,zincir+bomba+duvar,7,7,46,96,0.778,yeni (üretici),2045
+39,veryhard,S29,3,kilit+zincir+bomba+duvar,8,8,62,100,0.270,eski (p22 · ayarlı),861
+40,breather,SL040,1,kilit+zincir+bomba,5,5,24,51,0.900,yeni (üretici),1351
+41,combo,SL041,1,kilit+bomba,7,7,49,107,0.864,yeni (üretici),66
+42,normal,SL042,1,kilit+zincir+bomba,6,6,34,77,0.772,yeni (havuz: web),2037
+43,normal,SL043,1,kilit+zincir+bomba+duvar,7,7,46,106,0.771,yeni (üretici),2033
+44,hard,S39,4,kilit+zincir+bomba+duvar,7,8,54,90,0.419,eski (p22 · ayarlı),790
+45,normal,SL045,1,kilit+zincir+bomba,6,6,33,74,0.769,yeni (üretici),2025
+46,normal,SL046,1,kilit+zincir+bomba+duvar,7,7,46,100,0.768,yeni (üretici),2021
+47,normal,SL047,1,kilit+zincir+bomba+duvar,6,6,35,88,0.766,yeni (havuz: web),2013
+48,normal,SL048,1,kilit+zincir+bomba,7,7,47,116,0.765,yeni (üretici),2005
+49,veryhard,S33,3,kilit+zincir+bomba+duvar,8,8,62,100,0.296,eski (p22 · ayarlı),850
+50,breather,S44,2,kilit,5,5,25,55,0.900,eski (p22 · ayarlı),1343
+51,combo,SL051,1,bomba+duvar,7,7,49,90,0.852,yeni (üretici),68
+52,normal,S18,5,kilit+zincir+bomba+duvar,6,6,33,92,0.726,eski (p22 · ayarlı),1997
+53,normal,SL053,1,kilit+zincir+bomba+duvar,7,7,47,120,0.738,yeni (üretici),1989
+54,hard,S27,3,kilit+zincir+bomba+duvar,6,7,39,75,0.417,eski (p22 · ayarlı),783
+55,normal,SL055,1,zincir+bomba+duvar,6,6,35,73,0.756,yeni (üretici),1981
+56,normal,SL056,1,zincir+bomba,7,7,46,118,0.755,yeni (üretici),1973
+57,normal,SL057,1,kilit+zincir+bomba+duvar,6,6,33,86,0.754,yeni (üretici),1969
+58,normal,SL058,1,zincir+bomba,7,7,47,117,0.753,yeni (üretici),1961
+59,veryhard,S32,4,kilit+zincir+bomba+duvar,7,8,54,87,0.283,eski (p22 · ayarlı),845
+60,breather,SL060,1,bomba+duvar,5,5,25,55,0.900,yeni (üretici),1658
+61,combo,SL061,1,zincir+duvar,6,6,35,60,0.855,yeni (üretici),174
+62,normal,S28,4,kilit+zincir+bomba+duvar,7,8,54,92,0.747,eski (p22 · ayarlı),1855
+63,normal,SL063,1,zincir+bomba+duvar,6,6,33,78,0.746,yeni (havuz: fab),1843
+64,hard,S35,3,zincir+bomba+duvar,7,8,54,87,0.447,eski (p22 · ayarlı),592
+65,normal,SL065,1,zincir+bomba+duvar,6,6,34,87,0.744,yeni (havuz: fab),1835
+66,normal,S31,3,kilit+zincir+bomba+duvar,7,8,54,120,0.735,eski (p22 · ayarlı),1827
+67,normal,SL067,1,kilit+zincir+bomba+duvar,6,6,34,74,0.741,yeni (havuz: fab),1815
+68,normal,S34,3,kilit+zincir+bomba,6,7,39,98,0.741,eski (p22 · ayarlı),1807
+69,veryhard,Z23,3,kilit+zincir+bomba+duvar,7,8,54,87,0.291,eski (p22 · ayarlı),645
+70,breather,SL070,1,duvar,5,5,25,55,0.900,yeni (üretici),1652
+71,combo,SL071,1,kilit+zincir+bomba,6,6,33,76,0.826,yeni (üretici),169
+72,normal,S21,4,kilit+zincir+bomba,6,7,40,71,0.737,eski (p22 · ayarlı),1803
+73,normal,SL073,1,kilit+zincir+bomba,6,6,35,60,0.733,yeni (üretici),1799
+74,hard,SL074,1,kilit+zincir+bomba+duvar,7,8,54,106,0.420,yeni (havuz: zb),589
+75,normal,SL075,1,kilit+zincir+bomba,6,6,33,92,0.731,yeni (havuz: fab),1795
+76,normal,SL076,1,bomba+duvar,7,7,49,120,0.701,yeni (üretici),1787
+77,normal,SL077,1,kilit+zincir+bomba,6,6,33,74,0.730,yeni (üretici),1781
+78,normal,SL078,1,kilit+zincir+bomba,6,7,39,103,0.728,yeni (havuz: zb),1777
+79,veryhard,SL079,1,kilit+zincir+bomba,7,8,54,89,0.250,yeni (havuz: zb),636
+80,breather,S14,3,kilit+zincir+duvar,6,6,35,69,0.899,eski (p22 · ayarlı),1646
+81,combo,SL081,1,kilit+duvar,7,7,49,84,0.854,yeni (üretici),66
+82,normal,SL082,1,kilit+zincir+bomba+duvar,6,6,34,78,0.722,yeni (havuz: web),1769
+83,normal,SL083,1,kilit+zincir+bomba+duvar,6,7,40,82,0.720,yeni (havuz: web),1761
+84,hard,SL084,1,kilit+zincir+bomba+duvar,7,8,54,95,0.422,yeni (havuz: zb),582
+85,normal,SL085,1,kilit+zincir+bomba+duvar,6,6,35,98,0.698,yeni (havuz: fab),1753
+86,normal,S37,3,kilit+zincir+bomba+duvar,7,8,54,120,0.668,eski (p22 · ayarlı),1745
+87,normal,SL087,1,kilit+zincir+bomba+duvar,6,6,35,60,0.742,yeni (havuz: web),1737
+88,normal,SL088,1,kilit+zincir+bomba+duvar,7,7,45,84,0.715,yeni (üretici),1729
+89,veryhard,SL089,1,zincir+bomba+duvar,7,8,54,87,0.260,yeni (havuz: zb),629
+90,breather,SL090,1,kilit+duvar,5,5,25,55,0.900,yeni (havuz: p22),1642
+91,combo,SL091,1,kilit+zincir+bomba+duvar,6,6,33,85,0.801,yeni (üretici),105
+92,normal,SL092,1,kilit+zincir+bomba+duvar,7,7,47,101,0.710,yeni (üretici),1721
+93,normal,SL093,1,bomba,6,6,36,81,0.709,yeni (üretici),1713
+94,hard,SL094,1,kilit+bomba,7,7,49,79,0.480,yeni (üretici),575
+95,normal,SL095,1,kilit+zincir+bomba,6,6,35,65,0.705,yeni (üretici),1709
+96,normal,SL096,1,kilit+zincir+bomba+duvar,7,7,48,87,0.705,yeni (üretici),1705
+97,normal,SL097,1,bomba+duvar,6,6,36,73,0.704,yeni (üretici),1697
+98,normal,SL098,1,kilit+zincir+bomba+duvar,7,7,47,102,0.702,yeni (üretici),1691
+99,veryhard,SL099,1,zincir+bomba,7,8,54,140,0.243,yeni (havuz: zb),622
+100,breather,SL100,1,kilit+zincir+bomba+duvar,6,6,34,94,0.900,yeni (üretici),1634

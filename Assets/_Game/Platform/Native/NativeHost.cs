@@ -13,7 +13,9 @@ namespace ReverseSolver.Platform
     public sealed class NativeHost : IHost
     {
         readonly IKeyValueStore _store = new PlayerPrefsStore();
-        public string Query(string name) => null;
+        /* PM_81: no URL; the store build is the soft launch's cohort (sl1), everything else as the defaults. */
+        public string Query(string name) => name == "c" ? Cohort : null;
+        public const string Cohort = "sl1";
 
         /* Pixels per point: the device's UIScreen scale (2 or 3), read back from the dpi Unity reports. */
         public float PixelRatio => Mathf.Clamp(Mathf.Round(Screen.dpi / 160f), 1f, 3f);
@@ -47,7 +49,7 @@ namespace ReverseSolver.Platform
             var host = new NativeHost();
             Host.Current = host;
             Runner.Create(host);
-            RemoteLevels.Refresh();
+            // PM_81: the levels, settings and paintings come from live/ (Presentation.Live), not RemoteLevels
         }
 #endif
 

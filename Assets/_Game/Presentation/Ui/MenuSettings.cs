@@ -55,6 +55,7 @@ namespace ReverseSolver.Presentation
             IconButton("story", null, Texts.ReplayStory, new Vector2(c.x, top + h - 102), order + 3);
             IconButton("contact", "icon-mail", Texts.SettingsContact, new Vector2(c.x + w * .3f, top + h - 102), order + 3);
             MenuUi.Label(Root, BuildStamp.Value, new Vector2(c.x, top + h - 29), 12, order + 4, true, titleFont: true);
+            _buttons.Add((new Rect(c.x - 70, top + h - 29 - 16, 140, 32), "version"));   // PM_81: 5 taps open the hidden test menu
         }
         void BuildT48(Vector2 screen, Vector2 c, int order)
         {
@@ -97,6 +98,7 @@ namespace ReverseSolver.Presentation
             IconButtonT48("story", "primary", "play", new Vector2(24, 24), Texts.ReplayStory, new Vector2(c.x, by), order + 3);
             IconButtonT48("contact", "secondary", "mail", new Vector2(32, 26), Texts.SettingsContact, new Vector2(c.x + w * .3f, by), order + 3);
             MenuUi.Label(Root, BuildStamp.Value, new Vector2(c.x, top + h - 30), 12, order + 4, true, titleFont: true);
+            _buttons.Add((new Rect(c.x - 70, top + h - 30 - 16, 140, 32), "version"));   // PM_81: 5 taps open the hidden test menu
         }
 
         void IconButtonT48(string id, string body, string icon, Vector2 iconSize, string label, Vector2 c, int order)

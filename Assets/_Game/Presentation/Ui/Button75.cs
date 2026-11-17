@@ -42,6 +42,10 @@ namespace ReverseSolver.Presentation
         public static View Small(Transform parent, Vector2 c, Vector2 size, string text, int order) =>
             Make(parent, c, size, text, order, Blue, BluePressed, Draw.Hex("#0E2244"), .40f);
 
+        /* PM_82: the win screen's own faces (win-next, win-menu; Codex option A), any size. */
+        public static View Custom(Transform parent, Vector2 c, Vector2 size, string text, int order, string normal, string pressed, Vector4 rim, float textShare = .36f) =>
+            Make(parent, c, size, text, order, normal, pressed, rim, textShare);
+
         static View Make(Transform parent, Vector2 c, Vector2 size, string text, int order, string normal, string pressed, Vector4 rim, float textShare)
         {
             var root = new GameObject("button " + normal).transform;

@@ -73,7 +73,10 @@ namespace ReverseSolver.Presentation
             {
                 bool training = TutorialActive && TutorialScript.BoosterOf(_tutorialSteps[_tutorialAt].booster, out var taught) && taught == b;
                 if (!_session.IsUnlocked(b) || (_session.Stock(b) == 0 && _session.FreeUse != b && !training))
-                { _boosters.Tap(b); return; }
+                {
+                    if (!training && PressBoosterAd82(b)) return;   // PM_82 R3: +1 for a rewarded ad
+                    _boosters.Tap(b); return;
+                }
                 if (_selected21.HasValue && _trainingUse == _selected21)
                 { _trainingUse = null; _session.FreeUse = null; }
                 if (training) _session.FreeUse = b;

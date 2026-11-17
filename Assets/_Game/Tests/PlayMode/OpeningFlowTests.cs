@@ -94,6 +94,72 @@ namespace ReverseSolver.PlayMode.Tests
             }
         }
 
+        /* PM_82 §3: sl100's level 1 (p20's 3x3) is guided: Jigo talks in the chat box, the gloved hand shows the move,
+           nothing darkens; a wrong piece gets "Try this one first!"; the push to the right jams on purpose (a red glow);
+           then free play with the 6 s hint, and the last piece's line before the win screen. */
+        [UnityTest]
+        public IEnumerator GuidedLevelOneWalksTheSevenSteps()
+        {
+            _host.Links = "c=p23&reset=1&lang=en";
+            _host.Store = new MemoryStore();
+            new SaveData(_host.Store, () => "seed").SetPlayer("QA");
+            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+            yield return WaitFor(() => MenuPlay != null, "the menu play button");
+            yield return Click(LayoutPoint(MenuPlay));
+            yield return WaitFor(() => Board != null && Board.Session.Level.Number == 1 && Board.Session.Level.Id == "S41", "sl100's level 1");
+            yield return WaitFor(() => !Field<bool>("_diving"), "the dive's end");
+            var board = Board; var session = board.Session;
+            // 1: Jigo says hello; a tap goes on
+            yield return WaitFor(() => GuideText.StartsWith("Hi, I'm Jigo"), "step 1: hello");
+            Assert.That(GameObject.Find("Veil"), Is.Null, "no darkening");
+            yield return Click(board.Origin + board.Size / 2);
+            // 2: the lower left piece, down; the hand shows it
+            yield return WaitFor(() => GuideText.StartsWith("Slide this piece down"), "step 2");
+            Assert.That(UnityEngine.Object.FindObjectsByType<TutorialHand>(FindObjectsSortMode.None), Is.Not.Empty, "the gloved hand");
+            yield return Click(CellCentre(board, 0));
+            yield return WaitFor(() => GuideText.StartsWith("Try this one first"), "a wrong piece");
+            Assert.That(session.Board.IsPresent(0), Is.True);
+            yield return new WaitForSecondsRealtime(.3f);
+            yield return Swipe(board, 6, Dir.D);
+            yield return WaitFor(() => !session.Board.IsPresent(6), "piece 6 out");
+            // 3: the lower right piece, right: it jams (4: the reason, the red glow)
+            yield return WaitFor(() => GuideText.StartsWith("Great, you saved a Jiggle"), "step 3");
+            yield return Swipe(board, 8, Dir.R);
+            yield return WaitFor(() => GuideText.StartsWith("Oops! It bumped"), "step 4");
+            Assert.That(session.Board.IsPresent(8), Is.True, "the jammed piece stays");
+            // 5: down
+            yield return WaitFor(() => GuideText.StartsWith("Push it down"), "step 5");
+            yield return Swipe(board, 8, Dir.D);
+            yield return WaitFor(() => !session.Board.IsPresent(8), "piece 8 out");
+            // 6: free play; the hand goes; 6 s still, an open piece glows
+            yield return WaitFor(() => GuideText.StartsWith("Awesome! Now save the rest"), "step 6");
+            yield return new WaitForSecondsRealtime(.4f);
+            Assert.That(UnityEngine.Object.FindObjectsByType<TutorialHand>(FindObjectsSortMode.None), Is.Empty, "the hand is gone");
+            float until = Time.realtimeSinceStartup + 9f;
+            while (Field<int>("_guideHint82") < 0 && Time.realtimeSinceStartup < until) yield return null;
+            Assert.That(Field<int>("_guideHint82"), Is.GreaterThanOrEqualTo(0), "the 6 s hint");
+            // 7: the rest along the solution; the last one's line, then the win
+            foreach (var m in session.Level.Solution)
+            {
+                if (!session.Board.IsPresent(m.Piece)) continue;
+                if (session.Board.PresentCount == 1)
+                {
+                    yield return new WaitForSecondsRealtime(.2f);
+                    Assert.That(GuideText, Does.StartWith("You saved all the Jiggles"), "step 7");
+                }
+                yield return Swipe(board, m.Piece, m.Dir);
+                yield return WaitFor(() => !session.Board.IsPresent(m.Piece), $"piece {m.Piece} out");
+                yield return new WaitForSecondsRealtime(.15f);
+            }
+            Assert.That(session.Outcome, Is.EqualTo(Outcome.Win));
+        }
+
+        static Vector2 CellCentre(BoardView board, int piece)
+        {
+            var c = board.Session.Level.Pieces[piece][0];
+            return board.Origin + new Vector2(c.X + .5f, c.Y + .5f) * board.Cell;
+        }
+
         [UnityTest]
         public IEnumerator ScissorsTargetingAndFlightKeepTheClockRunning()
         {
@@ -240,7 +306,8 @@ namespace ReverseSolver.PlayMode.Tests
             foreach (int n in levels) runs.Add((n, false));
             foreach (var (level, oldWand) in runs)
             {
-                _host.Links = $"c=p23&test=1&lv={level}" + (oldWand ? "&degnek=eski" : "");
+                // PM_82: p23 plays sl100 now (the wand opens at 25 there); this test keeps p22's boards
+                _host.Links = $"c=p23&test=1&set=redesign&lv={level}" + (oldWand ? "&degnek=eski" : "");
                 _host.Store = new MemoryStore();
                 var old = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
                 if (old != null) { UnityEngine.Object.Destroy(old.gameObject); yield return null; }
