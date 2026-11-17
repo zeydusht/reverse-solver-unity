@@ -84,7 +84,7 @@ namespace ReverseSolver.Presentation
             var group = warm.gameObject.AddComponent<SortingGroup>();
             group.sortingOrder = -32000;   // under the menu's background: drawn (uploaded), never seen
             // the diorama
-            // only for &gecis=yay (the flight waits for Zeyd's approval): the plate is ~10 MB once decompressed (iPhone has no
+            // the flight is the default (PM_79; not with &gecis=eski): the plate is ~10 MB once decompressed (iPhone has no
             // DXT); with the flag the menu has loaded it already
             var art = _diorama == null && Dive75.Orbit ? ReadArt() : null;
             if (art != null)

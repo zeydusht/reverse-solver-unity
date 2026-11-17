@@ -74,6 +74,11 @@ namespace ReverseSolver.Presentation
         int _boosterTarget = -1;
         (int x, int y, bool vertical) _boosterJoint;
         bool _tutorialClockHold;
+
+        /* PM_79: a number from the address (&yayhiz=1.2), clamped; the default when missing or not a number. */
+        static float QueryFloat(string key, float fallback, float min, float max) =>
+            float.TryParse(Host.Current.Query(key), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float v)
+                ? Mathf.Clamp(v, min, max) : fallback;
         bool _introOpen;
         bool _designSet;              // playing designs.json (?debug=1&set=designs)
         bool _redesignSet;            // SET40 (redesign.json): 1-10 only with a cohort (PM_MESAJ_25)
@@ -167,7 +172,11 @@ namespace ReverseSolver.Presentation
             P21BoosterView.Fx74 = Host.Current.Query("fx") != "eski";   // PM_74 booster moments; &fx=eski: the old ones
             P21BoosterView.OldSelection = Host.Current.Query("secim") == "eski";
             Dive74.On = Dive75.On = Host.Current.Query("gecis") != "yok";
-            Dive75.Orbit = Host.Current.Query("gecis") == "yay";   // PM_77/78: Zeyd's path through the menu picture, for his approval
+            // PM_79 (Zeyd approved): Zeyd's path through the menu picture is the default; &gecis=eski: PM_77's dive
+            Dive75.Legacy = Host.Current.Query("gecis") == "eski";
+            Dive75.Orbit = Dive75.On && !Dive75.Legacy;
+            Dive75.SpeedK = QueryFloat("yayhiz", 1, .25f, 4);
+            Dive75.HoldSec = QueryFloat("resimbekle", .12f, 0, 3);
             Dive75.Gap = Host.Current.Query("dalisbosluk") == "1";   // PM_76: magenta backdrop for the edge-gap count
             // PM_75: the menu top's three options (Codex); B by default, &ust=a / &ust=c show the other two
             var top = (Host.Current.Query("ust") ?? "").ToUpperInvariant();

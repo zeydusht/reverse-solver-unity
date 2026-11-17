@@ -4,21 +4,34 @@ using UnityEngine;
 
 namespace ReverseSolver.Presentation
 {
-    /* The dive into a painting (PM_75, re-timed in PM_77: Zeyd "why so fast, so hurried? slowly, step by step").
-       Each step is its own move, with a short breath between them:
-         a  approach   1.1 s  in to the painting until the screen is only the picture (ease in-out)
-         b  hold        .5 s  only the picture; the level is built behind it
-         c  back       1.0 s  out to the board: the jigsaw cuts draw on the picture piece by piece, the pieces take over
-         d  HUD         .4 s  the HUD from the top, the booster bar from the bottom
-       breaths .15 / .15 / .1 s — 3.4 s. From the menu with &gecis=yay (waiting for Zeyd's approval) the camera first
-       flies Zeyd's path through the menu picture itself as a 3D diorama (PM_78, Diorama78): 3.6 s without a stop, and
-       the approach sets off .8 s before the flight ends, so the camera never stands still between them.
-       A tap makes it twice as fast; a second tap ends it. The screen-space layers ride on the camera, so the camera
-       can already sit on the board while the picture still covers the screen. */
+    /* The dive into a painting (PM_75; PM_79, Zeyd: "the angle is exactly it, just a bit slow: ~2x, smoother; don't
+       stop in front of the painting; at the picture a wait of milliseconds, as if we went inside").
+       From the menu the camera first flies Zeyd's path through the menu picture itself, a 3D diorama (PM_78,
+       Diorama78): 1.8 s, a soft start. The approach sets off .35 s before the flight ends, so the two are one move
+       that never slows to a stop, speeding up into the picture (the dive):
+         a  approach    .55 s  in until the screen is only the picture, accelerating (it touches still moving: a flash
+                               and a slight scale knock)
+         b  hold        .12 s  only the picture (&resimbekle=); the level is built behind it
+         c  back        .6 s   out to the board, ease out: the jigsaw cuts draw on the picture, the pieces take over
+         d  HUD         .3 s   the HUD and the booster bar, over the last 30 % of c
+       about 2.8 s; &yayhiz= scales all of it. &gecis=eski: PM_77's way (no flight, 1.1 / .5 / 1.0 / .4 s with
+       breaths). A tap makes it twice as fast; a second tap ends it. The screen-space layers ride on the camera, so
+       the camera can already sit on the board while the picture still covers the screen. */
     public sealed class Dive75 : MonoBehaviour
     {
-        public const float Approach = 1.1f, Breath1 = .15f, HoldSec = .5f, Breath2 = .15f, BackSec = 1.0f, Breath3 = .1f, HudSec = .4f;
-        public const float Overlap = .8f, CrossIn = .35f;   // PM_78: the flight is at 60 % of its top speed when the approach sets off
+        public const float FlightSec = 1.8f, Overlap = .35f, CrossIn = .35f;   // PM_79: Zeyd's 3.6 s path at 2x
+        public static bool Legacy;            // &gecis=eski: PM_77's dive (no flight, the old steps)
+        public static float SpeedK = 1;       // &yayhiz=
+        public static float HoldSec = .12f;   // &resimbekle=
+        // the steps: approach, breath, hold, breath, back, HUD (from this fraction of the back on)
+        static float Approach => Legacy ? 1.1f : .55f;
+        static float Breath1 => Legacy ? .15f : 0;
+        static float Hold => Legacy ? .5f : HoldSec;
+        static float Breath2 => Legacy ? .15f : 0;
+        static float BackSec => Legacy ? 1.0f : .6f;
+        static float HudSec => Legacy ? .4f : .3f;
+        static float HudFrom => Legacy ? 1.1f : .7f;   // 1.1: after a .1 s breath
+        const float FlashSec = .18f;
         public static bool Gap;   // &dalisbosluk=1: a magenta backdrop, to count uncovered edge pixels in captures
         public static bool On = true;
         public static bool Orbit;   // PM_77 &gecis=yay
@@ -143,7 +156,7 @@ namespace ReverseSolver.Presentation
             if (_finished || _s.Cam == null || Time.frameCount == _lastFrame) return;
             _lastFrame = Time.frameCount;
             // a long frame (the level being built) must not eat the hold: at most 1/30 s a frame
-            _clock += Mathf.Min(Time.unscaledDeltaTime, 1 / 30f) * _speed;
+            _clock += Mathf.Min(Time.unscaledDeltaTime, 1 / 30f) * _speed * Mathf.Max(.1f, SpeedK);
             Step();
         }
 
@@ -153,38 +166,67 @@ namespace ReverseSolver.Presentation
             float t = _clock;
             PlaceOverlay();
             if (!_raised && t >= (_dio != null && !_s.Seamless ? CrossIn : .22f)) Raise();
-            // PM_78: the approach sets off before the flight ends (Overlap): the camera never stands still in between
-            float flight = _dio != null ? _dio.Seconds : 0, approachAt = _dio != null ? flight - Overlap : 0;
-            float a1 = approachAt + Approach, b0 = a1 + Breath1, b1 = b0 + HoldSec, c0 = b1 + Breath2, c1 = c0 + BackSec, d0 = c1 + Breath3, d1 = d0 + HudSec;
+            // PM_78/79: the approach sets off before the flight ends (Overlap): one move, never standing still
+            float flight = _dio != null ? FlightSec : 0, approachAt = _dio != null ? flight - Overlap : 0;
+            float a1 = approachAt + Approach, b0 = a1 + Breath1, b1 = b0 + Hold, c0 = b1 + Breath2, c1 = c0 + BackSec;
+            float d0 = c0 + BackSec * HudFrom, d1 = d0 + HudSec;
             if (t < c0)
             {
                 _s.FadeUi?.Invoke(1 - Mathf.Clamp01(t / .22f));
-                float e = BoosterFx74.InOutCubic(Mathf.Clamp01((t - approachAt) / Approach));
+                float y = Mathf.Clamp01((t - approachAt) / Approach);
+                // PM_79: accelerating into the picture (from rest, touching it still moving); PM_77: in-out
+                float e = Legacy ? BoosterFx74.InOutCubic(y) : DiveIn(y);
+                // the touch: a slight scale knock over the hold (and a flash)
+                float knock = Legacy || t < a1 ? 0 : .03f * Mathf.Sin(Mathf.PI * Mathf.Clamp01((t - a1) / Mathf.Max(.06f, c0 - a1)));
                 if (_dio != null)
                 {
-                    // Zeyd's studio: one global smootherstep over the whole flight (a soft start, a soft end, no stop)
-                    DioramaPose(SmootherStep(t / flight), e, _s.Seamless ? 1 : Mathf.Clamp01(t / CrossIn));
+                    // the flight: Zeyd's path with a soft start; it eases out under the approach
+                    DioramaPose(SmoothStep(t / flight), e, _s.Seamless ? 1 : Mathf.Clamp01(t / CrossIn), 1 + knock);
                     if (!_hidden && !_s.Seamless && t >= CrossIn) { _hidden = true; _s.Hide?.Invoke(); }
                 }
-                else FacePose(e);
-                if (t >= b0 && !_built) BuildLevel();   // the level is built in the hold, after the breath
+                else FacePose(e, 1 + knock);
+                if (!Legacy && t >= a1) Flash(t - a1);
+                if (t >= b0 && !_built) BuildLevel();   // the level is built in the hold
                 return;
             }
             if (!_built) BuildLevel();
             if (!_revealed) StartReveal();
-            if (t < c1) { BackPhase((t - c0) / BackSec); return; }
-            BackPhase(1);
-            if (t < d0) return;
-            _s.Slide?.Invoke(BoosterFx74.OutCubic(Mathf.Clamp01((t - d0) / HudSec)));
-            if (t >= d1) Finish();
+            if (!Legacy) Flash(t - a1);
+            BackPhase(Mathf.Clamp01((t - c0) / BackSec));
+            _s.Slide?.Invoke(t < d0 ? 0 : BoosterFx74.OutCubic(Mathf.Clamp01((t - d0) / HudSec)));
+            if (t >= Mathf.Max(c1, d1)) Finish();
+        }
+
+        /* PM_79: the approach's curve: at rest at the start (the flight hands over), still moving at the touch. */
+        static float DiveIn(float y) { y = Mathf.Clamp01(y); const float k = 1.4f; return (k - 2) * y * y * y + (3 - k) * y * y; }
+        static float SmoothStep(float t) { t = Mathf.Clamp01(t); return t * t * (3 - 2 * t); }
+
+        /* PM_79: a short white flash when the camera touches the picture (u: seconds since). */
+        ShapeView _flash;
+        Transform _fx;
+        void Flash(float u)
+        {
+            float a = u < 0 || u > FlashSec ? 0 : .32f * (1 - u / FlashSec) * (1 - u / FlashSec);
+            if (_flash == null)
+            {
+                if (a <= 0) return;
+                _fx = new GameObject("PM79 flash").transform;
+                _fx.SetParent(_s.Cam.transform, false);
+                _flash = ShapeView.Create(_fx, "flash", _s.Screen * 1.6f, 0, Mathf.Max(_s.TopOrder, _s.Order) + 900).Radius(0).Fill(Color.white);
+                _flash.transform.localPosition = Draw.W(_s.Screen / 2);
+            }
+            float k = _s.Cam.orthographicSize / _homeSize;
+            _fx.localScale = new Vector3(k, k, 1);
+            _fx.localPosition = new Vector3(-_s.Screen.x / 2 * k, _s.Screen.y / 2 * k, 10);
+            _flash.Alpha(a);
+            if (_fx.gameObject.activeSelf != a > 0) _fx.gameObject.SetActive(a > 0);
         }
 
         bool _hidden;
-        static float SmootherStep(float t) { t = Mathf.Clamp01(t); return t * t * t * (t * (t * 6 - 15) + 10); }
 
         /* The approach without an orbit (the corridor, or the menu without &gecis=yay): the painting's slight
            perspective eases out while the camera moves in, all in one move. */
-        void FacePose(float e)
+        void FacePose(float e, float enlarge = 1)
         {
             var q = _s.Quad; var r = Corners(_r);
             var to = new Vector2[4];
@@ -195,13 +237,13 @@ namespace ReverseSolver.Presentation
             foreach (var w in _walls) w.Warp(wall, 1);   // the wall never fades: the picture covers the screen by the end
             var zq = new Vector2[4];
             for (int c = 0; c < 4; c++) zq[c] = Apply(zoom, to[c]);
-            PaintInto(zq, e, _s.Crop, 1f, e <= 0 ? q : null, wall);
+            PaintInto(zq, e, _s.Crop, enlarge, e <= 0 ? q : null, wall);
             _backdrop.Alpha(1);
         }
 
         /* &gecis=yay: o the flight 0 (the menu's view) .. 1 (Zeyd's last key), e the approach, fade the diorama's
            fade-in over the menu at the start (none when the menu shows the diorama itself). */
-        void DioramaPose(float o, float e, float fade)
+        void DioramaPose(float o, float e, float fade, float enlarge = 1)
         {
             var rect = LogLerp(_r, _c, e);
             var zoom = Similarity(_r.center, rect.center, rect.height / _r.height);
@@ -212,7 +254,7 @@ namespace ReverseSolver.Presentation
             var crop0 = new Rect(Vector2.Lerp(_s.Crop.position, _cropFront.position, o), Vector2.Lerp(_s.Crop.size, _cropFront.size, o));
             // exactly the menu's opening (PM_78: the frame is the menu's own); at the start the picture lies in it as the
             // menu draws it (flat, cut to the opening), easing into the canvas's true perspective along the flight
-            PaintInto(zq, e, crop0, 1, null, null, 1 - o);
+            PaintInto(zq, e, crop0, enlarge, null, null, 1 - o);
             _paint.Fade(fade);
             _backdrop.Alpha(fade);
         }
@@ -303,7 +345,7 @@ namespace ReverseSolver.Presentation
 
         void BackPhase(float t)
         {
-            float e = CorridorTransition.Ease(Mathf.Clamp01(t));
+            float e = Legacy ? CorridorTransition.Ease(Mathf.Clamp01(t)) : BoosterFx74.OutCubic(Mathf.Clamp01(t));   // PM_79: ease out
             if (_board != null)
             {
                 var rect = new Rect(_board.Origin, _board.Size);
@@ -319,7 +361,6 @@ namespace ReverseSolver.Presentation
                 _board.transform.localPosition = Draw.W(_board.Origin + _board.Size / 2 * (1 - scale));
             }
             _reveal?.Show(t);
-            _s.Slide?.Invoke(0);   // PM_77: the HUD comes in its own step, after a breath
         }
 
         /* Ends now, whatever the phase: the level is built, the camera home, the overlays gone. */
@@ -342,6 +383,7 @@ namespace ReverseSolver.Presentation
         void OnDestroy()
         {
             if (_overlay != null) Destroy(_overlay.gameObject);
+            if (_fx != null) Destroy(_fx.gameObject);
             foreach (var w in _walls) w.Dispose();
             foreach (var w in _dioLayers) w.Dispose();
             _paint?.Dispose();
@@ -688,7 +730,7 @@ namespace ReverseSolver.Presentation
             /* t: 0..1 over the pull back. */
             public void Show(float t)
             {
-                float time = t * BackSec;
+                float time = t * 1.0f;   // the drawing's own timeline (PM_77's 1 s pull back), scaled to the back's length
                 float pictureAlpha = 1 - Mathf.Clamp01((t - .62f) / .28f);
                 float lineAlpha = 1 - Mathf.Clamp01((t - .78f) / .22f);
                 var c = new Color(1, 1, 1, pictureAlpha);
