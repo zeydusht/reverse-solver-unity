@@ -196,6 +196,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_75 p23'te: değnek soluk + açıklama (hedefli arama), takılmada temasa kadar kayış (+ "tok", %6 sıkışma), koridor + yavaş açılı dalış (çizgi çizimi), yavaş makas/çekiç/değnek (yuvaya dönüş), süre çubuğu, menü üstü (Codex B; A/C `&ust=`), "Bölüm N" düğme ailesi — 16 Kasım. Açık: değnek kuralı kararı (PM/Zeyd); iPhone hissi.
 - ✅ PM_76 p23'te: yay çizen kamera (Codex 4 açı, katmanlı, kenar boşluğu 0), koridor 1 sn + parallax + iz, paneller/seçim/menü giriş-çıkış animasyonu, ön yükleme (açılış 217→17 ms), değnek düzleştirme (`&degnek=eski` eski hâl) — 16 Kasım. Açık: panelleri önceden kurmak (tek 33 ms kare), iPhone hissi.
 - ✅ PM_77 p23'te: eski koridor (3 sn) + doğrudan dalış, dalış adım adım (3,4 sn, nefesli; dokunuş 2×), tek karelik dalış sıçraması düzeldi, 3D diorama yayı `&gecis=yay` ile (kenar boşluğu 0) — 17 Kasım. Açık: yay için Zeyd onayı (ret → Codex ara açıları), iPhone hissi.
+- ✅ PM_78 p23'te: yay orijinal menü resminin içinde (kamera resimden çözüldü, 1. kare menüyle birebir, Codex yalnız tamamladı), Zeyd'in 4 karesi durmadan (3,6 sn), yaklaşma yaya biniyor, kenar boşluğu 0 — `&gecis=yay` ile, 17 Kasım. Açık: Zeyd onayı (onay → varsayılan), iPhone hissi.
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular

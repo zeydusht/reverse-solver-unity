@@ -43,22 +43,24 @@ namespace ReverseSolver.EditorTools
             }
             // PM_76: the dive's drawn views and the corridor's layers: at their own size (multiples of 4, under 2048),
             // crunched (a 1024 cap rescaled them to odd sizes and they shipped uncompressed: +7.5 MB)
-            if (assetPath.Contains("Presentation/Resources/Art/yeni/pm76/") || assetPath.Contains("Presentation/Resources/Art/yeni/pm77/"))
+            // PM_78: the diorama's plate (the menu picture, extended) as menu_bg itself is: DXT1 crunched at 60
+            if (assetPath.Contains("Presentation/Resources/Art/yeni/pm76/") || assetPath.Contains("Presentation/Resources/Art/yeni/pm78/"))
             {
                 var v = (TextureImporter)assetImporter;
                 v.textureType = TextureImporterType.Sprite; v.spriteImportMode = SpriteImportMode.Single;
                 v.spritePixelsPerUnit = 1; v.alphaIsTransparency = true; v.mipmapEnabled = false;
                 v.npotScale = TextureImporterNPOTScale.None;
                 v.wrapMode = UnityEngine.TextureWrapMode.Clamp; v.filterMode = UnityEngine.FilterMode.Bilinear;
-                int cap = assetPath.Contains("/pm77/") ? 4096 : 2048;   // PM_77: the diorama's wall is 4096 px wide
+                const int cap = 2048;
+                bool opaque = assetPath.EndsWith("/koridor/wall.png") || assetPath.EndsWith("/diorama/oda.png");
+                int quality = assetPath.EndsWith("/diorama/oda.png") ? 60 : 50;
                 v.maxTextureSize = cap;
-                v.textureCompression = TextureImporterCompression.Compressed; v.crunchedCompression = true; v.compressionQuality = 50;
-                bool opaque = assetPath.EndsWith("/koridor/wall.png") || assetPath.EndsWith("/diorama/zemin.png");
+                v.textureCompression = TextureImporterCompression.Compressed; v.crunchedCompression = true; v.compressionQuality = quality;
                 v.SetPlatformTextureSettings(new TextureImporterPlatformSettings
                 {
                     name = "WebGL", overridden = true, maxTextureSize = cap,
                     format = opaque ? TextureImporterFormat.DXT1Crunched : TextureImporterFormat.DXT5Crunched,
-                    textureCompression = TextureImporterCompression.Compressed, crunchedCompression = true, compressionQuality = 50
+                    textureCompression = TextureImporterCompression.Compressed, crunchedCompression = true, compressionQuality = quality
                 });
                 return;
             }

@@ -10,14 +10,15 @@ namespace ReverseSolver.Presentation
          b  hold        .5 s  only the picture; the level is built behind it
          c  back       1.0 s  out to the board: the jigsaw cuts draw on the picture piece by piece, the pieces take over
          d  HUD         .4 s  the HUD from the top, the booster bar from the bottom
-       breaths .15 / .15 / .1 s — 3.4 s. From the menu with &gecis=yay (PM_77, waiting for Zeyd's approval) the camera
-       first orbits the painting in a 3D diorama (Diorama77): 1.8 s from the side to square on, .2 s at rest.
+       breaths .15 / .15 / .1 s — 3.4 s. From the menu with &gecis=yay (waiting for Zeyd's approval) the camera first
+       flies Zeyd's path through the menu picture itself as a 3D diorama (PM_78, Diorama78): 3.6 s without a stop, and
+       the approach sets off .8 s before the flight ends, so the camera never stands still between them.
        A tap makes it twice as fast; a second tap ends it. The screen-space layers ride on the camera, so the camera
        can already sit on the board while the picture still covers the screen. */
     public sealed class Dive75 : MonoBehaviour
     {
         public const float Approach = 1.1f, Breath1 = .15f, HoldSec = .5f, Breath2 = .15f, BackSec = 1.0f, Breath3 = .1f, HudSec = .4f;
-        public const float OrbitSec = 1.8f, OrbitRest = .2f, CrossIn = .35f;
+        public const float Overlap = .8f, CrossIn = .35f;   // PM_78: the flight is at 60 % of its top speed when the approach sets off
         public static bool Gap;   // &dalisbosluk=1: a magenta backdrop, to count uncovered edge pixels in captures
         public static bool On = true;
         public static bool Orbit;   // PM_77 &gecis=yay
@@ -39,8 +40,10 @@ namespace ReverseSolver.Presentation
             public Func<BoardView> Build;        // builds the level (during the hold); its board, or null
             public Action<float> Slide;          // the HUD and bar, 0 (out) .. 1 (home)
             public Action Done;
-            public Diorama77.Art Diorama;        // PM_77 &gecis=yay: the 3D orbit before the dive
+            public Diorama78.Art Diorama;        // PM_78 &gecis=yay: Zeyd's path through the menu picture before the dive
             public bool Seamless;                // the menu shows the diorama's start view itself: no cross-fade
+            public Vector2 ImageCentre;          // the menu picture's centre (layout points) and
+            public float ImageK = 1;             // its scale (layout points per picture px): the diorama's start camera
         }
 
         Setup _s;
@@ -56,7 +59,7 @@ namespace ReverseSolver.Presentation
         Reveal _reveal;
         Rect _r, _c;
         double[] _faceH;
-        Diorama77 _dio;
+        Diorama78 _dio;
         readonly List<Layer> _dioLayers = new List<Layer>();
         Rect _cropFront;
 
@@ -97,11 +100,13 @@ namespace ReverseSolver.Presentation
             if (Gap) _backdrop.Fill(new Color(1, 0, 1, 1));
             if (_s.Diorama != null)
             {
-                // under the wall: the painting shows through its cut-out canvas
-                _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 1);
-                _dio = new Diorama77(_s.Diorama, screen, _s.Quad);
-                _dio.Build(_overlay, baseMat, _s.Order + 2, _dioLayers);
-                Debug.Log($"[yay] start {_dio.StartAngle:0.0} deg, distance {_dio.Distance:0.00}");
+                // the wall and the floor; over the wall the painting in its canvas; in front the column, its banner and
+                // its sconce
+                _dio = new Diorama78(_s.Diorama, screen, _s.ImageCentre, _s.ImageK);
+                _dio.Build(_overlay, baseMat, _s.Order + 1, _dioLayers);
+                _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 2);
+                _dio.BuildFronts(_overlay, baseMat, _s.Order + 3, _dioLayers);
+                Debug.Log($"[yay] start {_dio.StartAngle:0.0} deg {_dio.Describe(0)}, end {_dio.Describe(1)}, Zeyd's path x{_dio.Scale:0.000} W per metre");
                 var front = _dio.CanvasAt(1);
                 _r = Rect.MinMaxRect(Mathf.Min(front[0].x, front[3].x), Mathf.Min(front[0].y, front[1].y), Mathf.Max(front[1].x, front[2].x), Mathf.Max(front[2].y, front[3].y));
                 float ch2 = Mathf.Max(screen.y, screen.x / Mathf.Max(.1f, _s.BoardAspect)), cw2 = ch2 * _s.BoardAspect;
@@ -148,16 +153,17 @@ namespace ReverseSolver.Presentation
             float t = _clock;
             PlaceOverlay();
             if (!_raised && t >= (_dio != null && !_s.Seamless ? CrossIn : .22f)) Raise();
-            float orbit = _dio != null ? OrbitSec + OrbitRest : 0;
-            float a1 = orbit + Approach, b0 = a1 + Breath1, b1 = b0 + HoldSec, c0 = b1 + Breath2, c1 = c0 + BackSec, d0 = c1 + Breath3, d1 = d0 + HudSec;
+            // PM_78: the approach sets off before the flight ends (Overlap): the camera never stands still in between
+            float flight = _dio != null ? _dio.Seconds : 0, approachAt = _dio != null ? flight - Overlap : 0;
+            float a1 = approachAt + Approach, b0 = a1 + Breath1, b1 = b0 + HoldSec, c0 = b1 + Breath2, c1 = c0 + BackSec, d0 = c1 + Breath3, d1 = d0 + HudSec;
             if (t < c0)
             {
                 _s.FadeUi?.Invoke(1 - Mathf.Clamp01(t / .22f));
-                float e = BoosterFx74.InOutCubic(Mathf.Clamp01((t - orbit) / Approach));
+                float e = BoosterFx74.InOutCubic(Mathf.Clamp01((t - approachAt) / Approach));
                 if (_dio != null)
                 {
-                    float o = Mathf.Clamp01(t / OrbitSec);
-                    DioramaPose(SmootherStep(o), e, _s.Seamless ? 1 : Mathf.Clamp01(t / CrossIn));
+                    // Zeyd's studio: one global smootherstep over the whole flight (a soft start, a soft end, no stop)
+                    DioramaPose(SmootherStep(t / flight), e, _s.Seamless ? 1 : Mathf.Clamp01(t / CrossIn));
                     if (!_hidden && !_s.Seamless && t >= CrossIn) { _hidden = true; _s.Hide?.Invoke(); }
                 }
                 else FacePose(e);
@@ -193,8 +199,8 @@ namespace ReverseSolver.Presentation
             _backdrop.Alpha(1);
         }
 
-        /* PM_77 &gecis=yay: o the orbit 0 (the menu's side view) .. 1 (square on), e the approach after it, fade the
-           diorama's fade-in over the menu at the start. */
+        /* &gecis=yay: o the flight 0 (the menu's view) .. 1 (Zeyd's last key), e the approach, fade the diorama's
+           fade-in over the menu at the start (none when the menu shows the diorama itself). */
         void DioramaPose(float o, float e, float fade)
         {
             var rect = LogLerp(_r, _c, e);
@@ -204,15 +210,18 @@ namespace ReverseSolver.Presentation
             var zq = new Vector2[4];
             for (int c = 0; c < 4; c++) zq[c] = Apply(zoom, cq[c]);
             var crop0 = new Rect(Vector2.Lerp(_s.Crop.position, _cropFront.position, o), Vector2.Lerp(_s.Crop.size, _cropFront.size, o));
-            PaintInto(zq, e, crop0, Diorama77.PictureEnlarge, null, null);
+            // exactly the menu's opening (PM_78: the frame is the menu's own); at the start the picture lies in it as the
+            // menu draws it (flat, cut to the opening), easing into the canvas's true perspective along the flight
+            PaintInto(zq, e, crop0, 1, null, null, 1 - o);
             _paint.Fade(fade);
             _backdrop.Alpha(fade);
         }
 
         /* The painting: in the canvas quad zq (perspective-correct) and, with the approach e, the board's framing;
            its crop eases from crop0 to the whole picture. While a wall still turns (start != null) the picture
-           follows the same homography as the wall. */
-        void PaintInto(Vector2[] zq, float e, Rect crop0, float enlarge, Vector2[] start, double[] wall)
+           follows the same homography as the wall. flat (PM_78): how much of the menu's own way of drawing it is
+           left (Screens.Menu.SetPainting: the crop laid flat over the opening's bounding box, cut to the opening). */
+        void PaintInto(Vector2[] zq, float e, Rect crop0, float enlarge, Vector2[] start, double[] wall, float flat = 0)
         {
             var crop = new Rect(Vector2.Lerp(crop0.position, Vector2.zero, e), Vector2.Lerp(crop0.size, Vector2.one, e));
             var zr = Rect.MinMaxRect(Mathf.Min(zq[0].x, zq[3].x), Mathf.Min(zq[0].y, zq[1].y), Mathf.Max(zq[1].x, zq[2].x), Mathf.Max(zq[2].y, zq[3].y));
@@ -225,6 +234,17 @@ namespace ReverseSolver.Presentation
             var pc = (pq[0] + pq[1] + pq[2] + pq[3]) / 4;
             for (int c = 0; c < 4; c++) pq[c] = pc + (pq[c] - pc) * enlarge;
             if (start != null) _paint.Positions((x, y) => Apply(wall, CorridorTransition.Project(start, x, y)), crop, 1);
+            else if (flat > 0)
+            {
+                var q = _s.Quad; var c0 = _s.Crop;
+                var box = Rect.MinMaxRect(Mathf.Min(q[0].x, q[3].x), Mathf.Min(q[0].y, q[1].y), Mathf.Max(q[1].x, q[2].x), Mathf.Max(q[2].y, q[3].y));
+                _paint.Positions((x, y) => CorridorTransition.Project(pq, x, y), (x, y) =>
+                {
+                    var s = Rect.PointToNormalized(box, CorridorTransition.Project(q, x, y));
+                    var menu = new Vector2(c0.x + s.x * c0.width, c0.y + (1 - s.y) * c0.height);
+                    return Vector2.Lerp(new Vector2(crop.x + x * crop.width, crop.y + (1 - y) * crop.height), menu, flat);
+                }, 1);
+            }
             else _paint.Positions((x, y) => CorridorTransition.Project(pq, x, y), crop, 1);
         }
 
@@ -449,6 +469,26 @@ namespace ReverseSolver.Presentation
             }
             Vector3[] _p3;
 
+            /* PM_78: a texture of size texSize laid out on an nx x ny grid by pxAt(u, v) (texture px, y down), each
+               grid point's 3D point at(px) (the grid may follow a slanted edge, e.g. the wall's foot). */
+            public static Layer FromGrid(Transform parent, string name, Texture tex, Material baseMat, Vector2 texSize,
+                                         Func<float, float, Vector2> pxAt, Func<Vector2, Vector3> at, int nx, int ny, int order)
+            {
+                var l = new Layer { _n = nx };
+                var uv = new List<Vector2>(); var tris = new List<int>(); var p3 = new List<Vector3>();
+                for (int j = 0; j <= ny; j++)
+                    for (int i = 0; i <= nx; i++)
+                    {
+                        var px = pxAt((float)i / nx, (float)j / ny);
+                        uv.Add(new Vector2(px.x / texSize.x, 1 - px.y / texSize.y));
+                        p3.Add(at(px));
+                        if (i < nx && j < ny) { int s = j * (nx + 1) + i; tris.AddRange(new[] { s, s + 1, s + nx + 2, s, s + nx + 2, s + nx + 1 }); }
+                    }
+                l.Make(parent, name, new Material(baseMat) { mainTexture = tex != null ? tex : Texture2D.whiteTexture }, new Vector2[uv.Count], uv.ToArray(), tris, order);
+                l._p3 = p3.ToArray();
+                return l;
+            }
+
             public void Project(Func<Vector3, Vector2> project, double[] post, float alpha)
             {
                 for (int i = 0; i < _p3.Length; i++) _v[i] = Draw.W(Apply(post, project(_p3[i])));
@@ -498,6 +538,20 @@ namespace ReverseSolver.Presentation
                 for (int i = 0; i < _src.Length; i++) _v[i] = Draw.W(Apply(h, _src[i]));
                 SetAlpha(alpha);
                 _m.vertices = _v;
+                _m.bounds = new Bounds(Vector3.zero, Vector3.one * 1e5f);
+            }
+
+            /* PM_78: the positions and the uv each from the grid point (0..1, y down). */
+            public void Positions(Func<float, float, Vector2> at, Func<float, float, Vector2> uv, float alpha)
+            {
+                for (int i = 0; i < _src.Length; i++)
+                {
+                    var p = _src[i];
+                    _v[i] = Draw.W(at(p.x, p.y));
+                    _uv[i] = uv(p.x, p.y);
+                }
+                SetAlpha(alpha);
+                _m.vertices = _v; _m.uv = _uv;
                 _m.bounds = new Bounds(Vector3.zero, Vector3.one * 1e5f);
             }
 

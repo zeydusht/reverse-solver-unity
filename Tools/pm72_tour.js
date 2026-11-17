@@ -19,7 +19,7 @@ const [scenarioFile, outDir] = args;
 const scenario = JSON.parse(fs.readFileSync(scenarioFile, 'utf8'));
 const LEVELS = JSON.parse(fs.readFileSync(opt('levels', 'Logs/pm72/p22_levels.json'), 'utf8'));
 const DIRS = { L: [-1, 0], R: [1, 0], U: [0, -1], D: [0, 1] };
-const W = 390, H = 844, PORT = +opt('port', 9342);
+const [W, H] = opt('size', '390x844').split('x').map(Number), PORT = +opt('port', 9342);   // PM_78: --size 375x667
 const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 

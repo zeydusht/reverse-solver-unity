@@ -167,7 +167,7 @@ namespace ReverseSolver.Presentation
             P21BoosterView.Fx74 = Host.Current.Query("fx") != "eski";   // PM_74 booster moments; &fx=eski: the old ones
             P21BoosterView.OldSelection = Host.Current.Query("secim") == "eski";
             Dive74.On = Dive75.On = Host.Current.Query("gecis") != "yok";
-            Dive75.Orbit = Host.Current.Query("gecis") == "yay";   // PM_77: the 3D orbit from the menu, for Zeyd's approval
+            Dive75.Orbit = Host.Current.Query("gecis") == "yay";   // PM_77/78: Zeyd's path through the menu picture, for his approval
             Dive75.Gap = Host.Current.Query("dalisbosluk") == "1";   // PM_76: magenta backdrop for the edge-gap count
             // PM_75: the menu top's three options (Codex); B by default, &ust=a / &ust=c show the other two
             var top = (Host.Current.Query("ust") ?? "").ToUpperInvariant();
@@ -1245,7 +1245,7 @@ namespace ReverseSolver.Presentation
                     var pic = _images.Get(ImageOf(_progress.Next()), t => { if (_menu == menu) menu.SetPainting(t); });
                     if (pic != null) _menu.SetPainting(pic);
                 }
-                // PM_77 &gecis=yay: the menu's room is the diorama's start view (loaded now if the warm-up has not yet)
+                // PM_77/78 &gecis=yay: the menu's room is the diorama's start view (loaded now if the warm-up has not yet)
                 if (Dive75.Orbit && _newArt && _menu != null) _menu.UseDiorama(ArcAssets76.LoadDioramaNow(), _screen);
                 MenuArt.Busy = () => this != null && _mode == Mode.Playing;
                 MenuArt.Instance.Preload();

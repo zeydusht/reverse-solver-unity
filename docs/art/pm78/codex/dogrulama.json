@@ -1,0 +1,53 @@
+{
+  "dosyalar": {
+    "oda_genis.png": {
+      "boyut_px": [
+        1408,
+        1728
+      ],
+      "kip": "RGB",
+      "bayt": 2967585
+    },
+    "oda_flamasiz.png": {
+      "boyut_px": [
+        1408,
+        1728
+      ],
+      "kip": "RGB",
+      "bayt": 2964580
+    },
+    "oda_temiz.png": {
+      "boyut_px": [
+        1408,
+        1728
+      ],
+      "kip": "RGB",
+      "bayt": 2967227
+    }
+  },
+  "oda_genis_orijinal_bolge_menu_bg_en_buyuk_piksel_farki": 0,
+  "orijinal_bolgede_izinli_silmeler_disinda_menu_bg_farki": {
+    "oda_flamasiz.png": 0,
+    "oda_temiz.png": 0
+  },
+  "maske_disinda_dosyalar_arasi_en_buyuk_fark": {
+    "genis_flamasiz": 0,
+    "flamasiz_temiz": 0,
+    "genis_temiz_birlesik_maske": 0
+  },
+  "magenta_FF00FF_arti_eksi_40_piksel_sayisi": {
+    "oda_genis.png": 0,
+    "oda_flamasiz.png": 0,
+    "oda_temiz.png": 0
+  },
+  "maske_genisletme_px": 3,
+  "maske_genisletme_yontemi": "PIL MaxFilter(7), beyaz >=128; Chebyshev 3 px",
+  "orijinal_bolge": [
+    0,
+    128,
+    1024,
+    1664
+  ],
+  "not": "Orijinal bolge sifir fark kosulu oda_genis icindir. Diger iki dosyada sadece istenen silme maskeleri bu bolgeyi degistirir.",
+  "tum_kontroller_gecti": true
+}

@@ -30,9 +30,11 @@ namespace ReverseSolver.Presentation
                 Backdrop = Draw.Hex("#0B2A3A"), FadeUi = fade,
                 Hide = () => { if (bg != null) bg.enabled = false; if (_menu?.PaintingSprite != null) _menu.PaintingSprite.enabled = false; _menu?.HideRoom(); },
             };
-            // PM_77: &gecis=yay: the camera orbits the painting in the 3D diorama first (waiting for Zeyd's approval);
-            // otherwise the slow approach straight from the menu's view
-            setup.Diorama = Dive75.Orbit ? ArcAssets76.Diorama : null;
+            // PM_78: &gecis=yay: the camera flies Zeyd's path through the menu picture as a 3D diorama first (waiting
+            // for Zeyd's approval); otherwise the slow approach straight from the menu's view
+            bool mapped = _menu.ImageMap(out var centre, out float k);
+            setup.Diorama = Dive75.Orbit && mapped ? ArcAssets76.Diorama : null;
+            setup.ImageCentre = centre; setup.ImageK = k;
             setup.Seamless = setup.Diorama != null && _menu.ShowsDiorama;
             if (setup.Diorama == null) setup.Walls.Add(bg);
             else if (setup.Seamless) setup.Order = bg.sortingOrder - 4;   // the room's own place, under the menu's controls

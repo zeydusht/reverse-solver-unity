@@ -3,7 +3,8 @@ The motion's start is found from the frames (the first one that differs from the
 before it for <seconds>, at <speed> (1 normal, .5 half speed). GIF delays are in 1/100 s and browsers slow down
 delays under 2/100 s, so the 60 fps capture is shown at 50 frames a second at normal speed and frame for frame
 (each frame twice its real interval) at half speed.
-    python -I Tools/arc_gif.py <capture dir> <out.gif> [speed=1] [seconds=2.4] [width=300] [label] [+<capture dir 2> label2]"""
+    python -I Tools/arc_gif.py <capture dir> <out.gif> [speed=1] [seconds=2.4] [width=300] [label] [+<capture dir 2> label2]
+(GIF_COLORS=96 in the environment: a smaller palette)"""
 import json, os, sys
 from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageStat
 
@@ -78,7 +79,7 @@ def main():
             im2 = Image.open(seq2[i][0]).convert("RGB").resize((width, h), Image.LANCZOS)
             both = Image.new("RGB", (width * 2 + 6, h), (255, 255, 255))
             both.paste(im, (0, 0)); both.paste(label_img(im2, label2), (width + 6, 0)); im = both
-        images.append(im.quantize(colors=128, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE))
+        images.append(im.quantize(colors=int(os.environ.get("GIF_COLORS", 128)), method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE))
         delays.append(ms)
     images[0].save(dst, save_all=True, append_images=images[1:], duration=delays, loop=0, optimize=True, disposal=1)
     print(f"{dst}: {len(images)} frames, {sum(delays) / 1000:.2f} s, motion from {t0 + .12:.2f} s of the capture, {os.path.getsize(dst) // 1024} KB")

@@ -1,0 +1,59 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "prompts": [
+    {
+      "id": "oda_genis_v1",
+      "prompt": "Use case: precise-object-edit / outpainting.\nAsset type: exact registered background extension for a 3D parallax mobile game.\nInput image 1 oda_girdi.png is the EDIT TARGET, exactly 1408x1728. Its hot magenta pixels are missing areas to FILL. Input image 2 menu_bg.png is the original untouched 1024x1536 image for color/style/reference and exact composition. The original occupies x=0..1023,y=128..1663 in image 1.\nPrimary request: fill ONLY the magenta top 128 pixels, right 384 pixels, bottom 64 pixels of image 1 with the natural seamless continuation of this very same room. Return exactly the full 1408x1728 canvas of image 1, no reframing or resizing. Absolutely preserve the entire existing nonmagenta region at its exact original position, scale, colors and geometry. This is NOT designing a different room.\nContinue deep petrol teal wall above at left and center, and cream/golden ribbed stone arches upward at right. Continue this gallery architecture rightward with receding matching arches, columns and windows, and polished cream marble floor below. Vertical columns remain vertical, architecture recedes toward the existing vanishing point.\nCRITICAL FLOOR GEOMETRY: Both red carpet gold borders crossing the x=1024 boundary must extend as perfectly straight lines with their EXACT existing slope into the added right area. The upper far gold border at x=1024,y~1245 extends gently up to right. The lower near gold border at x=1024,y~1450 extends more steeply up to right. The red carpet between them continues rightward, never bends, bulges, fans out, or turns a corner. Continue its small gold fleur-de-lis ornament and subtle red fabric pattern with matched scale. Continue warm cream polished marble outside the carpet edges, with plausible reflections and straight tile lines. Bottom 64 pixels continue exactly the carpet/floor already at the bottom.\nStyle: same saturated bright polished soft 3D game illustration, warm late afternoon golden sunlight, teal walls, cream stone, rich red cloth, gold details. Seamless color and light across old edges. No magenta, no invented foreground objects, no text, no new giant painting, no camera change, no darkening, no desaturation.",
+      "inputs": [
+        "Assets/Art/_yeni/PM78/girdi/oda_girdi.png",
+        "Assets/_Game/Presentation/Resources/menu_bg.png"
+      ]
+    },
+    {
+      "id": "oda_flamasiz_v1",
+      "prompt": "Use case: precise-object-edit.\nInput 1 flamasiz_duzenleme_girdisi.png is the ONLY EDIT TARGET, a narrow detail crop of an existing palace gallery, 384x1056 pixels. Hot magenta is a precise deletion mask, NOT an object in the room. Input 2 oda_girdi.png and input 3 menu_bg.png are supporting full-scene references ONLY, do not return them.\nFill ONLY the two hot magenta shapes in input 1 with the underlying original surfaces. The upper shape removes the red fleur-de-lis banner and its rod. The lower shape removes the brass candle sconce, candle and flame. Behind both is the same smooth cream limestone column shaft: continue its original straight vertical edges, planar shading, warm cream tones and subtle horizontal stone seams. Where a magenta pixel is to the RIGHT of the column, restore the petrol teal wall or the existing small painting's gold frame. Keep that frame continuous and perfectly aligned.\nReturn the SAME exact crop/framing of input 1, unchanged geometric layout and unchanged colors outside pink. The central column itself stays in place with its gold capital and stepped stone base intact. Keep the smaller painting at right, teal wall, arch and all other columns untouched. Keep original rich bright soft 3D mobile game illustration style, warm sunlight. Remove both banner and candle completely. No new objects, no text, no magenta.",
+      "inputs": [
+        "docs/art/pm78/codex/flamasiz_duzenleme_girdisi.png",
+        "Assets/Art/_yeni/PM78/girdi/oda_girdi.png",
+        "Assets/_Game/Presentation/Resources/menu_bg.png"
+      ],
+      "crop": [
+        640,
+        256,
+        1024,
+        1312
+      ]
+    },
+    {
+      "id": "oda_genis_v2",
+      "prompt": "Use case: precise-object-edit, outpainting only.\nThe FIRST input is a 1408 by 1728 canvas (aspect ratio 22:27, moderately portrait, almost square). Return this EXACT SAME CANVAS AND FRAMING. The SECOND input is just a source reference: do NOT use the second input's narrow aspect ratio. Do NOT add extra space below or crop the right extension.\nEdit only the hot-pink missing area of FIRST input. Preserve every visible non-pink shape at the same coordinates. The original image occupies (0,128) through (1023,1663). Fill x1024..1407 to the right, y0..127 at the top, and y1664..1727 at the bottom. The whole 1408x1728 frame must be filled, with no pink anywhere. DO NOT REDESIGN THE ROOM.\nContinue the exact petrol-teal gallery wall upward on the left; extend the existing cream stone ribbed vaulted ceiling across the top and right. Continue the receding sunlit palace gallery rightward, matching the current arches, columns and windows. Continue the cream polished marble floor and the red gold-trimmed carpet at the bottom right.\nMOST IMPORTANT: at original right seam x1024 the carpet's far upper gold line crosses y1241 approximately and slopes gently UP to the right; extend it with EXACT SAME straight slope. The near lower gold line crosses y1450 approximately and slopes more steeply UP to right; also extend exactly as a straight line. The carpet is a flat quadrilateral between these two straight borders, never curved or bending. Keep the lower right floor clean and geometrically plausible. Continue small golden fleur-de-lis and red fabric patterns at the same scale and perspective.\nMatch original bright saturated soft 3D game illustration, warm golden lighting, teal walls, cream limestone, gold ornament. Preserve the large painting, near column, banners, sconces, all existing geometry and crop unchanged. No text, no new foreground objects, no magenta. Output aspect ratio MUST be 22:27.",
+      "inputs": [
+        "Assets/Art/_yeni/PM78/girdi/oda_girdi.png",
+        "Assets/_Game/Presentation/Resources/menu_bg.png"
+      ]
+    },
+    {
+      "id": "oda_temiz_v1",
+      "prompt": "Use case: precise-object-edit, inpainting occluded background.\nInput 1 temiz_duzenleme_girdisi.png is the EDIT TARGET, a 384x1056 narrow crop. Inputs 2 oda_girdi.png and 3 menu_bg.png are whole-scene references ONLY.\nRemove the entire large foreground column whose gold capital, stone shaft and stepped base are covered by the tall hot-magenta shape in image 1. Also remove its hanging red banner and candle sconce, including tiny remaining fragments immediately next to the pink. Fill the pink area as if that column had never existed, with the believable continuation of the background surfaces visible on its two sides.\nAbove the pink: naturally continue the cream ribbed arches and teal vaulted ceiling. Through the upper/middle pink: continue the smooth petrol teal wall from the LEFT side and the shadowed teal wall from the RIGHT side; a subtle architectural bay meeting is acceptable, but no replacement pillar, no stone shaft, no gold capital. Below: continue the cream stone wainscot and its straight molding and framed panel details naturally from both sides, at their existing perspective. At the very bottom: continue the polished marble floor.\nImportant gameplay use: the few pixels immediately INSIDE the RIGHT boundary of the deleted column must be a convincing continuation of the wall, molding and floor just OUTSIDE that boundary. Do not shift, extend over, or delete the smaller gold-framed painting at right. Do not change the distant columns and windows on the right or the large painting edge on the left.\nReturn SAME crop and composition, aspect ratio 384:1056. Keep all non-pink geometry and colors unchanged. Same rich saturated bright soft 3D game illustration, warm sun. No pillar where pink was, no banner, no sconce, no magenta, no text.",
+      "inputs": [
+        "docs/art/pm78/codex/temiz_duzenleme_girdisi.png",
+        "Assets/Art/_yeni/PM78/girdi/oda_girdi.png",
+        "Assets/_Game/Presentation/Resources/menu_bg.png"
+      ],
+      "crop": [
+        640,
+        256,
+        1024,
+        1312
+      ]
+    },
+    {
+      "id": "oda_genis_v3",
+      "prompt": "EDIT this SINGLE image. Keep exactly its 22:27 moderately portrait aspect ratio and the entire original rectangular canvas. This canvas is 1408 pixels wide by 1728 pixels tall. It is MUCH WIDER than a normal tall phone wallpaper. Fill all hot magenta missing areas by continuing the existing image. KEEP EVERY NON-MAGENTA PIXEL IN PLACE, same size and coordinates.\nFill 128 pixels above, 384 pixels to the right, 64 pixels below. Do not add any extra space below. Do not zoom, reframe, move the painting or resize the original picture. Same room, same perspective, same saturated bright warm soft 3D game illustration.\nThe top continues teal wall and cream vaulted arches. The right continues the sunlit palace arcade, polished cream marble floor and red gold-edged carpet. The carpet's two gold border lines must continue as EXACT STRAIGHT LINE EXTENSIONS of the existing lines. The border crossing the right edge near y1240 goes gently upward to the right; the border crossing near y1450 goes more steeply upward to the right. No curve, no corner, no kink in either border. Fill the new bottom 64 pixels with a little more of the same red carpet and marble.\nAll existing painting, teal wall, columns, banners, sconces, floor stay fixed. Absolutely no hot pink left. No text. Output the SAME 22:27 aspect ratio full canvas.",
+      "inputs": [
+        "Assets/Art/_yeni/PM78/girdi/oda_girdi.png"
+      ],
+      "reason": "First two calls also used menu_bg.png; this focused edit uses only the full extension canvas to preserve its framing."
+    }
+  ]
+}
