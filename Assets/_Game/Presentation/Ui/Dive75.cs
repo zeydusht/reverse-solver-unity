@@ -4,34 +4,47 @@ using UnityEngine;
 
 namespace ReverseSolver.Presentation
 {
-    /* The dive into a painting (PM_75; PM_79, Zeyd: "the angle is exactly it, just a bit slow: ~2x, smoother; don't
-       stop in front of the painting; at the picture a wait of milliseconds, as if we went inside").
-       From the menu the camera first flies Zeyd's path through the menu picture itself, a 3D diorama (PM_78,
-       Diorama78): 1.8 s, a soft start. The approach sets off .35 s before the flight ends, so the two are one move
-       that never slows to a stop, speeding up into the picture (the dive):
-         a  approach    .55 s  in until the screen is only the picture, accelerating (it touches still moving: a flash
-                               and a slight scale knock)
-         b  hold        .12 s  only the picture (&resimbekle=); the level is built behind it
-         c  back        .6 s   out to the board, ease out: the jigsaw cuts draw on the picture, the pieces take over
-         d  HUD         .3 s   the HUD and the booster bar, over the last 30 % of c
-       about 2.8 s; &yayhiz= scales all of it. &gecis=eski: PM_77's way (no flight, 1.1 / .5 / 1.0 / .4 s with
-       breaths). A tap makes it twice as fast; a second tap ends it. The screen-space layers ride on the camera, so
-       the camera can already sit on the board while the picture still covers the screen. */
+    /* The dive into a painting (PM_75; PM_80, Zeyd: "the camera's move a bit more continuous; once there let it wait
+       a little, coming straight back was not good; when we get there the lines start to come out slowly, and we keep
+       seeing them on the way back. The best, smoothest version").
+       One timeline, one camera curve; no step changes the speed, except the wait put there on purpose (A, the default):
+         flight    1.8 s  Zeyd's path through the menu picture (PM_78, Diorama78) by its length: a soft start, then
+                          an even flow
+         approach   .8 s  on into the painting, taking over the flight's speed and direction (quintic Hermite: the
+                          position, the speed and the acceleration carry over); it slows softly as the picture fills
+                          the screen and settles into
+         hold       .8 s  only the picture, a slow 1.5 % push (never frozen); the jigsaw cuts start drawing from the
+                          centre outwards, ~40 % by the end of it. The level is built as the approach comes to rest.
+         back      1.0 s  out to the board, ease in-out; the cuts keep drawing, done at 80 %, the pieces take over;
+                          the HUD and the booster bar over its last .3 s
+       about 4.4 s. &dalis=b quicker (1.5 / .6 / .5 / .8), &dalis=c more cinematic (2.0 / .9 / 1.1 / 1.2, cuts 50 %
+       at the end of the hold). &yayhiz= scales all of it, &resimbekle= sets the hold (s), &cizgihiz= the cuts' speed.
+       &gecis=eski: PM_77's way (no flight, 1.1 / .5 / 1.0 / .4 s with breaths). A tap makes it twice as fast; a
+       second tap ends it. The screen-space layers ride on the camera, so the camera can already sit on the board
+       while the picture still covers the screen. */
     public sealed class Dive75 : MonoBehaviour
     {
-        public const float FlightSec = 1.8f, Overlap = .35f, CrossIn = .35f;   // PM_79: Zeyd's 3.6 s path at 2x
+        public const float CrossIn = .35f;
         public static bool Legacy;            // &gecis=eski: PM_77's dive (no flight, the old steps)
         public static float SpeedK = 1;       // &yayhiz=
-        public static float HoldSec = .12f;   // &resimbekle=
-        // the steps: approach, breath, hold, breath, back, HUD (from this fraction of the back on)
-        static float Approach => Legacy ? 1.1f : .55f;
-        static float Breath1 => Legacy ? .15f : 0;
-        static float Hold => Legacy ? .5f : HoldSec;
-        static float Breath2 => Legacy ? .15f : 0;
-        static float BackSec => Legacy ? 1.0f : .6f;
-        static float HudSec => Legacy ? .4f : .3f;
-        static float HudFrom => Legacy ? 1.1f : .7f;   // 1.1: after a .1 s breath
-        const float FlashSec = .18f;
+        public static float HoldSec = -1;     // &resimbekle= (s; below 0: the variant's)
+        public static float LineK = 1;        // &cizgihiz=
+        public static char Variant = 'a';     // &dalis=
+        public static bool Log;               // &dalislog=1: every frame's painting / board corners on screen, for the speed graphs
+
+        struct Plan { public float Flight, Approach, Hold, Back, Lines, Push; }
+        static Plan Current
+        {
+            get
+            {
+                var p = Variant == 'b' ? new Plan { Flight = 1.5f, Approach = .6f, Hold = .5f, Back = .8f, Lines = .4f }
+                      : Variant == 'c' ? new Plan { Flight = 2.0f, Approach = .9f, Hold = 1.1f, Back = 1.2f, Lines = .5f }
+                      : new Plan { Flight = 1.8f, Approach = .8f, Hold = .8f, Back = 1.0f, Lines = .4f };
+                if (HoldSec >= 0) p.Hold = HoldSec;
+                p.Push = p.Hold > .01f ? .015f * p.Hold / .8f : 0;   // 1.5 % over A's .8 s hold, the same slow rate in all
+                return p;
+            }
+        }
         public static bool Gap;   // &dalisbosluk=1: a magenta backdrop, to count uncovered edge pixels in captures
         public static bool On = true;
         public static bool Orbit;   // PM_77 &gecis=yay
@@ -75,13 +88,21 @@ namespace ReverseSolver.Presentation
         Diorama78 _dio;
         readonly List<Layer> _dioLayers = new List<Layer>();
         Rect _cropFront;
+        Plan _p;
+        float _flight, _v, _ramp, _zEnd, _rate;   // PM_80: the flight's length speed (W/s) after its soft start (s); the
+                                                  // approach's end distance; the hold's push (ln of the size per s)
+        Layer _ghost;                             // PM_80: last frame's painting, faint, while it moves fast
+        Rect _endFix;                             // PM_80: the board's framing less the canvas's at the approach's end
+        bool _ghostOn;
 
         public static Dive75 Run(Setup s)
         {
             var d = new GameObject("PM75 dive").AddComponent<Dive75>();
             d._s = s;
             d._homePos = s.Cam.transform.position; d._homeSize = s.Cam.orthographicSize;
+            var clock = System.Diagnostics.Stopwatch.StartNew();
             d.Prepare();
+            d.Note($"prepare {clock.Elapsed.TotalMilliseconds:0} ms");
             if (s.Diorama == null || s.Seamless) s.Hide?.Invoke();   // otherwise the diorama fades in over the menu first (CrossIn)
             d._lastFrame = Time.frameCount;      // the clock starts on the next frame
             d.Step();
@@ -111,24 +132,41 @@ namespace ReverseSolver.Presentation
             }
             baseMat = baseMat ?? SpriteMaterial();
             if (Gap) _backdrop.Fill(new Color(1, 0, 1, 1));
+            _p = Current;
+            _rate = _p.Hold > .01f ? Mathf.Log(1 + _p.Push) / _p.Hold : 0;
             if (_s.Diorama != null)
             {
+                float ch2 = Mathf.Max(screen.y, screen.x / Mathf.Max(.1f, _s.BoardAspect)), cw2 = ch2 * _s.BoardAspect;
+                _c = new Rect(screen.x / 2 - cw2 / 2, screen.y / 2 - ch2 / 2, cw2, ch2);
                 // the wall and the floor; over the wall the painting in its canvas; in front the column, its banner and
                 // its sconce
                 _dio = new Diorama78(_s.Diorama, screen, _s.ImageCentre, _s.ImageK);
+                if (!Legacy)
+                {
+                    // PM_80: the flight by length, a soft start over its first third, then even; the approach ends
+                    // straight in front of the painting, its canvas the board's framing
+                    _flight = _p.Flight; _ramp = _flight / 3; _v = _dio.Length / (_flight - _ramp / 2);
+                    _zEnd = _dio.DistanceFor(_c.height);
+                    for (int i = 0; i <= 10; i++) _dio.Extra.Add(ApproachAt(i / 10f));
+                    var eq = _dio.CanvasAt(new Vector2(0, _zEnd), 1);
+                    var zr = Rect.MinMaxRect(Mathf.Min(eq[0].x, eq[3].x), Mathf.Min(eq[0].y, eq[1].y), Mathf.Max(eq[1].x, eq[2].x), Mathf.Max(eq[2].y, eq[3].y));
+                    float bw = zr.height * _s.BoardAspect;
+                    _endFix = new Rect(_c.position - new Vector2(zr.center.x - bw / 2, zr.yMin), _c.size - new Vector2(bw, zr.height));
+                    Note($"end framing off by {_endFix.position} {_endFix.size}");
+                }
                 _dio.Build(_overlay, baseMat, _s.Order + 1, _dioLayers);
                 _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 2);
-                _dio.BuildFronts(_overlay, baseMat, _s.Order + 3, _dioLayers);
-                Debug.Log($"[yay] start {_dio.StartAngle:0.0} deg {_dio.Describe(0)}, end {_dio.Describe(1)}, Zeyd's path x{_dio.Scale:0.000} W per metre");
+                if (!Legacy) { _ghost = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 3); _ghost.SetActive(false); }
+                _dio.BuildFronts(_overlay, baseMat, _s.Order + 4, _dioLayers);
+                Debug.Log($"[yay] start {_dio.StartAngle:0.0} deg {_dio.Describe(0)}, end {_dio.Describe(1)}, Zeyd's path x{_dio.Scale:0.000} W per metre, {_dio.Length:0.00} W long; approach to {_zEnd:0.00} W");
                 var front = _dio.CanvasAt(1);
                 _r = Rect.MinMaxRect(Mathf.Min(front[0].x, front[3].x), Mathf.Min(front[0].y, front[1].y), Mathf.Max(front[1].x, front[2].x), Mathf.Max(front[2].y, front[3].y));
-                float ch2 = Mathf.Max(screen.y, screen.x / Mathf.Max(.1f, _s.BoardAspect)), cw2 = ch2 * _s.BoardAspect;
-                _c = new Rect(screen.x / 2 - cw2 / 2, screen.y / 2 - ch2 / 2, cw2, ch2);
                 float ta = _s.Picture != null ? (float)_s.Picture.width / _s.Picture.height : 1, ca = _r.width / _r.height;
                 _cropFront = ta > ca ? new Rect((1 - ca / ta) / 2, 0, ca / ta, 1) : new Rect(0, (1 - ta / ca) / 2, 1, ta / ca);
                 return;
             }
             _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 2);
+            if (!Legacy) { _ghost = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 3); _ghost.SetActive(false); }
             // 1: upright, centred, the opening's near side tall, the crop's proportions
             var q = _s.Quad;
             float h = Mathf.Max((q[3] - q[0]).magnitude, (q[2] - q[1]).magnitude) * 1.04f;
@@ -163,66 +201,192 @@ namespace ReverseSolver.Presentation
         void Step()
         {
             if (_finished || _s.Cam == null) return;
+            if (Legacy) StepLegacy(); else StepFlow();
+        }
+
+        /* &gecis=eski: PM_77's steps (approach 1.1, breath .15, hold .5, breath .15, back 1.0, HUD .4 after a .1 s
+           breath), the corridor's way (no flight). */
+        void StepLegacy()
+        {
             float t = _clock;
             PlaceOverlay();
-            if (!_raised && t >= (_dio != null && !_s.Seamless ? CrossIn : .22f)) Raise();
-            // PM_78/79: the approach sets off before the flight ends (Overlap): one move, never standing still
-            float flight = _dio != null ? FlightSec : 0, approachAt = _dio != null ? flight - Overlap : 0;
-            float a1 = approachAt + Approach, b0 = a1 + Breath1, b1 = b0 + Hold, c0 = b1 + Breath2, c1 = c0 + BackSec;
-            float d0 = c0 + BackSec * HudFrom, d1 = d0 + HudSec;
+            if (!_raised && t >= .22f) Raise();
+            const float approach = 1.1f, breath = .15f, hold = .5f, back = 1.0f, hud = .4f;
+            float b0 = approach + breath, c0 = b0 + hold + breath, c1 = c0 + back, d0 = c0 + back * 1.1f, d1 = d0 + hud;
             if (t < c0)
             {
                 _s.FadeUi?.Invoke(1 - Mathf.Clamp01(t / .22f));
-                float y = Mathf.Clamp01((t - approachAt) / Approach);
-                // PM_79: accelerating into the picture (from rest, touching it still moving); PM_77: in-out
-                float e = Legacy ? BoosterFx74.InOutCubic(y) : DiveIn(y);
-                // the touch: a slight scale knock over the hold (and a flash)
-                float knock = Legacy || t < a1 ? 0 : .03f * Mathf.Sin(Mathf.PI * Mathf.Clamp01((t - a1) / Mathf.Max(.06f, c0 - a1)));
-                if (_dio != null)
-                {
-                    // the flight: Zeyd's path with a soft start; it eases out under the approach
-                    DioramaPose(SmoothStep(t / flight), e, _s.Seamless ? 1 : Mathf.Clamp01(t / CrossIn), 1 + knock);
-                    if (!_hidden && !_s.Seamless && t >= CrossIn) { _hidden = true; _s.Hide?.Invoke(); }
-                }
-                else FacePose(e, 1 + knock);
-                if (!Legacy && t >= a1) Flash(t - a1);
+                FacePose(BoosterFx74.InOutCubic(Mathf.Clamp01(t / approach)));
                 if (t >= b0 && !_built) BuildLevel();   // the level is built in the hold
                 return;
             }
             if (!_built) BuildLevel();
             if (!_revealed) StartReveal();
-            if (!Legacy) Flash(t - a1);
-            BackPhase(Mathf.Clamp01((t - c0) / BackSec));
-            _s.Slide?.Invoke(t < d0 ? 0 : BoosterFx74.OutCubic(Mathf.Clamp01((t - d0) / HudSec)));
+            BackLegacy(Mathf.Clamp01((t - c0) / back));
+            _s.Slide?.Invoke(t < d0 ? 0 : BoosterFx74.OutCubic(Mathf.Clamp01((t - d0) / hud)));
             if (t >= Mathf.Max(c1, d1)) Finish();
         }
 
-        /* PM_79: the approach's curve: at rest at the start (the flight hands over), still moving at the touch. */
-        static float DiveIn(float y) { y = Mathf.Clamp01(y); const float k = 1.4f; return (k - 2) * y * y * y + (3 - k) * y * y; }
-        static float SmoothStep(float t) { t = Mathf.Clamp01(t); return t * t * (3 - 2 * t); }
-
-        /* PM_79: a short white flash when the camera touches the picture (u: seconds since). */
-        ShapeView _flash;
-        Transform _fx;
-        void Flash(float u)
+        /* PM_80: the one timeline (see the top). */
+        void StepFlow()
         {
-            float a = u < 0 || u > FlashSec ? 0 : .32f * (1 - u / FlashSec) * (1 - u / FlashSec);
-            if (_flash == null)
+            float t = _clock;
+            PlaceOverlay();
+            if (!_raised && t >= (_dio != null && !_s.Seamless ? CrossIn : .22f)) Raise();
+            float h0 = _flight + _p.Approach, h1 = h0 + _p.Hold, h2 = h1 + _p.Back;
+            _s.FadeUi?.Invoke(1 - SmoothStep(t / .3f));   // the menu's controls, over the first .3 s
+            if (t < h0)
             {
-                if (a <= 0) return;
-                _fx = new GameObject("PM79 flash").transform;
-                _fx.SetParent(_s.Cam.transform, false);
-                _flash = ShapeView.Create(_fx, "flash", _s.Screen * 1.6f, 0, Mathf.Max(_s.TopOrder, _s.Order) + 900).Radius(0).Fill(Color.white);
-                _flash.transform.localPosition = Draw.W(_s.Screen / 2);
+                float u = Mathf.Clamp01((t - _flight) / _p.Approach);
+                if (_dio != null)
+                {
+                    FlowDiorama(t, _s.Seamless ? 1 : Mathf.Clamp01(t / CrossIn));
+                    if (!_hidden && !_s.Seamless && t >= CrossIn) { _hidden = true; _s.Hide?.Invoke(); }
+                }
+                else FacePose(ApproachE(u));
+                // the level is built as the approach comes to rest (the screen barely moves: a long frame is not seen);
+                // the cuts take over on the next frame
+                if (!_built && u >= .94f) BuildLevel();
+                LogOverlay(t);
+                return;
             }
-            float k = _s.Cam.orthographicSize / _homeSize;
-            _fx.localScale = new Vector3(k, k, 1);
-            _fx.localPosition = new Vector3(-_s.Screen.x / 2 * k, _s.Screen.y / 2 * k, 10);
-            _flash.Alpha(a);
-            if (_fx.gameObject.activeSelf != a > 0) _fx.gameObject.SetActive(a > 0);
+            if (!_built) BuildLevel();
+            if (!_revealed) StartReveal();
+            if (_board != null)
+            {
+                // the hold: a slow push in; the back: ease in-out to the level's own view, taking over the push
+                var rect = new Rect(_board.Origin, _board.Size);
+                var from = new Vector3(rect.center.x, -rect.center.y, _homePos.z);
+                float lnCover = Mathf.Log(Dive74.CoverSize(rect.size, _s.Screen)), lnPush = _rate * _p.Hold;
+                if (t < h1) { _s.Cam.orthographicSize = Mathf.Exp(lnCover - _rate * (t - h0)); _s.Cam.transform.position = from; }
+                else
+                {
+                    float u = Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back));
+                    float l0 = lnCover - lnPush, l1 = Mathf.Log(_homeSize);
+                    float l = Hermite3(l0, -_rate * _p.Back, l1, 0, u);
+                    _s.Cam.orthographicSize = Mathf.Exp(l);
+                    _s.Cam.transform.position = Vector3.LerpUnclamped(from, _homePos, Mathf.Abs(l1 - l0) > 1e-5f ? (l - l0) / (l1 - l0) : u);
+                }
+            }
+            _reveal?.Flow(LineFrac(t, h0, h1), Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back)));
+            float hud = Mathf.Min(.3f, _p.Back);
+            _s.Slide?.Invoke(BoosterFx74.OutCubic(Mathf.Clamp01((t - (h2 - hud)) / hud)));
+            LogBoard(t);
+            if (t >= h2) Finish();
+        }
+
+        /* How much of the cuts is drawn: 0 at the hold's start, Lines at its end, all at 80 % of the back; slow at
+           first (a pen), even through the hold's end. &cizgihiz= runs it faster or slower. */
+        float LineFrac(float t, float h0, float h1)
+        {
+            float a = h0, b = h1, c = h1 + .8f * _p.Back, tt = a + (t - a) * Mathf.Max(.1f, LineK);
+            if (tt <= a) return 0;
+            if (tt >= c) return 1;
+            float at = b - a > .01f ? _p.Lines : 0;
+            float d1 = b - a > .01f ? at / (b - a) : 0, d2 = (1 - at) / Mathf.Max(.01f, c - b);
+            float s = d1 > 0 && d2 > 0 ? 2 / (1 / d1 + 1 / d2) : 0;   // the slope at the hold's end (a harmonic mean: no overshoot)
+            return tt < b ? Hermite3(0, 0, at, s * (b - a), (tt - a) / (b - a)) : Hermite3(at, s * (c - b), 1, 0, (tt - b) / (c - b));
+        }
+
+        /* The flight: the length along Zeyd's path at t, a soft start (the speed eases up over _ramp) then even. */
+        float FlightLength(float t)
+        {
+            if (t < _ramp) { float x = t / _ramp; return _v * _ramp * (x * x * x - x * x * x * x / 2); }
+            return _v * _ramp / 2 + _v * (t - _ramp);
+        }
+
+        /* The approach at u (0..1): from the path's end, with its speed and direction (W/s), to straight in front of
+           the painting at _zEnd, arriving at the hold's push rate. The distance in ln z (the picture grows evenly on
+           the screen): its rate rises from the flight's over the first 30 %, holds, and eases out over the last 25 %
+           (each change a smoothstep: no jump in the speed or the acceleration); a plateau, not a peak, so the way in
+           is an even flow. The sideways in x: a quintic Hermite (no jump in the acceleration either). */
+        Vector2 ApproachAt(float u)
+        {
+            var p0 = _dio.EndPoint; var v0 = _dio.EndTangent * (_v * _p.Approach);
+            float x = Hermite5(p0.x, v0.x, 0, 0, u);
+            float lz0 = Mathf.Log(p0.y), d = Mathf.Log(_zEnd) - lz0;
+            float lz = lz0 + Plateau(u, v0.y / p0.y, d, -_rate * _p.Approach, .3f, .75f);
+            return new Vector2(x, Mathf.Exp(lz));
+        }
+
+        /* The distance covered by u (0..1) of a move of `total` that starts at speed g0 and ends at g1 (per unit u):
+           a smoothstep up to a constant speed over 0..ua, then a smoothstep down to g1 over ub..1. */
+        static float Plateau(float u, float g0, float total, float g1, float ua, float ub)
+        {
+            float gm = (total - g0 * ua / 2 - g1 * (1 - ub) / 2) / (ua / 2 + ub - ua + (1 - ub) / 2);
+            static float I(float x) => x * x * x - x * x * x * x / 2;   // the integral of smoothstep from 0 to x
+            u = Mathf.Clamp01(u);
+            if (u < ua) return g0 * u + (gm - g0) * ua * I(u / ua);
+            float s = g0 * ua + (gm - g0) * ua / 2;
+            if (u < ub) return s + gm * (u - ua);
+            s += gm * (ub - ua);
+            return s + gm * (u - ub) + (g1 - gm) * (1 - ub) * I((u - ub) / (1 - ub));
+        }
+
+        /* The approach without the flight (the corridor): the painting's zoom eases in from rest, out to the push rate. */
+        float ApproachE(float u)
+        {
+            float lnRatio = Mathf.Log(Mathf.Max(1.0001f, _c.height / Mathf.Max(1, _r.height)));
+            return Hermite5(0, 0, 1, _rate * _p.Approach / lnRatio, Mathf.Clamp01(u));
+        }
+
+        static readonly double[] Identity = { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
+
+        /* The flight and the approach through the diorama, one camera curve. */
+        void FlowDiorama(float t, float fade)
+        {
+            Vector2 p; float e = 0;
+            if (t <= _flight) p = _dio.AtLength(FlightLength(t));
+            else
+            {
+                p = ApproachAt((t - _flight) / _p.Approach);
+                float z0 = Mathf.Log(_dio.EndPoint.y), z1 = Mathf.Log(_zEnd);
+                e = SmoothStep((z0 - Mathf.Log(p.y)) / (z0 - z1));   // the painting's own morph to the board, with the way in
+            }
+            // the lens shift takes the painting from the menu's place to the centre, easing out early in the approach
+            float w = SmoothStep(t / (_flight + .375f * _p.Approach));
+            _dio.Pose(p, w, Identity, _dioLayers, fade);
+            var cq = _dio.CanvasAt(p, w);
+            var crop0 = new Rect(Vector2.Lerp(_s.Crop.position, _cropFront.position, w), Vector2.Lerp(_s.Crop.size, _cropFront.size, w));
+            PaintInto(cq, e, crop0, 1, null, null, 1 - w, true);
+            _paint.Fade(fade);
+            _backdrop.Alpha(fade);
+        }
+
+        static float SmoothStep(float t) { t = Mathf.Clamp01(t); return t * t * (3 - 2 * t); }
+        static float Hermite3(float p0, float m0, float p1, float m1, float u)
+        {
+            float u2 = u * u, u3 = u2 * u;
+            return (2 * u3 - 3 * u2 + 1) * p0 + (u3 - 2 * u2 + u) * m0 + (-2 * u3 + 3 * u2) * p1 + (u3 - u2) * m1;
+        }
+        /* Quintic Hermite with no second derivative at either end. */
+        static float Hermite5(float p0, float m0, float p1, float m1, float u)
+        {
+            float u3 = u * u * u, u4 = u3 * u, u5 = u4 * u;
+            return (1 - 10 * u3 + 15 * u4 - 6 * u5) * p0 + (u - 6 * u3 + 8 * u4 - 3 * u5) * m0
+                 + (-4 * u3 + 7 * u4 - 3 * u5) * m1 + (10 * u3 - 15 * u4 + 6 * u5) * p1;
+        }
+
+        // ---- &dalislog=1 ----
+        Vector2[] _logQuad;
+        void LogOverlay(float t)
+        {
+            if (!Log || _logQuad == null) return;
+            var q = _logQuad;
+            Debug.Log($"[dl] {t:0.0000} {Time.unscaledDeltaTime * 1000:0.0} o {q[0].x:0.0} {q[0].y:0.0} {q[1].x:0.0} {q[1].y:0.0} {q[2].x:0.0} {q[2].y:0.0} {q[3].x:0.0} {q[3].y:0.0}");
+        }
+        void LogBoard(float t)
+        {
+            if (!Log || _board == null) return;
+            var cam = _s.Cam; float s = _s.Screen.y / (2 * cam.orthographicSize); var c = cam.transform.position;
+            Vector2 S(Vector2 l) => new Vector2(_s.Screen.x / 2 + (l.x - c.x) * s, _s.Screen.y / 2 + (l.y + c.y) * s);
+            var o = _board.Origin; var z = _board.Size;
+            var a = S(o); var b = S(o + z);
+            Debug.Log($"[dl] {t:0.0000} {Time.unscaledDeltaTime * 1000:0.0} b {a.x:0.0} {a.y:0.0} {b.x:0.0} {a.y:0.0} {b.x:0.0} {b.y:0.0} {a.x:0.0} {b.y:0.0}");
         }
 
         bool _hidden;
+        Vector2[] _lastPq;
 
         /* The approach without an orbit (the corridor, or the menu without &gecis=yay): the painting's slight
            perspective eases out while the camera moves in, all in one move. */
@@ -241,40 +405,49 @@ namespace ReverseSolver.Presentation
             _backdrop.Alpha(1);
         }
 
-        /* &gecis=yay: o the flight 0 (the menu's view) .. 1 (Zeyd's last key), e the approach, fade the diorama's
-           fade-in over the menu at the start (none when the menu shows the diorama itself). */
-        void DioramaPose(float o, float e, float fade, float enlarge = 1)
-        {
-            var rect = LogLerp(_r, _c, e);
-            var zoom = Similarity(_r.center, rect.center, rect.height / _r.height);
-            _dio.Pose(o, zoom, _dioLayers, fade);
-            var cq = _dio.CanvasAt(o);
-            var zq = new Vector2[4];
-            for (int c = 0; c < 4; c++) zq[c] = Apply(zoom, cq[c]);
-            var crop0 = new Rect(Vector2.Lerp(_s.Crop.position, _cropFront.position, o), Vector2.Lerp(_s.Crop.size, _cropFront.size, o));
-            // exactly the menu's opening (PM_78: the frame is the menu's own); at the start the picture lies in it as the
-            // menu draws it (flat, cut to the opening), easing into the canvas's true perspective along the flight
-            PaintInto(zq, e, crop0, enlarge, null, null, 1 - o);
-            _paint.Fade(fade);
-            _backdrop.Alpha(fade);
-        }
-
         /* The painting: in the canvas quad zq (perspective-correct) and, with the approach e, the board's framing;
            its crop eases from crop0 to the whole picture. While a wall still turns (start != null) the picture
            follows the same homography as the wall. flat (PM_78): how much of the menu's own way of drawing it is
            left (Screens.Menu.SetPainting: the crop laid flat over the opening's bounding box, cut to the opening). */
-        void PaintInto(Vector2[] zq, float e, Rect crop0, float enlarge, Vector2[] start, double[] wall, float flat = 0)
+        void PaintInto(Vector2[] zq, float e, Rect crop0, float enlarge, Vector2[] start, double[] wall, float flat = 0, bool exact = false)
         {
             var crop = new Rect(Vector2.Lerp(crop0.position, Vector2.zero, e), Vector2.Lerp(crop0.size, Vector2.one, e));
             var zr = Rect.MinMaxRect(Mathf.Min(zq[0].x, zq[3].x), Mathf.Min(zq[0].y, zq[1].y), Mathf.Max(zq[1].x, zq[2].x), Mathf.Max(zq[2].y, zq[3].y));
             float boardW = zr.height * Mathf.Lerp(zr.width / Mathf.Max(1, zr.height), _s.BoardAspect, e);
             float w = Mathf.Max(boardW, zr.width);
             var target = new Rect(zr.center.x - w / 2, zr.yMin, w, zr.height);
+            if (exact)
+            {
+                // PM_80: the camera alone makes it grow (the approach ends with the canvas the board's framing); only
+                // what is left between the two (a point or so) is taken up with e: exactly the board's framing at the end
+                var aspect = new Rect(zr.center.x - boardW / 2, zr.yMin, boardW, zr.height);
+                target = new Rect(aspect.position + _endFix.position * e, aspect.size + _endFix.size * e);
+            }
             var tq = Corners(target);
             var pq = new Vector2[4];
             for (int c = 0; c < 4; c++) pq[c] = Vector2.Lerp(zq[c], tq[c], e);
             var pc = (pq[0] + pq[1] + pq[2] + pq[3]) / 4;
             for (int c = 0; c < 4; c++) pq[c] = pc + (pq[c] - pc) * enlarge;
+            if (Log)
+            {
+                // the whole picture's corners (where the crop's edges extend to): what the eye follows, not the quad
+                var cq = pq; var cr = crop;
+                Vector2 At(float u, float v) => CorridorTransition.Project(cq, (u - cr.x) / cr.width, 1 - (v - cr.y) / cr.height);
+                _logQuad = new[] { At(0, 1), At(1, 1), At(1, 0), At(0, 0) };
+            }
+            if (_ghost != null && _ghostOn)
+            {
+                // PM_80: a faint trace of the last frame's painting while it moves fast (the corners > 5 pt a frame at 60 fps)
+                float move = 0;
+                for (int c = 0; c < 4; c++) move += (pq[c] - _lastPq[c]).magnitude / 4;
+                move *= 1 / 60f / Mathf.Max(1 / 240f, Time.unscaledDeltaTime);
+                float a = .2f * Mathf.Clamp01((move - 5) / 10);
+                _paint.CopyTo(_ghost, a);
+                _ghost.SetActive(a > .005f);
+            }
+            if (_lastPq == null) _lastPq = new Vector2[4];
+            for (int c = 0; c < 4; c++) _lastPq[c] = pq[c];
+            _ghostOn = true;
             if (start != null) _paint.Positions((x, y) => Apply(wall, CorridorTransition.Project(start, x, y)), crop, 1);
             else if (flat > 0)
             {
@@ -315,10 +488,16 @@ namespace ReverseSolver.Presentation
             _overlay.localPosition = new Vector3(-_s.Screen.x / 2 * k, _s.Screen.y / 2 * k, 10);
         }
 
+        /* PM_80: how long the dive's own steps take (one line at its end: [dalis] ...). */
+        readonly System.Text.StringBuilder _notes = new System.Text.StringBuilder();
+        void Note(string what) => _notes.Append(what).Append(", ");
+
         void BuildLevel()
         {
             _built = true;
+            var clock = System.Diagnostics.Stopwatch.StartNew();
             _board = _s.Build?.Invoke();
+            Note($"build {clock.Elapsed.TotalMilliseconds:0} ms at {_clock:0.00} s");
             _s.Slide?.Invoke(0);
             // the level's own home view (as built), where the pull back ends
             _homePos = _s.Cam.transform.position; _homeSize = _s.Cam.orthographicSize;
@@ -332,7 +511,8 @@ namespace ReverseSolver.Presentation
         void StartReveal()
         {
             _revealed = true;
-            if (_board != null) _reveal = Reveal.Create(_board, _board.Image != null ? _board.Image : _s.Picture);
+            var clock = System.Diagnostics.Stopwatch.StartNew();
+            if (_board != null) _reveal = Reveal.Create(_board, _board.Image != null ? _board.Image : _s.Picture, !Legacy);
             if (_overlay != null) Destroy(_overlay.gameObject);
             _overlay = null;
             foreach (var w in _walls) w.Dispose();
@@ -341,11 +521,13 @@ namespace ReverseSolver.Presentation
             _dioLayers.Clear();
             if (!_hidden) { _hidden = true; _s.Hide?.Invoke(); }
             _paint?.Dispose(); _paint = null;
+            _ghost?.Dispose(); _ghost = null;
+            Note($"reveal {clock.Elapsed.TotalMilliseconds:0} ms at {_clock:0.00} s");
         }
 
-        void BackPhase(float t)
+        void BackLegacy(float t)
         {
-            float e = Legacy ? CorridorTransition.Ease(Mathf.Clamp01(t)) : BoosterFx74.OutCubic(Mathf.Clamp01(t));   // PM_79: ease out
+            float e = CorridorTransition.Ease(Mathf.Clamp01(t));
             if (_board != null)
             {
                 var rect = new Rect(_board.Origin, _board.Size);
@@ -370,6 +552,7 @@ namespace ReverseSolver.Presentation
             if (!_built) BuildLevel();
             if (!_revealed) StartReveal();
             _finished = true;
+            Debug.Log($"[dalis] {(Legacy ? "eski" : Variant.ToString())}: {_notes}ended at {_clock:0.00} s");
             if (_s.Cam != null) { _s.Cam.transform.position = _homePos; _s.Cam.orthographicSize = _homeSize; }
             if (_board != null) { _board.transform.localScale = Vector3.one; _board.transform.localPosition = Draw.W(_board.Origin); }
             _reveal?.Dispose(); _reveal = null;
@@ -383,10 +566,10 @@ namespace ReverseSolver.Presentation
         void OnDestroy()
         {
             if (_overlay != null) Destroy(_overlay.gameObject);
-            if (_fx != null) Destroy(_fx.gameObject);
             foreach (var w in _walls) w.Dispose();
             foreach (var w in _dioLayers) w.Dispose();
             _paint?.Dispose();
+            _ghost?.Dispose();
             _reveal?.Dispose();
         }
 
@@ -539,6 +722,16 @@ namespace ReverseSolver.Presentation
                 _m.bounds = new Bounds(Vector3.zero, Vector3.one * 1e5f);
             }
 
+            /* PM_80: this layer's current mesh into `to` (the same grid), at alpha a. */
+            public void CopyTo(Layer to, float a)
+            {
+                if (to._v.Length != _v.Length) return;
+                Array.Copy(_v, to._v, _v.Length); Array.Copy(_uv, to._uv, _uv.Length);
+                to.SetAlpha(a);
+                to._m.vertices = to._v; to._m.uv = to._uv;
+                to._m.bounds = new Bounds(Vector3.zero, Vector3.one * 1e5f);
+            }
+
             public void SetActive(bool on) { if (_r != null && _r.gameObject.activeSelf != on) _r.gameObject.SetActive(on); }
 
             public static Layer Grid(Transform parent, Texture tex, Material baseMat, int n, int order)
@@ -638,9 +831,9 @@ namespace ReverseSolver.Presentation
             readonly List<SpriteRenderer> _tips = new List<SpriteRenderer>();
             static Sprite _dot;
 
-            public static Reveal Create(BoardView board, Texture picture)
+            public static Reveal Create(BoardView board, Texture picture, bool flow = false)
             {
-                var r = new Reveal();
+                var r = new Reveal { _flow = flow };
                 r._root = new GameObject("PM75 reveal").transform;
                 r._root.SetParent(board.transform, false);
                 var size = board.Size; float cell = board.Cell;
@@ -664,12 +857,16 @@ namespace ReverseSolver.Presentation
                 var b = board.Session.Board; var l = board.Session.Level;
                 float diag = l.Width + l.Height;
                 var rng = new System.Random(l.Width * 31 + l.Height);
+                // PM_77: a sweep from the top left; PM_80: from the centre outwards
+                var mid = new Vector2(l.Width, l.Height) / 2; float far = Mathf.Max(.5f, mid.magnitude - .5f);
+                float Sweep(Vector2 m) => flow ? Mathf.Clamp01(((m - mid).magnitude - .5f) / far) : (m.x + m.y) / diag;
                 for (int y = 0; y < l.Height; y++)
                     for (int x = 1; x < l.Width; x++)
-                        r.AddEdge(new Vector2(x, y), new Vector2(0, 1), b.VJoint(x, y), cell, (x + y + .5f) / diag, rng);
+                        r.AddEdge(new Vector2(x, y), new Vector2(0, 1), b.VJoint(x, y), cell, Sweep(new Vector2(x, y + .5f)), rng);
                 for (int y = 1; y < l.Height; y++)
                     for (int x = 0; x < l.Width; x++)
-                        r.AddEdge(new Vector2(x, y), new Vector2(1, 0), b.HJoint(x, y), cell, (x + y + .5f) / diag, rng);
+                        r.AddEdge(new Vector2(x, y), new Vector2(1, 0), b.HJoint(x, y), cell, Sweep(new Vector2(x + .5f, y)), rng);
+                if (flow) r.MeasureDrawing();
                 if (_dot == null) _dot = MakeDot();
                 for (int i = 0; i < 24; i++)
                 {
@@ -727,12 +924,50 @@ namespace ReverseSolver.Presentation
                 return Sprite.Create(tex, new Rect(0, 0, n, n), new Vector2(.5f, .5f), n);
             }
 
+            bool _flow;
+            float[] _drawn;          // PM_80: the share of all the cuts drawn at each step of the drawing's own clock
+            const int DrawSteps = 64;
+            float DrawEnd => Spread + .05f + EdgeSeconds;
+            float EdgeEase(float f) => _flow ? f * f * (3 - 2 * f) : BoosterFx74.OutCubic(f);   // PM_80: a pen's even stroke
+
+            void MeasureDrawing()
+            {
+                _drawn = new float[DrawSteps + 1];
+                float total = 0;
+                foreach (var e in _edges) total += e.length;
+                for (int i = 0; i <= DrawSteps; i++)
+                {
+                    float time = DrawEnd * i / DrawSteps, sum = 0;
+                    foreach (var (_, length, start) in _edges) sum += EdgeEase(Mathf.Clamp01((time - start) / EdgeSeconds)) * length;
+                    _drawn[i] = total > 0 ? sum / total : 1;
+                }
+            }
+
+            /* PM_80: share 0..1 of the cuts drawn (from the centre out); back 0..1 the pull back: the picture gives way
+               to the pieces from 60 %, the cuts' shadow widens a little (the pieces part, 1-2 px), then they fade. */
+            public void Flow(float share, float back)
+            {
+                float time = DrawEnd;
+                if (_drawn != null && share < 1)
+                {
+                    int i = 0;
+                    while (i < DrawSteps && _drawn[i + 1] < share) i++;
+                    float d = _drawn[Mathf.Min(DrawSteps, i + 1)] - _drawn[i];
+                    time = DrawEnd * (i + (d > 1e-6f ? Mathf.Clamp01((share - _drawn[i]) / d) : 0)) / DrawSteps;
+                }
+                float sm(float x) { x = Mathf.Clamp01(x); return x * x * (3 - 2 * x); }
+                Render(time, 1 - sm((back - .6f) / .32f), 1 - sm((back - .84f) / .16f), Shadow + 1.6f * sm((back - .7f) / .25f));
+            }
+
             /* t: 0..1 over the pull back. */
             public void Show(float t)
             {
                 float time = t * 1.0f;   // the drawing's own timeline (PM_77's 1 s pull back), scaled to the back's length
-                float pictureAlpha = 1 - Mathf.Clamp01((t - .62f) / .28f);
-                float lineAlpha = 1 - Mathf.Clamp01((t - .78f) / .22f);
+                Render(time, 1 - Mathf.Clamp01((t - .62f) / .28f), 1 - Mathf.Clamp01((t - .78f) / .22f), Shadow);
+            }
+
+            void Render(float time, float pictureAlpha, float lineAlpha, float shadow)
+            {
                 var c = new Color(1, 1, 1, pictureAlpha);
                 _picMesh.colors = new[] { c, c, c, c };
                 var verts = new List<Vector3>(); var cols = new List<Color>(); var tris = new List<int>();
@@ -741,8 +976,8 @@ namespace ReverseSolver.Presentation
                 {
                     float f = Mathf.Clamp01((time - start) / EdgeSeconds);
                     if (f <= 0) continue;
-                    float drawn = BoosterFx74.OutCubic(f) * length;
-                    Vector2 end = Polyline(pts, drawn, verts, cols, tris, lineAlpha);
+                    float drawn = EdgeEase(f) * length;
+                    Vector2 end = Polyline(pts, drawn, verts, cols, tris, lineAlpha, shadow);
                     if (f < 1 && tip < _tips.Count)
                     {
                         var s = _tips[tip++]; s.enabled = true;
@@ -757,7 +992,7 @@ namespace ReverseSolver.Presentation
             }
 
             /* The first `length` points of the polyline as a shadowed cream stroke; returns where it ends. */
-            static Vector2 Polyline(List<Vector2> pts, float length, List<Vector3> verts, List<Color> cols, List<int> tris, float alpha)
+            static Vector2 Polyline(List<Vector2> pts, float length, List<Vector3> verts, List<Color> cols, List<int> tris, float alpha, float shadow)
             {
                 var shade = new Color(.07f, .2f, .23f, .55f * alpha); var cream = new Color(1f, .96f, .86f, .95f * alpha);
                 float left = length; Vector2 last = pts[0];
@@ -768,7 +1003,7 @@ namespace ReverseSolver.Presentation
                     if (seg <= 1e-4f) continue;
                     if (seg > left) { b = a + (b - a) * (left / seg); seg = left; }
                     left -= seg;
-                    Quad(a, b, Shadow, shade, verts, cols, tris);
+                    Quad(a, b, shadow, shade, verts, cols, tris);
                     Quad(a, b, Width, cream, verts, cols, tris);
                     last = b;
                 }

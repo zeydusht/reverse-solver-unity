@@ -12,6 +12,8 @@ namespace ReverseSolver.Presentation
     public sealed partial class GameRoot
     {
         Dive75 _dive75;
+        bool _deferNextImage;
+        string _deferredImage;
 
         /* Menu -> level: the camera comes round to face the menu's painting, dives in, the level comes out of it. */
         bool DiveFromMenu75(int index)
@@ -19,8 +21,10 @@ namespace ReverseSolver.Presentation
             if (!Dive75.On || _menu == null || _menu.Background == null || _menu.PaintingTexture == null || !_p21Lessons) return false;
             var quad = _menu.PaintingQuad();
             if (quad == null) return false;
+            Perf("quad");
             var level = _set.Levels[Mathf.Clamp(index, 0, _set.Levels.Count - 1)];
             var fade = MenuFader();
+            Perf("fader");
             var bg = _menu.Background;
             var setup = new Dive75.Setup
             {
@@ -96,7 +100,8 @@ namespace ReverseSolver.Presentation
             Transform hud = null, bar = null;
             setup.Build = () =>
             {
-                StartLevel(index);
+                _deferNextImage = true;
+                try { StartLevel(index); } finally { _deferNextImage = false; }
                 if (_board == null || _hud == null || _bar == null) return null;
                 _board.SkipDeal();
                 hud = _hud.Root; bar = _bar.Root;
@@ -114,8 +119,11 @@ namespace ReverseSolver.Presentation
             {
                 _diving = false; _dive75 = null;
                 if (card != null) card.gameObject.SetActive(true);
+                if (_deferredImage != null) { _images.Get(_deferredImage); _deferredImage = null; }
             };
+            Perf("setup");
             _dive75 = Dive75.Run(setup);
+            Perf("run");
             return true;
         }
 

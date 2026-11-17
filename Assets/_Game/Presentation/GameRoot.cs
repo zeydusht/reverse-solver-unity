@@ -176,7 +176,11 @@ namespace ReverseSolver.Presentation
             Dive75.Legacy = Host.Current.Query("gecis") == "eski";
             Dive75.Orbit = Dive75.On && !Dive75.Legacy;
             Dive75.SpeedK = QueryFloat("yayhiz", 1, .25f, 4);
-            Dive75.HoldSec = QueryFloat("resimbekle", .12f, 0, 3);
+            Dive75.HoldSec = QueryFloat("resimbekle", -1, 0, 3);   // PM_80: none: the variant's hold
+            Dive75.LineK = QueryFloat("cizgihiz", 1, .25f, 4);
+            var dalis = Host.Current.Query("dalis");
+            Dive75.Variant = dalis == "b" || dalis == "c" ? dalis[0] : 'a';
+            Dive75.Log = Host.Current.Query("dalislog") == "1";
             Dive75.Gap = Host.Current.Query("dalisbosluk") == "1";   // PM_76: magenta backdrop for the edge-gap count
             // PM_75: the menu top's three options (Codex); B by default, &ust=a / &ust=c show the other two
             var top = (Host.Current.Query("ust") ?? "").ToUpperInvariant();
@@ -568,7 +572,8 @@ namespace ReverseSolver.Presentation
             // G1: this level's picture and the next one's; let go of the rest
             string nextImage = ImageOf(_index + 1);
             _images.KeepOnly(ImageOf(_index), nextImage);
-            _images.Get(nextImage);
+            // PM_80: built inside the dive, the next picture waits for its end (its decoding was a 140 ms frame in the hold)
+            if (_deferNextImage) _deferredImage = nextImage; else _images.Get(nextImage);
             CommitPendingHard();
             _rated = null;                                     // answers come only while the result card is open
             _funAnswered = false;
@@ -812,7 +817,13 @@ namespace ReverseSolver.Presentation
             if (_menu == null) return;
             if (_menu.Settings.Contains(pt)) OpenSettings();
             else if (_menu.Profile.Contains(pt) && Art.On) OpenPlayerProfile();
-            else if (_menu.Play.Contains(pt)) { if (!DiveFromMenu75(_progress.Next())) StartLevel(_progress.Next()); }   // PM_75: the slow dive
+            else if (_menu.Play.Contains(pt))
+            {
+                PerfClock.Restart(); PerfLine.Clear();
+                bool dove = DiveFromMenu75(_progress.Next());   // PM_75: the slow dive
+                Perf("dive"); PerfFlush("tap"); _perfFrames = 3;
+                if (!dove) StartLevel(_progress.Next());
+            }
             else if (_menu.Levels.Contains(pt))
             {
                 if (Art.On) { _levelsMapOpen = true; _mapOffset = null; Layout(); }

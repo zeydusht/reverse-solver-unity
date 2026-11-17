@@ -59,7 +59,36 @@ namespace ReverseSolver.Presentation
             _startMid = ImageToLayout(new Vector2(art.Cx, art.Cy));
             for (int i = 0; i < 4; i++) _canvas[i] = OnPlaneZ(art.CanvasPx[i], 0);
             _startPaint = Start(new Vector3(0, art.Yc, 0));
+            // PM_80: the path by its length (W), so the camera's speed along it does not depend on how the keys are spaced
+            _len = new float[LenSteps + 1]; _at = new Vector2[LenSteps + 1];
+            for (int i = 0; i <= LenSteps; i++)
+            {
+                _at[i] = PathAt((float)i / LenSteps) * _scale;
+                _len[i] = i == 0 ? 0 : _len[i - 1] + (_at[i] - _at[i - 1]).magnitude;
+            }
         }
+
+        const int LenSteps = 600;
+        readonly float[] _len;
+        readonly Vector2[] _at;
+
+        /* PM_80: the flight by length: s 0 .. Length (W) along Zeyd's path; the camera's (x, z). */
+        public float Length => _len[LenSteps];
+        public Vector2 AtLength(float s)
+        {
+            s = Mathf.Clamp(s, 0, Length);
+            int lo = 0, hi = LenSteps;
+            while (hi - lo > 1) { int m = (lo + hi) / 2; if (_len[m] <= s) lo = m; else hi = m; }
+            float seg = _len[hi] - _len[lo];
+            return Vector2.Lerp(_at[lo], _at[hi], seg > 1e-6f ? (s - _len[lo]) / seg : 0);
+        }
+        /* Where the path ends and its direction there (unit, (x, z)). */
+        public Vector2 EndPoint => _at[LenSteps];
+        public Vector2 EndTangent => (_at[LenSteps] - _at[LenSteps - 3]).normalized;
+        /* How far from the wall, straight in front of the painting, its canvas is `pts` layout points tall. */
+        public float DistanceFor(float pts) => _f * Mathf.Abs((_canvas[0].y - _canvas[3].y + _canvas[1].y - _canvas[2].y) / 2) / Mathf.Max(1, pts);
+        /* Camera positions past the path (the approach): seen too when deciding how much of the room to build. */
+        public readonly List<Vector2> Extra = new List<Vector2>();
 
         public float Seconds => _a.Seconds;
         /* For the log: the start angle, and how far Zeyd's path was scaled. */
@@ -134,9 +163,11 @@ namespace ReverseSolver.Presentation
         /* The camera at o (0 the menu's view .. 1 Zeyd's last key): the head on the painting's centre (from the
            position, no angle in-betweening); the lens shift takes the painting's centre from where the menu shows it
            to the screen's centre. */
-        Cam CameraAt(float o)
+        Cam CameraAt(float o) => CameraAt(PathAt(o) * _scale, o);
+
+        /* PM_80: the camera at (x, z) (W), the head on the painting; shift 0 (the menu's lens) .. 1 (centred). */
+        Cam CameraAt(Vector2 p, float o)
         {
-            var p = PathAt(o) * _scale;
             float th = Mathf.Atan2(-p.x, p.y), dist = p.magnitude;
             float paintY = Mathf.Lerp(_startPaint.y, _screen.y / 2, o);
             return new Cam
@@ -162,11 +193,9 @@ namespace ReverseSolver.Presentation
             return $"({c.Pos.x:0.000}, {c.Pos.z:0.000}) {Mathf.Atan2(c.D.x, -c.D.z) * Mathf.Rad2Deg:0.0} deg";
         }
 
-        public Vector2[] CanvasAt(float o)
-        {
-            var c = CameraAt(o);
-            return new[] { Project(c, _canvas[0]), Project(c, _canvas[1]), Project(c, _canvas[2]), Project(c, _canvas[3]) };
-        }
+        public Vector2[] CanvasAt(float o) => CanvasAt(CameraAt(o));
+        public Vector2[] CanvasAt(Vector2 p, float shift) => CanvasAt(CameraAt(p, shift));
+        Vector2[] CanvasAt(in Cam c) => new[] { Project(c, _canvas[0]), Project(c, _canvas[1]), Project(c, _canvas[2]), Project(c, _canvas[3]) };
 
         /* The painting in the canvas: exactly the menu's opening at the start (the menu draws it there too). */
         public Vector2[] PictureAt(float o) => CanvasAt(o);
@@ -179,9 +208,9 @@ namespace ReverseSolver.Presentation
         void Seen(out Rect wall, out float floorBottom)
         {
             float x0 = 1e9f, x1 = -1e9f, y0 = 1e9f, y1 = -1e9f;
-            for (int s = 0; s <= 24; s++)
+            for (int s = 0; s <= 24 + Extra.Count; s++)
             {
-                var c = CameraAt(s / 24f);
+                var c = s <= 24 ? CameraAt(s / 24f) : CameraAt(Extra[s - 25], 1);
                 for (int e = 0; e < 4; e++)
                     for (int i = 0; i <= 32; i++)
                     {
@@ -232,9 +261,10 @@ namespace ReverseSolver.Presentation
             }
         }
 
-        internal void Pose(float o, double[] post, List<Dive75.Layer> layers, float alpha)
+        internal void Pose(float o, double[] post, List<Dive75.Layer> layers, float alpha) => Pose(CameraAt(o), post, layers, alpha);
+        internal void Pose(Vector2 p, float shift, double[] post, List<Dive75.Layer> layers, float alpha) => Pose(CameraAt(p, shift), post, layers, alpha);
+        void Pose(Cam c, double[] post, List<Dive75.Layer> layers, float alpha)
         {
-            var c = CameraAt(o);
             foreach (var l in layers) l.Project(p => Project(c, p), post, alpha);
         }
     }
