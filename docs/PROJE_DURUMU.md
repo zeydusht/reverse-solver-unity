@@ -1,6 +1,6 @@
 # Reverse Solver — PROJE DURUMU (PM devir dosyası)
 
-Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
+Son güncelleme: 17 Kasım 2026 akşamı (soft launch kararları). Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
 
 ## Dosya kuralı
 - Her iş bitince veya Zeyd "değişiklikleri PROJE_DURUMU'na ekle" deyince bu dosyayı güncelle (kısa tut, bitenleri sil, tarihi yenile). Güncelledikten sonra `/clear` hatırlat.
@@ -11,6 +11,13 @@ Son güncelleme: 12 Kasım 2026 (Codex devir çalışması). Yeni sohbette önce
 - Benim rolüm PM: proje dosyalarını cihaz köprüsüyle oku/yaz, Supabase'e bak, Claude Code için `docs/PM_MESAJ_N.md`, Codex için `docs/art/CODEX_TASKNN.md` yaz. Her cevabın sonunda "Sıradaki görev" ve açık işler.
 - Zeyd uzun terminal komutlarını elle yazamıyor: komutu **metin dosyası** olarak gönder (SendUserFile), o Drive'a yükleyip Mac'te açıyor.
 - Build/yayın durumu için dosya tarihlerine bak (`Builds/`), tahmin etme.
+
+## SOFT LAUNCH — ŞU AN EN ÖNEMLİ (17 Kasım)
+- Karar: iOS App Store, **yalnız Türkiye**, hedef **24 Kasım Salı** canlı. 100–150 indirme, bütçe 300–500 TL (Meta reklamı, Apple kampanya linkleri). Para: **AppLovin MAX** (ödüllü: süre doldu +30 sn ve kazanmada 2× altın; geçiş reklamı 12. bölümden sonra, 3 bölümde ve 120 sn'de bir; banner yok). IAP yok. **100 bölüm** (41–100 yeni, 60 yeni tablo).
+- Plan: `docs/YOL_HARITASI_SOFT_LAUNCH.md`. Sıra: PM_81 altyapı (`live/` yolu, gömülü yedek, MAX, ATT, `sl1` telemetri, `019_soft_launch.sql`, 100 bölüm desteği, 1.0.0 (8)) → PM_82 bölüm 41–100 + Codex TASK51 (60 tablo) → **19 Kasım özellik dondurma** → PM_83 hata + 1–100 tur → PM_84 mağaza paketi + zip → 21 Kasım Mac yükleme (arkadaş dönmezse kiralık Mac / Unity Build Automation) → 22 Kasım incelemeye → 24 Kasım yayın.
+- PM_80 bitti (dalış A varsayılan). Zeyd'den bekleniyor: dalış seçimi A/B/C (gelmezse A), AppLovin SDK Key + iOS Rewarded/Interstitial ID.
+- **17 Kasım 19:25 kararları → PM_82** (PM_81'den sonra): 100 bölüm planı (dersler kilit 3, zincir 7, bomba 11, duvar 21; birleşimler 31/41/…/91; booster makas 6, çekiç 13, saat 18, değnek 25; 4 ile bitenler zor, 9 ile bitenler çok zor, ilk 14/19; nefes x0), üretim model v2 + tasarımcı ajan, set `sl100`. Harita oyuncuya kapalı, düz ilerleme, zor düğme kırmızı. Eski el + Jigo konuşmalı 1. bölüm (7 adım). İsteğe bağlı reklam R3 (booster 0 → +1) ve R4 (menü hediyesi 100 altın). Görsel düzeltmeler Zeyd'den tek tek gelecek; ilki kazanma ekranı alt düğmeleri. **Zeyd'e dosya okutma, adımları sohbette basitçe anlat.**
+- Mağaza build'i yalnız `live/` okur; `live/`'a yayın yalnız PM onayıyla. p23 geliştirme önizlemesi olarak kalır.
 
 ## Proje
 - Oyun: yapboz parçası çıkarma bulmacası, Unity 6.6.4f1. Yerel: `C:\Users\zeydt\Downloads\Reverse Solver\ReverseSolver`. Repo: `zeydusht/reverse-solver-unity`. Supabase proje: `vwneqdhzfevgbuwoadod`.
