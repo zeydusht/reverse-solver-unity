@@ -17,6 +17,12 @@ namespace ReverseSolver.Presentation
            PM_86 §1 ("it feels like a constant speed"): the slide is a bell of speed (Ease, smootherstep): slow off,
            fastest in the middle with a faint trail, gliding in to rest. Glide (PM_85's plateau) is kept for its test. */
         public static float Seconds = 1.5f;
+        /* PM_88 §4 (Zeyd: "a little beat, tiny"): win -> next only, the painting just won stays .2 s more before the
+           slide (&koridorbas=) and the next one .2 s before the dive (&koridorson=); the slide itself is the same.
+           In both the camera breathes: a .5 % push in and back (sin^2, at rest on both ends). */
+        public static float StartBeat = .2f, EndBeat = .2f;
+        const float Breath = .005f;
+        float _beatIn, _beatOut;
         const float Lead = .2f;
         static float FadeIn => Mathf.Min(.12f, Seconds * .08f);
         static float Hold => Mathf.Max(0, Lead - FadeIn);
@@ -60,6 +66,7 @@ namespace ReverseSolver.Presentation
             if (sprite == null) return null;
             var c = new GameObject("Corridor").AddComponent<CorridorTransition>();
             c._order = order; c._done = done; c._start = Time.unscaledTime; c._handoff = handoff;
+            c._beatIn = handoff ? StartBeat : 0; c._beatOut = handoff ? EndBeat : 0;
             // cover-fit the 9:19.5 view; a wide window crops at most 23 % of its height (the painting stays whole)
             // and the strip, only one bay wide, gets dark sides
             float k = Mathf.Min(Mathf.Max(screen.x / ViewW, screen.y / ViewH), MaxCrop * screen.y / ViewH);
@@ -156,9 +163,9 @@ namespace ReverseSolver.Presentation
 
         void End()
         {
-            Debug.Log($"[koridor] {Time.unscaledTime - _start:0.00} s: frames {_frames}, over 20 ms {_slow} (max {_maxDt * 1000:0} ms)");   // PM_85
+            Debug.Log($"[koridor] {Time.unscaledTime - _start:0.00} s (beats {_beatIn:0.00} + {_beatOut:0.00} s): frames {_frames}, over 20 ms {_slow} (max {_maxDt * 1000:0} ms)");   // PM_85
             // PM_75: a skipped slide jumps to its end, so the dive starts from the next painting
-            if (_handoff) Place(_screen, _k, Period);
+            if (_handoff) { _slide.localScale = new Vector3(_k, _k, 1); Place(_screen, _k, Period); }
             _endAt = Time.unscaledTime;
             var d = _done; _done = null;
             d?.Invoke();
@@ -228,8 +235,14 @@ namespace ReverseSolver.Presentation
             if (!Finished)
             {
                 // PM_86 §1: a bell of speed (smootherstep: slow off, fastest in the middle, gliding in to rest)
-                float u = (t - FadeIn - Hold) / Slide;
-                Place(_screen, _k, Period * Ease(u));
+                float lead = FadeIn + Hold + _beatIn, u = (t - lead) / Slide;
+                // PM_88 §4: the beats' breath (a scale about the screen's middle, 1 again at each beat's end)
+                float tail = t - lead - Slide, breath = 0;
+                if (_beatIn > 0 && t > FadeIn + Hold && u < 0) breath = Pulse((t - FadeIn - Hold) / _beatIn);
+                else if (_beatOut > 0 && tail > 0) breath = Pulse(tail / _beatOut);
+                float kk = _k * (1 + Breath * breath);
+                _slide.localScale = new Vector3(kk, kk, 1);
+                Place(_screen, kk, Period * Ease(u));
                 float speed = u > 0 && u < 1 ? 30 * u * u * (1 - u) * (1 - u) / 1.875f : 0;   // 0..1, 1 at the top
                 float frame = Period * 1.875f / Slide / 60f;                                  // strip px per 60 Hz frame at the top
                 for (int i = 0; i < _trail.Length; i++)
@@ -249,8 +262,10 @@ namespace ReverseSolver.Presentation
                 for (int i = 0; i < cols.Length; i++) cols[i] = new Color(1, 1, 1, a);
                 mesh.colors = cols;
             }
-            if (!Finished && t >= FadeIn + Hold + Slide) End();
+            if (!Finished && t >= FadeIn + Hold + _beatIn + Slide + _beatOut) End();
         }
+
+        static float Pulse(float x) { x = Mathf.Clamp01(x); float s = Mathf.Sin(Mathf.PI * x); return s * s; }
 
         void OnDestroy()
         {

@@ -159,12 +159,14 @@ namespace ReverseSolver.Presentation
        both sides about its own middle (kept on the screen at the ends), the others share the rest, narrower; a warm
        light behind its icon,
        which rises and grows, its label under it; the others are a little dim. 0.2 s, an ease-out (PM_87: the
-       reference's), the others narrowing at the same time; the pages slide (TabSlide87) under the new bar, which
-       carries on the move.
+       reference's), the others narrowing at the same time. PM_88: a press moves the choice in place (Select, .15 s, on
+       the press's own frame); the pages move under the bar (GameRoot.Pages88).
        Codex's parts in Art/yeni/pm86/menu (strip, selected, divider, glow); TASK48's when they are missing. */
     public sealed class MenuTabs
     {
         public const float Seconds = .2f;   // PM_87: the reference bar's pace, no overshoot
+        public const float SelectSeconds = .15f;   // PM_88 §3: the choice moving in place, on the press's own frame
+        public static bool Sliding;               // PM_88: the pages are moving (MenuArt waits with its decoding)
         public readonly float Top;
         readonly float _width, _bottom;
         readonly SpriteRenderer[] _icons = new SpriteRenderer[4], _dividers = new SpriteRenderer[3];
@@ -312,6 +314,29 @@ namespace ReverseSolver.Presentation
             if (index < 0 || index >= 4) return;
             _carry = (float[])_weights.Clone();
             done?.Invoke();
+        }
+
+        /* PM_88 §3: the choice moves in place (the bar is not rebuilt), from wherever it is; its first step on this
+           very frame (a frame's worth ahead). */
+        public void Select(int index)
+        {
+            if (index < 0 || index >= 4 || _labels[0] == null) return;
+            _from = (float[])_weights.Clone(); _selected = index;
+            float lead = 1 / 60f / SelectSeconds;
+            Tweens.Run(this, SelectSeconds, t =>
+            {
+                if (_labels[0] == null) return;
+                float e = BoosterFx74.OutCubic(Mathf.Clamp01(t + lead));
+                for (int i = 0; i < 4; i++) _weights[i] = Mathf.LerpUnclamped(_from[i], i == _selected ? 1 : 0, e);
+                Arrange();
+            });
+        }
+
+        public void SetBadge(int n)
+        {
+            if (n > 0) return;
+            if (_badge != null) _badge.enabled = false;
+            if (_badgeText != null) _badgeText.gameObject.SetActive(false);
         }
 
         /* PM_86 test: where tab i is (its middle, layout points). */

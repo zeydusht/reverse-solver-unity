@@ -2,6 +2,16 @@ mergeInto(LibraryManager.library, {
   RS_PlayIntro: function (partsPtr, wakePtr, skipPtr, endingPtr, sound, objPtr, methodPtr) {
     var parts = UTF8ToString(partsPtr), wake = UTF8ToString(wakePtr), skip = UTF8ToString(skipPtr);
     var ending = UTF8ToString(endingPtr), obj = UTF8ToString(objPtr), method = UTF8ToString(methodPtr);
+    // PM_88 §2: the page's own film (TemplateData/pm88-film.js) has been playing since the link was opened; the
+    // game takes it over (the opening story) or ends it (parts "": no story on this visit)
+    var film = window.rsFilm;
+    if (film && !film.taken) {
+      film.taken = true;
+      if (parts === '') { film.decline(); return; }
+      if (parts === 'AB') { film.attach(function (value) { SendMessage(obj, method, value); }); return; }
+      film.decline();
+    }
+    if (parts === '') return;
     var I = window.rsIntro = {}, videos = {}, tracks = {}, at = 0, current, source;
     var finished = false, phase = 'loading', elapsed = 0, frozen = 0, held = 0, stalled = 0, lastTime = 0;
     var previous = performance.now(), playToken = 0, gestures = ['touchend', 'click', 'pointerup', 'keydown'];

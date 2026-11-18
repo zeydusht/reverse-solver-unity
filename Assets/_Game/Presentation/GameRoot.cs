@@ -126,7 +126,7 @@ namespace ReverseSolver.Presentation
         float? _mapOffset;
         bool _menuPointer, _menuDragging, _menuStopTap, _tabAnimating;
         Vector2 _menuPointerStart, _menuPointerLast;
-        MenuScroll ActiveMenuScroll => _menuSettings != null || _paintingDetail != null || _profileCard != null || _card != null ? null : _levelsMap?.Scroll ?? _collection?.Scroll ?? _jiggles?.Scroll ?? _achievements?.Scroll;
+        MenuScroll ActiveMenuScroll => _menuSettings != null || _paintingDetail != null || _profileCard != null || _card != null ? null : _levelsMap?.Scroll ?? (_tab == MenuTab.Collection ? _collection?.Scroll : _tab == MenuTab.Jiggles ? _jiggles?.Scroll : _tab == MenuTab.Trophies ? _achievements?.Scroll : null);
         CorridorTransition _corridor;  // PM_MESAJ_24: the slide to the next level's painting, over everything
         Screens.LevelList _list;
         TextView _debug;
@@ -179,10 +179,12 @@ namespace ReverseSolver.Presentation
             Dive75.SpeedK = QueryFloat("yayhiz", 1, .25f, 4);
             Dive75.HoldSec = QueryFloat("resimbekle", -1, 0, 3);   // PM_80: none: the variant's hold (PM_85: A's .4 s)
             CorridorTransition.Seconds = QueryFloat("koridor", 1.5f, .5f, 5);   // PM_85: the corridor's slide (s)
+            CorridorTransition.StartBeat = QueryFloat("koridorbas", .2f, 0, 2);   // PM_88 §4: the beat before the slide (s)
+            CorridorTransition.EndBeat = QueryFloat("koridorson", .2f, 0, 2);     // and before the dive
             Dive75.LineK = QueryFloat("cizgihiz", 1, .25f, 4);
             Dive75.DiveSpeed = QueryFloat("dalishiz", 1, .25f, 4);   // PM_86 §10
-            TabSlide87.Seconds = QueryFloat("sekmesure", .6f, .1f, 3);   // PM_87 §1
-            TabSlide87.Log = Host.Current.Query("sekmelog") == "1";
+            PageSeconds = QueryFloat("sekmesure", .35f, .1f, 3);   // PM_88 §3
+            PageLog = Host.Current.Query("sekmelog") == "1";
             var dalis = Host.Current.Query("dalis");
             Dive75.Variant = dalis == "b" || dalis == "c" ? dalis[0] : 'a';
             Dive75.Log = Host.Current.Query("dalislog") == "1";
@@ -296,12 +298,21 @@ namespace ReverseSolver.Presentation
             };
             if (opening)
             {
-                // PM_74: the story ends on a framed painting; level 1 comes out of it (DiveOut)
-                System.Action play = () => PlayStory("AB", false, () => { MarkIntro("rs_intro_shown"); StartLevel(0); DiveOutOfStory(); });
-                if (askName) { ShowMenu(); host.AskName(name => { nameGiven(LaunchPlan.NormalizePlayerName(name)); play(); }); }
-                else play();
+                // PM_74: the story ends on a framed painting; level 1 comes out of it (DiveOut).
+                // PM_88 §2: the film first (the page has been playing it since the link was opened), then the name
+                PlayStory("AB", false, () =>
+                {
+                    MarkIntro("rs_intro_shown");
+                    if (!askName) { StartLevel(0); DiveOutOfStory(); return; }
+                    ShowMenu();
+                    host.AskName(name => { nameGiven(LaunchPlan.NormalizePlayerName(name)); StartLevel(0); DiveOutOfStory(); });
+                });
             }
-            else LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName, nameGiven);
+            else
+            {
+                host.PlayIntro("", "", "", "", false, _ => { });   // PM_88 §2: no story on this visit: the page's film (if any) goes
+                LaunchPlan.Run(requested, askName, StartLevel, ShowMenu, host.AskName, nameGiven);
+            }
             // PM_MESAJ_43: the profile question waits for the first win of level 2 or later (NavigateResult)
             _profileSender.Flush();
         }
@@ -807,15 +818,16 @@ namespace ReverseSolver.Presentation
                 int tab = _tabs?.Hit(pt) ?? -1;
                 if (tab >= 0)
                 {
-                    if (_levelsMapOpen || _tabSlide == null && tab == (int)_tab)
+                    if (_levelsMapOpen || !PagesOn)
                     {
                         RememberMenuScroll();
                         _tabs.Press(tab, () => { if (_mode != Mode.Menu) return; _tab = (MenuTab)tab; _levelsMapOpen = false; Layout(); });
                         return;
                     }
-                    PressTab87(tab);   // PM_87 §1: the pages slide
+                    PressTab88(tab);   // PM_88 §3: the pages move (they are all there)
                     return;
                 }
+                if (PagesMoving) return;   // a tap on a page while the pages move does nothing
                 if (_tabs != null && pt.y >= _tabs.Top - 24) return;
                 if (_levelsMap != null)
                 {
@@ -824,7 +836,7 @@ namespace ReverseSolver.Presentation
                     else if (hit >= 0) StartLevel(hit);
                     return;
                 }
-                if (_collection != null)
+                if (_collection != null && _tab == MenuTab.Collection)
                 {
                     int hit = _collection.Hit(pt);
                     if (hit >= 0)
@@ -834,14 +846,14 @@ namespace ReverseSolver.Presentation
                     }
                     return;
                 }
-                if (_jiggles != null)
+                if (_jiggles != null && _tab == MenuTab.Jiggles)
                 {
                     int avatar = _jiggles.Hit(pt);
                     if (avatar >= 0) { Art.AvatarIndex = avatar; RememberMenuScroll(); Layout(); }
                     return;
                 }
             }
-            if (_menu == null) return;
+            if (_menu == null || PagesOn && _tab != MenuTab.Home) return;
             if (PressGift82(pt)) return;   // PM_82 R4
             if (_menu.Settings.Contains(pt)) OpenSettings();
             else if (_menu.Profile.Contains(pt) && Art.On) OpenPlayerProfile();
@@ -1263,7 +1275,6 @@ namespace ReverseSolver.Presentation
            old world must be gone before the next one is drawn. */
         void Build(bool immediate = false)
         {
-            EndTabSlide87();   // PM_87: a slide still settling ends (its own builds come before it starts)
             RememberMenuScroll();
             if (_world != null) { if (immediate) DestroyImmediate(_world.gameObject); else Destroy(_world.gameObject); }
             _world = new GameObject("World").transform;
@@ -1272,6 +1283,7 @@ namespace ReverseSolver.Presentation
             _card = null; _cardKind = null; _menu = null; _list = null; _board = null; _hud = null; _bar = null;
             _tabs = null; _collection = null; _levelsMap = null; _paintingDetail = null; _menuSettings = null;
             _jiggles = null; _achievements = null; _profileCard = null; _loss74 = null;
+            _pages = null; _pageAnim = _swipe = false; MenuTabs.Sliding = false;
             _menuPointer = _menuDragging = _tabAnimating = false;
             _jointsShown = false;
 
@@ -1296,25 +1308,17 @@ namespace ReverseSolver.Presentation
                     }
                     _tabs = new MenuTabs(_world, _screen, _safe, _tab, BarOrder + 100, Mathf.Max(0, completed - seen));
                     float bottom = _tabs.Top - 28;
-                    if (_levelsMapOpen) _levelsMap = new LevelsMap(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, _images, HudOrder, _mapOffset);
-                    else if (_tab == MenuTab.Collection) _collection = new CollectionScreen(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, _images, HudOrder, _collectionOffset);
-                    else if (_tab == MenuTab.Jiggles) _jiggles = new JigglesScreen(_world, _screen, menuSafe.y, bottom, SavedJiggles(), HudOrder, _jigglesOffset);
-                    else if (_tab == MenuTab.Trophies) _achievements = new AchievementsScreen(_world, _screen, menuSafe.y, bottom, achievements, HudOrder, _achievementsOffset);
+                    var pageSafe = menuSafe;
                     menuSafe.w = _screen.y - _tabs.Top;   // Home: the Level button sits 16 pt above the bar
+                    if (_levelsMapOpen) _levelsMap = new LevelsMap(_world, _screen, menuSafe.y, bottom, _set.Levels, _progress, _images, HudOrder, _mapOffset);
+                    else BuildPages88(pageSafe, menuSafe, bottom);   // PM_88 §3: the four pages side by side
                 }
-                if (!Art.On || (!_levelsMapOpen && _tab == MenuTab.Home))
+                if (!Art.On)
+                {
                     _menu = new Screens.Menu(_world, _screen, menuSafe, _p21Flow ? _progress.Next() + 1 : _set.Levels[MenuNext82()].Number, HudOrder, _newArt, _save.Player, SavedJiggles(), TotalStars(), _showSet ? "Demo" : null, _set.Levels[MenuNext82()].Hard, levelsButton: _testMode || !_p21Lessons, coins: _save.Coins,
                         veryHard: _set.Levels[MenuNext82()].Role == "veryhard");
-                BuildGift82();   // PM_82 R4
-                // PM_MESAJ_18: the corridor's big frame shows the painting the next level frees
-                if (_paintSet && _newArt && _menu != null)
-                {
-                    var menu = _menu;
-                    var pic = _images.Get(ImageOf(_progress.Next()), t => { if (_menu == menu) menu.SetPainting(t); });
-                    if (pic != null) _menu.SetPainting(pic);
+                    HomeExtras();
                 }
-                // PM_77/78 &gecis=yay: the menu's room is the diorama's start view (loaded now if the warm-up has not yet)
-                if (Dive75.Orbit && _newArt && _menu != null) _menu.UseDiorama(ArcAssets76.LoadDioramaNow(), _screen);
                 MenuArt.Busy = () => this != null && _mode == Mode.Playing;
                 MenuArt.Instance.Preload();
                 WarmLevelOnce();
@@ -1422,6 +1426,21 @@ namespace ReverseSolver.Presentation
             float stageTop = safe.y + BodyPad + Hud.TopPad + Hud.Height + StripBottom;
             float stageBottom = screen.y - safe.w - BodyPad - BottomReserve;
             return new Vector2(BoardSizing.Left(screen.x, safe, size.x), (stageTop + stageBottom - size.y) / 2);
+        }
+
+        /* What hangs on the Home page once it is built (with the menu, or ahead as a page, PM_88). */
+        void HomeExtras()
+        {
+            BuildGift82();   // PM_82 R4
+            // PM_MESAJ_18: the corridor's big frame shows the painting the next level frees
+            if (_paintSet && _newArt && _menu != null)
+            {
+                var menu = _menu;
+                var pic = _images.Get(ImageOf(_progress.Next()), t => { if (_menu == menu) menu.SetPainting(t); });
+                if (pic != null) _menu.SetPainting(pic);
+            }
+            // PM_77/78 &gecis=yay: the menu's room is the diorama's start view (loaded now if the warm-up has not yet)
+            if (Dive75.Orbit && _newArt && _menu != null) _menu.UseDiorama(ArcAssets76.LoadDioramaNow(), _screen);
         }
 
         void Background()
@@ -1677,6 +1696,7 @@ namespace ReverseSolver.Presentation
             if (_mode == Mode.Playing && _session != null)
                 _session.TutorialMove = P21Guided || TutorialActive || _introOpen || _card != null || _tutorialClockHold && _session.Moves == 0;
             if (!_awaitingName) HandlePointer();
+            TickPages88();   // PM_88 §3
             if (_celebration != null && _celebration.Tick(_screen)) EndCelebration();
             if (_pendingHard > 0 && Time.unscaledTime >= _hardDue)
             {
@@ -1779,11 +1799,13 @@ namespace ReverseSolver.Presentation
                 float now = Time.unscaledTime;
                 if (p.press.wasPressedThisFrame && !gated)
                 {
-                    // PM_87: a touch during a slide's settling ends it (the page is where it was going)
-                    if (_tabSlide != null && !_swipe) { EndTabSlide87(); scroll = ActiveMenuScroll; }
+                    // PM_88 §3: the bar acts on the touch itself (tap tap tap), not on its release
+                    double age = Time.realtimeSinceStartupAsDouble - p.lastUpdateTime;
+                    if (PressBar88(pt, age)) { _menuPointer = false; scroll?.Tick(Time.unscaledDeltaTime); return; }
                     _menuPointer = true; _menuDragging = false; _menuPointerStart = _menuPointerLast = pt;
-                    _menuStopTap = false; _swipe = _swipeDead = false;
-                    if (scroll != null && scroll.Contains(pt)) { _menuStopTap = scroll.Moving; scroll.Grab(pt.y, now); }
+                    _menuStopTap = PagesMoving;   // a touch on a moving page only catches it
+                    _swipe = _swipeDead = false;
+                    if (scroll != null && scroll.Contains(pt)) { _menuStopTap |= scroll.Moving; scroll.Grab(pt.y, now); }
                 }
                 // PM_87 §1: whichever way the finger first goes 10 pt locks: sideways the pages, up and down the list
                 if (_menuPointer && p.press.isPressed && !_menuDragging && !_swipe && !_swipeDead && SwipeAllowed && _menuPointerStart.y < _tabs.Top - 24)
@@ -1793,12 +1815,12 @@ namespace ReverseSolver.Presentation
                     {
                         _menuDragging = true;
                         if (scroll != null && scroll.Held) scroll.Release(-1);
-                        BeginSwipe87(_menuPointerStart, pt, now);
+                        BeginSwipe88(_menuPointerStart, pt, now);
                         scroll = ActiveMenuScroll;
                         if (scroll != null && scroll.Held) scroll.Release(-1);
                     }
                 }
-                if (_swipe && _menuPointer && p.press.isPressed) DragSwipe87(_menuPointerStart, pt, now);
+                if (_swipe && _menuPointer && p.press.isPressed) DragSwipe88(_menuPointerStart, pt, now);
                 bool scrolling = _menuPointer && scroll != null && scroll.Held && !_swipe;
                 if (scrolling && p.press.isPressed)
                 {
@@ -1809,7 +1831,7 @@ namespace ReverseSolver.Presentation
                 if (p.press.wasReleasedThisFrame && _menuPointer)
                 {
                     _menuPointer = false;
-                    if (_swipe) ReleaseSwipe87(now);
+                    if (_swipe) ReleaseSwipe88(now);
                     if (scrolling) scroll.Release(_menuDragging ? now : -1);
                     bool cancelled = Touchscreen.current != null && p == Touchscreen.current && Touchscreen.current.primaryTouch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Canceled;
                     if (!_menuDragging && !_menuStopTap && !cancelled && Vector2.Distance(pt, _menuPointerStart) < 10) { Haptics.Button(); Press(pt); }
@@ -1989,7 +2011,8 @@ namespace ReverseSolver.Presentation
                 }
                 if (Art.On && _menuSettings != null && _menuSettings.Press(pt, () => { if (_mode == Mode.Menu) MenuAction(pt); })) return;
                 // Task 13: the pressed look shows for a moment before the menu acts
-                if (Art.On && (_menuSettings != null || _paintingDetail != null || _profileCard != null || _menu == null || (_tabs?.Hit(pt) ?? -1) >= 0)) { MenuAction(pt); return; }
+                if (Art.On && (_menuSettings != null || _paintingDetail != null || _profileCard != null || _menu == null || PagesOn && _tab != MenuTab.Home || (_tabs?.Hit(pt) ?? -1) >= 0)) { MenuAction(pt); return; }
+                if (PagesMoving) return;
                 // PM_87 §2: Play dives at once (its pressed look fades with the menu's controls): no standing still first
                 if (_menu != null && _menu.Play.Contains(pt) && _menu.Press(pt)) { MenuAction(pt); return; }
                 if (_menu != null && _menu.Press(pt)) { var at = pt; Tweens.Run(_menu, .12f, _ => { }, () => { if (_mode == Mode.Menu) MenuAction(at); }); return; }

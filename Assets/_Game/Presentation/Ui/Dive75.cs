@@ -102,6 +102,14 @@ namespace ReverseSolver.Presentation
         Layer _ghost;                             // PM_80: last frame's painting, faint, while it moves fast
         Rect _endFix;                             // PM_80: the board's framing less the canvas's at the approach's end
         bool _ghostOn;
+        /* PM_88 §1 (Zeyd: "at the end the picture grows for a moment, then turns"): the board is built right under the
+           picture as it is on the screen when the camera arrives: the same place, size and crop (the camera is put
+           there; _fitA/_fitX/_fitY: the board's whole picture on the screen, x = a u + bx, y = a / aspect (1 - v) + by).
+           What a camera cannot match (the menu's flat drawing straightened by the wall: a few % of slant) is taken up
+           over the whole approach, never squeezed into its end. */
+        float _fitA, _fitX, _fitY;
+        bool _fit;
+        Func<float, float, Vector2> _endAt, _gluedUv;
 
         public static Dive75 Run(Setup s)
         {
@@ -195,6 +203,13 @@ namespace ReverseSolver.Presentation
                 _r = Rect.MinMaxRect(Mathf.Min(front[0].x, front[3].x), Mathf.Min(front[0].y, front[1].y), Mathf.Max(front[1].x, front[2].x), Mathf.Max(front[2].y, front[3].y));
                 float ta = _s.Picture != null ? (float)_s.Picture.width / _s.Picture.height : 1, ca = _r.width / _r.height;
                 _cropFront = ta > ca ? new Rect((1 - ca / ta) / 2, 0, ca / ta, 1) : new Rect(0, (1 - ta / ca) / 2, 1, ta / ca);
+                if (!Legacy)
+                {
+                    var endQ = _dio.CanvasAt(new Vector2(0, _zEnd), 1);
+                    _endAt = (x, y) => CorridorTransition.Project(endQ, x, y);
+                    _gluedUv = MenuUv;
+                    FitBoard(screen);
+                }
                 return;
             }
             // PM_87 §2.6: the corridor's own 8 x 8 grid (CorridorTransition.Mesh): the same triangles on the first frame, so
@@ -211,6 +226,141 @@ namespace ReverseSolver.Presentation
             float ch = Mathf.Max(screen.y, screen.x / Mathf.Max(.1f, _s.BoardAspect)), cw = ch * _s.BoardAspect;
             _c = new Rect(screen.x / 2 - cw / 2, screen.y / 2 - ch / 2, cw, ch);
             _faceH = Homography(q, Corners(_r));
+            if (!Legacy)
+            {
+                var wallEnd = Mul(Similarity(_r.center, _c.center, _c.height / _r.height), Homography(q, Corners(_r)));
+                var crop = _s.Crop;
+                _endAt = (x, y) => Apply(wallEnd, CorridorTransition.Project(q, x, y));
+                _gluedUv = (x, y) => new Vector2(crop.x + x * crop.width, crop.y + (1 - y) * crop.height);
+                FitBoard(screen);
+            }
+        }
+
+        /* The menu's own drawing of the picture (Screens.Menu.SetPainting): its crop laid flat over the opening's
+           bounding box; the uv at the opening's point (x, y). */
+        Vector2 MenuUv(float x, float y)
+        {
+            var q = _s.Quad; var c0 = _s.Crop;
+            var box = Rect.MinMaxRect(Mathf.Min(q[0].x, q[3].x), Mathf.Min(q[0].y, q[1].y), Mathf.Max(q[1].x, q[2].x), Mathf.Max(q[2].y, q[3].y));
+            var n = Rect.PointToNormalized(box, CorridorTransition.Project(q, x, y));
+            return new Vector2(c0.x + n.x * c0.width, c0.y + (1 - n.y) * c0.height);
+        }
+
+        /* PM_88 §1: where the board's whole picture must lie on the screen so that, at the approach's end, it shows
+           what the glued picture shows (least squares over the opening's points then on the screen; the board's own
+           proportions; the screen kept covered). */
+        void FitBoard(Vector2 screen)
+        {
+            float ba = Mathf.Max(.1f, _s.BoardAspect);
+            var us = new List<float>(); var ws = new List<float>(); var xs = new List<float>(); var ys = new List<float>();
+            const int N = 16;
+            for (int j = 0; j <= N; j++)
+                for (int i = 0; i <= N; i++)
+                {
+                    float x = i / (float)N, y = j / (float)N;
+                    var pt = _endAt(x, y);
+                    if (pt.x < 0 || pt.y < 0 || pt.x > screen.x || pt.y > screen.y) continue;
+                    var uv = _gluedUv(x, y);
+                    us.Add(uv.x); ws.Add((1 - uv.y) / ba); xs.Add(pt.x); ys.Add(pt.y);
+                }
+            if (us.Count < 4) { _fit = false; return; }
+            float mu = 0, mw = 0, mx = 0, my = 0; int n = us.Count;
+            for (int k = 0; k < n; k++) { mu += us[k] / n; mw += ws[k] / n; mx += xs[k] / n; my += ys[k] / n; }
+            double num = 0, den = 0;
+            for (int k = 0; k < n; k++) { num += (us[k] - mu) * (xs[k] - mx) + (ws[k] - mw) * (ys[k] - my); den += (us[k] - mu) * (us[k] - mu) + (ws[k] - mw) * (ws[k] - mw); }
+            float a = den > 1e-9 ? (float)(num / den) : screen.x;
+            float bx = mx - a * mu, by = my - a * mw;
+            // the board must cover the screen (it is all there is once the picture has gone)
+            float a0 = a;
+            a = Mathf.Max(a, screen.x, screen.y * ba);
+            if (a > a0) { float k = a / a0; bx = mx + (bx - mx) * k; by = my + (by - my) * k; }
+            bx = Mathf.Clamp(bx, screen.x - a, 0); by = Mathf.Clamp(by, screen.y - a / ba, 0);
+            _fitA = a; _fitX = bx; _fitY = by; _fit = true;
+            // what the camera cannot take: the glued picture against the fitted board over the screen, at most
+            float worst = 0;
+            for (int k = 0; k < n; k++) worst = Mathf.Max(worst, new Vector2(a * us[k] + bx - xs[k], a * ws[k] + by - ys[k]).magnitude);
+            Note($"board fitted to the arriving picture: x{a / Mathf.Max(1, CoverA(screen, ba)):0.000} of the cover framing, at most {worst:0.0} pt to take up on the way");
+        }
+
+        static float CoverA(Vector2 screen, float ba) => Mathf.Max(screen.y, screen.x / ba) * ba;
+
+        /* The board's uv at a screen point, once fitted. */
+        Vector2 BoardUv(Vector2 pt) => new Vector2((pt.x - _fitX) / _fitA, 1 - (pt.y - _fitY) * Mathf.Max(.1f, _s.BoardAspect) / _fitA);
+
+        /* PM_88 §1: the picture at the opening's point (x, y), m of the way (0: glued to the frame as it was drawn,
+           1: the fitted board's). */
+        Vector2 UvAt(float x, float y, float m)
+        {
+            var g = _gluedUv(x, y);
+            if (m <= 0 || !_fit) return g;
+            var b = BoardUv(_endAt(x, y));
+            var uv = Vector2.LerpUnclamped(g, b, m);
+            return new Vector2(Mathf.Clamp01(uv.x), Mathf.Clamp01(uv.y));
+        }
+
+        /* The camera on the fitted board (where the board's picture lies as fitted). */
+        void FittedView(out Vector3 pos, out float size)
+        {
+            var o = _board.Origin; var z = _board.Size;
+            float s = _fitA / Mathf.Max(1e-3f, z.x);
+            pos = new Vector3(o.x - (_fitX - _s.Screen.x / 2) / s, (_fitY - _s.Screen.y / 2) / s - o.y, _homePos.z);
+            size = _s.Screen.y / (2 * s);
+        }
+
+        /* PM_88 §1: the opening on the screen now (cq), the picture in it m of the way to the board's. */
+        void PaintMorph(Vector2[] cq, Func<float, float, Vector2> at, float m)
+        {
+            if (_ghost != null && _ghostOn && _lastPq != null)
+            {
+                float move = 0;
+                for (int c = 0; c < 4; c++) move += (cq[c] - _lastPq[c]).magnitude / 4;
+                move *= 1 / 60f / Mathf.Max(1 / 240f, Time.unscaledDeltaTime);
+                float a = .2f * Mathf.Clamp01((move - 5) / 10);
+                _paint.CopyTo(_ghost, a);
+                _ghost.SetActive(a > .005f);
+            }
+            if (_lastPq == null) _lastPq = new Vector2[4];
+            for (int c = 0; c < 4; c++) _lastPq[c] = cq[c];
+            _ghostOn = true;
+            _paint.Positions(at, (x, y) => UvAt(x, y, m), 1);
+            if (Log) LogPicture(at, m, cq);
+        }
+
+        /* &dalislog=1: [varis] t what scale angle u v: the picture at the screen's middle (screen points per picture
+           pixel, its turn in degrees, the uv there), drawn by the overlay or by the board through the camera. */
+        void LogPicture(Func<float, float, Vector2> at, float m, Vector2[] cq)
+        {
+            var mid = _s.Screen / 2;
+            var p = Apply(Inverse(SquareToQuad(cq)), mid);
+            const float d = .01f;
+            Vector2 U(float x, float y) => UvAt(x, y, m);
+            var px = (at(p.x + d, p.y) - at(p.x - d, p.y)) / (2 * d); var py = (at(p.x, p.y + d) - at(p.x, p.y - d)) / (2 * d);
+            var ux = (U(p.x + d, p.y) - U(p.x - d, p.y)) / (2 * d); var uy = (U(p.x, p.y + d) - U(p.x, p.y - d)) / (2 * d);
+            float det = ux.x * uy.y - uy.x * ux.y;
+            if (Mathf.Abs(det) < 1e-9f) return;
+            // screen per uv: [px py] * inverse([ux uy])
+            float i00 = uy.y / det, i01 = -uy.x / det, i10 = -ux.y / det, i11 = ux.x / det;
+            float j00 = px.x * i00 + py.x * i10, j01 = px.x * i01 + py.x * i11, j10 = px.y * i00 + py.y * i10, j11 = px.y * i01 + py.y * i11;
+            LogVaris("overlay", j00, j01, j10, j11, U(p.x, p.y));
+        }
+
+        void LogVaris(string what, float j00, float j01, float j10, float j11, Vector2 uv)
+        {
+            float tw = _s.Picture != null ? _s.Picture.width : 1, th = _s.Picture != null ? _s.Picture.height : 1;
+            // per picture pixel, v flipped to the screen's y down
+            float a = j00 / tw, b = -j01 / th, c = j10 / tw, e = -j11 / th;
+            float scale = Mathf.Sqrt(Mathf.Abs(a * e - b * c)), angle = Mathf.Atan2(c - b, a + e) * Mathf.Rad2Deg;
+            Debug.Log($"[varis] {_clock:0.0000} {what} {scale:0.00000} {angle:0.000} {uv.x:0.0000} {uv.y:0.0000}");
+        }
+
+        void LogBoardPicture()
+        {
+            if (!Log || _board == null) return;
+            var cam = _s.Cam; float s = _s.Screen.y / (2 * cam.orthographicSize); var c = cam.transform.position;
+            var o = _board.Origin; var z = _board.Size;
+            // the uv at the screen's middle (layout x = c.x, y = -c.y there)
+            float u = (c.x - o.x) / z.x, v = 1 - (-c.y - o.y) / z.y;
+            LogVaris("board", z.x * s, 0, 0, -z.y * s, new Vector2(u, v));
         }
 
         /* The sprites' own material (a shader found by name may be stripped from the build). */
@@ -279,7 +429,7 @@ namespace ReverseSolver.Presentation
                     FlowDiorama(t, _s.Seamless ? 1 : Mathf.Clamp01(t / CrossIn));
                     if (!_hidden && !_s.Seamless && t >= CrossIn) { _hidden = true; _s.Hide?.Invoke(); }
                 }
-                else FacePose(ApproachE(u));
+                else FacePose(ApproachE(u), 1, SmoothStep(u));
                 // the level is built as the approach comes to rest (the screen barely moves: a long frame is not seen);
                 // the cuts take over on the next frame
                 if (!_built && u >= .94f) BuildLevel();
@@ -294,6 +444,7 @@ namespace ReverseSolver.Presentation
                 var rect = new Rect(_board.Origin, _board.Size);
                 var from = new Vector3(rect.center.x, -rect.center.y, _homePos.z);
                 float lnCover = Mathf.Log(Dive74.CoverSize(rect.size, _s.Screen)), lnPush = _rate * _p.Hold;
+                if (_fit) { FittedView(out from, out float fs); lnCover = Mathf.Log(fs); }   // PM_88 §1: from where the picture arrived
                 if (t < h1) { _s.Cam.orthographicSize = Mathf.Exp(lnCover - _rate * (t - h0)); _s.Cam.transform.position = from; }
                 else
                 {
@@ -305,6 +456,7 @@ namespace ReverseSolver.Presentation
                 }
             }
             _reveal?.Flow(LineFrac(t, h0, h1), Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back)));
+            LogBoardPicture();
             float hud = Mathf.Min(.3f, _p.Back);
             _s.Slide?.Invoke(BoosterFx74.OutCubic(Mathf.Clamp01((t - (h2 - hud)) / hud)));
             LogBoard(t);
@@ -437,7 +589,15 @@ namespace ReverseSolver.Presentation
             // by the opening point for point: on the first frame exactly the menu's, then glued to the frame as the camera
             // moves (PM_86 handed the menu's crop over to another in the first .25 s while the camera stood: the picture
             // slid in its frame). Only once the frame has left the screen does it ease to the whole picture (e).
-            PaintInto(cq, e, _cropFront, 1, null, null, 1 - e, true);
+            if (_fit)
+            {
+                // PM_88 §1: no step at the end: the glued picture is taken to the fitted board's over the whole approach
+                float m = _bellT > 0 ? SmoothStep((s - _bellSplit) / Mathf.Max(.05f, 1 - _bellSplit))
+                                     : SmoothStep((t - _flight) / Mathf.Max(.01f, _p.Approach));
+                PaintMorph(cq, (x, y) => CorridorTransition.Project(cq, x, y), m);
+                e = 0;
+            }
+            else PaintInto(cq, e, _cropFront, 1, null, null, 1 - e, true);
             if (Log)
             {
                 // the drawn picture's quad against the frame's opening while the picture is still in its frame
@@ -498,7 +658,7 @@ namespace ReverseSolver.Presentation
 
         /* The approach without an orbit (the corridor, or the menu without &gecis=yay): the painting's slight
            perspective eases out while the camera moves in, all in one move. */
-        void FacePose(float e, float enlarge = 1)
+        void FacePose(float e, float enlarge = 1, float m = -1)
         {
             var q = _s.Quad; var r = Corners(_r);
             var to = new Vector2[4];
@@ -513,7 +673,13 @@ namespace ReverseSolver.Presentation
             // turn has mostly eased out and the frame is at the screen's edges; only then it eases to the board's
             // framing (PM_86 eased it from the start: it slid in its frame on the way in)
             float ep = Legacy ? e : SmoothStep((e - FaceGate) / (1 - FaceGate));
-            PaintInto(zq, ep, _s.Crop, enlarge, ep <= 0 ? q : null, wall);
+            if (m >= 0 && _fit)
+            {
+                // PM_88 §1: glued to the frame all the way; the board is put where the picture arrives
+                PaintMorph(zq, (x, y) => Apply(wall, CorridorTransition.Project(q, x, y)), m);
+                ep = 0;
+            }
+            else PaintInto(zq, ep, _s.Crop, enlarge, ep <= 0 ? q : null, wall);
             if (Log && !Legacy)
                 Debug.Log($"[cerceve] {_clock:0.000} e {ep:0.000} off 0 q {zq[0].x:0.00} {zq[0].y:0.00} {zq[1].x:0.00} {zq[1].y:0.00} {zq[2].x:0.00} {zq[2].y:0.00} {zq[3].x:0.00} {zq[3].y:0.00}");
             _backdrop.Alpha(1);
@@ -619,6 +785,7 @@ namespace ReverseSolver.Presentation
             var rect = new Rect(_board.Origin, _board.Size);
             _s.Cam.transform.position = new Vector3(rect.center.x, -rect.center.y, _homePos.z);
             _s.Cam.orthographicSize = Dive74.CoverSize(rect.size, _s.Screen);
+            if (_fit && !Legacy) { FittedView(out var fp, out float fs); _s.Cam.transform.position = fp; _s.Cam.orthographicSize = fs; }
             PlaceOverlay();   // this frame already draws with the new camera (PM_77: one frame 3x too close since PM_75)
         }
 

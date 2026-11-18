@@ -204,6 +204,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_84 + PM_85 p23'te (18 Kasım): ipucu bölüm 1–3 (5 sn, ok + nabız parlama), son parça mesajı hatası düzeltildi, dalışta çizgiler = tahtanın kenarları, yeni rehber eli (p20 eldiveni + TASK41 hareketi + krem şerit ok), geçiş 3,3 sn. Açık: iPhone hissi, live/ paketi (PM_86).
 - ✅ PM_86 p23'te (18 Kasım): çan eğrisi geçişler, çizgi→tahta tek nesne, tablo çerçeveye sabit, sandık her yere dokun, titreşim haritası, müzik adayları a–e, alt çubuk + Başarılar yeni çizim, sekme arka planı hatası. Açık: müzik seçimi (Zeyd), koridor parallax (ayrı katmanlı çizim gerekir), iPhone testi.
 - ✅ PM_87 p23'te (18 Kasım): menü sekmeleri yan yana kayıyor (basma + parmakla kaydırma, referans oyunun hızı), dalışta resim basışta kaymıyor ve kamera hemen kalkıyor, kazan→sonraki devrinde resim titremesi düzeltildi
+- ✅ PM_88 p23'te (19 Kasım): dalış sonundaki büyüme/dönme giderildi, açılış videosu sayfada (yükleme ekranı yerine), oyun stilinde yükleyici, sekmeler anında ve kesilebilir, koridor duruşları
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular

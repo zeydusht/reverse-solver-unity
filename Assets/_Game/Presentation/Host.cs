@@ -31,6 +31,8 @@ namespace ReverseSolver.Presentation
 
         /* Asks the player's name (web name gate); answer arrives through done. */
         void AskName(Action<string> done);
+        /* The story's film (parts "AB": the opening, "C": the ending); its events through `events`, "done" last.
+           PM_88 §2: parts "" says this visit has no opening (the page's own film, if it started one, ends). */
         void PlayIntro(string parts, string wake, string skip, string ending, bool sound, Action<string> events);
 
         /* Page hidden / shown (tab switch, app switch, closing). */

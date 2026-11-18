@@ -265,64 +265,94 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(missing, Is.Zero, "frames with the background missing");
         }
 
-        /* PM_87 §1: a tab pressed slides the pages side by side (the old page's picture out, the new page in, the
-           screen covered on every frame, the bar still); a drag past half way settles on the next tab, a short one
-           springs back. */
+        /* PM_88 §3: the four pages are all built and live side by side; a tab pressed moves them on the press's own
+           frame (no build, no picture), the bar stays put and its choice moves at once; a press during a move turns
+           to the new tab from where the pages are (no jump); four quick presses each act at once; a drag past half way
+           settles on the next tab, a short slow one springs back. */
         [UnityTest]
-        public IEnumerator TabsSlideSideBySideAndFollowTheFinger()
+        public IEnumerator TabsArePagesThatMoveAtOnce()
         {
             _host.Links = "c=p23&lang=en";
             _host.Store = new MemoryStore();
             new SaveData(_host.Store, () => "seed").SetPlayer("QA");
             yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
             yield return WaitFor(() => MenuPlay != null, "the menu");
+            yield return WaitFor(() => Field<bool[]>("_pageBuilt").All(b => b), "the four pages built ahead");
             var tabs = Field<MenuTabs>("_tabs");
+            var pages = Field<Transform>("_pages");
             float width = Screen.width;
-            yield return Click(tabs.TabCentre(3));   // Home -> Trophies: one slide, the content flows left
-            var slide = Field<TabSlide87>("_tabSlide");
-            Assert.That(slide, Is.Not.Null, "a slide");
-            Assert.That(slide.Dir, Is.EqualTo(1));
+            Assert.That(pages, Is.Not.Null);
+            Assert.That(pages.childCount, Is.EqualTo(4));
+            float Pos() => Field<float>("_pagePos");
+            bool Moving() => Field<bool>("_pageAnim");
+
+            // Home -> Trophies: on the press's frame the pages have moved already, the choice too
+            yield return Point(tabs.TabCentre(3), true);
             Assert.That(Field<MenuTab>("_tab"), Is.EqualTo(MenuTab.Trophies));
-            var world = Field<Transform>("_world");
-            var picture = slide.transform.GetChild(0);
-            float last = float.MaxValue; int frames = 0, gaps = 0, barMoved = 0;
+            Assert.That(Moving(), Is.True, "a move");
+            Assert.That(Pos(), Is.GreaterThan(.05f), "moving on the press's frame");
+            Assert.That(Field<MenuTabs>("_tabs"), Is.SameAs(tabs), "the bar not rebuilt");
+            Assert.That(Field<Transform>("_pages"), Is.SameAs(pages), "the pages not rebuilt");
+            yield return Point(tabs.TabCentre(3), false);
+            float last = Pos(); int frames = 0, wrong = 0, barMoved = 0;
             float until = Time.realtimeSinceStartup + 5;   // batch frames can be a millisecond: by time, not a frame count
-            while (Field<TabSlide87>("_tabSlide") != null && Time.realtimeSinceStartup < until)
+            while (Moving() && Time.realtimeSinceStartup < until)
             {
-                float wx = world.localPosition.x, px = picture.localPosition.x;
-                Assert.That(wx, Is.LessThanOrEqualTo(last + 1e-3f), "the new page only comes in");
-                // the picture covers [px, px + W], the new page [wx, wx + W]: together the whole screen
-                if (px > 1e-3f || wx > px + width + .5f || wx + width < width - .5f) gaps++;
-                var bar = Field<MenuTabs>("_tabs").Root;
-                if (Mathf.Abs(bar.localPosition.x + wx) > .01f) barMoved++;   // its root held against the world's move
-                last = wx; frames++;
+                float p = Pos();
+                if (p < last - 1e-4f || p > 3 + 1e-4f) wrong++;
+                if (Mathf.Abs(pages.localPosition.x + p * width) > .5f) wrong++;   // the pages where they should be
+                if (Mathf.Abs(tabs.Root.localPosition.x) > .01f) barMoved++;
+                last = p; frames++;
                 yield return null;
             }
-            Assert.That(gaps, Is.Zero, "frames with a gap between the pages");
+            Assert.That(wrong, Is.Zero, "frames out of place");
             Assert.That(barMoved, Is.Zero, "frames with the bar moving");
-            Assert.That(world.localPosition.x, Is.EqualTo(0).Within(1e-3f), "the new page in place");
-            Assert.That(frames, Is.GreaterThan(5), "a slide, not a cut");
-            Assert.That(GameObject.Find("PM87 tab slide"), Is.Null, "the old page's picture gone");
+            Assert.That(Pos(), Is.EqualTo(3).Within(1e-4f), "on Trophies");
+            Assert.That(frames, Is.GreaterThan(2), "a move, not a cut");
 
-            // a drag to the right past half way: back to Jiggles (the page to the left)
+            // a press during a move turns from where the pages are, toward the new tab, at once
+            yield return Click(tabs.TabCentre(1));
+            for (int i = 0; i < 3; i++) yield return null;
+            float before = Pos();
+            Assert.That(before, Is.LessThan(3f).And.GreaterThan(1f), "on the way to Collection");
+            yield return Point(tabs.TabCentre(2), true);
+            Assert.That(Field<MenuTab>("_tab"), Is.EqualTo(MenuTab.Jiggles));
+            Assert.That(Mathf.Abs(Pos() - before), Is.LessThan(.6f), "no jump");
+            yield return Point(tabs.TabCentre(2), false);
+            yield return WaitFor(() => !Moving(), "the turn settling");
+            Assert.That(Pos(), Is.EqualTo(2).Within(1e-4f));
+
+            // tap tap tap tap: each press acts on its own frame
+            foreach (int tab in new[] { 0, 3, 1, 2 })
+            {
+                float was = Pos();
+                yield return Point(tabs.TabCentre(tab), true);
+                Assert.That(Field<MenuTab>("_tab"), Is.EqualTo((MenuTab)tab));
+                Assert.That(Mathf.Sign(Pos() - was), Is.EqualTo(Mathf.Sign(tab - was)), $"toward tab {tab} at once");
+                yield return Point(tabs.TabCentre(tab), false);
+            }
+            yield return WaitFor(() => !Moving(), "the last press settling");
+            Assert.That(Pos(), Is.EqualTo(2).Within(1e-4f));
+
+            // a drag to the right past half way: back to Collection (the page to the left)
             var from = new Vector2(width * .2f, Screen.height * .45f);
             yield return Point(from, true);
             for (int i = 1; i <= 8; i++) yield return Point(from + new Vector2(width * .07f * i, 2), true);
-            Assert.That(Field<TabSlide87>("_tabSlide"), Is.Not.Null, "the pages follow the finger");
-            Assert.That(Field<TabSlide87>("_tabSlide").Progress, Is.GreaterThan(.5f));
+            Assert.That(Field<bool>("_swipe"), Is.True, "the pages follow the finger");
+            Assert.That(Pos(), Is.LessThan(1.5f));
             yield return Point(from + new Vector2(width * .56f, 2), false);
-            yield return WaitFor(() => Field<TabSlide87>("_tabSlide") == null, "the slide settling");
-            Assert.That(Field<MenuTab>("_tab"), Is.EqualTo(MenuTab.Jiggles));
+            yield return WaitFor(() => !Moving(), "the drag settling");
+            Assert.That(Field<MenuTab>("_tab"), Is.EqualTo(MenuTab.Collection));
+            Assert.That(Pos(), Is.EqualTo(1).Within(1e-4f));
 
             // a short slow drag springs back
             yield return Point(from, true);
             for (int i = 1; i <= 4; i++) { yield return Point(from + new Vector2(width * .04f * i, 1), true); yield return new WaitForSecondsRealtime(.05f); }
             yield return new WaitForSecondsRealtime(.15f);
             yield return Point(from + new Vector2(width * .16f, 1), false);
-            yield return WaitFor(() => Field<TabSlide87>("_tabSlide") == null, "the spring back");
-            yield return null;
-            Assert.That(Field<MenuTab>("_tab"), Is.EqualTo(MenuTab.Jiggles), "still on Jiggles");
-            Assert.That(Field<Transform>("_world").localPosition.x, Is.EqualTo(0).Within(1e-3f));
+            yield return WaitFor(() => !Moving() && !Field<bool>("_swipe"), "the spring back");
+            Assert.That(Field<MenuTab>("_tab"), Is.EqualTo(MenuTab.Collection), "still on Collection");
+            Assert.That(Pos(), Is.EqualTo(1).Within(1e-4f));
         }
 
         static Vector2 CellCentre(BoardView board, int piece)

@@ -3,7 +3,8 @@
 // Records a scripted play of a build as frames, then a GIF (Tools/gif_encode.py).
 // usage: node Tools/gif_capture.js <scenario.json> <out dir> [--local Builds/publish/br | --base https://…]
 // scenario: { "url": "?c=p22&test=1&lang=tr&lv=12", "wait": 9000, "steps": [ step, … ] }
-//   step: ["wait", ms] | ["tap", x, y] | ["flick", x, y, dx, dy, ms] | ["drag", x, y, dx, dy, ms, holdMs]
+//   step: ["wait", ms] | ["tap", x, y, holdMs] (TOUR_TAPS=1: each press's time to <out dir>/taps.txt) | ["flick", x, y, dx, dy, ms] | ["drag", x, y, dx, dy, ms, holdMs]
+//         | ["click", x, y, holdMs] (the mouse)
 //         | ["rec", true|false]   (frames are kept only while recording; default on after load)
 //         | ["name", "GIF"]       (fills the first-visit name gate)
 //         | ["shot", "file"]      (a full-size PNG screenshot to <out dir>/file.png)
@@ -43,7 +44,7 @@ function serve(root) {
   if (!base) { server = await serve(path.resolve(opt('local', 'Builds/publish/br'))); base = `http://127.0.0.1:${server.address().port}`; }
   base = base.replace(/\/+$/, '');
   fs.mkdirSync(outDir, { recursive: true });
-  for (const f of fs.readdirSync(outDir)) if (/^f\d+\.jpg$/.test(f)) fs.unlinkSync(path.join(outDir, f));
+  for (const f of fs.readdirSync(outDir)) if (/^f\d+\.jpg$/.test(f) || f === 'taps.txt') fs.unlinkSync(path.join(outDir, f));
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'rs-gif-'));
   const chrome = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${PORT}`, '--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist',
     `--user-data-dir=${profile}`, '--no-first-run', 'about:blank'], { stdio: 'ignore' });
@@ -99,7 +100,15 @@ function serve(root) {
   for (const s of scenario.steps) {
     const [kind, ...a] = s;
     if (kind === 'wait') await sleep(a[0]);
-    else if (kind === 'tap') { await touch('touchStart', a[0], a[1]); await sleep(60); await touch('touchEnd'); }
+    else if (kind === 'tap') {
+      if (process.env.TOUR_TAPS) fs.appendFileSync(path.join(outDir, 'taps.txt'), (Date.now() / 1000).toFixed(4) + ' ' + a[0] + ' ' + a[1] + String.fromCharCode(10));   // PM_88: the press's time, for press -> first move
+      await touch('touchStart', a[0], a[1]); await sleep(a[2] ?? 60); await touch('touchEnd');
+    }
+    else if (kind === 'click') {   // PM_88: the mouse instead of a touch (to tell the page's work from the touch's delivery)
+      await cdp('Input.dispatchMouseEvent', { type: 'mousePressed', x: a[0], y: a[1], button: 'left', clickCount: 1 });
+      await sleep(a[2] ?? 60);
+      await cdp('Input.dispatchMouseEvent', { type: 'mouseReleased', x: a[0], y: a[1], button: 'left', clickCount: 1 });
+    }
     else if (kind === 'flick') await move(a[0], a[1], a[2], a[3], a[4] ?? 70);
     else if (kind === 'drag') await move(a[0], a[1], a[2], a[3], a[4] ?? 320, a[5] ?? 0);
     else if (kind === 'rec') recording = a[0];
