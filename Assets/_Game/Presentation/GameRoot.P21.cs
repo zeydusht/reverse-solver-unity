@@ -107,7 +107,7 @@ namespace ReverseSolver.Presentation
 
         void TickP21Tutorial()
         {
-            TickGuide82(); TickIdleHint82();   // PM_82
+            TickGuide82(); TickHint84();   // PM_82, PM_84
             if (!P21Guided || _session.IsOver || _p21AdvanceAt < 0 || Time.unscaledTime < _p21AdvanceAt) return;
             _p21AdvanceAt = -1;
             _p21Action++;
@@ -211,6 +211,7 @@ namespace ReverseSolver.Presentation
                 {
                     // PM_82 step 6: the hand goes, free play
                     _guideFree82 = true;
+                    _hint84At = Time.unscaledTime + 1.6f;   // PM_84: the first free move shows a piece at once
                     RemoveGuideHand82();
                     _p21View?.Remove();
                     BuildGuide82();

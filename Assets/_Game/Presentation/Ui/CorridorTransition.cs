@@ -11,7 +11,15 @@ namespace ReverseSolver.Presentation
        A tap skips; `done` runs once, when the slide ends or is skipped, and the overlay then fades away. */
     public sealed class CorridorTransition : MonoBehaviour
     {
-        public const float FadeIn = .25f, Hold = .35f, Slide = 3f, FadeOut = .3f, SkipAfter = .3f;
+        public const float FadeOut = .3f, SkipAfter = .3f;
+        /* PM_85 (Zeyd: "very good, but after 3 levels I wondered why so long"): the whole slide 1.5 s (&koridor=): the
+           painting just won for .2 s (the fade-in, then a beat), then a soft start, a quick even glide and a soft
+           stop in front of the next one (Glide: no bounce, the last 30 % easing out); the dive goes on at once. */
+        public static float Seconds = 1.5f;
+        const float Lead = .2f;
+        static float FadeIn => Mathf.Min(.12f, Seconds * .08f);
+        static float Hold => Mathf.Max(0, Lead - FadeIn);
+        static float Slide => Mathf.Max(.3f, Seconds - Lead);
         const float ViewW = 780, ViewH = 1688, Period = 862.25f, Grow = 1.012f, Late = .25f, MaxCrop = 1.3f;
         // bay 1's inner corners at the first frame (strip px, y down): top-left, top-right, bottom-right, bottom-left
         static readonly Vector2[] Bay = { new Vector2(208.3f, 291.2f), new Vector2(585.6f, 332.9f), new Vector2(576.9f, 882.2f), new Vector2(196.2f, 865.7f) };
@@ -29,6 +37,19 @@ namespace ReverseSolver.Presentation
 
         /* Smootherstep, the Task 18 easing (equal to the track to 4 decimals). */
         public static float Ease(float t) { t = Mathf.Clamp01(t); return t * t * t * (t * (t * 6 - 15) + 10); }
+
+        /* PM_85: the slide's place at u (0..1): the speed rises softly over the first 30 %, holds, and falls softly to
+           nought over the last 30 % (smoothstep ramps; the place is their integral, so the speed never jumps). */
+        public static float Glide(float u, float rise = .3f, float fall = .3f)
+        {
+            u = Mathf.Clamp01(u);
+            static float I(float x) => x * x * x - x * x * x * x / 2;   // the integral of smoothstep from 0 to x
+            float total = 1 - rise / 2 - fall / 2, p;
+            if (u < rise) p = rise * I(u / rise);
+            else if (u < 1 - fall) p = rise / 2 + (u - rise);
+            else p = rise / 2 + (1 - rise - fall) + fall * (.5f - I((1 - u) / fall));
+            return p / total;
+        }
 
         /* null when the strip is missing: the caller goes straight on. `next` may be null and come later (SetNext). */
         public static CorridorTransition Play(Vector2 screen, int order, Texture2D won, Texture2D next, Action done, bool handoff = false)
@@ -116,8 +137,12 @@ namespace ReverseSolver.Presentation
         /* Skip: the next screen comes now; only a new touch, not the one that pressed Next or Menu (PM_MESAJ_24B). */
         public void Skip() { if (!Finished && Time.unscaledTime - _start >= SkipAfter) End(); }
 
+        int _frames, _slow;
+        float _maxDt;
+
         void End()
         {
+            Debug.Log($"[koridor] {Time.unscaledTime - _start:0.00} s: frames {_frames}, over 20 ms {_slow} (max {_maxDt * 1000:0} ms)");   // PM_85
             // PM_75: a skipped slide jumps to its end, so the dive starts from the next painting
             if (_handoff) Place(_screen, _k, Period);
             _endAt = Time.unscaledTime;
@@ -183,9 +208,10 @@ namespace ReverseSolver.Presentation
         void Update()
         {
             float now = Time.unscaledTime, t = now - _start;
+            if (!Finished && t > 0) { _frames++; if (Time.unscaledDeltaTime > .02f) _slow++; _maxDt = Mathf.Max(_maxDt, Time.unscaledDeltaTime); }
             float alpha = Finished ? 1 - (now - _endAt) / FadeOut : Mathf.Clamp01(t / FadeIn);
             if (Finished && alpha <= 0) { Destroy(gameObject); return; }
-            if (!Finished) Place(_screen, _k, Period * Ease((t - FadeIn - Hold) / Slide));
+            if (!Finished) Place(_screen, _k, Period * Glide((t - FadeIn - Hold) / Slide));
             _strip.color = new Color(1, 1, 1, alpha);
             _backdrop.Alpha(alpha);
             foreach (var (mesh, _, bornAt) in _paintings)

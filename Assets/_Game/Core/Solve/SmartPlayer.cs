@@ -85,6 +85,10 @@ namespace ReverseSolver.Core
             return Run(s, r, nodeBudget);
         }
 
+        /// <summary>Plays the rest from a clone of the supplied session (PM_84: the hint's first move).</summary>
+        public static SmartPlayResult PlayFrom(GameSession state, int nodeBudget = DefaultNodeBudget) =>
+            Run(state.Clone(), new SmartPlayResult { LevelId = state.Level.Id }, nodeBudget);
+
         static SmartPlayResult Run(GameSession s, SmartPlayResult r, int nodeBudget)
         {
             int budget = nodeBudget;

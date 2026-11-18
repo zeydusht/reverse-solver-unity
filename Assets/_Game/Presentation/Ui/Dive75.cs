@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ReverseSolver.Core;
 using UnityEngine;
 
 namespace ReverseSolver.Presentation
@@ -30,6 +31,8 @@ namespace ReverseSolver.Presentation
         public static float HoldSec = -1;     // &resimbekle= (s; below 0: the variant's)
         public static float LineK = 1;        // &cizgihiz=
         public static char Variant = 'a';     // &dalis=
+        public static float LinesDone = .7f;  // PM_84/85: the share of the pull back by which the cuts are all drawn
+        public static float CorridorApproach = .6f;   // PM_85: after the corridor (no flight) the approach is .6 s
         public static bool Log;               // &dalislog=1: every frame's painting / board corners on screen, for the speed graphs
 
         struct Plan { public float Flight, Approach, Hold, Back, Lines, Push; }
@@ -37,9 +40,10 @@ namespace ReverseSolver.Presentation
         {
             get
             {
-                var p = Variant == 'b' ? new Plan { Flight = 1.5f, Approach = .6f, Hold = .5f, Back = .8f, Lines = .4f }
+                // PM_85: A holds .4 s (the cuts start as soon as the picture fills the screen), pulls back in .8 s
+                var p = Variant == 'b' ? new Plan { Flight = 1.5f, Approach = .6f, Hold = .4f, Back = .8f, Lines = .25f }
                       : Variant == 'c' ? new Plan { Flight = 2.0f, Approach = .9f, Hold = 1.1f, Back = 1.2f, Lines = .5f }
-                      : new Plan { Flight = 1.8f, Approach = .8f, Hold = .8f, Back = 1.0f, Lines = .4f };
+                      : new Plan { Flight = 1.8f, Approach = .8f, Hold = .4f, Back = .8f, Lines = .25f };
                 if (HoldSec >= 0) p.Hold = HoldSec;
                 p.Push = p.Hold > .01f ? .015f * p.Hold / .8f : 0;   // 1.5 % over A's .8 s hold, the same slow rate in all
                 return p;
@@ -133,6 +137,7 @@ namespace ReverseSolver.Presentation
             baseMat = baseMat ?? SpriteMaterial();
             if (Gap) _backdrop.Fill(new Color(1, 0, 1, 1));
             _p = Current;
+            if (_s.Diorama == null && Variant == 'a') _p.Approach = CorridorApproach;
             _rate = _p.Hold > .01f ? Mathf.Log(1 + _p.Push) / _p.Hold : 0;
             if (_s.Diorama != null)
             {
@@ -188,11 +193,13 @@ namespace ReverseSolver.Presentation
 
         static Vector2[] Corners(Rect r) => new[] { new Vector2(r.xMin, r.yMin), new Vector2(r.xMax, r.yMin), new Vector2(r.xMax, r.yMax), new Vector2(r.xMin, r.yMax) };
 
-        int _lastFrame = -1;
+        int _lastFrame = -1, _frames, _slow;
+        float _maxDt;
         void LateUpdate()
         {
             if (_finished || _s.Cam == null || Time.frameCount == _lastFrame) return;
             _lastFrame = Time.frameCount;
+            _frames++; if (Time.unscaledDeltaTime > .02f) _slow++; _maxDt = Mathf.Max(_maxDt, Time.unscaledDeltaTime);   // PM_84
             // a long frame (the level being built) must not eat the hold: at most 1/30 s a frame
             _clock += Mathf.Min(Time.unscaledDeltaTime, 1 / 30f) * _speed * Mathf.Max(.1f, SpeedK);
             Step();
@@ -279,7 +286,7 @@ namespace ReverseSolver.Presentation
            first (a pen), even through the hold's end. &cizgihiz= runs it faster or slower. */
         float LineFrac(float t, float h0, float h1)
         {
-            float a = h0, b = h1, c = h1 + .8f * _p.Back, tt = a + (t - a) * Mathf.Max(.1f, LineK);
+            float a = h0, b = h1, c = h1 + LinesDone * _p.Back, tt = a + (t - a) * Mathf.Max(.1f, LineK);
             if (tt <= a) return 0;
             if (tt >= c) return 1;
             float at = b - a > .01f ? _p.Lines : 0;
@@ -552,7 +559,7 @@ namespace ReverseSolver.Presentation
             if (!_built) BuildLevel();
             if (!_revealed) StartReveal();
             _finished = true;
-            Debug.Log($"[dalis] {(Legacy ? "eski" : Variant.ToString())}: {_notes}ended at {_clock:0.00} s");
+            Debug.Log($"[dalis] {(Legacy ? "eski" : Variant.ToString())}: {_notes}ended at {_clock:0.00} s; frames {_frames}, over 20 ms {_slow} (max {_maxDt * 1000:0} ms)");
             if (_s.Cam != null) { _s.Cam.transform.position = _homePos; _s.Cam.orthographicSize = _homeSize; }
             if (_board != null) { _board.transform.localScale = Vector3.one; _board.transform.localPosition = Draw.W(_board.Origin); }
             _reveal?.Dispose(); _reveal = null;
@@ -862,11 +869,34 @@ namespace ReverseSolver.Presentation
                 float Sweep(Vector2 m) => flow ? Mathf.Clamp01(((m - mid).magnitude - .5f) / far) : (m.x + m.y) / diag;
                 for (int y = 0; y < l.Height; y++)
                     for (int x = 1; x < l.Width; x++)
-                        r.AddEdge(new Vector2(x, y), new Vector2(0, 1), b.VJoint(x, y), cell, Sweep(new Vector2(x, y + .5f)), rng);
+                        r._vStart[(x, y)] = r.AddEdge(new Vector2(x, y), new Vector2(0, 1), b.VJoint(x, y), cell, Sweep(new Vector2(x, y + .5f)), rng);
                 for (int y = 1; y < l.Height; y++)
                     for (int x = 0; x < l.Width; x++)
-                        r.AddEdge(new Vector2(x, y), new Vector2(1, 0), b.HJoint(x, y), cell, Sweep(new Vector2(x + .5f, y)), rng);
+                        r._hStart[(x, y)] = r.AddEdge(new Vector2(x, y), new Vector2(1, 0), b.HJoint(x, y), cell, Sweep(new Vector2(x + .5f, y)), rng);
                 if (flow) r.MeasureDrawing();
+                // PM_84: the cuts are the board's own: each piece's copy draws only its cut (the same mesh, shader and
+                // place), pen by pen over the picture; under it the pieces carry the same cut, so nothing changes
+                // when the picture gives way
+                if (flow && Art.Texture("kit-mask") != null)
+                {
+                    float outer = Spread + .05f;
+                    float StartOf(Cell c, Dir d) => d switch
+                    {
+                        Dir.L => c.X > 0 && r._vStart.TryGetValue((c.X, c.Y), out var a) ? a : outer,
+                        Dir.R => c.X + 1 < l.Width && r._vStart.TryGetValue((c.X + 1, c.Y), out var b2) ? b2 : outer,
+                        Dir.U => c.Y > 0 && r._hStart.TryGetValue((c.X, c.Y), out var u) ? u : outer,
+                        _ => c.Y + 1 < l.Height && r._hStart.TryGetValue((c.X, c.Y + 1), out var dd) ? dd : outer,
+                    };
+                    for (int i = 0; i < l.Pieces.Count; i++)
+                    {
+                        var pv = b.IsPresent(i) ? board.PieceViewOf(i) : null;
+                        if (pv == null) continue;
+                        pv.SetSeamStarts(StartOf);
+                        var g = pv.Ghost(r._root, Order + 1);
+                        g.name = "cut " + i;
+                        r._seams.Add(g);
+                    }
+                }
                 if (_dot == null) _dot = MakeDot();
                 for (int i = 0; i < 24; i++)
                 {
@@ -880,7 +910,11 @@ namespace ReverseSolver.Presentation
             }
             const int Order = 2000;   // over the pieces, chains, walls and badges (1800); under the HUD (3000)
 
-            void AddEdge(Vector2 at, Vector2 along, int joint, float cell, float sweep, System.Random rng)
+            readonly Dictionary<(int, int), float> _vStart = new Dictionary<(int, int), float>(), _hStart = new Dictionary<(int, int), float>();
+            readonly List<MeshRenderer> _seams = new List<MeshRenderer>();
+            public bool Seams => _seams.Count > 0;
+
+            float AddEdge(Vector2 at, Vector2 along, int joint, float cell, float sweep, System.Random rng)
             {
                 var n = new Vector2(along.y, along.x);             // the bulge side: +x for a vertical edge, +y for a horizontal one
                 var pts = new List<Vector2>();
@@ -905,7 +939,9 @@ namespace ReverseSolver.Presentation
                 P(at + along);
                 float length = 0;
                 for (int i = 1; i < pts.Count; i++) length += (pts[i] - pts[i - 1]).magnitude;
-                _edges.Add((pts, length, sweep * Spread + (float)rng.NextDouble() * .05f));
+                float start = sweep * Spread + (float)rng.NextDouble() * .05f;
+                _edges.Add((pts, length, start));
+                return start;
             }
 
             static Sprite MakeDot()
@@ -956,6 +992,14 @@ namespace ReverseSolver.Presentation
                     time = DrawEnd * (i + (d > 1e-6f ? Mathf.Clamp01((share - _drawn[i]) / d) : 0)) / DrawSteps;
                 }
                 float sm(float x) { x = Mathf.Clamp01(x); return x * x * (3 - 2 * x); }
+                if (Seams)
+                {
+                    // PM_84: every cut is drawn by LinesDone of the pull back; then the picture gives way to the pieces
+                    // under the same cuts, and the copies go once the pieces show them
+                    float p0 = Dive75.LinesDone, p1 = Mathf.Min(.95f, p0 + .16f);
+                    Render(time, 1 - sm((back - p0) / (p1 - p0)), 1 - sm((back - p1) / (1 - p1)), Shadow);
+                    return;
+                }
                 Render(time, 1 - sm((back - .6f) / .32f), 1 - sm((back - .84f) / .16f), Shadow + 1.6f * sm((back - .7f) / .25f));
             }
 
@@ -977,7 +1021,7 @@ namespace ReverseSolver.Presentation
                     float f = Mathf.Clamp01((time - start) / EdgeSeconds);
                     if (f <= 0) continue;
                     float drawn = EdgeEase(f) * length;
-                    Vector2 end = Polyline(pts, drawn, verts, cols, tris, lineAlpha, shadow);
+                    Vector2 end = Seams ? PointAt(pts, drawn) : Polyline(pts, drawn, verts, cols, tris, lineAlpha, shadow);
                     if (f < 1 && tip < _tips.Count)
                     {
                         var s = _tips[tip++]; s.enabled = true;
@@ -986,6 +1030,7 @@ namespace ReverseSolver.Presentation
                     }
                 }
                 for (int i = tip; i < _tips.Count; i++) _tips[i].enabled = false;
+                foreach (var g in _seams) if (g != null) PieceView.SetGhostSeam(g, time, EdgeSeconds, lineAlpha);
                 _lineMesh.Clear();
                 _lineMesh.SetVertices(verts); _lineMesh.SetColors(cols); _lineMesh.SetTriangles(tris, 0);
                 _lineMesh.bounds = new Bounds(Vector3.zero, Vector3.one * 1e5f);
@@ -1008,6 +1053,18 @@ namespace ReverseSolver.Presentation
                     last = b;
                 }
                 return last;
+            }
+
+            /* The point `length` along the polyline (the pen's tip). */
+            static Vector2 PointAt(List<Vector2> pts, float length)
+            {
+                for (int i = 1; i < pts.Count; i++)
+                {
+                    float seg = (pts[i] - pts[i - 1]).magnitude;
+                    if (seg >= length) return pts[i - 1] + (pts[i] - pts[i - 1]) * (seg > 1e-5f ? length / seg : 0);
+                    length -= seg;
+                }
+                return pts[pts.Count - 1];
             }
 
             static void Quad(Vector2 a, Vector2 b, float width, Color c, List<Vector3> verts, List<Color> cols, List<int> tris)

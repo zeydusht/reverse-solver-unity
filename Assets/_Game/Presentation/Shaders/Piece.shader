@@ -39,6 +39,10 @@ Shader "ReverseSolver/Piece"
         _Image ("Board image (sRGB)", 2D) = "white" {}
         _BoardCells ("Board size in cells (w, h)", Vector) = (1, 1, 0, 0)
         _ImageMix ("Image amount (0..1)", Float) = 0
+        _RvOn ("PM_84 dive: cuts drawn edge by edge (0/1)", Float) = 0
+        _RvTime ("PM_84 dive: the drawing's clock (s)", Float) = 0
+        _RvEdgeSec ("PM_84 dive: one cut's drawing time (s)", Float) = 0.55
+        _EdgeOnly ("PM_84 dive: only the cut (rim, cream band, halo)", Float) = 0
     }
     SubShader
     {
@@ -70,6 +74,7 @@ Shader "ReverseSolver/Piece"
                 float _PtToUnit, _Lift, _Gray, _Glow, _Flash, _Alpha, _ImageMix;
                 float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
                 float _SkinMix, _KitOn;
+                float _RvOn, _RvTime, _RvEdgeSec, _EdgeOnly;
             CBUFFER_END
             float _RSEdge;   // global: 1 = the chosen thick dark navy edge on painted boards (2 = black, kept for tests)
             TEXTURE2D(_KitMask); SAMPLER(sampler_KitMask);
@@ -80,14 +85,14 @@ Shader "ReverseSolver/Piece"
             TEXTURE2D(_Image);
             SAMPLER(sampler_Image);
 
-            struct A { float4 pos : POSITION; float2 uv : TEXCOORD0; float4 edges : TEXCOORD1; float2 cell : TEXCOORD2; float4 color : COLOR; };
-            struct V { float4 pos : SV_POSITION; float2 p : TEXCOORD0; nointerpolation float4 edges : TEXCOORD1; nointerpolation float4 color : TEXCOORD2; nointerpolation float2 cell : TEXCOORD3; };
+            struct A { float4 pos : POSITION; float2 uv : TEXCOORD0; float4 edges : TEXCOORD1; float2 cell : TEXCOORD2; float4 starts : TEXCOORD3; float4 color : COLOR; };
+            struct V { float4 pos : SV_POSITION; float2 p : TEXCOORD0; nointerpolation float4 edges : TEXCOORD1; nointerpolation float4 color : TEXCOORD2; nointerpolation float2 cell : TEXCOORD3; nointerpolation float4 starts : TEXCOORD4; };
 
             V vert(A i)
             {
                 V o;
                 o.pos = TransformObjectToHClip(i.pos.xyz);
-                o.p = i.uv; o.edges = i.edges; o.color = i.color; o.cell = i.cell;
+                o.p = i.uv; o.edges = i.edges; o.color = i.color; o.cell = i.cell; o.starts = i.starts;
                 return o;
             }
 
@@ -108,6 +113,39 @@ Shader "ReverseSolver/Piece"
                     if (ev[k] < -0.5) cut = min(cut, length(p - sockC[k]) - R);
                 }
                 return max(d, -cut);
+            }
+
+            /* PM_84: how much of the cut nearest p is drawn (0..1), a pen going along it by its length: straight to
+               the neck, the long way round the tab's circle (the dive's Reveal polyline), straight to the end. Each
+               side's start (s) is in `starts` (U, R, D, L); a shared side has the same start in both cells. */
+            static const float HALF = 16.1245, A0 = -2.6810, ARCANG = 4.0627;   // sqrt(R^2-OFF^2); atan2(-OFF,-HALF); the long arc
+            float RvSeam(float2 q, float4 e, float4 starts)
+            {
+                float4 d = abs(float4(q.y, 100.0 - q.x, 100.0 - q.y, q.x));
+                float m = d.x, ek = e.x, st = starts.x, along = q.x, outw = -q.y;
+                if (d.y < m) { m = d.y; ek = e.y; st = starts.y; along = q.y; outw = q.x - 100.0; }
+                if (d.z < m) { m = d.z; ek = e.z; st = starts.z; along = q.x; outw = q.y - 100.0; }
+                if (d.w < m) { m = d.w; ek = e.w; st = starts.w; along = q.y; outw = -q.x; }
+                float f = saturate((_RvTime - st) / max(_RvEdgeSec, 1e-3));
+                f = f * f * (3.0 - 2.0 * f);
+                if (f <= 0.0) return 0.0;
+                along = clamp(along, 0.0, 100.0);
+                float s;
+                if (abs(ek) > 0.5)
+                {
+                    float b = outw * (ek > 0.5 ? 1.0 : -1.0);          // towards the bulge
+                    float2 r = float2(along - 50.0, b - OFF);
+                    float arcLen = ARCANG * R, total = 2.0 * (50.0 - HALF) + arcLen;
+                    float dArc = abs(length(r) - R), dLine = abs(b);
+                    if (abs(along - 50.0) < HALF || (b > -2.0 && dArc < dLine && abs(along - 50.0) < R + 6.0))
+                    {
+                        float prog = clamp(fmod(A0 - atan2(r.y, r.x) + 4.0 * PI, 2.0 * PI), 0.0, ARCANG);
+                        s = ((50.0 - HALF) + prog * R) / total;
+                    }
+                    else s = (along < 50.0 ? along : along - 2.0 * HALF + arcLen) / total;
+                }
+                else s = along / 100.0;
+                return saturate((f - s) / 0.015 + 0.5);
             }
 
             // Shape scaled by s about the cell centre, as an SVG scale() would.
@@ -222,6 +260,17 @@ Shader "ReverseSolver/Piece"
                         float3 rim = _RSEdge > 1.5 ? float3(0, 0, 0) : _RSEdge > 0.5 ? float3(0.024, 0.086, 0.114) : float3(0.043, 0.165, 0.212);
                         col = over(col, float4(rim, 1) * outline);                     // black / #06161D / #0B2A36
                         if (_RSEdge > 0.5) col = over(col, float4(0, 0, 0, 1) * saturate(mOut2 - mOut) * 0.35);
+                        if (_EdgeOnly > 0.5)
+                        {
+                            // PM_84 dive: the same cut over the painting, drawn by the pen (RvSeam); nothing else
+                            float seam = _RvOn > 0.5 ? RvSeam(q, i.edges, i.starts) : 1.0;
+                            float4 e4 = float4(0.973, 0.922, 0.816, 1) * band * (_RSEdge > 0.5 ? 0.8 : 0.6);
+                            e4 = over(float4(rim, 1) * outline, e4);
+                            if (_RSEdge > 0.5) e4 = over(e4, float4(0, 0, 0, 1) * saturate(mOut2 - mOut) * 0.35);
+                            e4 *= seam * saturate(_Alpha);
+                            e4.rgb = ToOutput(e4.rgb / max(e4.a, 1e-4)) * e4.a;
+                            return e4;
+                        }
                     }
                     else
                     {

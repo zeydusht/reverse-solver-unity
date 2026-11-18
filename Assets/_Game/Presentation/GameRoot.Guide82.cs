@@ -11,18 +11,18 @@ namespace ReverseSolver.Presentation
          3  try pushing the lower right one right    (piece 8, right: it runs into its neighbour on purpose)
          4  "Oops! It bumped into its neighbour …"   a short red glow where they touch
          5  push it down, where nothing blocks it    (piece 8, down)
-         6  "Awesome! Now save the rest yourself!"   the hand goes; free play (6 s idle: an open piece glows)
-         7  the last piece: "You saved all the Jiggles!", then the win screen
+         6  "Awesome! Now save the rest yourself!"   the hand goes; free play (PM_84: at once a piece glows with the
+                                                     arrow, "You can move this one!"; then the 5 s idle hint)
+         7  the last piece out (its flight over): "You saved all the Jiggles!", then the win screen
        A wrong piece shakes and Jigo says "Try this one first!"; 4 s without a move brings the hand back. The same
        step machine as the p21 guided opening (GameRoot.P21: PressP21Tutorial, RejectP21Direction, FinishP21Jam). */
     public sealed partial class GameRoot
     {
         bool _guideIntro82, _guideFree82, _guideLast82;
         float _guideIdleAt82, _guideHintAt82;
-        Component _guideHand82;      // PM_83: TASK41's glove (a) or p20's (d); none for b and c
+        Component _guideHand82;      // PM_85: p20's glove with TASK41's move (e, the default); PM_83: a, d; none for b and c
         GuideSpot83 _guideSpot83;    // PM_83: the dark with the lit way (steps 2–5)
         float GuideChatTop83 => Hud54.TopBottom(_screen, _safe.y);
-        int _guideHint82 = -1;
 
         bool Guide82Level => _slSet && _index == 0;
         bool Guide82 => Guide82Level && !_guideFree82;
@@ -46,7 +46,8 @@ namespace ReverseSolver.Presentation
         void ResetGuide82()
         {
             _guideIntro82 = Guide82Level; _guideFree82 = _guideLast82 = false;
-            _guideIdleAt82 = Time.unscaledTime; _guideHintAt82 = -1; _guideHint82 = -1;
+            _guideIdleAt82 = Time.unscaledTime; _guideHintAt82 = -1; _guideLastAt82 = -1;
+            ResetHint84();
             GuideSpot83.ReadFlag(Host.Current.Query("el"));
             if (!Guide82Level) return;
             _session.PreventTimeout = true; _session.ClockOnFirstMove = false;   // no clock, no loss
@@ -58,7 +59,7 @@ namespace ReverseSolver.Presentation
         {
             RemoveGuideHand82();
             RemoveSpot83();
-            if (_board == null || _session.IsOver) return;
+            if (_board == null || _session.IsOver && !_guideLast82) return;
             if (_guideIntro82)
             {
                 _p21View = P21TutorialView.Story(_world, _screen, _safe.w, _board, -1, Guide82Text, true, GuideChatTop83);
@@ -74,11 +75,11 @@ namespace ReverseSolver.Presentation
             _p21View = P21TutorialView.Guided(_world, _screen, _safe.w, _board, slide.Piece, Guide82Text, slide.Direction, GuideChatTop83, GuideSpot83.Variant == "c");
             if (slide.Direction.HasValue && _session.Board.IsPresent(slide.Piece))
                 _guideSpot83 = GuideSpot83.Show(_world, _screen, _board, new Move(slide.Piece, slide.Direction.Value));
-            ShowGuideHand82();
+            ShowGuideHand82(GuideArrow85.GrowSeconds);   // PM_85: the arrow opens the way, then the hand comes
             _hud?.PauseTutorialTime();
         }
 
-        void ShowGuideHand82()
+        void ShowGuideHand82(float delay = 0)
         {
             RemoveGuideHand82();
             if (!Guide82 || _guideIntro82 || _board == null) return;
@@ -87,6 +88,9 @@ namespace ReverseSolver.Presentation
             var move = new Move(slide.Piece, slide.Direction.Value);
             switch (GuideSpot83.Variant)
             {
+                case "e":   // PM_85: p20's glove with TASK41's move
+                    _guideHand82 = GloveHand85.Show(_world, _board, _screen, move, 3345, delay);
+                    break;
                 case "a":   // TASK41's white glove
                     _guideHand82 = Task41Hand.Show(_world, _board, _screen, move, 3345);
                     break;
@@ -115,7 +119,7 @@ namespace ReverseSolver.Presentation
 
         /* PM_83 test: the guide's dark is on (steps 2–5) / which hand shows. */
         public bool GuideDark83 => _guideSpot83 != null && _guideSpot83.Darkened;
-        public string GuideHand83 => _guideHand82 == null ? "none" : _guideHand82 is TutorialHand ? "d" : "a";
+        public string GuideHand83 => _guideHand82 == null ? "none" : _guideHand82 is TutorialHand ? "d" : _guideHand82 is GloveHand85 ? "e" : "a";
 
         /* A press on level 1: the intro goes on with a tap; while a step waits, the hand rests and comes back after 4 s. */
         bool PressGuide82(Vector2 pt)
@@ -142,6 +146,7 @@ namespace ReverseSolver.Presentation
 
         void TickGuide82()
         {
+            TickGuideLast82();
             if (!Guide82Level || _session == null || _session.IsOver || _board == null) return;
             if (_guideHintAt82 >= 0 && Time.unscaledTime >= _guideHintAt82 && Guide82 && !_guideIntro82)
             {
@@ -156,59 +161,98 @@ namespace ReverseSolver.Presentation
                 ShowGuideHand82();
                 _guideIdleAt82 = Time.unscaledTime;
             }
-            if (_guideFree82) IdleHint82();
         }
 
-        /* Free play (level 1 after the guide, level 2): 6 s without a move, an open piece glows until the next one. */
-        void IdleHint82()
+        /* PM_84 §1: the hint (levels 1..ipucu_son_bolum of sl100; none after, hard and very hard included): 5 s
+           without a move, the next piece that leaves (HintPicker) glows and beats, the arrow runs out of it; a touch
+           takes it away, the next 5 s bring it back. The first time on a level Jigo says "You can move this one!"
+           in the box (on level 1 in free play: at once, on its first free move). */
+        HintCue84 _hint84;
+        float _hint84At = -1, _hint84LineUntil = -1;
+        bool _hint84Said;
+        P21TutorialView _hint84Line;
+        public int Hint84Piece => _hint84 != null ? _hint84.Piece : -1;
+        static string HintLine84 => Lang.T("You can move this one!", "Bu parçayı oynatabilirsin!");
+
+        bool HintLevel84 => _slSet && _index < Live.Config.HintLastLevel && (!Guide82Level || _guideFree82 && !_guideLast82);
+
+        void ResetHint84()
         {
-            if (_session == null || _session.IsOver || _board == null) return;
+            ClearHint84();
+            _hint84At = -1; _hint84Said = false;
+            RemoveHintLine84();
+        }
+
+        void TickHint84()
+        {
+            if (_hint84LineUntil >= 0 && Time.unscaledTime >= _hint84LineUntil) RemoveHintLine84();
+            if (!HintLevel84 || _session == null || _session.IsOver || _board == null || _diving) { ClearHint84(); return; }
             bool dragging = _drag != null && _drag.Active;
-            if (dragging) { _guideIdleAt82 = Time.unscaledTime; ClearHint82(); return; }
-            if (_guideHint82 >= 0 && !_session.Board.IsPresent(_guideHint82)) ClearHint82();
-            if (_guideHint82 < 0 && Time.unscaledTime - _guideIdleAt82 > 6)
-            {
-                foreach (var m in _session.Level.Solution)
-                    if (_session.Board.IsPresent(m.Piece) && _session.NailAt(m.Piece) <= 0 && _session.Probe(m.Piece, m.Dir).Exit)
-                    { _guideHint82 = m.Piece; break; }
-                if (_guideHint82 < 0)
-                    for (int p = 0; p < _session.Level.Pieces.Count && _guideHint82 < 0; p++)
-                        if (_session.Board.IsPresent(p) && _session.NailAt(p) <= 0)
-                            foreach (var d in new[] { Dir.U, Dir.D, Dir.L, Dir.R })
-                                if (_session.Probe(p, d).Exit) { _guideHint82 = p; break; }
-            }
-            if (_guideHint82 >= 0)
-                _board.PieceViewOf(_guideHint82)?.SetGlow(Draw.Hex("#ffcf59"), .55f + .25f * Mathf.Sin(Time.unscaledTime * 3.5f));
+            if (dragging) { _guideIdleAt82 = Time.unscaledTime; ClearHint84(); return; }
+            if (_hint84 != null && !_session.Board.IsPresent(_hint84.Piece)) ClearHint84();
+            bool due = _hint84At >= 0 ? Time.unscaledTime >= _hint84At : Time.unscaledTime - _guideIdleAt82 > 5;
+            if (_hint84 != null || !due || BoosterBusy21) return;
+            _hint84At = -1;
+            var move = HintPicker.Next(_session);
+            if (!move.HasValue) { _guideIdleAt82 = Time.unscaledTime; return; }
+            _hint84 = HintCue84.Show(_world, _board, _screen, move.Value, 3330);
+            if (_hint84Said) return;
+            _hint84Said = true;
+            if (Guide82Level && _p21View != null) { _p21View.StoryText(HintLine84); return; }
+            RemoveHintLine84();
+            _hint84Line = P21TutorialView.Story(_world, _screen, _safe.w, _board, -1, HintLine84, true, GuideChatTop83);
+            _hint84LineUntil = Time.unscaledTime + 2.6f;
         }
 
-        void ClearHint82()
+        void ClearHint84()
         {
-            if (_guideHint82 >= 0 && _board != null) _board.PieceViewOf(_guideHint82)?.SetGlow(Vector4.zero, 0);
-            _guideHint82 = -1;
+            if (_hint84 != null) _hint84.Remove();
+            _hint84 = null;
         }
 
-        /* Level 2 of sl100: no guide; the 6 s idle hint only. */
-        bool IdleHintLevel82 => _slSet && (_index == 1 || Guide82Level && _guideFree82);
-
-        void TickIdleHint82()
+        void RemoveHintLine84()
         {
-            if (_slSet && _index == 1) IdleHint82();
+            _hint84Line?.Remove(); _hint84Line = null; _hint84LineUntil = -1;
         }
 
-        /* A move happened (a piece left or jammed): the idle clock restarts. */
+        /* A touch on the board: the hint goes at once; the idle clock starts again. */
+        void PressHint84()
+        {
+            if (_hint84 == null && _hint84Line == null) return;
+            _guideIdleAt82 = Time.unscaledTime;
+            ClearHint84();
+            RemoveHintLine84();
+        }
+
+        /* A move happened (a piece left or jammed): the idle clock restarts; level 1 in free play: after the second
+           to last piece the box goes, and once the last piece is out (its flight over) "You saved all the Jiggles!"
+           comes, then the win screen (PM_84 §2). */
         void MovedGuide82(GameEvent e)
         {
             _guideIdleAt82 = Time.unscaledTime;
-            if (e.Kind == EventKind.PieceRemoved && e.Piece == _guideHint82) _guideHint82 = -1;
-            else ClearHint82();
+            ClearHint84();
             if (!Guide82Level || !_guideFree82 || e.Kind != EventKind.PieceRemoved) return;
-            if (_session.Board.PresentCount <= 1 && !_guideLast82)
+            if (_session.Board.PresentCount == 0 && !_guideLast82)
             {
                 _guideLast82 = true;
+                _guideLastAt82 = -1;   // shown when the piece's flight ends (TickGuideLast82)
                 _p21View?.Remove(); _p21View = null;
-                BuildGuide82();   // the chat box again, with the last line
             }
-            else if (_session.Board.PresentCount > 1 && _p21View != null) { _p21View.Remove(); _p21View = null; }
+            else if (_session.Board.PresentCount > 0 && _p21View != null) { _p21View.Remove(); _p21View = null; }
+        }
+
+        float _guideLastAt82 = -1;
+        const float GuideLastHold82 = 1.5f;
+
+        /* The win screen waits for the last line (GameRoot's end tick asks this). */
+        bool GuideLastHolds82 => Guide82Level && _guideLast82 && (_guideLastAt82 < 0 || Time.unscaledTime - _guideLastAt82 < GuideLastHold82);
+
+        void TickGuideLast82()
+        {
+            if (!Guide82Level || !_guideLast82 || _guideLastAt82 >= 0 || _board == null) return;
+            if (Time.unscaledTime < _board.FlyingUntil || _pendingExits.Count > 0) return;
+            _guideLastAt82 = Time.unscaledTime;
+            BuildGuide82();   // the box again, with the last line
         }
 
         /* Step 4: a short red glow where the pushed piece meets the one it ran into. */

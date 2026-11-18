@@ -176,7 +176,8 @@ namespace ReverseSolver.Presentation
             Dive75.Legacy = Host.Current.Query("gecis") == "eski";
             Dive75.Orbit = Dive75.On && !Dive75.Legacy;
             Dive75.SpeedK = QueryFloat("yayhiz", 1, .25f, 4);
-            Dive75.HoldSec = QueryFloat("resimbekle", -1, 0, 3);   // PM_80: none: the variant's hold
+            Dive75.HoldSec = QueryFloat("resimbekle", -1, 0, 3);   // PM_80: none: the variant's hold (PM_85: A's .4 s)
+            CorridorTransition.Seconds = QueryFloat("koridor", 1.5f, .5f, 5);   // PM_85: the corridor's slide (s)
             Dive75.LineK = QueryFloat("cizgihiz", 1, .25f, 4);
             var dalis = Host.Current.Query("dalis");
             Dive75.Variant = dalis == "b" || dalis == "c" ? dalis[0] : 'a';
@@ -1674,7 +1675,7 @@ namespace ReverseSolver.Presentation
                 TickP21Tutorial();
                 if (TutorialActive && _tutorialUntil >= 0 && Time.unscaledTime >= _tutorialUntil && !BoosterBusy21) NextScriptedTutorial();
                 FlushExits();
-                if (_endAt > 0 && Time.unscaledTime >= _endAt && (_board == null || Time.unscaledTime >= _board.FlyingUntil))
+                if (_endAt > 0 && Time.unscaledTime >= _endAt && (_board == null || Time.unscaledTime >= _board.FlyingUntil) && !GuideLastHolds82)
                 {
                     _endAt = -1;
                     if (P21WinArt && _session.Outcome == Outcome.Win) ShowWin21();
@@ -2017,6 +2018,7 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
+            PressHint84();   // PM_84: a touch takes the hint away
             if (PressBooster21(pt)) return;
             if (P21StoryLevel && _p21View != null && _p21View.DismissStory(pt))
             {

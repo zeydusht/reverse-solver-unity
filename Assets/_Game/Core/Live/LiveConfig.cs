@@ -29,6 +29,7 @@ namespace ReverseSolver.Core
         public int CountCoinFactor = 2;              // kont_altin_kat
         public int CountBoosters = 2;                // kont_booster
         public int HardBonus = 100;                  // zor_bonus
+        public int HintLastLevel = 3;                // ipucu_son_bolum (PM_84: the idle hint on levels 1..this; none after)
         public string Source = "default";            // where it came from: default, embedded, cache, remote
 
         public static LiveConfig Default => new LiveConfig();
@@ -66,6 +67,7 @@ namespace ReverseSolver.Core
             c.CountCoinFactor = Int(root, "kont_altin_kat", c.CountCoinFactor, 0, 100);
             c.CountBoosters = Int(root, "kont_booster", c.CountBoosters, 0, 10);
             c.HardBonus = Int(root, "zor_bonus", c.HardBonus, 0, 100000);
+            c.HintLastLevel = Int(root, "ipucu_son_bolum", c.HintLastLevel, 0, 1000);
             return c;
         }
 
@@ -83,7 +85,8 @@ namespace ReverseSolver.Core
             WriteArray(w, "sandik_altin", ChestCoins);
             WriteArray(w, "sandik_altin_sinir", ChestTierUpTo);
             w.Field("sandik_booster_bolum", ChestBoosterFrom).Field("sandik_booster", ChestBoosters)
-                .Field("kont_altin_kat", CountCoinFactor).Field("kont_booster", CountBoosters).Field("zor_bonus", HardBonus);
+                .Field("kont_altin_kat", CountCoinFactor).Field("kont_booster", CountBoosters).Field("zor_bonus", HardBonus)
+                .Field("ipucu_son_bolum", HintLastLevel);
             return w.EndObject().ToString();
         }
 

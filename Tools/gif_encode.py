@@ -1,5 +1,6 @@
 """Frames from Tools/gif_capture.js -> GIF at a fixed frame rate, by real capture times.
-usage: python -I Tools/gif_encode.py <frame dir> <out.gif> [fps=15] [width=300] [label] [crop x0,y0,x1,y1] [colors=128]
+usage: python -I Tools/gif_encode.py <frame dir> <out.gif> [fps=15] [width=300] [label] [crop x0,y0,x1,y1] [colors=128] [slow=1]
+slow 2: half speed (PM_84: the frames are taken twice as often, shown at the same rate)
 Two dirs joined with '+' are placed side by side (before | after); label 'Önce|Sonra' captions them."""
 import json, os, sys
 from PIL import Image, ImageDraw, ImageFont
@@ -23,11 +24,12 @@ def main():
     width = int(sys.argv[4]) if len(sys.argv) > 4 else 300
     labels = sys.argv[5].split('|') if len(sys.argv) > 5 and sys.argv[5] else None
     crop = tuple(int(v) for v in sys.argv[6].split(',')) if len(sys.argv) > 6 and sys.argv[6] else None
-    colors = int(sys.argv[7]) if len(sys.argv) > 7 else 128
+    colors = int(sys.argv[7]) if len(sys.argv) > 7 and sys.argv[7] else 128
+    slow = float(sys.argv[8]) if len(sys.argv) > 8 else 1
     dirs = src.split('+')
     seqs = [load(d) for d in dirs]
     length = max(s[-1][0] for s in seqs)
-    picks = [sample(s, fps, length) for s in seqs]
+    picks = [sample(s, fps * slow, length) for s in seqs]
     try: font = ImageFont.truetype('C:/Windows/Fonts/segoeuib.ttf', 20)
     except OSError: font = ImageFont.load_default()
     frames = []

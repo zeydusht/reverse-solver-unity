@@ -58,7 +58,7 @@ function serve(root) {
     if (m.id && pend.has(m.id)) { pend.get(m.id)(m); pend.delete(m.id); }
     if (m.method === 'Runtime.consoleAPICalled' && process.env.TOUR_LOG) {
       const text = m.params.args.map(a => a.value ?? '').join(' ');
-      if (text.includes(process.env.TOUR_LOG)) console.log(text.slice(0, 300));
+      if (text.includes(process.env.TOUR_LOG)) console.log((process.env.TOUR_LOG_TS ? m.params.timestamp.toFixed(1) + ' ' : '') + text.slice(0, 300));   // PM_84: TOUR_LOG_TS=1 prefixes the page's time (ms), the frames' clock
     }
     if (m.method === 'Page.screencastFrame') {
       cdp('Page.screencastFrameAck', { sessionId: m.params.sessionId });

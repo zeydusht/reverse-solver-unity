@@ -18,6 +18,7 @@ namespace ReverseSolver.Presentation
         {
             if (_win21 != null) return;
             CancelCardTap(); CloseCard(); _introOpen = false; _endAt = -1;
+            if (Guide82Level) { _p21View?.Remove(); _p21View = null; }   // PM_84: "You saved all the Jiggles!" has had its time
             _winPreview21 = preview;
             var save = _save;
             if (preview)

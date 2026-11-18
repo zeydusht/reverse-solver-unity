@@ -11,24 +11,26 @@ namespace ReverseSolver.Presentation
          b  PM_60's guide (11 Nov): no hand, the piece glows
          c  codex/01-onboarding (12 Nov): gold dots and a small arrow at the piece
          d  p20's gloved hand (PM_36, 3 Nov; PM_82's choice): the back of the glove nudging the way
-       The default is a. Only graphics: input goes through DragModel and Core as before. */
+         e  PM_85, the default: d's glove with a's move (GloveHand85) and the cream ribbon arrow (GuideArrow85),
+            which opens the way first
+       Only graphics: input goes through DragModel and Core as before. */
     public sealed class GuideSpot83 : MonoBehaviour
     {
         const int Order = 3300, MaxHoles = 16;
-        public static string Variant = "a";
-        public static bool HandIsTask41 => Variant == "a";
+        public static string Variant = "e";
 
         Material _mat;
         Mesh _mesh;
         float _alpha = .6f, _born, _fadeOut = -1;
         SpriteRenderer _arrow;
+        GuideArrow85 _ribbon;
         Vector2 _start, _end, _dir;
         float _len, _arrowBase;
         bool _trail = true;
 
         public static void ReadFlag(string value)
         {
-            Variant = value == "b" || value == "c" || value == "d" ? value : "a";
+            Variant = value == "a" || value == "b" || value == "c" || value == "d" ? value : "e";
         }
 
         /* The lit way of a move: from the piece to a cell past the board's edge (as the p20 spotlight). */
@@ -59,7 +61,9 @@ namespace ReverseSolver.Presentation
             v._dir = new Vector2(move.Dir.Dx(), move.Dir.Dy());
             v._len = Vector2.Distance(v._start, v._end);
             v.Veil(screen, TutorialSpotlight.DragHoles(board.Origin, board.Cell, cells, move.Dir, v._end));
-            if (Variant != "c")
+            if (Variant == "e")
+                v._ribbon = GuideArrow85.ForMove(v.transform, board, screen, move, Order + 2, GuideArrow85.Mode.Still);
+            else if (Variant != "c")
             {
                 // the dashed arrow (TASK41's path art) sliding the way out
                 var sprite = Resources.Load<Sprite>("Art/yeni/tutorial/Path/straight-down");
@@ -110,10 +114,10 @@ namespace ReverseSolver.Presentation
         public bool Darkened => _mat != null;
 
         /* The jam of step 4 (the arrow pointed at a blocked way): the arrow goes, the dark stays. */
-        public void HideTrail() { _trail = false; if (_arrow != null) _arrow.enabled = false; }
+        public void HideTrail() { _trail = false; if (_arrow != null) _arrow.enabled = false; if (_ribbon != null) _ribbon.FadeOut(); _ribbon = null; }
 
         /* Free play: the dark lifts in 0.25 s, then the object goes. */
-        public void FadeOut() { if (_fadeOut < 0) _fadeOut = Time.unscaledTime; }
+        public void FadeOut() { if (_fadeOut < 0) _fadeOut = Time.unscaledTime; if (_ribbon != null) _ribbon.FadeOut(); _ribbon = null; }
 
         void Update()
         {

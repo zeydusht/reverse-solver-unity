@@ -115,11 +115,14 @@ namespace ReverseSolver.PlayMode.Tests
             yield return Click(board.Origin + board.Size / 2);
             // 2: the lower left piece, down; the hand shows it
             yield return WaitFor(() => GuideText.StartsWith("Slide this piece down"), "step 2");
-            // PM_83: the dark with the lit way, TASK41's glove (the default &el=a), Jigo's box above the board
+            // PM_83: the dark with the lit way, Jigo's box above the board
             yield return new WaitForSecondsRealtime(.3f);
             Assert.That(GameObject.Find("Veil"), Is.Not.Null, "the guided steps darken the screen");
-            Assert.That(UnityEngine.Object.FindObjectsByType<Task41Hand>(FindObjectsSortMode.None), Is.Not.Empty, "TASK41's glove");
-            Assert.That(UnityEngine.Object.FindObjectsByType<TutorialHand>(FindObjectsSortMode.None), Is.Empty, "not p20's glove");
+            // PM_85: the default hand is p20's glove with TASK41's move, behind the cream ribbon arrow
+            Assert.That(UnityEngine.Object.FindObjectsByType<GloveHand85>(FindObjectsSortMode.None), Is.Not.Empty, "the PM_85 glove");
+            Assert.That(UnityEngine.Object.FindObjectsByType<Task41Hand>(FindObjectsSortMode.None), Is.Empty, "not TASK41's frames");
+            Assert.That(UnityEngine.Object.FindObjectsByType<TutorialHand>(FindObjectsSortMode.None), Is.Empty, "not p20's old nudge");
+            Assert.That(UnityEngine.Object.FindObjectsByType<GuideArrow85>(FindObjectsSortMode.None), Is.Not.Empty, "the ribbon arrow");
             var chat = GameObject.Find("cream blue chat");
             Assert.That(chat, Is.Not.Null);
             if (Screen.height >= 700)   // a phone-shaped screen (the batch runner's 640x480 has no room for it)
@@ -139,28 +142,93 @@ namespace ReverseSolver.PlayMode.Tests
             yield return WaitFor(() => GuideText.StartsWith("Push it down"), "step 5");
             yield return Swipe(board, 8, Dir.D);
             yield return WaitFor(() => !session.Board.IsPresent(8), "piece 8 out");
-            // 6: free play; the hand goes; 6 s still, an open piece glows
+            // 6: free play; the hand goes; PM_84: at once a piece glows with the arrow, Jigo says so (no dark)
             yield return WaitFor(() => GuideText.StartsWith("Awesome! Now save the rest"), "step 6");
             yield return new WaitForSecondsRealtime(.4f);
-            Assert.That(UnityEngine.Object.FindObjectsByType<Task41Hand>(FindObjectsSortMode.None), Is.Empty, "the hand is gone");
+            Assert.That(UnityEngine.Object.FindObjectsByType<GloveHand85>(FindObjectsSortMode.None), Is.Empty, "the hand is gone");
             Assert.That(GameObject.Find("Veil"), Is.Null, "free play: no dark");
-            float until = Time.realtimeSinceStartup + 9f;
-            while (Field<int>("_guideHint82") < 0 && Time.realtimeSinceStartup < until) yield return null;
-            Assert.That(Field<int>("_guideHint82"), Is.GreaterThanOrEqualTo(0), "the 6 s hint");
-            // 7: the rest along the solution; the last one's line, then the win
+            var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+            yield return WaitFor(() => root.Hint84Piece >= 0 && GuideText.StartsWith("You can move this one"), "the first free move's hint");
+            Assert.That(GameObject.Find("PM85 arrow"), Is.Not.Null, "the arrow");
+            Assert.That(GameObject.Find("Veil"), Is.Null, "the hint has no dark");
+            // 7: the rest along the solution; PM_84 §2: nothing says "all saved" while a piece is left; the line comes
+            // once the last piece is out, then the win screen
+            int removed = 2;
             foreach (var m in session.Level.Solution)
             {
                 if (!session.Board.IsPresent(m.Piece)) continue;
                 if (session.Board.PresentCount == 1)
                 {
                     yield return new WaitForSecondsRealtime(.2f);
-                    Assert.That(GuideText, Does.StartWith("You saved all the Jiggles"), "step 7");
+                    Assert.That(GuideText, Does.Not.StartWith("You saved all the Jiggles"), "not with a piece still on the board");
+                }
+                yield return Swipe(board, m.Piece, m.Dir);
+                yield return WaitFor(() => !session.Board.IsPresent(m.Piece), $"piece {m.Piece} out");
+                removed++;
+                yield return new WaitForSecondsRealtime(.15f);
+            }
+            Assert.That(removed, Is.EqualTo(9)); Assert.That(session.Level.Pieces.Count, Is.EqualTo(9));
+            Assert.That(session.Board.PresentCount, Is.Zero);
+            yield return WaitFor(() => GuideText.StartsWith("You saved all the Jiggles"), "step 7: the line after the last piece");
+            Assert.That(WinScreen, Is.Null, "the win screen waits for the line");
+            yield return WaitFor(() => WinScreen != null, "the win screen");
+            Assert.That(session.Outcome, Is.EqualTo(Outcome.Win));
+        }
+
+        /* PM_84: the idle hint on levels 1–3 (5 s still: a piece glows and the arrow runs; Jigo's line the first time;
+           a touch takes it away), none from level 4; PM_84 §2: the win comes only after the last piece is out. */
+        [UnityTest]
+        public IEnumerator HintOnLevelTwoAndTheWinAfterTheLastPiece()
+        {
+            _host.Links = "c=p23&test=1&lang=en&lv=2";
+            _host.Store = new MemoryStore();
+            new SaveData(_host.Store, () => "seed").SetPlayer("QA");
+            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+            yield return WaitFor(() => Board != null && Board.Session.Level.Number == 2, "level 2");
+            var board = Board; var session = board.Session;
+            var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+            float until = Time.realtimeSinceStartup + 9f;
+            while (root.Hint84Piece < 0 && Time.realtimeSinceStartup < until) yield return null;
+            Assert.That(root.Hint84Piece, Is.GreaterThanOrEqualTo(0), "the 5 s hint");
+            Assert.That(GuideText, Does.StartWith("You can move this one"));
+            Assert.That(GameObject.Find("PM85 arrow"), Is.Not.Null);
+            Assert.That(session.Probe(root.Hint84Piece, HintPicker.Next(session).Value.Dir).Exit, Is.True, "the hinted piece leaves");
+            yield return Click(CellCentre(board, root.Hint84Piece));
+            yield return WaitFor(() => root.Hint84Piece < 0, "a touch takes the hint away");
+            foreach (var m in session.Level.Solution)
+            {
+                if (!session.Board.IsPresent(m.Piece)) continue;
+                if (session.Board.PresentCount == 1)
+                {
+                    yield return new WaitForSecondsRealtime(.3f);
+                    Assert.That(session.Outcome, Is.EqualTo(Outcome.None), "one piece left: not won");
+                    Assert.That(WinScreen, Is.Null, "one piece left: no win screen");
                 }
                 yield return Swipe(board, m.Piece, m.Dir);
                 yield return WaitFor(() => !session.Board.IsPresent(m.Piece), $"piece {m.Piece} out");
                 yield return new WaitForSecondsRealtime(.15f);
             }
+            Assert.That(session.Board.PresentCount, Is.Zero);
             Assert.That(session.Outcome, Is.EqualTo(Outcome.Win));
+            yield return WaitFor(() => WinScreen != null, "the win screen after the last piece");
+        }
+
+        [UnityTest]
+        public IEnumerator NoHintFromLevelFour()
+        {
+            _host.Links = "c=p23&test=1&lang=en&lv=4";
+            _host.Store = new MemoryStore();
+            new SaveData(_host.Store, () => "seed").SetPlayer("QA");
+            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+            yield return WaitFor(() => Board != null && Board.Session.Level.Number == 4, "level 4");
+            var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+            float until = Time.realtimeSinceStartup + 7f;
+            while (Time.realtimeSinceStartup < until)
+            {
+                Assert.That(root.Hint84Piece, Is.LessThan(0), "no hint on level 4");
+                yield return null;
+            }
+            Assert.That(GameObject.Find("PM85 arrow"), Is.Null);
         }
 
         static Vector2 CellCentre(BoardView board, int piece)
@@ -418,6 +486,7 @@ namespace ReverseSolver.PlayMode.Tests
             .FirstOrDefault(b => b.GetComponentInParent<UnityEngine.Rendering.SortingGroup>() == null);
         static Transform MenuPlay => GameObject.Find("Menu")?.transform.Find("play");
         static Transform Next => GameObject.Find("P21 win and chest")?.transform.Find("surface/next green");
+        static GameObject WinScreen => GameObject.Find("P21 win and chest");
         static string GuideText => GameObject.Find("P21 story")?.GetComponentInChildren<TextView>()?.Text ?? "";
         static Vector2 LayoutPoint(Transform element) => new Vector2(element.position.x, -element.position.y);
 

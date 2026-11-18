@@ -122,6 +122,16 @@ namespace ReverseSolver.Presentation
         }
         public Vector2 Offset => new Vector2(transform.localPosition.x, -transform.localPosition.y);
 
+        /* PM_84 hint: a pulse about the piece's own centre (1 = at rest, in place). */
+        public void SetPulse(float scale)
+        {
+            float x0 = float.MaxValue, y0 = float.MaxValue, x1 = float.MinValue, y1 = float.MinValue;
+            foreach (var c in Cells) { x0 = Mathf.Min(x0, c.X); y0 = Mathf.Min(y0, c.Y); x1 = Mathf.Max(x1, c.X + 1); y1 = Mathf.Max(y1, c.Y + 1); }
+            var centre = new Vector2(x0 + x1, y0 + y1) * .5f * _cell;
+            transform.localScale = new Vector3(scale, scale, 1);
+            transform.localPosition = Draw.W(centre * (1 - scale));
+        }
+
         public void SetLift(float t) { Lifted = t; _b.SetFloat(LiftId, t); Apply(); }
         public void SetPinned(bool on) { _b.SetFloat(GrayId, on ? 1 : 0); Apply(); }
         public void SetGlow(Vector4 color, float amount) { _b.SetVector(GlowColorId, color); _b.SetFloat(GlowId, amount); Apply(); }
@@ -161,6 +171,29 @@ namespace ReverseSolver.Presentation
             r.GetPropertyBlock(_ghostBlock); _ghostBlock.SetVector(GlowColorId, color); _ghostBlock.SetFloat(GlowId, amount); r.SetPropertyBlock(_ghostBlock);
         }
         static MaterialPropertyBlock _ghostBlock;
+        /* PM_84 (the dive's cuts): when each side of each cell starts to be drawn (s on the drawing's clock), in the
+           mesh, so a Ghost sharing it can draw only the cut (SetGhostSeam). */
+        public void SetSeamStarts(System.Func<Cell, Dir, float> start)
+        {
+            if (_mesh == null) return;
+            var list = new List<Vector4>();
+            foreach (var c in Cells)
+            {
+                var v = new Vector4(start(c, Dir.U), start(c, Dir.R), start(c, Dir.D), start(c, Dir.L));
+                for (int k = 0; k < 4; k++) list.Add(v);
+            }
+            _mesh.SetUVs(3, list);
+        }
+        static readonly int RvOnId = Shader.PropertyToID("_RvOn"), RvTimeId = Shader.PropertyToID("_RvTime"),
+            RvEdgeId = Shader.PropertyToID("_RvEdgeSec"), EdgeOnlyId = Shader.PropertyToID("_EdgeOnly");
+        public static void SetGhostSeam(MeshRenderer r, float time, float edgeSeconds, float alpha)
+        {
+            _ghostBlock ??= new MaterialPropertyBlock();
+            r.GetPropertyBlock(_ghostBlock);
+            _ghostBlock.SetFloat(EdgeOnlyId, 1); _ghostBlock.SetFloat(RvOnId, 1);
+            _ghostBlock.SetFloat(RvTimeId, time); _ghostBlock.SetFloat(RvEdgeId, edgeSeconds); _ghostBlock.SetFloat(AlphaId, alpha);
+            r.SetPropertyBlock(_ghostBlock);
+        }
         public static void SetGhostAlpha(MeshRenderer r, float a)
         {
             _ghostBlock ??= new MaterialPropertyBlock();
