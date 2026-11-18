@@ -38,6 +38,41 @@ namespace ReverseSolver.Core
         public bool ClaimChest21(int level, Booster booster)
         {
             if (!P21ChestRules.Due(level) || level > ChestProgress21 || ChestGiven21(level) || (int)booster < 0 || (int)booster >= 4) return false;
+            Grant21(new[] { booster }, P21ChestRules.Coins);
+            _chests21["given" + level] = (int)booster + 1;
+            _store.Set(Key("chests21"), Write(_chests21)); _store.Save();
+            return true;
+        }
+
+        /* PM_83: the sl100 chest (ChestEconomy) of a won level, once: its gold and boosters in one save. */
+        public bool Chest83Given(int level) => _chests21.ContainsKey("c83_" + level);
+        public bool ClaimChest83(int level, ChestReward reward)
+        {
+            if (reward == null || reward.Kind == ChestKind.None || Chest83Given(level)) return false;
+            foreach (var b in reward.Boosters) if ((int)b < 0 || (int)b >= 4) return false;
+            Grant21(reward.Boosters, reward.Coins);
+            _chests21["c83_" + level] = 1;
+            _store.Set(Key("chests21"), Write(_chests21)); _store.Save();
+            return true;
+        }
+
+        /* The current booster stock (rs_boosters), 0 where unknown. */
+        public int[] BoosterStock()
+        {
+            var r = new int[4];
+            JsonNode inventory = JsonNode.Null;
+            try { inventory = JsonReader.Parse(_store.Get("rs_boosters") ?? "null"); }
+            catch (JsonException) { }
+            if (inventory.TryGet("stock", out var stock) && stock.Kind == JsonKind.Array && stock.Count == 4)
+                for (int i = 0; i < 4; i++) r[i] = stock[i].Kind == JsonKind.Number ? (int)Math.Max(0, Math.Min(int.MaxValue, stock[i].AsNumber)) : 0;
+            return r;
+        }
+
+        // Balances staged (stock, or the chest bonus kept for a booster not yet learned, and the gold); the caller saves.
+        void Grant21(Booster[] boosters, int coins)
+        {
+            var add = new int[4];
+            foreach (var b in boosters) add[(int)b]++;
             JsonNode inventory = JsonNode.Null;
             try { inventory = JsonReader.Parse(_store.Get("rs_boosters") ?? "null"); }
             catch (JsonException) { }
@@ -48,7 +83,7 @@ namespace ReverseSolver.Core
             {
                 int count = stock?.Kind == JsonKind.Array && stock.Count == 4 && stock[i].Kind == JsonKind.Number
                     ? (int)Math.Max(0, Math.Min(int.MaxValue, stock[i].AsNumber)) : 0;
-                w.Value((int)Math.Min(int.MaxValue, (long)count + (i == (int)booster ? P21ChestRules.BoosterCount : 0)));
+                w.Value((int)Math.Min(int.MaxValue, (long)count + add[i]));
             }
             w.EndArray().Key("trained").BeginArray();
             for (int i = 0; i < 4; i++) w.Value(trained?.Kind == JsonKind.Array && trained.Count == 4 && trained[i].AsBool);
@@ -58,15 +93,12 @@ namespace ReverseSolver.Core
                 int count = bonus?.Kind == JsonKind.Array && bonus.Count == 4 && bonus[i].Kind == JsonKind.Number
                     ? (int)Math.Max(0, Math.Min(int.MaxValue, bonus[i].AsNumber)) : 0;
                 bool learned = trained?.Kind == JsonKind.Array && trained.Count == 4 && trained[i].AsBool;
-                w.Value((int)Math.Min(int.MaxValue, (long)count + (i == (int)booster && !learned ? P21ChestRules.BoosterCount : 0)));
+                w.Value((int)Math.Min(int.MaxValue, (long)count + (learned ? 0 : add[i])));
             }
             w.EndArray().EndObject();
-            Coins = (int)Math.Min(int.MaxValue, (long)Coins + P21ChestRules.Coins);
-            _chests21["given" + level] = (int)booster + 1;
+            Coins = (int)Math.Min(int.MaxValue, (long)Coins + coins);
             _store.Set("rs_boosters", w.ToString());
             if (!TestMode) _store.Set(Key("coins"), Coins.ToString(System.Globalization.CultureInfo.InvariantCulture));
-            _store.Set(Key("chests21"), Write(_chests21)); _store.Save();
-            return true;
         }
     }
 }

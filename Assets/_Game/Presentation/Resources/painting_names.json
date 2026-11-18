@@ -199,6 +199,306 @@
       "level": 40,
       "tr": "Son ışığın şatosu",
       "en": "Castle of the Last Light"
+    },
+    {
+      "level": 41,
+      "tr": "Palmiyeli kuyu",
+      "en": "The Palm Well"
+    },
+    {
+      "level": 42,
+      "tr": "Kervan çadırı",
+      "en": "The Caravan Tent"
+    },
+    {
+      "level": 43,
+      "tr": "Kumdaki fener",
+      "en": "Lighthouse in the Sand"
+    },
+    {
+      "level": 44,
+      "tr": "Baharat tezgâhı",
+      "en": "The Spice Stall"
+    },
+    {
+      "level": 45,
+      "tr": "Çiçekli kaktüsler",
+      "en": "Blooming Cacti"
+    },
+    {
+      "level": 46,
+      "tr": "Mavi çinili çeşme",
+      "en": "The Blue Tile Fountain"
+    },
+    {
+      "level": 47,
+      "tr": "Süzülen halı",
+      "en": "The Floating Carpet"
+    },
+    {
+      "level": 48,
+      "tr": "Kızıl kaya kemeri",
+      "en": "The Red Rock Arch"
+    },
+    {
+      "level": 49,
+      "tr": "Hurma sepetleri",
+      "en": "Date Baskets"
+    },
+    {
+      "level": 50,
+      "tr": "Kumların gözlemevi",
+      "en": "The Dune Observatory"
+    },
+    {
+      "level": 51,
+      "tr": "Mercan bahçesi",
+      "en": "The Coral Garden"
+    },
+    {
+      "level": 52,
+      "tr": "Yosunlu pruva",
+      "en": "The Mossy Bow"
+    },
+    {
+      "level": 53,
+      "tr": "Işıklı balık mağarası",
+      "en": "Cave of Glowing Fish"
+    },
+    {
+      "level": 54,
+      "tr": "İnci istiridyesi",
+      "en": "The Pearl Oyster"
+    },
+    {
+      "level": 55,
+      "tr": "Kaplumbağa yolu",
+      "en": "The Turtle Road"
+    },
+    {
+      "level": 56,
+      "tr": "Yosun ormanı",
+      "en": "The Kelp Forest"
+    },
+    {
+      "level": 57,
+      "tr": "Lombozlu denizaltı",
+      "en": "The Porthole Submarine"
+    },
+    {
+      "level": 58,
+      "tr": "Batık kum kalesi",
+      "en": "The Sunken Sandcastle"
+    },
+    {
+      "level": 59,
+      "tr": "Denizanası balosu",
+      "en": "The Jellyfish Ball"
+    },
+    {
+      "level": 60,
+      "tr": "Mercanlı hazine",
+      "en": "The Coral Treasure"
+    },
+    {
+      "level": 61,
+      "tr": "Balkabağı tarlası",
+      "en": "The Pumpkin Patch"
+    },
+    {
+      "level": 62,
+      "tr": "Şıra değirmeni",
+      "en": "The Cider Mill"
+    },
+    {
+      "level": 63,
+      "tr": "Yaprak yağmuru",
+      "en": "Falling Leaves"
+    },
+    {
+      "level": 64,
+      "tr": "Dost korkuluk",
+      "en": "The Friendly Scarecrow"
+    },
+    {
+      "level": 65,
+      "tr": "Samanlı ambar",
+      "en": "The Hay Barn"
+    },
+    {
+      "level": 66,
+      "tr": "Mantar sepeti",
+      "en": "The Mushroom Basket"
+    },
+    {
+      "level": 67,
+      "tr": "Sonbahar kayıkhanesi",
+      "en": "The Autumn Boathouse"
+    },
+    {
+      "level": 68,
+      "tr": "Ceviz salıncağı",
+      "en": "The Walnut Swing"
+    },
+    {
+      "level": 69,
+      "tr": "Hasat sofrası",
+      "en": "The Harvest Table"
+    },
+    {
+      "level": 70,
+      "tr": "Sisli bağ evi",
+      "en": "The Misty Vineyard"
+    },
+    {
+      "level": 71,
+      "tr": "Uçan gemi iskelesi",
+      "en": "The Sky Ship Dock"
+    },
+    {
+      "level": 72,
+      "tr": "Bulut feneri",
+      "en": "The Cloud Lighthouse"
+    },
+    {
+      "level": 73,
+      "tr": "Balon pazarı",
+      "en": "The Balloon Market"
+    },
+    {
+      "level": 74,
+      "tr": "Rüzgâr gülü kulesi",
+      "en": "The Pinwheel Tower"
+    },
+    {
+      "level": 75,
+      "tr": "Gökkuşağı köprüsü",
+      "en": "The Rainbow Span"
+    },
+    {
+      "level": 76,
+      "tr": "Posta güvercinliği",
+      "en": "The Pigeon Post"
+    },
+    {
+      "level": 77,
+      "tr": "Bulutta çay saati",
+      "en": "Tea Above the Clouds"
+    },
+    {
+      "level": 78,
+      "tr": "Pervaneli kütüphane",
+      "en": "The Propeller Library"
+    },
+    {
+      "level": 79,
+      "tr": "Fırtına gözcüsü",
+      "en": "The Storm Watch"
+    },
+    {
+      "level": 80,
+      "tr": "Güvertede gün doğumu",
+      "en": "Sunrise on Deck"
+    },
+    {
+      "level": 81,
+      "tr": "Sarmaşıklı kapı",
+      "en": "The Ivy Gate"
+    },
+    {
+      "level": 82,
+      "tr": "Şelale tapınağı",
+      "en": "The Waterfall Temple"
+    },
+    {
+      "level": 83,
+      "tr": "Kök köprü",
+      "en": "The Root Bridge"
+    },
+    {
+      "level": 84,
+      "tr": "Ateşböceği vadisi",
+      "en": "Firefly Valley"
+    },
+    {
+      "level": 85,
+      "tr": "Taş kaplumbağa",
+      "en": "The Stone Turtle"
+    },
+    {
+      "level": 86,
+      "tr": "Gizli havuz",
+      "en": "The Hidden Pool"
+    },
+    {
+      "level": 87,
+      "tr": "Ağaç ev köyü",
+      "en": "The Treehouse Village"
+    },
+    {
+      "level": 88,
+      "tr": "Kristal mağara",
+      "en": "The Crystal Cave"
+    },
+    {
+      "level": 89,
+      "tr": "Yıldız kulesi",
+      "en": "The Star Tower"
+    },
+    {
+      "level": 90,
+      "tr": "Orkide merdiveni",
+      "en": "The Orchid Stairs"
+    },
+    {
+      "level": 91,
+      "tr": "Şatonun köprüsü",
+      "en": "The Castle Bridge"
+    },
+    {
+      "level": 92,
+      "tr": "Mumlu koridor",
+      "en": "The Candlelit Corridor"
+    },
+    {
+      "level": 93,
+      "tr": "Saat kulesinin içi",
+      "en": "Inside the Clock Tower"
+    },
+    {
+      "level": 94,
+      "tr": "Kont'un kütüphanesi",
+      "en": "The Count's Library"
+    },
+    {
+      "level": 95,
+      "tr": "Boş ziyafet",
+      "en": "The Empty Feast"
+    },
+    {
+      "level": 96,
+      "tr": "Aynalar salonu",
+      "en": "The Hall of Mirrors"
+    },
+    {
+      "level": 97,
+      "tr": "Kule gül bahçesi",
+      "en": "The Tower Rose Garden"
+    },
+    {
+      "level": 98,
+      "tr": "Simya odası",
+      "en": "The Potion Room"
+    },
+    {
+      "level": 99,
+      "tr": "Boş taht",
+      "en": "The Empty Throne"
+    },
+    {
+      "level": 100,
+      "tr": "Özgürlük şafağı",
+      "en": "Dawn of Freedom"
     }
   ]
 }

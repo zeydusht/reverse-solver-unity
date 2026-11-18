@@ -19,7 +19,9 @@ namespace ReverseSolver.Presentation
     {
         bool _guideIntro82, _guideFree82, _guideLast82;
         float _guideIdleAt82, _guideHintAt82;
-        TutorialHand _guideHand82;
+        Component _guideHand82;      // PM_83: TASK41's glove (a) or p20's (d); none for b and c
+        GuideSpot83 _guideSpot83;    // PM_83: the dark with the lit way (steps 2–5)
+        float GuideChatTop83 => Hud54.TopBottom(_screen, _safe.y);
         int _guideHint82 = -1;
 
         bool Guide82Level => _slSet && _index == 0;
@@ -45,6 +47,7 @@ namespace ReverseSolver.Presentation
         {
             _guideIntro82 = Guide82Level; _guideFree82 = _guideLast82 = false;
             _guideIdleAt82 = Time.unscaledTime; _guideHintAt82 = -1; _guideHint82 = -1;
+            GuideSpot83.ReadFlag(Host.Current.Query("el"));
             if (!Guide82Level) return;
             _session.PreventTimeout = true; _session.ClockOnFirstMove = false;   // no clock, no loss
             _session.TutorialMove = true;
@@ -54,20 +57,23 @@ namespace ReverseSolver.Presentation
         void BuildGuide82()
         {
             RemoveGuideHand82();
+            RemoveSpot83();
             if (_board == null || _session.IsOver) return;
             if (_guideIntro82)
             {
-                _p21View = P21TutorialView.Story(_world, _screen, _safe.w, _board, -1, Guide82Text, true);
+                _p21View = P21TutorialView.Story(_world, _screen, _safe.w, _board, -1, Guide82Text, true, GuideChatTop83);
                 return;
             }
             if (_guideFree82)
             {
                 _p21View = P21TutorialView.Story(_world, _screen, _safe.w, _board, -1,
-                    _guideLast82 ? Lang.T("You saved all the Jiggles!", "Bütün Jiggle'lar kurtuldu!") : Lang.T("Awesome! Now save the rest yourself!", "Süpersin! Kalan Jiggle'ları sen kurtar!"), true);
+                    _guideLast82 ? Lang.T("You saved all the Jiggles!", "Bütün Jiggle'lar kurtuldu!") : Lang.T("Awesome! Now save the rest yourself!", "Süpersin! Kalan Jiggle'ları sen kurtar!"), true, GuideChatTop83);
                 return;
             }
             var slide = Guide82Slide;
-            _p21View = P21TutorialView.Guided(_world, _screen, _safe.w, _board, slide.Piece, Guide82Text, slide.Direction);
+            _p21View = P21TutorialView.Guided(_world, _screen, _safe.w, _board, slide.Piece, Guide82Text, slide.Direction, GuideChatTop83, GuideSpot83.Variant == "c");
+            if (slide.Direction.HasValue && _session.Board.IsPresent(slide.Piece))
+                _guideSpot83 = GuideSpot83.Show(_world, _screen, _board, new Move(slide.Piece, slide.Direction.Value));
             ShowGuideHand82();
             _hud?.PauseTutorialTime();
         }
@@ -78,16 +84,38 @@ namespace ReverseSolver.Presentation
             if (!Guide82 || _guideIntro82 || _board == null) return;
             var slide = Guide82Slide;
             if (!slide.Direction.HasValue || !_session.Board.IsPresent(slide.Piece)) return;
-            var visible = new Rect(-_board.Origin, _screen);
-            _guideHand82 = TutorialHand.Show(_board, _board.PieceViewOf(slide.Piece), new Move(slide.Piece, slide.Direction.Value), 3300, visible);
-            _guideHand82.transform.localScale = Vector3.one;
+            var move = new Move(slide.Piece, slide.Direction.Value);
+            switch (GuideSpot83.Variant)
+            {
+                case "a":   // TASK41's white glove
+                    _guideHand82 = Task41Hand.Show(_world, _board, _screen, move, 3345);
+                    break;
+                case "d":   // p20's gloved hand (PM_82)
+                    var visible = new Rect(-_board.Origin, _screen);
+                    var hand = TutorialHand.Show(_board, _board.PieceViewOf(slide.Piece), move, 3320, visible);
+                    hand.transform.localScale = Vector3.one;
+                    _guideHand82 = hand;
+                    break;
+            }
         }
 
         void RemoveGuideHand82()
         {
-            if (_guideHand82 != null) _guideHand82.Remove();
+            if (_guideHand82 is TutorialHand t) t.Remove();
+            else if (_guideHand82 != null) Destroy(_guideHand82.gameObject);
             _guideHand82 = null;
         }
+
+        /* The dark goes with the step (a new one comes with the next step); in free play it lifts. */
+        void RemoveSpot83()
+        {
+            if (_guideSpot83 != null) _guideSpot83.FadeOut();
+            _guideSpot83 = null;
+        }
+
+        /* PM_83 test: the guide's dark is on (steps 2–5) / which hand shows. */
+        public bool GuideDark83 => _guideSpot83 != null && _guideSpot83.Darkened;
+        public string GuideHand83 => _guideHand82 == null ? "none" : _guideHand82 is TutorialHand ? "d" : "a";
 
         /* A press on level 1: the intro goes on with a tap; while a step waits, the hand rests and comes back after 4 s. */
         bool PressGuide82(Vector2 pt)

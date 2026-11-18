@@ -197,6 +197,7 @@ namespace ReverseSolver.Presentation
                     // PM_82 step 4: the reason, a short red glow where they touch, time to read it
                     _p21View?.Feedback(false, Lang.T("Oops! It bumped into its neighbor. A stuck piece can't get out.", "Olmadı! Yanındaki parçaya çarptı. Takılan parça çıkamaz."));
                     JamGlow82(e.Piece, slide.Direction ?? Dir.R);
+                    _guideSpot83?.HideTrail();   // PM_83: the dark stays for step 4, the arrow goes
                     _p21AdvanceAt = Time.unscaledTime + 2.6f;
                     return;
                 }

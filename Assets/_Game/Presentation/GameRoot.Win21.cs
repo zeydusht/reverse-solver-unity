@@ -30,6 +30,13 @@ namespace ReverseSolver.Presentation
             // PM_75: the Next button reads "Level N+1", like the menu's "Level N"
             P21WinView.NextTitle = _index + 1 < _set.Levels.Count
                 ? string.Format(Texts.PlayLevel, _p21Flow ? _index + 2 : _set.Levels[_index + 1].Number) : null;
+            // PM_83: the sl100 chest inside the win screen (every 5th level; the Count's chest on a very hard one) and
+            // the hard level bonus; the old chest (3, 5, 10 …) never comes in this set
+            P21WinView.Sl83 = _slSet;
+            P21WinView.Level83 = _session.Level.Number;
+            P21WinView.HardBonus83 = _slSet && !preview ? ChestEconomy.HardBonus(_session.Level, Live.Config) : 0;
+            P21WinView.Chest83 = _slSet && !save.Chest83Given(_session.Level.Number)
+                ? ChestEconomy.Plan(_session.Level, Live.Config, save.BoosterStock(), () => Random.value) : null;
             P21WinView.DoubleOffer = OfferDoubleGold81;      // PM_81 R2
             P21WinView.DoubleWatch = WatchDoubleGold81;
             _win21 = new P21WinView(transform, _screen, WinTargets21(), save, _session.Level.Pieces.Count,

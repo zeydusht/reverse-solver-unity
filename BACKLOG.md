@@ -200,6 +200,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_79 p23'te: yay varsayılan, 2× hızlı tek akış (≈ 2,85 sn, resimde 0,12 sn), `&yayhiz=` / `&resimbekle=` / `&gecis=eski` — 17 Kasım. Açık: iPhone hissi, plaka belleği.
 - ✅ PM_80 p23'te: dalış tek zaman çizelgesi (yay → yaklaşma → bekleyişte çizgiler → geri çekilme, ≈ 4,4 sn), varyant `&dalis=b|c`, `&cizgihiz=` — 17 Kasım. Açık: Zeyd'in A/B/C seçimi, iPhone hissi.
 - ✅ PM_81 + PM_82 p23'te (18 Kasım): live/ yolu, AppLovin MAX (anahtar bekliyor), sl1 telemetri (SQL 019 bekliyor), sl100 (100 bölüm, model v2), harita kapalı, rehberli 1. bölüm, R1–R4, yeni kazanma düğmeleri, 41–100 tabloları. Açık: sl100'ü live/'a yayın (PM onayı), Xcode + Mac, iPhone duman testi.
+- ✅ PM_83 p23'te (18 Kasım): rehber eli seçenekleri `&el=a–d` + karartma + Jigo kutusu üstte, sandık ekonomisi (kazanma ekranında, Kont sandığı, zor bonusu, config'te), yeni altın para, Oyna düğmesi eski boyut, 41–100 Jiggle + adlar. Açık: Zeyd'in el seçimi, sl100 + yeni tablolar live/'a (PM onayı).
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular

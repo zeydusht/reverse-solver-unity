@@ -371,8 +371,8 @@ namespace ReverseSolver.Presentation
 
                 // bottom: big Level button and the Levels shortcut, above the safe area
                 // PM_74: a player's menu has one big "Play · Level N" button; the Levels shortcut only on the test link
-                float bw = levelsButton ? Mathf.Min(228f, w - 130f) : Mathf.Min(262f, w - 96f), bh = bw * 112f / 228f;
-                if (!levelsButton) bh = Mathf.Min(228f, w - 130f) * 112f / 228f;
+                // PM_83 (Zeyd): the size it had while the Levels shortcut was there, in the middle (PM_82 had widened it)
+                float bw = Mathf.Min(228f, w - 130f), bh = bw * 112f / 228f;
                 // PM_MESAJ_29: 12 pt clear of the selected tab icon that rises over the bar
                 float x0 = (w - bw) / 2, cy = screen.y - safe.w - (Art.On ? 28 : 22) - bh / 2;
                 // PM_82: a hard level's button is red, a very hard one dark red with the Count's seal

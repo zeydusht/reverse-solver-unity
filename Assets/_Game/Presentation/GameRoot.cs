@@ -1126,6 +1126,8 @@ namespace ReverseSolver.Presentation
             if (Host.Debug) Debug.Log("[attempt] " + _session.Record);
             if (!_previewWins && ContinueEnabled && _session.Outcome == Outcome.Win)
                 _save.SetCoins((int)System.Math.Min(int.MaxValue, (long)_save.Coins + _continueRules.WinCoins));
+            if (!_previewWins && _slSet && _session.Outcome == Outcome.Win)   // PM_83: the hard level bonus
+                _save.SetCoins((int)System.Math.Min(int.MaxValue, (long)_save.Coins + ChestEconomy.HardBonus(_session.Level, Live.Config)));
             if (!_previewWins && _session.Outcome == Outcome.Win) Ads.CountWin();   // PM_81: towards the next interstitial
             if (_session.Continues > 0) RecordContinueFinal(_session.Record, true);
         }
@@ -1367,19 +1369,22 @@ namespace ReverseSolver.Presentation
         Vector2 PlayingBoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell)
         {
             if (!UseHud54) return BoardPlacement(screen, safe, l, out cell);
-            return Hud54BoardPlacement(screen, safe, l, out cell, P21OpeningLesson);
+            return Hud54BoardPlacement(screen, safe, l, out cell, P21OpeningLesson, Guide82Level);
         }
 
         /* The p22 board placement (Hud54 layout); public for the screenshot tour (Pm72Tour). */
         /* PM_74: the gold frame reaches FrameBand past the cells; BoardAir more is kept clear on every side (screen
            edges, HUD, booster bar), so a wide board no longer touches the screen edge. */
         public const float FrameBand = 18.2f, BoardAir = 12f;
-        public static Vector2 Hud54BoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell, bool openingLesson = false)
+        public static Vector2 Hud54BoardPlacement(Vector2 screen, Vector4 safe, LevelData l, out float cell, bool openingLesson = false, bool chatOnTop = false)
         {
             cell = BoardSizing.CellSize(screen, safe, l);
             cell = Mathf.Min(cell, Mathf.Floor((screen.x - safe.x - safe.z - 2 * (FrameBand + BoardAir)) / l.Width));
             float top = Hud54.TopBottom(screen, safe.y), bottom = Hud54.ButtonsTop(screen, safe.w);
             if (openingLesson) bottom -= P21TutorialView.ChatClearance;
+            // PM_83: level 1's chat box under the top bar; as much of its room as the screen spares (cells stay >= 44 pt)
+            if (chatOnTop)
+                top += Mathf.Clamp(bottom - top - 2 * (Mathf.Max(FrameBand, cell * .25f) + BoardAir) - l.Height * Mathf.Min(cell, 44f), 0, P21TutorialView.ChatClearance);
             // Include the tray and sealed-edge walls in the clearance.
             float margin = Mathf.Max(FrameBand, cell * .25f) + BoardAir;
             if (l.Height * cell + 2 * margin > bottom - top)

@@ -24,11 +24,12 @@ namespace ReverseSolver.Presentation
         PieceView _storyPiece;
 
         public static P21TutorialView Story(Transform world, Vector2 screen, float safeBottom, BoardView board,
-            int piece, string text, bool visible)
+            int piece, string text, bool visible, float top = -1)
         {
             var v = Draw.Child<P21TutorialView>(world, "P21 story");
             float width = Mathf.Min(screen.x - 24, 366), height = ChatHeight;
             var center = new Vector2(screen.x / 2, Hud54.ButtonsTop(screen, safeBottom) - height / 2 - ChatGap);
+            if (top >= 0) center.y = top + ChatGap + height / 2;   // PM_83: under the top bar, clear of the dragging hand
             v._chatRect = new Rect(center - new Vector2(width, height) / 2, new Vector2(width, height));
             v._chat = new GameObject("chat").transform; v._chat.SetParent(v.transform, false);
             ShapeView.Create(v._chat, "cream blue chat", v._chatRect.size, 8, Order).Radius(14)
@@ -47,15 +48,15 @@ namespace ReverseSolver.Presentation
         }
 
         public static P21TutorialView Guided(Transform world, Vector2 screen, float safeBottom, BoardView board,
-            int piece, string text, Dir? direction)
+            int piece, string text, Dir? direction, float top = -1, bool dots = true)
         {
-            var v = Story(world, screen, safeBottom, board, piece, text, true);
+            var v = Story(world, screen, safeBottom, board, piece, text, true, top);
             var c = board.Session.Level.Pieces[piece][0];
             var center = board.Origin + new Vector2(c.X + .5f, c.Y + .5f) * board.Cell;
             var axis = direction.HasValue ? new Vector2(direction.Value.Dx(), direction.Value.Dy()) : Vector2.zero;
             v._mark = Place(v.transform, "Correct/01", center + axis * board.Cell * .34f, Vector2.one * 46, Order + 4);
             if (v._mark != null) v._mark.enabled = false;
-            if (!direction.HasValue) return v;
+            if (!direction.HasValue || !dots) return v;
 
             v._guide = new GameObject("Swipe path").transform;
             v._guide.SetParent(v.transform, false);

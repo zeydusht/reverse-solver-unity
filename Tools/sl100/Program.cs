@@ -11,6 +11,7 @@ static class Program
         Directory.SetCurrentDirectory("C:/Users/zeydt/Downloads/Reverse Solver/ReverseSolver");
         if (a.Length > 0 && a[0] == "design") { Design.Run(a); return; }
         if (a.Length > 0 && a[0] == "probe") { Probe.Run(); return; }
+        if (a.Length > 0 && a[0] == "economy") { Economy.Run(a); return; }
         if (a.Length > 0 && a[0] == "probe2") { Probe2.Run(); return; }
         var set = P21Onboarding.P22(LevelParser.Parse(File.ReadAllText("Assets/_Game/Levels/redesign.json")));
         var sw = Stopwatch.StartNew();

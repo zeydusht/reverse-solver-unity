@@ -30,12 +30,25 @@ namespace ReverseSolver.Presentation
         bool _double, _doubled, _doubleBusy;
         Transform _doubleButton;
 
+        /* PM_83: the sl100 economy (GameRoot sets these before the view): the chest of this level (null: none), opened
+           in this screen, the hard level bonus, the level's number (the chest bar); Sl83 keeps the old chest away. */
+        public static ChestReward Chest83;
+        public static int HardBonus83, Level83;
+        public static bool Sl83;
+        readonly ChestReward _c83;
+        readonly int _hardBonus, _level83;
+        readonly bool _sl83;
+
         public P21WinView(Transform parent, Vector2 screen, Rect[] targets, SaveData save, int rescued, int winCoins,
             bool chest, Action next, Action refresh, Action menu)
         {
             _root = new GameObject("P21 win and chest").transform; _root.SetParent(parent, false);
             _save = save; _rescued = rescued; _winCoins = winCoins; _next = next; _refresh = refresh; _menu = menu;
             _started = Time.unscaledTime;
+            _sl83 = Sl83; _c83 = Sl83 && B ? Chest83 : null; _hardBonus = Sl83 ? HardBonus83 : 0; _level83 = Level83;
+            if (_c83 != null && _c83.Kind == ChestKind.None) _c83 = null;
+            Chest83 = null; HardBonus83 = 0; Sl83 = false;
+            if (_sl83) chest = false;
             if (chest) BeginChest();
             Layout(screen, targets);
         }
@@ -173,7 +186,19 @@ namespace ReverseSolver.Presentation
             Glow();
             _bTitle = PlaceB(_content, Lang.T("win_title_en", "win_title_tr"), AtB(195, 158), 320, 102, 4);
             _bJigoAt = AtB(195, 388);
-            _bJigo = PlaceB(_content, "win_jigo_jump", _bJigoAt, 262, 294, 3);
+            _bJigo = _c83 == null ? PlaceB(_content, "win_jigo_jump", _bJigoAt, 262, 294, 3) : null;   // PM_83: the chest in Jigo's place
+            if (_c83 != null) LayoutChest83();
+            _bHard = null;
+            if (_hardBonus > 0)
+            {
+                // PM_83: a hard level won: +100 more gold under the title
+                _bHard = Group("hard bonus");
+                var t = TextView.Create(_bHard, "hard bonus", Lang.T("Hard level bonus", "Zor bölüm bonusu") + "  +" + _hardBonus, 20 * _bScale, Palette.Cream, order: Order + 10)
+                    .Heading(Draw.Hex("#7A1418"));
+                float half83 = (t.Width + 30 * _bScale) * .5f;
+                t.transform.localPosition = Draw.W(AtB(195, 232) + new Vector2(-half83 + t.Width * .5f, 0));
+                PlaceB(_bHard, "coin", AtB(195, 232) + new Vector2(half83 - 12 * _bScale, 0), 26, 26, 10);
+            }
             // +50: the game's font, not baked art (PM_73: the plus sign must read as a plus)
             _bPlus = TextView.Create(_content, "win coins", "+" + _winCoins, 36 * _bScale, Palette.Cream, order: Order + 10).Heading(Draw.Hex("#153E75"));
             _double = !_doubled && _winCoins > 0 && Button75.Available && DoubleOffer != null && DoubleOffer();
@@ -201,6 +226,12 @@ namespace ReverseSolver.Presentation
             int progress = _save.ChestProgress21, pending = _save.PendingChest21;
             int next = pending > 0 ? pending : P21ChestRules.Next(progress), previous = P21ChestRules.Previous(next - 1);
             int filled = pending > 0 ? 5 : Mathf.Clamp(Mathf.RoundToInt(5f * (progress - previous) / Mathf.Max(1, next - previous)), 0, 5);
+            if (_sl83)
+            {
+                // PM_83: a chest every 5th level; the bar counts towards it
+                int every = Mathf.Max(1, Live.Config.ChestEvery);
+                filled = Mathf.Clamp(_level83 % every == 0 ? 5 : _level83 % every * 5 / every, 0, 5);
+            }
             _bNewSlot = null;
             for (int i = 0; i < filled; i++)
             {
@@ -271,6 +302,7 @@ namespace ReverseSolver.Presentation
         void TickB(float now)
         {
             float t = (now - _started) * (Timeline / EntranceSeconds);
+            if (_c83 != null) TickChest83(now, _bSettled);
             if (_bSettled)
             {
                 // idle: Jigo bobs softly
@@ -307,9 +339,18 @@ namespace ReverseSolver.Presentation
             }
             // the buttons come up
             float b = Ease(Span(t, .82f, Timeline));
-            if (_bButtons != null) { Fade(_bButtons, b); _bButtons.localPosition = Draw.W(0, 36 * _bScale * (1 - PanelMotion76.OutBack(Span(t, .82f, Timeline), 1.25f))); }
-            if (t >= Timeline) { _bSettled = true; if (_bJigo != null) _bJigo.transform.localScale = Base(_bJigo); }
+            if (_bHard != null) Fade(_bHard, Span(t, .45f, .7f));
+            if (_c83Case != null) _c83Case.transform.localScale = Base(_c83Case) * Mathf.Max(0, PanelMotion76.OutBack(Span(t, .3f, .7f), 1.4f));
+            if (_bButtons != null && _c83 != null && !_c83Done) Fade(_bButtons, 0);   // PM_83: the buttons wait for the chest
+            else if (_bButtons != null) { Fade(_bButtons, b); _bButtons.localPosition = Draw.W(0, 36 * _bScale * (1 - PanelMotion76.OutBack(Span(t, .82f, Timeline), 1.25f))); }
+            if (t >= Timeline)
+            {
+                _bSettled = true;
+                if (_bJigo != null) _bJigo.transform.localScale = Base(_bJigo);
+                if (_c83Case != null) _c83Case.transform.localScale = Base(_c83Case);
+            }
         }
+        Transform _bHard;
         readonly System.Collections.Generic.Dictionary<SpriteRenderer, Vector3> _bases = new System.Collections.Generic.Dictionary<SpriteRenderer, Vector3>();
         Vector3 Base(SpriteRenderer r)
         {
@@ -354,11 +395,12 @@ namespace ReverseSolver.Presentation
                 return;
             }
             if (_pendingAt >= 0) return;
+            if (_c83 != null && !_c83Done) { PressChest83(point); return; }   // PM_83: the chest first, then the buttons
             if ((!_chestMode || _done) && _menuRect.Contains(point)) { Sink(_pressMenu, _menu); return; }
             if (!_chestMode)
             {
                 if (!_nextRect.Contains(point)) return;
-                if (_save.PendingChest21 > 0) { BeginChest(); Layout(_screen, _targets); }
+                if (!_sl83 && _save.PendingChest21 > 0) { BeginChest(); Layout(_screen, _targets); }
                 else Sink(_pressNext, _next);
                 return;
             }
@@ -447,5 +489,178 @@ namespace ReverseSolver.Presentation
             }
         }
         public void Destroy() { if (_root != null) UnityEngine.Object.Destroy(_root.gameObject); }
+
+        // ---- PM_83: the chest inside the win screen ---------------------------------------------------------------
+
+        /* Tap it three times (it shakes, light leaks, it opens); the gold flies coin by coin to the counter at the top,
+           which ticks up, and the boosters to their slots; then Next and Menu come up and the player goes on. */
+        SpriteRenderer _c83Case, _c83Light, _c83Seal;
+        TextView _c83Hint, _c83Amount, _c83Counter;
+        Vector2 _c83At, _c83Size, _c83CounterAt;
+        Rect _c83Rect;
+        int _c83Taps, _c83Shown;
+        float _c83TapAt = -10, _c83OpenAt = -1, _c83DoneAt = -1;
+        bool _c83Done, _c83Claimed;
+        readonly System.Collections.Generic.List<Flight83> _c83Flights = new System.Collections.Generic.List<Flight83>();
+        sealed class Flight83 { public SpriteRenderer R, Pop; public Vector2 To; public float At, Fly, Size; public int Coins; public bool Arrived; public string Key; }
+        string ChestArt => _c83.Kind == ChestKind.Count ? "Reward/ChestKont" : "Reward/Chest";
+        public bool ChestOpen83 => _c83 == null || _c83Done;
+        public bool HasChest83 => _c83 != null;
+        public const string CoinKey = "yeni/T50/win/coin";
+
+        void LayoutChest83()
+        {
+            _c83At = AtB(195, 384); _c83Size = new Vector2(280, 242) * _bScale;
+            _c83Rect = new Rect(_c83At - _c83Size * .62f, _c83Size * 1.24f);
+            _c83Case = Layer("chest83", Order + 5); _c83Light = Layer("chest83 light", Order + 6);
+            Paint(_c83Case, _c83Taps >= 3 ? ChestArt + "/Open/08" : ChestArt + "/closed", _c83At, _c83Size);
+            _c83Seal = null;
+            if (_c83.Kind == ChestKind.Count)
+            {
+                // the Count's seal over the lock
+                _c83Seal = Art.Place(_content, "yeni/T50/map/badge_kont", Vector2.one * 66 * _bScale, Order + 7);
+                if (_c83Seal != null) _c83Seal.transform.localPosition = Draw.W(_c83At + new Vector2(0, _c83Size.y * .05f));
+            }
+            string title = _c83.Kind == ChestKind.Count ? Lang.T("The Count's chest!", "Kont'un sandığı!") : Lang.T("A chest!", "Sandık!");
+            var name = TextView.Create(_content, "chest name", title, 22 * _bScale, Palette.Cream, order: Order + 10)
+                .Heading(_c83.Kind == ChestKind.Count ? Draw.Hex("#7A1418") : Draw.Hex("#153E75"));
+            name.transform.localPosition = Draw.W(AtB(195, _hardBonus > 0 ? 262 : 240));
+            _c83Hint = TextView.Create(_content, "chest hint", "", 22 * _bScale, Palette.Cream, order: Order + 10).Heading(Draw.Hex("#153E75"));
+            _c83Hint.transform.localPosition = Draw.W(AtB(195, 524));
+            _c83Amount = TextView.Create(_content, "chest amount", "", 26 * _bScale, Palette.Cream, order: Order + 16).Title3D();
+            _c83Amount.transform.localPosition = Draw.W(AtB(195, 524));   // where "Tap the chest!" was, clear of the title
+            // the gold counter at the top: the coins fly here
+            _c83CounterAt = AtB(195, 64);
+            var pill = Art.Place(_content, "yeni/win21/Reward/Flight/coin-counter", new Vector2(132, 42) * _bScale, Order + 8);
+            if (pill != null) pill.transform.localPosition = Draw.W(_c83CounterAt);
+            var coin = Art.Place(_content, CoinKey, Vector2.one * 40 * _bScale, Order + 9);
+            if (coin != null) coin.transform.localPosition = Draw.W(_c83CounterAt + new Vector2(-54 * _bScale, 0));
+            _c83Counter = TextView.Create(_content, "chest counter", Shown83().ToString(), 20 * _bScale, Palette.Cream, order: Order + 10);
+            _c83Counter.transform.localPosition = Draw.W(_c83CounterAt + new Vector2(10 * _bScale, 0));
+        }
+
+        int Shown83() => _c83Claimed && !_c83Done ? _save.Coins - _c83.Coins + _c83Shown : _save.Coins;
+
+        void PressChest83(Vector2 point)
+        {
+            if (_c83Taps >= 3 || !_c83Rect.Contains(point) || Time.unscaledTime - _c83TapAt < 4f / 14) return;
+            _c83Taps++; _c83TapAt = Time.unscaledTime;
+            Haptics.Play(Haptics.Kind.Light);
+            if (_c83Taps < 3) return;
+            _c83OpenAt = Time.unscaledTime;
+            _c83Claimed = _save.ClaimChest83(_level83, _c83);
+            if (!_c83Claimed) { _c83Done = true; _c83DoneAt = Time.unscaledTime; return; }
+            // 5–8 coins, one by one, then the boosters
+            int n = Mathf.Clamp(_c83.Coins / 25, 5, 8), left = _c83.Coins;
+            for (int i = 0; i < n; i++)
+            {
+                int share = i == n - 1 ? left : _c83.Coins / n; left -= share;
+                _c83Flights.Add(new Flight83 { Key = CoinKey, To = _c83CounterAt + new Vector2(-54 * _bScale, 0), At = .62f + i * .1f, Fly = .5f, Coins = share, Size = 44 });
+            }
+            float after = .62f + n * .1f + .45f;
+            for (int j = 0; j < _c83.Boosters.Length; j++)
+            {
+                var b = _c83.Boosters[j];
+                _c83Flights.Add(new Flight83 { Key = "yeni/win21/Reward/Reveal/Items/" + b.Id(), To = _targets[(int)b].center, At = after + j * .45f, Fly = .6f, Size = 96 });
+            }
+        }
+
+        void TickChest83(float now, bool settled)
+        {
+            if (_c83Case == null) return;
+            float age = now - _c83TapAt;
+            string key = ChestArt + "/closed", light = null;
+            if (_c83Taps > 0 && _c83Taps < 3)
+            {
+                int frame = Mathf.Min(4, 1 + (int)(age * 14));
+                key = age < 4f / 14 ? Frame(ChestArt + "/Shake" + _c83Taps, frame) : ChestArt + "/closed";
+                if (_c83Taps == 2) light = Frame(ChestArt + "/Leak", frame);
+            }
+            else if (_c83Taps >= 3)
+            {
+                int frame = Mathf.Min(8, 1 + (int)(age * 12)); key = Frame(ChestArt + "/Open", frame);
+                if (frame >= 3) light = Frame(ChestArt + "/OpenLight", frame);
+            }
+            Paint(_c83Case, key, _c83At, _c83Size);
+            Paint(_c83Light, light, _c83At, _c83Size);
+            if (_c83Seal != null) _c83Seal.gameObject.SetActive(_c83Taps < 3);
+            if (_c83Hint != null)
+            {
+                _c83Hint.Text = _c83Taps < 3 ? Lang.T("Tap the chest!", "Sandığa dokun!") : "";
+                _c83Hint.Alpha = .75f + .25f * Mathf.Sin(now * 4);
+            }
+            // idle: the closed chest wobbles a little every 1.6 s
+            float w = Mathf.Repeat(now, 1.6f);
+            _c83Case.transform.localRotation = _c83Taps == 0 && settled && w < .3f ? Quaternion.Euler(0, 0, 4 * Mathf.Sin(w / .3f * Mathf.PI * 2)) : Quaternion.identity;
+            if (_c83Counter != null) _c83Counter.transform.localScale = Vector3.Lerp(_c83Counter.transform.localScale, Vector3.one, .2f);
+            if (_c83OpenAt < 0) return;
+            float t = now - _c83OpenAt;
+            if (_c83Amount != null)
+            {
+                string amount = "+" + _c83.Coins;
+                if (_c83.Boosters.Length > 0) amount += "  +" + _c83.Boosters.Length + " booster";
+                _c83Amount.Text = _c83Claimed && t > .45f && t < 2.4f + _c83.Boosters.Length * .45f ? amount : "";
+                _c83Amount.transform.localScale = Vector3.one * Mathf.Lerp(.6f, 1f, Span(t, .45f, .62f));
+            }
+            bool all = true;
+            foreach (var f in _c83Flights)
+            {
+                float u = (t - f.At) / f.Fly;
+                if (u < 0) { all = false; continue; }
+                if (f.R == null && !f.Arrived)
+                {
+                    f.R = Art.Place(_content, f.Key, Vector2.one * f.Size * _bScale, Order + 18);
+                    if (f.R == null) { f.Arrived = true; _c83Shown += f.Coins; continue; }
+                }
+                if (u < 1)
+                {
+                    all = false;
+                    var from = _c83At + new Vector2(0, -_c83Size.y * .15f);
+                    float e = u * u * (3 - 2 * u);
+                    var mid = (from + f.To) * .5f + new Vector2((f.Coins > 0 ? -1 : 1) * 70 * _bScale, -60 * _bScale);
+                    var p = Vector2.Lerp(Vector2.Lerp(from, mid, e), Vector2.Lerp(mid, f.To, e), e);
+                    f.R.transform.localPosition = Draw.W(p);
+                    float pop = u < .2f ? Mathf.Lerp(.4f, 1.15f, u / .2f) : Mathf.Lerp(1.15f, f.Coins > 0 ? .8f : .45f, (u - .2f) / .8f);
+                    f.R.transform.localScale = Base(f.R) * pop;
+                }
+                else if (!f.Arrived)
+                {
+                    f.Arrived = true;
+                    if (f.R != null) UnityEngine.Object.Destroy(f.R.gameObject);
+                    f.R = null;
+                    if (f.Coins > 0)
+                    {
+                        _c83Shown += f.Coins;
+                        if (_c83Counter != null) { _c83Counter.Text = Shown83().ToString(); _c83Counter.transform.localScale = Vector3.one * 1.3f; }
+                        Haptics.Play(Haptics.Kind.Light);
+                    }
+                    else
+                    {
+                        f.Pop = Art.Place(_content, f.Key, Vector2.one * 70 * _bScale, Order + 18);
+                        if (f.Pop != null) f.Pop.transform.localPosition = Draw.W(f.To);
+                        _refresh?.Invoke();   // the bar shows the new count
+                        Haptics.Play(Haptics.Kind.Medium);
+                    }
+                }
+                if (f.Pop != null)
+                {
+                    float q = (t - f.At - f.Fly) / .5f;
+                    if (q >= 1) { UnityEngine.Object.Destroy(f.Pop.gameObject); f.Pop = null; }
+                    else f.Pop.transform.localScale = Base(f.Pop) * (1 + .3f * Mathf.Sin(Mathf.Clamp01(q) * Mathf.PI)) * (1 - .3f * Mathf.Clamp01(q));
+                }
+            }
+            if (all && t > 1.1f && !_c83Done)
+            {
+                _c83Done = true; _c83DoneAt = now;
+                if (_c83Counter != null) _c83Counter.Text = _save.Coins.ToString();
+            }
+            if (_c83Done && _bButtons != null)
+            {
+                float k = Span(now - _c83DoneAt, 0, .35f);
+                Fade(_bButtons, Ease(k));
+                _bButtons.localPosition = Draw.W(0, 36 * _bScale * (1 - PanelMotion76.OutBack(k, 1.25f)));
+            }
+        }
+
     }
 }

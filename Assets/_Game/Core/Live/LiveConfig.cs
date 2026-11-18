@@ -20,6 +20,15 @@ namespace ReverseSolver.Core
         public int[] ContinuePrices = { 900, 1900, 2900 };   // devam_fiyatlari
         public int StartCoins = 5000;                // baslangic_altin
         public int ExtraSeconds = 30;                // ek_sure_sn (+30 s: gold and the R1 ad)
+        // PM_83: the chest economy (ChestEconomy)
+        public int ChestEvery = 5;                   // sandik_her_n
+        public int[] ChestCoins = { 100, 150, 200 }; // sandik_altin
+        public int[] ChestTierUpTo = { 20, 50 };     // sandik_altin_sinir (tier upper bounds; past the last: the last coins)
+        public int ChestBoosterFrom = 10;            // sandik_booster_bolum
+        public int ChestBoosters = 1;                // sandik_booster
+        public int CountCoinFactor = 2;              // kont_altin_kat
+        public int CountBoosters = 2;                // kont_booster
+        public int HardBonus = 100;                  // zor_bonus
         public string Source = "default";            // where it came from: default, embedded, cache, remote
 
         public static LiveConfig Default => new LiveConfig();
@@ -48,13 +57,15 @@ namespace ReverseSolver.Core
             c.R4Coins = Int(root, "r4_altin", c.R4Coins, 0, 100000);
             c.StartCoins = Int(root, "baslangic_altin", c.StartCoins, 0, 10000000);
             c.ExtraSeconds = Int(root, "ek_sure_sn", c.ExtraSeconds, 5, 600);
-            if (root.TryGet("devam_fiyatlari", out var prices) && prices.Kind == JsonKind.Array)
-            {
-                var list = new List<int>();
-                foreach (var p in prices.Items)
-                    if (p.Kind == JsonKind.Number && p.AsNumber >= 0) list.Add((int)p.AsNumber);
-                if (list.Count >= 1) c.ContinuePrices = list.ToArray();
-            }
+            c.ContinuePrices = Ints(root, "devam_fiyatlari", c.ContinuePrices);
+            c.ChestEvery = Int(root, "sandik_her_n", c.ChestEvery, 0, 1000);
+            c.ChestCoins = Ints(root, "sandik_altin", c.ChestCoins);
+            c.ChestTierUpTo = Ints(root, "sandik_altin_sinir", c.ChestTierUpTo, 0);
+            c.ChestBoosterFrom = Int(root, "sandik_booster_bolum", c.ChestBoosterFrom, 0, 10000);
+            c.ChestBoosters = Int(root, "sandik_booster", c.ChestBoosters, 0, 10);
+            c.CountCoinFactor = Int(root, "kont_altin_kat", c.CountCoinFactor, 0, 100);
+            c.CountBoosters = Int(root, "kont_booster", c.CountBoosters, 0, 10);
+            c.HardBonus = Int(root, "zor_bonus", c.HardBonus, 0, 100000);
             return c;
         }
 
@@ -67,10 +78,33 @@ namespace ReverseSolver.Core
                 .Field("r1_acik", R1On).Field("r2_acik", R2On).Field("r3_acik", R3On).Field("r4_acik", R4On)
                 .Field("r3_gunluk", R3Daily).Field("r4_gunluk", R4Daily).Field("r4_altin", R4Coins)
                 .Field("baslangic_altin", StartCoins).Field("ek_sure_sn", ExtraSeconds);
-            w.Key("devam_fiyatlari").BeginArray();
-            foreach (int p in ContinuePrices) w.Value(p);
-            w.EndArray();
+            WriteArray(w, "devam_fiyatlari", ContinuePrices);
+            w.Field("sandik_her_n", ChestEvery);
+            WriteArray(w, "sandik_altin", ChestCoins);
+            WriteArray(w, "sandik_altin_sinir", ChestTierUpTo);
+            w.Field("sandik_booster_bolum", ChestBoosterFrom).Field("sandik_booster", ChestBoosters)
+                .Field("kont_altin_kat", CountCoinFactor).Field("kont_booster", CountBoosters).Field("zor_bonus", HardBonus);
             return w.EndObject().ToString();
+        }
+
+        static void WriteArray(JsonWriter w, string key, int[] values)
+        {
+            w.Key(key).BeginArray();
+            foreach (int v in values) w.Value(v);
+            w.EndArray();
+        }
+
+        /* An array of non-negative numbers; at least min items, else the fallback. */
+        static int[] Ints(JsonNode o, string key, int[] fallback, int min = 1)
+        {
+            if (!o.TryGet(key, out var a) || a.Kind != JsonKind.Array) return fallback;
+            var list = new List<int>();
+            foreach (var p in a.Items)
+            {
+                if (p.Kind != JsonKind.Number || p.AsNumber < 0) return fallback;
+                list.Add((int)p.AsNumber);
+            }
+            return list.Count >= min ? list.ToArray() : fallback;
         }
 
         static bool Bool(JsonNode o, string key, bool fallback) =>

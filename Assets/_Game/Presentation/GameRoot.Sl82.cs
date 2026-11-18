@@ -149,6 +149,8 @@ namespace ReverseSolver.Presentation
             _giftView82.SetParent(_menu.Root, false);
             _giftView82.localPosition = Draw.W(at);
             Art.Place(_giftView82, "yeni/win21/Reward/Chest/closed", new Vector2(64, 55), HudOrder + 20);
+            var coin = Art.Place(_giftView82, P21WinView.CoinKey, new Vector2(28, 28), HudOrder + 22);   // PM_83: the gold it gives
+            if (coin != null) coin.transform.localPosition = Draw.W(24, -20);
             MenuUi.Label(_giftView82, Lang.T("Gift", "Hediye"), new Vector2(0, 38), 13, HudOrder + 21, width: 80);
             _gift82 = new Rect(at - new Vector2(36, 34), new Vector2(72, 82));
         }

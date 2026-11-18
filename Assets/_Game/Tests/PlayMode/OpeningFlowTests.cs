@@ -115,7 +115,15 @@ namespace ReverseSolver.PlayMode.Tests
             yield return Click(board.Origin + board.Size / 2);
             // 2: the lower left piece, down; the hand shows it
             yield return WaitFor(() => GuideText.StartsWith("Slide this piece down"), "step 2");
-            Assert.That(UnityEngine.Object.FindObjectsByType<TutorialHand>(FindObjectsSortMode.None), Is.Not.Empty, "the gloved hand");
+            // PM_83: the dark with the lit way, TASK41's glove (the default &el=a), Jigo's box above the board
+            yield return new WaitForSecondsRealtime(.3f);
+            Assert.That(GameObject.Find("Veil"), Is.Not.Null, "the guided steps darken the screen");
+            Assert.That(UnityEngine.Object.FindObjectsByType<Task41Hand>(FindObjectsSortMode.None), Is.Not.Empty, "TASK41's glove");
+            Assert.That(UnityEngine.Object.FindObjectsByType<TutorialHand>(FindObjectsSortMode.None), Is.Empty, "not p20's glove");
+            var chat = GameObject.Find("cream blue chat");
+            Assert.That(chat, Is.Not.Null);
+            if (Screen.height >= 700)   // a phone-shaped screen (the batch runner's 640x480 has no room for it)
+                Assert.That(-chat.transform.position.y, Is.LessThan(board.Origin.y), "the chat box sits above the board");
             yield return Click(CellCentre(board, 0));
             yield return WaitFor(() => GuideText.StartsWith("Try this one first"), "a wrong piece");
             Assert.That(session.Board.IsPresent(0), Is.True);
@@ -134,7 +142,8 @@ namespace ReverseSolver.PlayMode.Tests
             // 6: free play; the hand goes; 6 s still, an open piece glows
             yield return WaitFor(() => GuideText.StartsWith("Awesome! Now save the rest"), "step 6");
             yield return new WaitForSecondsRealtime(.4f);
-            Assert.That(UnityEngine.Object.FindObjectsByType<TutorialHand>(FindObjectsSortMode.None), Is.Empty, "the hand is gone");
+            Assert.That(UnityEngine.Object.FindObjectsByType<Task41Hand>(FindObjectsSortMode.None), Is.Empty, "the hand is gone");
+            Assert.That(GameObject.Find("Veil"), Is.Null, "free play: no dark");
             float until = Time.realtimeSinceStartup + 9f;
             while (Field<int>("_guideHint82") < 0 && Time.realtimeSinceStartup < until) yield return null;
             Assert.That(Field<int>("_guideHint82"), Is.GreaterThanOrEqualTo(0), "the 6 s hint");
