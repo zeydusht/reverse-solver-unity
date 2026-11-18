@@ -35,6 +35,29 @@ namespace ReverseSolver.Core.Tests
             Assert.That(1 - CorridorTransition.Glide(.99f), Is.LessThan(.001f), "a soft stop");
         }
 
+        /* PM_87 §2: the dive's camera is off on the first frame (no standing still), its speed peaks early and lands
+           softly. */
+        [Test]
+        public void DiveLaunchMovesAtOnceAndLandsSoftly()
+        {
+            Assert.AreEqual(0, Dive75.Launch(0), 1e-6);
+            Assert.AreEqual(1, Dive75.Launch(1), 1e-5);
+            float last = 0, peakAt = 0, peak = 0;
+            const int n = 400;
+            for (int i = 1; i <= n; i++)
+            {
+                float p = Dive75.Launch(i / (float)n), v = (p - last) * n;
+                Assert.That(p, Is.GreaterThanOrEqualTo(last), $"never back at {i}");
+                if (i < n * 9 / 10) Assert.That(p, Is.GreaterThan(last), $"always forward at {i}");
+                if (v > peak) { peak = v; peakAt = i / (float)n; }
+                last = p;
+            }
+            Assert.That(peakAt, Is.InRange(.25f, .42f), "the most speed early");
+            float frame = 1 / 60f / 2.2f;   // one frame of the 2.2 s move
+            Assert.That(Dive75.Launch(frame), Is.GreaterThan(1e-3f), "moving on the first frame");
+            Assert.That(1 - Dive75.Launch(.99f), Is.LessThan(1e-4f), "a soft landing");
+        }
+
         [Test]
         public void ProjectionHitsTheCorners()
         {

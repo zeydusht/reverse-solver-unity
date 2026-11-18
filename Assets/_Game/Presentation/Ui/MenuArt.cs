@@ -70,6 +70,8 @@ namespace ReverseSolver.Presentation
                 {
                     yield return request.SendWebRequest();
                     if (request.result != UnityWebRequest.Result.Success) { _failed.Add(file); _waiting.Remove(file); yield break; }
+                    // PM_87: decoding stalls a frame (a big JPEG, ~0.1-0.4 s on the web): not while the pages slide
+                    while (TabSlide87.Live > 0) yield return null;
                     var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
                     if (!texture.LoadImage(request.downloadHandler.data, true))
                     {

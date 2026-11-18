@@ -33,6 +33,7 @@ namespace ReverseSolver.Presentation
         public static char Variant = 'a';     // &dalis=
         public static float BellSeconds = 2.2f;   // PM_86 §10: the menu's flight and approach, one smootherstep (s)
         public static float DiveSpeed = 1;        // &dalishiz= (a factor on it)
+        public static float FaceGate = .7f;   // PM_87: the corridor's approach share after which the picture eases to the board
         public static float LinesDone = .7f;  // PM_84/85: the share of the pull back by which the cuts are all drawn
         public static float CorridorApproach = .6f;   // PM_85: after the corridor (no flight) the approach is .6 s
         public static bool Log;               // &dalislog=1: every frame's painting / board corners on screen, for the speed graphs
@@ -181,6 +182,10 @@ namespace ReverseSolver.Presentation
                     _flight = _bellT * _bellSplit; _p.Approach = _bellT - _flight;
                     Note($"bell split {_bellSplit:0.00}");
                     _morphFrom = MorphGate(screen);
+                    // PM_87 §2: the opening's first view against the menu's own (the first frame must be the menu's)
+                    var first = _dio.CanvasAt(_dio.AtLength(0), 0); float startOff = 0;
+                    for (int i = 0; i < 4; i++) startOff = Mathf.Max(startOff, (first[i] - _s.Quad[i]).magnitude);
+                    Note($"start opening off the menu's by {startOff:0.00} pt");
                 }
                 _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 2);
                 if (!Legacy) { _ghost = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 3); _ghost.SetActive(false); }
@@ -192,8 +197,10 @@ namespace ReverseSolver.Presentation
                 _cropFront = ta > ca ? new Rect((1 - ca / ta) / 2, 0, ca / ta, 1) : new Rect(0, (1 - ta / ca) / 2, 1, ta / ca);
                 return;
             }
-            _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 2);
-            if (!Legacy) { _ghost = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 3); _ghost.SetActive(false); }
+            // PM_87 §2.6: the corridor's own 8 x 8 grid (CorridorTransition.Mesh): the same triangles on the first frame, so
+            // the painting does not shimmer as the dive takes it over (a 12 x 12 grid interpolates it a hair differently)
+            _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 8, _s.Order + 2);
+            if (!Legacy) { _ghost = Layer.Grid(_overlay, _s.Picture, baseMat, 8, _s.Order + 3); _ghost.SetActive(false); }
             // 1: upright, centred, the opening's near side tall, the crop's proportions
             var q = _s.Quad;
             float h = Mathf.Max((q[3] - q[0]).magnitude, (q[2] - q[1]).magnitude) * 1.04f;
@@ -411,7 +418,7 @@ namespace ReverseSolver.Presentation
         {
             Vector2 p; float e = 0;
             bool bell = _bellT > 0;
-            float s = bell ? CorridorTransition.Ease(t / _bellT) : 0;   // PM_86 §10: one bell over the flight and the approach
+            float s = bell ? Launch(t / _bellT) : 0;   // PM_86 §10: one move over the flight and the approach (PM_87: off at once)
             if (bell ? s <= _bellSplit : t <= _flight) p = bell ? _dio.AtLength(_dio.Length * s / _bellSplit) : _dio.AtLength(FlightLength(t));
             else
             {
@@ -426,25 +433,35 @@ namespace ReverseSolver.Presentation
             float w = SmoothStep(t / (_flight + .375f * _p.Approach));
             _dio.Pose(p, w, Identity, _dioLayers, fade);
             var cq = _dio.CanvasAt(p, w);
-            // PM_86 §11: the menu's own flat drawing and its crop hand over to the opening's projection in the first .25 s,
-            // while the camera has hardly moved (it was eased over the whole flight: the picture slid in its frame);
-            // from then on the picture is the frame's opening, rigidly
-            float handover = SmoothStep(t / .25f);
-            var crop0 = new Rect(Vector2.Lerp(_s.Crop.position, _cropFront.position, handover), Vector2.Lerp(_s.Crop.size, _cropFront.size, handover));
-            PaintInto(cq, e, crop0, 1, null, null, 1 - handover, true);
+            // PM_87 §2: the picture is the menu's own drawing of it (its crop laid flat over the opening, cut to it), carried
+            // by the opening point for point: on the first frame exactly the menu's, then glued to the frame as the camera
+            // moves (PM_86 handed the menu's crop over to another in the first .25 s while the camera stood: the picture
+            // slid in its frame). Only once the frame has left the screen does it ease to the whole picture (e).
+            PaintInto(cq, e, _cropFront, 1, null, null, 1 - e, true);
             if (Log)
             {
-                // PM_86: the drawn picture's quad against the frame's opening while the picture is still in its frame
+                // the drawn picture's quad against the frame's opening while the picture is still in its frame
                 float off = 0;
-                if (e < 1e-4f && handover > .999f && _lastPq != null)
+                if (e < 1e-4f && _lastPq != null)
                     for (int i = 0; i < 4; i++) off = Mathf.Max(off, (_lastPq[i] - cq[i]).magnitude);
-                Debug.Log($"[cerceve] {t:0.000} e {e:0.000} h {handover:0.000} off {off:0.00}");
+                Debug.Log($"[cerceve] {t:0.000} e {e:0.000} off {off:0.00} q {cq[0].x:0.00} {cq[0].y:0.00} {cq[1].x:0.00} {cq[1].y:0.00} {cq[2].x:0.00} {cq[2].y:0.00} {cq[3].x:0.00} {cq[3].y:0.00}");
             }
             _paint.Fade(fade);
             _backdrop.Alpha(fade);
         }
 
         static float SmoothStep(float t) { t = Mathf.Clamp01(t); return t * t * (3 - 2 * t); }
+        /* PM_87 §2: the camera's progress (0..1): off at once (its speed rises from the first frame, a soft lift, no
+           standing still), the most speed a third of the way, a long soft landing (no speed and no push at the end).
+           The speed is (u + .04)(1 - u)^2, normalised. */
+        public static float Launch(float u)
+        {
+            if (u <= 0) return 0;
+            if (u >= 1) return 1;
+            const float c = .04f;
+            float u2 = u * u, u3 = u2 * u;
+            return Mathf.Min(1, (u2 / 2 - 2 * u3 / 3 + u2 * u2 / 4 + c * (u - u2 + u3 / 3)) / (1f / 12 + c / 3));   // float rounding: never past 1
+        }
         static float Hermite3(float p0, float m0, float p1, float m1, float u)
         {
             float u2 = u * u, u3 = u2 * u;
@@ -492,7 +509,13 @@ namespace ReverseSolver.Presentation
             foreach (var w in _walls) w.Warp(wall, 1);   // the wall never fades: the picture covers the screen by the end
             var zq = new Vector2[4];
             for (int c = 0; c < 4; c++) zq[c] = Apply(zoom, to[c]);
-            PaintInto(zq, e, _s.Crop, enlarge, e <= 0 ? q : null, wall);
+            // PM_87 §2.6: the picture stays the frame's opening (the wall's own homography) until the frame's slight
+            // turn has mostly eased out and the frame is at the screen's edges; only then it eases to the board's
+            // framing (PM_86 eased it from the start: it slid in its frame on the way in)
+            float ep = Legacy ? e : SmoothStep((e - FaceGate) / (1 - FaceGate));
+            PaintInto(zq, ep, _s.Crop, enlarge, ep <= 0 ? q : null, wall);
+            if (Log && !Legacy)
+                Debug.Log($"[cerceve] {_clock:0.000} e {ep:0.000} off 0 q {zq[0].x:0.00} {zq[0].y:0.00} {zq[1].x:0.00} {zq[1].y:0.00} {zq[2].x:0.00} {zq[2].y:0.00} {zq[3].x:0.00} {zq[3].y:0.00}");
             _backdrop.Alpha(1);
         }
 

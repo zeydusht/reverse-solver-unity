@@ -158,12 +158,13 @@ namespace ReverseSolver.Presentation
     /* PM_86 §8: the bottom bar. Four tabs with cream dividers between them; the chosen tab's face widens evenly to
        both sides about its own middle (kept on the screen at the ends), the others share the rest, narrower; a warm
        light behind its icon,
-       which rises and grows, its label under it; the others are a little dim. 0.25 s, a soft ease-out-back ending,
-       the others narrowing at the same time; the menu's content changes at once (the new bar carries on the move).
+       which rises and grows, its label under it; the others are a little dim. 0.2 s, an ease-out (PM_87: the
+       reference's), the others narrowing at the same time; the pages slide (TabSlide87) under the new bar, which
+       carries on the move.
        Codex's parts in Art/yeni/pm86/menu (strip, selected, divider, glow); TASK48's when they are missing. */
     public sealed class MenuTabs
     {
-        public const float Seconds = .25f;
+        public const float Seconds = .2f;   // PM_87: the reference bar's pace, no overshoot
         public readonly float Top;
         readonly float _width, _bottom;
         readonly SpriteRenderer[] _icons = new SpriteRenderer[4], _dividers = new SpriteRenderer[3];
@@ -219,7 +220,7 @@ namespace ReverseSolver.Presentation
                 Tweens.Run(this, Seconds, t =>
                 {
                     if (_labels[0] == null) return;
-                    float e = PanelMotion76.OutBack(t, .9f);   // a soft overshoot, nothing jumps
+                    float e = BoosterFx74.OutCubic(t);   // PM_87: a plain ease-out (the reference), nothing jumps
                     for (int i = 0; i < 4; i++) _weights[i] = Mathf.LerpUnclamped(_from[i], i == _selected ? 1 : 0, e);
                     Arrange();
                 });
