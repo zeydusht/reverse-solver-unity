@@ -63,6 +63,7 @@ Bu geçiş, menü dalışında çerçeve ekrandan çıktıktan sonraki kısa ara
 | Atla (ya da oyun hazır) → video gitti | 0,87 sn | 1,03 sn |
 | Bu aralıkta boş kare | 0 / 63 kare | 0 / 66 kare |
 
+- **Canlı p23'te** (GitHub Pages, bu bilgisayarın hattı): ilk video karesi 1,00 sn, oyun hazır 6,16 sn, Atla → video gitti 1,10 sn, boş kare 0 / 63. verify_build canlıda 4/4.
 - Yavaş 4G'de (4 Mbit/sn, 150 ms): ilk kare 1,96 sn; oyun 60 sn'de gelmedi. Oyun verisi 32,8 MB (Brotli); bu 4G'de tek başına ~30 sn indirme. Video bu sürenin ~30 sn'sini kapatıyor, ama veri boyutu açık bir iş.
 
 ## 3. Alt menü: anında tepki
