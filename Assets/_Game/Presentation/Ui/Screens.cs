@@ -38,6 +38,7 @@ namespace ReverseSolver.Presentation
             public Rect Play, Levels, Settings, Profile;
 
             int _coins = -1;
+            public static int ShownCoins = -1;   // PM_86 §6: the gold the menu showed last
             /* PM_82: a very hard next level (sl100's x9): the dark red button with the Count's seal. */
             public bool VeryHard;
             public Menu(Transform parent, Vector2 screen, Vector4 safe, int nextNumber, int order, bool newArt = false,
@@ -279,6 +280,10 @@ namespace ReverseSolver.Presentation
                 var gold = TextView.Create(Root, "gold", Mathf.Max(0, _coins).ToString(), 19, Palette.Navy, false, order: order + 4);
                 gold.Font(TextView.HeadingFont); gold.Color = Palette.Navy; gold.FitWidth(coinW * .55f, 11);
                 gold.transform.localPosition = Draw.W(coinLeft + coinW * .62f, hy + 1);
+                // PM_86 §6: gold won or spent since the menu last showed it counts to the new value
+                int nowCoins = Mathf.Max(0, _coins);
+                if (ShownCoins >= 0 && ShownCoins != nowCoins) CountUp86.To(gold, ShownCoins, nowCoins, .6f);
+                ShownCoins = nowCoins;
                 // settings: one clear round button
                 float gx = w - right - gear / 2;
                 Settings = new Rect(gx - gear / 2, hy - gear / 2, gear, gear);
@@ -685,7 +690,7 @@ namespace ReverseSolver.Presentation
                 Tweens.Run(p, 1.6f + (float)rng.NextDouble() * .6f, t =>
                 {
                     if (p == null) return;
-                    p.localPosition = Vector3.Lerp(from, to, t);
+                    p.localPosition = Vector3.Lerp(from, to, 1 - (1 - t) * (1 - t));   // PM_86: the burst slows
                     p.localRotation = Quaternion.Euler(0, 0, spin * t);
                     r.color = new Color(1, 1, 1, 1 - t * t);
                 });

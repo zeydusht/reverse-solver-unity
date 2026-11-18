@@ -14,7 +14,27 @@ namespace ReverseSolver.Presentation
        buttons (iOS only). The settings' "Titreşim" switch turns all of it off. At most one tap per 50 ms. */
     public static class Haptics
     {
-        public enum Kind { Light = 0, Heavy = 1, Success = 2, Select = 3, Medium = 4, Jam = 5 }
+        public enum Kind { Light = 0, Heavy = 1, Success = 2, Select = 3, Medium = 4, Jam = 5, Error = 6 }
+
+        /* PM_86 §4: every tap the game asks for, before the switches (tests and the map in docs/TITRESIM_HARITASI.md). */
+        public static System.Action<Kind> Asked;
+
+        /* PM_86 §4/§6: a button: the select tap and a soft click (GameRoot sets the click). */
+        public static System.Action Click;
+        public static void Button() { Play(Kind.Select); Click?.Invoke(); }
+
+        /* A tap a little later (the chest's success .1 s after its heavy opening). */
+        public static void PlayLater(Kind kind, float seconds)
+        {
+            var host = Object.FindAnyObjectByType<GameRoot>();
+            if (host == null) { Play(kind); return; }
+            host.StartCoroutine(Later(kind, seconds));
+        }
+        static System.Collections.IEnumerator Later(Kind kind, float seconds)
+        {
+            yield return new WaitForSecondsRealtime(seconds);
+            Play(kind);
+        }
 
         public static bool On
         {
@@ -31,7 +51,7 @@ namespace ReverseSolver.Presentation
         /* Web vibration length per kind, ms (0: none). Select is left out: Android would buzz on every button. */
         public static int WebMs(Kind kind) => kind switch
         {
-            Kind.Light => 12, Kind.Medium => 22, Kind.Heavy => 35, Kind.Success => 30, Kind.Jam => 8, _ => 0
+            Kind.Light => 12, Kind.Medium => 22, Kind.Heavy => 35, Kind.Success => 30, Kind.Jam => 8, Kind.Error => 40, _ => 0
         };
 
         /* Whether a kind plays at all under the switches. */
@@ -46,9 +66,10 @@ namespace ReverseSolver.Presentation
         static float _last = -1f;
         public static void Play(Kind kind)
         {
+            Asked?.Invoke(kind);
             if (!Allowed(kind)) return;
             float now = Time.unscaledTime;
-            bool strong = kind == Kind.Heavy || kind == Kind.Success;   // PM_MESAJ_46: never swallowed
+            bool strong = kind == Kind.Heavy || kind == Kind.Success || kind == Kind.Error;   // PM_MESAJ_46: never swallowed
             if (!strong && _last >= 0f && now - _last < .05f) return;
             _last = now;
 #if UNITY_IOS
@@ -59,7 +80,7 @@ namespace ReverseSolver.Presentation
 #endif
         }
 #else
-        public static void Play(Kind kind) { }
+        public static void Play(Kind kind) => Asked?.Invoke(kind);
 #endif
     }
 }

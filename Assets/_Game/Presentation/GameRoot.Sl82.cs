@@ -42,6 +42,24 @@ namespace ReverseSolver.Presentation
         // ---- the hard ribbon ----
 
         bool _hardRibbonDue82;
+        Transform _hardRibbon82;
+
+        /* PM_86 §6: a touch closes the ribbon at once (a quick .12 s fade). */
+        void DismissHardRibbon82()
+        {
+            var root = _hardRibbon82; _hardRibbon82 = null;
+            if (root == null) return;
+            Tweens.Kill(root);
+            var sprites = root.GetComponentsInChildren<SpriteRenderer>();
+            var texts = root.GetComponentsInChildren<TextView>();
+            Tweens.Run(root, .12f, k =>
+            {
+                if (root == null) return;
+                float a = 1 - k * k;
+                foreach (var r in sprites) if (r != null) { var col = r.color; col.a = Mathf.Min(col.a, a); r.color = col; }
+                foreach (var t in texts) if (t != null) t.Alpha = Mathf.Min(t.Alpha, a);
+            }, () => { if (root != null) Destroy(root.gameObject); });
+        }
         void QueueHardRibbon82(LevelData l, bool firstAttempt)
         {
             _hardRibbonDue82 = _slSet && l.Hard && firstAttempt;
@@ -53,6 +71,7 @@ namespace ReverseSolver.Presentation
             _hardRibbonDue82 = false;
             bool very = _session.Level.Role == "veryhard";
             var root = new GameObject("PM82 hard ribbon").transform;
+            _hardRibbon82 = root;
             root.SetParent(_world, false);
             float w = Mathf.Min(_screen.x - 40, 320), h = 64;
             var c = new Vector2(_screen.x / 2, _board.Origin.y + _board.Size.y * .5f);
@@ -65,6 +84,7 @@ namespace ReverseSolver.Presentation
             {
                 var seal = Art.Place(root, "yeni/T50/map/badge_kont", Vector2.one * 70, CardOrder - 7);
                 if (seal != null) seal.transform.localPosition = Draw.W(c + new Vector2(-w / 2 + 8, -h * .55f));
+                Haptics.Play(Haptics.Kind.Heavy);   // PM_86 §4: the Count's seal at a very hard level's start
             }
             // in with a small spring, a short look, out (about 1.8 s); taps go through to the board
             Tweens.Run(root, 1.8f, k =>

@@ -217,10 +217,10 @@ namespace ReverseSolver.Presentation
             if (_motion != null)
             {
                 _motion.Stop();
-                Tweens.Run(this, .35f, t => { if (_body != null) _body.localScale = Vector3.one * (1f + 1.2f * t); });
+                Tweens.Run(this, .35f, t => { if (_body != null) _body.localScale = Vector3.one * (1f + 1.2f * BoosterFx74.OutCubic(t)); });
                 return;
             }
-            Tweens.Run(this, .35f, t => _body.localScale = Vector3.one * (1f + 1.2f * t));
+            Tweens.Run(this, .35f, t => _body.localScale = Vector3.one * (1f + 1.2f * BoosterFx74.OutCubic(t)));
         }
     }
 }

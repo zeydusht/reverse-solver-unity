@@ -231,6 +231,40 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(GameObject.Find("PM85 arrow"), Is.Null);
         }
 
+        /* PM_86 §7: a tab's background is whole on the very frame the tab opens (the scenes are in memory before),
+           3 tabs x 5 times; §8: each tab is hit at its own middle (the chosen one wide, the others narrower). */
+        [UnityTest]
+        public IEnumerator TabsShowTheirSceneOnTheFirstFrame()
+        {
+            _host.Links = "c=p23&lang=en";
+            _host.Store = new MemoryStore();
+            new SaveData(_host.Store, () => "seed").SetPlayer("QA");
+            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+            yield return WaitFor(() => MenuPlay != null, "the menu");
+            string[] keys = { "collection", "jiggles", "achievements" };
+            float until = Time.realtimeSinceStartup + 20f;
+            bool Ready() => keys.All(k => MenuArt.Instance.Get("t20-scene-" + k + ".jpg", _ => { }) != null);
+            while (!Ready() && Time.realtimeSinceStartup < until) yield return null;
+            Assert.That(Ready(), Is.True, "the tabs' scenes preloaded");
+            int missing = 0, opened = 0;
+            for (int round = 0; round < 5; round++)
+                for (int tab = 1; tab <= 3; tab++)
+                {
+                    var tabs = Field<MenuTabs>("_tabs");
+                    Assert.That(tabs, Is.Not.Null);
+                    Assert.That(tabs.Hit(tabs.TabCentre(tab)), Is.EqualTo(tab), "the tab at its middle");
+                    yield return Click(tabs.TabCentre(tab));
+                    // the frame after the tap: the scene is there, whole
+                    var scene = GameObject.Find("scene-" + keys[tab - 1]);
+                    var r = scene != null ? scene.GetComponent<SpriteRenderer>() : null;
+                    opened++;
+                    if (r == null || r.color.a < .99f) missing++;
+                    yield return new WaitForSecondsRealtime(.35f);
+                }
+            Assert.That(opened, Is.EqualTo(15));
+            Assert.That(missing, Is.Zero, "frames with the background missing");
+        }
+
         static Vector2 CellCentre(BoardView board, int piece)
         {
             var c = board.Session.Level.Pieces[piece][0];

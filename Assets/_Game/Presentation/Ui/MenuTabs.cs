@@ -67,6 +67,7 @@ namespace ReverseSolver.Presentation
             if (to <= from) return;
             var fallback = ShapeView.Create(root, "scene-colour", new Vector2(screen.x, to - from), 0, order).Fill(MenuArt.Background(key));
             fallback.transform.localPosition = Draw.W(screen.x / 2, (from + to) / 2);
+            bool late = true;   // PM_86 §7: a picture already in memory shows on the same frame, whole (no fade)
             Action<Sprite> show = source =>
             {
                 if (root == null || fallback == null) return;
@@ -82,11 +83,12 @@ namespace ReverseSolver.Presentation
                     fallback.GetComponent<MeshRenderer>().enabled = false;
                     return;
                 }
+                if (!late) return;
                 r.color = new Color(1, 1, 1, 0);
-                Tweens.Run(r, .2f, t => { if (r != null) r.color = new Color(1, 1, 1, t); });
+                Tweens.Run(r, .2f, t => { if (r != null) r.color = new Color(1, 1, 1, t * t * (3 - 2 * t)); });
             };
             var ready = MenuArt.Instance.Get("t20-scene-" + key + ".jpg", show);
-            if (ready != null) show(ready);
+            if (ready != null) { late = false; show(ready); }
         }
 
         /* PM_67: TASK48 menu (old money blue strips, ribbonless 3D tab titles). */
@@ -146,124 +148,173 @@ namespace ReverseSolver.Presentation
                 r.sortingOrder = order;
                 r.gameObject.AddComponent<MenuPainting>().Owned = sp;
                 r.color = new Color(1, 1, 1, 0);
-                Tweens.Run(r, .25f, t => { if (r != null) r.color = new Color(1, 1, 1, t); });
+                Tweens.Run(r, .25f, t => { if (r != null) r.color = new Color(1, 1, 1, t * t * (3 - 2 * t)); });
             };
             var pic = images.Get($"painting-{index + 1:00}", show);
             if (pic != null) show(pic);
         }
     }
 
+    /* PM_86 §8: the bottom bar. Four tabs with cream dividers between them; the chosen tab's face widens evenly to
+       both sides about its own middle (kept on the screen at the ends), the others share the rest, narrower; a warm
+       light behind its icon,
+       which rises and grows, its label under it; the others are a little dim. 0.25 s, a soft ease-out-back ending,
+       the others narrowing at the same time; the menu's content changes at once (the new bar carries on the move).
+       Codex's parts in Art/yeni/pm86/menu (strip, selected, divider, glow); TASK48's when they are missing. */
     public sealed class MenuTabs
     {
+        public const float Seconds = .25f;
         public readonly float Top;
         readonly float _width, _bottom;
-        readonly SpriteRenderer[] _slots = new SpriteRenderer[4], _icons = new SpriteRenderer[4], _dividers = new SpriteRenderer[3];
+        readonly SpriteRenderer[] _icons = new SpriteRenderer[4], _dividers = new SpriteRenderer[3];
         readonly TextView[] _labels = new TextView[4];
-        readonly float[] _edges = new float[5];
+        readonly SpriteRenderer _face, _glow;
         readonly string[] _keys = { "home", "collection", "jiggles", "trophy" };
         readonly float[] _weights = new float[4];
         readonly SpriteRenderer _badge;
         readonly TextView _badgeText;
         int _selected;
-        bool _t48;
+        static float[] _carry;   // the weights the last bar had when a tab was pressed: the new bar moves on from them
+        float[] _from;
+        float _born;
 
         public readonly Transform Root;   // PM_76: one group, so the bar can rise in (MenuEnter76)
+        static bool New86 => Art.Get("yeni/pm86/menu/pm86-tab-strip") != null;
+        static SpriteRenderer Part(Transform root, string key, int order, bool sliced)
+        {
+            if (New86) return Art.Place(root, "yeni/pm86/menu/pm86-tab-" + key, Vector2.one, order, sliced);
+            string old = key == "strip" ? "bottom-strip" : key == "selected" ? "tab-selected" : key == "divider" ? "tab-divider" : null;
+            return old != null && MenuUi.T48 ? MenuUi.Put48(root, old, Vector2.zero, Vector2.one, order, true) : null;
+        }
+
         public MenuTabs(Transform root, Vector2 screen, Vector4 safe, MenuTab selected, int order, int TrophyBadge = 0)
         {
             Root = new GameObject("tabs").transform; Root.SetParent(root, false); root = Root;
             _width = screen.x; _bottom = screen.y; _selected = (int)selected;
             Top = screen.y - Mathf.Max(34, safe.w) - 52;
-            // The importer pads 1125x258 to 1128x260; push that transparent right/bottom padding offscreen.
-            _t48 = MenuUi.T48;
-            if (_t48) MenuUi.Put48(root, "bottom-strip", new Vector2(screen.x / 2, (Top - 4 + screen.y) / 2), new Vector2(screen.x, screen.y - Top + 4), order, true);
+            var strip = Part(root, "strip", order, true);
+            if (strip != null)
+            {
+                strip.size = new Vector2(screen.x + 2, screen.y - Top + 6);
+                strip.transform.localPosition = Draw.W(screen.x / 2, (Top - 6 + screen.y) / 2);
+            }
             else MenuUi.Sprite21(root, "tabbar-bg", new Vector2((screen.x + 1) / 2, (Top + screen.y + 2f / 3) / 2), new Vector2(screen.x + 1, screen.y - Top + 2f / 3), order, true);
+            _glow = Part(root, "glow", order + 1, false);
+            _face = Part(root, "selected", order + 2, true);
+            for (int i = 0; i < 3; i++) _dividers[i] = Part(root, "divider", order + 1, true);
             for (int i = 0; i < 4; i++)
             {
                 _weights[i] = i == _selected ? 1 : 0;
-                _slots[i] = _t48 ? MenuUi.Put48(root, "tab-selected", Vector2.zero, Vector2.one, order + 1, true)
-                                 : MenuUi.Sprite21(root, "tab-slot", Vector2.zero, Vector2.one, order + 1, true);
-                _icons[i] = MenuUi.Sprite21(root, "tab-icon-" + _keys[i] + "-normal", Vector2.zero, Vector2.one, order + 3);
-                if (_t48)
-                {
-                    _labels[i] = TextView.Create(root, "banner", Texts.Tab(i), 15, Palette.Cream, false, order: order + 5).Heading(Draw.Hex("#0E2244")).FitWidth(screen.x * .4f - 12, 8);
-                }
-                else _labels[i] = MenuUi.Banner(root, Texts.Tab(i), Vector2.zero, 15, order + 5, screen.x * .4f - 12);
-                if (i > 0) _dividers[i - 1] = _t48 ? MenuUi.Put48(root, "tab-divider", Vector2.zero, Vector2.one, order + 2, true)
-                                                   : MenuUi.Sprite21(root, "tab-divider", Vector2.zero, Vector2.one, order + 2, true);
+                _icons[i] = MenuUi.Sprite21(root, "tab-icon-" + _keys[i] + "-normal", Vector2.zero, Vector2.one, order + 4);
+                _labels[i] = TextView.Create(root, "banner", Texts.Tab(i), 15, Palette.Cream, false, order: order + 6).Heading(Draw.Hex("#0E2244")).FitWidth(screen.x * .34f, 8);
             }
             if (TrophyBadge > 0)
             {
-                _badge = MenuUi.Sprite21(root, "tab-badge", Vector2.zero, Vector2.one * 19, order + 6);
-                _badgeText = MenuUi.Label(root, TrophyBadge.ToString(), Vector2.zero, 12, order + 7, width: 16);
+                _badge = MenuUi.Sprite21(root, "tab-badge", Vector2.zero, Vector2.one * 19, order + 7);
+                _badgeText = MenuUi.Label(root, TrophyBadge.ToString(), Vector2.zero, 12, order + 8, width: 16);
+            }
+            if (_carry != null)
+            {
+                _from = _carry; _carry = null; _born = Time.unscaledTime;
+                Tweens.Run(this, Seconds, t =>
+                {
+                    if (_labels[0] == null) return;
+                    float e = PanelMotion76.OutBack(t, .9f);   // a soft overshoot, nothing jumps
+                    for (int i = 0; i < 4; i++) _weights[i] = Mathf.LerpUnclamped(_from[i], i == _selected ? 1 : 0, e);
+                    Arrange();
+                });
+                for (int i = 0; i < 4; i++) _weights[i] = _from[i];
             }
             Arrange();
         }
+
+        float Quarter => _width / 4;
+        float Centre(int i) => Quarter * (i + .5f);
+        readonly float[] _edges = { 0, 0, 0, 0, 0 };   // the tabs' spans now (the chosen one wide, the others share the rest)
+
         void Arrange()
         {
-            float x = 0, slotTop = Top + 10f / 3, slotHeight = _bottom - slotTop;
+            float slotTop = Top + 2, slotHeight = _bottom - slotTop;
+            // the face: between the tabs by their weights (it slides from the old one to the new), 1.45 quarters wide,
+            // its middle on the chosen tab's own middle (kept on the screen at the ends); the other tabs share the
+            // rest on either side, narrower
+            float sum = 0, cx = 0;
+            for (int i = 0; i < 4; i++) { float w = Mathf.Max(0, _weights[i]); sum += w; cx += w * Centre(i); }
+            cx = sum > 1e-4f ? cx / sum : Centre(_selected);
+            float faceW = Quarter * Mathf.LerpUnclamped(1, 1.45f, Mathf.Clamp(sum, 0, 1.2f)), faceH = slotHeight + 10;
+            float fx = Mathf.Clamp(cx, faceW / 2, _width - faceW / 2);
+            float left = fx - faceW / 2, right = fx + faceW / 2;
+            int sel = _selected;
+            _edges[0] = 0; _edges[4] = _width;
+            for (int i = 1; i <= sel; i++) _edges[i] = sel > 0 ? left * i / sel : 0;
+            for (int i = sel + 1; i < 4; i++) _edges[i] = right + (_width - right) * (i - sel - 1) / (3 - sel);
+            _edges[sel] = left; _edges[sel + 1] = right;
+            if (_face != null)
+            {
+                _face.size = new Vector2(faceW, faceH);
+                _face.transform.localPosition = Draw.W(fx, _bottom - faceH / 2);
+            }
+            if (_glow != null)
+            {
+                _glow.transform.localScale = Vector3.one * (faceW * 1.05f / Mathf.Max(1, _glow.sprite.bounds.size.x));
+                _glow.transform.localPosition = Draw.W(fx, Top + 6);
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                var d = _dividers[i];
+                if (d == null) continue;
+                float x = _edges[i + 1];
+                d.size = new Vector2(4, slotHeight * .74f);
+                d.transform.localPosition = Draw.W(x, slotTop + slotHeight * .5f);
+                // the face's own gold edge is the line beside the chosen tab
+                bool byFace = i + 1 == sel || i + 1 == sel + 1;
+                d.color = new Color(1, 1, 1, byFace ? 0 : 1);
+            }
             for (int i = 0; i < 4; i++)
             {
-                float active = _weights[i], width = _width * (1 + active) / 5, cx = x + width / 2;
-                _edges[i] = x; x += width;
-                if (_slots[i] != null && _t48)
-                {
-                    // T48: only the active tab has a lacquered face; the strip shows through the others.
-                    _slots[i].enabled = active > .01f;
-                    _slots[i].color = new Color(1, 1, 1, active);
-                    _slots[i].size = new Vector2(width, slotHeight);
-                    _slots[i].transform.localPosition = Draw.W(cx, slotTop + slotHeight / 2);
-                }
-                else if (_slots[i] != null)
-                {
-                    _slots[i].sprite = Art.Get("t21-tab-slot" + (i == _selected ? "-selected" : ""));
-                    _slots[i].size = new Vector2(width, slotHeight);
-                    _slots[i].transform.localPosition = Draw.W(cx, slotTop + slotHeight / 2);
-                }
-                // PM_MESAJ_29: the selected icon rises at most a quarter of its height over the bar
-                float height = Mathf.Lerp(49, 56, active), y = Top + Mathf.Lerp(3, -14, active);
+                float active = Mathf.Clamp(_weights[i], -.2f, 1.2f);
+                float x = i == sel ? fx : (_edges[i] + _edges[i + 1]) / 2;
+                // the chosen icon rises and grows (at most a quarter of its height over the bar); the others are a
+                // little smaller and dim
+                float height = Mathf.LerpUnclamped(42, 58, active), y = Top + Mathf.LerpUnclamped(7, -16, active);
                 var icon = _icons[i];
                 if (icon != null)
                 {
-                    icon.sprite = Art.Get("t21-tab-icon-" + _keys[i] + (i == _selected ? "-selected-large" : "-normal"));
-                    float scale = height / icon.sprite.bounds.size.y;
-                    icon.transform.localScale = Vector3.one * scale;
-                    icon.transform.localPosition = Draw.W(cx, y + height / 2);
+                    icon.sprite = Art.Get("t21-tab-icon-" + _keys[i] + (i == sel ? "-selected-large" : "-normal"));
+                    icon.transform.localScale = Vector3.one * (height / icon.sprite.bounds.size.y);
+                    icon.transform.localPosition = Draw.W(x, y + height / 2);
+                    float lit = Mathf.Lerp(.72f, 1, Mathf.Clamp01(active));
+                    icon.color = new Color(lit, lit, lit, 1);
                 }
-                _labels[i].Alpha = active;
-                _labels[i].transform.localPosition = Draw.W(cx, Top + 50);
-                if (i > 0 && _dividers[i - 1] != null)
-                {
-                    _dividers[i - 1].size = new Vector2(4f / 3, slotHeight);
-                    _dividers[i - 1].transform.localPosition = Draw.W(_edges[i], slotTop + slotHeight / 2);
-                }
+                _labels[i].Alpha = Mathf.Clamp01(active);
+                _labels[i].transform.localPosition = Draw.W(x, Top + 52);
                 if (i == 3)
                 {
                     float iw = icon != null ? icon.sprite.bounds.size.x * icon.transform.localScale.x : height;
-                    var badgeC = new Vector2(cx + iw / 2 - 3, y + 5);
+                    var badgeC = new Vector2(x + iw / 2 - 3, y + 5);
                     if (_badge != null) _badge.transform.localPosition = Draw.W(badgeC);
                     if (_badgeText != null) _badgeText.transform.localPosition = Draw.W(badgeC);
                 }
             }
-            _edges[4] = _width;
         }
+
         public int Hit(Vector2 pt)
         {
             if (pt.y < Top - 14 || pt.y > _bottom || pt.x < 0 || pt.x >= _width) return -1;
             for (int i = 0; i < 4; i++) if (pt.x < _edges[i + 1]) return i;
-            return -1;
+            return 3;
         }
+
+        /* A tab pressed: select tap and click; the menu's content changes now, the next bar finishes the move. */
         public void Press(int index, Action done)
         {
             if (index < 0 || index >= 4) return;
-            var from = (float[])_weights.Clone();
-            _selected = index;
-            Tweens.Run(this, .15f, t =>
-            {
-                if (_labels[0] == null) return;
-                for (int i = 0; i < 4; i++) _weights[i] = Mathf.Lerp(from[i], i == index ? 1 : 0, t);
-                Arrange();
-            }, done);
+            _carry = (float[])_weights.Clone();
+            done?.Invoke();
         }
+
+        /* PM_86 test: where tab i is (its middle, layout points). */
+        public Vector2 TabCentre(int i) => new Vector2((_edges[i] + _edges[i + 1]) / 2, Top + 26);
     }
 
     // The transform moves as a unit. Fully offscreen cells are inactive; scene slices clip the visible edges.

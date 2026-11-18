@@ -172,7 +172,7 @@ namespace ReverseSolver.Presentation
         }
         static MaterialPropertyBlock _ghostBlock;
         /* PM_84 (the dive's cuts): when each side of each cell starts to be drawn (s on the drawing's clock), in the
-           mesh, so a Ghost sharing it can draw only the cut (SetGhostSeam). */
+           mesh, read by the piece shader while SetReveal is on (the dive draws the cut in, PM_86). */
         public void SetSeamStarts(System.Func<Cell, Dir, float> start)
         {
             if (_mesh == null) return;
@@ -185,14 +185,13 @@ namespace ReverseSolver.Presentation
             _mesh.SetUVs(3, list);
         }
         static readonly int RvOnId = Shader.PropertyToID("_RvOn"), RvTimeId = Shader.PropertyToID("_RvTime"),
-            RvEdgeId = Shader.PropertyToID("_RvEdgeSec"), EdgeOnlyId = Shader.PropertyToID("_EdgeOnly");
-        public static void SetGhostSeam(MeshRenderer r, float time, float edgeSeconds, float alpha)
+            RvEdgeId = Shader.PropertyToID("_RvEdgeSec"), RvLookId = Shader.PropertyToID("_RvLook");
+        /* PM_86 dive: the piece as the plain picture with its cut drawn in (time on the drawing's clock, SetSeamStarts),
+           taking its own look with look 0..1; off: as always. */
+        public void SetReveal(bool on, float time, float edgeSeconds, float look)
         {
-            _ghostBlock ??= new MaterialPropertyBlock();
-            r.GetPropertyBlock(_ghostBlock);
-            _ghostBlock.SetFloat(EdgeOnlyId, 1); _ghostBlock.SetFloat(RvOnId, 1);
-            _ghostBlock.SetFloat(RvTimeId, time); _ghostBlock.SetFloat(RvEdgeId, edgeSeconds); _ghostBlock.SetFloat(AlphaId, alpha);
-            r.SetPropertyBlock(_ghostBlock);
+            _b.SetFloat(RvOnId, on ? 1 : 0); _b.SetFloat(RvTimeId, time); _b.SetFloat(RvEdgeId, edgeSeconds); _b.SetFloat(RvLookId, look);
+            Apply();
         }
         public static void SetGhostAlpha(MeshRenderer r, float a)
         {

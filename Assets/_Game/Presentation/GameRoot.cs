@@ -148,6 +148,7 @@ namespace ReverseSolver.Presentation
         {
             Art.T28 = Host.Current.Query("art") != "eski";
             Music.Start(this);                                 // the menu and the levels share one loop
+            Haptics.Click = () => PlaySound("pm72-tick", .45f);   // PM_86: every button's click
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
             _images = LevelImages.Create();
             _cam = Camera.main;
@@ -179,6 +180,7 @@ namespace ReverseSolver.Presentation
             Dive75.HoldSec = QueryFloat("resimbekle", -1, 0, 3);   // PM_80: none: the variant's hold (PM_85: A's .4 s)
             CorridorTransition.Seconds = QueryFloat("koridor", 1.5f, .5f, 5);   // PM_85: the corridor's slide (s)
             Dive75.LineK = QueryFloat("cizgihiz", 1, .25f, 4);
+            Dive75.DiveSpeed = QueryFloat("dalishiz", 1, .25f, 4);   // PM_86 §10
             var dalis = Host.Current.Query("dalis");
             Dive75.Variant = dalis == "b" || dalis == "c" ? dalis[0] : 'a';
             Dive75.Log = Host.Current.Query("dalislog") == "1";
@@ -483,6 +485,7 @@ namespace ReverseSolver.Presentation
             return false;
         }
 
+        bool _pauseOnReturn;
         void OnVisibility(bool visible)
         {
             _pageHidden = !visible;
@@ -498,10 +501,20 @@ namespace ReverseSolver.Presentation
                 if (visible) _continueQueue.Remove(_rowId + ":final");
                 else RecordContinueFinal(_session.PreviewQuit(), false);
             }
+            // PM_86 §6: gone mid-level (another app, a call): the clock stops (TickPlayingClock), and the level comes
+            // back with the pause panel open
+            if (!visible && _mode == Mode.Playing && _session != null && !_session.IsOver && _card == null && _win21 == null &&
+                _continuePanel == null && !_diving && !Ads.Showing && UseHud54)
+                _pauseOnReturn = true;
             if (visible)
             {
                 _continueSender?.Flush();
                 if (_continueResultOnReturn) { _continueResultOnReturn = false; ShowResult(); }
+                if (_pauseOnReturn)
+                {
+                    _pauseOnReturn = false;
+                    if (_mode == Mode.Playing && _session != null && !_session.IsOver && _card == null) { _drag?.Cancel(); OpenPause54(); }
+                }
             }
             if (_zeydbotSet && _mode == Mode.Playing && _session != null && !_session.IsOver) WriteMove(visible ? "show" : "hide", -1, null);
             if (visible) _telemetry.PageVisible(_mode == Mode.Playing ? _session : null, _rowId);
@@ -1093,6 +1106,7 @@ namespace ReverseSolver.Presentation
             }
             if (e.Outcome == Outcome.Quit) return;
             if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
+            else if (e.Outcome != Outcome.Win) Haptics.Play(Haptics.Kind.Error);   // PM_86 §4: time up, a loss
             if (e.Outcome == Outcome.Win) { if (_pendingExits.Count == 0) Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s; a dragged last piece taps at the edge
             _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
             // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
@@ -1162,6 +1176,7 @@ namespace ReverseSolver.Presentation
                 if (!ad) _save.SetCoins(before - offer.Price);
                 if (!_session.Continue(offer.Seconds, _continueRules.BombFuse)) { _save.SetCoins(before); return; }
                 RecordContinueDecision(offer, before, "accepted", ad ? "ad" : "gold");
+                if (!ad) Haptics.Play(Haptics.Kind.Success);   // PM_86 §4: a continue bought (an ad's reward taps in Ads)
                 _endAt = -1;
                 _deferredLoss = null;
                 CloseContinue();
@@ -1432,7 +1447,7 @@ namespace ReverseSolver.Presentation
         {
             var f = ShapeView.Create(_world, "flash", _screen, 0, FlashOrder).Radius(0).Fill(color);
             f.transform.localPosition = Draw.W(_screen / 2);
-            Tweens.Run(f, duration, t => { if (f != null) f.Alpha(.35f * (1 - t)); }, () => { if (f != null) Destroy(f.gameObject); });
+            Tweens.Run(f, duration, t => { if (f != null) f.Alpha(.35f * (1 - t) * (1 - t)); }, () => { if (f != null) Destroy(f.gameObject); });
         }
 
         void OpenCard(string kind, Card card)
@@ -1735,6 +1750,7 @@ namespace ReverseSolver.Presentation
                 if (p.press.wasPressedThisFrame && !blocked)
                 {
                     string decision = _continuePanel.Hit(point);
+                    if (decision != null) Haptics.Button();   // PM_86 §4
                     if (decision == "ad") WatchAdContinue81();   // PM_81 R1
                     else if (decision != null) ResolveContinue(decision);
                 }
@@ -1772,7 +1788,7 @@ namespace ReverseSolver.Presentation
                     _menuPointer = false;
                     if (scrolling) scroll.Release(_menuDragging ? now : -1);
                     bool cancelled = Touchscreen.current != null && p == Touchscreen.current && Touchscreen.current.primaryTouch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Canceled;
-                    if (!_menuDragging && !_menuStopTap && !cancelled && Vector2.Distance(pt, _menuPointerStart) < 10) { Haptics.Play(Haptics.Kind.Select); Press(pt); }
+                    if (!_menuDragging && !_menuStopTap && !cancelled && Vector2.Distance(pt, _menuPointerStart) < 10) { Haptics.Button(); Press(pt); }
                     RememberMenuScroll();
                 }
                 var mouse = Mouse.current;
@@ -1913,6 +1929,7 @@ namespace ReverseSolver.Presentation
             if (_loss74 != null)
             {
                 string lossId = _loss74.Hit(pt);
+                if (lossId != null) Haptics.Button();   // PM_86 §4
                 if (lossId != null) { _loss74.Destroy(); _loss74 = null; NavigateResult(lossId); }
                 return;
             }
@@ -1968,7 +1985,7 @@ namespace ReverseSolver.Presentation
                         _cardTap = null;
                         if (_card != card) return;
                         _cardFiring = true;
-                        try { Haptics.Play(Haptics.Kind.Select); Press(at); } finally { _cardFiring = false; }
+                        try { Haptics.Button(); Press(at); } finally { _cardFiring = false; }
                     });
                     return;
                 }
@@ -2019,6 +2036,7 @@ namespace ReverseSolver.Presentation
             }
 
             PressHint84();   // PM_84: a touch takes the hint away
+            DismissHardRibbon82();   // PM_86 §6: a touch closes the hard level's ribbon at once
             if (PressBooster21(pt)) return;
             if (P21StoryLevel && _p21View != null && _p21View.DismissStory(pt))
             {

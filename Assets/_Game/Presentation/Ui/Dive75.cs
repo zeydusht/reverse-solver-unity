@@ -31,6 +31,8 @@ namespace ReverseSolver.Presentation
         public static float HoldSec = -1;     // &resimbekle= (s; below 0: the variant's)
         public static float LineK = 1;        // &cizgihiz=
         public static char Variant = 'a';     // &dalis=
+        public static float BellSeconds = 2.2f;   // PM_86 §10: the menu's flight and approach, one smootherstep (s)
+        public static float DiveSpeed = 1;        // &dalishiz= (a factor on it)
         public static float LinesDone = .7f;  // PM_84/85: the share of the pull back by which the cuts are all drawn
         public static float CorridorApproach = .6f;   // PM_85: after the corridor (no flight) the approach is .6 s
         public static bool Log;               // &dalislog=1: every frame's painting / board corners on screen, for the speed graphs
@@ -93,6 +95,7 @@ namespace ReverseSolver.Presentation
         readonly List<Layer> _dioLayers = new List<Layer>();
         Rect _cropFront;
         Plan _p;
+        float _bellT, _bellSplit, _morphFrom;   // PM_86: the bell's length, the flight's share of it; where the morph may start
         float _flight, _v, _ramp, _zEnd, _rate;   // PM_80: the flight's length speed (W/s) after its soft start (s); the
                                                   // approach's end distance; the hold's push (ln of the size per s)
         Layer _ghost;                             // PM_80: last frame's painting, faint, while it moves fast
@@ -152,6 +155,13 @@ namespace ReverseSolver.Presentation
                     // straight in front of the painting, its canvas the board's framing
                     _flight = _p.Flight; _ramp = _flight / 3; _v = _dio.Length / (_flight - _ramp / 2);
                     _zEnd = _dio.DistanceFor(_c.height);
+                    // PM_86 §10: the flight and the approach as one smootherstep over BellSeconds; the flight's share is
+                    // where the zoom's pace (d ln z per share) at the path's end meets the approach's even one
+                    _bellT = BellSeconds / Mathf.Max(.25f, DiveSpeed);
+                    float a = Mathf.Abs(_dio.EndTangent.y) * _dio.Length / Mathf.Max(1e-3f, _dio.EndPoint.y);
+                    float dz = Mathf.Abs(Mathf.Log(_zEnd) - Mathf.Log(_dio.EndPoint.y));
+                    _bellSplit = Mathf.Clamp(a / Mathf.Max(1e-4f, a + dz), .45f, .85f);
+                    _flight = _bellT * _bellSplit; _p.Approach = _bellT - _flight;
                     for (int i = 0; i <= 10; i++) _dio.Extra.Add(ApproachAt(i / 10f));
                     var eq = _dio.CanvasAt(new Vector2(0, _zEnd), 1);
                     var zr = Rect.MinMaxRect(Mathf.Min(eq[0].x, eq[3].x), Mathf.Min(eq[0].y, eq[1].y), Mathf.Max(eq[1].x, eq[2].x), Mathf.Max(eq[2].y, eq[3].y));
@@ -160,6 +170,18 @@ namespace ReverseSolver.Presentation
                     Note($"end framing off by {_endFix.position} {_endFix.size}");
                 }
                 _dio.Build(_overlay, baseMat, _s.Order + 1, _dioLayers);
+                if (!Legacy)
+                {
+                    // PM_86: the split where the canvas's speed on the screen carries over from the flight to the approach
+                    // (per share of each), so the bell has no step in the middle
+                    float L = _dio.Length, dl = L * .01f;
+                    float vf = Move(_dio.CanvasAt(_dio.AtLength(L - dl), 1), _dio.CanvasAt(_dio.AtLength(L), 1)) / .01f;
+                    float va = Move(_dio.CanvasAt(ApproachEven(0), 1), _dio.CanvasAt(ApproachEven(.01f), 1)) / .01f;
+                    if (vf > 1e-3f && va > 1e-3f) _bellSplit = Mathf.Clamp(vf / (vf + va), .3f, .85f);
+                    _flight = _bellT * _bellSplit; _p.Approach = _bellT - _flight;
+                    Note($"bell split {_bellSplit:0.00}");
+                    _morphFrom = MorphGate(screen);
+                }
                 _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 2);
                 if (!Legacy) { _ghost = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 3); _ghost.SetActive(false); }
                 _dio.BuildFronts(_overlay, baseMat, _s.Order + 4, _dioLayers);
@@ -316,6 +338,51 @@ namespace ReverseSolver.Presentation
             return new Vector2(x, Mathf.Exp(lz));
         }
 
+        /* PM_86: the approach at an even pace in ln z (the bell's smootherstep gives the speed). */
+        Vector2 ApproachEven(float u)
+        {
+            u = Mathf.Clamp01(u);
+            var p0 = _dio.EndPoint;
+            float lz = Mathf.Lerp(Mathf.Log(p0.y), Mathf.Log(_zEnd), u);
+            return new Vector2(Mathf.Lerp(p0.x, 0, SmoothStep(u)), Mathf.Exp(lz));
+        }
+
+        /* PM_86 §11: the approach's progress (in ln z, 0..1) from which the frame's opening covers the whole screen. */
+        float MorphGate(Vector2 screen)
+        {
+            float z0 = Mathf.Log(_dio.EndPoint.y), z1 = Mathf.Log(_zEnd);
+            var corners = new[] { new Vector2(0, 0), new Vector2(screen.x, 0), new Vector2(screen.x, screen.y), new Vector2(0, screen.y) };
+            for (int i = 0; i <= 40; i++)
+            {
+                var p = _bellT > 0 ? ApproachEven(i / 40f) : ApproachAt(i / 40f);
+                var q = _dio.CanvasAt(p, 1);
+                bool covers = true;
+                foreach (var c in corners) if (!Inside(q, c)) { covers = false; break; }
+                if (covers) return Mathf.Min(.9f, (z0 - Mathf.Log(p.y)) / (z0 - z1));
+            }
+            return .9f;
+        }
+
+        static float Move(Vector2[] a, Vector2[] b)
+        {
+            float m = 0;
+            for (int i = 0; i < 4; i++) m += (b[i] - a[i]).magnitude / 4;
+            return m;
+        }
+
+        static bool Inside(Vector2[] q, Vector2 pt)
+        {
+            float sign = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                var a = q[i]; var b = q[(i + 1) % 4];
+                float c = (b.x - a.x) * (pt.y - a.y) - (b.y - a.y) * (pt.x - a.x);
+                if (Mathf.Abs(c) < 1e-6f) continue;
+                if (sign == 0) sign = Mathf.Sign(c); else if (Mathf.Sign(c) != sign) return false;
+            }
+            return true;
+        }
+
         /* The distance covered by u (0..1) of a move of `total` that starts at speed g0 and ends at g1 (per unit u):
            a smoothstep up to a constant speed over 0..ua, then a smoothstep down to g1 over ub..1. */
         static float Plateau(float u, float g0, float total, float g1, float ua, float ub)
@@ -343,19 +410,36 @@ namespace ReverseSolver.Presentation
         void FlowDiorama(float t, float fade)
         {
             Vector2 p; float e = 0;
-            if (t <= _flight) p = _dio.AtLength(FlightLength(t));
+            bool bell = _bellT > 0;
+            float s = bell ? CorridorTransition.Ease(t / _bellT) : 0;   // PM_86 §10: one bell over the flight and the approach
+            if (bell ? s <= _bellSplit : t <= _flight) p = bell ? _dio.AtLength(_dio.Length * s / _bellSplit) : _dio.AtLength(FlightLength(t));
             else
             {
-                p = ApproachAt((t - _flight) / _p.Approach);
+                p = bell ? ApproachEven((s - _bellSplit) / (1 - _bellSplit)) : ApproachAt((t - _flight) / _p.Approach);
                 float z0 = Mathf.Log(_dio.EndPoint.y), z1 = Mathf.Log(_zEnd);
-                e = SmoothStep((z0 - Mathf.Log(p.y)) / (z0 - z1));   // the painting's own morph to the board, with the way in
+                float k = (z0 - Mathf.Log(p.y)) / (z0 - z1);
+                // PM_86 §11: the painting stays in its frame (the opening's own projection) until the frame has left the
+                // screen; only then it eases to the board's framing
+                e = SmoothStep((k - _morphFrom) / Mathf.Max(.05f, 1 - _morphFrom));
             }
             // the lens shift takes the painting from the menu's place to the centre, easing out early in the approach
             float w = SmoothStep(t / (_flight + .375f * _p.Approach));
             _dio.Pose(p, w, Identity, _dioLayers, fade);
             var cq = _dio.CanvasAt(p, w);
-            var crop0 = new Rect(Vector2.Lerp(_s.Crop.position, _cropFront.position, w), Vector2.Lerp(_s.Crop.size, _cropFront.size, w));
-            PaintInto(cq, e, crop0, 1, null, null, 1 - w, true);
+            // PM_86 §11: the menu's own flat drawing and its crop hand over to the opening's projection in the first .25 s,
+            // while the camera has hardly moved (it was eased over the whole flight: the picture slid in its frame);
+            // from then on the picture is the frame's opening, rigidly
+            float handover = SmoothStep(t / .25f);
+            var crop0 = new Rect(Vector2.Lerp(_s.Crop.position, _cropFront.position, handover), Vector2.Lerp(_s.Crop.size, _cropFront.size, handover));
+            PaintInto(cq, e, crop0, 1, null, null, 1 - handover, true);
+            if (Log)
+            {
+                // PM_86: the drawn picture's quad against the frame's opening while the picture is still in its frame
+                float off = 0;
+                if (e < 1e-4f && handover > .999f && _lastPq != null)
+                    for (int i = 0; i < 4; i++) off = Mathf.Max(off, (_lastPq[i] - cq[i]).magnitude);
+                Debug.Log($"[cerceve] {t:0.000} e {e:0.000} h {handover:0.000} off {off:0.00}");
+            }
             _paint.Fade(fade);
             _backdrop.Alpha(fade);
         }
@@ -530,6 +614,7 @@ namespace ReverseSolver.Presentation
             _paint?.Dispose(); _paint = null;
             _ghost?.Dispose(); _ghost = null;
             Note($"reveal {clock.Elapsed.TotalMilliseconds:0} ms at {_clock:0.00} s");
+            if (Log) Debug.Log($"[devir] {_clock:0.0000}");   // PM_86: the frame the dive's painting hands over to the board
         }
 
         void BackLegacy(float t)
@@ -874,9 +959,10 @@ namespace ReverseSolver.Presentation
                     for (int x = 0; x < l.Width; x++)
                         r._hStart[(x, y)] = r.AddEdge(new Vector2(x, y), new Vector2(1, 0), b.HJoint(x, y), cell, Sweep(new Vector2(x + .5f, y)), rng);
                 if (flow) r.MeasureDrawing();
-                // PM_84: the cuts are the board's own: each piece's copy draws only its cut (the same mesh, shader and
-                // place), pen by pen over the picture; under it the pieces carry the same cut, so nothing changes
-                // when the picture gives way
+                // PM_84/86: the cuts are the board's own: the real pieces show the plain picture with their own cut
+                // drawn in pen by pen (the piece shader's mask, the same material, place and scale); no layer comes or
+                // goes. After the cuts they take their own look, the shadow and the parting (look, PieceView.SetReveal);
+                // the picture lies under them only to fill the hairlines between them, and the badges fade in with the look
                 if (flow && Art.Texture("kit-mask") != null)
                 {
                     float outer = Spread + .05f;
@@ -892,10 +978,14 @@ namespace ReverseSolver.Presentation
                         var pv = b.IsPresent(i) ? board.PieceViewOf(i) : null;
                         if (pv == null) continue;
                         pv.SetSeamStarts(StartOf);
-                        var g = pv.Ghost(r._root, Order + 1);
-                        g.name = "cut " + i;
-                        r._seams.Add(g);
+                        r._seams.Add(pv);
+                        foreach (var rr in pv.GetComponentsInChildren<Renderer>(true))
+                            if (rr.gameObject != pv.gameObject) r._badges.Add(rr);
                     }
+                    foreach (var rr in board.GetComponentsInChildren<Renderer>(true))
+                        if (rr.sortingOrder >= 1290 && rr.GetComponentInParent<PieceView>() == null && !rr.transform.IsChildOf(r._root)) r._badges.Add(rr);
+                    r._picture.sortingOrder = 99;   // under the pieces (100+), over the tray
+                    lr.enabled = false;
                 }
                 if (_dot == null) _dot = MakeDot();
                 for (int i = 0; i < 24; i++)
@@ -911,8 +1001,23 @@ namespace ReverseSolver.Presentation
             const int Order = 2000;   // over the pieces, chains, walls and badges (1800); under the HUD (3000)
 
             readonly Dictionary<(int, int), float> _vStart = new Dictionary<(int, int), float>(), _hStart = new Dictionary<(int, int), float>();
-            readonly List<MeshRenderer> _seams = new List<MeshRenderer>();
+            readonly List<PieceView> _seams = new List<PieceView>();
+            readonly List<Renderer> _badges = new List<Renderer>();
             public bool Seams => _seams.Count > 0;
+            float _look = -1;
+
+            void Badges(float a)
+            {
+                foreach (var b in _badges)
+                {
+                    if (b == null) continue;
+                    if (b.TryGetComponent<ShapeView>(out var sv)) sv.Alpha(a);
+                    else if (b.TryGetComponent<SolidView>(out var so)) so.Alpha(a);
+                    else if (b.TryGetComponent<TextView>(out var tv)) tv.Alpha = a;
+                    else if (b is SpriteRenderer sr) { var c = sr.color; c.a = a; sr.color = c; }
+                    else b.enabled = a > .01f;
+                }
+            }
 
             float AddEdge(Vector2 at, Vector2 along, int joint, float cell, float sweep, System.Random rng)
             {
@@ -994,10 +1099,10 @@ namespace ReverseSolver.Presentation
                 float sm(float x) { x = Mathf.Clamp01(x); return x * x * (3 - 2 * x); }
                 if (Seams)
                 {
-                    // PM_84: every cut is drawn by LinesDone of the pull back; then the picture gives way to the pieces
-                    // under the same cuts, and the copies go once the pieces show them
-                    float p0 = Dive75.LinesDone, p1 = Mathf.Min(.95f, p0 + .16f);
-                    Render(time, 1 - sm((back - p0) / (p1 - p0)), 1 - sm((back - p1) / (1 - p1)), Shadow);
+                    // PM_86: every cut is drawn by LinesDone of the pull back; from there to its end the pieces take their
+                    // own look (at least .2 s), the shadow and the parting with it
+                    _look = sm((back - Dive75.LinesDone) / Mathf.Max(.05f, 1 - Dive75.LinesDone));
+                    Render(time, 1, 1, Shadow);
                     return;
                 }
                 Render(time, 1 - sm((back - .6f) / .32f), 1 - sm((back - .84f) / .16f), Shadow + 1.6f * sm((back - .7f) / .25f));
@@ -1030,7 +1135,14 @@ namespace ReverseSolver.Presentation
                     }
                 }
                 for (int i = tip; i < _tips.Count; i++) _tips[i].enabled = false;
-                foreach (var g in _seams) if (g != null) PieceView.SetGhostSeam(g, time, EdgeSeconds, lineAlpha);
+                if (Seams)
+                {
+                    float look = Mathf.Max(0, _look);
+                    foreach (var pv in _seams) if (pv != null) pv.SetReveal(true, time, EdgeSeconds, look);
+                    var pc = new Color(1, 1, 1, 1 - look);
+                    _picMesh.colors = new[] { pc, pc, pc, pc };
+                    Badges(look);
+                }
                 _lineMesh.Clear();
                 _lineMesh.SetVertices(verts); _lineMesh.SetColors(cols); _lineMesh.SetTriangles(tris, 0);
                 _lineMesh.bounds = new Bounds(Vector3.zero, Vector3.one * 1e5f);
@@ -1079,6 +1191,10 @@ namespace ReverseSolver.Presentation
 
             public void Dispose()
             {
+                // PM_86: the pieces as always (by now the look is whole and every cut drawn: nothing changes on screen)
+                foreach (var pv in _seams) if (pv != null) pv.SetReveal(false, 0, EdgeSeconds, 1);
+                if (Seams) Badges(1);
+                _seams.Clear();
                 if (_root != null) Destroy(_root.gameObject);
                 if (_picMesh != null) Destroy(_picMesh);
                 if (_lineMesh != null) Destroy(_lineMesh);

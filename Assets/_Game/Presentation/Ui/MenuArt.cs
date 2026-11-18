@@ -50,8 +50,9 @@ namespace ReverseSolver.Presentation
 
         IEnumerator FetchAll()
         {
-            // PM_MESAJ_29 4.3: not during the first start (the CPU and the line belong to the menu and level 1's picture)
-            yield return new WaitForSecondsRealtime(10f);
+            // PM_MESAJ_29 4.3: not during the first start (the CPU and the line belong to the menu and level 1's picture);
+            // PM_86 §7: 2 s after the menu, so the tabs' scenes are in memory before a tab opens (they stay there)
+            yield return new WaitForSecondsRealtime(2f);
             foreach (var file in Files)
             {
                 while (Busy != null && Busy()) yield return new WaitForSecondsRealtime(1f);   // no decoding mid-level

@@ -217,7 +217,7 @@ namespace ReverseSolver.Presentation
         {
             _image = image;
             if (fade <= 0 || image == null) { foreach (var p in _pieces.Values) if (p != null) p.SetImage(image, 1); _imageMix = 1; return; }
-            Tweens.Run(this, fade, t => { _imageMix = t; foreach (var p in _pieces.Values) if (p != null) p.SetImage(_image, t); }, null);
+            Tweens.Run(this, fade, t => { t = t * t * (3 - 2 * t); _imageMix = t; foreach (var p in _pieces.Values) if (p != null) p.SetImage(_image, t); }, null);   // PM_86: no linear fade
         }
 
         Texture _image;
@@ -269,7 +269,7 @@ namespace ReverseSolver.Presentation
             if (!_pieces.TryGetValue(piece, out var pv)) return;
             Tweens.Run((pv, "clang"), .3f, t =>
             {
-                float x = t < .25f ? -3f * (t / .25f) : t < .6f ? Mathf.Lerp(-3f, 3f, (t - .25f) / .35f) : Mathf.Lerp(3f, 0f, (t - .6f) / .4f);
+                float x = t < .25f ? Mathf.SmoothStep(0, -3f, t / .25f) : t < .6f ? Mathf.SmoothStep(-3f, 3f, (t - .25f) / .35f) : Mathf.SmoothStep(3f, 0f, (t - .6f) / .4f);   // PM_86: each swing eased
                 if (pv != null) pv.SetOffset(new Vector2(x, 0));
             }, () => { if (pv != null) pv.SetOffset(Vector2.zero); });
         }
@@ -792,10 +792,10 @@ namespace ReverseSolver.Presentation
             Tweens.Run(pv, .16f, t =>
             {
                 if (pv == null) return;
-                float k = t < .3f ? Mathf.Lerp(1, 1.08f, t / .3f) : Mathf.Lerp(1.08f, .35f, (t - .3f) / .7f);
+                float k = t < .3f ? Mathf.Lerp(1, 1.08f, BoosterFx74.OutCubic(t / .3f)) : Mathf.Lerp(1.08f, .35f, Mathf.SmoothStep(0, 1, (t - .3f) / .7f));   // PM_86
                 pv.transform.localScale = new Vector3(k, k, 1);
                 pv.SetOffset(center - center * k);
-                pv.SetAlpha(t < .3f ? 1 : 1 - (t - .3f) / .7f);
+                pv.SetAlpha(t < .3f ? 1 : 1 - Mathf.SmoothStep(0, 1, (t - .3f) / .7f));
             }, () => { if (pv != null) Destroy(pv.gameObject); });
         }
 

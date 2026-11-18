@@ -1,0 +1,32 @@
+{
+ "a": {
+  "start": 0.02505668934240363,
+  "length": 124.44444444444444,
+  "bpm": 108,
+  "file": "cozy_puzzle_in-game_3_bpm108_0.ogg"
+ },
+ "b": {
+  "start": 0.02505668934240363,
+  "length": 60.6315873015873,
+  "bpm": 95,
+  "file": "cozy_puzzle_title_bpm95_0.ogg"
+ },
+ "c": {
+  "start": 0.02505668934240363,
+  "length": 128.0,
+  "bpm": 90,
+  "file": "cozy_puzzle_in-game_2_bpm90_0.ogg"
+ },
+ "d": {
+  "start": 0.02505668934240363,
+  "length": 130.16950113378684,
+  "bpm": 118,
+  "file": "cozy_puzzle_in-game_1_bpm118_0.ogg"
+ },
+ "e": {
+  "start": 0.02507936507936508,
+  "length": 106.62603174603174,
+  "bpm": 126.0,
+  "file": "island_0_0.ogg"
+ }
+}

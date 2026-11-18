@@ -110,7 +110,10 @@ namespace ReverseSolver.Presentation
                 s.Icon.color = locked || state == BoosterButton.Out || idle ? new Color(.55f, .55f, .55f, 1) : Color.white;
                 s.Badge.gameObject.SetActive(!locked);
                 s.Lock.gameObject.SetActive(locked);
-                s.Count.Text = locked ? "" : stock.ToString();
+                // PM_86 §6: a count that changes counts (not on the first show, not when locked)
+                if (CountUp86.Toward(s.Count, stock)) { }
+                else if (!locked && !quiet && int.TryParse(s.Count.Text, out int shown) && shown != stock) CountUp86.To(s.Count, shown, stock, .3f);
+                else s.Count.Text = locked ? "" : stock.ToString();
             }
         }
     }

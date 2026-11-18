@@ -418,6 +418,7 @@ namespace ReverseSolver.Presentation
         float _pendingAt = -1;
         void Sink(Button75.View b, Action then)
         {
+            Haptics.Button();   // PM_86 §4: every button
             if (b == null || b.Body == null) { then(); return; }
             b.Press();
             _pending = then; _pendingAt = Time.unscaledTime + .12f;
@@ -501,6 +502,8 @@ namespace ReverseSolver.Presentation
         int _c83Taps, _c83Shown;
         float _c83TapAt = -10, _c83OpenAt = -1, _c83DoneAt = -1;
         bool _c83Done, _c83Claimed;
+        float _c83Speed = 1, _c83Clock, _c83Last = -1;   // PM_86 §3: a tap while the rewards fly speeds them up
+        TextView _c83Tap;                                 // PM_86 §3: "Tap!" at the bottom, on the first chest
         readonly System.Collections.Generic.List<Flight83> _c83Flights = new System.Collections.Generic.List<Flight83>();
         sealed class Flight83 { public SpriteRenderer R, Pop; public Vector2 To; public float At, Fly, Size; public int Coins; public bool Arrived; public string Key; }
         string ChestArt => _c83.Kind == ChestKind.Count ? "Reward/ChestKont" : "Reward/Chest";
@@ -527,6 +530,11 @@ namespace ReverseSolver.Presentation
             name.transform.localPosition = Draw.W(AtB(195, _hardBonus > 0 ? 262 : 240));
             _c83Hint = TextView.Create(_content, "chest hint", "", 22 * _bScale, Palette.Cream, order: Order + 10).Heading(Draw.Hex("#153E75"));
             _c83Hint.transform.localPosition = Draw.W(AtB(195, 524));
+            if (PlayerPrefs.GetInt("rs_c86_tap", 0) == 0)
+            {
+                _c83Tap = TextView.Create(_content, "chest tap", Lang.T("Tap!", "Dokun!"), 18 * _bScale, Palette.Cream, order: Order + 10).Heading(Draw.Hex("#153E75"));
+                _c83Tap.transform.localPosition = Draw.W(_screen.x / 2, _screen.y - 128 * _bScale);   // above the booster bar
+            }
             _c83Amount = TextView.Create(_content, "chest amount", "", 26 * _bScale, Palette.Cream, order: Order + 16).Title3D();
             _c83Amount.transform.localPosition = Draw.W(AtB(195, 524));   // where "Tap the chest!" was, clear of the title
             // the gold counter at the top: the coins fly here
@@ -543,11 +551,16 @@ namespace ReverseSolver.Presentation
 
         void PressChest83(Vector2 point)
         {
-            if (_c83Taps >= 3 || !_c83Rect.Contains(point) || Time.unscaledTime - _c83TapAt < 4f / 14) return;
+            // PM_86 §3: a tap anywhere counts (light, medium, then the opening: heavy and success); while the rewards
+            // fly a tap makes them twice as fast (none is lost: every flight still lands and counts)
+            if (_c83Taps >= 3) { if (_c83OpenAt >= 0) _c83Speed = 2.5f; return; }
+            if (Time.unscaledTime - _c83TapAt < 4f / 14) return;
             _c83Taps++; _c83TapAt = Time.unscaledTime;
-            Haptics.Play(Haptics.Kind.Light);
+            Haptics.Play(_c83Taps == 1 ? Haptics.Kind.Light : _c83Taps == 2 ? Haptics.Kind.Medium : Haptics.Kind.Heavy);
             if (_c83Taps < 3) return;
-            _c83OpenAt = Time.unscaledTime;
+            Haptics.PlayLater(Haptics.Kind.Success, .1f);
+            PlayerPrefs.SetInt("rs_c86_tap", 1);
+            _c83OpenAt = Time.unscaledTime; _c83Clock = 0; _c83Last = Time.unscaledTime;
             _c83Claimed = _save.ClaimChest83(_level83, _c83);
             if (!_c83Claimed) { _c83Done = true; _c83DoneAt = Time.unscaledTime; return; }
             // 5–8 coins, one by one, then the boosters
@@ -593,8 +606,14 @@ namespace ReverseSolver.Presentation
             float w = Mathf.Repeat(now, 1.6f);
             _c83Case.transform.localRotation = _c83Taps == 0 && settled && w < .3f ? Quaternion.Euler(0, 0, 4 * Mathf.Sin(w / .3f * Mathf.PI * 2)) : Quaternion.identity;
             if (_c83Counter != null) _c83Counter.transform.localScale = Vector3.Lerp(_c83Counter.transform.localScale, Vector3.one, .2f);
+            if (_c83Tap != null)
+            {
+                _c83Tap.Alpha = _c83Taps < 3 ? .6f + .4f * Mathf.Sin(now * 5) : 0;
+                _c83Tap.transform.localScale = Vector3.one * (1 + .06f * Mathf.Sin(now * 5));
+            }
             if (_c83OpenAt < 0) return;
-            float t = now - _c83OpenAt;
+            _c83Clock += (now - _c83Last) * _c83Speed; _c83Last = now;
+            float t = _c83Clock;
             if (_c83Amount != null)
             {
                 string amount = "+" + _c83.Coins;

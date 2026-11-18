@@ -2,7 +2,7 @@
 TOUR_LOG='[d'): every frame Dive75 logs the dive clock, the real frame time and the painting's (then the board's)
 four corners on the screen. The speed is what the eye sees move: the plane's frame-to-frame homography applied to
 the screen's four corners and its centre, their mean speed (pt per second of the dive clock).
-    python -I Tools/dive_speed_plot.py <capture log> <out.png> [title] [phase ends, e.g. 1.8,2.6,3.4,4.4]
+    python -I Tools/dive_speed_plot.py <capture log> <out.png> [title] [phase ends, e.g. 1.8,2.6,3.4,4.4] [phase names, comma separated]
 Prints the speed at each phase end, the lowest speed outside the hold, the sharpest frame-to-frame change and the
 frames over 20 ms as Unity saw them (in a logging capture these run high: count them in a run without &dalislog)."""
 import re, sys
@@ -57,7 +57,7 @@ def plot(sp, dst, title, ends):
     vmax = max(s[1] for s in sp) * 1.1
     X = lambda t: L + (W - L - R) * t / tmax
     Y = lambda v: H - B - (H - T - B) * v / vmax
-    names = ["yay", "yaklaşma", "bekleyiş", "geri çekilme"]
+    names = sys.argv[5].split(",") if len(sys.argv) > 5 else ["yay", "yaklaşma", "bekleyiş", "geri çekilme"]   # PM_86: own phase names
     prev = 0
     for i, e in enumerate(ends):
         if i == 2: d.rectangle((X(prev), T, X(e), H - B), fill=(242, 244, 250))

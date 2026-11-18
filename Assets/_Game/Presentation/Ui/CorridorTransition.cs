@@ -13,8 +13,9 @@ namespace ReverseSolver.Presentation
     {
         public const float FadeOut = .3f, SkipAfter = .3f;
         /* PM_85 (Zeyd: "very good, but after 3 levels I wondered why so long"): the whole slide 1.5 s (&koridor=): the
-           painting just won for .2 s (the fade-in, then a beat), then a soft start, a quick even glide and a soft
-           stop in front of the next one (Glide: no bounce, the last 30 % easing out); the dive goes on at once. */
+           painting just won for .2 s (the fade-in, then a beat), then the slide; the dive goes on at once.
+           PM_86 §1 ("it feels like a constant speed"): the slide is a bell of speed (Ease, smootherstep): slow off,
+           fastest in the middle with a faint trail, gliding in to rest. Glide (PM_85's plateau) is kept for its test. */
         public static float Seconds = 1.5f;
         const float Lead = .2f;
         static float FadeIn => Mathf.Min(.12f, Seconds * .08f);
@@ -26,6 +27,7 @@ namespace ReverseSolver.Presentation
 
         Transform _slide;
         SpriteRenderer _strip;
+        readonly SpriteRenderer[] _trail = new SpriteRenderer[2];
         ShapeView _backdrop;
         Material _baseMat;
         readonly List<(Mesh mesh, Material mat, float bornAt)> _paintings = new List<(Mesh, Material, float)>();
@@ -73,6 +75,18 @@ namespace ReverseSolver.Presentation
             c._strip.sortingOrder = order;
             c._strip.transform.localPosition = Draw.W(sprite.rect.width / 2, sprite.rect.height / 2);
             c._baseMat = c._strip.sharedMaterial;
+            // PM_86 §1: at the top speed a faint trail (two copies of the strip a part of a frame behind, the paintings
+            // stay sharp); same order as the strip, a hair nearer the camera
+            for (int i = 0; i < c._trail.Length; i++)
+            {
+                var g = new GameObject("trail " + i).transform;
+                g.SetParent(c.transform, false); g.localScale = new Vector3(k, k, 1);
+                var r = new GameObject("strip").AddComponent<SpriteRenderer>();
+                r.transform.SetParent(g, false); r.sprite = sprite; r.sortingOrder = order;
+                r.transform.localPosition = Draw.W(sprite.rect.width / 2, sprite.rect.height / 2) + new Vector3(0, 0, -.01f * (i + 1));
+                r.color = new Color(1, 1, 1, 0);
+                c._trail[i] = r;
+            }
             c.AddPainting(won, 0, false);
             c.SetNext(next);
             c._screen = screen; c._k = k;
@@ -211,7 +225,21 @@ namespace ReverseSolver.Presentation
             if (!Finished && t > 0) { _frames++; if (Time.unscaledDeltaTime > .02f) _slow++; _maxDt = Mathf.Max(_maxDt, Time.unscaledDeltaTime); }
             float alpha = Finished ? 1 - (now - _endAt) / FadeOut : Mathf.Clamp01(t / FadeIn);
             if (Finished && alpha <= 0) { Destroy(gameObject); return; }
-            if (!Finished) Place(_screen, _k, Period * Glide((t - FadeIn - Hold) / Slide));
+            if (!Finished)
+            {
+                // PM_86 §1: a bell of speed (smootherstep: slow off, fastest in the middle, gliding in to rest)
+                float u = (t - FadeIn - Hold) / Slide;
+                Place(_screen, _k, Period * Ease(u));
+                float speed = u > 0 && u < 1 ? 30 * u * u * (1 - u) * (1 - u) / 1.875f : 0;   // 0..1, 1 at the top
+                float frame = Period * 1.875f / Slide / 60f;                                  // strip px per 60 Hz frame at the top
+                for (int i = 0; i < _trail.Length; i++)
+                {
+                    float lag = frame * speed * (i + 1) / (_trail.Length + 1);
+                    _trail[i].transform.parent.localPosition = Draw.W(_screen.x / 2 - (Period * Ease(u) - lag + ViewW / 2) * _k, _screen.y / 2 - ViewH / 2 * _k);
+                    _trail[i].color = new Color(1, 1, 1, .22f * Mathf.Clamp01((speed - .5f) / .5f) * alpha);
+                }
+            }
+            else foreach (var r in _trail) r.color = new Color(1, 1, 1, 0);
             _strip.color = new Color(1, 1, 1, alpha);
             _backdrop.Alpha(alpha);
             foreach (var (mesh, _, bornAt) in _paintings)

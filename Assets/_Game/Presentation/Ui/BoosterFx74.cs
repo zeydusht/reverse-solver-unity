@@ -248,7 +248,7 @@ namespace ReverseSolver.Presentation
                 if (age < contacts[k] || !Once(k)) continue;
                 bool final = k == contacts.Length - 1;
                 Shake((final ? 9 : 5) * _s * (idea == Idea.B ? 1.25f : 1), final ? .2f : .12f);
-                Haptics.Play(final ? Haptics.Kind.Heavy : Haptics.Kind.Medium);
+                Haptics.Play(Haptics.Kind.Medium);   // PM_86 §4: a booster's blow is medium
                 Sound?.Invoke("piece", final ? 1f : .7f);
                 int n = final ? 8 : 4;
                 for (int i = 0; i < n; i++)
@@ -354,7 +354,7 @@ namespace ReverseSolver.Presentation
             if (age >= Slam.Strike && Once(0))
             {
                 Shake(10 * _s, .22f);
-                Haptics.Play(Haptics.Kind.Heavy);
+                Haptics.Play(Haptics.Kind.Medium);   // PM_86 §4
                 Sound?.Invoke("piece", 1f);
                 for (int i = 0; i < 10; i++)
                 {
@@ -694,7 +694,7 @@ namespace ReverseSolver.Presentation
             }
             if (age >= hit && Once(0))
             {
-                Haptics.Play(Haptics.Kind.Medium);
+                Haptics.Play(Haptics.Kind.Light);   // PM_86 §4: the wand's turn is three light waves (the third here)
                 Sound?.Invoke("pm72-unlock", 1f);
                 for (int i = 0; i < 12; i++)
                 {
@@ -856,7 +856,7 @@ namespace ReverseSolver.Presentation
                 if (ClockOnce(2))
                 {
                     Sound?.Invoke("pm72-unlock", .9f);
-                    Haptics.Play(wave ? Haptics.Kind.Medium : Haptics.Kind.Light);
+                    Haptics.Play(Haptics.Kind.Medium);   // PM_86 §4: the clock freezing
                     if (wave) Shake(3 * _s, .12f);
                     int n = wave ? 14 : 9;
                     for (int i = 0; i < n; i++)

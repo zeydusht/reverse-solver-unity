@@ -71,6 +71,7 @@ namespace ReverseSolver.Presentation
 
         public static void ShowReward(AdPlacement p, Action<bool> rewarded)
         {
+            if (Showing) return;   // PM_86 §6: a quick second tap does not start a second ad
             if (!CanOffer(p)) { Event?.Invoke("ad_skipped_not_ready", AdPlacements.Name(p), Network?.Name, null, null); rewarded(false); return; }
             Show(true, p, r =>
             {
@@ -79,6 +80,7 @@ namespace ReverseSolver.Presentation
                     AdRules.Rewarded(State, p, Today);
                     Save();
                     Event?.Invoke("ad_reward", AdPlacements.Name(p), Network.Name, null, null);
+                    Haptics.Play(Haptics.Kind.Success);   // PM_86 §4: the reward
                 }
                 rewarded(r == AdResult.Rewarded);
             });

@@ -141,8 +141,8 @@ namespace ReverseSolver.Presentation
             Tweens.Run(label, .8f, t =>
             {
                 if (label == null) return;
-                label.transform.localPosition = start + new Vector3(0, 28 * t, 0);
-                label.Alpha = 1 - t;
+                label.transform.localPosition = start + new Vector3(0, 28 * BoosterFx74.OutCubic(t), 0);   // PM_86: eased out
+                label.Alpha = 1 - t * t;
             }, () => { if (label != null) Object.Destroy(label.gameObject); });
         }
 

@@ -42,7 +42,7 @@ Shader "ReverseSolver/Piece"
         _RvOn ("PM_84 dive: cuts drawn edge by edge (0/1)", Float) = 0
         _RvTime ("PM_84 dive: the drawing's clock (s)", Float) = 0
         _RvEdgeSec ("PM_84 dive: one cut's drawing time (s)", Float) = 0.55
-        _EdgeOnly ("PM_84 dive: only the cut (rim, cream band, halo)", Float) = 0
+        _RvLook ("PM_86 dive: the plain picture (0) .. the pieces' own look (1)", Float) = 1
     }
     SubShader
     {
@@ -74,7 +74,7 @@ Shader "ReverseSolver/Piece"
                 float _PtToUnit, _Lift, _Gray, _Glow, _Flash, _Alpha, _ImageMix;
                 float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
                 float _SkinMix, _KitOn;
-                float _RvOn, _RvTime, _RvEdgeSec, _EdgeOnly;
+                float _RvOn, _RvTime, _RvEdgeSec, _RvLook;
             CBUFFER_END
             float _RSEdge;   // global: 1 = the chosen thick dark navy edge on painted boards (2 = black, kept for tests)
             TEXTURE2D(_KitMask); SAMPLER(sampler_KitMask);
@@ -129,6 +129,7 @@ Shader "ReverseSolver/Piece"
                 float f = saturate((_RvTime - st) / max(_RvEdgeSec, 1e-3));
                 f = f * f * (3.0 - 2.0 * f);
                 if (f <= 0.0) return 0.0;
+                if (f >= 1.0) return 1.0;
                 along = clamp(along, 0.0, 100.0);
                 float s;
                 if (abs(ek) > 0.5)
@@ -188,7 +189,10 @@ Shader "ReverseSolver/Piece"
                 float dFill  = sdPiece(q, i.edges);
 
                 float3 baseC = i.color.rgb;
-                float pinned = saturate(_Gray);
+                // PM_86 dive: the pieces start as the plain picture (look 0) with the cuts drawn in by RvSeam, and take
+                // their own look (contrast, gradient, bevel, kit overlay, shadow, pinned grey) after the cuts are done
+                float look = _RvOn > 0.5 ? saturate(_RvLook) : 1.0;
+                float pinned = saturate(_Gray) * look;
                 float lum = dot(baseC, float3(0.299, 0.587, 0.114));
                 baseC = lerp(baseC, lum.xxx, 0.55 * pinned) * lerp(1.0, 0.82, pinned);
 
@@ -203,10 +207,12 @@ Shader "ReverseSolver/Piece"
 
                 // level image: this point's place on the whole board (y up in the texture)
                 float imageAmt = saturate(_ImageMix);
+                float3 rawImg = fill;
                 if (imageAmt > 0.001)
                 {
                     float2 bp = (i.cell * 100.0 + p) / (max(_BoardCells.xy, 1.0) * 100.0);
                     float3 img = SAMPLE_TEXTURE2D(_Image, sampler_Image, saturate(float2(bp.x, 1.0 - bp.y))).rgb;
+                    rawImg = img;
                     float il = dot(img, float3(0.299, 0.587, 0.114));
                     img = lerp(img, float3(il, il, il), 0.55 * pinned) * lerp(1.0, 0.82, pinned);
                     img = lerp(img, float3(0.5, 0.5, 0.5), 0.12);                                   // ease contrast so the cut reads
@@ -219,6 +225,7 @@ Shader "ReverseSolver/Piece"
                 float3 skinTex = SAMPLE_TEXTURE2D(_SkinTex, sampler_SkinTex, i.p).rgb;
                 fill = lerp(fill, fill * skinTex * 1.12, _SkinMix);
                 fill = fill + (1.0 - fill) * saturate(_Flash) * 0.9;
+                if (_RvOn > 0.5 && imageAmt > 0.001) fill = lerp(rawImg, fill, look);
 
                 float cWhite = saturate(0.5 - dWhite / aa);
                 float cDark  = saturate(0.5 - dDark / aa);
@@ -252,25 +259,15 @@ Shader "ReverseSolver/Piece"
                         float2 d = float2(r, r) * 1.6;                                // bevel: light top-left, dark bottom-right
                         float bev = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + d, i.edges)).a * kitIn(q + d)
                                   - SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q - d, i.edges)).a * kitIn(q - d);
-                        float3 pf = fill + bev * 0.16;
-                        float band = saturate(m - mIn);                               // ~2 px just inside the edge
+                        float seam = _RvOn > 0.5 ? RvSeam(q, i.edges, i.starts) : 1.0;   // PM_86: the cut drawn in by the pen
+                        float3 pf = fill + bev * 0.16 * look;
+                        float band = saturate(m - mIn) * seam;                        // ~2 px just inside the edge
                         pf = lerp(pf, float3(0.973, 0.922, 0.816), band * (_RSEdge > 0.5 ? 0.8 : 0.6));   // cream #F8EBD0, 60 % (80 % thick)
-                        col = over(float4(ov.rgb * ov.a, ov.a) * m * 0.6, float4(pf, 1) * m);
-                        float outline = saturate(mOut - m);                           // navy #0B2A36 rim outside the shape
+                        col = over(float4(ov.rgb * ov.a, ov.a) * m * 0.6 * look, float4(pf, 1) * m);
+                        float outline = saturate(mOut - m) * seam;                    // navy #0B2A36 rim outside the shape
                         float3 rim = _RSEdge > 1.5 ? float3(0, 0, 0) : _RSEdge > 0.5 ? float3(0.024, 0.086, 0.114) : float3(0.043, 0.165, 0.212);
                         col = over(col, float4(rim, 1) * outline);                     // black / #06161D / #0B2A36
-                        if (_RSEdge > 0.5) col = over(col, float4(0, 0, 0, 1) * saturate(mOut2 - mOut) * 0.35);
-                        if (_EdgeOnly > 0.5)
-                        {
-                            // PM_84 dive: the same cut over the painting, drawn by the pen (RvSeam); nothing else
-                            float seam = _RvOn > 0.5 ? RvSeam(q, i.edges, i.starts) : 1.0;
-                            float4 e4 = float4(0.973, 0.922, 0.816, 1) * band * (_RSEdge > 0.5 ? 0.8 : 0.6);
-                            e4 = over(float4(rim, 1) * outline, e4);
-                            if (_RSEdge > 0.5) e4 = over(e4, float4(0, 0, 0, 1) * saturate(mOut2 - mOut) * 0.35);
-                            e4 *= seam * saturate(_Alpha);
-                            e4.rgb = ToOutput(e4.rgb / max(e4.a, 1e-4)) * e4.a;
-                            return e4;
-                        }
+                        if (_RSEdge > 0.5) col = over(col, float4(0, 0, 0, 1) * saturate(mOut2 - mOut) * 0.35 * seam);
                     }
                     else
                     {
@@ -292,6 +289,7 @@ Shader "ReverseSolver/Piece"
                             s4 += SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(sq, i.edges)).a * kitIn(sq);
                         }
                         shA = max(0.42 * ms * (1.0 - lift), 0.35 * lift * s4 * 0.25);   // resting: the old soft drop; dragged: down-right
+                        shA *= look;                                                  // PM_86: the parting shadow comes after the cuts
                     }
                     // highlight (blocker coral / popped amber) on the piece itself: an outer glow lit the notches and the
                     // cell box around them (the red "7" next to a dragged piece, PM_MESAJ_16)

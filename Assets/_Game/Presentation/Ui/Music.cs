@@ -15,6 +15,34 @@ namespace ReverseSolver.Presentation
         const float Volume = .35f;
         const double LoopSeconds = 2540160 / 44100.0;          // the WAV's exact length: the loop point
 
+        /* PM_86 §5: five CC0 candidates (docs/art/pm86/MUZIK_LISANS.md, Tools/make_music86.py), &muzik=a..e; none: the
+           old loop. Each MP3's loop start (the encoder's lead-in) and length, from Assets/Audio/Music86/loops.json. */
+        static readonly (char letter, double start, double length)[] Loops86 =
+        {
+            ('a', 1105 / 44100.0, 124.44444444444444), ('b', 1105 / 44100.0, 60.6315873015873),
+            ('c', 1105 / 44100.0, 128.0), ('d', 1105 / 44100.0, 130.16950113378684), ('e', 1106 / 44100.0, 106.62603174603174),
+        };
+        public static char Variant
+        {
+            get
+            {
+                string q = Host.Current?.Query("muzik");
+                if (string.IsNullOrEmpty(q)) return '\0';
+                foreach (var l in Loops86) if (l.letter == q[0]) return q[0];
+                return '\0';
+            }
+        }
+        static (string url, double start, double length) Track
+        {
+            get
+            {
+                char v = Variant;
+                foreach (var l in Loops86)
+                    if (l.letter == v) return ($"https://zeydusht.github.io/reverse-solver-unity/music/pm86/music-{v}.mp3", l.start, l.length);
+                return (Url, -1, LoopSeconds);   // the old one: its lead-in is found by its first sound
+            }
+        }
+
         public static bool On
         {
             get => PlayerPrefs.GetInt("rs_music", 1) == 1;
@@ -22,11 +50,11 @@ namespace ReverseSolver.Presentation
         }
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-        [DllImport("__Internal")] static extern void RS_MusicInit(string url, float volume, double loopSeconds, int on);
+        [DllImport("__Internal")] static extern void RS_MusicInit(string url, float volume, double loopStart, double loopSeconds, int on);
         [DllImport("__Internal")] static extern void RS_MusicSetOn(int on);
         [DllImport("__Internal")] static extern void RS_MusicDuck(float delay, float seconds);
 
-        public static void Start(MonoBehaviour host) => RS_MusicInit(Url, Volume, LoopSeconds, On ? 1 : 0);
+        public static void Start(MonoBehaviour host) { var t = Track; RS_MusicInit(t.url, Volume, t.start, t.length, On ? 1 : 0); }
         static void Apply() => RS_MusicSetOn(On ? 1 : 0);
         /* The win fanfare: the music steps back for `seconds`, `delay` from now. */
         public static void Duck(float delay, float seconds) => RS_MusicDuck(delay, seconds);

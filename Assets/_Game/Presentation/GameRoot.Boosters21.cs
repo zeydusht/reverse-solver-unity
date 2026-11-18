@@ -88,6 +88,7 @@ namespace ReverseSolver.Presentation
                     _clockAge21 = 0; StartEffect21(b, Vector2.zero); return;
                 }
                 _selected21 = b;
+                Haptics.Play(Haptics.Kind.Select);   // PM_86 §4: a booster chosen
                 if (b == Booster.Scissors || b == Booster.Hammer)
                 {
                     int stock = _session.Stock(b);

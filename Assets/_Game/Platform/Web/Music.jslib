@@ -3,9 +3,9 @@
 // loop runs for the WAV's exact length from there. Starts on the first touch / key (browsers need one), pauses with
 // the page; a gain node for the switch and the win duck.
 mergeInto(LibraryManager.library, {
-  RS_MusicInit: function (urlPtr, volume, loopSeconds, on) {
+  RS_MusicInit: function (urlPtr, volume, loopStart, loopSeconds, on) {
     var M = window.rsMusic = window.rsMusic || {};
-    M.url = UTF8ToString(urlPtr); M.volume = volume; M.loop = loopSeconds; M.on = !!on;
+    M.url = UTF8ToString(urlPtr); M.volume = volume; M.loopStart = loopStart; M.loop = loopSeconds; M.on = !!on;
     if (M.init) return;
     M.init = true;
     var Ctx = window.AudioContext || window.webkitAudioContext;
@@ -17,7 +17,7 @@ mergeInto(LibraryManager.library, {
         .then(function (buf) {
           var d = buf.getChannelData(0), n = Math.min(d.length, Math.floor(buf.sampleRate * .3)), i = 0;
           while (i < n && Math.abs(d[i]) < 0.004) i++;
-          var start = i < n ? i / buf.sampleRate : 0, end = Math.min(buf.duration, start + M.loop);
+          var start = M.loopStart >= 0 ? M.loopStart : i < n ? i / buf.sampleRate : 0, end = Math.min(buf.duration, start + M.loop);   // PM_86: a known lead-in
           var src = M.ctx.createBufferSource();
           src.buffer = buf; src.loop = true; src.loopStart = start; src.loopEnd = end;
           src.connect(M.gain); src.start(0, start);

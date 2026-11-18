@@ -156,7 +156,7 @@ namespace ReverseSolver.Presentation
         {
             if (n == _lastLeft) return;
             if (_lastLeft >= 0 && n < _lastLeft && Art.P21Gameplay)
-                Tweens.Run(_left, .2f, t => { if (_left != null) _left.transform.localScale = Vector3.one * Mathf.Lerp(1.15f, 1, t); });
+                Tweens.Run(_left, .2f, t => { if (_left != null) _left.transform.localScale = Vector3.one * Mathf.Lerp(1.15f, 1, BoosterFx74.OutCubic(t)); });
             _lastLeft = n; _left.Text = n.ToString();
         }
 

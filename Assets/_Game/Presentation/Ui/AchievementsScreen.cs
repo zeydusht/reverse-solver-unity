@@ -3,8 +3,18 @@ using UnityEngine;
 
 namespace ReverseSolver.Presentation
 {
+    /* PM_86 §9: Codex's simpler set (Art/yeni/pm86/basari, option A): a cream row in a royal blue frame, navy medallions
+       with a gold rim, a cream-brown groove with a gold fill; TASK20's art stays where a part is missing. Looks only. */
     public sealed class AchievementsScreen
     {
+        static SpriteRenderer Part(Transform root, string key, string old, Vector2 c, Vector2 size, int order, bool sliced = false)
+        {
+            var r = Art.Place(root, "yeni/pm86/basari/pm86-ach-" + key, size, order, sliced);
+            if (r == null) return MenuUi.Sprite(root, old, c, size, order, sliced);
+            r.transform.localPosition = Draw.W(c);
+            return r;
+        }
+
         public readonly MenuScroll Scroll;
         public AchievementsScreen(Transform root, Vector2 screen, float top, float bottom, AchievementProgress[] achievements, int order, float offset)
         {
@@ -19,8 +29,8 @@ namespace ReverseSolver.Presentation
             {
                 var a = achievements[i];
                 var cell = Scroll.Cell(screen.x / 2, start + 50 + i * pitch, 50);
-                MenuUi.Sprite(cell, "achievement-tile", Vector2.zero, new Vector2(w, 100), order, true);
-                MenuUi.Sprite(cell, "achievement-" + keys[i], new Vector2(-w / 2 + 43, 0), Vector2.one * 70, order + 1);
+                Part(cell, "tile", "achievement-tile", Vector2.zero, new Vector2(w, 100), order, true);
+                Part(cell, "badge-" + keys[i], "achievement-" + keys[i], new Vector2(-w / 2 + 45, 0), Vector2.one * 72, order + 1);
                 float left = -w / 2 + 86, tw = w - 126, cx = left + tw / 2;
                 MenuUi.Label(cell, Texts.AchievementName(i), new Vector2(cx, -29), 19, order + 2, true, tw);
                 var condition = MenuUi.Label(cell, Texts.AchievementCondition(i), new Vector2(cx, -3), 13, order + 2, true);
@@ -30,15 +40,15 @@ namespace ReverseSolver.Presentation
                 tmp.enableAutoSizing = true;
                 tmp.fontSizeMin = 12 * TextView.PointToFontSize;
                 tmp.fontSizeMax = 13 * TextView.PointToFontSize;
-                MenuUi.Sprite(cell, "progress-track", new Vector2(cx, 27), new Vector2(tw, 20), order + 1, true);
-                float fill = (tw - 8) * a.Value / a.Target;
-                if (fill > 0) MenuUi.Sprite(cell, "progress-fill", new Vector2(left + 4 + fill / 2, 27), new Vector2(fill, 12), order + 2, true);
-                MenuUi.Label(cell, $"{a.Value}/{a.Target}", new Vector2(cx, 27), 15, order + 3);
-                if (a.Done) MenuUi.Sprite(cell, "icon-green-check", new Vector2(w / 2 - 22, 0), Vector2.one * 25, order + 3);
+                Part(cell, "track", "progress-track", new Vector2(cx, 27), new Vector2(tw, 20), order + 1, true);
+                float fill = a.Value > 0 ? Mathf.Max(16, (tw - 8) * a.Value / a.Target) : 0;
+                if (fill > 0) Part(cell, "fill", "progress-fill", new Vector2(left + 4 + fill / 2, 27), new Vector2(fill, 13), order + 2, true);
+                MenuUi.Label(cell, $"{a.Value}/{a.Target}", new Vector2(cx, 27), 14, order + 3, true);
+                if (a.Done) Part(cell, "check", "icon-green-check", new Vector2(w / 2 - 24, -22), Vector2.one * 28, order + 3);
                 else if (a.Value == 0)
                 {
-                    MenuUi.Sprite(cell, "icon-lock", new Vector2(w / 2 - 22, 0), Vector2.one * 24, order + 3);
-                    foreach (var r in cell.GetComponentsInChildren<SpriteRenderer>()) r.color = new Color(.7f, .7f, .7f, 1);
+                    Part(cell, "lock", "icon-lock", new Vector2(w / 2 - 24, -22), Vector2.one * 26, order + 3);
+                    foreach (var r in cell.GetComponentsInChildren<SpriteRenderer>()) r.color = new Color(.82f, .82f, .82f, 1);
                 }
             }
             MenuUi.Viewport(root, "achievements", screen, start, bottom, order + 20);
