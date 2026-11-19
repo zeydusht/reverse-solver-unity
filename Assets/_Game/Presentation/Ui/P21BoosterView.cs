@@ -360,9 +360,9 @@ namespace ReverseSolver.Presentation
             else if (_clockWasActive)
             {
                 if (active) _thawAge += Time.unscaledDeltaTime;
-                if (_thawAge < IceBreakSeconds)
+                if (_thawAge < IceBreakSeconds && !BoosterFx74.Frost89Allowed)   // PM_89: the ice bar breaks instead
                     Paint(_ice, Frame("T46/clock/ice_break", 1 + Mathf.Min(6, (int)(_thawAge * 18))), panel, new Vector2(113, 434f / 3) * s);
-                else _clockWasActive = false;
+                else if (_thawAge >= IceBreakSeconds) _clockWasActive = false;
             }
         }
 

@@ -51,7 +51,7 @@ namespace ReverseSolver.Presentation
             // PM_74: the Pieces box shows only the count, big and centred (no puzzle icon)
             _left = Panel(root, 201f / 3, offset, order, out _piecesTitle, Lang.T("Pieces", "Parça"), .44f);
             _clock = Panel(root, 972f / 3, offset, order, out _timeTitle, Lang.T("Time", "Süre"));
-            TimeBar(root, 972f / 3, offset, order, session);
+            if (TimeBarOn) TimeBar(root, 972f / 3, offset, order, session);   // PM_89 §2: gone (the clock's ice bar shows the freeze)
             var center = JigoCenter(screen.x, safeTop);
             var windowSize = new Vector2(127, 104) * _scale;
             Art54.Stretch(root, Art54.Window, center, windowSize, order + 2);
@@ -98,6 +98,7 @@ namespace ReverseSolver.Presentation
         float _barW, _barH, _barShown = -1;
         int _timer;
         public const float BarWidth = 96, BarHeight = 6;
+        public static bool TimeBarOn;   // &surebar=1: PM_75's green bar back
 
         void TimeBar(Transform root, float x, float offset, int order, GameSession session)
         {

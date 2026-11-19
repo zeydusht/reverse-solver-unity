@@ -83,6 +83,18 @@ namespace ReverseSolver.Presentation
             return grid;
         }
         /* uv 0..1 from the picture's top left. */
+        /* PM_89 §1 (Zeyd: "at the end the picture grows short and long"): the paintings are square; a board of
+           another shape shows the middle of it at its own proportions (the same scale across and down), never the
+           whole picture squeezed. The frames in the menu and the corridor open at the board's proportions and show
+           exactly this crop, so the picture is one and the same from the menu to the game. uv rect, y up. */
+        public static Rect Crop(Texture tex, float aspect)
+        {
+            if (tex == null || aspect <= 0) return new Rect(0, 0, 1, 1);
+            float ta = (float)tex.width / Mathf.Max(1, tex.height);
+            return ta > aspect ? new Rect((1 - aspect / ta) / 2, 0, aspect / ta, 1) : new Rect(0, (1 - ta / aspect) / 2, 1, ta / aspect);
+        }
+        public static Vector4 CropST(Texture tex, float aspect) { var c = Crop(tex, aspect); return new Vector4(c.width, c.height, c.x, c.y); }
+
         public static bool Tone(Texture tex, Vector2 uv, out Color tone)
         {
             tone = Color.gray;

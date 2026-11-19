@@ -1,0 +1,76 @@
+{
+  "tool": "built-in image_gen + Python/Pillow",
+  "variants": {
+    "A": {
+      "png_count": 13,
+      "sizes_rgba": true,
+      "transparent_borders": true,
+      "track_cap_px": 42,
+      "track_center_columns_identical": true,
+      "fill_cap_px": 30,
+      "fill_center_columns_identical": true,
+      "frost_center_200x150_alpha_zero": true,
+      "crack_progression_pixels": [
+        1788,
+        3858,
+        9731
+      ],
+      "gif_frames": 60,
+      "gif_ms": 2000,
+      "gif_fps": 30,
+      "gif_frame_durations_ms": [
+        30,
+        40
+      ],
+      "drain_direction": "left-to-right"
+    },
+    "B": {
+      "png_count": 13,
+      "sizes_rgba": true,
+      "transparent_borders": true,
+      "track_cap_px": 42,
+      "track_center_columns_identical": true,
+      "fill_cap_px": 30,
+      "fill_center_columns_identical": true,
+      "frost_center_200x150_alpha_zero": true,
+      "crack_progression_pixels": [
+        1786,
+        3318,
+        8509
+      ],
+      "gif_frames": 60,
+      "gif_ms": 2000,
+      "gif_fps": 30,
+      "gif_frame_durations_ms": [
+        30,
+        40
+      ],
+      "drain_direction": "left-to-right"
+    },
+    "C": {
+      "png_count": 13,
+      "sizes_rgba": true,
+      "transparent_borders": true,
+      "track_cap_px": 42,
+      "track_center_columns_identical": true,
+      "fill_cap_px": 30,
+      "fill_center_columns_identical": true,
+      "frost_center_200x150_alpha_zero": true,
+      "crack_progression_pixels": [
+        2552,
+        5372,
+        13325
+      ],
+      "gif_frames": 60,
+      "gif_ms": 2000,
+      "gif_fps": 30,
+      "gif_frame_durations_ms": [
+        30,
+        40
+      ],
+      "drain_direction": "left-to-right"
+    }
+  },
+  "reference_sha256": "5589b06e9be8dbe03283bcb6baaefedde16583888b6b3684c88f9463077dea77",
+  "files_over_10_MB": []
+}

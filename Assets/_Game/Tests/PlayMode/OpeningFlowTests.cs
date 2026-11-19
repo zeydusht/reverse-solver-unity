@@ -407,18 +407,26 @@ namespace ReverseSolver.PlayMode.Tests
             yield return Click(LayoutPoint(clockSlot.transform));
             yield return WaitFor(() => session.FreezeLeft > 0, "the flying clock reaching the timer");
             int frozenAt = session.TimeLeft;
-            // PM_74: the alarm clock rings over the Time box and glazes it; Jigo keeps his portrait
+            // PM_74: the alarm clock rings over the Time box; PM_89 §2: the box takes a frosted rim and the ice bar shows
+            // under it (no green time bar any more); Jigo keeps his portrait
             yield return new WaitForSecondsRealtime(.3f);
-            var glaze = GameObject.Find("fx glaze").GetComponent<SpriteRenderer>();
-            Assert.That(glaze.enabled, Is.True, "the Time box glazed while frozen");
+            Assert.That(GameObject.Find("time bar fill"), Is.Null, "the green time bar is gone");
+            Assert.That(GameObject.Find("fx ice rim").GetComponent<SpriteRenderer>().enabled, Is.True, "the Time box frosted while frozen");
+            var ice = GameObject.Find("fx ice bar fill").GetComponent<SpriteRenderer>();
+            Assert.That(ice.enabled, Is.True, "the ice bar under the Time box");
+            float full = ice.size.x;
             yield return WaitFor(() => session.FreezeLeft < 9.5, "the freeze bar decreasing");
+            yield return null;
+            Assert.That(ice.size.x, Is.LessThan(full), "the ice bar empties with the freeze");
             Assert.That(session.TimeLeft, Is.EqualTo(frozenAt));
             Assert.That(session.FreezeLeft, Is.GreaterThan(0));
-            Assert.That(GameObject.Find("fx freeze chip text").activeInHierarchy, Is.True, "the +10 s chip under the Time box");
             yield return new WaitForSecondsRealtime(.5f);
             Assert.That(GameObject.Find("fx clock").GetComponent<SpriteRenderer>().enabled, Is.False, "the flying clock is gone after 1.35 s");
             Assert.That(session.FreezeLeft, Is.GreaterThan(0));
             session.Tick(session.FreezeLeft);
+            // the ice bar cracks and breaks, then is gone
+            yield return WaitFor(() => GameObject.Find("fx ice bar crack").GetComponent<SpriteRenderer>().enabled, "the ice bar cracking");
+            yield return WaitFor(() => !GameObject.Find("fx ice bar").GetComponent<SpriteRenderer>().enabled, "the ice bar gone");
             yield return WaitFor(() => session.TimeLeft < frozenAt, "the countdown resuming after thaw");
         }
 

@@ -596,6 +596,8 @@ namespace ReverseSolver.Presentation
             foreach (var c in pv.Cells)
             {
                 var uv = new Vector2((c.X + .5f) / Session.Level.Width, (c.Y + .5f) / Session.Level.Height);
+                var cr = LevelImages.Crop(_image, (float)Session.Level.Width / Session.Level.Height);   // PM_89
+                uv = new Vector2(cr.x + uv.x * cr.width, cr.y + uv.y * cr.height);   // a centred crop: either way up
                 if (_image != null && LevelImages.Tone(_image, uv, out var tone)) sum += tone;
                 else sum += PieceView.CellColor(Session.Level, c);
                 n++;

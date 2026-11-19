@@ -43,6 +43,7 @@ namespace ReverseSolver.Presentation
             b.SetFloat("_Alpha", 1f);
             b.SetVector("_BoardCells", new Vector4(1, 1, 0, 0));
             b.SetTexture("_Image", picture);
+            b.SetVector("_Image_ST", LevelImages.CropST(picture, size.x / Mathf.Max(1, size.y)));   // PM_89: the board's crop, not squeezed
             b.SetFloat("_ImageMix", 1f);
             r.SetPropertyBlock(b);
             return v;

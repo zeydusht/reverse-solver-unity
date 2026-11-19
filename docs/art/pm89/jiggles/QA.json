@@ -1,0 +1,458 @@
+{
+  "status": "PASS",
+  "tool": "built-in image_gen; Python/Pillow sizing, slices, composition and checks",
+  "sprite_count": 18,
+  "preview_count": 3,
+  "ring_clear_diameter_px": [
+    147,
+    147
+  ],
+  "coordinate_note": "Brief center-relative feet at 0.62h / 1.06h require y=506 / 865, outside the 816px canvas. Both rows move up 82px to y=424 / 783; separation and character height are preserved. This is preview geometry, not drop-in compatibility with unchanged game coordinates.",
+  "support_rows_px": [
+    424,
+    783
+  ],
+  "shelf_slices": {
+    "A": [
+      {
+        "source_y": [
+          0,
+          550
+        ],
+        "target_y": [
+          0,
+          424
+        ],
+        "source_width": 1443
+      },
+      {
+        "source_y": [
+          550,
+          943
+        ],
+        "target_y": [
+          424,
+          783
+        ],
+        "source_width": 1443
+      },
+      {
+        "source_y": [
+          943,
+          1090
+        ],
+        "target_y": [
+          783,
+          816
+        ],
+        "source_width": 1443
+      }
+    ],
+    "B": [
+      {
+        "source_y": [
+          0,
+          552
+        ],
+        "target_y": [
+          0,
+          424
+        ],
+        "source_width": 1443
+      },
+      {
+        "source_y": [
+          552,
+          939
+        ],
+        "target_y": [
+          424,
+          783
+        ],
+        "source_width": 1443
+      },
+      {
+        "source_y": [
+          939,
+          1090
+        ],
+        "target_y": [
+          783,
+          816
+        ],
+        "source_width": 1443
+      }
+    ],
+    "C": [
+      {
+        "source_y": [
+          0,
+          578
+        ],
+        "target_y": [
+          0,
+          424
+        ],
+        "source_width": 1444
+      },
+      {
+        "source_y": [
+          578,
+          921
+        ],
+        "target_y": [
+          424,
+          783
+        ],
+        "source_width": 1444
+      },
+      {
+        "source_y": [
+          921,
+          1089
+        ],
+        "target_y": [
+          783,
+          816
+        ],
+        "source_width": 1444
+      }
+    ]
+  },
+  "alpha_quantization_cleanup": "Only invisible generated alpha values 1..4 are rounded to zero; visible color, material and glow are retained.",
+  "bar": {
+    "track": "pm86-ach-track.png",
+    "fill": "pm86-ach-fill.png",
+    "three_slice_cap_source_px": 24,
+    "value": 45,
+    "target": 2000
+  },
+  "checks": [
+    "exact PNG dimensions",
+    "RGBA",
+    "real exterior alpha",
+    "transparent sprite corners",
+    "transparent avatar center",
+    "no file over 10 MiB",
+    "identical common icons",
+    "horizontal slice continuity",
+    "opaque screen previews"
+  ],
+  "files": [
+    {
+      "file": "A/shelf.png",
+      "size": [
+        1080,
+        816
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.20528,
+      "bytes": 819105,
+      "sha256": "fb48265f36be6233234c355d0a5ce6687adeb781dad12a029d2a64e5770f80f1"
+    },
+    {
+      "file": "A/reward_chest.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.59125,
+      "bytes": 35315,
+      "sha256": "00e4e0ec56cc621c5c24926301707b28648634b179699b4a83598a42c6c403b1"
+    },
+    {
+      "file": "A/reward_gift.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.46623,
+      "bytes": 45688,
+      "sha256": "18c1da18d3cf5f01d4cacb3452520c42dd98078205885185b6b978f8c57a6531"
+    },
+    {
+      "file": "A/reward_medal.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.56809,
+      "bytes": 45837,
+      "sha256": "c806a1b21fadc59bdf93e24afca1c8129c81bc60b08720d16a09a56b075c47cc"
+    },
+    {
+      "file": "A/lock_small.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.74837,
+      "bytes": 7594,
+      "sha256": "73c80b518912963783a3a123bcc5ea1d4547bd01dddf40aa05d3820eb8930946"
+    },
+    {
+      "file": "A/avatar_ring_gold.png",
+      "size": [
+        220,
+        220
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.65236,
+      "bytes": 51272,
+      "sha256": "2c3e0a46b40de4ecbfbd04ca2505cbdccd67d9936778de69c73232e07e59c0d2"
+    },
+    {
+      "file": "A/onizleme.png",
+      "size": [
+        390,
+        844
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "transparent_fraction": 0.0,
+      "bytes": 487507,
+      "sha256": "d490c42498fd214f9817b0d589d46a6945b211237f2734f383e8f3b4e77de711"
+    },
+    {
+      "file": "B/shelf.png",
+      "size": [
+        1080,
+        816
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.19826,
+      "bytes": 1079901,
+      "sha256": "a5fcc234d65a078e84a0a10def32c0359a557a6b9ed1c0f3be030159fdfd645c"
+    },
+    {
+      "file": "B/reward_chest.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.59125,
+      "bytes": 35315,
+      "sha256": "00e4e0ec56cc621c5c24926301707b28648634b179699b4a83598a42c6c403b1"
+    },
+    {
+      "file": "B/reward_gift.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.46623,
+      "bytes": 45688,
+      "sha256": "18c1da18d3cf5f01d4cacb3452520c42dd98078205885185b6b978f8c57a6531"
+    },
+    {
+      "file": "B/reward_medal.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.56809,
+      "bytes": 45837,
+      "sha256": "c806a1b21fadc59bdf93e24afca1c8129c81bc60b08720d16a09a56b075c47cc"
+    },
+    {
+      "file": "B/lock_small.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.74837,
+      "bytes": 7594,
+      "sha256": "73c80b518912963783a3a123bcc5ea1d4547bd01dddf40aa05d3820eb8930946"
+    },
+    {
+      "file": "B/avatar_ring_gold.png",
+      "size": [
+        220,
+        220
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.65236,
+      "bytes": 51272,
+      "sha256": "2c3e0a46b40de4ecbfbd04ca2505cbdccd67d9936778de69c73232e07e59c0d2"
+    },
+    {
+      "file": "B/onizleme.png",
+      "size": [
+        390,
+        844
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "transparent_fraction": 0.0,
+      "bytes": 484058,
+      "sha256": "53606603895dd1a78f385c7f041e9e04a5c79be00eadb702a25482efc85a0827"
+    },
+    {
+      "file": "C/shelf.png",
+      "size": [
+        1080,
+        816
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.21434,
+      "bytes": 833825,
+      "sha256": "86a2a5edb6ede3a64d23d49f1f563ffb8c58b8b4cb4a3995dbba536ddb5d5604"
+    },
+    {
+      "file": "C/reward_chest.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.59125,
+      "bytes": 35315,
+      "sha256": "00e4e0ec56cc621c5c24926301707b28648634b179699b4a83598a42c6c403b1"
+    },
+    {
+      "file": "C/reward_gift.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.46623,
+      "bytes": 45688,
+      "sha256": "18c1da18d3cf5f01d4cacb3452520c42dd98078205885185b6b978f8c57a6531"
+    },
+    {
+      "file": "C/reward_medal.png",
+      "size": [
+        192,
+        192
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.56809,
+      "bytes": 45837,
+      "sha256": "c806a1b21fadc59bdf93e24afca1c8129c81bc60b08720d16a09a56b075c47cc"
+    },
+    {
+      "file": "C/lock_small.png",
+      "size": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.74837,
+      "bytes": 7594,
+      "sha256": "73c80b518912963783a3a123bcc5ea1d4547bd01dddf40aa05d3820eb8930946"
+    },
+    {
+      "file": "C/avatar_ring_gold.png",
+      "size": [
+        220,
+        220
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_fraction": 0.65236,
+      "bytes": 51272,
+      "sha256": "2c3e0a46b40de4ecbfbd04ca2505cbdccd67d9936778de69c73232e07e59c0d2"
+    },
+    {
+      "file": "C/onizleme.png",
+      "size": [
+        390,
+        844
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "transparent_fraction": 0.0,
+      "bytes": 490094,
+      "sha256": "3237a319c727ffa4eb2de3a42322b2b732a54f48882dc2363cdf2b82baa7953a"
+    }
+  ]
+}

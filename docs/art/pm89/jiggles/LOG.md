@@ -1,0 +1,3 @@
+- A: Lacivert ahşap kemerli vitrin, krem iç yüz ve iki raf, sade altın hatlar. Yerleşik image_gen + PIL; 7 PNG, boyut/RGBA/alfa PASS; ayak hizaları 424/783 px (82 px yukarı uyarlama; ayrıntı QA.json).
+- B: Lacivert kadife pano, iki altın konsol raf ve küçük taç. Yerleşik image_gen + PIL; 7 PNG, boyut/RGBA/alfa PASS; ayak hizaları 424/783 px (82 px yukarı uyarlama; ayrıntı QA.json).
+- C: Açık cam kapaklı lacivert vitrin, krem iç yüz ve altın raf kenarları. Yerleşik image_gen + PIL; 7 PNG, boyut/RGBA/alfa PASS; ayak hizaları 424/783 px (82 px yukarı uyarlama; ayrıntı QA.json).

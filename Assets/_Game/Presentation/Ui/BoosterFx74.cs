@@ -756,6 +756,7 @@ namespace ReverseSolver.Presentation
                 HideClock(); _clockLastAge = -1;
                 if (_handLong != null) _handLong.enabled = _handShort.enabled = false;
                 _clockOwnsGlaze = false; _glaze.enabled = false; _plus.gameObject.SetActive(false); Chip(panel, 0, false);
+                Frost89(panel, 0, false, true);
                 return false;
             }
             if (age < _clockLastAge || _clockLastAge < 0) _clockFired = 0;
@@ -890,6 +891,13 @@ namespace ReverseSolver.Presentation
 
             // while the time is frozen: the box glazed, the chip under it counting the bonus seconds down
             _clockOwnsGlaze = frozen && age >= touch;
+            if (Frost89On)
+            {
+                // PM_89 §2: the ice bar under the box and the box's frosted rim (Frost89) instead of the glaze and the chip
+                _glaze.enabled = false; Chip(panel, 0, false);
+                Frost89(panel, freezeLeft, _clockOwnsGlaze, false);
+                return true;
+            }
             if (_clockOwnsGlaze)
             {
                 float g = Span(age, touch, touch + .25f);
@@ -919,7 +927,111 @@ namespace ReverseSolver.Presentation
         }
 
         // PM_75: just under the new time bar (Hud54.TimeBar), which shows the pause too
-        Vector2 ChipCenter(Vector2 panel) => panel + new Vector2(0, 70f) * _s;
+        Vector2 ChipCenter(Vector2 panel) => Frost89On ? FrostBarCenter(panel) : panel + new Vector2(0, 70f) * _s;
+
+        // ---- PM_89 §2: the clock's ice bar ----------------------------------------------------------------------
+        /* The green bar under the Time box is gone; only while the clock booster holds the time an ice bar shows there
+           (Codex option A, Art/yeni/pm89/frost: a navy groove with a gold rim, an ice fill, frost). It empties from the
+           left over the freeze, ice crystals glint on it, and when the time runs again it cracks (three stages) and
+           breaks into shards with a crackle and a light tap. The box wears a frosted rim while frozen that thaws away. */
+        public static bool Frost89Allowed = true;   // &buzbar=0: the PM_74 glaze and chip
+        bool Frost89On => Frost89Allowed && Get89("track") != null && Get89("fill") != null;
+        const float FrostW = 100, FrostH = 14, FrostCrack = .32f, FrostBreak = .62f, FrostIn = .22f;
+        SpriteRenderer _fTrack, _fFill, _fCrack, _fPanel;
+        readonly SpriteRenderer[] _fGlint = new SpriteRenderer[3];
+        float _fShownAt = -1, _fBreakAt = -1, _fPeak = 1, _fPanelA;
+        bool _fWas, _fShattered;
+
+        Sprite Get89(string key)
+        {
+            if (!_sprites.TryGetValue("89/" + key, out var sprite)) _sprites["89/" + key] = sprite = Resources.Load<Sprite>("Art/yeni/pm89/frost/" + key);
+            return sprite;
+        }
+
+        public static Vector2 FrostBarCenter(Vector2 panel, float s) => panel + new Vector2(0, 290f / 6 - .5f) * s;
+        Vector2 FrostBarCenter(Vector2 panel) => FrostBarCenter(panel, _s);
+
+        static void Sliced(SpriteRenderer r, Sprite sp, Vector2 point, Vector2 size, float alpha)
+        {
+            if (sp == null || alpha <= 0 || size.x <= 0) { r.enabled = false; return; }
+            r.sprite = sp; r.enabled = true; r.drawMode = SpriteDrawMode.Sliced;
+            r.transform.localPosition = Draw.W(point); r.transform.localRotation = Quaternion.identity; r.transform.localScale = Vector3.one;
+            r.size = size; r.color = new Color(1, 1, 1, Mathf.Clamp01(alpha));
+        }
+
+        void Frost89(Vector2 panel, double freezeLeft, bool frozen, bool stopped)
+        {
+            if (_fTrack == null)
+            {
+                _fTrack = Layer("fx ice bar", Order + 1); _fFill = Layer("fx ice bar fill", Order + 2); _fCrack = Layer("fx ice bar crack", Order + 3);
+                _fPanel = Layer("fx ice rim", Order + 1);
+                for (int i = 0; i < _fGlint.Length; i++) _fGlint[i] = Layer("fx ice glint " + i, Order + 3);
+            }
+            float now = Time.unscaledTime;
+            var c = FrostBarCenter(panel); var size = new Vector2(FrostW, FrostH) * _s;
+            if (stopped) { HideFrost(); _fWas = false; _fBreakAt = -1; return; }
+            if (frozen)
+            {
+                if (!_fWas) { _fShownAt = now; _fPeak = Mathf.Max(1, (float)freezeLeft); _fBreakAt = -1; }
+                _fWas = true;
+                _fPeak = Mathf.Max(_fPeak, (float)freezeLeft);
+                float k = OutBack(Span(now, _fShownAt, _fShownAt + FrostIn), 1.2f);   // pops open
+                Sliced(_fTrack, Get89("track"), c, new Vector2(size.x, size.y * Mathf.Max(.05f, k)), Mathf.Clamp01(k * 2));
+                // the fill: the share of the freeze left, from the right (it empties from the left)
+                float share = Mathf.Clamp01((float)freezeLeft / _fPeak), inner = size.x - 4 * _s, h = size.y * 60 / 84 * Mathf.Max(.05f, k);
+                float w = inner * share, minW = 10 * _s;
+                Sliced(_fFill, Get89("fill"), new Vector2(c.x + inner / 2 - Mathf.Max(w, minW) / 2, c.y), new Vector2(Mathf.Max(w, minW), h), w >= minW ? 1 : w / minW);
+                _fCrack.enabled = false;
+                // three glints wandering along what is left of the fill
+                for (int i = 0; i < _fGlint.Length; i++)
+                {
+                    float ph = Mathf.Repeat(now * .9f + i * .37f, 1), a = Mathf.Sin(ph * Mathf.PI);
+                    float x = c.x + inner / 2 - w * Mathf.Repeat(.18f + i * .31f + Mathf.Floor(now * .9f + i * .37f) * .53f, 1);
+                    Paint(_fGlint[i], Get89("crystal"), new Vector2(x, c.y - 1 * _s), Vector2.one * (9 + 5 * a) * _s, a * a * Mathf.Clamp01(k) * (w > minW ? 1 : 0), now * 60 + i * 40);
+                }
+                _fPanelA = Mathf.Clamp01((now - _fShownAt) / .25f);
+                Paint(_fPanel, Get89("panel_frost"), panel, new Vector2(113.3f, 97.3f) * _s, _fPanelA * .95f);
+                return;
+            }
+            if (_fWas)
+            {
+                // the time runs again: crack, break, thaw
+                _fWas = false; _fBreakAt = now; _fShattered = false;
+                Sound?.Invoke("pm89-ice", .9f);
+            }
+            if (_fBreakAt < 0) { HideFrost(); return; }
+            float t = now - _fBreakAt;
+            if (t >= FrostBreak + .3f) { HideFrost(); _fBreakAt = -1; return; }
+            _fFill.enabled = false;
+            foreach (var g in _fGlint) g.enabled = false;
+            float gone = Span(t, FrostCrack, FrostBreak);
+            Sliced(_fTrack, Get89("track"), c, size * (1 + .04f * Mathf.Sin(Mathf.Clamp01(t / FrostCrack) * Mathf.PI)), 1 - gone);
+            int stage = t < .1f ? 1 : t < .2f ? 2 : 3;
+            Paint(_fCrack, Get89("crack_" + stage), c, size, (1 - gone) * Mathf.Clamp01(t / .04f));
+            if (t >= FrostCrack && !_fShattered)
+            {
+                _fShattered = true;
+                Haptics.Play(Haptics.Kind.Light);
+                Shake(1.5f * _s, .1f);
+                for (int i = 0; i < 12; i++)
+                {
+                    float x = Mathf.Lerp(-.45f, .45f, (i + Random.Range(0f, 1f)) / 12f);
+                    var p = c + new Vector2(x * size.x, Random.Range(-.3f, .3f) * size.y);
+                    var v = new Vector2(x * 260 + Random.Range(-40, 40), Random.Range(-170, -60)) * _s;
+                    Spawn(Get89("shard_" + (1 + i % 6)), p, v, Random.Range(-420, 420), Random.Range(7, 12) * _s, 4 * _s, Random.Range(.55f, .8f), 900 * _s, .6f, Color.white);
+                }
+            }
+            // the box's rim thaws: it fades and lifts a hair
+            float thaw = Span(t, 0, .45f);
+            Paint(_fPanel, Get89("panel_frost"), panel - new Vector2(0, 2 * thaw) * _s, new Vector2(113.3f, 97.3f) * _s * (1 + .02f * thaw), _fPanelA * .95f * (1 - thaw));
+        }
+
+        void HideFrost()
+        {
+            if (_fTrack == null) return;
+            _fTrack.enabled = _fFill.enabled = _fCrack.enabled = _fPanel.enabled = false;
+            foreach (var g in _fGlint) g.enabled = false;
+        }
 
         // ---- particles and shake --------------------------------------------------------------------------------
 

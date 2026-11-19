@@ -211,7 +211,7 @@ Shader "ReverseSolver/Piece"
                 if (imageAmt > 0.001)
                 {
                     float2 bp = (i.cell * 100.0 + p) / (max(_BoardCells.xy, 1.0) * 100.0);
-                    float3 img = SAMPLE_TEXTURE2D(_Image, sampler_Image, saturate(float2(bp.x, 1.0 - bp.y))).rgb;
+                    float3 img = SAMPLE_TEXTURE2D(_Image, sampler_Image, saturate(float2(bp.x, 1.0 - bp.y)) * _Image_ST.xy + _Image_ST.zw).rgb;   // PM_89: the picture's crop at the board's proportions (LevelImages.Crop)
                     rawImg = img;
                     float il = dot(img, float3(0.299, 0.587, 0.114));
                     img = lerp(img, float3(il, il, il), 0.55 * pinned) * lerp(1.0, 0.82, pinned);

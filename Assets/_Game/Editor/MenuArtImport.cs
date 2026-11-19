@@ -26,6 +26,29 @@ namespace ReverseSolver.EditorTools
                     : assetPath.EndsWith("freeze_bar_fill.png") ? UnityEngine.Vector4.one * 10 : UnityEngine.Vector4.zero;
                 return;
             }
+            // PM_89: the game's own frame (frame89: a plain texture, sliced by Frame89.cs), the clock's ice and the
+            // Jiggles shelf: @3x sprites at their own size (multiples of 4), crunched; the bar's ends 9-sliced
+            if (assetPath.Contains("Presentation/Resources/Art/yeni/pm89/"))
+            {
+                var p = (TextureImporter)assetImporter;
+                p.textureType = TextureImporterType.Sprite; p.spriteImportMode = SpriteImportMode.Single;
+                p.spritePixelsPerUnit = 3; p.alphaIsTransparency = true; p.mipmapEnabled = false;
+                p.npotScale = TextureImporterNPOTScale.None;
+                p.wrapMode = UnityEngine.TextureWrapMode.Clamp; p.filterMode = UnityEngine.FilterMode.Bilinear;
+                p.maxTextureSize = 2048;
+                p.textureCompression = TextureImporterCompression.Compressed; p.crunchedCompression = true; p.compressionQuality = 60;
+                p.SetPlatformTextureSettings(new TextureImporterPlatformSettings
+                {
+                    name = "WebGL", overridden = true, maxTextureSize = 2048, format = TextureImporterFormat.DXT5Crunched,
+                    textureCompression = TextureImporterCompression.Compressed, crunchedCompression = true, compressionQuality = 60
+                });
+                var ps = new TextureImporterSettings(); p.ReadTextureSettings(ps);
+                ps.spriteMeshType = UnityEngine.SpriteMeshType.FullRect; ps.spriteAlignment = (int)UnityEngine.SpriteAlignment.Center;
+                p.SetTextureSettings(ps);
+                p.spriteBorder = assetPath.EndsWith("/frost/track.png") ? new UnityEngine.Vector4(42, 0, 42, 0)
+                               : assetPath.EndsWith("/frost/fill.png") ? new UnityEngine.Vector4(30, 0, 30, 0) : UnityEngine.Vector4.zero;
+                return;
+            }
             // Codex art for the v3 preview (Art.cs): @3x sprites, 3 px per point; frame and button 9-sliced
             // Codex piece kit atlases (KitAtlas.cs): plain textures sampled by Piece.shader, 2592 px
             if (assetPath.Contains("Presentation/Resources/Art/kit-"))

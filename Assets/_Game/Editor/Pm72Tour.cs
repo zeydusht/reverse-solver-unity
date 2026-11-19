@@ -12,9 +12,13 @@ namespace ReverseSolver.EditorTools
          bash Tools/unity_batch.sh method ReverseSolver.EditorTools.Pm72Tour.Dump   -> Logs/pm72/p22_levels.json */
     public static class Pm72Tour
     {
-        public static void Dump()
+        public static void Dump() => Write(P21Onboarding.P22(LevelParser.Parse(File.ReadAllText("Assets/_Game/Levels/redesign.json"))), "Logs/pm72/p22_levels.json");
+
+        /* PM_89: p23's own set (sl100, played as it is) -> Logs/pm89/sl100_levels.json (pm72_tour.js --levels). */
+        public static void DumpSl100() => Write(LevelParser.Parse(File.ReadAllText("Assets/_Game/Levels/sl100.json")), "Logs/pm89/sl100_levels.json");
+
+        static void Write(LevelSet set, string path)
         {
-            var set = P21Onboarding.P22(LevelParser.Parse(File.ReadAllText("Assets/_Game/Levels/redesign.json")));
             var screen = new Vector2(390, 844);
             var sb = new StringBuilder("[");
             string F(float v) => v.ToString("0.##", CultureInfo.InvariantCulture);
@@ -29,9 +33,9 @@ namespace ReverseSolver.EditorTools
                 sb.Append(sb.Length > 1 ? ",\n" : "").Append($"{{\"n\":{l.Number},\"id\":\"{l.Id}\",\"w\":{l.Width},\"h\":{l.Height},\"cell\":{F(cell)},\"x\":{F(o.x)},\"y\":{F(o.y)}," +
                     $"\"timer\":{l.TimerSeconds},\"bombs\":{l.Bombs.Count},\"nails\":{l.Nails.Count},\"bombPieces\":[{string.Join(",", l.Bombs.Keys)}],\"sol\":[{string.Join(",", sol)}]}}");
             }
-            Directory.CreateDirectory("Logs/pm72");
-            File.WriteAllText("Logs/pm72/p22_levels.json", sb.Append("]").ToString());
-            Debug.Log($"[pm72] {set.Levels.Count} levels -> Logs/pm72/p22_levels.json");
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            File.WriteAllText(path, sb.Append("]").ToString());
+            Debug.Log($"[pm72] {set.Levels.Count} levels -> {path}");
         }
     }
 }

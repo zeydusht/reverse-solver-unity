@@ -17,7 +17,7 @@ namespace ReverseSolver.Presentation
             GlowId = Shader.PropertyToID("_Glow"), GlowColorId = Shader.PropertyToID("_GlowColor"),
             FlashId = Shader.PropertyToID("_Flash"), AlphaId = Shader.PropertyToID("_Alpha"),
             PtId = Shader.PropertyToID("_PtToUnit"), ImageId = Shader.PropertyToID("_Image"),
-            BoardCellsId = Shader.PropertyToID("_BoardCells"), ImageMixId = Shader.PropertyToID("_ImageMix");
+            BoardCellsId = Shader.PropertyToID("_BoardCells"), ImageSTId = Shader.PropertyToID("_Image_ST"), ImageMixId = Shader.PropertyToID("_ImageMix");
 
         public int Index { get; private set; }
         public Cell[] Cells { get; private set; }
@@ -26,6 +26,7 @@ namespace ReverseSolver.Presentation
         MaterialPropertyBlock _b;
         Mesh _mesh;
         float _cell;
+        float _aspect = 1;   // PM_89: the board's width / height (the picture's crop)
         public float Lifted { get; private set; }
 
         public static PieceView Create(Transform parent, Board board, int index, float cell, int order)
@@ -55,6 +56,7 @@ namespace ReverseSolver.Presentation
                 v._b.SetFloat("_SkinMix", 0);
             }
             v._b.SetVector(BoardCellsId, new Vector4(board.Level.Width, board.Level.Height, 0, 0));
+            v._aspect = (float)board.Level.Width / Mathf.Max(1, board.Level.Height);
             v.Rebuild(board);
             return v;
         }
@@ -140,7 +142,7 @@ namespace ReverseSolver.Presentation
         /* G1: the level's picture, mix 0 (colours) .. 1 (picture). */
         public void SetImage(Texture image, float mix)
         {
-            if (image != null) _b.SetTexture(ImageId, image);
+            if (image != null) { _b.SetTexture(ImageId, image); _b.SetVector(ImageSTId, LevelImages.CropST(image, _aspect)); }
             _b.SetFloat(ImageMixId, image != null ? mix : 0);
             Apply();
         }
