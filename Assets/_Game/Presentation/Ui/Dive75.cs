@@ -38,18 +38,25 @@ namespace ReverseSolver.Presentation
         public static float CorridorApproach = .6f;   // PM_85: after the corridor (no flight) the approach is .6 s
         public static bool Log;               // &dalislog=1: every frame's painting / board corners on screen, for the speed graphs
         /* PM_91 (Zeyd: "it goes well at first but slows down as it nears the painting"): the approach keeps its speed
-           into the painting (the old lift, the most speed ~77 % of the way, landing at .75 x it; the old curves came to
-           rest), and the picture holds half as long (PM_90 measured .55 s from the menu, .43 s after the corridor).
+           into the painting (PM_92: rising all the way, see MenuSeconds92; the old curves came to rest), and the
+           picture holds half as long (PM_90 measured .55 s from the menu, .43 s after the corridor).
            &dalis91=0 the PM_90 timing. */
         public static bool Arrive91 = true;
         public static float TouchMax = .025f;   // &degme=: on arrival the camera runs on into the picture by at most this
         const float TouchSeconds = .04f;        // (its speed falling off over about this), then holds
         const float MenuHold91 = .285f, CorridorHold91 = .227f;   // the picture covers the screen as the approach arrives
-        /* Tools/pm91_curve.py: the speed after the old lift, a quartic in (t - t1) / T0 (T0 the old curve's length);
-           t1 the lift's end, T the new length. */
-        static readonly float[] MenuCurve91 = { 0.971717f, 6.896623f, -35.013768f, 76.468321f, -58.393868f };
-        static readonly float[] CorridorCurve91 = { 0.768000f, 5.760000f, -24.635668f, 50.141834f, -36.276155f };
-        const float MenuT1 = .15f / 2.2f, MenuT = 1.6f / 2.2f, CorridorT1 = .12f / .6f, CorridorT = .55f / .6f;
+        /* PM_92 (Zeyd on PM_91: "somewhere in the middle it feels as if it slows down, a struggle, then it flows; go
+           straight into the wall with the acceleration it set off with"): the approach's speed is set as the eye sees
+           it, the wall's motion on the screen (its growth and its slide along the arc together, Flow92), and only
+           rises: from the old curve's own start, through RiseFrom92 of the time at 1, to Rise92 x that at Peak92 of the
+           time, then lands at Land92 x it. A cubic in each stretch (the speed and the acceleration have no step); the
+           way is laid out by that screen distance, so the arc handing over to the approach has no step either. */
+        const float MenuSeconds92 = 1.5f, CorridorSeconds92 = .5f;
+        const float RiseFrom92 = .35f, Rise92 = 1.5f, Peak92 = .95f, Land92 = .87f;
+        /* after the corridor the dive sets off from rest: its first stretch ends with the acceleration it has then
+           (the line on from there meets 0 at half that time: Rise = 1 + 2 (Peak - RiseFrom) / RiseFrom), so it keeps
+           accelerating evenly into the wall, no elbow (PM_92's first try eased off at .17 s, like PM_91's at .2 s) */
+        const float CorridorRiseFrom92 = .2f, CorridorRise92 = 1 + 2 * (Peak92 - CorridorRiseFrom92) / CorridorRiseFrom92;
 
         struct Plan { public float Flight, Approach, Hold, Back, Lines, Push; }
         static Plan Current
@@ -169,7 +176,7 @@ namespace ReverseSolver.Presentation
             if (_new91)
             {
                 if (HoldSec < 0) { _p.Hold = _s.Diorama != null ? MenuHold91 : CorridorHold91; _p.Push = .015f * _p.Hold / .8f; }
-                if (_s.Diorama == null) _p.Approach = CorridorApproach * CorridorT;
+                if (_s.Diorama == null) _p.Approach = CorridorSeconds92;
             }
             _rate = _p.Hold > .01f ? Mathf.Log(1 + _p.Push) / _p.Hold : 0;
             if (_s.Diorama != null)
@@ -210,8 +217,13 @@ namespace ReverseSolver.Presentation
                     if (vf > 1e-3f && va > 1e-3f) _bellSplit = Mathf.Clamp(vf / (vf + va), .3f, .85f);
                     _flight = _bellT * _bellSplit; _p.Approach = _bellT - _flight;
                     _lensT = _flight + .375f * _p.Approach;
-                    if (_new91) _p.Approach = _bellT * MenuT - _flight;   // PM_91: the same split of the way, sooner
                     Note($"bell split {_bellSplit:0.00}");
+                    if (_new91)
+                    {
+                        float T = MenuSeconds92 / Mathf.Max(.25f, DiveSpeed);
+                        _p.Approach = T - _flight;
+                        Plan92(MenuQuad92, T, true);
+                    }
                     _morphFrom = MorphGate(screen);
                     // PM_87 §2: the opening's first view against the menu's own (the first frame must be the menu's)
                     var first = _dio.CanvasAt(_dio.AtLength(0), 0); float startOff = 0;
@@ -529,29 +541,109 @@ namespace ReverseSolver.Presentation
         /* PM_91: the picture's growth on the screen (ln of its size per s) as the approach arrives. */
         float ArriveRate91()
         {
-            if (_dio != null && _bellT > 0)
-                return CurveSpeed91(MenuCurve91, MenuT - MenuT1) / _bellT
-                       * Mathf.Abs(Mathf.Log(_zEnd) - Mathf.Log(_dio.EndPoint.y)) / Mathf.Max(.05f, 1 - _bellSplit);
-            float lnRatio = Mathf.Log(Mathf.Max(1.0001f, _c.height / Mathf.Max(1, _r.height)));
-            return CurveSpeed91(CorridorCurve91, CorridorT - CorridorT1) / Mathf.Max(.05f, CorridorApproach) * lnRatio;
+            if (_wayD == null) return 0;
+            const float dt = .02f;
+            float a = Way92(_T92 - dt), b = Way92(_T92);
+            return (LnHeight(_quad92(b)) - LnHeight(_quad92(a))) / dt;
+        }
+        static float LnHeight(Vector2[] q) => Mathf.Log(Mathf.Max(1e-3f, ((q[3] - q[0]).magnitude + (q[2] - q[1]).magnitude) / 2));
+
+        float[] _wayD, _timeD;            // PM_92: the screen distance covered at each step of the way / of the time
+        float _T92;
+        System.Func<float, Vector2[]> _quad92;
+        const int WaySteps92 = 240, TimeSteps92 = 600;
+
+        /* PM_92: the wall's motion on the screen from the opening a to b (the same plane: one homography), the mean over
+           a grid on the whole screen, in screen heights. */
+        float Flow92(Vector2[] a, Vector2[] b)
+        {
+            var h = Homography(a, b); var sc = _s.Screen; float sum = 0; int n = 0;
+            for (int i = 0; i <= 8; i++)
+                for (int j = 0; j <= 18; j++)
+                {
+                    var p = new Vector2(sc.x * i / 8f, sc.y * j / 18f);
+                    sum += (Apply(h, p) - p).magnitude; n++;
+                }
+            return sum / n / Mathf.Max(1, sc.y);
         }
 
-        /* PM_91 §2: the progress (0..1) at x = t / T0: the old curve's own lift up to t1, then the quartic (its speed c,
-           Tools/pm91_curve.py) to 1 at T. */
-        static float Curve91(float x, float[] c, float t1, float T, System.Func<float, float> lift)
+        /* PM_92: the way (0..1) laid out by its screen distance, and the time by the speed (see MenuSeconds92); the
+           start's speed and acceleration the old curve's (the menu: Launch over its first .2 s; the corridor: from
+           rest, as its Hermite). */
+        void Plan92(System.Func<float, Vector2[]> quad, float T, bool menu)
         {
-            if (x <= t1) return lift(Mathf.Max(0, x));
-            float d = Mathf.Min(x, T) - t1, s = lift(t1), p = d;
-            for (int k = 0; k < 5; k++) { s += c[k] * p / (k + 1); p *= d; }
-            return Mathf.Clamp01(s);
+            _quad92 = quad; _T92 = T;
+            _wayD = new float[WaySteps92 + 1];
+            var prev = quad(0);
+            for (int i = 1; i <= WaySteps92; i++) { var q = quad(i / (float)WaySteps92); _wayD[i] = _wayD[i - 1] + Flow92(prev, q); prev = q; }
+            float D = _wayD[WaySteps92], v0 = 0, a0 = 0;
+            if (menu && _bellT > 0)
+            {
+                float At(float t) => Interp(_wayD, Launch(t / _bellT));
+                v0 = (At(.02f) - At(0)) / .02f;
+                float v2 = (At(.21f) - At(.19f)) / .02f;
+                a0 = Mathf.Max(0, (v2 - v0) / .2f);
+            }
+            float[] Speeds(float lam, float sv0, float sa0)
+            {
+                float riseFrom = menu ? RiseFrom92 : CorridorRiseFrom92, rise = menu ? Rise92 : CorridorRise92;
+                float t1 = riseFrom * T, t2 = Peak92 * T, m = (rise - 1) / Mathf.Max(1e-3f, t2 - t1);
+                var v = new float[TimeSteps92 + 1];
+                for (int k = 0; k <= TimeSteps92; k++)
+                {
+                    float t = T * k / TimeSteps92;
+                    v[k] = t < t1 ? Hermite3(sv0, sa0 * t1, lam, lam * m * t1, t / t1)
+                         : t < t2 ? Hermite3(lam, lam * m * (t2 - t1), lam * rise, 0, (t - t1) / (t2 - t1))
+                         : Hermite3(lam * rise, 0, lam * rise * Land92, 0, (t - t2) / Mathf.Max(1e-4f, T - t2));
+                }
+                return v;
+            }
+            float Area(float[] v) { float a = 0; for (int k = 1; k < v.Length; k++) a += (v[k] + v[k - 1]) / 2 * T / TimeSteps92; return a; }
+            float s0 = Area(Speeds(0, v0, a0)), s1 = Area(Speeds(1, 0, 0));
+            float lambda = Mathf.Max(1e-4f, (D - s0) / Mathf.Max(1e-6f, s1));
+            var vs = Speeds(lambda, v0, a0);
+            _timeD = new float[TimeSteps92 + 1];
+            for (int k = 1; k <= TimeSteps92; k++) _timeD[k] = _timeD[k - 1] + (vs[k] + vs[k - 1]) / 2 * T / TimeSteps92;
+            float scale = D / Mathf.Max(1e-6f, _timeD[TimeSteps92]);
+            for (int k = 0; k <= TimeSteps92; k++) _timeD[k] *= scale;
+            Note($"PM_92: {D:0.000} screen heights in {T:0.00} s, from {v0:0.000} (+{a0:0.00}/s) through {lambda:0.000}");
         }
-        static float CurveSpeed91(float[] c, float d)
+
+        /* PM_92: the way (0..1) reached at t. */
+        float Way92(float t)
         {
-            float v = 0, p = 1;
-            for (int k = 0; k < 5; k++) { v += c[k] * p; p *= d; }
-            return v;
+            float d = Interp(_timeD, Mathf.Clamp01(t / Mathf.Max(1e-3f, _T92)));
+            int lo = 0, hi = WaySteps92;
+            if (d <= 0) return 0;
+            if (d >= _wayD[hi]) return 1;
+            while (hi - lo > 1) { int m = (lo + hi) / 2; if (_wayD[m] <= d) lo = m; else hi = m; }
+            float f = (d - _wayD[lo]) / Mathf.Max(1e-9f, _wayD[hi] - _wayD[lo]);
+            return (lo + f) / WaySteps92;
         }
-        static float SmootherStep(float u) { u = Mathf.Clamp01(u); return u * u * u * (u * (6 * u - 15) + 10); }
+        static float Interp(float[] a, float x)
+        {
+            float f = Mathf.Clamp01(x) * (a.Length - 1); int i = Mathf.Min(a.Length - 2, (int)f);
+            return Mathf.Lerp(a[i], a[i + 1], f - i);
+        }
+
+        /* PM_92: the frame's opening on the screen at the way s, through the menu's diorama (as FlowDiorama poses it). */
+        Vector2[] MenuQuad92(float s)
+        {
+            var p = s <= _bellSplit ? _dio.AtLength(_dio.Length * s / _bellSplit) : ApproachEven((s - _bellSplit) / (1 - _bellSplit));
+            float w = SmoothStep(_bellT * LaunchInverse(s) / Mathf.Max(.01f, _lensT));
+            return _dio.CanvasAt(p, w);
+        }
+
+        /* PM_92: the opening after the corridor at the approach's e (as FacePose poses it). */
+        Vector2[] FaceQuad92(float e)
+        {
+            var q = _s.Quad; var r = Corners(_r);
+            var rect = LogLerp(_r, _c, e);
+            var zoom = Similarity(_r.center, rect.center, rect.height / _r.height);
+            var zq = new Vector2[4];
+            for (int i = 0; i < 4; i++) zq[i] = Apply(zoom, Vector2.Lerp(q[i], r[i], e));
+            return zq;
+        }
         /* The old curve's time (share of it) at the progress s: the lens shift keeps to the way, not the clock. */
         static float LaunchInverse(float s)
         {
@@ -657,7 +749,11 @@ namespace ReverseSolver.Presentation
         float ApproachE(float u)
         {
             float lnRatio = Mathf.Log(Mathf.Max(1.0001f, _c.height / Mathf.Max(1, _r.height)));
-            if (_new91) return Curve91(Mathf.Clamp01(u) * CorridorT, CorridorCurve91, CorridorT1, CorridorT, SmootherStep);
+            if (_new91)
+            {
+                if (_wayD == null) Plan92(FaceQuad92, _p.Approach, false);
+                return Way92(Mathf.Clamp01(u) * _p.Approach);
+            }
             return Hermite5(0, 0, 1, _rate * _p.Approach / lnRatio, Mathf.Clamp01(u));
         }
 
@@ -668,7 +764,7 @@ namespace ReverseSolver.Presentation
         {
             Vector2 p; float e = 0;
             bool bell = _bellT > 0;
-            float s = bell ? (_new91 ? Curve91(t / _bellT, MenuCurve91, MenuT1, MenuT, Launch) : Launch(t / _bellT)) : 0;   // PM_86 §10: one move over the flight and the approach (PM_87: off at once)
+            float s = bell ? (_new91 && _wayD != null ? Way92(t) : Launch(t / _bellT)) : 0;   // PM_86 §10: one move over the flight and the approach (PM_87: off at once)
             if (bell ? s <= _bellSplit : t <= _flight) p = bell ? _dio.AtLength(_dio.Length * s / _bellSplit) : _dio.AtLength(FlightLength(t));
             else
             {

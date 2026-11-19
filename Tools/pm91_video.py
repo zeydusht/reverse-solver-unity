@@ -3,13 +3,18 @@
 The ffmpeg is imageio-ffmpeg's.
 usage: python Tools/pm91_video.py <out.mp4> <from> <to> <capture dir> <tour log> [<capture dir> <tour log> ...]
   from / to: seconds from the dive's start (its first [cerceve] line), or 'rec' / 'end' for the first / last frame.
-  With two captures they are put side by side (left | right), each from its own dive start, labelled ESKİ | YENİ."""
+  With two captures they are put side by side (left | right), each from its own dive start, labelled ESKİ | YENİ
+  (or --labels A,B)."""
 import glob, io, json, re, subprocess, sys
 import imageio_ffmpeg
 from PIL import Image, ImageDraw, ImageFont
 
 out, t0s, t1s = sys.argv[1], sys.argv[2], sys.argv[3]
-caps = [(sys.argv[i], sys.argv[i + 1]) for i in range(4, len(sys.argv), 2)]
+argv = sys.argv[:]
+labels = ['ESKİ', 'YENİ']
+if '--labels' in argv:   # PM_92: e.g. --labels PM_91,PM_92
+    i = argv.index('--labels'); labels = argv[i + 1].split(','); del argv[i:i + 2]
+caps = [(argv[i], argv[i + 1]) for i in range(4, len(argv), 2)]
 W, H, FPS = 390, 844, 60
 num = lambda s: float(s.replace(',', '.'))
 
@@ -36,7 +41,7 @@ for s, times, _ in clips:
 a, b = max(x[0] for x in spans), min(x[1] for x in spans) if t1s == 'end' else float(t1s)
 ticks = int((b - a) * FPS)
 font = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 22)
-labels = ['ESKİ', 'YENİ'] if len(clips) == 2 else []
+labels = labels if len(clips) == 2 else []
 cmd = [imageio_ffmpeg.get_ffmpeg_exe(), '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24',
        '-s', f'{W * len(clips)}x{H}', '-r', str(FPS), '-i', '-', '-an', '-c:v', 'libx264', '-preset', 'veryfast',
        '-crf', '20', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out]
