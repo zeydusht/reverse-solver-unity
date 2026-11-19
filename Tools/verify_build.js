@@ -21,7 +21,8 @@
 //
 // Without --send nothing reaches Supabase: every page runs with ?debug=1 (debug never sends)
 // and supabase.co is blocked as well. With --send --player TEST_xxx it also runs, as that player:
-//   a6b    new profile, ?lv=2: name gate, 20 s wait, name, win L02: one row, attempt 1,
+//   a6b    new profile, ?lv=2: name gate, 20 s wait, name, win sl100's level 2 (S42; PM_92: was the old
+//          set's L02): one row, attempt 1,
 //          dur close to the time after the name (the gate is not counted), no keyif value
 //          (a row Supabase refused, e.g. for an unknown column, shows up as 0 new rows)
 //   m5     reload keeps the name; a hidden page sends one quit row; a debug win sends nothing;
@@ -53,6 +54,7 @@ const CHROME = opt('chrome', ['C:/Program Files/Google/Chrome/Application/chrome
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome'].find(p => fs.existsSync(p)));
 const ROOT = path.join(__dirname, '..');
 const levels = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/levels.json'), 'utf8')).levels;
+const sl100 = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/sl100.json'), 'utf8')).levels;   // the default set
 const designs = JSON.parse(fs.readFileSync(path.join(ROOT, 'Assets/_Game/Levels/designs.json'), 'utf8')).levels;
 const KEY = 'sb_publishable_S-DzN5GrUyMR2izo8vHc3Q_0kaGiVDK';   // publishable key, as in TelemetrySettings.cs
 const SUPA = 'https://vwneqdhzfevgbuwoadod.supabase.co';
@@ -70,6 +72,16 @@ function placement(l) {   // BoardLayout + GameRoot.BoardPlacement at W x H, no 
   const gap = Math.min(34, Math.max(24, (W - 44 * l.w) / 2));
   const cell = Math.floor(Math.min((W - 2 * gap) / l.w, (H - 262) / l.h, 78));
   const top = 4 + 10 + 46 + 6, bottom = H - 4 - (17 + 97);
+  return { cell, x: (W - l.w * cell) / 2, y: (top + bottom - l.h * cell) / 2 };
+}
+/* PM_92: the board under the game's HUD (GameRoot.Hud54BoardPlacement, Hud54.TopBottom / ButtonsTop) at W x H, no
+   safe insets, no level-1 chat: where sl100 (the default set) puts it. */
+function hudPlacement(l) {
+  const s = W / 390, band = 18.2, air = 12;
+  let cell = Math.min(placement(l).cell, Math.floor((W - 2 * (band + air)) / l.w));
+  const top = Math.max(H * .19 + 9 * s, 168 * s), bottom = H - H * .086 - 15.5 * s;
+  const margin = Math.max(band, cell * .25) + air;
+  if (l.h * cell + 2 * margin > bottom - top) cell = Math.floor(Math.min(cell, (bottom - top - 2 * margin) / l.h));
   return { cell, x: (W - l.w * cell) / 2, y: (top + bottom - l.h * cell) / 2 };
 }
 const report = [];
@@ -139,8 +151,8 @@ async function newPage() {
     await page.touch('touchEnd'); await sleep(900);
   };
   // play a stored solution (pieces dragged to the screen edge, as a player would)
-  page.solve = async l => {
-    const p = placement(l);
+  page.solve = async (l, at) => {
+    const p = at || placement(l);
     for (const m of l.solution) {
       const c = l.pieces[m.piece][0], [ux, uy] = DIR[m.dir];
       const x0 = p.x + (c[0] + .5) * p.cell, y0 = p.y + (c[1] + .5) * p.cell;
@@ -435,8 +447,9 @@ async function redesign() {
 }
 
 /* --send only: a ZeydBot attempt end to end on Z03 (no debug, sends as the TEST player): one touch that
-   snaps back, a pause / resume, the stored solution, the first 1-10 button; then moves must hold a touch
-   row with hold_ms, start + hide + show rows (PM_MESAJ_25), and the plays row a zorluk_puani. */
+   snaps back, a pause / resume, the stored solution; then moves must hold a touch row with hold_ms, start + hide +
+   show rows (PM_MESAJ_25). PM_92: the 1-10 card is gone from the game, so the plays row no longer has a zorluk_puani
+   (nothing is tapped after the win and it is not asked for). */
 async function zeydsend() {
   const file = path.join(ROOT, 'Assets/_Game/Levels/zeydbot.json');
   const set = JSON.parse(fs.readFileSync(file, 'utf8')).levels;
@@ -451,15 +464,6 @@ async function zeydsend() {
   await vis(true); await sleep(1500); await vis(false); await sleep(1500);
   await p.solve(l);
   await sleep(2500);
-  // the 1-10 rows sit above the next / retry buttons: the first button met going down the left column is "1"
-  const x = W / 2 - 120;
-  let before1 = await p.png();
-  for (let y = Math.round(H * .25); y < H * .85; y += 12) {
-    await p.tap(x, y);
-    const now = await p.png();
-    if (Buffer.compare(now, before1) !== 0) break;      // the card changed: the answer was taken
-    before1 = now;
-  }
   await sleep(17000);                                   // flushes run every 15 s
   const fresh = (await rows()).filter(r => !before.some(b => b.row_id === r.row_id) && r.level_id === 'Z03');
   const r = fresh[0];
@@ -467,25 +471,27 @@ async function zeydsend() {
   if (r) mv = await (await fetch(`${SUPA}/rest/v1/moves?row_id=eq.${r.row_id}&select=kind,hold_ms,move_no&order=move_no`, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })).json();
   const kinds = k => mv.filter(x => x.kind === k).length;
   const touchOk = mv.some(x => x.kind === 'touch' && x.hold_ms > 0);
-  const ok = !!r && r.result === 'win' && r.zorluk_puani != null && touchOk && kinds('hide') >= 1 && kinds('show') >= 1 && kinds('start') === 1 && kinds('exit') === l.solution.length;   // PM_MESAJ_25: hide/show, start
+  const ok = !!r && r.result === 'win' && touchOk && kinds('hide') >= 1 && kinds('show') >= 1 && kinds('start') === 1 && kinds('exit') === l.solution.length;   // PM_MESAJ_25: hide/show, start
   check('zeydsend', ok, r ? `Z03 ${r.result}, zorluk_puani ${r.zorluk_puani}, moves: exit ${kinds('exit')}/${l.solution.length}, touch ${kinds('touch')} (hold_ms ${(mv.find(x => x.kind === 'touch') || {}).hold_ms}), start ${kinds('start')}, hide ${kinds('hide')}, show ${kinds('show')}` : 'Z03 satırı gelmedi');
   p.close();
 }
 
 async function a6b() {
-  const p = await newPage(), l02 = levels[1];
+  const p = await newPage(), l02 = sl100.find(l => l.lv === 2);   // ?lv=2 opens the default set's (sl100) level 2
   const before = await rows();
   await p.open(`${base}/?lv=2`, { gate: true });
   const gate = await p.ev(`!!document.getElementById('rs-name')`);
   await sleep(20000);
   await p.name(player);
-  const t0 = Date.now(); await p.solve(l02); const wall = (Date.now() - t0) / 1000;
+  fs.writeFileSync(path.join(out, 'a6b_start.png'), await p.png());
+  const t0 = Date.now(); await p.solve(l02, hudPlacement(l02)); const wall = (Date.now() - t0) / 1000;
+  fs.writeFileSync(path.join(out, 'a6b_solved.png'), await p.png());
   await sleep(17000);                                  // a flush runs every 15 s
   const fresh = (await rows()).filter(r => !before.some(b => b.row_id === r.row_id));
-  const r = fresh.find(v => v.level_id === 'L02');
+  const r = fresh.find(v => v.level_id === l02.id);
   const fun = r && r.keyif != null;                    // AskFun is off: no 👍/👎 value in the row
   const ok = gate && fresh.length === 1 && r && r.result === 'win' && r.attempt === 1 && Math.abs(r.dur - wall) <= 4 && !fun;
-  check('a6b', ok, `kapı ${gate}, yeni satır ${fresh.length}` + (r ? `, L02 ${r.result} deneme ${r.attempt}, dur ${r.dur} sn / isimden sonra ${wall.toFixed(0)} sn (kapıdaki 20 sn sayılmamalı), keyif ${fun ? r.keyif : 'yok'}` : ''));
+  check('a6b', ok, `kapı ${gate}, yeni satır ${fresh.length}` + (r ? `, ${l02.id} ${r.result} deneme ${r.attempt}, dur ${r.dur} sn / isimden sonra ${wall.toFixed(0)} sn (kapıdaki 20 sn sayılmamalı), keyif ${fun ? r.keyif : 'yok'}` : ''));
   return p;                                             // m5 continues in the same profile
 }
 
