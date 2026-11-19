@@ -46,6 +46,35 @@ namespace ReverseSolver.Presentation
             return StartDive75(setup, index);
         }
 
+        /* PM_93 §2: a level played again from the Collection dives in as from the menu: the pages go to Home at once,
+           its frame takes that level's painting, then the dive (the painting not there within 2 s, or no dive: the
+           level starts as before). */
+        void Replay93(int index)
+        {
+            if (!PagesOn || _levelsMapOpen) { StartLevel(index); return; }
+            if (!_pageBuilt[0]) BuildPage88(0, true);
+            _pageAnim = _swipe = false; MenuTabs.Sliding = false;
+            ChooseTab88(0);
+            _pagePos = 0; PlacePages();
+            bool gone = false;
+            void Go(Texture2D t)
+            {
+                if (gone || _mode != Mode.Menu || _diving) return;
+                gone = true;
+                if (t != null && _menu != null) _menu.SetPainting(t);
+                if (t == null || !DiveFromMenu75(index)) StartLevel(index);
+            }
+            var pic = _images.Get(ImageOf(index), Go);
+            if (pic != null) Go(pic);
+            else StartCoroutine(Later93(2f, () => Go(null)));
+        }
+
+        static System.Collections.IEnumerator Later93(float seconds, System.Action then)
+        {
+            yield return new WaitForSecondsRealtime(seconds);
+            then();
+        }
+
         /* Win -> next: the corridor slides to the next painting; at its end the dive takes over from the corridor. */
         bool CorridorToNext75()
         {

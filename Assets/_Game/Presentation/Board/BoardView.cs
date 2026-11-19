@@ -426,6 +426,7 @@ namespace ReverseSolver.Presentation
            then spring back home. slideIn false: it is already there (the finger took it). */
         void Slam(PieceView pv, int piece, Dir dir, float contactCells, bool slideIn)
         {
+            if (Rubber > 0) { RubberKnock(pv, piece, dir, contactCells * Cell, slideIn, true); return; }
             var axis = new Vector2(dir.Dx(), dir.Dy());
             float from = Mathf.Max(0, Vector2.Dot(pv.Offset, axis)), reach = contactCells * Cell;
             int blocker = TravelRule.Limit(Session.Board, piece, dir).Blocker;
@@ -433,6 +434,8 @@ namespace ReverseSolver.Presentation
             int home = HomeOrder(piece);
             _ropes.TryGetValue(piece, out var rope);
             Tweens.Kill(pv);
+            int oldFrames = 0, oldSlow = 0, oldStart = Time.frameCount; float oldMax = 0;
+            void Count() { if (!RubberLog || Time.frameCount == oldStart) return; float dt = Time.unscaledDeltaTime * 1000; oldFrames++; if (dt > 20) oldSlow++; oldMax = Mathf.Max(oldMax, dt); }
             void Bounce()
             {
                 if (pv == null) return;
@@ -441,6 +444,7 @@ namespace ReverseSolver.Presentation
                 Tweens.Run(pv, total, k =>
                 {
                     if (pv == null) return;
+                    Count();
                     float s = k * total;
                     if (s < SquashSeconds + HoldSeconds)
                         SetSquash(pv, axis * reach, axis, anchor, Squash * Mathf.Clamp01(s / SquashSeconds));
@@ -453,6 +457,7 @@ namespace ReverseSolver.Presentation
                     }
                 }, () =>
                 {
+                    if (RubberLog) Debug.Log($"[lastik] piece {piece} PM_75 slam, frames {oldFrames}, over 20 ms {oldSlow}, longest {oldMax:0.0} ms");
                     if (pv == null) return;
                     pv.transform.localScale = Vector3.one; pv.SetOffset(Vector2.zero);
                     pv.SortingOrder = home; pv.SetLift(0);
@@ -461,8 +466,118 @@ namespace ReverseSolver.Presentation
             }
             if (!slideIn) { pv.SetOffset(axis * reach); Bounce(); return; }
             float seconds = Mathf.Clamp(.07f + .15f * Mathf.Max(0, reach - from) / Cell, .08f, .28f);
-            Tweens.Run(pv, seconds, t => { if (pv != null) pv.SetOffset(axis * Mathf.Lerp(from, reach, t * (.55f + .45f * t))); }, Bounce);
+            Tweens.Run(pv, seconds, t => { Count(); if (pv != null) pv.SetOffset(axis * Mathf.Lerp(from, reach, t * (.55f + .45f * t))); }, Bounce);
         }
+
+        // ---- PM_93: the rubber knock --------------------------------------------------
+        /* Zeyd: "Like rubber: it goes, hits the wall, squashes right down, then opens and springs back into its place.
+           A toy." The piece stretches a little as it slides (with its speed), squashes against what stops it (about
+           the touching edge: that side stays, the far side comes in, the other way it widens: the area kept), opens
+           and springs back past its place once (~4 % of a cell) and settles. With no room it nudges in 8 % of a
+           cell, squashes less and springs back, shorter. The picture, the tabs, the nail and the bomb badges scale
+           with the piece (one transform). A new touch stops it at once (ShowDrag). */
+        public static float Rubber = 1;          // &lastik= (the squash and stretch x; 0: PM_75's knock)
+        public static float RubberSeconds = -1;  // &lastiksure= (s): from the contact on (the squash and the way back)
+        public static bool RubberLog;            // &lastiklog=1: one [lastik] line a knock, at its end (a log a frame would itself make long frames)
+        const float RubberStretch = .07f, RubberSquash = .20f, RubberNudgeSquash = .11f, RubberOver = .04f, RubberNudge = .08f;
+        const float SquashIn = .055f, SquashHold = .02f, SpringBack = .28f, NudgeIn = .06f, NudgeSquashIn = .045f, NudgeBack = .2f;
+
+        /* The piece's shape: its leading edge `lead` points along the axis from home, `along` its length on the axis
+           (1 at rest) about that edge, the other way 1 / sqrt(along). */
+        void SetRubber(PieceView pv, Vector2 axis, Vector2 anchor, float lead, float along)
+        {
+            along = Mathf.Max(.3f, along);
+            float across = 1 / Mathf.Sqrt(along);
+            var scale = axis.x != 0 ? new Vector2(along, across) : new Vector2(across, along);
+            pv.transform.localScale = new Vector3(scale.x, scale.y, 1);
+            pv.transform.localPosition = Draw.W(axis * lead + Vector2.Scale(anchor, Vector2.one - scale));
+        }
+
+        /* reach: where the leading edge touches (points from home); slideIn: it slides there first (else the finger
+           took it there); gap: a piece with room (else the short nudge). */
+        void RubberKnock(PieceView pv, int piece, Dir dir, float reach, bool slideIn, bool gap)
+        {
+            var axis = new Vector2(dir.Dx(), dir.Dy());
+            float from = Mathf.Clamp(Vector2.Dot(pv.Offset, axis), 0, reach);
+            var limit = TravelRule.Limit(Session.Board, piece, dir);
+            int blocker = limit.Exit ? -1 : limit.Blocker;
+            var anchor = LeadingEdge(piece, dir);
+            int home = HomeOrder(piece);
+            _ropes.TryGetValue(piece, out var rope);
+            Tweens.Kill(pv);
+            float k = RubberSeconds > 0 ? RubberSeconds / (gap ? SquashIn + SquashHold + SpringBack : NudgeSquashIn + SquashHold + NudgeBack) : 1;
+            float slide = !slideIn ? 0 : gap ? Mathf.Clamp(.07f + .15f * Mathf.Max(0, reach - from) / Cell, .08f, .28f) : NudgeIn;
+            float squashIn = (gap ? SquashIn : NudgeSquashIn) * k, hold = SquashHold * k, back = (gap ? SpringBack : NudgeBack) * k;
+            float squash = (gap ? RubberSquash : RubberNudgeSquash) * Rubber, stretchMax = RubberStretch * Rubber;
+            float vRef = 6 * Cell;   // pt/s at which the stretch is full
+            // the way back: a spring from the contact, damped so it passes home by ~4 % of a cell once
+            float over = Mathf.Clamp(RubberOver * Rubber * Cell / Mathf.Max(1e-3f, reach), .005f, .3f);
+            float lnO = Mathf.Log(over), zeta = -lnO / Mathf.Sqrt(Mathf.PI * Mathf.PI + lnO * lnO);
+            float omega = 4.2f / (zeta * Mathf.Max(.05f, back)), wd = omega * Mathf.Sqrt(1 - zeta * zeta);
+            float Spring(float t) => reach * Mathf.Exp(-zeta * omega * t) * (Mathf.Cos(wd * t) + zeta / Mathf.Sqrt(1 - zeta * zeta) * Mathf.Sin(wd * t));
+            float SpringV(float t) => -reach * omega / Mathf.Sqrt(1 - zeta * zeta) * Mathf.Exp(-zeta * omega * t) * Mathf.Sin(wd * t);
+            float speed0 = slide > 0 ? 1.45f * Mathf.Max(0, reach - from) / slide : 0;   // the slide's speed at the contact
+            float impact = Mathf.Min(1, speed0 / vRef) * stretchMax;
+            float total = slide + squashIn + hold + back;
+            bool knocked = !slideIn;
+            System.Text.StringBuilder log = RubberLog ? new System.Text.StringBuilder() : null;
+            int frames = 0, slow = 0, startFrame = Time.frameCount; float maxDt = 0, releaseDt = -1;
+            float before = (Time.realtimeSinceStartup - Time.unscaledTime) * 1000;   // of the release's frame, before the knock began
+            var dts = log != null ? new System.Text.StringBuilder() : null;
+            if (!slideIn && gap) Knock(piece, dir, blocker);
+            else if (!slideIn && blocker >= 0) FlashBlocker(blocker);
+            Tweens.Run(pv, total, u =>
+            {
+                if (pv == null) return;
+                float t = u * total, lead, along;
+                if (t < slide)
+                {
+                    float x = t / slide;
+                    lead = Mathf.Lerp(from, reach, x * (.55f + .45f * x));
+                    float v = (reach - from) * (.55f + .9f * x) / slide;
+                    along = 1 + Mathf.Min(1, v / vRef) * stretchMax;
+                }
+                else
+                {
+                    if (!knocked) { knocked = true; if (gap) Knock(piece, dir, blocker); else if (blocker >= 0) FlashBlocker(blocker); }
+                    float c = t - slide;
+                    if (c < squashIn + hold)
+                    {
+                        float x = Mathf.Clamp01(c / Mathf.Max(1e-3f, squashIn));
+                        lead = reach;
+                        along = Mathf.Lerp(1 + impact, 1 - squash, 1 - (1 - x) * (1 - x));
+                    }
+                    else
+                    {
+                        float b = c - squashIn - hold, x = b / Mathf.Max(1e-3f, back);
+                        float fade = x < .85f ? 1 : 1 - SmoothStep01((x - .85f) / .15f);   // exactly home at the end
+                        lead = Spring(b) * fade;
+                        float open = Mathf.Max(.05f, .09f * k);
+                        float sq = -squash * (1 - SmoothStep01(b / open));
+                        along = 1 + sq + Mathf.Min(1, Mathf.Abs(SpringV(b)) / vRef) * stretchMax * fade;
+                        pv.SetLift(1 - x);
+                    }
+                }
+                SetRubber(pv, axis, anchor, lead, along);
+                if (log != null)
+                {
+                    // the knock's own frames; the release's frame (the touch, the jam's sound, its row) is the one before
+                    float dt = Time.unscaledDeltaTime * 1000;
+                    if (Time.frameCount == startFrame) releaseDt = Mathf.Max(releaseDt, dt);
+                    else { frames++; if (dt > 20) slow++; maxDt = Mathf.Max(maxDt, dt); dts.Append(' ').Append(dt.ToString("0")); }
+                    log.Append(' ').Append(t.ToString("0.000")).Append(':').Append((lead / Cell).ToString("0.000")).Append('/').Append(along.ToString("0.000"));
+                }
+            }, () =>
+            {
+                if (log != null) Debug.Log($"[lastik] piece {piece} {(gap ? "gap" : "nudge")} {total:0.000} s, frames {frames}, over 20 ms {slow}, longest {maxDt:0.0} ms (the release's frame before it {releaseDt:0.0} ms; in the release's own frame {before:0.0} ms went before the knock began); frames ms{dts}; t:lead(cells)/along{log}");
+                if (pv == null) return;
+                pv.transform.localScale = Vector3.one; pv.SetOffset(Vector2.zero);
+                pv.SortingOrder = home; pv.SetLift(0);
+                if (rope != null) rope.SetOrder(ChainOrder);
+            });
+        }
+
+        static float SmoothStep01(float x) { x = Mathf.Clamp01(x); return x * x * (3 - 2 * x); }
 
         public void EndDrag(int piece, DragRelease result, Dir dir, int travelCells, bool autoSlide = false)
         {
@@ -484,6 +599,15 @@ namespace ReverseSolver.Presentation
                 if (contact >= SlamMin && (autoSlide || touched)) { Slam(pv, piece, dir, contact, !touched); return; }
             }
             _contactPiece = -1;
+            if (Rubber > 0 && Session.Board.IsPresent(piece) && travelCells == 0 && !TravelRule.Limit(Session.Board, piece, dir).Exit &&
+                (Session.NailAt(piece) > 0 || Contact.Distance(Session.Board, piece, dir) < SlamMin))
+            {
+                // PM_93: no room (or a nail): a nudge into what stops it, a squash, a spring back (held there by the
+                // finger: from where it is)
+                bool thrown = autoSlide, held = result == DragRelease.SnappedBack && pv.Offset.magnitude <= DragModel.GiveHard * Cell + .5f;
+                float at = thrown ? RubberNudge * Cell : Mathf.Max(.02f * Cell, Vector2.Dot(pv.Offset, new Vector2(dir.Dx(), dir.Dy())));
+                if (thrown || held) { RubberKnock(pv, piece, dir, at, thrown, false); return; }
+            }
             if (autoSlide)
             {
                 var start = pv.Offset;

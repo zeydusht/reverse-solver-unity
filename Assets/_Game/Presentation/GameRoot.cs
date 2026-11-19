@@ -183,6 +183,9 @@ namespace ReverseSolver.Presentation
             CorridorTransition.EndBeat = QueryFloat("koridorson", .2f, 0, 2);     // and before the dive
             Dive75.LineK = QueryFloat("cizgihiz", 1, .25f, 4);
             Dive75.DiveSpeed = QueryFloat("dalishiz", 1, .25f, 4);   // PM_86 §10
+            BoardView.Rubber = QueryFloat("lastik", 1, 0, 3);                 // PM_93 §1 (0: PM_75's knock)
+            BoardView.RubberSeconds = QueryFloat("lastiksure", -1, .1f, 3);
+            BoardView.RubberLog = Host.Current.Query("lastiklog") == "1";
             Dive75.Arrive91 = Host.Current.Query("dalis91") != "0";      // PM_91: &dalis91=0 the PM_90 timing
             Dive75.TouchMax = QueryFloat("degme", .025f, 0, .1f);         // PM_91 §2: the touch on arrival (share of the size)
             Hud54.TimeBarOn = Host.Current.Query("surebar") == "1";            // PM_89 §2
@@ -815,7 +818,7 @@ namespace ReverseSolver.Presentation
                 if (_paintingDetail != null)
                 {
                     string action = _paintingDetail.Hit(pt);
-                    if (action == "replay") { int index = _paintingDetail.Index; _paintingDetail.Destroy(); _paintingDetail = null; StartLevel(index); }
+                    if (action == "replay") { int index = _paintingDetail.Index; _paintingDetail.Destroy(); _paintingDetail = null; Replay93(index); }
                     else if (action == "close") { _paintingDetail.Destroy(); _paintingDetail = null; }
                     return;
                 }

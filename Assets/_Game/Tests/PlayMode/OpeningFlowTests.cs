@@ -594,6 +594,178 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(flattenedAtStart, Is.EqualTo(13), "PM_76: at the start of each level it flattened a piece's tabs");
         }
 
+        /* PM_93 §2 (Zeyd: Collection, level 2, Play again, played, back to the menu: the background split in two, the
+           painting without its frame): after every way back the menu is the menu as it opens: Home, the pages in
+           place, the camera's own view, the room (wall + frame) where it belongs, no dive left over, and its picture
+           the same as the fresh menu's. Levels 1-4 won, so the Collection has paintings to play again. */
+        [UnityTest]
+        public IEnumerator MenuIsWholeAfterEveryWayBack()
+        {
+            _host.Links = "c=p23&lang=en";
+            _host.Store = new MemoryStore();
+            var save = new SaveData(_host.Store, () => "seed");
+            save.SetPlayer("QA");
+            save.MergeBest(new System.Collections.Generic.Dictionary<string, int> { ["S41"] = 3, ["S42"] = 3, ["S43"] = 3, ["SL004"] = 3 });
+            _host.Store.Set("rs_profile_p23", "0");   // the one-time profile question: answered
+            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+            yield return MenuSettled("the fresh menu");
+            var reference = MenuState();
+            var refShot = Shot();
+            var report = new System.Text.StringBuilder();
+
+            IEnumerator FromCollection(int index)
+            {
+                var tabs = Field<MenuTabs>("_tabs");
+                yield return Click(tabs.TabCentre(1));
+                yield return new WaitForSecondsRealtime(.6f);
+                Assert.That(Field<MenuTab>("_tab"), Is.EqualTo(MenuTab.Collection));
+                Call("Replay93", index);   // the painting's "Play again"
+                yield return WaitFor(() => Field<bool>("_diving"), "the dive in from the Collection");
+                yield return LevelReady(index + 1);
+            }
+            IEnumerator Check(string way)
+            {
+                yield return MenuSettled(way);
+                var now = MenuState();
+                var shot = Shot();
+                int off = 0;
+                for (int i = 0; i < shot.Length; i++)
+                    if (Mathf.Abs(shot[i].r - refShot[i].r) + Mathf.Abs(shot[i].g - refShot[i].g) + Mathf.Abs(shot[i].b - refShot[i].b) > 60) off++;
+                float share = (float)off / shot.Length;
+                report.Append($" {way}: {now}, pixels off {share:P1};");
+                Assert.That(now, Is.EqualTo(reference), $"{way}: the menu's state");
+                Assert.That(share, Is.LessThan(.03f), $"{way}: the menu's picture against the fresh one");
+            }
+
+            // Collection -> level -> win -> Menu (the win screen's Menu: the corridor back)
+            yield return FromCollection(1);
+            var session = Board.Session;
+            foreach (var m in session.Level.Solution)
+            {
+                if (!session.Board.IsPresent(m.Piece)) continue;
+                yield return Swipe(Board, m.Piece, m.Dir);
+                yield return WaitFor(() => !session.Board.IsPresent(m.Piece), $"piece {m.Piece} out");
+                yield return new WaitForSecondsRealtime(.15f);
+            }
+            yield return WaitFor(() => WinScreen != null, "the win screen");
+            yield return new WaitForSecondsRealtime(1.5f);
+            var win = Field<P21WinView>("_win21");
+            Assert.That(win, Is.Not.Null, "the win view");
+            var menuRect = (Rect)typeof(P21WinView).GetField("_menuRect", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(win);
+            yield return Click(menuRect.center);   // the win screen's Menu
+            yield return Check("Collection, win, Menu");
+
+            // Collection -> level -> pause -> Menu ("Quit" on the pause card)
+            yield return FromCollection(2);
+            Call("OpenPause54");
+            yield return new WaitForSecondsRealtime(.4f);
+            Call("CloseCard"); Call("ShowMenu");
+            yield return Check("Collection, pause, Menu");
+
+            // Collection -> level -> lose -> Menu (time out; the loss card's Menu)
+            yield return FromCollection(1);
+            session = Board.Session;
+            Assert.That(session.RecordJam(0), Is.EqualTo(CommandResult.Ok));
+            session.Tick(10000);
+            Assert.That(session.Outcome, Is.EqualTo(Outcome.Time));
+            yield return new WaitForSecondsRealtime(1.5f);
+            Call("NavigateResult", "menu");
+            yield return Check("Collection, lose, Menu");
+
+            // a level from the menu's Play -> Menu
+            yield return Click(LayoutPoint(MenuPlay));
+            yield return LevelReady(5);
+            Call("OpenPause54");
+            yield return new WaitForSecondsRealtime(.4f);
+            Call("CloseCard"); Call("ShowMenu");
+            yield return Check("Play, pause, Menu");
+
+            // the bug's own way: the menu built while the Collection is shown (Home built ahead, a screen off), then Home
+            yield return Click(Field<MenuTabs>("_tabs").TabCentre(1));
+            yield return new WaitForSecondsRealtime(.6f);
+            Call("Layout");
+            yield return WaitFor(() => Field<bool[]>("_pageBuilt")[0], "Home built ahead");
+            yield return Click(Field<MenuTabs>("_tabs").TabCentre(0));
+            yield return Check("menu built on the Collection, then Home");
+            Debug.Log("[pm93 menu]" + report);
+        }
+
+        IEnumerator LevelReady(int number)
+        {
+            float until = Time.realtimeSinceStartup + 12f;
+            while (!(Board != null && Board.Session.Level.Number == number && !Field<bool>("_diving")) && Time.realtimeSinceStartup < until) yield return null;
+            Assert.That(Board != null && Board.Session.Level.Number == number && !Field<bool>("_diving"), Is.True, $"level {number} after its dive");
+            if (Field<string>("_cardKind") == "intro")
+            {
+                typeof(GameRoot).GetField("_introOpen", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(UnityEngine.Object.FindAnyObjectByType<GameRoot>(), false);
+                Call("CloseCard");
+            }
+            yield return new WaitForSecondsRealtime(.4f);
+        }
+
+        IEnumerator MenuSettled(string what)
+        {
+            float until = Time.realtimeSinceStartup + 15f;
+            bool Ready()
+            {
+                var menu = Field<Screens.Menu>("_menu");
+                return MenuPlay != null && Field<bool[]>("_pageBuilt").All(b => b) && !Field<bool>("_diving") &&
+                       menu != null && menu.PaintingTexture != null && Field<string>("_cardKind") == null;
+            }
+            while (!Ready() && Time.realtimeSinceStartup < until) yield return null;
+            Assert.That(Ready(), Is.True, $"{what}: the menu, its pages and its painting");
+            yield return new WaitForSecondsRealtime(2f);   // the menu's arrival (MenuEnter76) over
+        }
+
+        /* Home, the pages' place, the camera, the room's place on the screen (rounded to a point), dive objects left. */
+        static string MenuState()
+        {
+            var cam = Field<Camera>("_cam");
+            var menu = Field<Screens.Menu>("_menu");
+            var room = (Transform)typeof(Screens.Menu).GetField("_room", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(menu);
+            string roomAt = "none";
+            if (room != null && room.gameObject.activeInHierarchy)
+            {
+                // the layers' meshes (their bounds are kept huge on purpose): where their corners are on the screen
+                Bounds? box = null;
+                foreach (var f in room.GetComponentsInChildren<MeshFilter>())
+                    foreach (var v in f.sharedMesh.vertices)
+                    {
+                        var w = f.transform.TransformPoint(v);
+                        if (box == null) box = new Bounds(w, Vector3.zero); else { var bb = box.Value; bb.Encapsulate(w); box = bb; }
+                    }
+                if (box != null) roomAt = $"{box.Value.min.x:0} {box.Value.min.y:0} {box.Value.max.x:0} {box.Value.max.y:0}";
+            }
+            var pages = Field<Transform>("_pages");
+            bool dive = GameObject.Find("PM75 dive") != null || GameObject.Find("PM75 reveal") != null;
+            return $"tab {Field<MenuTab>("_tab")}, pages {Field<float>("_pagePos"):0.00} at {(pages != null ? pages.localPosition.x : float.NaN):0}, " +
+                   $"camera {cam.transform.position.x:0} {cam.transform.position.y:0} {cam.orthographicSize:0}, room {roomAt}, " +
+                   $"painting {(menu.PaintingSprite != null && menu.PaintingSprite.enabled ? "shown" : "hidden")}, dive left {dive}";
+        }
+
+        static Color32[] Shot()
+        {
+            var cam = Field<Camera>("_cam");
+            int w = Screen.width, h = Screen.height;
+            var rt = RenderTexture.GetTemporary(w, h, 24);
+            var was = cam.targetTexture; cam.targetTexture = rt; cam.Render(); cam.targetTexture = was;
+            var active = RenderTexture.active; RenderTexture.active = rt;
+            var tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+            tex.ReadPixels(new Rect(0, 0, w, h), 0, 0); tex.Apply();
+            RenderTexture.active = active; RenderTexture.ReleaseTemporary(rt);
+            var px = tex.GetPixels32();
+            UnityEngine.Object.Destroy(tex);
+            return px;
+        }
+
+        static void Call(string method, params object[] args)
+        {
+            var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+            var m = typeof(GameRoot).GetMethod(method, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            Assert.That(m, Is.Not.Null, method);
+            m.Invoke(root, args);
+        }
+
         static T Field<T>(string name)
         {
             var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();

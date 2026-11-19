@@ -172,12 +172,16 @@ namespace ReverseSolver.Presentation
             static readonly List<Dive75.Layer> RoomLayers = new List<Dive75.Layer>();   // one menu at a time: its meshes and materials
 
             /* PM_78: the menu picture's centre (layout points) and its scale (layout points per picture px). */
-            public bool ImageMap(out Vector2 centre, out float k)
+            /* local (PM_93): in the menu's own space, not the world's. The room is built under Root; built while another
+               tab's page was shown (Home a screen to the left: a level replayed from the Collection, then the menu), the
+               world's place put it a screen off (Zeyd: "the background split in two, the painting without its frame"). */
+            public bool ImageMap(out Vector2 centre, out float k, bool local = false)
             {
                 centre = Vector2.zero; k = 1;
                 if (_bg == null) return false;
                 float ppu = _bg.sprite.pixelsPerUnit;
                 var o = _bg.transform.TransformPoint(Vector3.zero); var x = _bg.transform.TransformPoint(new Vector3(1 / ppu, 0, 0));
+                if (local) { o = Root.InverseTransformPoint(o); x = Root.InverseTransformPoint(x); }
                 centre = new Vector2(o.x, -o.y); k = (x - o).magnitude;
                 return true;
             }
@@ -191,7 +195,7 @@ namespace ReverseSolver.Presentation
 
             void BuildRoom()
             {
-                if (_roomArt == null || _bg == null || !ImageMap(out var centre, out float k)) return;
+                if (_roomArt == null || _bg == null || !ImageMap(out var centre, out float k, local: true)) return;
                 if (_room != null) Object.Destroy(_room.gameObject);
                 foreach (var l in RoomLayers) l.Dispose();
                 RoomLayers.Clear();
