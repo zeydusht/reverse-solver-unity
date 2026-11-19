@@ -37,6 +37,19 @@ namespace ReverseSolver.Presentation
         public static float LinesDone = .7f;  // PM_84/85: the share of the pull back by which the cuts are all drawn
         public static float CorridorApproach = .6f;   // PM_85: after the corridor (no flight) the approach is .6 s
         public static bool Log;               // &dalislog=1: every frame's painting / board corners on screen, for the speed graphs
+        /* PM_91 (Zeyd: "it goes well at first but slows down as it nears the painting"): the approach keeps its speed
+           into the painting (the old lift, the most speed ~77 % of the way, landing at .75 x it; the old curves came to
+           rest), and the picture holds half as long (PM_90 measured .55 s from the menu, .43 s after the corridor).
+           &dalis91=0 the PM_90 timing. */
+        public static bool Arrive91 = true;
+        public static float TouchMax = .025f;   // &degme=: on arrival the camera runs on into the picture by at most this
+        const float TouchSeconds = .04f;        // (its speed falling off over about this), then holds
+        const float MenuHold91 = .285f, CorridorHold91 = .227f;   // the picture covers the screen as the approach arrives
+        /* Tools/pm91_curve.py: the speed after the old lift, a quartic in (t - t1) / T0 (T0 the old curve's length);
+           t1 the lift's end, T the new length. */
+        static readonly float[] MenuCurve91 = { 0.971717f, 6.896623f, -35.013768f, 76.468321f, -58.393868f };
+        static readonly float[] CorridorCurve91 = { 0.768000f, 5.760000f, -24.635668f, 50.141834f, -36.276155f };
+        const float MenuT1 = .15f / 2.2f, MenuT = 1.6f / 2.2f, CorridorT1 = .12f / .6f, CorridorT = .55f / .6f;
 
         struct Plan { public float Flight, Approach, Hold, Back, Lines, Push; }
         static Plan Current
@@ -108,6 +121,8 @@ namespace ReverseSolver.Presentation
            What a camera cannot match (the menu's flat drawing straightened by the wall: a few % of slant) is taken up
            over the whole approach, never squeezed into its end. */
         float _fitA, _fitX, _fitY;
+        bool _new91, _calm;                // PM_91: the new timing; the frame after the level is built does not jump
+        float _lensT, _step, _touch, _touchTau;   // the old lens shift's length; the last frame's step; the arrival's touch
         bool _fit;
         Func<float, float, Vector2> _endAt, _gluedUv;
 
@@ -150,6 +165,12 @@ namespace ReverseSolver.Presentation
             if (Gap) _backdrop.Fill(new Color(1, 0, 1, 1));
             _p = Current;
             if (_s.Diorama == null && Variant == 'a') _p.Approach = CorridorApproach;
+            _new91 = Arrive91 && !Legacy && Variant == 'a';
+            if (_new91)
+            {
+                if (HoldSec < 0) { _p.Hold = _s.Diorama != null ? MenuHold91 : CorridorHold91; _p.Push = .015f * _p.Hold / .8f; }
+                if (_s.Diorama == null) _p.Approach = CorridorApproach * CorridorT;
+            }
             _rate = _p.Hold > .01f ? Mathf.Log(1 + _p.Push) / _p.Hold : 0;
             if (_s.Diorama != null)
             {
@@ -188,6 +209,8 @@ namespace ReverseSolver.Presentation
                     float va = Move(_dio.CanvasAt(ApproachEven(0), 1), _dio.CanvasAt(ApproachEven(.01f), 1)) / .01f;
                     if (vf > 1e-3f && va > 1e-3f) _bellSplit = Mathf.Clamp(vf / (vf + va), .3f, .85f);
                     _flight = _bellT * _bellSplit; _p.Approach = _bellT - _flight;
+                    _lensT = _flight + .375f * _p.Approach;
+                    if (_new91) _p.Approach = _bellT * MenuT - _flight;   // PM_91: the same split of the way, sooner
                     Note($"bell split {_bellSplit:0.00}");
                     _morphFrom = MorphGate(screen);
                     // PM_87 §2: the opening's first view against the menu's own (the first frame must be the menu's)
@@ -407,7 +430,11 @@ namespace ReverseSolver.Presentation
             _lastFrame = Time.frameCount;
             _frames++; if (Time.unscaledDeltaTime > .02f) _slow++; _maxDt = Mathf.Max(_maxDt, Time.unscaledDeltaTime);   // PM_84
             // a long frame (the level being built) must not eat the hold: at most 1/30 s a frame
-            _clock += Mathf.Min(Time.unscaledDeltaTime, 1 / 30f) * _speed * Mathf.Max(.1f, SpeedK);
+            // PM_91: the level is built on the approach's last frame, at speed: the next frame steps on at most 1/60 s
+            // (a beat on the touch, not a jump)
+            _step = Mathf.Min(Time.unscaledDeltaTime, _calm ? 1 / 60f : 1 / 30f) * _speed * Mathf.Max(.1f, SpeedK);
+            _calm = false;
+            _clock += _step;
             Step();
         }
 
@@ -459,7 +486,7 @@ namespace ReverseSolver.Presentation
                 else FacePose(ApproachE(u), 1, 0);   // PM_90 §3: glued, no morph (see FlowDiorama)
                 // the level is built as the approach comes to rest (the screen barely moves: a long frame is not seen);
                 // the cuts take over on the next frame
-                if (!_built && u >= .94f) BuildLevel();
+                if (!_built && (_new91 ? t + _step >= h0 : u >= .94f)) BuildLevel();
                 LogOverlay(t);
                 return;
             }
@@ -470,14 +497,14 @@ namespace ReverseSolver.Presentation
                 // the hold: a slow push in; the back: ease in-out to the level's own view, taking over the push
                 var rect = new Rect(_board.Origin, _board.Size);
                 var from = new Vector3(rect.center.x, -rect.center.y, _homePos.z);
-                float lnCover = Mathf.Log(Dive74.CoverSize(rect.size, _s.Screen)), lnPush = _rate * _p.Hold;
+                float lnCover = Mathf.Log(Dive74.CoverSize(rect.size, _s.Screen)), lnPush = Push91(_p.Hold);
                 if (_fit) { FittedView(out from, out float fs); lnCover = Mathf.Log(fs); }   // PM_88 §1: from where the picture arrived
-                if (t < h1) { _s.Cam.orthographicSize = Mathf.Exp(lnCover - _rate * (t - h0)); _s.Cam.transform.position = from; }
+                if (t < h1) { _s.Cam.orthographicSize = Mathf.Exp(lnCover - Push91(t - h0)); _s.Cam.transform.position = from; }
                 else
                 {
                     float u = Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back));
                     float l0 = lnCover - lnPush, l1 = Mathf.Log(_homeSize);
-                    float l = Hermite3(l0, -_rate * _p.Back, l1, 0, u);
+                    float l = Hermite3(l0, -Push91Rate(_p.Hold) * _p.Back, l1, 0, u);
                     _s.Cam.orthographicSize = Mathf.Exp(l);
                     _s.Cam.transform.position = Vector3.LerpUnclamped(from, _homePos, Mathf.Abs(l1 - l0) > 1e-5f ? (l - l0) / (l1 - l0) : u);
                 }
@@ -491,6 +518,46 @@ namespace ReverseSolver.Presentation
             _s.Slide?.Invoke(BoosterFx74.OutCubic(Mathf.Clamp01((t - (h2 - hud)) / hud)));
             LogBoard(t);
             if (t >= h2) Finish();
+        }
+
+        /* The hold's push in (ln of the camera's size, from the hand-over): the slow push, and with PM_91 the touch:
+           the camera runs on into the picture at the approach's arrival speed, that speed falling off at once (over
+           _touchTau), by at most TouchMax in all; then the pull back takes it from there. */
+        float Push91(float x) => _rate * x + (_touchTau > 0 ? _touch * (1 - Mathf.Exp(-Mathf.Max(0, x) / _touchTau)) : 0);
+        float Push91Rate(float x) => _rate + (_touchTau > 0 ? _touch / _touchTau * Mathf.Exp(-Mathf.Max(0, x) / _touchTau) : 0);
+
+        /* PM_91: the picture's growth on the screen (ln of its size per s) as the approach arrives. */
+        float ArriveRate91()
+        {
+            if (_dio != null && _bellT > 0)
+                return CurveSpeed91(MenuCurve91, MenuT - MenuT1) / _bellT
+                       * Mathf.Abs(Mathf.Log(_zEnd) - Mathf.Log(_dio.EndPoint.y)) / Mathf.Max(.05f, 1 - _bellSplit);
+            float lnRatio = Mathf.Log(Mathf.Max(1.0001f, _c.height / Mathf.Max(1, _r.height)));
+            return CurveSpeed91(CorridorCurve91, CorridorT - CorridorT1) / Mathf.Max(.05f, CorridorApproach) * lnRatio;
+        }
+
+        /* PM_91 §2: the progress (0..1) at x = t / T0: the old curve's own lift up to t1, then the quartic (its speed c,
+           Tools/pm91_curve.py) to 1 at T. */
+        static float Curve91(float x, float[] c, float t1, float T, System.Func<float, float> lift)
+        {
+            if (x <= t1) return lift(Mathf.Max(0, x));
+            float d = Mathf.Min(x, T) - t1, s = lift(t1), p = d;
+            for (int k = 0; k < 5; k++) { s += c[k] * p / (k + 1); p *= d; }
+            return Mathf.Clamp01(s);
+        }
+        static float CurveSpeed91(float[] c, float d)
+        {
+            float v = 0, p = 1;
+            for (int k = 0; k < 5; k++) { v += c[k] * p; p *= d; }
+            return v;
+        }
+        static float SmootherStep(float u) { u = Mathf.Clamp01(u); return u * u * u * (u * (6 * u - 15) + 10); }
+        /* The old curve's time (share of it) at the progress s: the lens shift keeps to the way, not the clock. */
+        static float LaunchInverse(float s)
+        {
+            float lo = 0, hi = 1;
+            for (int i = 0; i < 24; i++) { float m = (lo + hi) / 2; if (Launch(m) < s) lo = m; else hi = m; }
+            return (lo + hi) / 2;
         }
 
         /* How much of the cuts is drawn: 0 at the hold's start, Lines at its end, all at 80 % of the back; slow at
@@ -590,6 +657,7 @@ namespace ReverseSolver.Presentation
         float ApproachE(float u)
         {
             float lnRatio = Mathf.Log(Mathf.Max(1.0001f, _c.height / Mathf.Max(1, _r.height)));
+            if (_new91) return Curve91(Mathf.Clamp01(u) * CorridorT, CorridorCurve91, CorridorT1, CorridorT, SmootherStep);
             return Hermite5(0, 0, 1, _rate * _p.Approach / lnRatio, Mathf.Clamp01(u));
         }
 
@@ -600,7 +668,7 @@ namespace ReverseSolver.Presentation
         {
             Vector2 p; float e = 0;
             bool bell = _bellT > 0;
-            float s = bell ? Launch(t / _bellT) : 0;   // PM_86 §10: one move over the flight and the approach (PM_87: off at once)
+            float s = bell ? (_new91 ? Curve91(t / _bellT, MenuCurve91, MenuT1, MenuT, Launch) : Launch(t / _bellT)) : 0;   // PM_86 §10: one move over the flight and the approach (PM_87: off at once)
             if (bell ? s <= _bellSplit : t <= _flight) p = bell ? _dio.AtLength(_dio.Length * s / _bellSplit) : _dio.AtLength(FlightLength(t));
             else
             {
@@ -612,7 +680,7 @@ namespace ReverseSolver.Presentation
                 e = SmoothStep((k - _morphFrom) / Mathf.Max(.05f, 1 - _morphFrom));
             }
             // the lens shift takes the painting from the menu's place to the centre, easing out early in the approach
-            float w = SmoothStep(t / (_flight + .375f * _p.Approach));
+            float w = bell && _new91 ? SmoothStep(_bellT * LaunchInverse(s) / Mathf.Max(.01f, _lensT)) : SmoothStep(t / (_flight + .375f * _p.Approach));
             _dio.Pose(p, w, Identity, _dioLayers, fade);
             var cq = _dio.CanvasAt(p, w);
             // PM_87 §2: the picture is the menu's own drawing of it (its crop laid flat over the opening, cut to it), carried
@@ -807,6 +875,7 @@ namespace ReverseSolver.Presentation
         {
             _built = true;
             var clock = System.Diagnostics.Stopwatch.StartNew();
+            _calm = _new91;
             _board = _s.Build?.Invoke();
             Note($"build {clock.Elapsed.TotalMilliseconds:0} ms at {_clock:0.00} s");
             _s.Slide?.Invoke(0);
@@ -824,6 +893,12 @@ namespace ReverseSolver.Presentation
         void StartReveal()
         {
             _revealed = true;
+            if (_new91 && TouchMax > 0)
+            {
+                float v = ArriveRate91();
+                _touch = Mathf.Min(TouchMax, v * TouchSeconds); _touchTau = v > 1e-3f ? _touch / v : 0;
+                Note($"arrives growing {v:0.00} ln/s, touch {_touch:0.000} over {_touchTau * 1000:0} ms, hold {_p.Hold:0.00} s");
+            }
             var clock = System.Diagnostics.Stopwatch.StartNew();
             if (_board != null) _reveal = Reveal.Create(_board, _board.Image != null ? _board.Image : _s.Picture, !Legacy);
             PullBack90(0);

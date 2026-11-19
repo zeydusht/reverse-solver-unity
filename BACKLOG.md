@@ -207,6 +207,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_88 p23'te (19 Kasım): dalış sonundaki büyüme/dönme giderildi, açılış videosu sayfada (yükleme ekranı yerine), oyun stilinde yükleyici, sekmeler anında ve kesilebilir, koridor duruşları
 - ✅ PM_89 p23'te (19 Kasım): çerçeve = tahta oranı, resim eşit ölçekli kırpım, dalış tahtaya iner (geri çekilme yok), buzlu saat barı (yeşil bar kalktı), Jiggles rafı + ödüllü bar. Açık: iPhone hissi, 6×7 kazan→sonraki ölçümü (sandık ekranı), avatar kilidi kararı.
 - ✅ PM_90 p23'te (19 Kasım): PM_89 çerçevesi geri alındı (PM_88'e dönüş), buzlu bar sağdan sola, dalış sonu dalgalanması geri çekilmeye eşit yayıldı. Açık: iPhone hissi, menü uçuşu başında sağ alt köşe açığı (0,18 sn, PM_88'den beri).
+- ⏳ PM_91 önizleme (19 Kasım, yerel dal `pm91-onizleme`, yayınlanmadı): dalış hızı sonda korunuyor, resimde kalış yarıya. Zeyd videolara bakacak (`docs/art/pm91/`); onaylanırsa p23 yayını.
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular

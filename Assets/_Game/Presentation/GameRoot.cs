@@ -183,6 +183,8 @@ namespace ReverseSolver.Presentation
             CorridorTransition.EndBeat = QueryFloat("koridorson", .2f, 0, 2);     // and before the dive
             Dive75.LineK = QueryFloat("cizgihiz", 1, .25f, 4);
             Dive75.DiveSpeed = QueryFloat("dalishiz", 1, .25f, 4);   // PM_86 §10
+            Dive75.Arrive91 = Host.Current.Query("dalis91") != "0";      // PM_91: &dalis91=0 the PM_90 timing
+            Dive75.TouchMax = QueryFloat("degme", .025f, 0, .1f);         // PM_91 §2: the touch on arrival (share of the size)
             Hud54.TimeBarOn = Host.Current.Query("surebar") == "1";            // PM_89 §2
             BoosterFx74.Frost89Allowed = Host.Current.Query("buzbar") != "0";   // PM_89 §2
             PageSeconds = QueryFloat("sekmesure", .35f, .1f, 3);   // PM_88 §3
