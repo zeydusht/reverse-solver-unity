@@ -186,6 +186,22 @@ namespace ReverseSolver.Presentation
             }
             _mesh.SetUVs(3, list);
         }
+        static readonly int H0Id = Shader.PropertyToID("_ImageH0"), H1Id = Shader.PropertyToID("_ImageH1"),
+            H2Id = Shader.PropertyToID("_ImageH2"), WarpId = Shader.PropertyToID("_ImageWarp");
+        /* PM_90 §3 (the dive's pull back): the picture through h (3 x 3, row-major: board uv, v up -> picture uv);
+           null: the board's own crop again. */
+        public void SetImageWarp(double[] h)
+        {
+            if (h == null) _b.SetFloat(WarpId, 0);
+            else
+            {
+                _b.SetVector(H0Id, new Vector4((float)h[0], (float)h[1], (float)h[2], 0));
+                _b.SetVector(H1Id, new Vector4((float)h[3], (float)h[4], (float)h[5], 0));
+                _b.SetVector(H2Id, new Vector4((float)h[6], (float)h[7], (float)h[8], 0));
+                _b.SetFloat(WarpId, 1);
+            }
+            Apply();
+        }
         static readonly int RvOnId = Shader.PropertyToID("_RvOn"), RvTimeId = Shader.PropertyToID("_RvTime"),
             RvEdgeId = Shader.PropertyToID("_RvEdgeSec"), RvLookId = Shader.PropertyToID("_RvLook");
         /* PM_86 dive: the piece as the plain picture with its cut drawn in (time on the drawing's clock, SetSeamStarts),

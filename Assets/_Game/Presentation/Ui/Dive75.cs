@@ -77,13 +77,6 @@ namespace ReverseSolver.Presentation
             public bool Seamless;                // the menu shows the diorama's start view itself: no cross-fade
             public Vector2 ImageCentre;          // the menu picture's centre (layout points) and
             public float ImageK = 1;             // its scale (layout points per picture px): the diorama's start camera
-            /* PM_89 §1: the frame opens at the board's proportions (FrameAspect, the menu's room drew it so) and shows
-               the board's crop (Crop); the camera comes to rest with the picture exactly where the board's picture will
-               be in the level's own view (Target, layout points), then stays: the wall and the frame fade off round it.
-               No pull back, so no new picture comes in at the sides. Target empty: PM_88's way. */
-            public float FrameAspect;
-            public Rect Target;
-            public List<MeshRenderer> Frames = new List<MeshRenderer>();   // the corridor's frames (warped with the wall)
         }
 
         Setup _s;
@@ -116,10 +109,6 @@ namespace ReverseSolver.Presentation
            over the whole approach, never squeezed into its end. */
         float _fitA, _fitX, _fitY;
         bool _fit;
-        bool _exact;                                // PM_89: the picture lands on the board's place and stays
-        float _fadeAt = -1;                         // PM_89: when the wall and the frame start fading off
-        public static float FadeSeconds = .5f;      // &dalissonme= (s)
-        readonly List<Layer> _frameLayers = new List<Layer>();
         Func<float, float, Vector2> _endAt, _gluedUv;
 
         public static Dive75 Run(Setup s)
@@ -160,22 +149,15 @@ namespace ReverseSolver.Presentation
             baseMat = baseMat ?? SpriteMaterial();
             if (Gap) _backdrop.Fill(new Color(1, 0, 1, 1));
             _p = Current;
-            _exact = !Legacy && _s.Target.width > 1 && _s.FrameAspect > 0;
-            if (_exact) { _p.Push = 0; _p.Hold = Mathf.Min(_p.Hold, .3f); Note($"exact: target {_s.Target}"); }
-            foreach (var f in _s.Frames)
-                if (f != null) { var l = Layer.FromRenderer(_overlay, f, _s.Order + 4); if (l != null) _frameLayers.Add(l); }
             if (_s.Diorama == null && Variant == 'a') _p.Approach = CorridorApproach;
-            _rate = _p.Hold > .01f && _p.Push > 0 ? Mathf.Log(1 + _p.Push) / _p.Hold : 0;
+            _rate = _p.Hold > .01f ? Mathf.Log(1 + _p.Push) / _p.Hold : 0;
             if (_s.Diorama != null)
             {
                 float ch2 = Mathf.Max(screen.y, screen.x / Mathf.Max(.1f, _s.BoardAspect)), cw2 = ch2 * _s.BoardAspect;
                 _c = new Rect(screen.x / 2 - cw2 / 2, screen.y / 2 - ch2 / 2, cw2, ch2);
-                if (_exact) _c = _s.Target;
                 // the wall and the floor; over the wall the painting in its canvas; in front the column, its banner and
                 // its sconce
-                _dio = new Diorama78(_s.Diorama, screen, _s.ImageCentre, _s.ImageK, _exact ? _s.FrameAspect : 0, _exact ? _s.Target.height : 0);
-                if (_exact) Note($"canvas {_dio.CanvasH:0.000} units, the approach ends at {Diorama78.EndShare:0.00} of the path's end");
-                if (_exact) _dio.EndMid = _s.Target.center;
+                _dio = new Diorama78(_s.Diorama, screen, _s.ImageCentre, _s.ImageK);
                 if (!Legacy)
                 {
                     // PM_80: the flight by length, a soft start over its first third, then even; the approach ends
@@ -215,9 +197,7 @@ namespace ReverseSolver.Presentation
                 }
                 _paint = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 2);
                 if (!Legacy) { _ghost = Layer.Grid(_overlay, _s.Picture, baseMat, 12, _s.Order + 3); _ghost.SetActive(false); }
-                var frame = _exact ? _dio.BuildFrame(_overlay, baseMat, _s.Order + 4) : null;
-                if (frame != null) _dioLayers.Add(frame);
-                _dio.BuildFronts(_overlay, baseMat, _s.Order + (frame != null ? 5 : 4), _dioLayers);
+                _dio.BuildFronts(_overlay, baseMat, _s.Order + 4, _dioLayers);
                 Debug.Log($"[yay] start {_dio.StartAngle:0.0} deg {_dio.Describe(0)}, end {_dio.Describe(1)}, Zeyd's path x{_dio.Scale:0.000} W per metre, {_dio.Length:0.00} W long; approach to {_zEnd:0.00} W");
                 var front = _dio.CanvasAt(1);
                 _r = Rect.MinMaxRect(Mathf.Min(front[0].x, front[3].x), Mathf.Min(front[0].y, front[1].y), Mathf.Max(front[1].x, front[2].x), Mathf.Max(front[2].y, front[3].y));
@@ -228,7 +208,7 @@ namespace ReverseSolver.Presentation
                     var endQ = _dio.CanvasAt(new Vector2(0, _zEnd), 1);
                     _endAt = (x, y) => CorridorTransition.Project(endQ, x, y);
                     _gluedUv = MenuUv;
-                    if (!_exact) FitBoard(screen);
+                    FitBoard(screen);
                 }
                 return;
             }
@@ -245,7 +225,6 @@ namespace ReverseSolver.Presentation
             // 2: the board's framing, covering the screen
             float ch = Mathf.Max(screen.y, screen.x / Mathf.Max(.1f, _s.BoardAspect)), cw = ch * _s.BoardAspect;
             _c = new Rect(screen.x / 2 - cw / 2, screen.y / 2 - ch / 2, cw, ch);
-            if (_exact) _c = _s.Target;
             _faceH = Homography(q, Corners(_r));
             if (!Legacy)
             {
@@ -253,7 +232,7 @@ namespace ReverseSolver.Presentation
                 var crop = _s.Crop;
                 _endAt = (x, y) => Apply(wallEnd, CorridorTransition.Project(q, x, y));
                 _gluedUv = (x, y) => new Vector2(crop.x + x * crop.width, crop.y + (1 - y) * crop.height);
-                if (!_exact) FitBoard(screen);
+                FitBoard(screen);
             }
         }
 
@@ -263,44 +242,71 @@ namespace ReverseSolver.Presentation
         {
             var q = _s.Quad; var c0 = _s.Crop;
             var box = Rect.MinMaxRect(Mathf.Min(q[0].x, q[3].x), Mathf.Min(q[0].y, q[1].y), Mathf.Max(q[1].x, q[2].x), Mathf.Max(q[2].y, q[3].y));
-            var n = Rect.PointToNormalized(box, CorridorTransition.Project(q, x, y));
+            var pt = CorridorTransition.Project(q, x, y);   // PM_90: not clamped (the board carries the picture on past the opening)
+            var n = new Vector2((pt.x - box.xMin) / Mathf.Max(1e-4f, box.width), (pt.y - box.yMin) / Mathf.Max(1e-4f, box.height));
             return new Vector2(c0.x + n.x * c0.width, c0.y + (1 - n.y) * c0.height);
         }
 
-        /* PM_88 §1: where the board's whole picture must lie on the screen so that, at the approach's end, it shows
-           what the glued picture shows (least squares over the opening's points then on the screen; the board's own
-           proportions; the screen kept covered). */
+        /* PM_90 §3: the board under the picture as it arrives: its height the opening's (the cover framing: the board
+           covers the screen), centred on it. _arriveH: the picture the board must show there (board uv, v up -> picture
+           uv: the frame's own drawing of it, carried on past the opening's edges); _boardH: the board's own crop
+           (LevelImages.Crop). Over the pull back the board eases from the one to the other (PullBack90). */
         void FitBoard(Vector2 screen)
         {
             float ba = Mathf.Max(.1f, _s.BoardAspect);
-            var us = new List<float>(); var ws = new List<float>(); var xs = new List<float>(); var ys = new List<float>();
-            const int N = 16;
-            for (int j = 0; j <= N; j++)
-                for (int i = 0; i <= N; i++)
-                {
-                    float x = i / (float)N, y = j / (float)N;
-                    var pt = _endAt(x, y);
-                    if (pt.x < 0 || pt.y < 0 || pt.x > screen.x || pt.y > screen.y) continue;
-                    var uv = _gluedUv(x, y);
-                    us.Add(uv.x); ws.Add((1 - uv.y) / ba); xs.Add(pt.x); ys.Add(pt.y);
-                }
-            if (us.Count < 4) { _fit = false; return; }
-            float mu = 0, mw = 0, mx = 0, my = 0; int n = us.Count;
-            for (int k = 0; k < n; k++) { mu += us[k] / n; mw += ws[k] / n; mx += xs[k] / n; my += ys[k] / n; }
-            double num = 0, den = 0;
-            for (int k = 0; k < n; k++) { num += (us[k] - mu) * (xs[k] - mx) + (ws[k] - mw) * (ys[k] - my); den += (us[k] - mu) * (us[k] - mu) + (ws[k] - mw) * (ws[k] - mw); }
-            float a = den > 1e-9 ? (float)(num / den) : screen.x;
-            float bx = mx - a * mu, by = my - a * mw;
-            // the board must cover the screen (it is all there is once the picture has gone)
-            float a0 = a;
-            a = Mathf.Max(a, screen.x, screen.y * ba);
-            if (a > a0) { float k = a / a0; bx = mx + (bx - mx) * k; by = my + (by - my) * k; }
-            bx = Mathf.Clamp(bx, screen.x - a, 0); by = Mathf.Clamp(by, screen.y - a / ba, 0);
+            var e = new[] { _endAt(0, 0), _endAt(1, 0), _endAt(1, 1), _endAt(0, 1) };
+            var zr = Rect.MinMaxRect(Mathf.Min(e[0].x, e[3].x), Mathf.Min(e[0].y, e[1].y), Mathf.Max(e[1].x, e[2].x), Mathf.Max(e[2].y, e[3].y));
+            float hgt = Mathf.Max(zr.height, screen.y, screen.x / ba), a = hgt * ba;
+            float bx = Mathf.Clamp(zr.center.x - a / 2, screen.x - a, 0), by = Mathf.Clamp(zr.center.y - hgt / 2, screen.y - hgt, 0);
             _fitA = a; _fitX = bx; _fitY = by; _fit = true;
-            // what the camera cannot take: the glued picture against the fitted board over the screen, at most
-            float worst = 0;
-            for (int k = 0; k < n; k++) worst = Mathf.Max(worst, new Vector2(a * us[k] + bx - xs[k], a * ws[k] + by - ys[k]).magnitude);
-            Note($"board fitted to the arriving picture: x{a / Mathf.Max(1, CoverA(screen, ba)):0.000} of the cover framing, at most {worst:0.0} pt to take up on the way");
+            var toOpening = Inverse(Homography(new[] { new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1) }, e));
+            Vector2 UvOf(Vector2 pt) { var xy = Apply(toOpening, pt); return _gluedUv(xy.x, xy.y); }
+            var uv = new[] { UvOf(new Vector2(bx, by)), UvOf(new Vector2(bx + a, by)), UvOf(new Vector2(bx + a, by + hgt)), UvOf(new Vector2(bx, by + hgt)) };
+            _arriveH = Homography(new[] { new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0), new Vector2(0, 0) }, uv);
+            for (int i = 0; i < 9; i++) _arriveH[i] /= _arriveH[8];
+            var cr = LevelImages.Crop(_s.Picture, ba);
+            _boardH = new double[] { cr.width, 0, cr.x, 0, cr.height, cr.y, 0, 0, 1 };
+            // how far apart the two are: the arriving picture's uv over the board, and its scale across over down
+            // against the board's own (1: the same proportions)
+            float sx = (uv[1] - uv[0]).magnitude, sy = (uv[0] - uv[3]).magnitude;
+            float own = cr.height / Mathf.Max(1e-5f, cr.width);
+            Note($"board under the arriving picture: x{a / Mathf.Max(1, CoverA(screen, ba)):0.000} of the cover framing, arriving u {Mathf.Min(uv[0].x, uv[3].x):0.000}..{Mathf.Max(uv[1].x, uv[2].x):0.000} v {Mathf.Min(uv[2].y, uv[3].y):0.000}..{Mathf.Max(uv[0].y, uv[1].y):0.000}, across/down x{sy / Mathf.Max(1e-5f, sx) / own:0.000} of the board's");
+        }
+
+        double[] _arriveH, _boardH;
+
+        /* PM_90 §3: 0..1 over the pull back at an even pace, easing in and out over its first and last 15 % (the most
+           change in any one frame 1.18 x the average; a smoothstep's is 1.5 x). */
+        static float Even90(float u)
+        {
+            const float a = .15f, vmax = 1 / (1 - a);
+            u = Mathf.Clamp01(u);
+            static float I(float x) => x * x * x - x * x * x * x / 2;   // the integral of smoothstep from 0 to x
+            if (u < a) return vmax * a * I(u / a);
+            if (u > 1 - a) return 1 - vmax * a * I((1 - u) / a);
+            return vmax * (a / 2 + u - a);
+        }
+
+        /* PM_90 §3: the board's picture w of the way (0: as it arrived, 1: the board's own); the pieces and the picture
+           under their hairlines alike. */
+        void PullBack90(float w)
+        {
+            if (_board == null || _arriveH == null || Legacy) return;
+            // the picture's proportions (across over down) change at an even rate (in ln) with w, not faster at one end
+            double ax = _arriveH[0], ay = _arriveH[4], bx = _boardH[0], by = _boardH[4];
+            double wa = w;
+            if (w > 0 && w < 1 && ax > 0 && ay > 0 && bx > 0 && by > 0 && Math.Abs(Math.Log(bx / by) - Math.Log(ax / ay)) > 1e-4)
+            {
+                double target = Math.Exp(Math.Log(ax / ay) + (Math.Log(bx / by) - Math.Log(ax / ay)) * w);
+                double den = (bx - ax) - target * (by - ay);
+                if (Math.Abs(den) > 1e-9) wa = Math.Max(0, Math.Min(1, (target * ay - ax) / den));
+            }
+            var h = new double[9];
+            for (int i = 0; i < 9; i++) h[i] = _arriveH[i] + (_boardH[i] - _arriveH[i]) * wa;
+            var l = _board.Session.Level;
+            for (int i = 0; i < l.Pieces.Count; i++) _board.PieceViewOf(i)?.SetImageWarp(w >= 1 ? null : h);
+            _reveal?.Warp(h);
+            if (Log) { var c = Apply(h, new Vector2(.5f, .5f)); Debug.Log($"[geri] {_clock:0.0000} w {w:0.0000} across {h[0]:0.00000} down {h[4]:0.00000} at {c.x:0.0000} {c.y:0.0000}"); }
         }
 
         static float CoverA(Vector2 screen, float ba) => Mathf.Max(screen.y, screen.x / ba) * ba;
@@ -312,7 +318,6 @@ namespace ReverseSolver.Presentation
            1: the fitted board's). */
         Vector2 UvAt(float x, float y, float m)
         {
-            if (m < 0) return new Vector2(_s.Crop.x + x * _s.Crop.width, _s.Crop.y + (1 - y) * _s.Crop.height);   // PM_89: exact
             var g = _gluedUv(x, y);
             if (m <= 0 || !_fit) return g;
             var b = BoardUv(_endAt(x, y));
@@ -451,24 +456,16 @@ namespace ReverseSolver.Presentation
                     FlowDiorama(t, _s.Seamless ? 1 : Mathf.Clamp01(t / CrossIn));
                     if (!_hidden && !_s.Seamless && t >= CrossIn) { _hidden = true; _s.Hide?.Invoke(); }
                 }
-                else FacePose(ApproachE(u), 1, SmoothStep(u));
+                else FacePose(ApproachE(u), 1, 0);   // PM_90 §3: glued, no morph (see FlowDiorama)
                 // the level is built as the approach comes to rest (the screen barely moves: a long frame is not seen);
                 // the cuts take over on the next frame
-                if (!_built && u >= (_exact ? ExactBuildAt : .94f)) BuildLevel();
-                else if (_exact && _built)
-                {
-                    // PM_89: the picture has all but landed (under a third of a point to go): the board is under it, the
-                    // wall and the frame start fading off now rather than after the soft landing
-                    if (!_revealed) StartReveal();
-                    FadeStep(t);
-                }
+                if (!_built && u >= .94f) BuildLevel();
                 LogOverlay(t);
                 return;
             }
             if (!_built) BuildLevel();
             if (!_revealed) StartReveal();
-            if (_exact) FadeStep(t);   // PM_89 §1: the camera rests on the level's own view; the picture stays where it is
-            else if (_board != null)
+            if (_board != null)
             {
                 // the hold: a slow push in; the back: ease in-out to the level's own view, taking over the push
                 var rect = new Rect(_board.Origin, _board.Size);
@@ -485,6 +482,9 @@ namespace ReverseSolver.Presentation
                     _s.Cam.transform.position = Vector3.LerpUnclamped(from, _homePos, Mathf.Abs(l1 - l0) > 1e-5f ? (l - l0) / (l1 - l0) : u);
                 }
             }
+            // PM_90 §3: the arriving picture held through the hold, then eased to the board's own over the whole pull back
+            // (the one difference spread out; the camera alone scales it, the same across and down; the cuts are the board's)
+            PullBack90(Even90((t - h1) / Mathf.Max(.01f, _p.Back)));
             _reveal?.Flow(LineFrac(t, h0, h1), Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back)));
             LogBoardPicture();
             float hud = Mathf.Min(.3f, _p.Back);
@@ -619,18 +619,12 @@ namespace ReverseSolver.Presentation
             // by the opening point for point: on the first frame exactly the menu's, then glued to the frame as the camera
             // moves (PM_86 handed the menu's crop over to another in the first .25 s while the camera stood: the picture
             // slid in its frame). Only once the frame has left the screen does it ease to the whole picture (e).
-            if (_exact)
+            if (_fit)
             {
-                // PM_89 §1: the board's crop in the canvas from the menu's first frame to the level: the same scale across
-                // and down, nothing eased (the menu drew it the same way, Diorama78.BuildPainting)
-                PaintMorph(cq, (x, y) => CorridorTransition.Project(cq, x, y), -1);
-                e = 0;
-            }
-            else if (_fit)
-            {
-                // PM_88 §1: no step at the end: the glued picture is taken to the fitted board's over the whole approach
-                float m = _bellT > 0 ? SmoothStep((s - _bellSplit) / Mathf.Max(.05f, 1 - _bellSplit))
-                                     : SmoothStep((t - _flight) / Mathf.Max(.01f, _p.Approach));
+                // PM_90 §3 (Zeyd: "at the very end the picture shortens and grows for a moment"): the picture stays
+                // exactly as the frame shows it through the approach and the arrival (PM_88 morphed it to the board's
+                // here); the board takes it over as it is and eases it to its own over the pull back (PullBack90)
+                float m = 0;
                 PaintMorph(cq, (x, y) => CorridorTransition.Project(cq, x, y), m);
                 e = 0;
             }
@@ -710,14 +704,7 @@ namespace ReverseSolver.Presentation
             // turn has mostly eased out and the frame is at the screen's edges; only then it eases to the board's
             // framing (PM_86 eased it from the start: it slid in its frame on the way in)
             float ep = Legacy ? e : SmoothStep((e - FaceGate) / (1 - FaceGate));
-            foreach (var f in _frameLayers) f.Warp(wall, 1);
-            if (_exact)
-            {
-                // PM_89 §1: glued to the frame (the wall's own homography), the board's crop, exact at the end
-                PaintMorph(zq, (x, y) => Apply(wall, CorridorTransition.Project(q, x, y)), -1);
-                ep = 0;
-            }
-            else if (m >= 0 && _fit)
+            if (m >= 0 && _fit)
             {
                 // PM_88 §1: glued to the frame all the way; the board is put where the picture arrives
                 PaintMorph(zq, (x, y) => Apply(wall, CorridorTransition.Project(q, x, y)), m);
@@ -830,16 +817,7 @@ namespace ReverseSolver.Presentation
             _s.Cam.transform.position = new Vector3(rect.center.x, -rect.center.y, _homePos.z);
             _s.Cam.orthographicSize = Dive74.CoverSize(rect.size, _s.Screen);
             if (_fit && !Legacy) { FittedView(out var fp, out float fs); _s.Cam.transform.position = fp; _s.Cam.orthographicSize = fs; }
-            if (_exact)
-            {
-                // PM_89: the level's own view from now on; where the board's picture is on the screen against the target
-                _s.Cam.transform.position = _homePos; _s.Cam.orthographicSize = _homeSize;
-                var cam = _s.Cam; float s = _s.Screen.y / (2 * cam.orthographicSize); var c = cam.transform.position;
-                var a = new Vector2(_s.Screen.x / 2 + (rect.xMin - c.x) * s, _s.Screen.y / 2 + (rect.yMin + c.y) * s);
-                var b = new Vector2(_s.Screen.x / 2 + (rect.xMax - c.x) * s, _s.Screen.y / 2 + (rect.yMax + c.y) * s);
-                var got = Rect.MinMaxRect(a.x, a.y, b.x, b.y);
-                Note($"board on the screen {got} against the target {_s.Target} (off {Mathf.Max(Mathf.Abs(got.xMin - _s.Target.xMin), Mathf.Abs(got.yMin - _s.Target.yMin), Mathf.Abs(got.xMax - _s.Target.xMax), Mathf.Abs(got.yMax - _s.Target.yMax)):0.00} pt)");
-            }
+            PullBack90(0);   // PM_90 §3: the picture exactly as it arrives
             PlaceOverlay();   // this frame already draws with the new camera (PM_77: one frame 3x too close since PM_75)
         }
 
@@ -848,47 +826,18 @@ namespace ReverseSolver.Presentation
             _revealed = true;
             var clock = System.Diagnostics.Stopwatch.StartNew();
             if (_board != null) _reveal = Reveal.Create(_board, _board.Image != null ? _board.Image : _s.Picture, !Legacy);
-            if (!_exact) DropOverlay();   // PM_89: exact: the overlay stays over the board and fades off (StepFlow)
-            else _ghost?.SetActive(false);
-            if (!_hidden) { _hidden = true; _s.Hide?.Invoke(); }
-            Note($"reveal {clock.Elapsed.TotalMilliseconds:0} ms at {_clock:0.00} s");
-            if (Log) Debug.Log($"[devir] {_clock:0.0000}");   // PM_86: the frame the dive's painting hands over to the board
-        }
-
-        /* PM_89: the wall and the frame round the landed picture fade off (the board under it shows the same picture). */
-        public static float ExactBuildAt = .9f;    // the approach's share at which the level is built under the picture
-        void FadeStep(float t)
-        {
-            if (_fadeAt < 0) _fadeAt = t;
-            float f = SmoothStep((t - _fadeAt) / Mathf.Max(.05f, FadeSeconds));
-            FadeOverlay(1 - f);
-            if (f >= 1 && _overlay != null) DropOverlay();
-        }
-
-        void DropOverlay()
-        {
+            PullBack90(0);
             if (_overlay != null) Destroy(_overlay.gameObject);
             _overlay = null;
             foreach (var w in _walls) w.Dispose();
             _walls.Clear();
             foreach (var w in _dioLayers) w.Dispose();
             _dioLayers.Clear();
-            foreach (var w in _frameLayers) w.Dispose();
-            _frameLayers.Clear();
+            if (!_hidden) { _hidden = true; _s.Hide?.Invoke(); }
             _paint?.Dispose(); _paint = null;
             _ghost?.Dispose(); _ghost = null;
-        }
-
-        /* PM_89: the wall, the frame, the room's front pieces and the painting together (the board shows the same picture
-           under it). */
-        void FadeOverlay(float a)
-        {
-            if (_overlay == null) return;
-            foreach (var w in _walls) w.Fade(a);
-            foreach (var w in _dioLayers) w.Fade(a);
-            foreach (var w in _frameLayers) w.Fade(a);
-            _paint?.Fade(a);
-            _backdrop?.Alpha(a);
+            Note($"reveal {clock.Elapsed.TotalMilliseconds:0} ms at {_clock:0.00} s");
+            if (Log) Debug.Log($"[devir] {_clock:0.0000}");   // PM_86: the frame the dive's painting hands over to the board
         }
 
         void BackLegacy(float t)
@@ -921,6 +870,7 @@ namespace ReverseSolver.Presentation
             Debug.Log($"[dalis] {(Legacy ? "eski" : Variant.ToString())}: {_notes}ended at {_clock:0.00} s; frames {_frames}, over 20 ms {_slow} (max {_maxDt * 1000:0} ms)");
             if (_s.Cam != null) { _s.Cam.transform.position = _homePos; _s.Cam.orthographicSize = _homeSize; }
             if (_board != null) { _board.transform.localScale = Vector3.one; _board.transform.localPosition = Draw.W(_board.Origin); }
+            PullBack90(1);   // PM_90: the board's own crop
             _reveal?.Dispose(); _reveal = null;
             _s.FadeUi?.Invoke(0);
             _s.Slide?.Invoke(1);
@@ -934,7 +884,6 @@ namespace ReverseSolver.Presentation
             if (_overlay != null) Destroy(_overlay.gameObject);
             foreach (var w in _walls) w.Dispose();
             foreach (var w in _dioLayers) w.Dispose();
-            foreach (var w in _frameLayers) w.Dispose();
             _paint?.Dispose();
             _ghost?.Dispose();
             _reveal?.Dispose();
@@ -1081,33 +1030,6 @@ namespace ReverseSolver.Presentation
                 return l;
             }
 
-            /* PM_89: any mesh whose points are 3D (the diorama's frame and painting), drawn by projecting them. */
-            public static Layer FromPoints(Transform parent, string name, Texture tex, Material baseMat, Vector2[] uv, Vector3[] p3, List<int> tris, int order)
-            {
-                var l = new Layer { _n = 0 };
-                l.Make(parent, name, new Material(baseMat) { mainTexture = tex != null ? tex : Texture2D.whiteTexture }, new Vector2[uv.Length], uv, tris, order);
-                l._p3 = p3;
-                return l;
-            }
-
-            /* PM_89: a copy of a mesh on the screen now (the corridor's frame), in layout points, warped with the wall. */
-            public static Layer FromRenderer(Transform parent, MeshRenderer mr, int order)
-            {
-                var mf = mr.GetComponent<MeshFilter>();
-                if (mf == null || mf.sharedMesh == null) return null;
-                var m = mf.sharedMesh; var v = m.vertices; var src = new Vector2[v.Length];
-                for (int i = 0; i < v.Length; i++) { var w = mr.transform.TransformPoint(v[i]); src[i] = new Vector2(w.x, -w.y); }
-                return FromLayout(parent, mr.name, mr.sharedMaterial.mainTexture, mr.sharedMaterial, src, m.uv, new List<int>(m.triangles), order);
-            }
-
-            /* PM_89: a mesh laid out in layout points now (the corridor's frame), warped with the wall. */
-            public static Layer FromLayout(Transform parent, string name, Texture tex, Material baseMat, Vector2[] src, Vector2[] uv, List<int> tris, int order)
-            {
-                var l = new Layer { _n = 0 };
-                l.Make(parent, name, new Material(baseMat) { mainTexture = tex != null ? tex : Texture2D.whiteTexture }, src, uv, tris, order);
-                return l;
-            }
-
             public void Project(Func<Vector3, Vector2> project, double[] post, float alpha)
             {
                 for (int i = 0; i < _p3.Length; i++) _v[i] = Draw.W(Apply(post, project(_p3[i])));
@@ -1235,11 +1157,21 @@ namespace ReverseSolver.Presentation
                 // the picture over the board rect, stretched like the pieces' image (uv 0..1 over the board)
                 r._picMat = new Material(baseMat) { mainTexture = picture != null ? picture : Texture2D.whiteTexture };
                 r._picMesh = new Mesh { name = "reveal picture" };
-                r._picMesh.vertices = new[] { Draw.W(0, 0), Draw.W(size.x, 0), Draw.W(size.x, size.y), Draw.W(0, size.y) };
-                var cr = LevelImages.Crop(picture, size.x / Mathf.Max(1, size.y));   // PM_89: the board's crop
-                r._picMesh.uv = new[] { new Vector2(cr.xMin, cr.yMax), new Vector2(cr.xMax, cr.yMax), new Vector2(cr.xMax, cr.yMin), new Vector2(cr.xMin, cr.yMin) };
-                r._picMesh.triangles = new[] { 0, 1, 2, 0, 2, 3 };
-                r._picMesh.colors = new[] { Color.white, Color.white, Color.white, Color.white };
+                // PM_90: a grid, its uv through the dive's warp (Warp); the board's own crop until then
+                const int G = PicGrid;
+                var pv3 = new Vector3[(G + 1) * (G + 1)]; var ptris = new List<int>();
+                for (int j = 0; j <= G; j++)
+                    for (int i = 0; i <= G; i++)
+                    {
+                        pv3[j * (G + 1) + i] = Draw.W(size.x * i / G, size.y * j / G);
+                        if (i < G && j < G) { int k = j * (G + 1) + i; ptris.AddRange(new[] { k, k + 1, k + G + 2, k, k + G + 2, k + G + 1 }); }
+                    }
+                r._picMesh.vertices = pv3;
+                r._picMesh.triangles = ptris.ToArray();
+                r._picColors = new Color[pv3.Length];
+                r.SetPicAlpha(1);
+                var bcr = LevelImages.Crop(picture, size.x / Mathf.Max(1e-3f, size.y));
+                r.Warp(new double[] { bcr.width, 0, bcr.x, 0, bcr.height, bcr.y, 0, 0, 1 });
                 var pg = new GameObject("picture"); pg.transform.SetParent(r._root, false);
                 pg.AddComponent<MeshFilter>().sharedMesh = r._picMesh;
                 r._picture = pg.AddComponent<MeshRenderer>(); r._picture.sharedMaterial = r._picMat; r._picture.sortingOrder = Order;
@@ -1302,6 +1234,28 @@ namespace ReverseSolver.Presentation
                 return r;
             }
             const int Order = 2000;   // over the pieces, chains, walls and badges (1800); under the HUD (3000)
+            const int PicGrid = 8;
+            Color[] _picColors;
+            Vector2[] _picUv;
+            void SetPicAlpha(float a)
+            {
+                var c = new Color(1, 1, 1, a);
+                for (int i = 0; i < _picColors.Length; i++) _picColors[i] = c;
+                _picMesh.colors = _picColors;
+            }
+            /* PM_90 §3: the picture under the cuts through h (board uv, v up -> picture uv), as the pieces. */
+            public void Warp(double[] h)
+            {
+                const int G = PicGrid;
+                if (_picUv == null) _picUv = new Vector2[(G + 1) * (G + 1)];
+                for (int j = 0; j <= G; j++)
+                    for (int i = 0; i <= G; i++)
+                    {
+                        var uv = Apply(h, new Vector2(i / (float)G, 1 - j / (float)G));
+                        _picUv[j * (G + 1) + i] = new Vector2(Mathf.Clamp01(uv.x), Mathf.Clamp01(uv.y));
+                    }
+                _picMesh.uv = _picUv;
+            }
 
             readonly Dictionary<(int, int), float> _vStart = new Dictionary<(int, int), float>(), _hStart = new Dictionary<(int, int), float>();
             readonly List<PieceView> _seams = new List<PieceView>();
@@ -1420,8 +1374,7 @@ namespace ReverseSolver.Presentation
 
             void Render(float time, float pictureAlpha, float lineAlpha, float shadow)
             {
-                var c = new Color(1, 1, 1, pictureAlpha);
-                _picMesh.colors = new[] { c, c, c, c };
+                SetPicAlpha(pictureAlpha);
                 var verts = new List<Vector3>(); var cols = new List<Color>(); var tris = new List<int>();
                 int tip = 0;
                 foreach (var (pts, length, start) in _edges)
@@ -1442,8 +1395,7 @@ namespace ReverseSolver.Presentation
                 {
                     float look = Mathf.Max(0, _look);
                     foreach (var pv in _seams) if (pv != null) pv.SetReveal(true, time, EdgeSeconds, look);
-                    var pc = new Color(1, 1, 1, 1 - look);
-                    _picMesh.colors = new[] { pc, pc, pc, pc };
+                    SetPicAlpha(1 - look);
                     Badges(look);
                 }
                 _lineMesh.Clear();

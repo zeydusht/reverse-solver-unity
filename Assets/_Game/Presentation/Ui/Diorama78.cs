@@ -48,24 +48,16 @@ namespace ReverseSolver.Presentation
 
         /* imgCentre: where the picture's centre is (layout points); k: layout points per picture px (the menu's
            cover fit). */
-        /* PM_89 §1: the canvas at the next level's board proportions (aspect > 0: width / height) on the painted one's
-           middle, in a frame the game draws (Frame89); 0: the painted-in canvas. Its height: the dive ends with it
-           exactly the board's height on the screen (boardHeight, layout points), at EndShare of the distance Zeyd's path
-           ends at, so the approach always goes on in (a fixed canvas left a square board's dive no way forward: the
-           path already ends at that framing); 1.2 units when not given. The frame's border is an eighth of it. */
-        public const float CanvasHeight = 1.2f, EndShare = .8f;
-        public readonly float Aspect, CanvasH;
-        public float FrameBorder => CanvasH / 8;
-        public Diorama78(Art art, Vector2 screen, Vector2 imgCentre, float k, float aspect = 0, float boardHeight = 0)
+        public Diorama78(Art art, Vector2 screen, Vector2 imgCentre, float k)
         {
-            _a = art; _screen = screen; _imgCentre = imgCentre; _k = k; Aspect = aspect;
-            EndMid = screen / 2;
+            _a = art; _screen = screen; _imgCentre = imgCentre; _k = k;
             _f = art.F * k;
             float th = art.StartDeg * Mathf.Deg2Rad;
             _d0 = new Vector3(Mathf.Sin(th), 0, -Mathf.Cos(th)); _r0 = new Vector3(Mathf.Cos(th), 0, Mathf.Sin(th));
             _cam0 = new Vector3(-art.D * Mathf.Sin(th), art.H, art.D * Mathf.Cos(th));
             _scale = art.D / art.Keys[0].magnitude;   // W per metre: Zeyd's first key on the menu's camera
             _startMid = ImageToLayout(new Vector2(art.Cx, art.Cy));
+            for (int i = 0; i < 4; i++) _canvas[i] = OnPlaneZ(art.CanvasPx[i], 0);
             _startPaint = Start(new Vector3(0, art.Yc, 0));
             // PM_80: the path by its length (W), so the camera's speed along it does not depend on how the keys are spaced
             _len = new float[LenSteps + 1]; _at = new Vector2[LenSteps + 1];
@@ -73,15 +65,6 @@ namespace ReverseSolver.Presentation
             {
                 _at[i] = PathAt((float)i / LenSteps) * _scale;
                 _len[i] = i == 0 ? 0 : _len[i - 1] + (_at[i] - _at[i - 1]).magnitude;
-            }
-            for (int i = 0; i < 4; i++) _canvas[i] = OnPlaneZ(art.CanvasPx[i], 0);
-            CanvasH = CanvasHeight;
-            if (aspect > 0)
-            {
-                if (boardHeight > 1) CanvasH = Mathf.Clamp(EndShare * _at[LenSteps].y * boardHeight / Mathf.Max(1, _f), .7f, 1.4f);
-                float hw = aspect * CanvasH / 2, hh = CanvasH / 2, cx = (_canvas[0].x + _canvas[1].x) / 2;
-                _canvas[0] = new Vector3(cx - hw, art.Yc + hh, 0); _canvas[1] = new Vector3(cx + hw, art.Yc + hh, 0);
-                _canvas[2] = new Vector3(cx + hw, art.Yc - hh, 0); _canvas[3] = new Vector3(cx - hw, art.Yc - hh, 0);
             }
         }
 
@@ -186,11 +169,11 @@ namespace ReverseSolver.Presentation
         Cam CameraAt(Vector2 p, float o)
         {
             float th = Mathf.Atan2(-p.x, p.y), dist = p.magnitude;
-            float paintY = Mathf.Lerp(_startPaint.y, EndMid.y, o);
+            float paintY = Mathf.Lerp(_startPaint.y, _screen.y / 2, o);
             return new Cam
             {
                 Pos = new Vector3(p.x, _a.H, p.y), D = new Vector3(Mathf.Sin(th), 0, -Mathf.Cos(th)), R = new Vector3(Mathf.Cos(th), 0, Mathf.Sin(th)),
-                Mid = new Vector2(Mathf.Lerp(_startMid.x, EndMid.x, o), paintY + _f * (_a.Yc - _a.H) / dist)
+                Mid = new Vector2(Mathf.Lerp(_startMid.x, _screen.x / 2, o), paintY + _f * (_a.Yc - _a.H) / dist)
             };
         }
 
@@ -262,39 +245,6 @@ namespace ReverseSolver.Presentation
             layers.Add(Dive75.Layer.FromGrid(parent, "floor", _a.Room, mat, _a.PlateSize,
                 (u, v) => { float x = Mathf.Lerp(x0, x1, u); return Plate(new Vector2(x, Mathf.Lerp(FootY(x), bottom, v))); },
                 px => OnFloor(px - _a.ImageOrigin), 40, 20, order));
-        }
-
-        /* PM_89: where the lens shift takes the painting's centre (the screen's middle; the dive: the board's). */
-        public Vector2 EndMid;
-
-        /* PM_89 §1: the frame round the canvas (Frame89), a hair in front of the wall, and the painting in the canvas:
-           the picture's crop (uv, y up) on the same 12 x 12 grid as the dive's own painting, so the two are the same
-           triangles. */
-        internal Dive75.Layer BuildFrame(Transform parent, Material mat, int order)
-        {
-            if (Aspect <= 0 || !Frame89.On) return null;
-            var open = Frame89.Opening(Aspect, CanvasH, FrameBorder, out float k);
-            var pos = new List<Vector2>(); var uv = new List<Vector2>(); var tris = new List<int>();
-            Frame89.Build(open, pos, uv, tris);
-            var tl = _canvas[0]; var p3 = new Vector3[pos.Count];
-            for (int i = 0; i < pos.Count; i++) p3[i] = new Vector3(tl.x + pos[i].x / k, tl.y - pos[i].y / k, .002f);
-            return Dive75.Layer.FromPoints(parent, "frame", Frame89.Texture, mat, uv.ToArray(), p3, tris, order);
-        }
-
-        internal Dive75.Layer BuildPainting(Transform parent, Texture tex, Rect crop, Material mat, int order)
-        {
-            const int N = 12;
-            var uv = new Vector2[(N + 1) * (N + 1)]; var p3 = new Vector3[uv.Length]; var tris = new List<int>();
-            for (int j = 0, n = 0; j <= N; j++)
-                for (int i = 0; i <= N; i++, n++)
-                {
-                    float u = (float)i / N, v = (float)j / N;
-                    var top = Vector3.Lerp(_canvas[0], _canvas[1], u); var bottom = Vector3.Lerp(_canvas[3], _canvas[2], u);
-                    p3[n] = Vector3.Lerp(top, bottom, v);
-                    uv[n] = new Vector2(crop.x + u * crop.width, crop.y + (1 - v) * crop.height);
-                    if (i < N && j < N) { int s = j * (N + 1) + i; tris.AddRange(new[] { s, s + 1, s + N + 2, s, s + N + 2, s + N + 1 }); }
-                }
-            return Dive75.Layer.FromPoints(parent, "painting", tex, mat, uv, p3, tris, order);
         }
 
         /* The column, its banner and its sconce: each a cut-out on its own plane in front of the wall. */

@@ -4,7 +4,7 @@ move is fitted as an affine map (OpenCV ECC on the screen's middle); its X and Y
 their ratio per frame, and the ratio carried from the arrival (the product of the steps). The arrival is the
 approach's end from the game's log ([cerceve] last line, or the [devir] hand-over).
 After the arrival the crop must not change at all: the steps' scale and shift are reported there too.
-usage: python Tools/pm89_aspect_check.py <frames dir> <tour log> [--from -1.0] [--to 1.4] [--csv out.csv]"""
+usage: python Tools/pm89_aspect_check.py <frames dir> <tour log> [--from -1.0] [--to 1.4] [--csv out.csv] [--blur px]"""
 import json, glob, re, sys, math
 import numpy as np
 import cv2
@@ -14,6 +14,7 @@ d, logf = args[0], args[1]
 t0 = float(args[args.index('--from') + 1]) if '--from' in args else -1.0
 t1 = float(args[args.index('--to') + 1]) if '--to' in args else 1.4
 csv = args[args.index('--csv') + 1] if '--csv' in args else None
+BLUR = float(args[args.index('--blur') + 1]) if '--blur' in args else 0
 num = lambda s: float(s.replace(',', '.'))
 cer, devir = [], []
 for line in open(logf, encoding='utf8', errors='replace'):
@@ -32,7 +33,9 @@ def load(i):
     g = cv2.cvtColor(cv2.imread(files[i]), cv2.COLOR_BGR2GRAY).astype(np.float32) / 255
     h, w = g.shape
     g = g[int(h * .3):int(h * .7), int(w * .2):int(w * .8)]   # the picture's middle (inside the board in both builds)
-    return cv2.resize(g, (g.shape[1] // 2, g.shape[0] // 2), interpolation=cv2.INTER_AREA)
+    g = cv2.resize(g, (g.shape[1] // 2, g.shape[0] // 2), interpolation=cv2.INTER_AREA)
+    # PM_90 --blur s: the cuts drawn over the picture (thin pen strokes) blurred away so the fit follows the picture
+    return cv2.GaussianBlur(g, (0, 0), BLUR) if BLUR > 0 else g
 
 
 rows = []

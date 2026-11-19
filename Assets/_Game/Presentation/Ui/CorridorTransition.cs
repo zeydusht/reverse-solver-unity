@@ -60,17 +60,11 @@ namespace ReverseSolver.Presentation
         }
 
         /* null when the strip is missing: the caller goes straight on. `next` may be null and come later (SetNext). */
-        /* PM_89 §1: wonAspect / nextAspect (board width / height): each painting opens at its board's proportions in a
-           frame the game draws (Frame89; the strip's own frames were taken off it, Tools/pm89_clear_frames.py) and
-           shows the board's crop. 0: the old way (the picture centre-cropped to the bay's opening). */
-        public static CorridorTransition Play(Vector2 screen, int order, Texture2D won, Texture2D next, Action done, bool handoff = false,
-                                              float wonAspect = 0, float nextAspect = 0)
+        public static CorridorTransition Play(Vector2 screen, int order, Texture2D won, Texture2D next, Action done, bool handoff = false)
         {
             var sprite = Resources.Load<Sprite>("corridor_strip");
             if (sprite == null) return null;
             var c = new GameObject("Corridor").AddComponent<CorridorTransition>();
-            c._framed = Frame89.On && wonAspect > 0 && nextAspect > 0;
-            c._aspect[0] = wonAspect; c._aspect[1] = nextAspect;
             c._order = order; c._done = done; c._start = Time.unscaledTime; c._handoff = handoff;
             c._beatIn = handoff ? StartBeat : 0; c._beatOut = handoff ? EndBeat : 0;
             // cover-fit the 9:19.5 view; a wide window crops at most 23 % of its height (the painting stays whole)
@@ -100,7 +94,6 @@ namespace ReverseSolver.Presentation
                 r.color = new Color(1, 1, 1, 0);
                 c._trail[i] = r;
             }
-            if (c._framed) { c.AddFrame(0); c.AddFrame(1); }
             c.AddPainting(won, 0, false);
             c.SetNext(next);
             c._screen = screen; c._k = k;
@@ -112,53 +105,6 @@ namespace ReverseSolver.Presentation
         float _k;
         bool _handoff;
         Texture2D _next;
-        bool _framed;
-        readonly float[] _aspect = new float[2];
-        readonly MeshRenderer[] _frame = new MeshRenderer[2];
-        /* PM_89: the bay's opening as a flat rect (its width 1, its height 1.45, as the strip was drawn) and the frames
-           the game draws there: OpeningHeight units tall at the board's proportions, the border FrameBorder wide. */
-        const float FlatH = 1.45f, OpeningHeight = 1.1f, FrameBorder = .15f;
-        public MeshRenderer NextFrame => _frame[1];
-
-        /* The flat bay (0..1 x 0..FlatH) onto bay k's opening in strip px (the strip's own perspective). */
-        static double[] BayH(int k)
-        {
-            var dst = new Vector2[4];
-            for (int i = 0; i < 4; i++) dst[i] = Bay[i] + new Vector2(k * Period, 0);
-            return Dive75.Homography(new[] { Vector2.zero, new Vector2(1, 0), new Vector2(1, FlatH), new Vector2(0, FlatH) }, dst);
-        }
-
-        /* Bay k's opening (strip px: TL, TR, BR, BL) at its board's proportions. */
-        Vector2[] Opening89(int k)
-        {
-            var h = BayH(k); float w = _aspect[k] * OpeningHeight, x0 = .5f - w / 2, y0 = FlatH / 2 - OpeningHeight / 2;
-            return new[] { Dive75.Apply(h, new Vector2(x0, y0)), Dive75.Apply(h, new Vector2(x0 + w, y0)),
-                           Dive75.Apply(h, new Vector2(x0 + w, y0 + OpeningHeight)), Dive75.Apply(h, new Vector2(x0, y0 + OpeningHeight)) };
-        }
-
-        void AddFrame(int k)
-        {
-            if (Frame89.Texture == null || _baseMat == null) return;
-            var open = Frame89.Opening(_aspect[k], OpeningHeight, FrameBorder, out float ppu);
-            var pos = new List<Vector2>(); var uv = new List<Vector2>(); var tris = new List<int>();
-            Frame89.Build(open, pos, uv, tris);
-            var h = BayH(k); float x0 = .5f - _aspect[k] * OpeningHeight / 2, y0 = FlatH / 2 - OpeningHeight / 2;
-            var verts = new List<Vector3>();
-            foreach (var p in pos) { var s = Dive75.Apply(h, new Vector2(x0 + p.x / ppu, y0 + p.y / ppu)); verts.Add(Draw.W(s.x, s.y)); }
-            var m = new Mesh { name = "corridor frame" };
-            m.SetVertices(verts); m.SetUVs(0, uv); m.SetTriangles(tris, 0);
-            var cols = new Color[verts.Count]; for (int i = 0; i < cols.Length; i++) cols[i] = Color.white;
-            m.colors = cols;
-            m.RecalculateBounds();
-            var go = new GameObject("frame " + k);
-            go.transform.SetParent(_slide, false);
-            go.AddComponent<MeshFilter>().sharedMesh = m;
-            var r = go.AddComponent<MeshRenderer>();
-            var mat = new Material(_baseMat) { mainTexture = Frame89.Texture };
-            r.sharedMaterial = mat; r.sortingOrder = _order + 2;
-            _frame[k] = r;
-            _paintings.Add((m, mat, -1));   // faded with the paintings
-        }
 
         /* PM_75: at the end of the slide the dive takes over: the strip, the next painting and where it is now. */
         public SpriteRenderer Strip => _strip;
@@ -169,7 +115,6 @@ namespace ReverseSolver.Presentation
             get
             {
                 if (_next == null) return new Rect(0, 0, 1, 1);
-                if (_framed) return LevelImages.Crop(_next, _aspect[1]);
                 var q = BayQuad(Period);
                 float aw = ((q[1] - q[0]).magnitude + (q[2] - q[3]).magnitude) / 2, ah = ((q[3] - q[0]).magnitude + (q[2] - q[1]).magnitude) / 2;
                 float ta = (float)_next.width / _next.height, a = aw / ah;
@@ -180,7 +125,7 @@ namespace ReverseSolver.Presentation
         /* The next painting's aperture on the screen now, layout points (TL, TR, BR, BL). */
         public Vector2[] NextQuad()
         {
-            var q = _framed ? Opening89(1) : BayQuad(Period);
+            var q = BayQuad(Period);
             var r = new Vector2[4];
             for (int i = 0; i < 4; i++)
             {
@@ -205,7 +150,7 @@ namespace ReverseSolver.Presentation
 
         public void SetNext(Texture2D next)
         {
-            if (next == null || this == null || _next != null) return;
+            if (next == null || this == null || _paintings.Count > 1) return;
             _next = next;
             AddPainting(next, Period, Time.unscaledTime - _start > .05f);   // late: a short fade over the dark placeholder
         }
@@ -235,7 +180,7 @@ namespace ReverseSolver.Presentation
             var r = go.AddComponent<MeshRenderer>();
             r.sharedMaterial = mat;
             r.sortingOrder = _order + 1;
-            var mesh = _framed ? Mesh89(tex, dx > 0 ? 1 : 0) : Mesh(tex, dx);
+            var mesh = Mesh(tex, dx);
             go.AddComponent<MeshFilter>().sharedMesh = mesh;
             _paintings.Add((mesh, mat, fade ? Time.unscaledTime : -1));
         }
@@ -259,28 +204,6 @@ namespace ReverseSolver.Presentation
                     var p = Project(q, u, v);
                     verts.Add(Draw.W(p.x, p.y));
                     uv.Add(new Vector2((1 - uw) / 2 + u * uw, (1 - vh) / 2 + (1 - v) * vh));
-                    if (i < N && j < N) { int s = j * (N + 1) + i; tris.AddRange(new[] { s, s + 1, s + N + 2, s, s + N + 2, s + N + 1 }); }
-                }
-            var m = new Mesh { name = "corridor painting" };
-            m.SetVertices(verts); m.SetUVs(0, uv); m.SetTriangles(tris, 0);
-            m.SetColors(new List<Color>(new Color[verts.Count]));
-            m.RecalculateBounds();
-            return m;
-        }
-
-        /* PM_89: the painting in bay k's opening at its board's proportions, the board's crop (the same 8 x 8 grid). */
-        Mesh Mesh89(Texture2D tex, int k)
-        {
-            var q = Opening89(k); var cr = LevelImages.Crop(tex, _aspect[k]);
-            const int N = 8;
-            var verts = new List<Vector3>(); var uv = new List<Vector2>(); var tris = new List<int>();
-            for (int j = 0; j <= N; j++)
-                for (int i = 0; i <= N; i++)
-                {
-                    float u = (float)i / N, v = (float)j / N;
-                    var p = Project(q, u, v);
-                    verts.Add(Draw.W(p.x, p.y));
-                    uv.Add(new Vector2(cr.x + u * cr.width, cr.y + (1 - v) * cr.height));
                     if (i < N && j < N) { int s = j * (N + 1) + i; tris.AddRange(new[] { s, s + 1, s + N + 2, s, s + N + 2, s + N + 1 }); }
                 }
             var m = new Mesh { name = "corridor painting" };

@@ -75,6 +75,8 @@ Shader "ReverseSolver/Piece"
                 float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
                 float _SkinMix, _KitOn;
                 float _RvOn, _RvTime, _RvEdgeSec, _RvLook;
+                float4 _ImageH0, _ImageH1, _ImageH2;   // PM_90: the dive's pull back (rows of a homography, board uv -> picture uv)
+                float _ImageWarp;
             CBUFFER_END
             float _RSEdge;   // global: 1 = the chosen thick dark navy edge on painted boards (2 = black, kept for tests)
             TEXTURE2D(_KitMask); SAMPLER(sampler_KitMask);
@@ -211,7 +213,16 @@ Shader "ReverseSolver/Piece"
                 if (imageAmt > 0.001)
                 {
                     float2 bp = (i.cell * 100.0 + p) / (max(_BoardCells.xy, 1.0) * 100.0);
-                    float3 img = SAMPLE_TEXTURE2D(_Image, sampler_Image, saturate(float2(bp.x, 1.0 - bp.y)) * _Image_ST.xy + _Image_ST.zw).rgb;   // PM_89: the picture's crop at the board's proportions (LevelImages.Crop)
+                    float2 bq = saturate(float2(bp.x, 1.0 - bp.y));
+                    float2 iuv = bq * _Image_ST.xy + _Image_ST.zw;   // PM_89: the picture's crop at the board's proportions (LevelImages.Crop)
+                    if (_ImageWarp > 0.5)
+                    {
+                        // PM_90 §3: over the dive's pull back the picture eases from the way it arrived to the board's crop
+                        float3 hq = float3(bq, 1.0);
+                        float hz = dot(_ImageH2.xyz, hq);
+                        iuv = saturate(float2(dot(_ImageH0.xyz, hq), dot(_ImageH1.xyz, hq)) / (abs(hz) > 1e-6 ? hz : 1e-6));
+                    }
+                    float3 img = SAMPLE_TEXTURE2D(_Image, sampler_Image, iuv).rgb;
                     rawImg = img;
                     float il = dot(img, float3(0.299, 0.587, 0.114));
                     img = lerp(img, float3(il, il, il), 0.55 * pinned) * lerp(1.0, 0.82, pinned);

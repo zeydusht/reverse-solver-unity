@@ -152,7 +152,6 @@ namespace ReverseSolver.Presentation
             public Vector2[] PaintingQuad()
             {
                 if (_bg == null) return null;
-                if (FrameDrawn) return _roomDio.CanvasAt(0);   // PM_89: the game's own frame, at the board's proportions
                 var size = _bg.sprite.rect.size; float ppu = _bg.sprite.pixelsPerUnit;
                 var quad = new Vector2[4];
                 for (int i = 0; i < 4; i++)
@@ -183,30 +182,11 @@ namespace ReverseSolver.Presentation
                 return true;
             }
 
-            /* aspect (PM_89 §1): the next level's board width / height: the frame opens at it (0: the painted one). */
-            public void UseDiorama(Diorama78.Art art, Vector2 screen, float aspect = 0, float boardHeight = 0)
+            public void UseDiorama(Diorama78.Art art, Vector2 screen)
             {
                 if (art == null || _bg == null) return;
-                _roomArt = art; _roomScreen = screen; _roomAspect = Frame89.On ? aspect : 0; _roomBoardH = boardHeight;
+                _roomArt = art; _roomScreen = screen;
                 BuildRoom();
-            }
-            float _roomAspect, _roomBoardH;
-            public float FrameBoardHeight => _roomBoardH;
-            Diorama78 _roomDio;
-            Dive75.Layer _roomPainting;
-            /* PM_89: the frame is the game's (the painting is a layer of the room, in the canvas, the board's crop). */
-            public bool FrameDrawn => _room != null && _roomDio != null && _roomDio.Aspect > 0;
-            public float FrameAspect => _roomDio != null ? _roomDio.Aspect : 0;
-
-            void BuildRoomPainting()
-            {
-                if (_roomPainting != null) { RoomLayers.Remove(_roomPainting); _roomPainting.Dispose(); _roomPainting = null; }
-                if (!FrameDrawn || PaintingTexture == null) return;
-                if (_painting != null) { Object.Destroy(_painting.gameObject); _painting = null; }
-                PaintingCrop = LevelImages.Crop(PaintingTexture, _roomDio.Aspect);
-                _roomPainting = _roomDio.BuildPainting(_room, PaintingTexture, PaintingCrop, _bg.sharedMaterial, 1);
-                _roomPainting.Project(p => _roomDio.Project(0, p), new double[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 }, 1);
-                RoomLayers.Add(_roomPainting);
             }
 
             void BuildRoom()
@@ -219,17 +199,13 @@ namespace ReverseSolver.Presentation
                 _room.SetParent(Root, false);
                 var group = _room.gameObject.AddComponent<UnityEngine.Rendering.SortingGroup>();
                 group.sortingOrder = _bg.sortingOrder;
-                var dio = new Diorama78(_roomArt, _roomScreen, centre, k, _roomAspect, _roomBoardH);
-                _roomDio = dio; _roomPainting = null;
+                var dio = new Diorama78(_roomArt, _roomScreen, centre, k);
                 var mat = _bg.sharedMaterial;
                 var layers = new List<Dive75.Layer>();
                 dio.Build(_room, mat, 0, layers);
-                var frame = dio.BuildFrame(_room, mat, 2);   // PM_89: over the painting (1), under the column (3 ..)
-                if (frame != null) layers.Add(frame);
-                dio.BuildFronts(_room, mat, 3, layers);
+                dio.BuildFronts(_room, mat, 2, layers);
                 dio.Pose(0, new double[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 }, layers, 1);
                 RoomLayers.AddRange(layers);
-                BuildRoomPainting();
                 // the menu's own painting stays over it (bg order + 1, over the room's group): the start view is the menu
                 // exactly; the dive starts from the same drawing of it (Dive75.PaintInto, flat)
                 _bg.enabled = false;
@@ -246,7 +222,6 @@ namespace ReverseSolver.Presentation
             public void SetPainting(Texture2D tex)
             {
                 if (_bg == null || tex == null) return;
-                if (FrameDrawn) { PaintingTexture = tex; BuildRoomPainting(); return; }
                 if (_painting != null) Object.Destroy(_painting.gameObject);
                 var q = Opening;
                 const float x0 = 348, x1 = 663, y0 = 296, y1 = 832;

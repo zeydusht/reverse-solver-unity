@@ -26,7 +26,7 @@ namespace ReverseSolver.EditorTools
                     : assetPath.EndsWith("freeze_bar_fill.png") ? UnityEngine.Vector4.one * 10 : UnityEngine.Vector4.zero;
                 return;
             }
-            // PM_89: the game's own frame (frame89: a plain texture, sliced by Frame89.cs), the clock's ice and the
+            // PM_89: the clock's ice and the
             // Jiggles shelf: @3x sprites at their own size (multiples of 4), crunched; the bar's ends 9-sliced
             if (assetPath.Contains("Presentation/Resources/Art/yeni/pm89/"))
             {

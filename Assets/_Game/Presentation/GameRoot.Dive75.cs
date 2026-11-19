@@ -40,14 +40,8 @@ namespace ReverseSolver.Presentation
             setup.Diorama = Dive75.Orbit && mapped ? ArcAssets76.Diorama : null;
             setup.ImageCentre = centre; setup.ImageK = k;
             setup.Seamless = setup.Diorama != null && _menu.ShowsDiorama;
-            // PM_89 §1: the menu's frame opened at this level's board proportions: the dive lands on the board's place
-            if (setup.Diorama != null && _menu.FrameDrawn && Mathf.Abs(_menu.FrameAspect - Aspect89(index)) < 1e-3f)
-            {
-                var target = BoardTarget89(index);
-                if (Mathf.Abs(target.height - _menu.FrameBoardHeight) < .5f) { setup.FrameAspect = _menu.FrameAspect; setup.Target = target; }
-            }
             if (setup.Diorama == null) setup.Walls.Add(bg);
-            else if (setup.Seamless) setup.Order = bg.sortingOrder - 6;   // the room's own place, under the menu's controls (7 layers)
+            else if (setup.Seamless) setup.Order = bg.sortingOrder - 4;   // the room's own place, under the menu's controls
             else setup.Order = bg.sortingOrder + 1;   // over the menu's wall, under its controls: it fades in over the room
             return StartDive75(setup, index);
         }
@@ -74,18 +68,11 @@ namespace ReverseSolver.Presentation
                     Backdrop = new Color(.09f, .07f, .06f, 1),
                 };
                 setup.Walls.Add(c.Strip);
-                if (c.NextFrame != null)
-                {
-                    // PM_89 §1: the next painting's frame at its board's proportions; the dive lands on the board's place
-                    setup.Frames.Add(c.NextFrame);
-                    setup.FrameAspect = Aspect89(next);
-                    setup.Target = BoardTarget89(next);
-                }
                 // PM_77: the old slide (PM_MESAJ_24, 3 s) ends with the next painting nearly square on: no arc, the
                 // approach starts from there (its last slight perspective eases out on the way in)
                 if (tex == null || quad == null || !StartDive75(setup, next)) { StartLevel(next); return; }
                 c.DestroyNow();
-            }, handoff: Dive75.On, wonAspect: Aspect89(_index), nextAspect: Aspect89(next));
+            }, handoff: Dive75.On);
             if (c == null) return false;
             _corridor = c;
             return true;
@@ -99,34 +86,10 @@ namespace ReverseSolver.Presentation
             CorridorTransition c = null;
             var nextPic = _images.Get(ImageOf(next), t => { if (c != null) c.SetNext(t); });
             // PM_77: the old corridor, then the menu as it was (no entrance animation over the corridor's fade)
-            c = CorridorTransition.Play(_screen, CorridorOrder, _board.Image as Texture2D, nextPic, () => { _corridor = null; _menuEnterQuiet = true; ShowMenu(); },
-                                        wonAspect: Aspect89(_index), nextAspect: Aspect89(next));
+            c = CorridorTransition.Play(_screen, CorridorOrder, _board.Image as Texture2D, nextPic, () => { _corridor = null; _menuEnterQuiet = true; ShowMenu(); });
             if (c == null) return false;
             _corridor = c;
             return true;
-        }
-
-        /* PM_89 §1: level index's board width / height (its painting is cropped to it everywhere). */
-        float Aspect89(int index)
-        {
-            if (_set == null || _set.Levels.Count == 0) return 1;
-            var l = _set.Levels[Mathf.Clamp(index, 0, _set.Levels.Count - 1)];
-            return (float)l.Width / Mathf.Max(1, l.Height);
-        }
-
-        /* PM_89 §1: where level index's board (its cells) will be on the screen in the level's own view, before it is
-           built (the placement reads the level's index: set for the moment). */
-        Rect BoardTarget89(int index)
-        {
-            int keep = _index;
-            try
-            {
-                _index = Mathf.Clamp(index, 0, _set.Levels.Count - 1);
-                var l = _set.Levels[_index];
-                var o = PlayingBoardPlacement(_screen, _safe, l, out float cell);
-                return new Rect(o, new Vector2(l.Width * cell, l.Height * cell));
-            }
-            finally { _index = keep; }
         }
 
         bool StartDive75(Dive75.Setup setup, int index)

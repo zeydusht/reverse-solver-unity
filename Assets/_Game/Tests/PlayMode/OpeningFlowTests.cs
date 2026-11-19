@@ -414,10 +414,14 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(GameObject.Find("fx ice rim").GetComponent<SpriteRenderer>().enabled, Is.True, "the Time box frosted while frozen");
             var ice = GameObject.Find("fx ice bar fill").GetComponent<SpriteRenderer>();
             Assert.That(ice.enabled, Is.True, "the ice bar under the Time box");
-            float full = ice.size.x;
+            float full = ice.size.x, left0 = ice.transform.localPosition.x - full / 2, right0 = left0 + full;
             yield return WaitFor(() => session.FreezeLeft < 9.5, "the freeze bar decreasing");
             yield return null;
             Assert.That(ice.size.x, Is.LessThan(full), "the ice bar empties with the freeze");
+            // PM_90 §2: it empties from the right towards the left: its left end stays, its right end draws back
+            float left1 = ice.transform.localPosition.x - ice.size.x / 2;
+            Assert.That(left1, Is.EqualTo(left0).Within(1e-3f), "the ice bar's left end stays put");
+            Assert.That(left1 + ice.size.x, Is.LessThan(right0 - 1e-4f), "the ice bar's right end draws back to the left");
             Assert.That(session.TimeLeft, Is.EqualTo(frozenAt));
             Assert.That(session.FreezeLeft, Is.GreaterThan(0));
             yield return new WaitForSecondsRealtime(.5f);

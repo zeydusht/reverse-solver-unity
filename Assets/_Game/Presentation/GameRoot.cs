@@ -183,9 +183,8 @@ namespace ReverseSolver.Presentation
             CorridorTransition.EndBeat = QueryFloat("koridorson", .2f, 0, 2);     // and before the dive
             Dive75.LineK = QueryFloat("cizgihiz", 1, .25f, 4);
             Dive75.DiveSpeed = QueryFloat("dalishiz", 1, .25f, 4);   // PM_86 §10
-            Dive75.FadeSeconds = QueryFloat("dalissonme", .5f, .05f, 3);
             Hud54.TimeBarOn = Host.Current.Query("surebar") == "1";            // PM_89 §2
-            BoosterFx74.Frost89Allowed = Host.Current.Query("buzbar") != "0";   // PM_89 §2   // PM_89 §1: the wall and the frame fading off round the board
+            BoosterFx74.Frost89Allowed = Host.Current.Query("buzbar") != "0";   // PM_89 §2
             PageSeconds = QueryFloat("sekmesure", .35f, .1f, 3);   // PM_88 §3
             PageLog = Host.Current.Query("sekmelog") == "1";
             var dalis = Host.Current.Query("dalis");
@@ -864,7 +863,7 @@ namespace ReverseSolver.Presentation
             else if (_menu.Play.Contains(pt))
             {
                 PerfClock.Restart(); PerfLine.Clear();
-                int play = MenuNext82();   // PM_89: the button's level (&sonraki=N in a test link plays N; else the next)
+                int play = MenuNext82();   // the button's level (a test link's &sonraki=N plays N; else the next)
                 bool dove = DiveFromMenu75(play);   // PM_75: the slow dive
                 Perf("dive"); PerfFlush("tap"); _perfFrames = 3;
                 if (!dove) StartLevel(play);
@@ -1440,11 +1439,11 @@ namespace ReverseSolver.Presentation
             if (_paintSet && _newArt && _menu != null)
             {
                 var menu = _menu;
-                var pic = _images.Get(ImageOf(MenuNext82()), t => { if (_menu == menu) menu.SetPainting(t); });   // PM_89: the button's level (&sonraki= in a test)
+                var pic = _images.Get(ImageOf(MenuNext82()), t => { if (_menu == menu) menu.SetPainting(t); });   // (&sonraki= in a test)
                 if (pic != null) _menu.SetPainting(pic);
             }
             // PM_77/78 &gecis=yay: the menu's room is the diorama's start view (loaded now if the warm-up has not yet)
-            if (Dive75.Orbit && _newArt && _menu != null) _menu.UseDiorama(ArcAssets76.LoadDioramaNow(), _screen, _paintSet ? Aspect89(MenuNext82()) : 0, _paintSet ? BoardTarget89(MenuNext82()).height : 0);
+            if (Dive75.Orbit && _newArt && _menu != null) _menu.UseDiorama(ArcAssets76.LoadDioramaNow(), _screen);
         }
 
         void Background()

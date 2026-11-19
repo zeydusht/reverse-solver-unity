@@ -932,7 +932,7 @@ namespace ReverseSolver.Presentation
         // ---- PM_89 §2: the clock's ice bar ----------------------------------------------------------------------
         /* The green bar under the Time box is gone; only while the clock booster holds the time an ice bar shows there
            (Codex option A, Art/yeni/pm89/frost: a navy groove with a gold rim, an ice fill, frost). It empties from the
-           left over the freeze, ice crystals glint on it, and when the time runs again it cracks (three stages) and
+           right (PM_90: towards the left) over the freeze, ice crystals glint on it, and when the time runs again it cracks (three stages) and
            breaks into shards with a crackle and a light tap. The box wears a frosted rim while frozen that thaws away. */
         public static bool Frost89Allowed = true;   // &buzbar=0: the PM_74 glaze and chip
         bool Frost89On => Frost89Allowed && Get89("track") != null && Get89("fill") != null;
@@ -977,16 +977,16 @@ namespace ReverseSolver.Presentation
                 _fPeak = Mathf.Max(_fPeak, (float)freezeLeft);
                 float k = OutBack(Span(now, _fShownAt, _fShownAt + FrostIn), 1.2f);   // pops open
                 Sliced(_fTrack, Get89("track"), c, new Vector2(size.x, size.y * Mathf.Max(.05f, k)), Mathf.Clamp01(k * 2));
-                // the fill: the share of the freeze left, from the right (it empties from the left)
+                // the fill: the share of the freeze left, from the left (PM_90 §2: its right end draws back to the left)
                 float share = Mathf.Clamp01((float)freezeLeft / _fPeak), inner = size.x - 4 * _s, h = size.y * 60 / 84 * Mathf.Max(.05f, k);
                 float w = inner * share, minW = 10 * _s;
-                Sliced(_fFill, Get89("fill"), new Vector2(c.x + inner / 2 - Mathf.Max(w, minW) / 2, c.y), new Vector2(Mathf.Max(w, minW), h), w >= minW ? 1 : w / minW);
+                Sliced(_fFill, Get89("fill"), new Vector2(c.x - inner / 2 + Mathf.Max(w, minW) / 2, c.y), new Vector2(Mathf.Max(w, minW), h), w >= minW ? 1 : w / minW);
                 _fCrack.enabled = false;
                 // three glints wandering along what is left of the fill
                 for (int i = 0; i < _fGlint.Length; i++)
                 {
                     float ph = Mathf.Repeat(now * .9f + i * .37f, 1), a = Mathf.Sin(ph * Mathf.PI);
-                    float x = c.x + inner / 2 - w * Mathf.Repeat(.18f + i * .31f + Mathf.Floor(now * .9f + i * .37f) * .53f, 1);
+                    float x = c.x - inner / 2 + w * Mathf.Repeat(.18f + i * .31f + Mathf.Floor(now * .9f + i * .37f) * .53f, 1);
                     Paint(_fGlint[i], Get89("crystal"), new Vector2(x, c.y - 1 * _s), Vector2.one * (9 + 5 * a) * _s, a * a * Mathf.Clamp01(k) * (w > minW ? 1 : 0), now * 60 + i * 40);
                 }
                 _fPanelA = Mathf.Clamp01((now - _fShownAt) / .25f);
