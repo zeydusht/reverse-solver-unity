@@ -476,7 +476,7 @@ namespace ReverseSolver.Presentation
            and springs back past its place once (~4 % of a cell) and settles. With no room it nudges in 8 % of a
            cell, squashes less and springs back, shorter. The picture, the tabs, the nail and the bomb badges scale
            with the piece (one transform). A new touch stops it at once (ShowDrag). */
-        public static float Rubber = 1.5f;       // &lastik= (the level: 1 PM_93, 1.5 deeper, 2 most, with two swings; 0: PM_75's knock)
+        public static float Rubber = 2;          // &lastik= (the level: 1 PM_93, 1.5 deeper, 2 most, with two swings, PM_95: the default; 0: PM_75's knock)
         public static float RubberSeconds = -1;  // &lastiksure= (s): from the contact on (the squash and the way back)
         public static bool RubberLog;            // &lastiklog=1: one [lastik] line a knock, at its end (a log a frame would itself make long frames)
         const float RubberStretch = .07f, RubberSquash = .20f, RubberNudgeSquash = .11f, RubberOver = .04f, RubberNudge = .08f;

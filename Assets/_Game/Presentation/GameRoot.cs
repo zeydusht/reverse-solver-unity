@@ -148,7 +148,8 @@ namespace ReverseSolver.Presentation
         {
             Art.T28 = Host.Current.Query("art") != "eski";
             Music.Start(this);                                 // the menu and the levels share one loop
-            Haptics.Click = () => PlaySound("pm72-tick", .45f);   // PM_86: every button's click
+            Sfx95.Load();                                      // PM_95: the chosen recorded sounds, loaded now
+            Haptics.Click = () => { if (!PlaySfx(Sfx95.Kind.Tick, .45f)) PlaySound("pm72-tick", .45f); };   // PM_86: every button's click
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
             _images = LevelImages.Create();
             _cam = Camera.main;
@@ -183,7 +184,7 @@ namespace ReverseSolver.Presentation
             CorridorTransition.EndBeat = QueryFloat("koridorson", .2f, 0, 2);     // and before the dive
             Dive75.LineK = QueryFloat("cizgihiz", 1, .25f, 4);
             Dive75.DiveSpeed = QueryFloat("dalishiz", 1, .25f, 4);   // PM_86 §10
-            BoardView.Rubber = QueryFloat("lastik", 1.5f, 0, 3);              // PM_93 §1, PM_94 §2: 1, 1.5, 2 (0: PM_75's knock)
+            BoardView.Rubber = QueryFloat("lastik", 2, 0, 3);                 // PM_93 §1, PM_94 §2: 1, 1.5, 2 (0: PM_75's knock); PM_95: Zeyd chose 2
             BoardView.RubberSeconds = QueryFloat("lastiksure", -1, .1f, 3);
             BoardView.RubberLog = Host.Current.Query("lastiklog") == "1";
             Dive75.Arrive91 = Host.Current.Query("dalis91") != "0";      // PM_91: &dalis91=0 the PM_90 timing
@@ -999,6 +1000,29 @@ namespace ReverseSolver.Presentation
             _audio.PlayOneShot(clip, volumeScale);
         }
 
+        /* PM_95: a recorded candidate (Sfx95) at its own pitch, on one of a few sources (the pitch is a source's:
+           overlapping sounds each keep theirs); false: none chosen (&ses...=0), the old sound plays. */
+        readonly AudioSource[] _sfx = new AudioSource[6];
+        AudioSource _sfxLate;
+        int _sfxNext;
+        bool PlaySfx(Sfx95.Kind kind, float volumeScale, float delay = 0)
+        {
+            var clip = Sfx95.Pick(kind, out float pitch);
+            if (clip == null) return false;
+            if (Art.Muted) return true;
+            AudioSource src;
+            if (delay > 0) src = _sfxLate != null ? _sfxLate : _sfxLate = gameObject.AddComponent<AudioSource>();   // its own: not cut by the ring
+            else
+            {
+                src = _sfx[_sfxNext] != null ? _sfx[_sfxNext] : _sfx[_sfxNext] = gameObject.AddComponent<AudioSource>();
+                _sfxNext = (_sfxNext + 1) % _sfx.Length;
+            }
+            src.Stop();
+            src.clip = clip; src.pitch = pitch; src.volume = volumeScale;
+            if (delay > 0) src.PlayDelayed(delay); else src.Play();
+            return true;
+        }
+
         AudioSource _late;
         void PlaySoundLater(string key, float delay)   // the win fanfare waits for the last piece's long sparkle
         {
@@ -1015,9 +1039,9 @@ namespace ReverseSolver.Presentation
         bool _unlockPending;
         void ExitSound(bool bomb, bool last, bool unlocked, bool lastTap = true)
         {
-            if (last) PlaySound("popfull");
+            if (last) { if (!PlaySfx(Sfx95.Kind.Last, 1)) PlaySound("popfull"); }
             // PM_74: the tick (every exit) was the loudest sound (-14 dB peak window); -4 dB, the defuse -1.5 dB
-            else if (P21JuiceView.Enabled) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
+            else if (P21JuiceView.Enabled && (bomb || !PlaySfx(Sfx95.Kind.Exit, .62f))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
             if (unlocked) PlaySound("pm72-unlock");
             if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
             else if (lastTap) Haptics.Play(Haptics.Kind.Success);   // otherwise Finished taps
@@ -1107,8 +1131,8 @@ namespace ReverseSolver.Presentation
             else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) PlaySound("piece");
             // PM_75: a stuck piece that slides first knocks at the contact (BoardView.ContactHit), not here
             else if (e.Kind == EventKind.Jammed && !(_board != null && _drag != null && _drag.Piece == e.Piece && _board.WillSlide(e.Piece, _drag.Direction)))
-            { PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
-            else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) PlaySoundLater("win", .7f);
+            { if (!PlaySfx(Sfx95.Kind.Knock, .9f)) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
+            else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) { if (!PlaySfx(Sfx95.Kind.Win, 1, .7f)) PlaySoundLater("win", .7f); }
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
             if (e.Kind != EventKind.Finished) return;
             Debug.Log($"[input] flick={_flickInputs} drag={_dragInputs}");
@@ -1133,7 +1157,7 @@ namespace ReverseSolver.Presentation
             if (e.Outcome == Outcome.Quit) return;
             if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
             else if (e.Outcome != Outcome.Win) Haptics.Play(Haptics.Kind.Error);   // PM_86 §4: time up, a loss
-            if (e.Outcome == Outcome.Win) { if (_pendingExits.Count == 0) Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, 2f); }   // the fanfare comes at .7 s; a dragged last piece taps at the edge
+            if (e.Outcome == Outcome.Win) { if (_pendingExits.Count == 0) Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, Sfx95.On(Sfx95.Kind.Win) ? Mathf.Max(2f, Sfx95.Length(Sfx95.Kind.Win) - .4f) : 2f); }   // the fanfare comes at .7 s (PM_95: the music stays down under the longer jingle); a dragged last piece taps at the edge
             _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
             // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
             if (!P21WinArt && e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
@@ -1346,7 +1370,7 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_p21Flow ? _index + 1 : _session.Level.Number);
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin, P21Boosters);
-                _board.ContactHit = _ => { PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
+                _board.ContactHit = _ => { if (!PlaySfx(Sfx95.Kind.Knock, .9f)) PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
                 Perf("board");
                 _board.ExitBurst = OnExitBurst;
                 _pendingExits.Clear();
@@ -1914,7 +1938,7 @@ namespace ReverseSolver.Presentation
                     _committedTouch = !released;
                     _drag.Move(end.x, end.y, now);
                     if (FinishP21Jam(released)) return;
-                    if (P21JuiceView.Enabled && limit.Exit) PlaySound("weee", .35f);
+                    if (P21JuiceView.Enabled && limit.Exit && !Sfx95.On(Sfx95.Kind.Exit)) PlaySound("weee", .35f);   // PM_95: the exit sound has its own whoosh
                     FinishPointerDrag(false, true);
                 }
                 else if (released)

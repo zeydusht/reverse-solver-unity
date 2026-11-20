@@ -22,14 +22,25 @@ namespace ReverseSolver.Presentation
             ('a', 1105 / 44100.0, 124.44444444444444), ('b', 1105 / 44100.0, 60.6315873015873),
             ('c', 1105 / 44100.0, 128.0), ('d', 1105 / 44100.0, 130.16950113378684), ('e', 1106 / 44100.0, 106.62603174603174),
         };
+        /* PM_95 §2: eight more CC0 candidates (docs/art/pm95/LISANS.md, Tools/make_music95.py), &muzik=f..m, -18 LUFS;
+           the web's default is now f (docs/art/pm95/RAPOR.md: why); &muzik=0: the old loop. From Assets/Audio/Music95/loops.json. */
+        static readonly (char letter, double start, double length)[] Loops95 =
+        {
+            ('f', 1105 / 44100.0, 86.4), ('g', 1105 / 44100.0, 96.0), ('h', 1105 / 44100.0, 122.18181405895692),
+            ('i', 1105 / 44100.0, 76.8), ('j', 1105 / 44100.0, 120.0), ('k', 1105 / 44100.0, 82.28571428571429),
+            ('l', 1105 / 44100.0, 96.00002267573696), ('m', 1105 / 44100.0, 57.17646258503402),
+        };
+        public const char Default95 = 'f';
         public static char Variant
         {
             get
             {
                 string q = Host.Current?.Query("muzik");
-                if (string.IsNullOrEmpty(q)) return '\0';
+                if (string.IsNullOrEmpty(q)) return Default95;
+                if (q[0] == '0') return '\0';
                 foreach (var l in Loops86) if (l.letter == q[0]) return q[0];
-                return '\0';
+                foreach (var l in Loops95) if (l.letter == q[0]) return q[0];
+                return Default95;
             }
         }
         static (string url, double start, double length) Track
@@ -39,6 +50,8 @@ namespace ReverseSolver.Presentation
                 char v = Variant;
                 foreach (var l in Loops86)
                     if (l.letter == v) return ($"https://zeydusht.github.io/reverse-solver-unity/music/pm86/music-{v}.mp3", l.start, l.length);
+                foreach (var l in Loops95)
+                    if (l.letter == v) return ($"https://zeydusht.github.io/reverse-solver-unity/music/pm95/music-{v}.mp3", l.start, l.length);
                 return (Url, -1, LoopSeconds);   // the old one: its lead-in is found by its first sound
             }
         }
