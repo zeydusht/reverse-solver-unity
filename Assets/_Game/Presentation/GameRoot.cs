@@ -183,7 +183,7 @@ namespace ReverseSolver.Presentation
             CorridorTransition.EndBeat = QueryFloat("koridorson", .2f, 0, 2);     // and before the dive
             Dive75.LineK = QueryFloat("cizgihiz", 1, .25f, 4);
             Dive75.DiveSpeed = QueryFloat("dalishiz", 1, .25f, 4);   // PM_86 §10
-            BoardView.Rubber = QueryFloat("lastik", 1, 0, 3);                 // PM_93 §1 (0: PM_75's knock)
+            BoardView.Rubber = QueryFloat("lastik", 1.5f, 0, 3);              // PM_93 §1, PM_94 §2: 1, 1.5, 2 (0: PM_75's knock)
             BoardView.RubberSeconds = QueryFloat("lastiksure", -1, .1f, 3);
             BoardView.RubberLog = Host.Current.Query("lastiklog") == "1";
             Dive75.Arrive91 = Host.Current.Query("dalis91") != "0";      // PM_91: &dalis91=0 the PM_90 timing
