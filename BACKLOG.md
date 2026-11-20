@@ -210,6 +210,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_91 (19 Kasım): dalış sonda yavaşlamıyor, resimde kalış yarıya (PM_92 ile p23'te).
 - ✅ PM_92 p23'te (20 Kasım): dalışta hız kalkıştan varışa sürekli artıyor; `verify_build --send` kontrolleri sl100'e göre güncel.
 - ✅ PM_93 p23'te (20 Kasım): takılmada lastik animasyonu (`&lastik=`), Koleksiyon'dan tekrar oynamada menü bozulması düzeltildi ve dalışla giriş. Açık: boşluklu takılmada temastaki tek 30 ms kare (PM_75'te de var), bölüm 1–3 ipucu sisteminin tek uzun karesi, iPhone hissi.
+- ✅ PM_94 p23'te (20 Kasım): lastik takılmada hızlı çıkış, seviyeler `&lastik=1/1.5/2` (varsayılan 1.5). Bekleyen: Zeyd'in seviye seçimi (sonra kalıcı).
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular
