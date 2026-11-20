@@ -1,0 +1,419 @@
+{
+ "cikis": [
+  {
+   "letter": "a",
+   "name": "Karton kayması",
+   "credit": "Kenney Casino Audio (card-slide), CC0",
+   "link": "https://kenney.nl/assets/casino-audio",
+   "default": false,
+   "takes": [
+    {
+     "file": "cikis-a1.wav",
+     "seconds": 0.145,
+     "dB": -4.8
+    },
+    {
+     "file": "cikis-a2.wav",
+     "seconds": 0.25,
+     "dB": -4.8
+    },
+    {
+     "file": "cikis-a3.wav",
+     "seconds": 0.25,
+     "dB": -4.8
+    },
+    {
+     "file": "cikis-a4.wav",
+     "seconds": 0.25,
+     "dB": -4.8
+    }
+   ]
+  },
+  {
+   "letter": "b",
+   "name": "Karton kayması + yumuşak pop",
+   "credit": "Kenney Casino Audio (card-slide) + cogitollc \"Pop sounds\", CC0",
+   "link": "https://kenney.nl/assets/casino-audio , https://opengameart.org/content/pop-sounds",
+   "default": true,
+   "takes": [
+    {
+     "file": "cikis-b1.wav",
+     "seconds": 0.145,
+     "dB": -3.2
+    },
+    {
+     "file": "cikis-b2.wav",
+     "seconds": 0.25,
+     "dB": -3.2
+    },
+    {
+     "file": "cikis-b3.wav",
+     "seconds": 0.25,
+     "dB": -3.2
+    },
+    {
+     "file": "cikis-b4.wav",
+     "seconds": 0.25,
+     "dB": -3.2
+    }
+   ]
+  },
+  {
+   "letter": "c",
+   "name": "Hafif whoosh + pop",
+   "credit": "artisticdude \"Swishes Sound Pack\" + cogitollc \"Pop sounds\", CC0",
+   "link": "https://opengameart.org/content/swishes-sound-pack , https://opengameart.org/content/pop-sounds",
+   "default": false,
+   "takes": [
+    {
+     "file": "cikis-c1.wav",
+     "seconds": 0.129,
+     "dB": -0.9
+    },
+    {
+     "file": "cikis-c2.wav",
+     "seconds": 0.132,
+     "dB": -0.9
+    },
+    {
+     "file": "cikis-c3.wav",
+     "seconds": 0.151,
+     "dB": -0.9
+    },
+    {
+     "file": "cikis-c4.wav",
+     "seconds": 0.117,
+     "dB": -0.9
+    }
+   ]
+  },
+  {
+   "letter": "d",
+   "name": "Kumaş hışırtısı",
+   "credit": "Kenney RPG Audio (cloth), CC0",
+   "link": "https://kenney.nl/assets/rpg-audio",
+   "default": false,
+   "takes": [
+    {
+     "file": "cikis-d1.wav",
+     "seconds": 0.3,
+     "dB": -5.1
+    },
+    {
+     "file": "cikis-d2.wav",
+     "seconds": 0.3,
+     "dB": -5.1
+    },
+    {
+     "file": "cikis-d3.wav",
+     "seconds": 0.3,
+     "dB": -5.1
+    }
+   ]
+  },
+  {
+   "letter": "e",
+   "name": "Yumuşak pop",
+   "credit": "cogitollc \"Pop sounds\" (iPhone kaydı), CC0",
+   "link": "https://opengameart.org/content/pop-sounds",
+   "default": false,
+   "takes": [
+    {
+     "file": "cikis-e1.wav",
+     "seconds": 0.059,
+     "dB": -0.3
+    },
+    {
+     "file": "cikis-e2.wav",
+     "seconds": 0.062,
+     "dB": -0.3
+    },
+    {
+     "file": "cikis-e3.wav",
+     "seconds": 0.081,
+     "dB": -0.3
+    },
+    {
+     "file": "cikis-e4.wav",
+     "seconds": 0.047,
+     "dB": -0.3
+    }
+   ]
+  }
+ ],
+ "carpma": [
+  {
+   "letter": "a",
+   "name": "Yumuşak tok",
+   "credit": "Kenney Impact Sounds (impactSoft_medium), CC0",
+   "link": "https://kenney.nl/assets/impact-sounds",
+   "default": true,
+   "takes": [
+    {
+     "file": "carpma-a1.wav",
+     "seconds": 0.118,
+     "dB": -2.9
+    },
+    {
+     "file": "carpma-a2.wav",
+     "seconds": 0.183,
+     "dB": -2.9
+    },
+    {
+     "file": "carpma-a3.wav",
+     "seconds": 0.135,
+     "dB": -2.9
+    },
+    {
+     "file": "carpma-a4.wav",
+     "seconds": 0.14,
+     "dB": -2.9
+    }
+   ]
+  },
+  {
+   "letter": "b",
+   "name": "Kauçuk bonk",
+   "credit": "Kenney Impact Sounds (impactPunch_medium), CC0",
+   "link": "https://kenney.nl/assets/impact-sounds",
+   "default": false,
+   "takes": [
+    {
+     "file": "carpma-b1.wav",
+     "seconds": 0.28,
+     "dB": -0.8
+    },
+    {
+     "file": "carpma-b2.wav",
+     "seconds": 0.267,
+     "dB": -0.8
+    },
+    {
+     "file": "carpma-b3.wav",
+     "seconds": 0.28,
+     "dB": -0.8
+    },
+    {
+     "file": "carpma-b4.wav",
+     "seconds": 0.28,
+     "dB": -0.8
+    }
+   ]
+  },
+  {
+   "letter": "c",
+   "name": "Boing",
+   "credit": "ezduzziteh \"Boings\", CC0",
+   "link": "https://opengameart.org/content/boings",
+   "default": false,
+   "takes": [
+    {
+     "file": "carpma-c1.wav",
+     "seconds": 0.349,
+     "dB": -2.3
+    },
+    {
+     "file": "carpma-c2.wav",
+     "seconds": 0.29,
+     "dB": -2.3
+    },
+    {
+     "file": "carpma-c3.wav",
+     "seconds": 0.33,
+     "dB": -2.3
+    }
+   ]
+  },
+  {
+   "letter": "d",
+   "name": "Tok + hafif boing",
+   "credit": "Kenney Impact Sounds + ezduzziteh \"Boings\", CC0",
+   "link": "https://kenney.nl/assets/impact-sounds , https://opengameart.org/content/boings",
+   "default": false,
+   "takes": [
+    {
+     "file": "carpma-d1.wav",
+     "seconds": 0.36,
+     "dB": -2.5
+    },
+    {
+     "file": "carpma-d2.wav",
+     "seconds": 0.302,
+     "dB": -2.5
+    },
+    {
+     "file": "carpma-d3.wav",
+     "seconds": 0.36,
+     "dB": -2.5
+    }
+   ]
+  }
+ ],
+ "bitis": [
+  {
+   "letter": "a",
+   "name": "Pizzicato ta-da (yükselen)",
+   "credit": "Kenney Music Jingles (jingles_PIZZI10), CC0",
+   "link": "https://kenney.nl/assets/music-jingles",
+   "default": true,
+   "takes": [
+    {
+     "file": "bitis-a1.wav",
+     "seconds": 0.78,
+     "dB": -1.1
+    }
+   ]
+  },
+  {
+   "letter": "b",
+   "name": "Çelik davul ta-da",
+   "credit": "Kenney Music Jingles (jingles_STEEL00), CC0",
+   "link": "https://kenney.nl/assets/music-jingles",
+   "default": false,
+   "takes": [
+    {
+     "file": "bitis-b1.wav",
+     "seconds": 0.912,
+     "dB": -2.5
+    }
+   ]
+  },
+  {
+   "letter": "c",
+   "name": "Zil parıltısı",
+   "credit": "pwl \"Bell dings/chimes\", CC0",
+   "link": "https://opengameart.org/content/bell-dingschimes",
+   "default": false,
+   "takes": [
+    {
+     "file": "bitis-c1.wav",
+     "seconds": 1.35,
+     "dB": -3.6
+    }
+   ]
+  }
+ ],
+ "kazan": [
+  {
+   "letter": "a",
+   "name": "Apple Cider zafer (f müziğiyle aynı takım)",
+   "credit": "Zane Little \"Apple Cider Juiced!\" (victory), CC0",
+   "link": "https://opengameart.org/content/apple-cider-juiced",
+   "default": true,
+   "takes": [
+    {
+     "file": "kazan-a1.wav",
+     "seconds": 3.3,
+     "dB": -4.0
+    }
+   ]
+  },
+  {
+   "letter": "b",
+   "name": "Pizzicato zafer",
+   "credit": "Fupi \"Win Jingle\" (WinPizzicato), CC0",
+   "link": "https://opengameart.org/content/win-jingle",
+   "default": false,
+   "takes": [
+    {
+     "file": "kazan-b1.wav",
+     "seconds": 2.54,
+     "dB": -2.3
+    }
+   ]
+  },
+  {
+   "letter": "c",
+   "name": "Çelik davul zafer",
+   "credit": "Fupi \"Win Jingle\" (WinSteelDrums), CC0",
+   "link": "https://opengameart.org/content/win-jingle",
+   "default": false,
+   "takes": [
+    {
+     "file": "kazan-c1.wav",
+     "seconds": 2.882,
+     "dB": -2.3
+    }
+   ]
+  }
+ ],
+ "tik": [
+  {
+   "letter": "a",
+   "name": "Fare tıkı",
+   "credit": "Kenney UI Audio (click), CC0",
+   "link": "https://kenney.nl/assets/ui-audio",
+   "default": false,
+   "takes": [
+    {
+     "file": "tik-a1.wav",
+     "seconds": 0.055,
+     "dB": -6.6
+    },
+    {
+     "file": "tik-a2.wav",
+     "seconds": 0.037,
+     "dB": -6.6
+    },
+    {
+     "file": "tik-a3.wav",
+     "seconds": 0.032,
+     "dB": -6.6
+    }
+   ]
+  },
+  {
+   "letter": "b",
+   "name": "Gerçek düğme tıkı",
+   "credit": "owlishmedia \"87 Clickety Clips\", CC0",
+   "link": "https://opengameart.org/content/87-clickety-clips",
+   "default": true,
+   "takes": [
+    {
+     "file": "tik-b1.wav",
+     "seconds": 0.1,
+     "dB": -5.9
+    },
+    {
+     "file": "tik-b2.wav",
+     "seconds": 0.1,
+     "dB": -5.9
+    },
+    {
+     "file": "tik-b3.wav",
+     "seconds": 0.1,
+     "dB": -5.9
+    },
+    {
+     "file": "tik-b4.wav",
+     "seconds": 0.1,
+     "dB": -5.9
+    }
+   ]
+  },
+  {
+   "letter": "c",
+   "name": "Yumuşak tok tık",
+   "credit": "Kenney Interface Sounds (drop), CC0",
+   "link": "https://kenney.nl/assets/interface-sounds",
+   "default": false,
+   "takes": [
+    {
+     "file": "tik-c1.wav",
+     "seconds": 0.12,
+     "dB": -1.5
+    },
+    {
+     "file": "tik-c2.wav",
+     "seconds": 0.12,
+     "dB": -1.5
+    },
+    {
+     "file": "tik-c3.wav",
+     "seconds": 0.12,
+     "dB": -1.5
+    }
+   ]
+  }
+ ]
+}
