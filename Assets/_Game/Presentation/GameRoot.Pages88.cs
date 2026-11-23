@@ -127,7 +127,7 @@ namespace ReverseSolver.Presentation
             _pageAnimFrame = Time.frameCount;
             _pageFrames = _pageSlow = 0; _pageMaxDt = 0;
             MenuTabs.Sliding = _pageAnim;
-            if (_pageAnim && Mathf.Abs(_pageTo - _pageFrom) > .3f) Gecis100.Play(Gecis100.Kind.Sekme);   // PM_100 §4: a short swish
+            if (_pageAnim && Mathf.Abs(_pageTo - _pageFrom) > .3f) { Gecis100.Event("sekme kayışı"); Gecis100.Play(Gecis100.Kind.Sekme); }   // PM_100 §4: a short swish
             float k = Mathf.Clamp01(_pageT / Mathf.Max(.05f, seconds));
             _pagePos = _pageAnim ? Mathf.LerpUnclamped(_pageFrom, _pageTo, OutQuint(k)) : to;
             PlacePages();

@@ -15,7 +15,7 @@ namespace ReverseSolver.Core.Tests
             Assert.That(Sfx95.Letter(Sfx95.Kind.Exit), Is.EqualTo('f'), "the exit: the soft swish");
             Assert.That(Sfx95.Letter(Sfx95.Kind.Knock), Is.EqualTo('a'), "the knock stays a (louder)");
             Assert.That(Music.DefaultWinBeats, Is.EqualTo(5));
-            Assert.That(Music.FanfareKey, Is.EqualTo("b5"), "the 5-beat cut of b by default");
+            Assert.That(Music.FanfareKey, Is.EqualTo("g"), "PM_102: g by default (5 beats of its own)");
         }
 
         [Test]

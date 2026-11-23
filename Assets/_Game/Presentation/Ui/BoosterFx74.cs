@@ -355,7 +355,7 @@ namespace ReverseSolver.Presentation
             {
                 Shake(10 * _s, .22f);
                 Haptics.Play(Haptics.Kind.Medium);   // PM_86 §4
-                Sound?.Invoke("piece", 1f);
+                if (!BoosterSounds102.Play(BoosterSounds102.Part.CekicVurus)) Sound?.Invoke("piece", 1f);   // PM_102 §4: the blow and the break
                 for (int i = 0; i < 10; i++)
                 {
                     float a = Random.Range(Mathf.PI * 1.05f, Mathf.PI * 1.95f), v = Random.Range(240, 420) * _s;
@@ -382,7 +382,7 @@ namespace ReverseSolver.Presentation
             {
                 Shake(6 * _s, .16f);
                 Haptics.Play(Haptics.Kind.Medium);
-                Sound?.Invoke("pm72-defuse", .75f);
+                if (!BoosterSounds102.Play(BoosterSounds102.Part.CekicKirinti)) Sound?.Invoke("pm72-defuse", .75f);   // PM_102 §4: the pieces falling
                 var shards = new[] { Get("cekic/shard_a"), Get("cekic/shard_b"), Get("cekic/shard_c") };
                 for (int i = 0; i < 12; i++)
                 {
@@ -430,7 +430,7 @@ namespace ReverseSolver.Presentation
                 float t = Span(age, Snip.Close, Snip.Break);
                 open = 1 - (t < .7f ? .55f * (t / .7f) : .55f + .45f * InCubic((t - .7f) / .3f));
                 point = cutAt + Random.insideUnitCircle * 1.2f * _s * Mathf.Sin(t * Mathf.PI);
-                if (t > .05f && Once(5)) { Haptics.Play(Haptics.Kind.Light); Sound?.Invoke("pm72-tick", .5f); }
+                if (t > .05f && Once(5)) { Haptics.Play(Haptics.Kind.Light); if (!BoosterSounds102.On(BoosterSounds102.Part.MakasKesim)) Sound?.Invoke("pm72-tick", .5f); }
             }
             else if (age < Snip.Leave) { point = cutAt; open = 0; }
             else
@@ -458,7 +458,7 @@ namespace ReverseSolver.Presentation
             if (age >= Snip.Break - .02f && Once(0))
             {
                 Haptics.Play(Haptics.Kind.Medium);
-                Sound?.Invoke("pm72-unlock", 1f);
+                if (!BoosterSounds102.Play(BoosterSounds102.Part.MakasKesim)) Sound?.Invoke("pm72-unlock", 1f);   // PM_102 §4: the snip as the blades close
                 Shake(4 * _s, .12f);
                 // the tab breaks off: Codex's knobbed shard in the picture's tone, falling away; crumbs and sparks
                 var tab = Get("cekic/shard_c");
@@ -692,10 +692,11 @@ namespace ReverseSolver.Presentation
                 if (idea != Idea.C || age >= hit - .1f)
                     Paint(idea == Idea.C ? _flash : _ring, swirl, target, Vector2.one * radius * 2.6f * Mathf.Lerp(.7f, 1.15f, OutCubic(f)), f < .8f ? 1 : (1 - f) * 5, -360 * f);
             }
+            if (age >= hit - BoosterSounds102.WandLead && Once(9)) BoosterSounds102.Play(BoosterSounds102.Part.DegnekDonusum);   // PM_102 §4: its poof on the turn
             if (age >= hit && Once(0))
             {
                 Haptics.Play(Haptics.Kind.Light);   // PM_86 §4: the wand's turn is three light waves (the third here)
-                Sound?.Invoke("pm72-unlock", 1f);
+                if (!BoosterSounds102.On(BoosterSounds102.Part.DegnekDonusum)) Sound?.Invoke("pm72-unlock", 1f);
                 for (int i = 0; i < 12; i++)
                 {
                     float a = i / 12f * Mathf.PI * 2;
@@ -856,7 +857,7 @@ namespace ReverseSolver.Presentation
                 bool wave = idea == ClockIdea.C;
                 if (ClockOnce(2))
                 {
-                    Sound?.Invoke("pm72-unlock", .9f);
+                    if (!BoosterSounds102.Play(BoosterSounds102.Part.SaatDonma)) Sound?.Invoke("pm72-unlock", .9f);   // PM_102 §4: the ice crackling
                     Haptics.Play(Haptics.Kind.Medium);   // PM_86 §4: the clock freezing
                     if (wave) Shake(3 * _s, .12f);
                     int n = wave ? 14 : 9;
@@ -969,9 +970,10 @@ namespace ReverseSolver.Presentation
             }
             float now = Time.unscaledTime;
             var c = FrostBarCenter(panel); var size = new Vector2(FrostW, FrostH) * _s;
-            if (stopped) { HideFrost(); _fWas = false; _fBreakAt = -1; return; }
+            if (stopped) { HideFrost(); _fWas = false; _fBreakAt = -1; BoosterSounds102.Ticking(false); return; }
             if (frozen)
             {
+                BoosterSounds102.Ticking(true);   // PM_102 §4: the tick-tock through the freeze (quiet)
                 if (!_fWas) { _fShownAt = now; _fPeak = Mathf.Max(1, (float)freezeLeft); _fBreakAt = -1; }
                 _fWas = true;
                 _fPeak = Mathf.Max(_fPeak, (float)freezeLeft);
@@ -997,7 +999,8 @@ namespace ReverseSolver.Presentation
             {
                 // the time runs again: crack, break, thaw
                 _fWas = false; _fBreakAt = now; _fShattered = false;
-                Sound?.Invoke("pm89-ice", .9f);
+                BoosterSounds102.Ticking(false);
+                if (!BoosterSounds102.Play(BoosterSounds102.Part.SaatKirilma)) Sound?.Invoke("pm89-ice", .9f);   // PM_102 §4: the ice breaking
             }
             if (_fBreakAt < 0) { HideFrost(); return; }
             float t = now - _fBreakAt;
@@ -1126,6 +1129,7 @@ namespace ReverseSolver.Presentation
             foreach (var q in _particles) if (q.R != null) { q.R.enabled = false; _pool.Push(q.R); }
             _particles.Clear();
             Hide(); HideClock(); _glaze.enabled = false; _plus.gameObject.SetActive(false);
+            BoosterSounds102.Ticking(false);
         }
     }
 }

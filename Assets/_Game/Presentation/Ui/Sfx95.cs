@@ -14,7 +14,7 @@ namespace ReverseSolver.Presentation
         public enum Kind { Exit, Knock, Last, Win, Tick, Lift, Bomb, Unlock, LiftShort }
         static readonly string[] Keys = { "cikis", "carpma", "bitis", "kazan", "tik", "kalkis", "bomba", "kilit", "kalkisk" };
         static readonly char[] Defaults = { 'f', 'a', 'a', 'b', 'b', 'f', 'a', 'a', 'f' };   // PM_96 §1: Zeyd's choices; PM_99 §2: the soft swish f (docs/art/pm99)
-        static readonly float[] Pitch = { .04f, .05f, .02f, 0, .04f, .04f, .02f, .03f, .04f };   // PM_99: the exit +-4 %; the jingles stay near their key
+        static readonly float[] Pitch = { .04f, .03f, .02f, 0, .04f, .04f, .02f, .03f, .04f };   // PM_99: the exit +-4 %; PM_102: the knock +-3 %, its volume never random
         static AudioClip[][] _takes;
         static readonly char[] _letters = new char[9];
         static readonly int[] _last = { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
@@ -77,6 +77,7 @@ namespace ReverseSolver.Presentation
         /* PM_99: a take from PM_99's sounds (the soft exits f-j, the louder knock a) before PM_95's; PM_100: its own
            (the exits high-passed, the knock softened on top, all at the effects' level) before both. */
         static AudioClip Take(string key, char letter, int n) =>
+            Resources.Load<AudioClip>($"Art/audio/pm102/{key}-{letter}{n}") ??   // PM_102: the knock's takes evened out
             Resources.Load<AudioClip>($"Art/audio/pm100/{key}-{letter}{n}") ?? Resources.Load<AudioClip>($"Art/audio/pm99/{key}-{letter}{n}") ??
             Resources.Load<AudioClip>($"Art/audio/pm95/{key}-{letter}{n}");
 

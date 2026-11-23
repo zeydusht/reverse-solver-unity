@@ -30,6 +30,10 @@ namespace ReverseSolver.Presentation
         static AudioSource _loop;
 
         public static bool Off => Host.Current?.Query("gecisses") == "0";
+        /* PM_102 §5: &seslog=1: every transition sound as it starts, and the motions they belong to ([gecis] olay ...),
+           for the timing table (Tools/pm102_record.js). */
+        public static bool Log => Host.Current?.Query("seslog") == "1";
+        public static void Event(string what) { if (Log) Debug.Log($"[gecis] olay {what}"); }
 
         public static char Letter(Kind kind)
         {
@@ -46,7 +50,8 @@ namespace ReverseSolver.Presentation
             for (int k = 0; k < Keys.Length; k++)
             {
                 char l = _letters[k] = Letter((Kind)k);
-                if (l != '0') _clips[k] = Resources.Load<AudioClip>($"Art/audio/pm100/gecis-{Keys[k]}-{l}");
+                // PM_102: the corridor's texture louder (pm102) before PM_100's
+                if (l != '0') _clips[k] = Resources.Load<AudioClip>($"Art/audio/pm102/gecis-{Keys[k]}-{l}") ?? Resources.Load<AudioClip>($"Art/audio/pm100/gecis-{Keys[k]}-{l}");
                 _clips[k]?.LoadAudioData();
                 said.Append(' ').Append(Keys[k]).Append(' ').Append(_clips[k] == null ? "-" : l.ToString());
             }
@@ -75,14 +80,17 @@ namespace ReverseSolver.Presentation
         }
 
         /* A one-shot transition sound; false: none (off, muted, or no such clip). */
-        public static bool Play(Kind kind, float volume = 1)
+        public static bool Play(Kind kind, float volume = 1, float from = 0)
         {
             if (Off || Art.Muted || !Application.isPlaying) return false;
             var clip = Clip(kind);
             if (clip == null) return false;
             var s = Source();
-            s.Stop(); s.clip = clip; s.pitch = 1; s.volume = volume; s.Play();
+            s.Stop(); s.clip = clip; s.pitch = 1; s.volume = volume;
+            s.time = Mathf.Clamp(from, 0, clip.length - .01f);   // PM_102: a sound that must end on a moment, started late, joins it part way
+            s.Play();
             Played?.Invoke(kind);
+            if (Log) Debug.Log($"[gecis] ses {kind}");
             return true;
         }
 
@@ -105,8 +113,10 @@ namespace ReverseSolver.Presentation
             {
                 _loop.clip = clip; _loop.time = 0; _loop.volume = 0; _loop.Play();
                 Played?.Invoke(Kind.Koridor);
+                if (Log) Debug.Log("[gecis] ses Koridor");
             }
-            _loop.volume = Mathf.Clamp01(speed);
+            // PM_102 §5: a little fuller in its rise and fall (it was under the lobby's music coming back)
+            _loop.volume = Mathf.Pow(Mathf.Clamp01(speed), .75f);
             _loop.pitch = .9f + .2f * Mathf.Clamp01(speed);
         }
 

@@ -65,6 +65,7 @@ namespace ReverseSolver.Presentation
             var sprite = Resources.Load<Sprite>("corridor_strip");
             if (sprite == null) return null;
             var c = new GameObject("Corridor").AddComponent<CorridorTransition>();
+            Gecis100.Event("koridor açıldı");   // PM_102 §5: the corridor's own start (its slide follows its beats)
             c._order = order; c._done = done; c._start = Time.unscaledTime; c._handoff = handoff;
             c._beatIn = handoff ? StartBeat : 0; c._beatOut = handoff ? EndBeat : 0;
             // cover-fit the 9:19.5 view; a wide window crops at most 23 % of its height (the painting stays whole)
@@ -159,6 +160,7 @@ namespace ReverseSolver.Presentation
         public void Skip() { if (!Finished && Time.unscaledTime - _start >= SkipAfter) End(); }
 
         int _frames, _slow;
+        bool _moved;
         float _maxDt;
 
         void End()
@@ -244,7 +246,8 @@ namespace ReverseSolver.Presentation
                 _slide.localScale = new Vector3(kk, kk, 1);
                 Place(_screen, kk, Period * Ease(u));
                 float speed = u > 0 && u < 1 ? 30 * u * u * (1 - u) * (1 - u) / 1.875f : 0;   // 0..1, 1 at the top
-                Gecis100.Corridor(speed);   // PM_100 §4: its whoosh follows the speed
+                if (speed > 0 && !_moved) { _moved = true; Gecis100.Event("koridor kayış"); }
+                Gecis100.Corridor(speed);   // PM_100 §4: its whoosh follows the speed (from the slide's first moving frame)
                 float frame = Period * 1.875f / Slide / 60f;                                  // strip px per 60 Hz frame at the top
                 for (int i = 0; i < _trail.Length; i++)
                 {

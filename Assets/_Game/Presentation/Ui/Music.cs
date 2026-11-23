@@ -50,7 +50,8 @@ namespace ReverseSolver.Presentation
         };
         /* PM_98 §1: Zeyd's choices (23 Nov): the lobby n (Urban Shop), the win b. PM_99 §1: the level E (Cat in Space, now its
            two 32 s halves as an A/B loop). */
-        public const char DefaultLobby = 'n', DefaultLevel = 'E', DefaultFanfare = 'b';
+        /* PM_102 §1: the win is g ("Piano ta-da", 5 beats; PM_98's b was a misunderstanding). */
+        public const char DefaultLobby = 'n', DefaultLevel = 'E', DefaultFanfare = 'g';
 
         static char Letter(string q, char fallback)
         {
@@ -103,10 +104,13 @@ namespace ReverseSolver.Presentation
         }
         static string FanfareUrl(string key) => $"{Pages}pm96/kazanma-{key}.wav";
 
-        /* PM_100 §1: the win fanfare b in other instruments, the same notes, rhythm and length (Tools/make_fanfare100.py),
-           so its beat map (b, b5) is theirs too: &kazanmaton=piyano (today's, the default) | marimba | pizz | ksilofon |
-           kutu | bakir. Only for b; the beats stay FanfareKey's. */
-        public static readonly string[] Tones = { "piyano", "marimba", "pizz", "ksilofon", "kutu", "bakir" };
+        /* The win fanfare in other instruments, the same notes, rhythm and length, so its beat map is theirs too:
+           &kazanmaton=piyano (the fanfare as it is, the default) | marimba | pizz | ksilofon | kutu (| bakir for b).
+           PM_102: g's (Tools/make_fanfare102.py); PM_100's b ones stay (&kazanma=b). The beats stay FanfareKey's. */
+        public static string[] TonesOf(char fanfare) =>
+            fanfare == 'g' ? new[] { "piyano", "marimba", "pizz", "ksilofon", "kutu" } :
+            fanfare == 'b' ? new[] { "piyano", "marimba", "pizz", "ksilofon", "kutu", "bakir" } : new[] { "piyano" };
+        public static string[] Tones => TonesOf(FanfareVariant);
         public const string DefaultTone = "piyano";
         public static string Tone
         {
@@ -117,8 +121,8 @@ namespace ReverseSolver.Presentation
                 return DefaultTone;
             }
         }
-        /* The clip's key: b5-marimba ..., the beats' own key with the piano. */
-        public static string FanfareClipKey => FanfareVariant == 'b' && Tone != DefaultTone ? FanfareKey + "-" + Tone : FanfareKey;
+        /* The clip's key: g-marimba, b5-pizz ...; the beats' own key with the piano. */
+        public static string FanfareClipKey => Tone != DefaultTone ? FanfareKey + "-" + Tone : FanfareKey;
 
         /* The chosen fanfare's beats (s from its start, the screen's events) and the strongest one's index. */
         public static float[] Beats => BeatMap.Of(FanfareKey).beats;

@@ -13,9 +13,9 @@ namespace ReverseSolver.Core.Tests
             Assert.That(Music.DefaultTone, Is.EqualTo("piyano"), "today's fanfare stays the default");
             Assert.That(Music.Tone, Is.EqualTo("piyano"));
             Assert.That(Music.FanfareClipKey, Is.EqualTo(Music.FanfareKey), "the piano plays the beats' own clip");
-            Assert.That(Music.Tones, Is.EquivalentTo(new[] { "piyano", "marimba", "pizz", "ksilofon", "kutu", "bakir" }));
+            Assert.That(Music.TonesOf('b'), Is.EquivalentTo(new[] { "piyano", "marimba", "pizz", "ksilofon", "kutu", "bakir" }));
 #if UNITY_EDITOR
-            foreach (var tone in Music.Tones)
+            foreach (var tone in Music.TonesOf('b'))
             {
                 if (tone == Music.DefaultTone) continue;
                 foreach (var key in new[] { "b", "b5" })

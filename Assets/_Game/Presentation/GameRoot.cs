@@ -152,6 +152,7 @@ namespace ReverseSolver.Presentation
                 P21WinView.EventShown = (what, clock, beat) => Debug.Log($"[vurus] {what} saat {clock:0.000} vurus {beat:0.000} fark {(clock - beat) * 1000:0} ms");
             Sfx95.Load();                                      // PM_95: the chosen recorded sounds, loaded now
             Gecis100.Load();                                   // PM_100 §4: the transitions' sounds
+            BoosterSounds102.Load();                           // PM_102 §4: the boosters' own sounds
             Haptics.Click = () => UiSounds.Request(UiSounds.Kind.Tick);   // PM_86: every button's click; PM_98 §4: loud enough (UiSounds)
             UiSounds.Preload();
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
@@ -1038,6 +1039,18 @@ namespace ReverseSolver.Presentation
             }
             return true;
         }
+        /* PM_102 §2-3: the knock always at one level (no random volume, the pitch +-3 %), 2.5 dB over the slide (its takes
+           are made so: Tools/make_sfx102.py); not twice within KnockGap (a piece the finger took to the contact knocks
+           there, and its release bounce came 50 ms later: one knock). The slide 1 dB down (Zeyd: "good, 1 dB less"). */
+        public const float ExitLevel = .891f, KnockGap = .15f;
+        float _knockAt = -1;
+        bool Knock102()
+        {
+            if (_knockAt >= 0 && Time.unscaledTime - _knockAt < KnockGap) return Sfx95.On(Sfx95.Kind.Knock);
+            _knockAt = Time.unscaledTime;
+            return PlaySfx(Sfx95.Kind.Knock, 1f);
+        }
+
         /* The lift-off is 45 ms (the short one 25 ms): each plays when it is over at least 10 ms before the contact. */
         public const float LiftRoom = .055f, LiftShortRoom = .035f;
         AudioSource NextSfx()
@@ -1068,7 +1081,7 @@ namespace ReverseSolver.Presentation
             // PM_99 §4: the last piece leaves with the ordinary exit sound (no sound of its own); the fanfare follows
             // PM_74: the tick (every exit) was the loudest sound (-14 dB peak window); -4 dB, the defuse -1.5 dB
             // PM_100 §3: the bomb's defuse and the lock at the effects' level (pm100), the exit as well
-            if (P21JuiceView.Enabled && (bomb ? !PlaySfx(Sfx95.Kind.Bomb, 1f) : !PlaySfx(Sfx95.Kind.Exit, 1f))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
+            if (P21JuiceView.Enabled && (bomb ? !PlaySfx(Sfx95.Kind.Bomb, 1f) : !PlaySfx(Sfx95.Kind.Exit, ExitLevel))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
             if (unlocked && !PlaySfx(Sfx95.Kind.Unlock, 1f)) PlaySound("pm72-unlock");
             if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
             else if (lastTap) Haptics.Play(Haptics.Kind.Success);   // otherwise Finished taps
@@ -1158,7 +1171,7 @@ namespace ReverseSolver.Presentation
             else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) PlaySound("piece");
             // PM_75: a stuck piece that slides first knocks at the contact (BoardView.ContactHit), not here
             else if (e.Kind == EventKind.Jammed && !(_board != null && _drag != null && _drag.Piece == e.Piece && _board.WillSlide(e.Piece, _drag.Direction)))
-            { if (!PlaySfx(Sfx95.Kind.Knock, .7f)) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }   // PM_99 §3: no room to slide: the knock a little softer (-3 dB)
+            { if (!Knock102()) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }   // PM_102 §2: no room to slide: the same knock (it was -3 dB)
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) { if (!P21WinArt) PlaySoundLater("win", .7f); }   // PM_96: the fanfare starts with the win screen
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) { PlaySound("loss"); Music.Duck(true); }   // PM_96: the level's music at 40 % under the loss
             if (e.Kind != EventKind.Finished) return;
@@ -1398,7 +1411,7 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_p21Flow ? _index + 1 : _session.Level.Number);
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin, P21Boosters);
-                _board.ContactHit = _ => { if (!PlaySfx(Sfx95.Kind.Knock, 1f)) PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
+                _board.ContactHit = _ => { if (!Knock102()) PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
                 // PM_100 §2: a jam that slides first: a short soft lift-off as it sets off, over before the knock at the
                 // contact (a slide too short for both: the knock alone)
                 _board.SlideStart = (_, slide) =>

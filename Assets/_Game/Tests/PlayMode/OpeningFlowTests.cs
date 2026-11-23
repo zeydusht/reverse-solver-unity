@@ -44,6 +44,7 @@ namespace ReverseSolver.PlayMode.Tests
         [UnityTearDown]
         public IEnumerator RestoreHost()
         {
+            BoosterSounds102.Played -= HearBooster;
             if (_mouse != null && _mouse.added) InputSystem.RemoveDevice(_mouse);
             var input = InputSystem.settings;
             input.updateMode = _previousUpdateMode;
@@ -312,6 +313,89 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(GameObject.Find("PM85 arrow"), Is.Null);
         }
 
+        /* PM_102 §5: every transition's sound starts with its motion: a tab's pages sliding (the swish), the menu's Play
+           (the dive: its rising whoosh, the ting and the cuts' paper at the touch, the pull back's whoosh, the HUD's tick),
+           and after a win the corridor (its texture while the wall moves, then the dive into the next level). */
+        [UnityTest, Timeout(120000)]
+        public IEnumerator TransitionsPlayTheirSounds()
+        {
+            _host.Links = "c=p23&lang=en";
+            _host.Store = new MemoryStore();
+            new SaveData(_host.Store, () => "seed").SetPlayer("QA");
+            var played = new System.Collections.Generic.List<Gecis100.Kind>();
+            System.Action<Gecis100.Kind> hear = k => played.Add(k);
+            Gecis100.Played += hear;
+            try
+            {
+                yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+                yield return WaitFor(() => MenuPlay != null, "the menu");
+                yield return WaitFor(() => Field<bool[]>("_pageBuilt").All(b => b), "the four pages built ahead");
+                var tabs = Field<MenuTabs>("_tabs");
+                yield return Click(tabs.TabCentre(3));
+                Assert.That(played, Does.Contain(Gecis100.Kind.Sekme), "the tab's pages slide with a swish");
+                yield return WaitFor(() => !Field<bool>("_pageAnim"), "the pages settling");
+                yield return Click(tabs.TabCentre(0));
+                yield return WaitFor(() => !Field<bool>("_pageAnim"), "back home");
+                played.Clear();
+                yield return Click(LayoutPoint(MenuPlay));
+                yield return WaitForLong(() => played.Contains(Gecis100.Kind.Hud), 15, "the dive's sounds to the HUD's tick");
+                Assert.That(played, Is.EqualTo(new[] { Gecis100.Kind.Dalis, Gecis100.Kind.Ting, Gecis100.Kind.Cizgi, Gecis100.Kind.Geri, Gecis100.Kind.Hud }),
+                    "the dive: in, the touch (ting, paper), back, the HUD");
+            }
+            finally { Gecis100.Played -= hear; }
+        }
+
+        [UnityTest, Timeout(120000)]
+        public IEnumerator TheWinsCorridorWhooshesWhileTheWallMoves()
+        {
+            _host.Links = "c=p23&test=1&lang=en&lv=2";
+            _host.Store = new MemoryStore();
+            new SaveData(_host.Store, () => "seed").SetPlayer("QA");
+            var played = new System.Collections.Generic.List<Gecis100.Kind>();
+            System.Action<Gecis100.Kind> hear = k => played.Add(k);
+            Gecis100.Played += hear;
+            try
+            {
+                yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+                yield return WaitFor(() => Board != null && Board.Session.Level.Number == 2, "level 2");
+                var board = Board; var session = board.Session;
+                foreach (var m in session.Level.Solution)
+                {
+                    if (!session.Board.IsPresent(m.Piece)) continue;
+                    yield return Swipe(board, m.Piece, m.Dir);
+                    yield return WaitFor(() => !session.Board.IsPresent(m.Piece), $"piece {m.Piece} out");
+                    yield return new WaitForSecondsRealtime(.15f);
+                }
+                yield return WaitFor(() => WinScreen != null, "the win screen");
+                yield return new WaitForSecondsRealtime(3f);   // the fanfare and its screen
+                played.Clear();
+                var root = UnityEngine.Object.FindAnyObjectByType<GameRoot>();
+                typeof(GameRoot).GetMethod("NextWin21", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(root, null);
+                yield return WaitFor(() => UnityEngine.Object.FindAnyObjectByType<CorridorTransition>() != null, "the corridor");
+                float loudest = 0;
+                float until = Time.realtimeSinceStartup + 6;
+                while (UnityEngine.Object.FindAnyObjectByType<CorridorTransition>() is CorridorTransition c && !c.Finished && Time.realtimeSinceStartup < until)
+                {
+                    loudest = Mathf.Max(loudest, Gecis100.CorridorVolume);
+                    yield return null;
+                }
+                Assert.That(played, Does.Contain(Gecis100.Kind.Koridor), "the corridor's whoosh");
+                Assert.That(loudest, Is.GreaterThan(.9f), "loudest at the slide's fastest");
+                Assert.That(Gecis100.CorridorVolume, Is.LessThan(.05f), "gone as it settles");
+                yield return WaitForLong(() => played.Contains(Gecis100.Kind.Hud), 15, "the dive into level 3 to the HUD's tick");
+                Assert.That(played.IndexOf(Gecis100.Kind.Koridor), Is.LessThan(played.IndexOf(Gecis100.Kind.Ting)), "the corridor, then the dive");
+                Assert.That(played, Does.Contain(Gecis100.Kind.Geri));
+            }
+            finally { Gecis100.Played -= hear; }
+        }
+
+        static IEnumerator WaitForLong(Func<bool> condition, float seconds, string description)
+        {
+            float deadline = Time.realtimeSinceStartup + seconds;
+            while (!condition() && Time.realtimeSinceStartup < deadline) yield return null;
+            Assert.That(condition(), Is.True, $"Expected {description}");
+        }
+
         /* PM_86 §7: a tab's background is whole on the very frame the tab opens (the scenes are in memory before),
            3 tabs x 5 times; §8: each tab is hit at its own middle (the chosen one wide, the others narrower). */
         [UnityTest]
@@ -478,6 +562,8 @@ namespace ReverseSolver.PlayMode.Tests
         [UnityTest]
         public IEnumerator ClockShieldFreezesOnContactAndKeepsThePortraitVisible()
         {
+            _boosterSounds.Clear();
+            BoosterSounds102.Played -= HearBooster; BoosterSounds102.Played += HearBooster;
             yield return OpenTimedBooster("cekic");
             var session = Board.Session;
             session.TestBoosterUnlock = Booster.Clock;
@@ -513,6 +599,11 @@ namespace ReverseSolver.PlayMode.Tests
             yield return WaitFor(() => GameObject.Find("fx ice bar crack").GetComponent<SpriteRenderer>().enabled, "the ice bar cracking");
             yield return WaitFor(() => !GameObject.Find("fx ice bar").GetComponent<SpriteRenderer>().enabled, "the ice bar gone");
             yield return WaitFor(() => session.TimeLeft < frozenAt, "the countdown resuming after thaw");
+            // PM_102 §4: its sounds: the ice crackling as it froze, the tick-tock through the freeze, the ice breaking
+            Assert.That(_boosterSounds, Does.Contain(BoosterSounds102.Part.SaatDonma));
+            Assert.That(_boosterSounds, Does.Contain(BoosterSounds102.Part.SaatTiktak));
+            Assert.That(_boosterSounds, Does.Contain(BoosterSounds102.Part.SaatKirilma));
+            Assert.That(BoosterSounds102.TickingNow, Is.False, "the tick-tock stops with the thaw");
         }
 
         /* PM_74: on the test link (stock 999) a booster lesson used to stay on its "tap the booster" step after the use,
@@ -847,6 +938,9 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(m, Is.Not.Null, method);
             m.Invoke(root, args);
         }
+
+        readonly System.Collections.Generic.List<BoosterSounds102.Part> _boosterSounds = new System.Collections.Generic.List<BoosterSounds102.Part>();
+        void HearBooster(BoosterSounds102.Part p) => _boosterSounds.Add(p);
 
         static T Field<T>(string name)
         {

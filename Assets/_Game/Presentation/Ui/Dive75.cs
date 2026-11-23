@@ -540,10 +540,17 @@ namespace ReverseSolver.Presentation
         void Cues100(float t, float h0, float h1, float h2)
         {
             float rate = Mathf.Max(.01f, _speed * Mathf.Max(.1f, SpeedK));   // the clock's s per real s
-            if (!_cueIn && t < h0 && (h0 - t) / rate <= Gecis100.DiveLead) { _cueIn = true; Gecis100.Play(Gecis100.Kind.Dalis); }
-            if (!_cueTouch && t >= h0) { _cueTouch = _cueIn = true; Gecis100.Play(Gecis100.Kind.Ting); Gecis100.Play(Gecis100.Kind.Cizgi); }
-            if (!_cueBack && t >= h1) { _cueBack = true; Gecis100.Play(Gecis100.Kind.Geri); }
-            if (!_cueHud && t >= h2) { _cueHud = true; Gecis100.Play(Gecis100.Kind.Hud); }
+            if (!_cueIn && t < h0 && (h0 - t) / rate <= Gecis100.DiveLead)
+            {
+                // PM_102 §5: the whoosh ends on the touch: after the corridor the approach is shorter than it, so it joins
+                // part way (its end still on the touch)
+                float left = (h0 - t) / rate;
+                _cueIn = true; Gecis100.Event("dalış (değmeye " + left.ToString("0.00") + " s)");
+                Gecis100.Play(Gecis100.Kind.Dalis, 1, Gecis100.DiveLead - left);
+            }
+            if (!_cueTouch && t >= h0) { _cueTouch = _cueIn = true; Gecis100.Event("değme"); Gecis100.Play(Gecis100.Kind.Ting); Gecis100.Play(Gecis100.Kind.Cizgi); }
+            if (!_cueBack && t >= h1) { _cueBack = true; Gecis100.Event("geri çekilme"); Gecis100.Play(Gecis100.Kind.Geri); }
+            if (!_cueHud && t >= h2) { _cueHud = true; Gecis100.Event("HUD oturdu"); Gecis100.Play(Gecis100.Kind.Hud); }
         }
 
         /* The hold's push in (ln of the camera's size, from the hand-over): the slow push, and with PM_91 the touch:

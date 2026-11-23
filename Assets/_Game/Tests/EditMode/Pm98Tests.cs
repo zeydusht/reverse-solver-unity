@@ -11,7 +11,7 @@ namespace ReverseSolver.Core.Tests
         public void ZeydsPicksAreTheDefaults()
         {
             Assert.That(Music.DefaultLobby, Is.EqualTo('n'), "the lobby: Urban Shop");
-            Assert.That(Music.DefaultFanfare, Is.EqualTo('b'));   // PM_99 moved the level to E and the exit to f (Pm99Tests)
+            Assert.That(Music.DefaultFanfare, Is.EqualTo('g'));   // PM_102   // PM_99 moved the level to E and the exit to f (Pm99Tests)
             Assert.That(Sfx95.Letter(Sfx95.Kind.Knock), Is.EqualTo('a'));
             Assert.That(Sfx95.Letter(Sfx95.Kind.Last), Is.EqualTo('a'));
             Assert.That(Sfx95.Letter(Sfx95.Kind.Tick), Is.EqualTo('b'));
