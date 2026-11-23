@@ -1,0 +1,142 @@
+{
+ "cikis": [
+  {
+   "letter": "f",
+   "name": "Yumuşak swish",
+   "credit": "artisticdude, Swishes Sound Pack",
+   "link": "https://opengameart.org/content/swishes-sound-pack",
+   "takes": [
+    {
+     "file": "cikis-f1.wav",
+     "seconds": 0.118
+    },
+    {
+     "file": "cikis-f2.wav",
+     "seconds": 0.122
+    },
+    {
+     "file": "cikis-f3.wav",
+     "seconds": 0.171
+    },
+    {
+     "file": "cikis-f4.wav",
+     "seconds": 0.117
+    }
+   ],
+   "ten": "cikis-f-10.wav",
+   "softness": 7.79,
+   "lufs": -17.0,
+   "length": 0.171,
+   "default": true
+  },
+  {
+   "letter": "g",
+   "name": "Kumaş sürtünmesi",
+   "credit": "Kenney, RPG Audio",
+   "link": "https://kenney.nl/assets/rpg-audio",
+   "takes": [
+    {
+     "file": "cikis-g1.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-g2.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-g3.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-g4.wav",
+     "seconds": 0.25
+    }
+   ],
+   "ten": "cikis-g-10.wav",
+   "softness": 10.61,
+   "lufs": -17.0,
+   "length": 0.25,
+   "default": false
+  },
+  {
+   "letter": "h",
+   "name": "Kısa kart kayması",
+   "credit": "Kenney, Casino Audio",
+   "link": "https://kenney.nl/assets/casino-audio",
+   "takes": [
+    {
+     "file": "cikis-h1.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-h2.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-h3.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-h4.wav",
+     "seconds": 0.25
+    }
+   ],
+   "ten": "cikis-h-10.wav",
+   "softness": 14.96,
+   "lufs": -17.2,
+   "length": 0.25,
+   "default": false
+  },
+  {
+   "letter": "i",
+   "name": "Kart itme",
+   "credit": "Kenney, Casino Audio",
+   "link": "https://kenney.nl/assets/casino-audio",
+   "takes": [
+    {
+     "file": "cikis-i1.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-i2.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-i3.wav",
+     "seconds": 0.25
+    }
+   ],
+   "ten": "cikis-i-10.wav",
+   "softness": 15.94,
+   "lufs": -17.0,
+   "length": 0.25,
+   "default": false
+  },
+  {
+   "letter": "j",
+   "name": "Kağıt kayması",
+   "credit": "Kenney, Casino Audio",
+   "link": "https://kenney.nl/assets/casino-audio",
+   "takes": [
+    {
+     "file": "cikis-j1.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-j2.wav",
+     "seconds": 0.25
+    },
+    {
+     "file": "cikis-j3.wav",
+     "seconds": 0.25
+    }
+   ],
+   "ten": "cikis-j-10.wav",
+   "softness": 14.03,
+   "lufs": -17.0,
+   "length": 0.25,
+   "default": false
+  }
+ ],
+ "default": "f"
+}
