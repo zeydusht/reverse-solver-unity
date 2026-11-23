@@ -1,0 +1,139 @@
+{
+ "corridor": {
+  "start": 67.809,
+  "loudest_at": 0.61,
+  "slide_middle": 0.65,
+  "whoosh_lufs": -26.0,
+  "music_lufs": -32.2
+ },
+ "table": [
+  {
+   "sound": "-",
+   "event": "koridor aÃ§Ä±ldÄ±\n",
+   "event_t": 67.389,
+   "log_t": null,
+   "sound_t": null,
+   "delta_ms": null
+  },
+  {
+   "sound": "Koridor",
+   "event": "koridor kayÄ±ÅŸ\n",
+   "event_t": 67.782,
+   "log_t": 67.784,
+   "sound_t": 67.809,
+   "delta_ms": 27
+  },
+  {
+   "sound": "Dalis",
+   "event": "dalÄ±ÅŸ (deÄŸmeye 0,50 s)\n",
+   "event_t": 69.285,
+   "log_t": 69.286,
+   "sound_t": 69.303,
+   "delta_ms": 18
+  },
+  {
+   "sound": "Ting",
+   "event": "deÄŸme\n",
+   "event_t": 69.819,
+   "log_t": 69.819,
+   "sound_t": 69.843,
+   "delta_ms": 24
+  },
+  {
+   "sound": "Cizgi",
+   "event": "deÄŸme\n",
+   "event_t": 69.819,
+   "log_t": 69.82,
+   "sound_t": 69.843,
+   "delta_ms": 24
+  },
+  {
+   "sound": "Geri",
+   "event": "geri Ã§ekilme\n",
+   "event_t": 70.045,
+   "log_t": 70.045,
+   "sound_t": 70.015,
+   "delta_ms": -29
+  },
+  {
+   "sound": "Hud",
+   "event": "HUD oturdu\n",
+   "event_t": 70.831,
+   "log_t": 70.832,
+   "sound_t": 70.843,
+   "delta_ms": 12
+  },
+  {
+   "sound": "-",
+   "event": "bÃ¶lÃ¼m -> menÃ¼ (dokunuÅŸ)",
+   "event_t": 79.389,
+   "log_t": null,
+   "sound_t": null,
+   "delta_ms": null
+  },
+  {
+   "sound": "Sekme",
+   "event": "sekme kayÄ±ÅŸÄ±\n",
+   "event_t": 91.193,
+   "log_t": 91.194,
+   "sound_t": 91.202,
+   "delta_ms": 9
+  },
+  {
+   "sound": "Sekme",
+   "event": "sekme kayÄ±ÅŸÄ±\n",
+   "event_t": 93.124,
+   "log_t": 93.124,
+   "sound_t": 93.139,
+   "delta_ms": 16
+  },
+  {
+   "sound": "-",
+   "event": "menÃ¼ -> bÃ¶lÃ¼m (Oyna dokunuÅŸu)",
+   "event_t": 94.718,
+   "log_t": null,
+   "sound_t": null,
+   "delta_ms": null
+  },
+  {
+   "sound": "Dalis",
+   "event": "dalÄ±ÅŸ (deÄŸmeye 0,59 s)\n",
+   "event_t": 95.737,
+   "log_t": 95.737,
+   "sound_t": 95.833,
+   "delta_ms": 97
+  },
+  {
+   "sound": "Ting",
+   "event": "deÄŸme\n",
+   "event_t": 96.337,
+   "log_t": 96.337,
+   "sound_t": 96.353,
+   "delta_ms": 16
+  },
+  {
+   "sound": "Cizgi",
+   "event": "deÄŸme\n",
+   "event_t": 96.337,
+   "log_t": 96.338,
+   "sound_t": 96.353,
+   "delta_ms": 16
+  },
+  {
+   "sound": "Geri",
+   "event": "geri Ã§ekilme\n",
+   "event_t": 96.62,
+   "log_t": 96.62,
+   "sound_t": 96.59,
+   "delta_ms": -29
+  },
+  {
+   "sound": "Hud",
+   "event": "HUD oturdu\n",
+   "event_t": 97.419,
+   "log_t": 97.42,
+   "sound_t": 97.431,
+   "delta_ms": 12
+  }
+ ]
+}
