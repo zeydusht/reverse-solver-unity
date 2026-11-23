@@ -50,7 +50,7 @@
 <body>
 <header>
   <h1>Ses seçimi</h1>
-  <p>Menü (lobi) ve bölüm müziği artık ayrı. Her sesi dinle, beğendiğini <b>Seç</b>. Seçimlerin altta toplanır. "Oyunda dene" o sesle 3. bölümü açar.</p>
+  <p>Yeni bölüm müziği adayları en üstte. Her sesi dinle, beğendiğini <b>Seç</b>. Seçimlerin altta toplanır. "Oyunda dene" o sesle 3. bölümü açar.</p>
 </header>
 <main>
   <div class="warn">iPhone: yan taraftaki <b>sessiz anahtarı kapalı</b> olsun. İlk dokunuşta ses açılır. Fanfarda noktalar kazanma ekranındaki olayların vuruşlarını gösterir. Turuncu kenarlı nokta en güçlü vuruş: konfeti ve Jigo'nun zıplaması.</div>
@@ -65,7 +65,7 @@
   var GAME = '../?c=p23&test=1&lang=tr&lv=3';
   var OGA = 'https://opengameart.org/content/';
   // PM_96: the lobby's (menu) and the level's candidates; Zeyd's c stays in both for comparison
-  var C = { l:'c', name:'Cozy Puzzle In-Game 2', who:'MintoDog', what:'bakır nefesli, piyano · şimdiki seçimin', bpm:90, len:128.0, url:'../../music/pm86/music-c.mp3', start:1105/44100, page:'cozy-puzzle-in-game-2' };
+  var C = { l:'c', name:'Cozy Puzzle In-Game 2', who:'MintoDog', what:'bakır nefesli, piyano · şimdilik bölüm müziği (lobide de denenebilir)', bpm:90, len:128.0, url:'../../music/pm86/music-c.mp3', start:1105/44100, page:'cozy-puzzle-in-game-2' };
   var LOBBY = [
     { l:'n', name:'Urban Shop', who:'MintoDog', what:'trompet, saksafon · sıcak, dükkân havası', bpm:92, len:83.47825396825397, page:'urban-shop' },
     { l:'o', name:'Bunny Dust', who:'Kistol', what:'piyano, çağdaş klasik · zarif, "old money" dokunuşu', bpm:0, len:69.8180045351474, page:'bunny-dust' },
@@ -118,11 +118,26 @@
     { key:'tik', flag:'sestik', title:'Düğme tıkı', hint:'Her düğmede.', vol:.45, burst:true }
   ];
   // PM_96 §1: Zeyd's choices are the defaults; the level's until he picks: r
-  var KEYS = { lobi:'c', bolum:'r', kazanma:'b', cikis:'c', carpma:'a', bitis:'a', tik:'b' };
+  // PM_98 §1: Zeyd's picks (23 Nov); the level c for now
+  var KEYS = { lobi:'n', bolum:'c', kazanma:'b', cikis:'c', carpma:'a', bitis:'a', tik:'b' };
+  // PM_98 §2: the level's new candidates. A-D ours (VCSL recordings + our bass; Tools/make_level98.py), E-G found (CC0).
+  // perc: the percussive share (the reference: 0.92); the bar was 0.6
+  var LEVEL98 = [
+    { l:'A', name:'Marimba Pop', who:'bizim beste', what:'marimba motifi, arp, dört vuruşlu davul + el çırpma, shaker', bpm:136, len:70.58823129251701, perc:.80 },
+    { l:'B', name:'Ksilofon Arcade', who:'bizim beste', what:'ksilofon + glockenspiel, kırık davul, tef', bpm:138, len:69.56521541950113, perc:.78 },
+    { l:'C', name:'Kalimba Zıplama', who:'bizim beste', what:'kalimba motifi, arp, dört vuruşlu davul', bpm:132, len:72.72725623582767, perc:.81 },
+    { l:'D', name:'Piyano Koşu', who:'bizim beste', what:'glockenspiel motifi, piyano vuruşları, kırık davul', bpm:136, len:70.58823129251701, perc:.79 },
+    { l:'E', name:'Cat in Space', who:'mutantleg', what:'tuhaf, zıplayan; döngü kısa (32 sn)', bpm:120, len:31.99997732426304, perc:.63, page:'cat-in-space' },
+    { l:'F', name:'Danza D\' Bots II', who:'lushogames', what:'funk, elektronik (vurmalı 0,57: eşiğin altında, karşılaştırma için)', bpm:110, len:87.27272108843538, perc:.57, page:'danza-d-bots-ii' },
+    { l:'G', name:'Upbeat Beat', who:'centurionofwar', what:'retro, ritmik (vurmalı 0,55: eşiğin altında; döngü 40 sn)', bpm:120, len:39.999977324263035, perc:.55, page:'upbeat-beat' }
+  ];
+  LEVEL98.forEach(function (m) { m.url = '../../music/pm98/music-' + m.l + '.mp3'; m.local = '../../../../Assets/Audio/Music98/music-' + m.l + '.mp3'; m.start = 1105 / 44100; });
+  // the reference (Block Out!) is never published: only a local preview of the repo finds it
+  var REF = '../../pm96/ref/ref_bolum.mp3';
   var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', cikis:'Çıkış', carpma:'Çarpma', bitis:'Son parça', tik:'Tık' };
   var FLAGS = { lobi:'lobi', bolum:'bolummuzik', kazanma:'kazanma', cikis:'sescikis', carpma:'sescarpma', bitis:'sesbitis', tik:'sestik' };
   var pick = {};
-  try { pick = JSON.parse(localStorage.getItem('rs-pm96-pick') || '{}'); } catch (e) {}
+  try { pick = JSON.parse(localStorage.getItem('rs-pm98-pick') || '{}'); } catch (e) {}
 
   // ---- audio: one context, unlocked on the first touch (iOS) ----
   var ctx = null, buffers = {}, current = null;
@@ -137,11 +152,26 @@
     return ctx;
   }
   ['touchend', 'pointerup', 'click'].forEach(function (e) { document.addEventListener(e, function () { try { audio(); } catch (x) {} }, true); });
-  function load(url) {
+  function load(url, local) {
     if (!buffers[url]) buffers[url] = fetch(url).then(function (r) { if (!r.ok) throw new Error(url); return r.arrayBuffer(); })
+      .catch(function (e) { if (!local) throw e; return fetch(local).then(function (r) { if (!r.ok) throw e; return r.arrayBuffer(); }); })
       .then(function (a) { return new Promise(function (ok, no) { audio().decodeAudioData(a, ok, no); }); });
     return buffers[url];
   }
+  // PM_98 §2: 10 s of the reference, then 10 s of the candidate (from its start)
+  function compare(m, card, btn) {
+    stop();
+    Promise.all([load(REF), load(m.url, m.local)]).then(function (b) {
+      var t = ctx.currentTime + .05, a = ctx.createBufferSource(), c = ctx.createBufferSource();
+      a.buffer = b[0]; a.connect(ctx.destination); a.start(t, 0, 10);
+      c.buffer = b[1]; c.connect(ctx.destination); c.start(t + 10.3, m.start, 10);
+      var me = current = { card:card, btn:btn, raf:0, src:{ stop: function () { try { a.stop(); c.stop(); } catch (e) {} } } };
+      btn.classList.add('on'); btn.innerHTML = ICON_STOP; card.classList.add('playing');
+      var bar = card.querySelector('.bar i');
+      (function tick() { var p = Math.min(1, (ctx.currentTime - t) / 20.3); bar.style.width = (p * 100).toFixed(1) + '%'; if (p < 1 && current === me) me.raf = requestAnimationFrame(tick); else if (current === me) stop(); })();
+    }).catch(function () { card.querySelector('.meta').insertAdjacentHTML('beforeend', '<br><b>Referans yalnız yerel önizlemede.</b>'); });
+  }
+  var refHere = fetch(REF, { method: 'HEAD' }).then(function (r) { return r.ok; }).catch(function () { return false; });
   var ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>', ICON_STOP = '<svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>';
   function stop() {
     if (!current) return;
@@ -156,7 +186,7 @@
     if (mine && from == null) return;
     btn.classList.add('on'); btn.innerHTML = ICON_STOP; card.classList.add('playing');
     var me = current = { card:card, btn:btn, raf:0, src:null };
-    load(m.url).then(function (buf) {
+    load(m.url, m.local).then(function (buf) {
       if (current !== me) return;
       var start = m.start;
       if (start < 0) { var d = buf.getChannelData(0), n = Math.min(d.length, buf.sampleRate * .3), i = 0; while (i < n && Math.abs(d[i]) < .004) i++; start = i / buf.sampleRate; }
@@ -213,7 +243,7 @@
     var def = kinds.length === 1 && KEYS[kinds[0]] === m.l;
     var card = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div>' +
       '<div class="name">' + tag(m.l, def) + m.name + '</div>' +
-      '<div class="meta">' + [m.what, m.bpm ? m.bpm + ' BPM' : '', 'döngü ' + secs(m.len), m.who, lic].filter(Boolean).join(' · ') + '</div>' +
+      '<div class="meta">' + [m.what, m.bpm ? m.bpm + ' BPM' : '', 'döngü ' + secs(m.len), m.perc ? 'vurmalı ' + String(m.perc).replace('.', ',') : '', m.who, lic].filter(Boolean).join(' · ') + '</div>' +
       '<div class="bar"><i></i></div><div class="row"></div></div></div>');
     var btn = card.querySelector('.play'), row = card.querySelector('.row');
     btn.addEventListener('click', function () { audio(); playMusic(m, card, btn); });
@@ -221,6 +251,12 @@
     seam.addEventListener('click', function () { audio(); playMusic(m, card, btn, Math.max(0, m.len - 6)); });
     kinds.forEach(function (k) { row.appendChild(chooseBtn(k, m.l, kinds.length > 1 ? NAMES[k] + ' seç' : 'Seç')); });
     row.appendChild(seam);
+    if (m.perc) refHere.then(function (ok) {   // PM_98 §2: only where the reference is (a local preview)
+      if (!ok) return;
+      var cmp = el('<button class="btn">Karşılaştır (ref → aday)</button>');
+      cmp.addEventListener('click', function () { audio(); compare(m, card, btn); });
+      row.insertBefore(cmp, seam.nextSibling);
+    });
     kinds.forEach(function (k) { row.insertAdjacentHTML('beforeend', tryLink(FLAGS[k], m.l, kinds.length > 1 ? NAMES[k] + ' olarak dene' : 'Oyunda dene')); });
     card.dataset.kind = kinds.join(' '); card.dataset.letter = m.l;
     return card;
@@ -262,10 +298,13 @@
     document.getElementById('sections').appendChild(sec);
     return sec;
   }
-  var lobby = section('Lobi (menü müziği)', 'Menüde gezinirken arkada: sakin, sıcak, 90–110 BPM. "Döngü geçişi" sondan 6 sn önce başlatır; başa dönüşü dinle. En altta şimdiki seçimin c.', true);
+  var level98 = section('Bölüm (yeni)', 'Referans tarzında: ~136 BPM, enerjiyi davul taşıyor, parlak ve sade. A–D bizim bestemiz (gerçek çalgı kayıtları). E–G CC0 aramasından: vurmalı oranı 0,6 eşiğini geçen tek uygun parça E; F ve G eşiğin altında, karşılaştırma için. "Karşılaştır" yalnız yerel önizlemede (referans yayına konmaz).', true);
+  LEVEL98.forEach(function (m) { level98.appendChild(musicCard(m, ['bolum'])); });
+  level98.appendChild(musicCard(C, ['bolum']));
+  var lobby = section('Lobi (menü müziği)', 'Menüde gezinirken arkada. Senin seçimin n (Urban Shop) artık varsayılan.', false);
   LOBBY.forEach(function (m) { lobby.appendChild(musicCard(m, ['lobi'])); });
   lobby.appendChild(musicCard(C, ['lobi']));
-  var level = section('Bölüm (oyun içi müzik)', 'Bölüm oynarken: daha enerjik, parlak, 120–140 BPM. Dalışta lobi müziği solar, bölüm müziği girer. Karşılaştırma için c de burada.', true);
+  var level = section('Bölüm: PM_96 adayları', 'Beğenilmeyen ilk tur; karşılaştırma için.', false);
   LEVEL.forEach(function (m) { level.appendChild(musicCard(m, ['bolum'])); });
   level.appendChild(musicCard(C, ['bolum']));
   var win = section('Kazanma fanfarı', 'Bölüm müziği kesilir, fanfar çalar. Kazanma ekranındaki her olay bir vuruşa oturur: ışık, "Harika!", Jiggle\'lar, konfeti ve Jigo, sonda altın ve düğmeler.', true);
@@ -284,7 +323,7 @@
   });
 
   function save(quiet) {
-    try { localStorage.setItem('rs-pm96-pick', JSON.stringify(pick)); } catch (e) {}
+    try { localStorage.setItem('rs-pm98-pick', JSON.stringify(pick)); } catch (e) {}
     document.querySelectorAll('.btn.pick').forEach(function (b) { var on = pick[b.dataset.kind] === b.dataset.letter; b.classList.toggle('on', on); b.textContent = on ? 'Seçildi ✓' : b.dataset.label; });
     document.querySelectorAll('.card').forEach(function (c) {
       var kinds = (c.dataset.kind || '').split(' ');
