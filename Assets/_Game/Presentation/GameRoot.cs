@@ -1048,9 +1048,9 @@ namespace ReverseSolver.Presentation
         bool _unlockPending;
         void ExitSound(bool bomb, bool last, bool unlocked, bool lastTap = true)
         {
-            if (last) { if (!PlaySfx(Sfx95.Kind.Last, 1)) PlaySound("popfull"); }
+            // PM_99 §4: the last piece leaves with the ordinary exit sound (no sound of its own); the fanfare follows
             // PM_74: the tick (every exit) was the loudest sound (-14 dB peak window); -4 dB, the defuse -1.5 dB
-            else if (P21JuiceView.Enabled && (bomb || !PlaySfx(Sfx95.Kind.Exit, 1f))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);   // PM_98: the exit at full (-19.5 LUFS), under the UI's -14
+            if (P21JuiceView.Enabled && (bomb || !PlaySfx(Sfx95.Kind.Exit, 1f))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);   // PM_98: the exit at full (-19.5 LUFS), under the UI's -14
             if (unlocked) PlaySound("pm72-unlock");
             if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
             else if (lastTap) Haptics.Play(Haptics.Kind.Success);   // otherwise Finished taps
@@ -1140,7 +1140,7 @@ namespace ReverseSolver.Presentation
             else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) PlaySound("piece");
             // PM_75: a stuck piece that slides first knocks at the contact (BoardView.ContactHit), not here
             else if (e.Kind == EventKind.Jammed && !(_board != null && _drag != null && _drag.Piece == e.Piece && _board.WillSlide(e.Piece, _drag.Direction)))
-            { if (!PlaySfx(Sfx95.Kind.Knock, 1f)) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
+            { if (!PlaySfx(Sfx95.Kind.Knock, .7f)) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }   // PM_99 §3: no room to slide: the knock a little softer (-3 dB)
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) { if (!P21WinArt) PlaySoundLater("win", .7f); }   // PM_96: the fanfare starts with the win screen
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) { PlaySound("loss"); Music.Duck(true); }   // PM_96: the level's music at 40 % under the loss
             if (e.Kind != EventKind.Finished) return;

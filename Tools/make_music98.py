@@ -8,7 +8,8 @@ import lameenc, librosa, numpy as np, soundfile as sf, pyloudnorm as pyln
 SRC = sys.argv[1]
 OUT = 'Assets/Audio/Music98'
 TRACKS = [   # letter, file, tempo, how, (start s, length s) for fold
-    ('E', 'cat-in-space.mp3', 120, 'fold', (0.5, 32.0)),            # mutantleg: the only one over 0.6 percussive at a near tempo
+    ('E', 'cat-in-space.mp3', 120, 'ab', (0.0, 32.0, 31.0)),        # mutantleg: the only one over 0.6 percussive at a near tempo;
+                                                                    # PM_99 §1: its two 32 s halves (0.95 alike) as an A/B loop
     ('F', 'danza-d-bots-ii.mp3', 110, 'fold', (93.6, 87.27)),       # lushogames: funk, electronic (0.57: under the bar)
     ('G', 'upbeat-beat.ogg', 120, 'fold', (32.0, 40.0)),            # centurionofwar: upbeat retro beat (0.55: under the bar)
 ]
@@ -37,7 +38,22 @@ def refine(mono, sr, start, length):
     return lag, best
 
 
+def loop_ab(x, sr, at):
+    """PM_99 §1: a track that plays its phrase twice with small changes: A = the first period, B = the second; B's
+    last second (the track's fade-out) is replaced by A's own last second (40 ms crossfade on a beat), so B ends the
+    way A does and runs back into A's start."""
+    start, length, cut = at
+    s, P, k, f = int(start * sr), int(round(length * sr)), int(cut * sr), int(FADE * sr)
+    A, B = x[s:s + P], x[s + P:s + 2 * P]
+    t = np.linspace(0, np.pi / 2, f)[:, None]
+    B2 = np.concatenate([B[:k - f], B[k - f:k] * np.cos(t) + A[k - f:k] * np.sin(t), A[k:P]])
+    a = x[s:s + P].mean(axis=1); b = x[s + P:s + 2 * P].mean(axis=1); n = min(len(a), len(b))
+    corr = float(np.dot(a[:n], b[:n]) / (np.linalg.norm(a[:n]) * np.linalg.norm(b[:n]) + 1e-9))
+    return np.concatenate([A, B2]).copy(), f'A/B: two {length:.0f} s halves ({corr:.2f} alike), B ends as A from {cut:.1f} s'
+
+
 def loop_of(x, sr, bpm, how, at):
+    if how == 'ab': return loop_ab(x, sr, at)
     if how == 'file':
         return x.copy(), 'the file (made as a loop)'
     if how == 'whole':

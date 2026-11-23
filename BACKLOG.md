@@ -214,6 +214,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_95 p23'te (20 Kasım): lastik 2 varsayılan; ses/müzik adayları + dinleme sayfası `p23/onizleme/sesler.html`. Bekleyen: Zeyd'in ses seçimi (sonra kalıcı + iOS müziği).
 - ✅ PM_96 p23'te (23 Kasım): ses seçimleri kalıcı; lobi ve bölüm müziği ayrı (çapraz geçiş); yeni adaylar lobi n–q, bölüm r–w, fanfar d–g; kazanma ekranı fanfar vuruşlarına senkron. Bekleyen: Zeyd'in lobi/bölüm/fanfar seçimi, iOS'a iki müzik.
 - ✅ PM_98 p23'te (23 Kasım): seçimler varsayılan; yeni bölüm müziği adayları A–G (A–D bizim beste); duraklatmada müzik %35; UI sesleri duyulur + panel/anahtar/pasif sesleri; dokunuş taraması 0 eksik. Bekleyen: Zeyd'in bölüm müziği seçimi; iOS'a iki müzik.
+- ✅ PM_99 p23'te (23 Kasım): bölüm müziği E (A/B 64 sn); yumuşak çıkış adayları f–j; çarpma duyulur; son parça sesi yok; kazanma ekranı her vuruş bir öğe, 7/5 vuruş A/B. Bekleyen: Zeyd'in çıkış ve 7/5 seçimi.
 - ⏳ Build +6,9 MB (efekt kareleri sıkıştırılmamış) — doku sıkıştırma kararı PM
 - ⏳ PM_60 doğrulanmadı: kombo rozeti, `drag` telemetrisi, sesler, iPhone
 - ⏳ `017_tutorial_events.sql` — PM uygular

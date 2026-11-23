@@ -21,8 +21,8 @@ namespace ReverseSolver.Core.Tests
         {
             foreach (char letter in "0abcdefg")
             {
-                Assert.That(BeatMap.Has(letter), Is.True, $"fanfare {letter} in vurus_haritasi.json");
-                var f = BeatMap.Of(letter);
+                Assert.That(BeatMap.Has(letter.ToString()), Is.True, $"fanfare {letter} in vurus_haritasi.json");
+                var f = BeatMap.Of(letter.ToString());
                 Assert.That(f, Is.Not.SameAs(BeatMap.Fallback), $"fanfare {letter}");
                 Assert.That(f.beats.Length, Is.InRange(5, 7), $"fanfare {letter}: 5-7 beats");
                 Assert.That(f.beats[0], Is.LessThan(.05f), $"fanfare {letter} starts on a beat");

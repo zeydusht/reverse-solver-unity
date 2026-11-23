@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reverse Solver · Sesler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#153E75; --navy2:#0E2244; --cream:#FFF6D8; --paper:#FFF9E9; --gold:#E3B54E; --orange:#f0a742; --ink:#2b2a33; --mute:#6b6a72; --line:#ead9a8; --ok:#3f8a3a; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html { background:var(--navy2); }
+  body { margin:0; font-family:Fredoka, system-ui, sans-serif; color:var(--ink); background:linear-gradient(180deg,#1d4c92 0,#153E75 240px,#0E2244 100%); min-height:100vh; padding:0 0 120px; }
+  header { padding:28px 16px 18px; color:#fff; text-align:center; }
+  header h1 { margin:0; font-size:28px; font-weight:700; letter-spacing:.3px; text-shadow:0 2px 0 rgba(0,0,0,.25); }
+  header p { margin:8px auto 0; max-width:520px; font-size:15px; line-height:1.4; color:#dbe6f7; }
+  main { max-width:640px; margin:0 auto; padding:0 12px; }
+  section { margin:18px 0 26px; }
+  section > h2 { color:#fff; font-size:20px; margin:0 4px 4px; font-weight:700; }
+  section > .hint { color:#c9d6ee; font-size:14px; margin:0 4px 10px; line-height:1.35; }
+  .card { background:var(--paper); border:2px solid var(--line); border-radius:18px; padding:12px; margin:10px 0; display:grid; grid-template-columns:64px 1fr; gap:12px; align-items:center; box-shadow:0 3px 0 rgba(0,0,0,.18); }
+  .card.chosen { border-color:var(--orange); box-shadow:0 0 0 3px rgba(240,167,66,.45), 0 3px 0 rgba(0,0,0,.18); }
+  .play { width:64px; height:64px; border-radius:50%; border:0; background:var(--navy); color:#fff; font-size:26px; display:grid; place-items:center; cursor:pointer; box-shadow:inset 0 -4px 0 rgba(0,0,0,.25); touch-action:manipulation; }
+  .play.on { background:var(--orange); }
+  .play svg { width:26px; height:26px; fill:currentColor; }
+  .name { font-weight:700; font-size:17px; line-height:1.2; }
+  .name .tag { display:inline-block; font-size:12px; font-weight:600; background:var(--navy); color:#fff; border-radius:8px; padding:1px 7px; margin-right:6px; vertical-align:2px; }
+  .name .def { background:var(--ok); }
+  .meta { font-size:13px; color:var(--mute); margin-top:3px; line-height:1.35; }
+  .meta a { color:var(--navy); }
+  .row { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+  .btn { border:2px solid var(--navy); background:#fff; color:var(--navy); font:600 14px Fredoka, sans-serif; border-radius:12px; padding:7px 12px; min-height:38px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; touch-action:manipulation; }
+  .btn.pick.on { background:var(--orange); border-color:var(--orange); color:#fff; }
+  .bar { height:6px; background:#efe3bf; border-radius:3px; margin-top:8px; overflow:hidden; display:none; }
+  .bar i { display:block; height:100%; width:0; background:var(--orange); }
+  .playing .bar { display:block; }
+  footer { position:fixed; left:0; right:0; bottom:0; background:var(--cream); border-top:3px solid var(--gold); padding:8px 16px calc(8px + env(safe-area-inset-bottom)); box-shadow:0 -4px 14px rgba(0,0,0,.25); }
+  footer .sum { font-size:13px; line-height:1.35; max-width:640px; margin:0 auto; }
+  footer .d { color:#9a9483; }
+  footer .btn { min-height:34px; padding:5px 10px; font-size:13px; }
+  footer .row { max-width:640px; margin:6px auto 0; }
+  .warn { background:#fff3c4; border:2px solid var(--gold); border-radius:14px; padding:10px 12px; font-size:14px; line-height:1.35; margin:0 0 6px; }
+  .beats { display:flex; gap:6px; margin-top:8px; }
+  .beats i { width:14px; height:14px; border-radius:50%; background:#efe3bf; border:2px solid var(--line); transition:background .05s, transform .05s; }
+  .beats i.s { border-color:var(--orange); }
+  .beats i.on { background:var(--orange); transform:scale(1.35); }
+  section.new > h2::after { content:' · yeni'; color:var(--gold); font-size:15px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Ses seçimi</h1>
+  <p>Yeni yumuşak çıkış sesleri en üstte. Her sesi dinle, beğendiğini <b>Seç</b>. "10 çıkış art arda" aynı sesi oyundaki gibi on kez dinletir. "Oyunda dene" o sesle 3. bölümü açar.</p>
+</header>
+<main>
+  <div class="warn">iPhone: yan taraftaki <b>sessiz anahtarı kapalı</b> olsun. İlk dokunuşta ses açılır. Fanfarda noktalar kazanma ekranındaki olayların vuruşlarını gösterir. Turuncu kenarlı nokta en güçlü vuruş: konfeti ve Jigo'nun zıplaması.</div>
+  <div id="sections"></div>
+</main>
+<footer>
+  <div class="sum" id="sum"></div>
+  <div class="row"><a class="btn" id="tryall" href="#">Seçimlerle oyunda dene</a><button class="btn" id="copy">Seçimi kopyala</button></div>
+</footer>
+<script>
+(function () {
+  var GAME = '../?c=p23&test=1&lang=tr&lv=3';
+  var OGA = 'https://opengameart.org/content/';
+  // PM_96: the lobby's (menu) and the level's candidates; Zeyd's c stays in both for comparison
+  var C = { l:'c', name:'Cozy Puzzle In-Game 2', who:'MintoDog', what:'bakır nefesli, piyano · şimdilik bölüm müziği (lobide de denenebilir)', bpm:90, len:128.0, url:'../../music/pm86/music-c.mp3', start:1105/44100, page:'cozy-puzzle-in-game-2' };
+  var LOBBY = [
+    { l:'n', name:'Urban Shop', who:'MintoDog', what:'trompet, saksafon · sıcak, dükkân havası', bpm:92, len:83.47825396825397, page:'urban-shop' },
+    { l:'o', name:'Bunny Dust', who:'Kistol', what:'piyano, çağdaş klasik · zarif, "old money" dokunuşu', bpm:0, len:69.8180045351474, page:'bunny-dust' },
+    { l:'p', name:'Etirwer', who:'Kistol', what:'naylon telli gitar · en sakini', bpm:0, len:130.23399092970521, page:'etirwer' },
+    { l:'q', name:'Sci-fi Puzzle Stage Select', who:'MintoDog', what:'synth · bir bulmaca oyununun bölüm seçim müziği', bpm:105, len:63.999977324263035, page:'sci-fi-puzzle-stage-select' }
+  ];
+  var LEVEL = [
+    { l:'r', name:'Drive', who:'Zane Little Music', what:'caz-füzyon, funk · en vurmalı, 136 BPM (referans gibi)', bpm:136, len:60.00131519274377, page:'drive-0' },
+    { l:'s', name:'Sci-fi Puzzle In-Game 1', who:'MintoDog', what:'synth · bir bulmaca oyununun bölüm müziği', bpm:138, len:139.13043083900226, page:'sci-fi-puzzle-in-game-1' },
+    { l:'t', name:'Cool Adventure', who:'MintoDog', what:'synth · kıpır kıpır, en hareketli', bpm:124, len:108.38709750566893, page:'cool-adventure' },
+    { l:'u', name:'Cool City', who:'MintoDog', what:'synth, saksafon', bpm:124, len:108.38709750566893, page:'cool-city' },
+    { l:'v', name:'Sci-fi Puzzle Title', who:'MintoDog', what:'synth · parlak', bpm:120, len:80.0, page:'sci-fi-puzzle-title' },
+    { l:'w', name:'Urban Theme', who:'MintoDog', what:'parlak saksafon, bakır nefesli (115 BPM: biraz yavaş)', bpm:115, len:87.6521768707483, page:'urban-theme' }
+  ];
+  LOBBY.concat(LEVEL).forEach(function (m) { m.url = '../../music/pm96/music-' + m.l + '.mp3'; m.start = 1105 / 44100; });
+  var OLD = [
+    { l:'f', name:'Apple Cider', who:'Zane Little Music', what:'akustik gitar, flüt, ıslık', bpm:100, len:86.4, page:'apple-cider-juiced' },
+    { l:'g', name:'Magic Puzzle Title', who:'MintoDog', what:'yaylılar, mallet, flüt', bpm:100, len:96.0, page:'magic-puzzle-title' },
+    { l:'h', name:'Magic Puzzle In-Game 1', who:'MintoDog', what:'keman, yaylılar, celesta', bpm:110, len:122.18181405895692, page:'magic-puzzle-in-game-1' },
+    { l:'i', name:'Cozy Puzzle Stage Select', who:'MintoDog', what:'saksafon, sakin', bpm:100, len:76.8, page:'cozy-puzzle-stage-select' },
+    { l:'j', name:'Magic Puzzle In-Game 2', who:'MintoDog', what:'yaylılar, celesta, flüt', bpm:120, len:120.0, page:'magic-puzzle-in-game-2' },
+    { l:'k', name:'Quaint Town', who:'neonarkade', what:'huzurlu kasaba', bpm:0, len:82.28571428571429, page:'quaint-town' },
+    { l:'l', name:'Coffee House Bump', who:'OatCog', what:'hafif caz', bpm:100, len:96.00002267573696, page:'coffee-house-bump' },
+    { l:'m', name:'Lovely Town', who:'fluffclipse', what:'piyano, keman', bpm:0, len:57.17646258503402, page:'lovely-town' }
+  ];
+  OLD.forEach(function (m) { m.url = '../../music/pm95/music-' + m.l + '.mp3'; m.start = 1105 / 44100; });
+  OLD = OLD.concat([
+    { l:'0', name:'En eski müzik', who:'', what:'PM_86 öncesi oyundaki', bpm:0, len:2540160/44100, url:'../../music/music.mp3', start:-1 },
+    { l:'a', name:'Cozy Puzzle In-Game 3', who:'MintoDog', what:'mallet, nefesli, akustik gitar', bpm:108, len:124.44444444444444, url:'../../music/pm86/music-a.mp3', start:1105/44100, page:'cozy-puzzle-in-game-3' },
+    { l:'b', name:'Cozy Puzzle Title', who:'MintoDog', what:'bakır nefesli, flüt', bpm:95, len:60.6315873015873, url:'../../music/pm86/music-b.mp3', start:1105/44100, page:'cozy-puzzle-title' },
+    { l:'d', name:'Cozy Puzzle In-Game 1', who:'MintoDog', what:'saksafon, flüt, bossa nova', bpm:118, len:130.16950113378684, url:'../../music/pm86/music-d.mp3', start:1105/44100, page:'cozy-puzzle-in-game-1' },
+    { l:'e', name:'Feel Good Island', who:'', what:'marimba, piyano', bpm:126, len:106.62603174603174, url:'../../music/pm86/music-e.mp3', start:1106/44100, page:'feel-good-island' }
+  ]);
+  // the win fanfares (music/pm96/kazanma-X.wav) and their beats (vurus.json = the game's vurus_haritasi.json)
+  var FANFARES = [
+    { l:'b', name:'Pizzicato zafer', what:'şimdiki seçimin (PM_95)', link:OGA + 'win-jingle', credit:'Fupi' },
+    { l:'d', name:'Trop la win', what:'gerçek bir parça: neşeli, hızlı', link:OGA + 'trop-la-win', credit:'Komiku' },
+    { l:'e', name:'Marimba geçidi', what:'bizim bestemiz: marimba + çan merdiveni, büyük akor', link:'https://github.com/sgossner/VCSL', credit:'VCSL kayıtları (CC0)' },
+    { l:'f', name:'Ksilofon zıplayışı', what:'bizim bestemiz: ksilofon + arp, zil, sonda çan parıltısı', link:'https://github.com/sgossner/VCSL', credit:'VCSL kayıtları (CC0)' },
+    { l:'g', name:'Piyano ta-da', what:'bizim bestemiz: yükselen 3 akor, nefes, büyük Do + çanlar', link:'https://github.com/sgossner/VCSL', credit:'VCSL kayıtları (CC0)' },
+    { l:'a', name:'Apple Cider zafer', what:'PM_95', link:OGA + 'apple-cider-juiced', credit:'Zane Little Music' },
+    { l:'c', name:'Çelik davul zafer', what:'PM_95', link:OGA + 'win-jingle', credit:'Fupi' },
+    { l:'0', name:'En eski kazanma sesi', what:'', link:'', credit:'' }
+  ];
+  // the game's volumes for each effect (GameRoot), so they compare as they will sound
+  var SFX = [
+    { key:'cikis', flag:'sescikis', title:'Çıkış: eski adaylar', hint:'PM_95 adayları; karşılaştırma için.', vol:1, burst:true },
+    { key:'carpma', flag:'sescarpma', title:'Çarpma (lastik takılma)', hint:'Senin seçimin a; oyunda artık tık kadar yüksek ve telefon hoparlöründe duyulsun diye üst tınısı güçlendirildi (bu sayfadaki eski kayıtlar).', vol:1, burst:true },
+    { key:'tik', flag:'sestik', title:'Düğme tıkı', hint:'Her düğmede.', vol:.45, burst:true }
+  ];
+  // PM_96 §1: Zeyd's choices are the defaults; the level's until he picks: r
+  // PM_98 §1: Zeyd's picks (23 Nov); the level c for now
+  // PM_99: the level E (Zeyd, 23 Nov), the exit f (the softest, shortest); the last piece has no sound of its own now
+  var KEYS = { lobi:'n', bolum:'E', kazanma:'b', cikis:'f', carpma:'a', tik:'b' };
+  // PM_98 §2: the level's new candidates. A-D ours (VCSL recordings + our bass; Tools/make_level98.py), E-G found (CC0).
+  // perc: the percussive share (the reference: 0.92); the bar was 0.6
+  var LEVEL98 = [
+    { l:'A', name:'Marimba Pop', who:'bizim beste', what:'marimba motifi, arp, dört vuruşlu davul + el çırpma, shaker', bpm:136, len:70.58823129251701, perc:.80 },
+    { l:'B', name:'Ksilofon Arcade', who:'bizim beste', what:'ksilofon + glockenspiel, kırık davul, tef', bpm:138, len:69.56521541950113, perc:.78 },
+    { l:'C', name:'Kalimba Zıplama', who:'bizim beste', what:'kalimba motifi, arp, dört vuruşlu davul', bpm:132, len:72.72725623582767, perc:.81 },
+    { l:'D', name:'Piyano Koşu', who:'bizim beste', what:'glockenspiel motifi, piyano vuruşları, kırık davul', bpm:136, len:70.58823129251701, perc:.79 },
+    { l:'E', name:'Cat in Space', who:'mutantleg', what:'senin seçimin · A/B döngü: parçanın iki 32 sn yarısı sırayla', bpm:120, len:64.0, perc:.63, page:'cat-in-space' },
+    { l:'F', name:'Danza D\' Bots II', who:'lushogames', what:'funk, elektronik (vurmalı 0,57: eşiğin altında, karşılaştırma için)', bpm:110, len:87.27272108843538, perc:.57, page:'danza-d-bots-ii' },
+    { l:'G', name:'Upbeat Beat', who:'centurionofwar', what:'retro, ritmik (vurmalı 0,55: eşiğin altında; döngü 40 sn)', bpm:120, len:39.999977324263035, perc:.55, page:'upbeat-beat' }
+  ];
+  LEVEL98.forEach(function (m) { m.url = '../../music/pm98/music-' + m.l + '.mp3'; m.local = '../../../../Assets/Audio/Music98/music-' + m.l + '.mp3'; m.start = 1105 / 44100; });
+  // the reference (Block Out!) is never published: only a local preview of the repo finds it
+  var REF = '../../pm96/ref/ref_bolum.mp3';
+  var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', cikis:'Çıkış', carpma:'Çarpma', tik:'Tık' };
+  var FLAGS = { lobi:'lobi', bolum:'bolummuzik', kazanma:'kazanma', cikis:'sescikis', carpma:'sescarpma', bitis:'sesbitis', tik:'sestik' };
+  var pick = {};
+  try { pick = JSON.parse(localStorage.getItem('rs-pm99-pick') || '{}'); } catch (e) {}
+
+  // ---- audio: one context, unlocked on the first touch (iOS) ----
+  var ctx = null, buffers = {}, current = null;
+  function audio() {
+    if (!ctx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      ctx = new AC();
+      try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+      var b = ctx.createBuffer(1, 1, 22050), s = ctx.createBufferSource(); s.buffer = b; s.connect(ctx.destination); s.start(0);
+    }
+    if (ctx.state !== 'running') ctx.resume();
+    return ctx;
+  }
+  ['touchend', 'pointerup', 'click'].forEach(function (e) { document.addEventListener(e, function () { try { audio(); } catch (x) {} }, true); });
+  function load(url, local) {
+    if (!buffers[url]) buffers[url] = fetch(url).then(function (r) { if (!r.ok) throw new Error(url); return r.arrayBuffer(); })
+      .catch(function (e) { if (!local) throw e; return fetch(local).then(function (r) { if (!r.ok) throw e; return r.arrayBuffer(); }); })
+      .then(function (a) { return new Promise(function (ok, no) { audio().decodeAudioData(a, ok, no); }); });
+    return buffers[url];
+  }
+  // PM_98 §2: 10 s of the reference, then 10 s of the candidate (from its start)
+  function compare(m, card, btn) {
+    stop();
+    Promise.all([load(REF), load(m.url, m.local)]).then(function (b) {
+      var t = ctx.currentTime + .05, a = ctx.createBufferSource(), c = ctx.createBufferSource();
+      a.buffer = b[0]; a.connect(ctx.destination); a.start(t, 0, 10);
+      c.buffer = b[1]; c.connect(ctx.destination); c.start(t + 10.3, m.start, 10);
+      var me = current = { card:card, btn:btn, raf:0, src:{ stop: function () { try { a.stop(); c.stop(); } catch (e) {} } } };
+      btn.classList.add('on'); btn.innerHTML = ICON_STOP; card.classList.add('playing');
+      var bar = card.querySelector('.bar i');
+      (function tick() { var p = Math.min(1, (ctx.currentTime - t) / 20.3); bar.style.width = (p * 100).toFixed(1) + '%'; if (p < 1 && current === me) me.raf = requestAnimationFrame(tick); else if (current === me) stop(); })();
+    }).catch(function () { card.querySelector('.meta').insertAdjacentHTML('beforeend', '<br><b>Referans yalnız yerel önizlemede.</b>'); });
+  }
+  var refHere = fetch(REF, { method: 'HEAD' }).then(function (r) { return r.ok; }).catch(function () { return false; });
+  var ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>', ICON_STOP = '<svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>';
+  function stop() {
+    if (!current) return;
+    try { current.src.stop(); } catch (e) {}
+    current.card.classList.remove('playing'); current.btn.classList.remove('on'); current.btn.innerHTML = ICON_PLAY;
+    cancelAnimationFrame(current.raf); current = null;
+  }
+  // a music loop, as the game loops it (WebAudio loop points: no gap at the seam); `from`: seconds into the loop
+  function playMusic(m, card, btn, from) {
+    var mine = current && current.card === card;
+    stop();
+    if (mine && from == null) return;
+    btn.classList.add('on'); btn.innerHTML = ICON_STOP; card.classList.add('playing');
+    var me = current = { card:card, btn:btn, raf:0, src:null };
+    load(m.url, m.local).then(function (buf) {
+      if (current !== me) return;
+      var start = m.start;
+      if (start < 0) { var d = buf.getChannelData(0), n = Math.min(d.length, buf.sampleRate * .3), i = 0; while (i < n && Math.abs(d[i]) < .004) i++; start = i / buf.sampleRate; }
+      var end = Math.min(buf.duration, start + m.len), s = ctx.createBufferSource(), g = ctx.createGain();
+      s.buffer = buf; s.loop = true; s.loopStart = start; s.loopEnd = end; g.gain.value = 1;
+      s.connect(g); g.connect(ctx.destination);
+      var off = from || 0; s.start(0, start + off); me.src = s;
+      var t0 = ctx.currentTime - off, bar = card.querySelector('.bar i');
+      (function tick() { var p = ((ctx.currentTime - t0) % m.len) / m.len; bar.style.width = (p * 100).toFixed(1) + '%'; me.raf = requestAnimationFrame(tick); })();
+    }).catch(function () { if (current === me) { stop(); card.querySelector('.meta').insertAdjacentHTML('beforeend', '<br><b>Yüklenemedi.</b>'); } });
+  }
+  // a fanfare once, its beat dots lighting up as they sound
+  function playFanfare(f, card, btn) {
+    stop();
+    load('../../music/pm96/kazanma-' + f.l + '.wav').then(function (buf) {
+      var s = ctx.createBufferSource(); s.buffer = buf; s.connect(ctx.destination);
+      var t0 = ctx.currentTime + .03; s.start(t0);
+      btn.classList.add('on'); setTimeout(function () { btn.classList.remove('on'); }, buf.duration * 1000);
+      var dots = card.querySelectorAll('.beats i'), beats = f.beats || [];
+      (function tick() {
+        var t = ctx.currentTime - (ctx.outputLatency || ctx.baseLatency || 0) - t0;
+        for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('on', t >= beats[i] - .015 && t < beats[i] + .12);
+        if (t < buf.duration) requestAnimationFrame(tick);
+      })();
+    }).catch(function () { card.querySelector('.meta').insertAdjacentHTML('beforeend', '<br><b>Yüklenemedi.</b>'); });
+  }
+  var lastTake = {};
+  function playSfx(key, c, vol, at) {
+    var takes = c.takes, n = takes.length, i = 0;
+    if (n > 1) { i = Math.floor(Math.random() * (n - 1)); if (lastTake[key + c.letter] != null && i >= lastTake[key + c.letter]) i++; }
+    lastTake[key + c.letter] = i;
+    var jitter = { cikis:.04, carpma:.05, tik:.04 }[key];
+    return load('sesler/' + takes[i].file).then(function (buf) {
+      var s = ctx.createBufferSource(), g = ctx.createGain();
+      s.buffer = buf; s.playbackRate.value = 1 + (Math.random() * 2 - 1) * jitter; g.gain.value = vol;
+      s.connect(g); g.connect(ctx.destination); s.start(ctx.currentTime + (at || 0));
+    });
+  }
+
+  // ---- page ----
+  function el(html) { var d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstChild; }
+  function secs(x) { return x >= 60 ? Math.floor(x / 60) + ':' + ('0' + Math.round(x % 60)).slice(-2) + ' dk' : x.toFixed(x < 10 ? 1 : 0).replace('.', ',') + ' sn'; }
+  function chooseBtn(kind, letter, label) {
+    var b = el('<button class="btn pick"></button>');
+    b.dataset.kind = kind; b.dataset.letter = letter; b.dataset.label = label || 'Seç';
+    b.addEventListener('click', function () { pick[kind] = pick[kind] === letter ? undefined : letter; save(); });
+    return b;
+  }
+  function tryLink(flag, letter, label) { return '<a class="btn" href="' + GAME + '&' + flag + '=' + letter + '">' + (label || 'Oyunda dene') + '</a>'; }
+  function tag(letter, def) { return '<span class="tag' + (def ? ' def' : '') + '">' + (def ? letter + ' · varsayılan' : letter) + '</span>'; }
+  // kinds: the picks this card offers ('lobi', 'bolum' or both)
+  function musicCard(m, kinds) {
+    var lic = m.page ? '<a href="' + OGA + m.page + '" target="_blank" rel="noopener">CC0</a>' : '';
+    var def = kinds.length === 1 && KEYS[kinds[0]] === m.l;
+    var card = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div>' +
+      '<div class="name">' + tag(m.l, def) + m.name + '</div>' +
+      '<div class="meta">' + [m.what, m.bpm ? m.bpm + ' BPM' : '', 'döngü ' + secs(m.len), m.perc ? 'vurmalı ' + String(m.perc).replace('.', ',') : '', m.who, lic].filter(Boolean).join(' · ') + '</div>' +
+      '<div class="bar"><i></i></div><div class="row"></div></div></div>');
+    var btn = card.querySelector('.play'), row = card.querySelector('.row');
+    btn.addEventListener('click', function () { audio(); playMusic(m, card, btn); });
+    var seam = el('<button class="btn">Döngü geçişi</button>');
+    seam.addEventListener('click', function () { audio(); playMusic(m, card, btn, Math.max(0, m.len - 6)); });
+    kinds.forEach(function (k) { row.appendChild(chooseBtn(k, m.l, kinds.length > 1 ? NAMES[k] + ' seç' : 'Seç')); });
+    row.appendChild(seam);
+    if (m.perc) refHere.then(function (ok) {   // PM_98 §2: only where the reference is (a local preview)
+      if (!ok) return;
+      var cmp = el('<button class="btn">Karşılaştır (ref → aday)</button>');
+      cmp.addEventListener('click', function () { audio(); compare(m, card, btn); });
+      row.insertBefore(cmp, seam.nextSibling);
+    });
+    kinds.forEach(function (k) { row.insertAdjacentHTML('beforeend', tryLink(FLAGS[k], m.l, kinds.length > 1 ? NAMES[k] + ' olarak dene' : 'Oyunda dene')); });
+    card.dataset.kind = kinds.join(' '); card.dataset.letter = m.l;
+    return card;
+  }
+  function fanfareCard(f) {
+    var beats = f.beats || [], lic = f.link ? '<a href="' + f.link + '" target="_blank" rel="noopener">' + (f.link.indexOf('github') >= 0 ? 'VCSL' : 'CC0') + '</a>' : '';
+    var dots = beats.map(function (b, i) { return '<i' + (i === f.strong ? ' class="s"' : '') + '></i>'; }).join('');
+    var card = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div>' +
+      '<div class="name">' + tag(f.l, KEYS.kazanma === f.l) + f.name + '</div>' +
+      '<div class="meta">' + [f.what, secs(f.length || 0), beats.length + ' vuruş', f.credit, lic].filter(Boolean).join(' · ') + '</div>' +
+      '<div class="beats">' + dots + '</div><div class="row"></div></div></div>');
+    var btn = card.querySelector('.play'), row = card.querySelector('.row');
+    btn.addEventListener('click', function () { audio(); playFanfare(f, card, btn); });
+    row.appendChild(chooseBtn('kazanma', f.l));
+    row.insertAdjacentHTML('beforeend', tryLink('kazanma', f.l, 'Kazanma ekranında dene'));
+    card.dataset.kind = 'kazanma'; card.dataset.letter = f.l;
+    return card;
+  }
+  function sfxCard(s, c) {
+    var dur = c.takes.map(function (t) { return t.seconds; }), lic = c.link.split(' , ').map(function (u, i) { return '<a href="' + u + '" target="_blank" rel="noopener">' + (i ? 'kaynak 2' : 'kaynak') + '</a>'; }).join(' ');
+    var card = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div>' +
+      '<div class="name">' + tag(c.letter, KEYS[s.key] === c.letter) + c.name + '</div>' +
+      '<div class="meta">' + c.takes.length + ' kayıt · ' + secs(Math.max.apply(null, dur)) + ' · ' + c.credit + ' · ' + lic + '</div>' +
+      '<div class="row"></div></div></div>');
+    var btn = card.querySelector('.play'), row = card.querySelector('.row');
+    btn.addEventListener('click', function () { audio(); playSfx(s.key, c, s.vol); btn.classList.add('on'); setTimeout(function () { btn.classList.remove('on'); }, 220); });
+    row.appendChild(chooseBtn(s.key, c.letter));
+    if (s.burst) {
+      var b5 = el('<button class="btn">×5</button>');
+      b5.addEventListener('click', function () { audio(); for (var k = 0; k < 5; k++) playSfx(s.key, c, s.vol, k * .22); });
+      row.appendChild(b5);
+    }
+    row.insertAdjacentHTML('beforeend', tryLink(s.flag, c.letter));
+    card.dataset.kind = s.key; card.dataset.letter = c.letter;
+    return card;
+  }
+  function section(title, hint, isNew) {
+    var sec = el('<section' + (isNew ? ' class="new"' : '') + '><h2>' + title + '</h2><p class="hint">' + hint + '</p></section>');
+    document.getElementById('sections').appendChild(sec);
+    return sec;
+  }
+  // PM_99 §2: the soft exits (Tools/make_sfx99.py): a take at a time, or the recorded 10 in a row
+  var soft = section('Çıkış (yumuşak)', 'Parça tahtadan çıkarken: yumuşak kayma, boing yok. ▶ her basışta başka bir kaydı ±%4 perdeyle çalar. "10 çıkış art arda" oyunda üst üste on çıkış gibi; yorucu mu, ona bak. En altta şimdiki c ile karşılaştır.', true);
+  function tenBtn(file) {
+    var b = el('<button class="btn">10 çıkış art arda</button>');
+    b.addEventListener('click', function () { audio(); stop(); load('sesler/' + file).then(function (buf) { var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination); x.start(); }); });
+    return b;
+  }
+  fetch('sesler99.json').then(function (r) { return r.json(); }).then(function (d) {
+    d.cikis.forEach(function (c) {
+      var card = sfxCard({ key:'cikis', flag:'sescikis', vol:1 }, { letter:c.letter, name:c.name + ' (' + secs(c.length) + ', yumuşaklık ' + String(c.softness).replace('.', ',') + ')', credit:c.credit, link:c.link, takes:c.takes, 'default':c['default'] });
+      card.querySelector('.row').insertBefore(tenBtn(c.ten), card.querySelector('.row').children[1]);
+      soft.appendChild(card);
+    });
+    var old = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div><div class="name"><span class="tag">c</span>Şimdiki: whoosh + pop</div><div class="meta">karşılaştırma için: bugün oyundaki</div><div class="row"></div></div></div>');
+    old.querySelector('.play').addEventListener('click', function () { audio(); load('sesler/cikis-c-10.wav').then(function (buf) { var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination); x.start(); }); });
+    old.querySelector('.row').appendChild(tenBtn('cikis-c-10.wav'));
+    soft.appendChild(old);
+    save(true);
+  });
+  var level98 = section('Bölüm (yeni)', 'Referans tarzında: ~136 BPM, enerjiyi davul taşıyor, parlak ve sade. A–D bizim bestemiz (gerçek çalgı kayıtları). E–G CC0 aramasından: vurmalı oranı 0,6 eşiğini geçen tek uygun parça E; F ve G eşiğin altında, karşılaştırma için. "Karşılaştır" yalnız yerel önizlemede (referans yayına konmaz).', true);
+  LEVEL98.forEach(function (m) { level98.appendChild(musicCard(m, ['bolum'])); });
+  level98.appendChild(musicCard(C, ['bolum']));
+  var lobby = section('Lobi (menü müziği)', 'Menüde gezinirken arkada. Senin seçimin n (Urban Shop) artık varsayılan.', false);
+  LOBBY.forEach(function (m) { lobby.appendChild(musicCard(m, ['lobi'])); });
+  lobby.appendChild(musicCard(C, ['lobi']));
+  var level = section('Bölüm: PM_96 adayları', 'Beğenilmeyen ilk tur; karşılaştırma için.', false);
+  LEVEL.forEach(function (m) { level.appendChild(musicCard(m, ['bolum'])); });
+  level.appendChild(musicCard(C, ['bolum']));
+  var winAb = section('Kazanma ekranı: 7 mi 5 mi?', 'Her vuruşta bir öğe gelir. 7 vuruş: ışık · Harika! · Jigo · +50 · Sonraki · Menü · konfeti. 5 vuruş (fanfarın ortadaki iki vuruşu çıkarılmış hâli): ışık + Harika! · Jigo · +50 · Sonraki · Menü + konfeti. İkisini de oyunda dene.', true);
+  winAb.appendChild(el('<div class="row"><a class="btn" href="' + GAME + '&kazanmavurus=5">5 vuruş (varsayılan)</a><a class="btn" href="' + GAME + '&kazanmavurus=7">7 vuruş</a></div>'));
+  var win = section('Kazanma fanfarı', 'Bölüm müziği kesilir, fanfar çalar. Kazanma ekranındaki her olay bir vuruşa oturur: ışık, "Harika!", Jiggle\'lar, konfeti ve Jigo, sonda altın ve düğmeler.', true);
+  fetch('vurus.json').then(function (r) { return r.json(); }).then(function (map) {
+    var by = {}; map.fanfares.forEach(function (f) { by[f.letter] = f; });
+    FANFARES.forEach(function (f) { var m = by[f.l] || {}; f.beats = m.beats; f.strong = m.strong; f.length = m.length; win.appendChild(fanfareCard(f)); });
+    return fetch('sesler.json');
+  }).then(function (r) { return r.json(); }).then(function (data) {
+    SFX.forEach(function (s) {
+      var sec = section(s.title, s.hint);
+      data[s.key].forEach(function (c) { sec.appendChild(sfxCard(s, c)); });
+    });
+    var old = section('Önceki müzik adayları', 'PM_95 ve PM_86 adayları; istersen lobi ya da bölüm için seçebilirsin.');
+    OLD.forEach(function (m) { old.appendChild(musicCard(m, ['lobi', 'bolum'])); });
+    save(true);
+  });
+
+  function save(quiet) {
+    try { localStorage.setItem('rs-pm99-pick', JSON.stringify(pick)); } catch (e) {}
+    document.querySelectorAll('.btn.pick').forEach(function (b) { var on = pick[b.dataset.kind] === b.dataset.letter; b.classList.toggle('on', on); b.textContent = on ? 'Seçildi ✓' : b.dataset.label; });
+    document.querySelectorAll('.card').forEach(function (c) {
+      var kinds = (c.dataset.kind || '').split(' ');
+      c.classList.toggle('chosen', kinds.some(function (k) { return pick[k] === c.dataset.letter; }));
+    });
+    var parts = [], url = GAME;
+    Object.keys(KEYS).forEach(function (k) {
+      var v = pick[k] || KEYS[k];
+      parts.push(NAMES[k] + ' <b' + (pick[k] ? '' : ' class="d"') + '>' + v + '</b>');
+      url += '&' + FLAGS[k] + '=' + v;
+    });
+    document.getElementById('sum').innerHTML = 'Seçimlerin: ' + parts.join(' · ') + ' <span class="d">(gri: varsayılan)</span>';
+    document.getElementById('tryall').href = url;
+  }
+  document.getElementById('copy').addEventListener('click', function () {
+    var t = Object.keys(KEYS).map(function (k) { return NAMES[k] + ': ' + (pick[k] || KEYS[k] + ' (varsayılan)'); }).join(', ');
+    var done = function () { var b = document.getElementById('copy'); b.textContent = 'Kopyalandı ✓'; setTimeout(function () { b.textContent = 'Seçimi kopyala'; }, 1500); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, function () { prompt('Kopyala:', t); });
+    else prompt('Kopyala:', t);
+  });
+  save(true);
+})();
+</script>
+</body>
+</html>

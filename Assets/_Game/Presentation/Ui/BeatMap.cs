@@ -29,16 +29,17 @@ namespace ReverseSolver.Presentation
             }
         }
 
-        public static bool Has(char letter)
+        /* A fanfare by its key: its letter, "b5" its 5-beat cut (PM_99). */
+        public static bool Has(string key)
         {
-            foreach (var f in All) if (!string.IsNullOrEmpty(f.letter) && f.letter[0] == letter) return true;
+            foreach (var f in All) if (f.letter == key) return true;
             return false;
         }
 
-        public static Fanfare Of(char letter)
+        public static Fanfare Of(string key)
         {
             foreach (var f in All)
-                if (!string.IsNullOrEmpty(f.letter) && f.letter[0] == letter && f.beats != null && f.beats.Length >= 3) return f;
+                if (f.letter == key && f.beats != null && f.beats.Length >= 3) return f;
             return Fallback;
         }
     }

@@ -34,11 +34,12 @@ namespace ReverseSolver.Presentation
             ('w', "pm96", 1105 / 44100.0, 87.6521768707483),
             // PM_98 §2: the level's new candidates (docs/art/pm98): A-D ours (Tools/make_level98.py), E-G found (make_music98.py)
             ('A', "pm98", 1105 / 44100.0, 70.58823129251701), ('B', "pm98", 1105 / 44100.0, 69.56521541950113), ('C', "pm98", 1105 / 44100.0, 72.72725623582767),
-            ('D', "pm98", 1105 / 44100.0, 70.58823129251701), ('E', "pm98", 1105 / 44100.0, 31.99997732426304), ('F', "pm98", 1105 / 44100.0, 87.27272108843538),
+            ('D', "pm98", 1105 / 44100.0, 70.58823129251701), ('E', "pm98", 1105 / 44100.0, 64.0), ('F', "pm98", 1105 / 44100.0, 87.27272108843538),
             ('G', "pm98", 1105 / 44100.0, 39.999977324263035),
         };
-        /* PM_98 §1: Zeyd's choices (23 Nov): the lobby n (Urban Shop), the level c for now (none of PM_96's pleased), the win b. */
-        public const char DefaultLobby = 'n', DefaultLevel = 'c', DefaultFanfare = 'b';
+        /* PM_98 §1: Zeyd's choices (23 Nov): the lobby n (Urban Shop), the win b. PM_99 §1: the level E (Cat in Space, now its
+           two 32 s halves as an A/B loop). */
+        public const char DefaultLobby = 'n', DefaultLevel = 'E', DefaultFanfare = 'b';
 
         static char Letter(string q, char fallback)
         {
@@ -74,15 +75,27 @@ namespace ReverseSolver.Presentation
                 string q = Host.Current?.Query("kazanma");
                 if (string.IsNullOrEmpty(q)) q = Host.Current?.Query("seskazan");
                 if (string.IsNullOrEmpty(q)) return DefaultFanfare;
-                return BeatMap.Has(q[0]) ? q[0] : DefaultFanfare;
+                return BeatMap.Has(q[0].ToString()) ? q[0] : DefaultFanfare;
             }
         }
-        static string FanfareUrl(char v) => $"{Pages}pm96/kazanma-{v}.wav";
+        /* PM_99 §5: &kazanmavurus=5 (the default) plays the fanfare's 5-beat cut where it has one (kazanma-b5: its two
+           middle beats left out), 7 the whole one. */
+        public const int DefaultWinBeats = 5;
+        public static int WinBeats => Host.Current?.Query("kazanmavurus") == "7" ? 7 : DefaultWinBeats;
+        public static string FanfareKey
+        {
+            get
+            {
+                string full = FanfareVariant.ToString();
+                return WinBeats == 5 && BeatMap.Has(full + "5") ? full + "5" : full;
+            }
+        }
+        static string FanfareUrl(string key) => $"{Pages}pm96/kazanma-{key}.wav";
 
         /* The chosen fanfare's beats (s from its start, the screen's events) and the strongest one's index. */
-        public static float[] Beats => BeatMap.Of(FanfareVariant).beats;
-        public static int StrongBeat => BeatMap.Of(FanfareVariant).strong;
-        public static float FanfareLength => BeatMap.Of(FanfareVariant).length;
+        public static float[] Beats => BeatMap.Of(FanfareKey).beats;
+        public static int StrongBeat => BeatMap.Of(FanfareKey).strong;
+        public static float FanfareLength => BeatMap.Of(FanfareKey).length;
 
         public static bool On
         {
@@ -108,8 +121,8 @@ namespace ReverseSolver.Presentation
         public static void Start(MonoBehaviour host)
         {
             var a = Track(LobbyVariant); var b = Track(LevelVariant);
-            RS_MusicInit(a.url, a.start, a.length, b.url, b.start, b.length, FanfareUrl(FanfareVariant), Volume, On ? 1 : 0);
-            Debug.Log($"[muzik] lobi {Name(LobbyVariant)}, bolum {Name(LevelVariant)}, kazanma {FanfareVariant} ({Beats.Length} vurus)");
+            RS_MusicInit(a.url, a.start, a.length, b.url, b.start, b.length, FanfareUrl(FanfareKey), Volume, On ? 1 : 0);
+            Debug.Log($"[muzik] lobi {Name(LobbyVariant)}, bolum {Name(LevelVariant)}, kazanma {FanfareKey} ({Beats.Length} vurus)");
         }
         static void Apply() => RS_MusicSetOn(On ? 1 : 0);
         public static void Play(Scene scene, float fadeOut = CrossFade, float fadeIn = CrossFade) => RS_MusicScene(scene == Scene.Level ? 1 : 0, fadeOut, fadeIn);
@@ -144,15 +157,15 @@ namespace ReverseSolver.Presentation
         public static void Panel(bool on) { if (_src != null) _src.volume = On ? Volume * (on ? PanelLevel : 1) : 0; }
 
         /* The fanfare's clip: PM_95's recorded jingles and PM_96's (Resources), 0: the old one. */
-        static AudioClip FanfareClip(char v)
+        static AudioClip FanfareClip(string key)
         {
-            if (v == '0') return Art.Sound("win");
-            return Resources.Load<AudioClip>($"Art/audio/pm96/kazanma-{v}") ?? Resources.Load<AudioClip>($"Art/audio/pm95/kazan-{v}1");
+            if (key == "0") return Art.Sound("win");
+            return Resources.Load<AudioClip>($"Art/audio/pm96/kazanma-{key}") ?? Resources.Load<AudioClip>($"Art/audio/pm95/kazan-{key[0]}1");
         }
         public static bool Fanfare()
         {
             _fanAt = -1;
-            var clip = FanfareClip(FanfareVariant);
+            var clip = FanfareClip(FanfareKey);
             if (_fan == null || clip == null) return false;
             _fan.Stop();
             _fan.clip = clip; _fan.volume = Art.Muted ? 0 : 1;

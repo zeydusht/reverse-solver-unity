@@ -38,7 +38,8 @@ def trim(x):
     return x[max(0, on - SR // 1000):]
 
 
-def beats_of(x):
+def beats_of(x, max_beats=None):
+    max_beats = max_beats or MAX_BEATS
     mono = x.mean(1)
     pad = int(.3 * SR)
     y = np.concatenate([np.zeros(pad), mono, np.zeros(pad)])
@@ -75,7 +76,7 @@ def beats_of(x):
                 continue
             keep.append((t, s))
         if len(keep) >= MIN_BEATS: break
-    while len(keep) > MAX_BEATS:   # the weakest goes, never the first
+    while len(keep) > max_beats:   # the weakest goes, never the first
         i = 1 + int(np.argmin([s for _, s in keep[1:]]))
         keep.pop(i)
     return [round(t, 4) for t, _ in keep], [round(s, 3) for _, s in keep]
@@ -116,16 +117,34 @@ for k in NEW_LETTERS:
     if p is None: continue
     files[k] = level_to(trim(read(p)), target)
 
+# PM_99 §5: the short (5-beat) cut of a 7-beat fanfare (&kazanmavurus=5): its two middle beats (3 and 4) left out, from
+# 12 ms before beat 3 to 12 ms before beat 5 (a whole number of its eighth notes, so the rhythm runs on), a 10 ms
+# equal-power crossfade; the last chord as it was. Written as kazanma-<letter>5.
+SHORT = 'b'
+short_beats = {}
+for k in SHORT:
+    x = files[k]; b, _ = beats_of(x)
+    if len(b) != 7: print(f'{k}: {len(b)} beats, no short cut'); continue
+    c1, c2, f = int((b[2] - .012) * SR), int((b[4] - .012) * SR), int(.01 * SR)
+    t = np.linspace(0, np.pi / 2, f)[:, None]
+    files[k + '5'] = np.concatenate([x[:c1], x[c1:c1 + f] * np.cos(t) + x[c2:c2 + f] * np.sin(t), x[c2 + f:]])
+    d = (c2 - c1) / SR   # its beats: the full one's 1, 2, 5, 6, 7, the last three earlier by the cut
+    short_beats[k + '5'] = [round(b[0], 4), round(b[1], 4), round(b[4] - d, 4), round(b[5] - d, 4), round(b[6] - d, 4)]
+    print(f'{k}5: {k} without {b[2]:.3f}-{b[4]:.3f} s ({(c2 - c1) / SR:.3f} s)')
+
 entries = []
 for k, x in sorted(files.items()):
     sf.write(os.path.join(WEB, f'kazanma-{k}.wav'), x, SR, subtype='PCM_16')
-    if k in NEW_LETTERS: sf.write(os.path.join(RES, f'kazanma-{k}.wav'), x, SR, subtype='PCM_16')
+    if k in set(NEW_LETTERS) or k in short_beats: sf.write(os.path.join(RES, f'kazanma-{k}.wav'), x, SR, subtype='PCM_16')
     beats, strength = beats_of(x)
+    if k in short_beats:
+        full = dict(zip(*beats_of(files[k[0]])))
+        beats = short_beats[k]; fs = list(full.values()); strength = [fs[0], fs[1], fs[4], fs[5], fs[6]]
     strong = int(np.argmax(strength[2:])) + 2 if len(strength) > 2 else len(strength) - 1
     length = round(len(x) / SR, 3)
     entries.append(dict(letter=k, length=length, beats=beats, strength=strength, strong=strong))
     lufs = pyln.Meter(SR, block_size=.2).integrated_loudness(x)
-    flag = '' if MIN_BEATS <= len(beats) <= MAX_BEATS else '  (!)'
+    flag = '' if MIN_BEATS <= len(beats) <= (5 if k.endswith('5') else MAX_BEATS) else '  (!)'
     print(f'{k}: {length:.2f} s, {lufs:.1f} LUFS, {len(beats)} beats{flag}: ' + ' '.join(f'{b:.3f}' for b in beats) + f'  strongest {strong + 1}')
 with open(os.path.join(RES, 'vurus_haritasi.json'), 'w', encoding='utf8') as f:
     json.dump(dict(fanfares=entries), f, indent=1)

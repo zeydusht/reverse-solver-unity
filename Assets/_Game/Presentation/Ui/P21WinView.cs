@@ -186,8 +186,7 @@ namespace ReverseSolver.Presentation
             _bJigoAt = AtB(195, 388);
             _bJigo = _c83 == null ? PlaceB(_content, "win_jigo_jump", _bJigoAt, 262, 294, 3) : null;   // PM_83: the chest in Jigo's place
             if (_c83 != null) LayoutChest83();
-            LayoutJiggles();   // PM_96: the rescued Jiggles, one per beat
-            _beats = null;
+            _beats = null;   // PM_99: no extra Jiggles; one element per beat
             _bHard = null;
             if (_hardBonus > 0)
             {
@@ -238,8 +237,8 @@ namespace ReverseSolver.Presentation
                 var slot = PlaceB(_bBar, "chest_bar_fill", barAt + new Vector2((-91.7f + i * 33.3f) * _bScale, .7f * _bScale), 27, 27, 4);
                 if (i == filled - 1) _bNewSlot = slot;
             }
-            _bButtons = Group("buttons");
-            Buttons(AtB(195, NextY), AtB(195, MenuY), Texts.NextLevel21, _bButtons);
+            _bButtons = Group("next button"); _bMenuGroup = Group("menu button");   // PM_99: each on its own beat
+            Buttons(AtB(195, NextY), AtB(195, MenuY), Texts.NextLevel21, _bButtons, _bMenuGroup);
             _bSettled = false;
         }
         /* Green Next Level (300x72) and blue Menu (136x48) with their labels in the game's font. */
@@ -247,9 +246,10 @@ namespace ReverseSolver.Presentation
         public static string NextTitle;
         Button75.View _pressNext, _pressMenu;   // PM_82: the faces that sink when pressed
 
-        void Buttons(Vector2 next, Vector2 menu, string nextText, Transform parent = null)
+        void Buttons(Vector2 next, Vector2 menu, string nextText, Transform parent = null, Transform menuParent = null)
         {
             parent = parent != null ? parent : _content;
+            var mp = menuParent != null ? menuParent : parent;
             if (_bScale <= 0) _bScale = _scale;
             if (Art.Get("win-next") != null && Art.Get("win-menu") != null)
             {
@@ -257,7 +257,7 @@ namespace ReverseSolver.Presentation
                 // blue Menu 196 x 60, both with a deep bottom edge that sinks when pressed; labels in the game's 3D font
                 if (nextText == Texts.NextLevel21 && !string.IsNullOrEmpty(NextTitle)) nextText = NextTitle;
                 var mainB = Button75.Custom(parent, next, new Vector2(272, 76) * _bScale, nextText, Order + 9, "win-next", "win-next-pressed", TextView.RimGreen, .40f);
-                var smallB = Button75.Custom(parent, menu, new Vector2(196, 60) * _bScale, Lang.T("Menu", "Menü"), Order + 9, "win-menu", "win-menu-pressed", Draw.Hex("#0E2244"), .42f);
+                var smallB = Button75.Custom(mp, menu, new Vector2(196, 60) * _bScale, Lang.T("Menu", "Menü"), Order + 9, "win-menu", "win-menu-pressed", Draw.Hex("#0E2244"), .42f);
                 _nextRect = mainB.Rect;
                 float menuTop = Mathf.Max(smallB.Rect.yMin, _nextRect.yMax + 2);
                 _menuRect = new Rect(smallB.Rect.xMin, menuTop, smallB.Rect.width, Mathf.Max(48f, smallB.Rect.yMax - menuTop));
@@ -270,7 +270,7 @@ namespace ReverseSolver.Presentation
                 if (nextText == Texts.NextLevel21 && !string.IsNullOrEmpty(NextTitle)) nextText = NextTitle;
                 next += new Vector2(0, -4 * _bScale);
                 var main = Button75.Main(parent, next, new Vector2(262, 92) * _bScale, nextText, Order + 9);
-                var small = Button75.Small(parent, menu, new Vector2(150, 50) * _bScale, Lang.T("Menu", "Menü"), Order + 9);
+                var small = Button75.Small(mp, menu, new Vector2(150, 50) * _bScale, Lang.T("Menu", "Menü"), Order + 9);
                 _nextRect = main.Rect;
                 float h = Mathf.Max(small.Rect.height, 48f), w = Mathf.Max(small.Rect.width, 150f);
                 float y0 = Mathf.Max(menu.y - h / 2, _nextRect.yMax + 2);
@@ -280,8 +280,8 @@ namespace ReverseSolver.Presentation
             PlaceB(parent, "btn_green_big", next, 300, 72, 6);
             var n = TextView.Create(parent, "next label", nextText, 28 * _bScale, Palette.Cream, order: Order + 11).Heading(TextView.RimGreen).FitWidth(250 * _bScale, 16 * _bScale);
             n.transform.localPosition = Draw.W(next + new Vector2(0, -2 * _bScale));
-            PlaceB(parent, "btn_blue_small", menu, 136, 48, 6);
-            var m = TextView.Create(parent, "menu label", Lang.T("Menu", "Menü"), 21 * _bScale, Palette.Cream, order: Order + 11).Heading(Draw.Hex("#153E75"));
+            PlaceB(mp, "btn_blue_small", menu, 136, 48, 6);
+            var m = TextView.Create(mp, "menu label", Lang.T("Menu", "Menü"), 21 * _bScale, Palette.Cream, order: Order + 11).Heading(Draw.Hex("#153E75"));
             m.transform.localPosition = Draw.W(menu + new Vector2(0, -2 * _bScale));
             _nextRect = new Rect(next - new Vector2(150, 36) * _bScale, new Vector2(300, 72) * _bScale);
             _menuRect = new Rect(menu - new Vector2(68, 24) * _bScale, new Vector2(136, 48) * _bScale);
@@ -307,9 +307,8 @@ namespace ReverseSolver.Presentation
            The screen's clock is then the fanfare's position at the speaker (Music.FanfareTime); without one (no fanfare,
            the audio stopped) the wall clock goes on from where it was. Each event starts Lead before its beat, and a frame more
            (the one still to be shown), so the eye and the ear take them as one:
-             beat 1 the light opens · 2 "Great!" lands from 1.3x · then one Jiggle per beat · the strongest beat:
-             confetti bursts, Jigo jumps · the last beat: +50 counts, the chest bar and the buttons come (the chest,
-             every 5th level, after the fanfare). A tap finishes it all; the fanfare plays on. */
+           PM_99: one element per beat (Plan, below; the chest, every 5th level, after the fanfare). A tap finishes it
+           all (a button already shown acts at once); the fanfare plays on. */
         public static bool PlayFanfare;
         public const float Lead = .015f;
         readonly bool _fanWanted = TakeFanfare();
@@ -318,11 +317,8 @@ namespace ReverseSolver.Presentation
         bool _fanOn, _fanAsked, _bSkip, _wallOnly;
         float _audioLast = -100, _audioLastWall, _wallOffset = -.03f, _settledAt;
         float[] _beats;
-        int _strongBeat;
         float _fanLength;
-        int[] _jiggleBeat;
-        SpriteRenderer[] _bJiggles;
-        Vector2[] _bJiggleAt;
+        Transform _bMenuGroup;
         Confetti96 _confetti;
         /* The PM_96 measurement: each event's name, the fanfare clock it was first shown at and its beat. */
         public static Action<string, float, float> EventShown;
@@ -346,58 +342,47 @@ namespace ReverseSolver.Presentation
             return wall + _wallOffset;
         }
 
-        /* Beats -> events: 0 the light, 1 the title, the strongest (from the third on) confetti and Jigo, the last the
-           gold and the buttons; the beats between the title and the last (but the strongest) take the Jiggles. */
+        /* PM_99 §5: one screen element per beat, no extra Jiggles.
+             7 beats (&kazanmavurus=7): light · "Great!" · Jigo jumps · +50 · Next · Menu · (the last chord) confetti
+             5 beats (the default):      light + "Great!" · Jigo jumps · +50 · Next · (the last chord) Menu + confetti
+           6 beats (other fanfares, the fallback): as 7 with Menu and the confetti on the last. Each element lands on its
+           beat with a "tak": 1.15x to 1x in 0.12 s. */
+        enum Ev { Light, Title, Jigo, Gold, Next, Menu, Confetti }
+        int[] _ev;
+        public static int[] Plan(int beats)
+        {
+            if (beats >= 7) return new[] { 0, 1, 2, 3, 4, 5, beats - 1 };
+            if (beats == 6) return new[] { 0, 1, 2, 3, 4, 5, 5 };
+            if (beats == 5) return new[] { 0, 0, 1, 2, 3, 4, 4 };
+            int l = beats - 1;
+            return new[] { 0, 0, Mathf.Min(1, l), Mathf.Min(2, l), Mathf.Min(3, l), l, l };
+        }
         void PlanBeats()
         {
-            var map = _fanOn || _fanWanted && !_fanAsked ? BeatMap.Of(Music.FanfareVariant) : BeatMap.Fallback;
+            var map = _fanOn || _fanWanted && !_fanAsked ? BeatMap.Of(Music.FanfareKey) : BeatMap.Fallback;
             _beats = map.beats; _fanLength = map.length;
-            int n = _beats.Length;
-            _strongBeat = map.strong;
-            if (_strongBeat < 2 || _strongBeat >= n)
-            {
-                _strongBeat = n - 1;
-                for (int i = 2; i < n; i++)
-                    if (map.strength != null && i < map.strength.Length && map.strength[i] > map.strength[_strongBeat]) _strongBeat = i;
-            }
-            var free = new System.Collections.Generic.List<int>();
-            for (int i = 2; i < n - 1; i++) if (i != _strongBeat) free.Add(i);
-            int k = _bJiggles == null ? 0 : _bJiggles.Length;
-            _jiggleBeat = new int[k];
-            for (int j = 0; j < k; j++) _jiggleBeat[j] = free.Count == 0 ? 1 : free[j * free.Count / k];
+            _ev = Plan(_beats.Length);
         }
 
-        /* Up to four of the rescued Jiggles at Jigo's feet, the outer ones first. */
-        void LayoutJiggles()
+        /* Time since an event started (< 0: not yet). */
+        float Since(float clock, Ev e) => _beats == null ? -1 : clock - (_beats[_ev[(int)e]] - Lead - Time.smoothDeltaTime);
+        void Shown(Ev e, float u, float clock)
         {
-            _bJiggles = null; _bJiggleAt = null;
-            if (_c83 != null || _rescued <= 0) return;
-            string[] colours = { "blue", "pink", "green", "purple" };
-            Vector2[] at = { new Vector2(58, 488), new Vector2(332, 488), new Vector2(112, 514), new Vector2(278, 514) };
-            var list = new System.Collections.Generic.List<SpriteRenderer>();
-            var points = new System.Collections.Generic.List<Vector2>();
-            // one per beat between the title and the last one (but the strongest), at most four
-            var map = BeatMap.Of(Music.FanfareVariant);
-            int strong = map.strong >= 2 && map.strong < map.beats.Length ? map.strong : map.beats.Length - 1, beats = 0;
-            for (int i = 2; i < map.beats.Length - 1; i++) if (i != strong) beats++;
-            for (int i = 0; i < Mathf.Min(Mathf.Min(4, _rescued), Mathf.Max(1, beats)); i++)
-            {
-                var r = Art.Place(_content, "t20-jiggle-" + colours[i] + "-standing", new Vector2(74, 111) * _bScale, Order + 4);
-                if (r == null) continue;
-                r.transform.localPosition = Draw.W(AtB(at[i].x, at[i].y));
-                Alpha(r, 0);
-                list.Add(r); points.Add(AtB(at[i].x, at[i].y));
-            }
-            _bJiggles = list.ToArray(); _bJiggleAt = points.ToArray();
+            if (u < 0 || _bSkip || !_shown.Add(e.ToString())) return;
+            EventShown?.Invoke(e.ToString().ToLowerInvariant(), clock, _beats[_ev[(int)e]]);
         }
-
-        /* Time since the event of `beat` started (< 0: not yet). */
-        float Since(float clock, int beat) => _beats == null || beat < 0 || beat >= _beats.Length ? -1 : clock - (_beats[beat] - Lead - Time.smoothDeltaTime);
-        void Shown(string what, int beat, float u, float clock)
+        /* The "tak": 1.15x to 1x in 0.12 s from the event's start. */
+        static float Tak(float u) => u < 0 ? 1 : Mathf.Lerp(1.15f, 1f, Ease(Mathf.Clamp01(u / .12f)));
+        /* A group of a button popping about its own centre. */
+        static void Pop(Transform group, Vector2 centre, float u)
         {
-            if (u < 0 || _bSkip || !_shown.Add(what)) return;
-            EventShown?.Invoke(what, clock, _beats[beat]);
+            if (group == null) return;
+            float s = Tak(u);
+            Fade(group, u < 0 ? 0 : 1);
+            group.localScale = Vector3.one * s;
+            group.localPosition = Draw.W(centre) * (1 - s);
         }
+        bool _nextShown, _menuShown;
 
         void TickB(float now)
         {
@@ -405,95 +390,80 @@ namespace ReverseSolver.Presentation
             if (_confetti != null && !_confetti.Tick(now)) { _confetti.Destroy(); _confetti = null; }
             if (_bSettled)
             {
-                // idle: Jigo bobs softly, the Jiggles hop now and then
+                // idle: Jigo bobs softly
                 float idle = now - _settledAt;
                 if (_bJigo != null) _bJigo.transform.localPosition = Draw.W(_bJigoAt + new Vector2(0, -4 * _bScale * Mathf.Sin(idle * Mathf.PI * 2 / 1.6f)));
-                if (_bJiggles != null)
-                    for (int i = 0; i < _bJiggles.Length; i++)
-                    {
-                        float h = Mathf.Repeat(idle + i * .37f, 1.6f);
-                        _bJiggles[i].transform.localPosition = Draw.W(_bJiggleAt[i] + new Vector2(0, h < .3f ? -9 * _bScale * Mathf.Sin(h / .3f * Mathf.PI) : 0));
-                    }
                 return;
             }
             if (_beats == null) PlanBeats();
             float clock = _bSkip ? 1000 : FanfareClock(now);
-            int last = _beats.Length - 1;
-            // beat 1: the light opens
-            float uLight = Since(clock, 0), g = Ease(Mathf.Clamp01(uLight / .3f));
+            // the light opens
+            float uLight = Since(clock, Ev.Light), g = Ease(Mathf.Clamp01(uLight / .3f));
             if (_bGlow != null) { Alpha(_bGlow, uLight < 0 ? 0 : Mathf.Max(.25f, g)); _bGlow.transform.localScale = Vector3.Scale(Base(_bGlow), new Vector3(.9f + .1f * g, .35f + .65f * g, 1)); }
-            Shown("light", 0, uLight, clock);
-            // Jigo comes up with the light, stands, and jumps on the strongest beat (pushes off on it)
-            float uJump = Since(clock, _strongBeat);
+            Shown(Ev.Light, uLight, clock);
+            // "Great!"
+            float uTitle = Since(clock, Ev.Title);
+            if (_bTitle != null) { Alpha(_bTitle, uTitle < 0 ? 0 : 1); _bTitle.transform.localScale = Base(_bTitle) * Tak(uTitle); }
+            if (_bHard != null) Fade(_bHard, uTitle < 0 ? 0 : 1);
+            Shown(Ev.Title, uTitle, clock);
+            // Jigo lands with a tak and jumps (happy)
+            float uJigo = Since(clock, Ev.Jigo);
             if (_bJigo != null)
             {
-                float a = Mathf.Clamp01(uLight / .22f), y = 30 * (1 - Ease(a)), sx = 1, sy = 1;
-                if (uJump >= 0)
+                float y = 0, sx = 1, sy = 1;
+                if (uJigo >= 0)
                 {
-                    float j = Mathf.Clamp01(uJump / .52f);
-                    if (uJump < .06f) { sx = 1.1f; sy = .86f; }
-                    else y = -78 * Mathf.Sin(Mathf.PI * j);
+                    float j = Mathf.Clamp01((uJigo - .06f) / .46f);
+                    if (uJigo < .06f) { sx = 1.1f; sy = .86f; }                       // the push off, on the beat
+                    else y = -70 * Mathf.Sin(Mathf.PI * j);
                     if (j > .88f && j < 1) { float q = Mathf.Sin((j - .88f) / .12f * Mathf.PI) * .07f; sx = 1 + q; sy = 1 - q; }
                 }
                 _bJigo.transform.localPosition = Draw.W(_bJigoAt + new Vector2(0, y * _bScale));
-                _bJigo.transform.localScale = Vector3.Scale(Base(_bJigo) * Mathf.Lerp(.85f, 1f, Ease(a)), new Vector3(sx, sy, 1));
-                Alpha(_bJigo, uLight < 0 ? 0 : Mathf.Max(.25f, a));
+                _bJigo.transform.localScale = Vector3.Scale(Base(_bJigo) * Tak(uJigo), new Vector3(sx, sy, 1));
+                Alpha(_bJigo, uJigo < 0 ? 0 : 1);
             }
-            // beat 2: the title lands from 1.3x ("tak")
-            float uTitle = Since(clock, 1);
-            if (_bTitle != null)
-            {
-                Alpha(_bTitle, uTitle < 0 ? 0 : 1);
-                _bTitle.transform.localScale = Base(_bTitle) * Mathf.LerpUnclamped(1.3f, 1f, PanelMotion76.OutBack(Mathf.Clamp01(uTitle / .16f), 1.6f));
-            }
-            Shown("title", 1, uTitle, clock);
-            if (_bHard != null) Fade(_bHard, uTitle < 0 ? 0 : Mathf.Clamp01(.3f + uTitle / .2f));
-            // then one Jiggle per beat, hopping in
-            if (_bJiggles != null)
-                for (int i = 0; i < _bJiggles.Length; i++)
-                {
-                    float u = Since(clock, _jiggleBeat[i]), p = Mathf.Clamp01(u / .2f);
-                    var r = _bJiggles[i];
-                    Alpha(r, u < 0 ? 0 : 1);
-                    float pop = u < 0 ? .55f : p < .45f ? Mathf.Lerp(.55f, 1.18f, p / .45f) : Mathf.Lerp(1.18f, 1f, (p - .45f) / .55f);
-                    r.transform.localScale = Base(r) * pop;
-                    r.transform.localPosition = Draw.W(_bJiggleAt[i] + new Vector2(0, -26 * _bScale * Mathf.Sin(Mathf.PI * p)));
-                    Shown("jiggle" + (i + 1), _jiggleBeat[i], u, clock);
-                }
-            // the strongest beat: confetti
-            if (uJump >= 0 && !_bSkip && !_shown.Contains("confetti"))
-                _confetti = new Confetti96(_content, _bJigo != null ? _bJigoAt + new Vector2(0, -70 * _bScale) : AtB(195, 330), _bScale, Order + 2, now);
-            Shown("confetti", _strongBeat, uJump, clock);
-            // the last beat: the gold counts up, the bar comes in, the newest slot pops, the buttons spring up
-            float uLast = Since(clock, last), c = Mathf.Clamp01(uLast / .3f);
+            Shown(Ev.Jigo, uJigo, clock);
+            // +50: lands, counts up; the chest bar and its newest slot with it
+            float uGold = Since(clock, Ev.Gold), c = Mathf.Clamp01(uGold / .3f);
             if (_bPlus != null)
             {
-                _bPlus.Alpha = uLast < 0 ? 0 : 1; _bPlus.Text = "+" + Mathf.RoundToInt(_winCoins * Ease(c));
-                _bPlus.transform.localScale = Vector3.one * (uLast < 0 ? 1 : 1 + .18f * Mathf.Sin(Mathf.PI * Mathf.Clamp01(uLast / .22f)));
+                _bPlus.Alpha = uGold < 0 ? 0 : 1; _bPlus.Text = "+" + Mathf.RoundToInt(_winCoins * Ease(c));
+                _bPlus.transform.localScale = Vector3.one * Tak(uGold);
             }
-            Alpha(_bCoin, uLast < 0 ? 0 : 1);
-            if (_doubleButton != null && _doubleButton.gameObject.activeSelf) Fade(_doubleButton, Mathf.Clamp01(uLast / .2f));
-            if (_bBar != null) Fade(_bBar, Mathf.Clamp01(uLast / .2f));
+            if (_bCoin != null) { Alpha(_bCoin, uGold < 0 ? 0 : 1); _bCoin.transform.localScale = Base(_bCoin) * Tak(uGold); }
+            if (_doubleButton != null && _doubleButton.gameObject.activeSelf) Fade(_doubleButton, uGold < 0 ? 0 : 1);
+            if (_bBar != null) Fade(_bBar, uGold < 0 ? 0 : Mathf.Clamp01(uGold / .12f));
             if (_bNewSlot != null)
             {
-                float p = Mathf.Clamp01((uLast - .12f) / .15f);
+                float p = Mathf.Clamp01((uGold - .12f) / .15f);
                 _bNewSlot.transform.localScale = Base(_bNewSlot) * (p <= 0 ? 0 : 1 + .35f * Mathf.Sin(p * Mathf.PI));
             }
-            Shown("gold", last, uLast, clock);
+            Shown(Ev.Gold, uGold, clock);
+            // Next, then Menu (PM_83: they wait for the chest)
+            bool chestWait = _c83 != null && !_c83Done;
+            float uNext = chestWait ? -1 : Since(clock, Ev.Next), uMenu = chestWait ? -1 : Since(clock, Ev.Menu);
+            Pop(_bButtons, AtB(195, NextY), uNext);
+            Pop(_bMenuGroup, AtB(195, MenuY), uMenu);
+            _nextShown = uNext >= 0; _menuShown = uMenu >= 0;
+            if (!chestWait) { Shown(Ev.Next, uNext, clock); Shown(Ev.Menu, uMenu, clock); }
+            // the last chord: confetti
+            float uConf = Since(clock, Ev.Confetti);
+            if (uConf >= 0 && !_bSkip && !_shown.Contains(Ev.Confetti.ToString()))
+                _confetti = new Confetti96(_content, _bJigo != null ? _bJigoAt + new Vector2(0, -70 * _bScale) : AtB(195, 330), _bScale, Order + 2, now);
+            Shown(Ev.Confetti, uConf, clock);
             // PM_83: the chest comes after the fanfare
-            float uChest = _bSkip ? 1 : clock - Mathf.Max(_beats[last] + .2f, _fanLength - .1f);
+            float lastBeat = _beats[_beats.Length - 1];
+            float uChest = _bSkip ? 1 : clock - Mathf.Max(lastBeat + .2f, _fanLength - .1f);
             if (_c83Case != null) _c83Case.transform.localScale = Base(_c83Case) * Mathf.Max(0, PanelMotion76.OutBack(Mathf.Clamp01(uChest / .4f), 1.4f));
-            float b = Mathf.Clamp01(uLast / .35f);
-            if (_bButtons != null && _c83 != null && !_c83Done) Fade(_bButtons, 0);   // PM_83: the buttons wait for the chest
-            else if (_bButtons != null) { Fade(_bButtons, uLast < 0 ? 0 : Ease(b)); _bButtons.localPosition = Draw.W(0, 36 * _bScale * (1 - PanelMotion76.OutBack(b, 1.25f))); }
-            if (uLast >= .4f && (_c83Case == null || uChest >= .4f))
+            float uEnd = clock - (lastBeat - Lead);
+            if (uEnd >= .4f && (_c83Case == null || uChest >= .4f))
             {
                 _bSettled = true; _settledAt = now;
                 if (_bJigo != null) { _bJigo.transform.localScale = Base(_bJigo); Alpha(_bJigo, 1); }
                 if (_bTitle != null) { _bTitle.transform.localScale = Base(_bTitle); Alpha(_bTitle, 1); }
-                if (_bJiggles != null) for (int i = 0; i < _bJiggles.Length; i++) { _bJiggles[i].transform.localScale = Base(_bJiggles[i]); _bJiggles[i].transform.localPosition = Draw.W(_bJiggleAt[i]); Alpha(_bJiggles[i], 1); }
                 if (_c83Case != null) _c83Case.transform.localScale = Base(_c83Case);
                 if (_bPlus != null) _bPlus.transform.localScale = Vector3.one;
+                if (!chestWait) { Pop(_bButtons, AtB(195, NextY), 1); Pop(_bMenuGroup, AtB(195, MenuY), 1); }
             }
         }
         Transform _bHard;
@@ -523,7 +493,14 @@ namespace ReverseSolver.Presentation
         }
         public void Press(Vector2 point)
         {
-            if (Entering) { _bSkip = true; return; }   // PM_73: a tap finishes the entrance (PM_96: the fanfare plays on)
+            if (Entering)
+            {
+                // PM_73: a tap finishes the entrance (PM_96: the fanfare plays on); PM_99: a button already shown acts at once
+                bool shownButton = _nextShown && _nextRect.Contains(point) || _menuShown && _menuRect.Contains(point);
+                _bSkip = true;
+                if (!shownButton) return;
+                _started = Time.unscaledTime - 1;
+            }
             if (Time.unscaledTime - _started < .25f) return;
             if (_double && !_doubled && !_doubleBusy && !_chestMode && _doubleRect.Contains(point) && DoubleWatch != null)
             {
@@ -828,8 +805,13 @@ namespace ReverseSolver.Presentation
             if (_c83Done && _bButtons != null)
             {
                 float k = Span(now - _c83DoneAt, 0, .35f);
-                Fade(_bButtons, Ease(k));
-                _bButtons.localPosition = Draw.W(0, 36 * _bScale * (1 - PanelMotion76.OutBack(k, 1.25f)));
+                foreach (var g in new[] { _bButtons, _bMenuGroup })
+                {
+                    if (g == null) continue;
+                    Fade(g, Ease(k)); g.localScale = Vector3.one;
+                    g.localPosition = Draw.W(0, 36 * _bScale * (1 - PanelMotion76.OutBack(k, 1.25f)));
+                }
+                _nextShown = _menuShown = k > 0;
             }
         }
 

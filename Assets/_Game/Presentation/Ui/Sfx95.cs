@@ -11,8 +11,8 @@ namespace ReverseSolver.Presentation
     {
         public enum Kind { Exit, Knock, Last, Win, Tick }
         static readonly string[] Keys = { "cikis", "carpma", "bitis", "kazan", "tik" };
-        static readonly char[] Defaults = { 'c', 'a', 'a', 'b', 'b' };   // PM_96 §1: Zeyd's choices (the win's fanfare plays through Music)
-        static readonly float[] Pitch = { .05f, .05f, .02f, 0, .04f };   // the jingles stay near their key (the music's)
+        static readonly char[] Defaults = { 'f', 'a', 'a', 'b', 'b' };   // PM_96 §1: Zeyd's choices; PM_99 §2: the soft swish f (docs/art/pm99)
+        static readonly float[] Pitch = { .04f, .05f, .02f, 0, .04f };   // PM_99: the exit +-4 %; the jingles stay near their key
         static AudioClip[][] _takes;
         static readonly char[] _letters = new char[5];
         static readonly int[] _last = { -1, -1, -1, -1, -1 };
@@ -36,7 +36,7 @@ namespace ReverseSolver.Presentation
                 var list = new System.Collections.Generic.List<AudioClip>();
                 for (int n = 1; n <= 4; n++)
                 {
-                    var clip = Resources.Load<AudioClip>($"Art/audio/pm95/{Keys[k]}-{letter}{n}");
+                    var clip = Take(Keys[k], letter, n);
                     if (clip == null) break;
                     clip.LoadAudioData();
                     list.Add(clip);
@@ -44,7 +44,7 @@ namespace ReverseSolver.Presentation
                 if (list.Count == 0 && letter != Defaults[k])   // an unknown letter: the default
                     for (int n = 1; n <= 4; n++)
                     {
-                        var clip = Resources.Load<AudioClip>($"Art/audio/pm95/{Keys[k]}-{Defaults[k]}{n}");
+                        var clip = Take(Keys[k], Defaults[k], n);
                         if (clip == null) break;
                         clip.LoadAudioData();
                         list.Add(clip);
@@ -58,6 +58,10 @@ namespace ReverseSolver.Presentation
         }
 
         public static bool On(Kind kind) => Takes(kind) != null;
+
+        /* PM_99: a take from PM_99's sounds (the soft exits f-j, the louder knock a) before PM_95's. */
+        static AudioClip Take(string key, char letter, int n) =>
+            Resources.Load<AudioClip>($"Art/audio/pm99/{key}-{letter}{n}") ?? Resources.Load<AudioClip>($"Art/audio/pm95/{key}-{letter}{n}");
 
         /* PM_98: the candidate's letter in play (an unknown one: the default; '0': the old sound). */
         public static char Letter(Kind kind)

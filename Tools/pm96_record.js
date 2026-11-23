@@ -91,7 +91,7 @@ const RECORDER = `window.__pm96 = {
   await new Promise(r => ws.addEventListener('open', r));
   let id = 0; const pend = new Map(), logs = [];
   const cdp = (method, params = {}) => new Promise(r => { const i = ++id; pend.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
-  const local = { 'music/pm96/': [path.join(ROOT, 'Assets/Audio/Music96'), path.join(ROOT, 'Assets/Audio/Fanfare96')] };
+  const local = { 'music/pm96/': ['Music96', 'Music98', 'Fanfare96'].map(d => path.join(ROOT, 'Assets/Audio', d)) };   // PM_99: the PM_98 loops too
   ws.addEventListener('message', e => {
     const m = JSON.parse(e.data);
     if (m.id && pend.has(m.id)) { pend.get(m.id)(m); pend.delete(m.id); }
@@ -118,7 +118,7 @@ const RECORDER = `window.__pm96 = {
   };
   await cdp('Runtime.enable'); await cdp('Page.enable'); await cdp('Network.enable');
   await cdp('Network.setBlockedURLs', { urls: ['*supabase.co*'] });
-  await cdp('Fetch.enable', { patterns: [{ urlPattern: '*reverse-solver-unity/music/pm96/*' }] });
+  await cdp('Fetch.enable', { patterns: [{ urlPattern: '*reverse-solver-unity/music/pm9*' }] });
   await cdp('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 2, mobile: true });
   await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
   await cdp('Page.addScriptToEvaluateOnNewDocument', { source: RECORDER });
