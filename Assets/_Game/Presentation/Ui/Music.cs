@@ -32,9 +32,13 @@ namespace ReverseSolver.Presentation
             ('q', "pm96", 1105 / 44100.0, 63.999977324263035), ('r', "pm96", 1105 / 44100.0, 60.00131519274377), ('s', "pm96", 1105 / 44100.0, 139.13043083900226),
             ('t', "pm96", 1105 / 44100.0, 108.38709750566893), ('u', "pm96", 1105 / 44100.0, 108.38709750566893), ('v', "pm96", 1105 / 44100.0, 80.0),
             ('w', "pm96", 1105 / 44100.0, 87.6521768707483),
+            // PM_98 §2: the level's new candidates (docs/art/pm98): A-D ours (Tools/make_level98.py), E-G found (make_music98.py)
+            ('A', "pm98", 1105 / 44100.0, 70.58823129251701), ('B', "pm98", 1105 / 44100.0, 69.56521541950113), ('C', "pm98", 1105 / 44100.0, 72.72725623582767),
+            ('D', "pm98", 1105 / 44100.0, 70.58823129251701), ('E', "pm98", 1105 / 44100.0, 31.99997732426304), ('F', "pm98", 1105 / 44100.0, 87.27272108843538),
+            ('G', "pm98", 1105 / 44100.0, 39.999977324263035),
         };
-        /* PM_96 §1: Zeyd chose c; until he picks from the new ones it is the lobby's, the level's is docs/art/pm96/RAPOR.md's. */
-        public const char DefaultLobby = 'c', DefaultLevel = 'r', DefaultFanfare = 'b';
+        /* PM_98 §1: Zeyd's choices (23 Nov): the lobby n (Urban Shop), the level c for now (none of PM_96's pleased), the win b. */
+        public const char DefaultLobby = 'n', DefaultLevel = 'c', DefaultFanfare = 'b';
 
         static char Letter(string q, char fallback)
         {
@@ -89,6 +93,8 @@ namespace ReverseSolver.Presentation
         public enum Scene { Lobby, Level }
         /* The dive's crossfade (PM_96 §4). */
         public const float CrossFade = .6f;
+        /* PM_98 §3: the music under a pause or settings panel, and how fast it comes back. */
+        public const float PanelLevel = .35f, PanelBack = .3f;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
         [DllImport("__Internal")] static extern void RS_MusicInit(string lobbyUrl, double lobbyStart, double lobbyLength, string levelUrl, double levelStart, double levelLength, string fanfareUrl, float volume, int on);
@@ -97,6 +103,7 @@ namespace ReverseSolver.Presentation
         [DllImport("__Internal")] static extern void RS_MusicDuck(int on);
         [DllImport("__Internal")] static extern float RS_MusicFanfare(int sound);
         [DllImport("__Internal")] static extern float RS_MusicFanfareTime();
+        [DllImport("__Internal")] static extern void RS_MusicPanel(int on);
 
         public static void Start(MonoBehaviour host)
         {
@@ -107,6 +114,8 @@ namespace ReverseSolver.Presentation
         static void Apply() => RS_MusicSetOn(On ? 1 : 0);
         public static void Play(Scene scene, float fadeOut = CrossFade, float fadeIn = CrossFade) => RS_MusicScene(scene == Scene.Level ? 1 : 0, fadeOut, fadeIn);
         public static void Duck(bool on) => RS_MusicDuck(on ? 1 : 0);
+        /* PM_98 §3: a panel over the game (pause, settings): the music down to 35 %, back in .3 s when it closes. */
+        public static void Panel(bool on) => RS_MusicPanel(on ? 1 : 0);
         /* Starts the fanfare (silent with the sound off: its clock still runs); false: none (the screen keeps its own time). */
         public static bool Fanfare() => RS_MusicFanfare(Art.Muted ? 0 : 1) > 0;
         /* The fanfare's position at the speaker (s); below -10: none. */
@@ -132,6 +141,7 @@ namespace ReverseSolver.Presentation
         static void Apply() { if (_src != null) _src.volume = On ? Volume : 0; }
         public static void Play(Scene scene, float fadeOut = CrossFade, float fadeIn = CrossFade) { Apply(); }
         public static void Duck(bool on) { if (_src != null) _src.volume = On ? Volume * (on ? .4f : 1) : 0; }
+        public static void Panel(bool on) { if (_src != null) _src.volume = On ? Volume * (on ? PanelLevel : 1) : 0; }
 
         /* The fanfare's clip: PM_95's recorded jingles and PM_96's (Resources), 0: the old one. */
         static AudioClip FanfareClip(char v)

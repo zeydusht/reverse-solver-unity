@@ -151,7 +151,8 @@ namespace ReverseSolver.Presentation
             if (Host.Current.Query("vuruslog") == "1")         // PM_96 §5: the win screen's events against the fanfare's beats
                 P21WinView.EventShown = (what, clock, beat) => Debug.Log($"[vurus] {what} saat {clock:0.000} vurus {beat:0.000} fark {(clock - beat) * 1000:0} ms");
             Sfx95.Load();                                      // PM_95: the chosen recorded sounds, loaded now
-            Haptics.Click = () => { if (!PlaySfx(Sfx95.Kind.Tick, .45f)) PlaySound("pm72-tick", .45f); };   // PM_86: every button's click
+            Haptics.Click = () => UiSounds.Request(UiSounds.Kind.Tick);   // PM_86: every button's click; PM_98 §4: loud enough (UiSounds)
+            UiSounds.Preload();
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
             _images = LevelImages.Create();
             _cam = Camera.main;
@@ -824,7 +825,7 @@ namespace ReverseSolver.Presentation
                 {
                     string action = _paintingDetail.Hit(pt);
                     if (action == "replay") { int index = _paintingDetail.Index; _paintingDetail.Destroy(); _paintingDetail = null; Replay93(index); }
-                    else if (action == "close") { _paintingDetail.Destroy(); _paintingDetail = null; }
+                    else if (action == "close") { UiSounds.Request(UiSounds.Kind.Close); _paintingDetail.Destroy(); _paintingDetail = null; }
                     return;
                 }
                 int tab = _tabs?.Hit(pt) ?? -1;
@@ -854,7 +855,7 @@ namespace ReverseSolver.Presentation
                     if (hit >= 0)
                     {
                         if (!_progress.Won(hit) && hit == _progress.Next()) StartLevel(hit);
-                        else _paintingDetail = new PaintingDetail(_world, _screen, hit, _images, CardOrder, i => _stats.Of(_set.Levels[i].Id)?.BestWinSeconds);
+                        else { UiSounds.Request(UiSounds.Kind.Open); _paintingDetail = new PaintingDetail(_world, _screen, hit, _images, CardOrder, i => _stats.Of(_set.Levels[i].Id)?.BestWinSeconds); }
                     }
                     return;
                 }
@@ -907,6 +908,7 @@ namespace ReverseSolver.Presentation
             string[] values = { $"{_progress.Next() + 1}/{_set.Levels.Count}", Texts.Count(SavedJiggles()), Texts.Minutes(_stats.TotalSeconds / 60),
                 played == 0 ? "—" : $"{first * 100 / played}%", $"{Achievements.Completed(CurrentAchievements())}/9",
                 _stats.WinCount == 0 ? "—" : Texts.Seconds(_stats.SumLeftOnWins / _stats.WinCount) };
+            if (_profileCard == null) UiSounds.Request(UiSounds.Kind.Open);
             _profileCard?.Destroy();
             _profileCard = new ProfileCard(_world, _screen, _save.Player, values, CardOrder);
         }
@@ -914,6 +916,7 @@ namespace ReverseSolver.Presentation
         void ProfileAction(string action)
         {
             if (action == null) return;
+            UiSounds.Request(UiSounds.Kind.Close);
             _profileCard.Destroy(); _profileCard = null;
             if (action == "avatar") { RememberMenuScroll(); _tab = MenuTab.Jiggles; _levelsMapOpen = false; Layout(); }
             else if (action == "name")
@@ -948,6 +951,7 @@ namespace ReverseSolver.Presentation
             }
             if (id == "privacy") { Application.OpenURL(MenuSettings.PrivacyUrl); return; }
             if (id == "contact") { Application.OpenURL(MenuSettings.ContactUrl); return; }
+            if (id == "sound" || id == "music" || id == "haptics" || id == "tr" || id == "en") Toggle98();
             if (id == "sound") Art.Muted = !Art.Muted;
             else if (id == "music") Music.On = !Music.On;
             else if (id == "haptics") Haptics.On = !Haptics.On;
@@ -956,7 +960,7 @@ namespace ReverseSolver.Presentation
                 Lang.Tr = id == "tr"; RememberMenuScroll(); Layout(); OpenSettings(); return;
             }
             _menuSettings.Destroy(); _menuSettings = null;
-            if (id != "close") OpenSettings();
+            if (id != "close") OpenSettings(); else UiSounds.Request(UiSounds.Kind.Close);
         }
 
         int TotalStars()
@@ -983,6 +987,7 @@ namespace ReverseSolver.Presentation
         {
             if (Art.On)
             {
+                if (_menuSettings == null) UiSounds.Request(UiSounds.Kind.Open);   // PM_98 §4 (rebuilt in place: no swish)
                 _menuSettings?.Destroy(); _menuSettings = new MenuSettings(_world, _screen, CardOrder);
                 PanelMotion76.Open(_menuSettings.Root, _screen / 2 + new Vector2(0, 17));   // PM_76: a soft open
                 return;
@@ -1045,7 +1050,7 @@ namespace ReverseSolver.Presentation
         {
             if (last) { if (!PlaySfx(Sfx95.Kind.Last, 1)) PlaySound("popfull"); }
             // PM_74: the tick (every exit) was the loudest sound (-14 dB peak window); -4 dB, the defuse -1.5 dB
-            else if (P21JuiceView.Enabled && (bomb || !PlaySfx(Sfx95.Kind.Exit, .62f))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
+            else if (P21JuiceView.Enabled && (bomb || !PlaySfx(Sfx95.Kind.Exit, 1f))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);   // PM_98: the exit at full (-19.5 LUFS), under the UI's -14
             if (unlocked) PlaySound("pm72-unlock");
             if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
             else if (lastTap) Haptics.Play(Haptics.Kind.Success);   // otherwise Finished taps
@@ -1135,7 +1140,7 @@ namespace ReverseSolver.Presentation
             else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) PlaySound("piece");
             // PM_75: a stuck piece that slides first knocks at the contact (BoardView.ContactHit), not here
             else if (e.Kind == EventKind.Jammed && !(_board != null && _drag != null && _drag.Piece == e.Piece && _board.WillSlide(e.Piece, _drag.Direction)))
-            { if (!PlaySfx(Sfx95.Kind.Knock, .9f)) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
+            { if (!PlaySfx(Sfx95.Kind.Knock, 1f)) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) { if (!P21WinArt) PlaySoundLater("win", .7f); }   // PM_96: the fanfare starts with the win screen
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) { PlaySound("loss"); Music.Duck(true); }   // PM_96: the level's music at 40 % under the loss
             if (e.Kind != EventKind.Finished) return;
@@ -1223,7 +1228,7 @@ namespace ReverseSolver.Presentation
             if (_deferredLoss == null || _continueOffer == null) return;
             var offer = _continueOffer;
             int before = _save.Coins;
-            if (decision == "accepted" && before < offer.Price) return;
+            if (decision == "accepted" && before < offer.Price) { UiSounds.Request(UiSounds.Kind.Dull); return; }   // PM_98 §4: too little gold
             bool ad = decision == "ad";   // PM_81 R1: the same continue, paid with an ad
             if (decision == "accepted" || ad)
             {
@@ -1375,7 +1380,7 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_p21Flow ? _index + 1 : _session.Level.Number);
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin, P21Boosters);
-                _board.ContactHit = _ => { if (!PlaySfx(Sfx95.Kind.Knock, .9f)) PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
+                _board.ContactHit = _ => { if (!PlaySfx(Sfx95.Kind.Knock, 1f)) PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
                 Perf("board");
                 _board.ExitBurst = OnExitBurst;
                 _pendingExits.Clear();
@@ -1513,9 +1518,12 @@ namespace ReverseSolver.Presentation
             Tweens.Run(f, duration, t => { if (f != null) f.Alpha(.35f * (1 - t) * (1 - t)); }, () => { if (f != null) Destroy(f.gameObject); });
         }
 
+        /* PM_98 §4: the panels a player opens swish open and closed (a card rebuilt in place: both in one frame, neither). */
+        static bool Swishes98(string kind) => kind == "pause" || kind == "settings" || kind == "ask";
         void OpenCard(string kind, Card card)
         {
             CloseCard();
+            if (Swishes98(kind)) UiSounds.Request(UiSounds.Kind.Open);
             _card = card;
             _cardKind = kind;
         }
@@ -1523,6 +1531,7 @@ namespace ReverseSolver.Presentation
         void CloseCard()
         {
             CancelCardTap();
+            if (_card != null && Swishes98(_cardKind)) UiSounds.Request(UiSounds.Kind.Close);
             _card?.Destroy();
             _card = null;
             _cardKind = null;
@@ -1669,6 +1678,12 @@ namespace ReverseSolver.Presentation
                     card.Buttons.Add((new Rect(x - round / 2 - 4, y - 4, round + 8, round + 24), id));
                 }
             });
+            if (Haptics.WebNote)   // PM_98 §5: under the vibration switch, web only
+                card.Custom(16, (content, y, w, order) =>
+                {
+                    var note = TextView.Create(content, "haptics note", Haptics.WebNoteText, 12, Draw.Hex("#234670"), false, order: CardOrder + 3);
+                    note.transform.localPosition = Draw.W(0, y + 4);   // centred under the switches (fits the panel)
+                });
             var quit = new Vector2(150, 74);
             card.Custom(quit.y + 6, (content, y, w, order) => Face(content, "menu", "T45/Buttons/exit-normal", Lang.T("Quit", "Çık"), quit, y, TextView.RimRed));
             OpenCard("pause", card.Finish());
@@ -1707,6 +1722,48 @@ namespace ReverseSolver.Presentation
         }
 
         static int _perfFrames;
+        /* PM_98 §3: a pause or settings panel over the game: the music at 35 % (back in .3 s), the game's own sounds
+           stopped (AudioListener.pause; the UI's sources ignore it). Read every frame from the panels themselves, so no
+           path that opens or drops a panel can leave it stuck. */
+        bool _panelPaused;
+        bool PanelOpen98 => _cardKind == "pause" || _cardKind == "settings" || _menuSettings != null;
+        void LateUpdate()
+        {
+            bool panel = _started && PanelOpen98;
+            if (panel != _panelPaused)
+            {
+                _panelPaused = panel;
+                Music.Panel(panel);
+                AudioListener.pause = panel;
+            }
+            foreach (var kind in UiSounds.Take()) PlayUi(kind);
+        }
+
+        /* PM_98 §4: the UI's sounds on their own few sources (a pause does not stop them; overlapping ones keep their
+           pitch); the old tick when there is none. */
+        readonly AudioSource[] _ui = new AudioSource[3];
+        int _uiNext;
+        void PlayUi(UiSounds.Kind kind)
+        {
+            UiSounds.Played?.Invoke(kind);
+            if (Art.Muted) return;
+            var clip = UiSounds.Pick(kind, out float pitch);
+            if (clip == null && kind == UiSounds.Kind.Tick) clip = Art.Sound("pm72-tick");
+            if (clip == null) return;
+            var src = _ui[_uiNext] != null ? _ui[_uiNext] : _ui[_uiNext] = gameObject.AddComponent<AudioSource>();
+            _uiNext = (_uiNext + 1) % _ui.Length;
+            src.ignoreListenerPause = true; src.playOnAwake = false;
+            src.Stop(); src.clip = clip; src.pitch = pitch; src.volume = 1; src.Play();
+        }
+
+        /* PM_98 §4: what the player can see change after a tap (the tap-feedback test compares it before and after). */
+        string UiState98() => $"{_mode}|{_cardKind}|{_tab}|{_levelsMapOpen}|{_menuSettings != null}|{_paintingDetail != null}|{_profileCard != null}|" +
+            $"{_list != null}|{_win21 != null}|{_loss74 != null}|{_continuePanel != null}|{_selected21}|{Art.Muted}|{Music.On}|{Haptics.On}|{Lang.Tr}|" +
+            $"{_session?.Level.Id}|{_diving}|{_corridor != null}|{_finale != null}";
+
+        /* PM_98 §4: a switch (sound, music, vibration, language): its own click instead of the tick. */
+        static void Toggle98() => UiSounds.Request(UiSounds.Kind.Toggle);
+
         void Update()
         {
             if (!_started) return;   // PM_81: the content is still being read
@@ -2022,7 +2079,7 @@ namespace ReverseSolver.Presentation
             if (_list != null)
             {
                 int hit = _list.Hit(pt);
-                if (hit == -2) { _list.Card.Destroy(); _list = null; }
+                if (hit == -2) { UiSounds.Request(UiSounds.Kind.Close); _list.Card.Destroy(); _list = null; }
                 else if (hit >= 0) StartLevel(hit);
                 return;
             }
@@ -2039,6 +2096,8 @@ namespace ReverseSolver.Presentation
                 if (_card != null && _cardKind == "settings")
                 {
                     string sid = _card.HitButton(pt);
+                    if (sid == "sound" || sid == "haptics" || sid == "music" || sid == "lang") Toggle98();
+                    else if (sid != null) Haptics.Button();
                     if (sid == "sound") { Art.Muted = !Art.Muted; OpenSettings(); }
                     else if (sid == "haptics") { Haptics.On = !Haptics.On; OpenSettings(); }
                     else if (sid == "music") { Music.On = !Music.On; OpenSettings(); }
@@ -2077,13 +2136,14 @@ namespace ReverseSolver.Presentation
                 }
                 string id = _card.HitButton(pt);
                 if (id == null) return;
+                if (!_cardFiring) Haptics.Button();   // PM_98 §4: a button without the pressed look ticks too
                 switch (_cardKind)
                 {
                     case "intro": _introOpen = false; CloseCard(); ShowScriptedTutorial(); break;
                     case "pause":                                   // the attempt ends as a quit when left (LeaveLevel)
-                        if (UseHud54 && id == "sound") { Art.Muted = !Art.Muted; CloseCard(); OpenPause54(); break; }
-                        if (UseHud54 && id == "music") { Music.On = !Music.On; CloseCard(); OpenPause54(); break; }
-                        if (UseHud54 && id == "haptics") { Haptics.On = !Haptics.On; CloseCard(); OpenPause54(); break; }
+                        if (UseHud54 && id == "sound") { Toggle98(); Art.Muted = !Art.Muted; CloseCard(); OpenPause54(); break; }
+                        if (UseHud54 && id == "music") { Toggle98(); Music.On = !Music.On; CloseCard(); OpenPause54(); break; }
+                        if (UseHud54 && id == "haptics") { Toggle98(); Haptics.On = !Haptics.On; CloseCard(); OpenPause54(); break; }
                         CloseCard();
                         if (id == "restart") StartLevel(_index);
                         else if (id == "menu") ShowMenu();
@@ -2152,20 +2212,22 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
-            if (UseHud54 && _bar.HitAction(pt) == BarAction.Pause) { OpenPause54(); return; }
+            if (UseHud54 && _bar.HitAction(pt) == BarAction.Pause) { Haptics.Button(); OpenPause54(); return; }   // PM_98 §3: tick + select
             if (_hud.RestartRect.Contains(pt))
             {
+                Haptics.Button();
                 if (!Art.On) { StartLevel(_index); return; }
                 OpenCard("pause", new Card(_world, _screen, CardOrder, "Pause").Title(Texts.Paused)
                     .Button("resume", Texts.Resume, true).Button("restart", Texts.Restart, false).Button("menu", Texts.MainMenu, false).Finish());
                 return;
             }
-            if (_hud.LevelRect.Contains(pt)) { OpenList(); return; }
+            if (_hud.LevelRect.Contains(pt)) { Haptics.Button(); OpenList(); return; }
 
             var b = _bar.Hit(pt);
             if (b.HasValue)
             {
-                if (!_session.IsUnlocked(b.Value)) { _bar.LockedNotice(b.Value, _session); return; }
+                Haptics.Button();
+                if (!_session.IsUnlocked(b.Value)) { UiSounds.Request(UiSounds.Kind.Dull); _bar.LockedNotice(b.Value, _session); return; }
                 _boosters.Tap(b.Value);
                 if (_boosters.Asking.HasValue)
                     OpenCard("ask", Screens.Ask(_world, _screen, _boosters, _boosters.Asking.Value, CardOrder));
@@ -2252,6 +2314,7 @@ namespace ReverseSolver.Presentation
         void OpenList()
         {
             int current = _mode == Mode.Playing ? _index : _progress.Next();
+            UiSounds.Request(UiSounds.Kind.Open);
             _list = new Screens.LevelList(_world, _screen, _set.Levels, _progress, current, CardOrder + 100);
         }
 

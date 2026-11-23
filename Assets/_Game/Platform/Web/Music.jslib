@@ -2,7 +2,8 @@
 // GitHub Pages decoded into a WebAudio buffer and looped sample-exactly, crossfaded on the dive; and the win fanfare
 // (a WAV) on the same clock, so the win screen can follow its beats (RS_MusicFanfareTime: the position the speaker is
 // playing). Starts on the first touch / key (browsers need one), pauses with the page.
-//   voice (a source + its own gain: the fades) -> duck (the level's, under a loss) -> M.gain (the switch, x volume) -> out
+//   voice (a source + its own gain: the fades) -> duck (the level's, under a loss) -> panel (PM_98: 35 % under a pause or
+//   settings panel) -> M.gain (the switch, x volume) -> out
 //   fanfare -> its own gain (the Sound switch) -> out
 // M.gain stays the master: the opening story (Intro.jslib) silences it while it plays.
 mergeInto(LibraryManager.library, {
@@ -42,7 +43,8 @@ mergeInto(LibraryManager.library, {
           M.gain = M.ctx.createGain();
           M.gain.gain.value = M.on && !(window.rsIntro && window.rsIntro.active) ? M.volume : 0;
           M.gain.connect(M.ctx.destination);
-          ['lobby', 'level'].forEach(function (name) { var T = M.tracks[name]; T.duck = M.ctx.createGain(); T.duck.connect(M.gain); });
+          M.panel = M.ctx.createGain(); M.panel.gain.value = M.panelOn ? .35 : 1; M.panel.connect(M.gain);
+          ['lobby', 'level'].forEach(function (name) { var T = M.tracks[name]; T.duck = M.ctx.createGain(); T.duck.connect(M.panel); });
           M.fan.gain = M.ctx.createGain(); M.fan.gain.connect(M.ctx.destination);
           // the scene's loop first, then the other one, then the fanfare (small)
           var first = M.scene === 'level' ? 'level' : 'lobby', second = first === 'lobby' ? 'level' : 'lobby';
@@ -107,6 +109,16 @@ mergeInto(LibraryManager.library, {
     else if (T.v && T.v.when <= now) return;
     else M.fadeOut(T, now, .005);   // a lobby waiting for a fanfare's end: now instead
     M.voice(T, now, fadeIn);
+  },
+
+  /* PM_98 §3: a pause or settings panel: the music down to 35 % in .15 s (on), back in .3 s (off). */
+  RS_MusicPanel: function (on) {
+    var M = window.rsMusic; if (!M) return;
+    M.panelOn = !!on;
+    if (!M.ctx || !M.panel) return;
+    var g = M.panel.gain, t = M.ctx.currentTime;
+    g.cancelScheduledValues(t); g.setValueAtTime(g.value, t);
+    g.linearRampToValueAtTime(on ? .35 : 1, t + (on ? .15 : .3));
   },
 
   /* A loss / time up: the level's music down to 40 % (on) and back (off). */

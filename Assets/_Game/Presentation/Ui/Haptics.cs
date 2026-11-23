@@ -54,6 +54,10 @@ namespace ReverseSolver.Presentation
             Kind.Light => 12, Kind.Medium => 22, Kind.Heavy => 35, Kind.Success => 30, Kind.Jam => 8, Kind.Error => 40, _ => 0
         };
 
+        /* PM_98 §5: the web build (iPhone Safari has no vibration): the settings say it works in the app. */
+        public static bool WebNote => Application.platform == RuntimePlatform.WebGLPlayer;
+        public static string WebNoteText => Lang.T("Vibration works in the app", "Titreşim uygulamada çalışır");
+
         /* Whether a kind plays at all under the switches. */
         public static bool Allowed(Kind kind) => On && (kind != Kind.Jam || JamOn);
 

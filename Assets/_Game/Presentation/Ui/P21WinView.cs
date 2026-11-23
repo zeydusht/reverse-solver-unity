@@ -527,6 +527,7 @@ namespace ReverseSolver.Presentation
             if (Time.unscaledTime - _started < .25f) return;
             if (_double && !_doubled && !_doubleBusy && !_chestMode && _doubleRect.Contains(point) && DoubleWatch != null)
             {
+                Haptics.Button();   // PM_98 §4: the ad button ticks
                 _doubleBusy = true;
                 DoubleWatch(ok =>
                 {
@@ -703,9 +704,10 @@ namespace ReverseSolver.Presentation
         {
             // PM_86 §3: a tap anywhere counts (light, medium, then the opening: heavy and success); while the rewards
             // fly a tap makes them twice as fast (none is lost: every flight still lands and counts)
-            if (_c83Taps >= 3) { if (_c83OpenAt >= 0) _c83Speed = 2.5f; return; }
+            if (_c83Taps >= 3) { if (_c83OpenAt >= 0) { _c83Speed = 2.5f; UiSounds.Request(UiSounds.Kind.Tick); Haptics.Play(Haptics.Kind.Select); } return; }
             if (Time.unscaledTime - _c83TapAt < 4f / 14) return;
             _c83Taps++; _c83TapAt = Time.unscaledTime;
+            UiSounds.Request(UiSounds.Kind.Tick);   // PM_98 §4: every chest tap sounds (its taps: light, medium, heavy)
             Haptics.Play(_c83Taps == 1 ? Haptics.Kind.Light : _c83Taps == 2 ? Haptics.Kind.Medium : Haptics.Kind.Heavy);
             if (_c83Taps < 3) return;
             Haptics.PlayLater(Haptics.Kind.Success, .1f);

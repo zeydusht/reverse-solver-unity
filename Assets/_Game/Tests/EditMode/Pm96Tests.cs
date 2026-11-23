@@ -9,10 +9,9 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void ZeydsChoicesAreTheDefaults()
         {
-            Assert.That(Music.DefaultLobby, Is.EqualTo('c'), "the lobby: Zeyd's music c");
+            // PM_98 §1 moved the lobby to n and the level to c (Pm98Tests); the win stays b
             Assert.That(Music.DefaultFanfare, Is.EqualTo('b'), "the win: Zeyd's b");
-            Assert.That("rstuvw".IndexOf(Music.DefaultLevel), Is.GreaterThanOrEqualTo(0), "the level: one of PM_96's new level loops");
-            Assert.That(Music.LobbyVariant, Is.EqualTo('c'));
+            Assert.That(Music.LobbyVariant, Is.EqualTo(Music.DefaultLobby));
             Assert.That(Music.LevelVariant, Is.EqualTo(Music.DefaultLevel));
             Assert.That(Music.FanfareVariant, Is.EqualTo('b'));
         }

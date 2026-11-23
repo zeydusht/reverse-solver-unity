@@ -14,6 +14,7 @@ namespace ReverseSolver.Presentation
         static readonly char[] Defaults = { 'c', 'a', 'a', 'b', 'b' };   // PM_96 §1: Zeyd's choices (the win's fanfare plays through Music)
         static readonly float[] Pitch = { .05f, .05f, .02f, 0, .04f };   // the jingles stay near their key (the music's)
         static AudioClip[][] _takes;
+        static readonly char[] _letters = new char[5];
         static readonly int[] _last = { -1, -1, -1, -1, -1 };
 
         /* The candidate's takes, null: the old sound. */
@@ -30,6 +31,7 @@ namespace ReverseSolver.Presentation
             {
                 string q = Host.Current?.Query("ses" + Keys[k]);
                 char letter = string.IsNullOrEmpty(q) ? Defaults[k] : q[0];
+                _letters[k] = letter;
                 if (letter == '0') continue;
                 var list = new System.Collections.Generic.List<AudioClip>();
                 for (int n = 1; n <= 4; n++)
@@ -56,6 +58,16 @@ namespace ReverseSolver.Presentation
         }
 
         public static bool On(Kind kind) => Takes(kind) != null;
+
+        /* PM_98: the candidate's letter in play (an unknown one: the default; '0': the old sound). */
+        public static char Letter(Kind kind)
+        {
+            var takes = Takes(kind);
+            int k = (int)kind;
+            if (takes == null) return '0';
+            string name = takes[0].name;   // <key>-<letter><n>
+            return name.Length > Keys[k].Length + 1 ? name[Keys[k].Length + 1] : _letters[k];
+        }
 
         /* A take (not the last one played) and its pitch; null: the old sound. */
         public static AudioClip Pick(Kind kind, out float pitch)

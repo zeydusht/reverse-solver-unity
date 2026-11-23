@@ -57,6 +57,87 @@ namespace ReverseSolver.PlayMode.Tests
             Host.Current = _previousHost;
         }
 
+        /* PM_98 §4: every tappable thing answers with a sound and a tap. A grid of taps over each screen (menu, its pages,
+           settings, a level, the pause panel, the win screen; 8 x 17 points); a tap that changes what the player sees (UiState98: a
+           panel, a tab, a switch, a level, a booster chosen …) must have played a UI sound (UiSounds.Played) and asked
+           for a tap (Haptics.Asked: the same call the iOS app makes, before the platform's own code). The list of the
+           ones without is written to the log and must be empty. */
+        [UnityTest, Timeout(1500000)]   // ~8 screens x 136 taps
+        public IEnumerator EveryTapHasSoundAndTap()
+        {
+            _host.Links = "c=p23&lang=tr";
+            _host.Store = new MemoryStore();
+            var save = new SaveData(_host.Store, () => "seed");
+            save.SetPlayer("QA");
+            save.MergeBest(new System.Collections.Generic.Dictionary<string, int> { ["S41"] = 3, ["S42"] = 3, ["S43"] = 3, ["SL004"] = 3 });
+            _host.Store.Set("rs_profile_p23", "0");
+            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+            yield return MenuSettled("the fresh menu");
+            int sounds = 0, taps = 0, checkedTaps = 0;
+            Action<UiSounds.Kind> onSound = _ => sounds++;
+            Action<Haptics.Kind> onTap = _ => taps++;
+            UiSounds.Played += onSound; Haptics.Asked += onTap;
+            var missing = new System.Collections.Generic.List<string>();
+            var report = new System.Text.StringBuilder();
+            string State() => (string)typeof(GameRoot).GetMethod("UiState98", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                .Invoke(UnityEngine.Object.FindAnyObjectByType<GameRoot>(), null);
+            bool Calm() => !Field<bool>("_diving") && Field<object>("_corridor") == null;
+
+            IEnumerator Menu(int tab)
+            {
+                while (!Calm()) yield return null;
+                Call("ShowMenu");
+                yield return MenuSettled("the menu");
+                if (tab > 0) { Call("ChooseTab88", tab); yield return new WaitForSecondsRealtime(.6f); }
+            }
+            IEnumerator Settings() { yield return Menu(0); Call("OpenSettings"); yield return new WaitForSecondsRealtime(.5f); }
+            IEnumerator Level()
+            {
+                while (!Calm()) yield return null;
+                Call("StartLevel", 4);
+                yield return LevelReady(5);
+            }
+            IEnumerator Pause() { yield return Level(); Call("OpenPause54"); yield return new WaitForSecondsRealtime(.5f); }
+            IEnumerator Win()
+            {
+                yield return Level();
+                Call("ShowWin21", false, true);
+                var win = Field<P21WinView>("_win21");
+                yield return WaitFor(() => !win.Entering, "the win entrance");
+                yield return new WaitForSecondsRealtime(.3f);
+            }
+            var screens = new (string name, Func<IEnumerator> setup)[]
+            {
+                ("menü", () => Menu(0)), ("koleksiyon", () => Menu(1)), ("jiggle'lar", () => Menu(2)), ("ödüller", () => Menu(3)),
+                ("ayarlar", Settings), ("bölüm", Level), ("durdur", Pause), ("kazanma", Win),
+            };
+            foreach (var (name, setup) in screens)
+            {
+                yield return setup();
+                int changed = 0;
+                for (int gy = 0; gy < 17; gy++)
+                    for (int gx = 0; gx < 8; gx++)
+                    {
+                        var pt = new Vector2(Screen.width * (.06f + .88f * gx / 7f), Screen.height * (.04f + .92f * gy / 16f));
+                        string before = State(); int s0 = sounds, t0 = taps;
+                        yield return Click(pt);
+                        yield return new WaitForSecondsRealtime(.2f);
+                        string after = State();
+                        checkedTaps++;
+                        if (after == before) continue;
+                        changed++;
+                        bool sound = sounds > s0, tap = taps > t0;
+                        if (!sound || !tap) missing.Add($"{name} ({pt.x:0},{pt.y:0}): {before} -> {after}; ses {(sound ? "var" : "YOK")}, titreşim {(tap ? "var" : "YOK")}");
+                        yield return setup();
+                    }
+                report.Append($" {name}: {changed} düğme dokunuşu;");
+                Debug.Log($"[dokunus] {name}: {changed} durum değiştiren dokunuş, eksik şimdiye dek {missing.Count}");
+            }
+            UiSounds.Played -= onSound; Haptics.Asked -= onTap;
+            Debug.Log($"[dokunus] {checkedTaps} dokunuş;{report} sessiz/titreşimsiz {missing.Count}" + (missing.Count > 0 ? ":\n" + string.Join("\n", missing) : ""));
+            Assert.That(missing, Is.Empty, "tappable things without a sound or a tap");
+        }
+
         /* PM_72: whatever the link, level 1 is the PM_60 story opening: the Jigo chat box and the gold glow; no hand, no
            big arrow, no darkening. The device carries an old P21_T01 win (an &tut=2x2 visit), which used to bring the
            prelude with the hand back on every visit without reset=1. */

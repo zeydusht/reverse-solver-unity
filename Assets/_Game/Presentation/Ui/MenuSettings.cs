@@ -39,7 +39,9 @@ namespace ReverseSolver.Presentation
                 MenuUi.Sprite21(Root, "settings-row", new Vector2(c.x, y), new Vector2(w - 30, 65), order + 2, true);
                 MenuUi.Sprite21(Root, "settings-icon-disc", new Vector2(c.x - w / 2 + 42, y), Vector2.one * 44, order + 3);
                 MenuUi.Sprite21(Root, "settings-symbol-" + keys[i], new Vector2(c.x - w / 2 + 42, y), Vector2.one * 24, order + 4);
-                MenuUi.Label(Root, Texts.SettingsRow(i), new Vector2(c.x - 28, y), 19, order + 3, true, 110, true);
+                bool note = i == 2 && Haptics.WebNote;   // PM_98 §5
+                MenuUi.Label(Root, Texts.SettingsRow(i), new Vector2(c.x - 28, y - (note ? 7 : 0)), 19, order + 3, true, 110, true);
+                if (note) MenuUi.Label(Root, Haptics.WebNoteText, new Vector2(c.x - 28, y + 15), 11, order + 3, true, 130, true);
                 float tx = c.x + w / 2 - 56;
                 Add(ids[i], states[i] ? "toggle-on-track" : "toggle-off-track", null, new Vector2(tx, y), new Vector2(65, 36), order + 3);   // above the row tile
                 MenuUi.Sprite(Root, "toggle-knob", new Vector2(tx + (states[i] ? 14 : -14), y), Vector2.one * 28, order + 4);
@@ -78,7 +80,9 @@ namespace ReverseSolver.Presentation
                 float ix = c.x - w / 2 + 44;
                 Put(Root, S + "icon-disc", new Vector2(ix, y), Vector2.one * 42, order + 3);
                 Put(Root, S + keys[i], new Vector2(ix, y), Vector2.one * 24, order + 4);
-                MenuUi.Label(Root, Texts.SettingsRow(i), new Vector2(c.x - 30, y), 19, order + 3, true, 120, true);
+                bool note = i == 2 && Haptics.WebNote;   // PM_98 §5: "vibration works in the app" (web only)
+                MenuUi.Label(Root, Texts.SettingsRow(i), new Vector2(c.x - 30, y - (note ? 7 : 0)), 19, order + 3, true, 120, true);
+                if (note) MenuUi.Label(Root, Haptics.WebNoteText, new Vector2(c.x - 30, y + 15), 11, order + 3, true, 140, true);
                 float tx = c.x + w / 2 - 58;
                 Put(Root, S + (states[i] ? "toggle-on-track" : "toggle-off-track"), new Vector2(tx, y), new Vector2(64, 34), order + 3);
                 Put(Root, S + "toggle-knob", new Vector2(tx + (states[i] ? 13 : -13), y), Vector2.one * 27, order + 4);
