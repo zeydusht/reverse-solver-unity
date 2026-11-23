@@ -16,3 +16,17 @@ Kod: `DifficultyModelV2.Rules` (üretici ve p22 testi bunları uygular). Ölçü
 - **Süre:** sn/parça 1,7–2,3. Zor bölümü süreyi kısarak değil, engel (dar an) ekleyerek zorlaştır. Bu aralıkta bombasız bölüm modelde ≥ %85: bombasızlar nefes bölümüdür.
 - **Düşündürme:** 21–40'ta her bölümde takılma/çıkış tahmini ≥ 0,5 (kilit, zincir veya duvar dar anı). Kilit en çok düşündüren engel (katsayı zincir ve duvarın ~4 katı).
 - **Ayar sırası:** fitil → süre → bombalı parçayı taşı → engel ekle/çıkar → havuzdan değiştir. Tahta düzenine gerekmedikçe dokunma; her değişiklikte yeni sürüm.
+
+## Soft launch dönemi dersleri (17–20 Kasım, PM_81–96)
+- Canlı oyunda zorluk ritmi: 4 ile biten bölüm zor, 9 ile biten çok zor, x0 nefes; finale zor yığma, zor bölümler aralıklı gelir (PM_82).
+- Engel tanıtımları ve booster açılışları ilk zor bölümden hemen önce; tanıtım asla zor slota denk gelmez (PM_82).
+- Rehber ipucu (parlama + ok) yalnız ilk 3 bölümde; sonrasında kopya yok, hangi parçanın boşta olduğunu bulmak oyunun kendisi (PM_84).
+- Reklam: ödüllü (süre +30 sn, 2× altın, booster bitince +1, menü hediyesi) + 12. bölümden sonra 3 bölümde bir geçiş; banner yok; sıklık uzaktan ayarda (PM_81/82).
+- Sandık yalnız açılmış booster verir; ekranın her yerine dokunmak açar; ödül kendiliğinden sayaca uçar, ayrı Topla düğmesi yok (PM_83/86).
+- Geçişlerde linear tween yok: kalkış yumuşak, sonda fren yok; hız grafiğini ekranda ölçerek doğrula (tepe/çukur/plato aranır) (PM_86/91/92).
+- Kamera dalışında resim çerçeveye katı bağlı; kırpım/oran farkı yalnız çerçeve görünmezken, eşit ölçekle ve tek yönde ayarlanır (PM_87/90).
+- Çizilen çizgiler ayrı katman değil, gerçek nesnenin kendi kenarı; devirde piksel farkı ölçülür (PM_84/86).
+- Sekme/menü: sayfalar önceden kurulu, basış → hareket ≤16 ms, animasyon kesilebilir; referans oyun kaydından süre ölçülür (PM_87/88).
+- Takılma hissi: lastik squash & stretch (çarpmada büyük basılma, geri sekme + küçük aşma), itilince anında tam hız (PM_93/94).
+- Ses: sentetik değil kayıtlı ve ticari lisanslı sesler; tekrarlanan seste rastgele perde; lobi ve bölüm müziği ayrı; kazanma animasyonu fanfarın vuruş haritasına oturur (PM_95/96).
+- Seçimi kullanıcıya dinleme/önizleme sayfası ya da video ile yaptır; görsel düzeltmede kapsamı dar tut, istenmeyeni değiştirme (PM_90/91).
