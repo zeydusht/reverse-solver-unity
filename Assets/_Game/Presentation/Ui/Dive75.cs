@@ -487,6 +487,7 @@ namespace ReverseSolver.Presentation
             if (!_raised && t >= (_dio != null && !_s.Seamless ? CrossIn : .22f)) Raise();
             float h0 = _flight + _p.Approach, h1 = h0 + _p.Hold, h2 = h1 + _p.Back;
             _s.FadeUi?.Invoke(1 - SmoothStep(t / .3f));   // the menu's controls, over the first .3 s
+            Cues100(t, h0, h1, h2);
             if (t < h0)
             {
                 float u = Mathf.Clamp01((t - _flight) / _p.Approach);
@@ -530,6 +531,19 @@ namespace ReverseSolver.Presentation
             _s.Slide?.Invoke(BoosterFx74.OutCubic(Mathf.Clamp01((t - (h2 - hud)) / hud)));
             LogBoard(t);
             if (t >= h2) Finish();
+        }
+
+        /* PM_100 §4: the dive's sounds on its own clock: the rising whoosh so that it ends as the picture fills the screen
+           (DiveLead before it, at the dive's present pace), the ting and the cuts' paper there, the falling whoosh as it
+           pulls back, the HUD's tick as it settles. Each once. */
+        bool _cueIn, _cueTouch, _cueBack, _cueHud;
+        void Cues100(float t, float h0, float h1, float h2)
+        {
+            float rate = Mathf.Max(.01f, _speed * Mathf.Max(.1f, SpeedK));   // the clock's s per real s
+            if (!_cueIn && t < h0 && (h0 - t) / rate <= Gecis100.DiveLead) { _cueIn = true; Gecis100.Play(Gecis100.Kind.Dalis); }
+            if (!_cueTouch && t >= h0) { _cueTouch = _cueIn = true; Gecis100.Play(Gecis100.Kind.Ting); Gecis100.Play(Gecis100.Kind.Cizgi); }
+            if (!_cueBack && t >= h1) { _cueBack = true; Gecis100.Play(Gecis100.Kind.Geri); }
+            if (!_cueHud && t >= h2) { _cueHud = true; Gecis100.Play(Gecis100.Kind.Hud); }
         }
 
         /* The hold's push in (ln of the camera's size, from the hand-over): the slow push, and with PM_91 the touch:

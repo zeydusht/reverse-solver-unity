@@ -378,6 +378,8 @@ namespace ReverseSolver.Presentation
         public const float Squash = .06f, HoldSeconds = .08f, SquashSeconds = .05f, SpringSeconds = .34f;
         /* The moment a stuck piece touches what stops it (the knock sound and the haptic). */
         public System.Action<int> ContactHit;
+        /* PM_100 §2: a stuck piece with room sets off towards its contact: (piece, the slide's seconds to the contact). */
+        public System.Action<int, float> SlideStart;
         int _contactPiece = -1;
         Dir _contactDir;
         float _contactCells;
@@ -554,6 +556,7 @@ namespace ReverseSolver.Presentation
             float impact = Mathf.Min(1, speed0 / vRef) * stretchMax;
             float total = slide + squashIn + hold + back;
             bool knocked = !slideIn;
+            if (slideIn && gap && slide > 0) SlideStart?.Invoke(piece, slide);
             System.Text.StringBuilder log = RubberLog ? new System.Text.StringBuilder() : null;
             int frames = 0, slow = 0, startFrame = Time.frameCount; float maxDt = 0, releaseDt = -1;
             float before = (Time.realtimeSinceStartup - Time.unscaledTime) * 1000;   // of the release's frame, before the knock began

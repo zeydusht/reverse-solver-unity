@@ -244,6 +244,7 @@ namespace ReverseSolver.Presentation
                 _slide.localScale = new Vector3(kk, kk, 1);
                 Place(_screen, kk, Period * Ease(u));
                 float speed = u > 0 && u < 1 ? 30 * u * u * (1 - u) * (1 - u) / 1.875f : 0;   // 0..1, 1 at the top
+                Gecis100.Corridor(speed);   // PM_100 §4: its whoosh follows the speed
                 float frame = Period * 1.875f / Slide / 60f;                                  // strip px per 60 Hz frame at the top
                 for (int i = 0; i < _trail.Length; i++)
                 {
@@ -252,7 +253,7 @@ namespace ReverseSolver.Presentation
                     _trail[i].color = new Color(1, 1, 1, .22f * Mathf.Clamp01((speed - .5f) / .5f) * alpha);
                 }
             }
-            else foreach (var r in _trail) r.color = new Color(1, 1, 1, 0);
+            else { foreach (var r in _trail) r.color = new Color(1, 1, 1, 0); Gecis100.Corridor(0); }
             _strip.color = new Color(1, 1, 1, alpha);
             _backdrop.Alpha(alpha);
             foreach (var (mesh, _, bornAt) in _paintings)
@@ -269,6 +270,7 @@ namespace ReverseSolver.Presentation
 
         void OnDestroy()
         {
+            Gecis100.Corridor(0);
             foreach (var (mesh, mat, _) in _paintings) { Destroy(mesh); Destroy(mat); }
         }
     }

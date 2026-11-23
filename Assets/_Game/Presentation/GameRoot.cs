@@ -151,6 +151,7 @@ namespace ReverseSolver.Presentation
             if (Host.Current.Query("vuruslog") == "1")         // PM_96 §5: the win screen's events against the fanfare's beats
                 P21WinView.EventShown = (what, clock, beat) => Debug.Log($"[vurus] {what} saat {clock:0.000} vurus {beat:0.000} fark {(clock - beat) * 1000:0} ms");
             Sfx95.Load();                                      // PM_95: the chosen recorded sounds, loaded now
+            Gecis100.Load();                                   // PM_100 §4: the transitions' sounds
             Haptics.Click = () => UiSounds.Request(UiSounds.Kind.Tick);   // PM_86: every button's click; PM_98 §4: loud enough (UiSounds)
             UiSounds.Preload();
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
@@ -1018,19 +1019,35 @@ namespace ReverseSolver.Presentation
         {
             var clip = Sfx95.Pick(kind, out float pitch);
             if (clip == null) return false;
+            if (SesLog) Debug.Log($"[ses] {kind} {clip.name} {Time.unscaledTime:0.000}");
             if (Art.Muted) return true;
+            // PM_100 §3: the game's effects (not the jingles) times &sfx=; over 1 a second copy on the next source, started
+            // on the same frame (the same audio clock: the two add up exactly), as a source's volume stops at 1
+            bool fx = kind != Sfx95.Kind.Win && kind != Sfx95.Kind.Tick && kind != Sfx95.Kind.Last;
+            float v = volumeScale * (fx ? Sfx95.Gain : 1);
             AudioSource src;
             if (delay > 0) src = _sfxLate != null ? _sfxLate : _sfxLate = gameObject.AddComponent<AudioSource>();   // its own: not cut by the ring
-            else
-            {
-                src = _sfx[_sfxNext] != null ? _sfx[_sfxNext] : _sfx[_sfxNext] = gameObject.AddComponent<AudioSource>();
-                _sfxNext = (_sfxNext + 1) % _sfx.Length;
-            }
+            else src = NextSfx();
             src.Stop();
-            src.clip = clip; src.pitch = pitch; src.volume = volumeScale;
+            src.clip = clip; src.pitch = pitch; src.volume = Mathf.Min(1, v);
             if (delay > 0) src.PlayDelayed(delay); else src.Play();
+            if (v > 1.001f && delay <= 0)
+            {
+                var twin = NextSfx();
+                twin.Stop(); twin.clip = clip; twin.pitch = pitch; twin.volume = Mathf.Min(1, v - 1); twin.Play();
+            }
             return true;
         }
+        /* The lift-off is 45 ms (the short one 25 ms): each plays when it is over at least 10 ms before the contact. */
+        public const float LiftRoom = .055f, LiftShortRoom = .035f;
+        AudioSource NextSfx()
+        {
+            var src = _sfx[_sfxNext] != null ? _sfx[_sfxNext] : _sfx[_sfxNext] = gameObject.AddComponent<AudioSource>();
+            _sfxNext = (_sfxNext + 1) % _sfx.Length;
+            return src;
+        }
+        /* PM_100 §2: &seslog=1 logs every effect played ([ses] kind take time), for the jam-and-exit recording. */
+        static bool SesLog => Host.Current?.Query("seslog") == "1";
 
         AudioSource _late;
         void PlaySoundLater(string key, float delay)   // the win fanfare waits for the last piece's long sparkle
@@ -1050,8 +1067,9 @@ namespace ReverseSolver.Presentation
         {
             // PM_99 §4: the last piece leaves with the ordinary exit sound (no sound of its own); the fanfare follows
             // PM_74: the tick (every exit) was the loudest sound (-14 dB peak window); -4 dB, the defuse -1.5 dB
-            if (P21JuiceView.Enabled && (bomb || !PlaySfx(Sfx95.Kind.Exit, 1f))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);   // PM_98: the exit at full (-19.5 LUFS), under the UI's -14
-            if (unlocked) PlaySound("pm72-unlock");
+            // PM_100 §3: the bomb's defuse and the lock at the effects' level (pm100), the exit as well
+            if (P21JuiceView.Enabled && (bomb ? !PlaySfx(Sfx95.Kind.Bomb, 1f) : !PlaySfx(Sfx95.Kind.Exit, 1f))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
+            if (unlocked && !PlaySfx(Sfx95.Kind.Unlock, 1f)) PlaySound("pm72-unlock");
             if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
             else if (lastTap) Haptics.Play(Haptics.Kind.Success);   // otherwise Finished taps
         }
@@ -1135,7 +1153,7 @@ namespace ReverseSolver.Presentation
             else if (P21JuiceView.Enabled && e.Kind == EventKind.NailFreed)
             {
                 if (_exitFrame == Time.frameCount && _pendingExits.Count > 0) _unlockPending = true;
-                else { PlaySound("pm72-unlock"); Haptics.Play(Haptics.Kind.Light); }
+                else { if (!PlaySfx(Sfx95.Kind.Unlock, 1f)) PlaySound("pm72-unlock"); Haptics.Play(Haptics.Kind.Light); }
             }
             else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) PlaySound("piece");
             // PM_75: a stuck piece that slides first knocks at the contact (BoardView.ContactHit), not here
@@ -1381,6 +1399,14 @@ namespace ReverseSolver.Presentation
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin, P21Boosters);
                 _board.ContactHit = _ => { if (!PlaySfx(Sfx95.Kind.Knock, 1f)) PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
+                // PM_100 §2: a jam that slides first: a short soft lift-off as it sets off, over before the knock at the
+                // contact (a slide too short for both: the knock alone)
+                _board.SlideStart = (_, slide) =>
+                {
+                    if (SesLog) Debug.Log($"[ses] kayma {slide * 1000:0} ms temasa");
+                    if (slide >= LiftRoom) PlaySfx(Sfx95.Kind.Lift, 1f);
+                    else if (slide >= LiftShortRoom) PlaySfx(Sfx95.Kind.LiftShort, 1f);
+                };
                 Perf("board");
                 _board.ExitBurst = OnExitBurst;
                 _pendingExits.Clear();

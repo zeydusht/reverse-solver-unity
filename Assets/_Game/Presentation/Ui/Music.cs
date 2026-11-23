@@ -15,7 +15,18 @@ namespace ReverseSolver.Presentation
     {
         public const string Url = "https://zeydusht.github.io/reverse-solver-unity/music/music.mp3";
         const string Pages = "https://zeydusht.github.io/reverse-solver-unity/music/";
-        const float Volume = .35f;
+        /* PM_100 §3 (Zeyd: "the knock and the drag sounds stay far behind"): the music 3 dB down (.35 -> .248);
+           &muzikses= a factor on it (0.7: 3 dB less again), for Zeyd to try before a new default. */
+        public const float BaseVolume = .248f;
+        public static float Gain
+        {
+            get
+            {
+                string q = Host.Current?.Query("muzikses");
+                return !string.IsNullOrEmpty(q) && float.TryParse(q, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float g) ? Mathf.Clamp(g, 0, 2) : 1;
+            }
+        }
+        static float Volume => BaseVolume * Gain;
         const double LoopSeconds = 2540160 / 44100.0;          // the old WAV's exact length: the loop point
 
         /* Every loop by its letter: PM_86's five (docs/art/pm86/MUZIK_LISANS.md), PM_95's eight (docs/art/pm95/LISANS.md),
@@ -92,6 +103,23 @@ namespace ReverseSolver.Presentation
         }
         static string FanfareUrl(string key) => $"{Pages}pm96/kazanma-{key}.wav";
 
+        /* PM_100 §1: the win fanfare b in other instruments, the same notes, rhythm and length (Tools/make_fanfare100.py),
+           so its beat map (b, b5) is theirs too: &kazanmaton=piyano (today's, the default) | marimba | pizz | ksilofon |
+           kutu | bakir. Only for b; the beats stay FanfareKey's. */
+        public static readonly string[] Tones = { "piyano", "marimba", "pizz", "ksilofon", "kutu", "bakir" };
+        public const string DefaultTone = "piyano";
+        public static string Tone
+        {
+            get
+            {
+                string q = Host.Current?.Query("kazanmaton");
+                if (!string.IsNullOrEmpty(q)) foreach (var t in Tones) if (t == q) return t;
+                return DefaultTone;
+            }
+        }
+        /* The clip's key: b5-marimba ..., the beats' own key with the piano. */
+        public static string FanfareClipKey => FanfareVariant == 'b' && Tone != DefaultTone ? FanfareKey + "-" + Tone : FanfareKey;
+
         /* The chosen fanfare's beats (s from its start, the screen's events) and the strongest one's index. */
         public static float[] Beats => BeatMap.Of(FanfareKey).beats;
         public static int StrongBeat => BeatMap.Of(FanfareKey).strong;
@@ -121,8 +149,8 @@ namespace ReverseSolver.Presentation
         public static void Start(MonoBehaviour host)
         {
             var a = Track(LobbyVariant); var b = Track(LevelVariant);
-            RS_MusicInit(a.url, a.start, a.length, b.url, b.start, b.length, FanfareUrl(FanfareKey), Volume, On ? 1 : 0);
-            Debug.Log($"[muzik] lobi {Name(LobbyVariant)}, bolum {Name(LevelVariant)}, kazanma {FanfareKey} ({Beats.Length} vurus)");
+            RS_MusicInit(a.url, a.start, a.length, b.url, b.start, b.length, FanfareUrl(FanfareClipKey), Volume, On ? 1 : 0);
+            Debug.Log($"[muzik] lobi {Name(LobbyVariant)}, bolum {Name(LevelVariant)}, kazanma {FanfareKey} ({Beats.Length} vurus, {Tone}), ses {Volume:0.000}");
         }
         static void Apply() => RS_MusicSetOn(On ? 1 : 0);
         public static void Play(Scene scene, float fadeOut = CrossFade, float fadeIn = CrossFade) => RS_MusicScene(scene == Scene.Level ? 1 : 0, fadeOut, fadeIn);
@@ -160,12 +188,21 @@ namespace ReverseSolver.Presentation
         static AudioClip FanfareClip(string key)
         {
             if (key == "0") return Art.Sound("win");
+#if UNITY_EDITOR
+            // PM_100: the other instruments are web-only files (GitHub Pages); the editor reads them where they are made
+            if (key.Contains("-"))
+            {
+                var tone = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>($"Assets/Audio/Fanfare96/kazanma-{key}.wav");
+                if (tone != null) return tone;
+                key = key.Substring(0, key.IndexOf('-'));
+            }
+#endif
             return Resources.Load<AudioClip>($"Art/audio/pm96/kazanma-{key}") ?? Resources.Load<AudioClip>($"Art/audio/pm95/kazan-{key[0]}1");
         }
         public static bool Fanfare()
         {
             _fanAt = -1;
-            var clip = FanfareClip(FanfareKey);
+            var clip = FanfareClip(FanfareClipKey);
             if (_fan == null || clip == null) return false;
             _fan.Stop();
             _fan.clip = clip; _fan.volume = Art.Muted ? 0 : 1;

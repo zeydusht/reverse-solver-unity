@@ -9,13 +9,27 @@ namespace ReverseSolver.Presentation
        on the first play). A play picks a take at random, never the one just played, and shifts the pitch a little. */
     public static class Sfx95
     {
-        public enum Kind { Exit, Knock, Last, Win, Tick }
-        static readonly string[] Keys = { "cikis", "carpma", "bitis", "kazan", "tik" };
-        static readonly char[] Defaults = { 'f', 'a', 'a', 'b', 'b' };   // PM_96 §1: Zeyd's choices; PM_99 §2: the soft swish f (docs/art/pm99)
-        static readonly float[] Pitch = { .04f, .05f, .02f, 0, .04f };   // PM_99: the exit +-4 %; the jingles stay near their key
+        /* PM_100 §2-3: Lift, the short soft lift-off of a jam that slides (the exit's own first 45 ms, its letter the
+           exit's); Bomb and Unlock, the bomb's defuse and the lock's opening at the effects' level (pm100). */
+        public enum Kind { Exit, Knock, Last, Win, Tick, Lift, Bomb, Unlock, LiftShort }
+        static readonly string[] Keys = { "cikis", "carpma", "bitis", "kazan", "tik", "kalkis", "bomba", "kilit", "kalkisk" };
+        static readonly char[] Defaults = { 'f', 'a', 'a', 'b', 'b', 'f', 'a', 'a', 'f' };   // PM_96 §1: Zeyd's choices; PM_99 §2: the soft swish f (docs/art/pm99)
+        static readonly float[] Pitch = { .04f, .05f, .02f, 0, .04f, .04f, .02f, .03f, .04f };   // PM_99: the exit +-4 %; the jingles stay near their key
         static AudioClip[][] _takes;
-        static readonly char[] _letters = new char[5];
-        static readonly int[] _last = { -1, -1, -1, -1, -1 };
+        static readonly char[] _letters = new char[9];
+        static readonly int[] _last = { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+
+        /* PM_100 §3: &sfx= a factor on the game's effects (exit, lift, knock, bomb, lock; 1.5: +3.5 dB), for Zeyd to try
+           before a new default. Above 1 the game plays a second copy with the first (GameRoot.PlaySfx): a source's volume
+           stops at 1. */
+        public static float Gain
+        {
+            get
+            {
+                string q = Host.Current?.Query("sfx");
+                return !string.IsNullOrEmpty(q) && float.TryParse(q, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float g) ? Mathf.Clamp(g, 0, 3) : 1;
+            }
+        }
 
         /* The candidate's takes, null: the old sound. */
         static AudioClip[] Takes(Kind kind)
@@ -31,6 +45,7 @@ namespace ReverseSolver.Presentation
             {
                 string q = Host.Current?.Query("ses" + Keys[k]);
                 char letter = string.IsNullOrEmpty(q) ? Defaults[k] : q[0];
+                if ((Kind)k == Kind.Lift || (Kind)k == Kind.LiftShort) letter = _letters[(int)Kind.Exit] == '0' ? '0' : Letter(Kind.Exit);   // the exit's own
                 _letters[k] = letter;
                 if (letter == '0') continue;
                 var list = new System.Collections.Generic.List<AudioClip>();
@@ -59,9 +74,11 @@ namespace ReverseSolver.Presentation
 
         public static bool On(Kind kind) => Takes(kind) != null;
 
-        /* PM_99: a take from PM_99's sounds (the soft exits f-j, the louder knock a) before PM_95's. */
+        /* PM_99: a take from PM_99's sounds (the soft exits f-j, the louder knock a) before PM_95's; PM_100: its own
+           (the exits high-passed, the knock softened on top, all at the effects' level) before both. */
         static AudioClip Take(string key, char letter, int n) =>
-            Resources.Load<AudioClip>($"Art/audio/pm99/{key}-{letter}{n}") ?? Resources.Load<AudioClip>($"Art/audio/pm95/{key}-{letter}{n}");
+            Resources.Load<AudioClip>($"Art/audio/pm100/{key}-{letter}{n}") ?? Resources.Load<AudioClip>($"Art/audio/pm99/{key}-{letter}{n}") ??
+            Resources.Load<AudioClip>($"Art/audio/pm95/{key}-{letter}{n}");
 
         /* PM_98: the candidate's letter in play (an unknown one: the default; '0': the old sound). */
         public static char Letter(Kind kind)

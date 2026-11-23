@@ -1,0 +1,75 @@
+{
+ "mix": {
+  "tik (UI, referans)": {
+   "before": -16.1,
+   "after": -16.1,
+   "peak": -1.0,
+   "phone_before": -22.4,
+   "phone_after": -22.4
+  },
+  "çıkış (kayma, f)": {
+   "before": -19.2,
+   "after": -15.0,
+   "peak": -3.0,
+   "centroid_before": 2175,
+   "centroid_after": 3535,
+   "phone_before": -31.3,
+   "phone_after": -19.7
+  },
+  "kalkış (takılmada, yeni)": {
+   "before": null,
+   "after": -23.6,
+   "peak": -3.0,
+   "length_ms": 45
+  },
+  "takılma (çarpma a)": {
+   "before": -14.7,
+   "after": -14.9,
+   "peak": -3.0,
+   "centroid_before": 735,
+   "centroid_after": 275,
+   "phone_before": -23.8,
+   "phone_after": -22.0
+  },
+  "bomba (defuse)": {
+   "before": -16.9,
+   "after": -14.6,
+   "peak": -3.0,
+   "phone_before": -17.3,
+   "phone_after": -15.3
+  },
+  "kilit (açılma)": {
+   "before": -20.5,
+   "after": -14.6,
+   "peak": -3.0,
+   "phone_before": -20.8,
+   "phone_after": -14.7
+  },
+  "bölüm müziği E": {
+   "before": -24.5,
+   "after": -27.5,
+   "peak": -13.5,
+   "phone_before": -28.3,
+   "phone_after": -31.3
+  },
+  "lobi müziği n": {
+   "before": -24.1,
+   "after": -27.1,
+   "peak": -19.5,
+   "phone_before": -28.6,
+   "phone_after": -31.6
+  },
+  "kazanma fanfarı b5": {
+   "before": -10.5,
+   "after": -10.5,
+   "peak": -0.4
+  }
+ },
+ "test": {
+  "jam_centroid": 592,
+  "exit_centroid": 3437,
+  "lift_ms": 45,
+  "contact_ms": 70,
+  "overlap_ms": 0
+ }
+}
