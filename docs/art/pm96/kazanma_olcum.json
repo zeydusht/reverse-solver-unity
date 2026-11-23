@@ -1,0 +1,50 @@
+{
+ "letter": "b",
+ "start": 4.7332879818594105,
+ "similarity": 0.9987282410060238,
+ "frame_ms": 16.99999999999946,
+ "events": [
+  {
+   "event": "ışık",
+   "beat": 1,
+   "beat_time": 0.0,
+   "first_frame_ms": -39.3
+  },
+  {
+   "event": "başlık",
+   "beat": 2,
+   "beat_time": 0.525,
+   "first_frame_ms": -31.3
+  },
+  {
+   "event": "Jiggle 1",
+   "beat": 3,
+   "beat_time": 0.782,
+   "first_frame_ms": -38.3
+  },
+  {
+   "event": "Jiggle 2",
+   "beat": 4,
+   "beat_time": 0.944,
+   "first_frame_ms": -33.3
+  },
+  {
+   "event": "Jiggle 3",
+   "beat": 6,
+   "beat_time": 1.753,
+   "first_frame_ms": -26.3
+  },
+  {
+   "event": "konfeti + Jigo",
+   "beat": 5,
+   "beat_time": 1.407,
+   "first_frame_ms": -27.3
+  },
+  {
+   "event": "altın +50",
+   "beat": 7,
+   "beat_time": 1.909,
+   "first_frame_ms": -30.3
+  }
+ ]
+}

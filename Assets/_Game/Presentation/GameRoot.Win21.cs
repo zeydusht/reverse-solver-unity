@@ -40,6 +40,9 @@ namespace ReverseSolver.Presentation
                 ? ChestEconomy.Plan(_session.Level, Live.Config, save.BoosterStock(), () => Random.value) : null;
             P21WinView.DoubleOffer = OfferDoubleGold81;      // PM_81 R2
             P21WinView.DoubleWatch = WatchDoubleGold81;
+            // PM_96 §4-5: the fanfare starts with the screen, on its second frame (the level's music cut in .15 s, the
+            // lobby's back after it); the screen's events follow its beats
+            P21WinView.PlayFanfare = true;
             _win21 = new P21WinView(transform, _screen, WinTargets21(), save, _session.Level.Pieces.Count,
                 preview || ContinueEnabled ? _continueRules.WinCoins : 0, chest, NextWin21, () =>
                 {

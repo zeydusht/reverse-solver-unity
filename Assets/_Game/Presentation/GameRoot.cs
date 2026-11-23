@@ -147,7 +147,9 @@ namespace ReverseSolver.Presentation
         void StartGame()
         {
             Art.T28 = Host.Current.Query("art") != "eski";
-            Music.Start(this);                                 // the menu and the levels share one loop
+            Music.Start(this);                                 // PM_96: the lobby's loop in the menu, the level's in play
+            if (Host.Current.Query("vuruslog") == "1")         // PM_96 §5: the win screen's events against the fanfare's beats
+                P21WinView.EventShown = (what, clock, beat) => Debug.Log($"[vurus] {what} saat {clock:0.000} vurus {beat:0.000} fark {(clock - beat) * 1000:0} ms");
             Sfx95.Load();                                      // PM_95: the chosen recorded sounds, loaded now
             Haptics.Click = () => { if (!PlaySfx(Sfx95.Kind.Tick, .45f)) PlaySound("pm72-tick", .45f); };   // PM_86: every button's click
             Materials.Init(pieceMaterial, shapeMaterial, solidMaterial, backgroundMaterial);
@@ -575,6 +577,7 @@ namespace ReverseSolver.Presentation
             _session = null;
             if (PlayOverride.Exit != null) { PlayOverride.Exit(); return; }   // back to the level editor
             _mode = Mode.Menu;
+            Music.Play(Music.Scene.Lobby);   // PM_96: the level's music fades out, the lobby's comes back
             Layout();
             AskProfileIfDue();
         }
@@ -634,6 +637,7 @@ namespace ReverseSolver.Presentation
                 i => i >= 0 && i + (_p21Flow ? 2 : 0) < _set.Levels.Count && _progress.Won(i + (_p21Flow ? 2 : 0))) : null;
             _inventory?.Apply(_session);
             _session.EventRaised += OnEvent;
+            Music.Play(Music.Scene.Level);   // PM_96: as the dive pulls back from the painting; the lobby's fades out
             _boosters = new BoosterControls(_session);
             _moveT0 = _moveLast = Time.unscaledTime;
             _moveNo = 0;
@@ -1132,8 +1136,8 @@ namespace ReverseSolver.Presentation
             // PM_75: a stuck piece that slides first knocks at the contact (BoardView.ContactHit), not here
             else if (e.Kind == EventKind.Jammed && !(_board != null && _drag != null && _drag.Piece == e.Piece && _board.WillSlide(e.Piece, _drag.Direction)))
             { if (!PlaySfx(Sfx95.Kind.Knock, .9f)) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }
-            else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) { if (!PlaySfx(Sfx95.Kind.Win, 1, .7f)) PlaySoundLater("win", .7f); }
-            else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) PlaySound("loss");
+            else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) { if (!P21WinArt) PlaySoundLater("win", .7f); }   // PM_96: the fanfare starts with the win screen
+            else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) { PlaySound("loss"); Music.Duck(true); }   // PM_96: the level's music at 40 % under the loss
             if (e.Kind != EventKind.Finished) return;
             Debug.Log($"[input] flick={_flickInputs} drag={_dragInputs}");
             if (ContinueEnabled && (e.Outcome == Outcome.Time || e.Outcome == Outcome.Bomb))
@@ -1157,7 +1161,7 @@ namespace ReverseSolver.Presentation
             if (e.Outcome == Outcome.Quit) return;
             if (e.Outcome == Outcome.Bomb) { Flash(Draw.Hex("#e8674c"), .45f); Haptics.Play(Haptics.Kind.Heavy); }   // bomb: red flash + swell
             else if (e.Outcome != Outcome.Win) Haptics.Play(Haptics.Kind.Error);   // PM_86 §4: time up, a loss
-            if (e.Outcome == Outcome.Win) { if (_pendingExits.Count == 0) Haptics.Play(Haptics.Kind.Success); Music.Duck(.6f, Sfx95.On(Sfx95.Kind.Win) ? Mathf.Max(2f, Sfx95.Length(Sfx95.Kind.Win) - .4f) : 2f); }   // the fanfare comes at .7 s (PM_95: the music stays down under the longer jingle); a dragged last piece taps at the edge
+            if (e.Outcome == Outcome.Win && _pendingExits.Count == 0) Haptics.Play(Haptics.Kind.Success);   // a dragged last piece taps at the edge
             _endAt = Time.unscaledTime + (e.Outcome == Outcome.Win ? .35f : .5f);
             // PM_MESAJ_18: the pieces are out, the painting is free; it stays whole for a second before the card
             if (!P21WinArt && e.Outcome == Outcome.Win && _paintSet && _board != null && _board.Image != null) { ShowFinishedPicture(true); _endAt += 1f; }
@@ -1231,6 +1235,7 @@ namespace ReverseSolver.Presentation
                 _deferredLoss = null;
                 CloseContinue();
                 CloseCard();
+                Music.Duck(false);   // PM_96: play goes on, so does its music
                 if (P21Boosters && TutorialActive && _spotlight == null) ShowScriptedTutorial();
                 RefreshPlaying();
             }

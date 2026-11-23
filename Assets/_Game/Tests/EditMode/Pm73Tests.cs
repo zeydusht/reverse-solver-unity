@@ -9,7 +9,10 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void WinEntranceIsShort()
         {
-            Assert.That(P21WinView.EntranceSeconds, Is.LessThanOrEqualTo(1.2f));
+            // PM_96: the entrance follows the fanfare's beats; the chosen one's last beat ends it
+            var beats = BeatMap.Of(Music.DefaultFanfare).beats;
+            Assert.That(beats[beats.Length - 1], Is.LessThanOrEqualTo(2.0f));
+            Assert.That(BeatMap.Fallback.beats[BeatMap.Fallback.beats.Length - 1], Is.LessThanOrEqualTo(1.2f));
         }
 
         [Test]

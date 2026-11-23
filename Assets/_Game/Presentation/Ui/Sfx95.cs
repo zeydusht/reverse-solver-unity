@@ -11,7 +11,7 @@ namespace ReverseSolver.Presentation
     {
         public enum Kind { Exit, Knock, Last, Win, Tick }
         static readonly string[] Keys = { "cikis", "carpma", "bitis", "kazan", "tik" };
-        static readonly char[] Defaults = { 'b', 'a', 'a', 'a', 'b' };   // docs/art/pm95/RAPOR.md: why these
+        static readonly char[] Defaults = { 'c', 'a', 'a', 'b', 'b' };   // PM_96 §1: Zeyd's choices (the win's fanfare plays through Music)
         static readonly float[] Pitch = { .05f, .05f, .02f, 0, .04f };   // the jingles stay near their key (the music's)
         static AudioClip[][] _takes;
         static readonly int[] _last = { -1, -1, -1, -1, -1 };

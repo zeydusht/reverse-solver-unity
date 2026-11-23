@@ -648,9 +648,10 @@ namespace ReverseSolver.PlayMode.Tests
                 yield return new WaitForSecondsRealtime(.15f);
             }
             yield return WaitFor(() => WinScreen != null, "the win screen");
-            yield return new WaitForSecondsRealtime(1.5f);
             var win = Field<P21WinView>("_win21");
             Assert.That(win, Is.Not.Null, "the win view");
+            yield return WaitFor(() => !win.Entering, "the win entrance (PM_96: on the fanfare's beats)");
+            yield return new WaitForSecondsRealtime(.3f);
             var menuRect = (Rect)typeof(P21WinView).GetField("_menuRect", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(win);
             yield return Click(menuRect.center);   // the win screen's Menu
             yield return Check("Collection, win, Menu");
