@@ -1,0 +1,301 @@
+{
+ "gecis": {
+  "koridor": [
+   {
+    "letter": "a",
+    "name": "Rüzgâr (yumuşak hava)",
+    "credit": "Wind Whoosh Loop (OpenGameArt)",
+    "link": "https://opengameart.org/content/wind-whoosh-loop",
+    "file": "gecis-koridor-a.wav",
+    "seconds": 2.0,
+    "lufs": -30.0,
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Okyanus davulu (boncuk hışırtısı)",
+    "credit": "VCSL",
+    "link": "https://github.com/sgossner/VCSL",
+    "file": "gecis-koridor-b.wav",
+    "seconds": 2.0,
+    "lufs": -30.0,
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Hava (parlak whoosh)",
+    "credit": "Air Whoosh (OpenGameArt)",
+    "link": "https://opengameart.org/content/air-whoosh",
+    "file": "gecis-koridor-c.wav",
+    "seconds": 2.0,
+    "lufs": -30.0,
+    "default": false
+   }
+  ],
+  "dalis": [
+   {
+    "letter": "a",
+    "name": "Hava, içeri",
+    "credit": "Air Whoosh (OpenGameArt)",
+    "link": "https://opengameart.org/content/air-whoosh",
+    "file": "gecis-dalis-a.wav",
+    "seconds": 0.6,
+    "lufs": -30.0,
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Rüzgâr, yükselen",
+    "credit": "Wind Whoosh Loop (OpenGameArt)",
+    "link": "https://opengameart.org/content/wind-whoosh-loop",
+    "file": "gecis-dalis-b.wav",
+    "seconds": 0.61,
+    "lufs": -30.0,
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Ters swish",
+    "credit": "Swish - bamboo stick weapon swhoshes (OpenGameArt)",
+    "link": "https://opengameart.org/content/swish-bamboo-stick-weapon-swhoshes",
+    "file": "gecis-dalis-c.wav",
+    "seconds": 0.58,
+    "lufs": -30.0,
+    "default": false
+   }
+  ],
+  "ting": [
+   {
+    "letter": "a",
+    "name": "Glockenspiel parıltısı",
+    "credit": "VCSL",
+    "link": "https://github.com/sgossner/VCSL",
+    "file": "gecis-ting-a.wav",
+    "seconds": 0.9,
+    "lufs": -29.0,
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Küçük çan",
+    "credit": "Bell Dings/Chimes (OpenGameArt)",
+    "link": "https://opengameart.org/content/bell-dingschimes",
+    "file": "gecis-ting-b.wav",
+    "seconds": 2.04,
+    "lufs": -29.0,
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Üçgen",
+    "credit": "VCSL",
+    "link": "https://github.com/sgossner/VCSL",
+    "file": "gecis-ting-c.wav",
+    "seconds": 0.9,
+    "lufs": -29.0,
+    "default": false
+   }
+  ],
+  "cizgi": [
+   {
+    "letter": "a",
+    "name": "Kâğıt hışırtısı",
+    "credit": "Kenney, Casino Audio",
+    "link": "https://kenney.nl/assets/casino-audio",
+    "file": "gecis-cizgi-a.wav",
+    "seconds": 0.57,
+    "lufs": -36.0,
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Sayfa",
+    "credit": "Kenney, RPG Audio",
+    "link": "https://kenney.nl/assets/rpg-audio",
+    "file": "gecis-cizgi-b.wav",
+    "seconds": 0.23,
+    "lufs": -36.0,
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Fırça (küçük çalkalayıcı)",
+    "credit": "VCSL",
+    "link": "https://github.com/sgossner/VCSL",
+    "file": "gecis-cizgi-c.wav",
+    "seconds": 0.75,
+    "lufs": -36.0,
+    "default": false
+   }
+  ],
+  "geri": [
+   {
+    "letter": "a",
+    "name": "Hava, dışarı",
+    "credit": "Air Whoosh (OpenGameArt)",
+    "link": "https://opengameart.org/content/air-whoosh",
+    "file": "gecis-geri-a.wav",
+    "seconds": 0.75,
+    "lufs": -31.0,
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Rüzgâr, alçalan",
+    "credit": "Wind Whoosh Loop (OpenGameArt)",
+    "link": "https://opengameart.org/content/wind-whoosh-loop",
+    "file": "gecis-geri-b.wav",
+    "seconds": 0.71,
+    "lufs": -31.0,
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Swish, yavaş",
+    "credit": "Swish - bamboo stick weapon swhoshes (OpenGameArt)",
+    "link": "https://opengameart.org/content/swish-bamboo-stick-weapon-swhoshes",
+    "file": "gecis-geri-c.wav",
+    "seconds": 0.58,
+    "lufs": -31.0,
+    "default": false
+   }
+  ],
+  "hud": [
+   {
+    "letter": "a",
+    "name": "Yumuşak tık",
+    "credit": "Kenney, UI Audio",
+    "link": "https://kenney.nl/assets/ui-audio",
+    "file": "gecis-hud-a.wav",
+    "seconds": 0.05,
+    "lufs": -29.0,
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Küçük tık",
+    "credit": "Kenney, Interface Sounds",
+    "link": "https://kenney.nl/assets/interface-sounds",
+    "file": "gecis-hud-b.wav",
+    "seconds": 0.01,
+    "lufs": -31.4,
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Cam tık",
+    "credit": "Kenney, Impact Sounds",
+    "link": "https://kenney.nl/assets/impact-sounds",
+    "file": "gecis-hud-c.wav",
+    "seconds": 0.2,
+    "lufs": -29.0,
+    "default": false
+   }
+  ],
+  "sekme": [
+   {
+    "letter": "a",
+    "name": "Kısa swish",
+    "credit": "artisticdude, Swishes Sound Pack",
+    "link": "https://opengameart.org/content/swishes-sound-pack",
+    "file": "gecis-sekme-a.wav",
+    "seconds": 0.07,
+    "lufs": -29.0,
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Kısa swish 2",
+    "credit": "artisticdude, Swishes Sound Pack",
+    "link": "https://opengameart.org/content/swishes-sound-pack",
+    "file": "gecis-sekme-b.wav",
+    "seconds": 0.08,
+    "lufs": -29.0,
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Kart kayması",
+    "credit": "Kenney, Casino Audio",
+    "link": "https://kenney.nl/assets/casino-audio",
+    "file": "gecis-sekme-c.wav",
+    "seconds": 0.45,
+    "lufs": -29.0,
+    "default": false
+   }
+  ]
+ },
+ "mix": {
+  "tik (UI, referans)": {
+   "before": -16.1,
+   "after": -16.1,
+   "peak": -1.0,
+   "phone_before": -22.4,
+   "phone_after": -22.4
+  },
+  "çıkış (kayma, f)": {
+   "before": -19.2,
+   "after": -15.0,
+   "peak": -3.0,
+   "centroid_before": 2175,
+   "centroid_after": 3535,
+   "phone_before": -31.3,
+   "phone_after": -19.7
+  },
+  "kalkış (takılmada, yeni)": {
+   "before": null,
+   "after": -23.6,
+   "peak": -3.0,
+   "length_ms": 45
+  },
+  "takılma (çarpma a)": {
+   "before": -14.7,
+   "after": -14.9,
+   "peak": -3.0,
+   "centroid_before": 735,
+   "centroid_after": 275,
+   "phone_before": -23.8,
+   "phone_after": -22.0
+  },
+  "bomba (defuse)": {
+   "before": -16.9,
+   "after": -14.6,
+   "peak": -3.0,
+   "phone_before": -17.3,
+   "phone_after": -15.3
+  },
+  "kilit (açılma)": {
+   "before": -20.5,
+   "after": -14.6,
+   "peak": -3.0,
+   "phone_before": -20.8,
+   "phone_after": -14.7
+  },
+  "bölüm müziği E": {
+   "before": -24.5,
+   "after": -27.5,
+   "peak": -13.5,
+   "phone_before": -28.3,
+   "phone_after": -31.3
+  },
+  "lobi müziği n": {
+   "before": -24.1,
+   "after": -27.1,
+   "peak": -19.5,
+   "phone_before": -28.6,
+   "phone_after": -31.6
+  },
+  "kazanma fanfarı b5": {
+   "before": -10.5,
+   "after": -10.5,
+   "peak": -0.4
+  }
+ },
+ "test": {
+  "jam_centroid": 592,
+  "exit_centroid": 3437,
+  "lift_ms": 45,
+  "contact_ms": 70,
+  "overlap_ms": 0
+ }
+}

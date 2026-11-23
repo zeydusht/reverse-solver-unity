@@ -45,12 +45,16 @@
   .beats i.s { border-color:var(--orange); }
   .beats i.on { background:var(--orange); transform:scale(1.35); }
   section.new > h2::after { content:' · yeni'; color:var(--gold); font-size:15px; }
+  h3.sub { font-size:16px; margin:14px 0 2px; }
+  table.mix { width:100%; border-collapse:collapse; font-size:14px; margin:8px 0; }
+  table.mix td, table.mix th { border-bottom:1px solid var(--line); padding:4px 6px; text-align:left; }
+  table.mix td:not(:first-child), table.mix th:not(:first-child) { text-align:right; white-space:nowrap; }
 </style>
 </head>
 <body>
 <header>
   <h1>Ses seçimi</h1>
-  <p>Yeni yumuşak çıkış sesleri en üstte. Her sesi dinle, beğendiğini <b>Seç</b>. "10 çıkış art arda" aynı sesi oyundaki gibi on kez dinletir. "Oyunda dene" o sesle 3. bölümü açar.</p>
+  <p>En üstte yeniler: kazanma fanfarının tınıları, geçiş sesleri ve yeni ses düzeyi. Her sesi dinle, beğendiğini <b>Seç</b>. "Oyunda dene" o sesle 3. bölümü açar.</p>
 </header>
 <main>
   <div class="warn">iPhone: yan taraftaki <b>sessiz anahtarı kapalı</b> olsun. İlk dokunuşta ses açılır. Fanfarda noktalar kazanma ekranındaki olayların vuruşlarını gösterir. Turuncu kenarlı nokta en güçlü vuruş: konfeti ve Jigo'nun zıplaması.</div>
@@ -119,7 +123,7 @@
   // PM_96 §1: Zeyd's choices are the defaults; the level's until he picks: r
   // PM_98 §1: Zeyd's picks (23 Nov); the level c for now
   // PM_99: the level E (Zeyd, 23 Nov), the exit f (the softest, shortest); the last piece has no sound of its own now
-  var KEYS = { lobi:'n', bolum:'E', kazanma:'b', cikis:'f', carpma:'a', tik:'b' };
+  var KEYS = { lobi:'n', bolum:'E', kazanma:'b', ton:'piyano', cikis:'f', carpma:'a', tik:'b', koridor:'a', dalis:'a', cizgi:'a', geri:'a', sekme:'a' };
   // PM_98 §2: the level's new candidates. A-D ours (VCSL recordings + our bass; Tools/make_level98.py), E-G found (CC0).
   // perc: the percussive share (the reference: 0.92); the bar was 0.6
   var LEVEL98 = [
@@ -134,10 +138,11 @@
   LEVEL98.forEach(function (m) { m.url = '../../music/pm98/music-' + m.l + '.mp3'; m.local = '../../../../Assets/Audio/Music98/music-' + m.l + '.mp3'; m.start = 1105 / 44100; });
   // the reference (Block Out!) is never published: only a local preview of the repo finds it
   var REF = '../../pm96/ref/ref_bolum.mp3';
-  var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', cikis:'Çıkış', carpma:'Çarpma', tik:'Tık' };
-  var FLAGS = { lobi:'lobi', bolum:'bolummuzik', kazanma:'kazanma', cikis:'sescikis', carpma:'sescarpma', bitis:'sesbitis', tik:'sestik' };
+  var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', ton:'Tını', cikis:'Çıkış', carpma:'Çarpma', tik:'Tık', koridor:'Koridor', dalis:'Dalış', cizgi:'Çizgi', geri:'Geri', sekme:'Sekme' };
+  var FLAGS = { lobi:'lobi', bolum:'bolummuzik', kazanma:'kazanma', ton:'kazanmaton', cikis:'sescikis', carpma:'sescarpma', bitis:'sesbitis', tik:'sestik',
+                koridor:'geciskoridor', dalis:'gecisdalis', cizgi:'geciscizgi', geri:'gecisgeri', sekme:'gecissekme' };
   var pick = {};
-  try { pick = JSON.parse(localStorage.getItem('rs-pm99-pick') || '{}'); } catch (e) {}
+  try { pick = JSON.parse(localStorage.getItem('rs-pm100-pick') || '{}'); } catch (e) {}
 
   // ---- audio: one context, unlocked on the first touch (iOS) ----
   var ctx = null, buffers = {}, current = null;
@@ -152,7 +157,9 @@
     return ctx;
   }
   ['touchend', 'pointerup', 'click'].forEach(function (e) { document.addEventListener(e, function () { try { audio(); } catch (x) {} }, true); });
+  function get(u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u); return r; }).catch(function () { return fetch('../../pm99/onizleme/' + u); }); }
   function load(url, local) {
+    if (!local && url.indexOf('sesler/') === 0) local = '../../pm99/onizleme/' + url;
     if (!buffers[url]) buffers[url] = fetch(url).then(function (r) { if (!r.ok) throw new Error(url); return r.arrayBuffer(); })
       .catch(function (e) { if (!local) throw e; return fetch(local).then(function (r) { if (!r.ok) throw e; return r.arrayBuffer(); }); })
       .then(function (a) { return new Promise(function (ok, no) { audio().decodeAudioData(a, ok, no); }); });
@@ -298,6 +305,80 @@
     document.getElementById('sections').appendChild(sec);
     return sec;
   }
+  // ---- PM_100 §1: the fanfare in other instruments (the same notes, rhythm, length and beats) ----
+  var TONES = [
+    { l:'piyano', name:'Piyano (şimdiki)', what:'bugünkü fanfar', file:'../../music/pm96/kazanma-b5.wav', local:'../../../../Assets/Audio/Fanfare96/kazanma-b5.wav' },
+    { l:'marimba', name:'Marimba + glockenspiel', what:'sıcak, oyuncak', file:'sesler/kazanma-marimba.wav' },
+    { l:'pizz', name:'Pizzicato yaylılar + çan', what:'zarif, saray', file:'sesler/kazanma-pizz.wav' },
+    { l:'ksilofon', name:'Ksilofon + el çırpma', what:'enerjik, arcade', file:'sesler/kazanma-ksilofon.wav' },
+    { l:'kutu', name:'Müzik kutusu + yumuşak pad', what:'masalsı (glockenspiel + kalimba, altında synth pad)', file:'sesler/kazanma-kutu.wav' },
+    { l:'bakir', name:'Trompet + tuba (bakır)', what:'kısa trompet vurguları, timpani', file:'sesler/kazanma-bakir.wav' }
+  ];
+  var tones = section('Kazanma tınısı', 'Aynı notalar, aynı ritim, aynı uzunluk; yalnız çalgı değişiyor. Kazanma ekranı aynı vuruşlara oturur. Hepsi aynı ses yüksekliğinde. Burada 5 vuruşlu hâli çalar.', true);
+  TONES.forEach(function (t) {
+    var card = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div>' +
+      '<div class="name">' + tag(t.l, KEYS.ton === t.l) + t.name + '</div><div class="meta">' + t.what + ' · 1,9 sn · 5 vuruş</div><div class="row"></div></div></div>');
+    var btn = card.querySelector('.play'), row = card.querySelector('.row');
+    btn.addEventListener('click', function () { audio(); stop(); load(t.file, t.local).then(function (buf) { var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination); x.start(); btn.classList.add('on'); setTimeout(function () { btn.classList.remove('on'); }, buf.duration * 1000); }); });
+    row.appendChild(chooseBtn('ton', t.l));
+    row.insertAdjacentHTML('beforeend', tryLink('kazanmaton', t.l, 'Kazanma ekranında dene') + '<a class="btn" href="' + GAME + '&kazanmaton=' + t.l + '&kazanmavurus=7">7 vuruşla</a>');
+    card.dataset.kind = 'ton'; card.dataset.letter = t.l;
+    tones.appendChild(card);
+  });
+
+  // ---- PM_100 §4: the transitions' sounds ----
+  var GEC = [
+    { key:'koridor', title:'Kazanma → koridor kayışı', hint:'Duvar sağa kayarken. Ses kayışın hızını izler: kalkışta artar, ortada en yüksek, oturuşta söner (burada 1,3 sn\'lik kayış gibi çalar).' },
+    { key:'dalis', title:'Dalış: tabloya yaklaşma', hint:'İçeri doğru yükselen hafif whoosh; resme değdiği an küçük bir parıltı.', with:'ting' },
+    { key:'cizgi', title:'Çizgiler oluşurken', hint:'Çok hafif kâğıt / fırça dokusu (istersen kapat: 0).' },
+    { key:'geri', title:'Geri çekilme + HUD', hint:'Yumuşak ters whoosh; HUD otururken minik tık.', with:'hud' },
+    { key:'sekme', title:'Alt menü sekme kayışı', hint:'Sayfalar kayarken kısa, çok hafif swish.' }
+  ];
+  var gec = section('Geçiş sesleri', 'Hafif, müziğin altında. Ses anahtarıyla kapanır. Hepsini kapatıp karşılaştırmak için: <a href="' + GAME + '&gecisses=0">geçiş sesleri kapalı</a>. Panel açılış/kapanış vuşu aynı kaldı.', true);
+  function playGecis(g, c, d) {
+    audio(); stop();
+    load('sesler/' + c.file).then(function (buf) {
+      var x = ctx.createBufferSource(), v = ctx.createGain(), t = ctx.currentTime + .02; x.buffer = buf; x.connect(v); v.connect(ctx.destination);
+      if (g.key === 'koridor') {   // the slide's bell of speed over 1.3 s, as the game shapes it
+        var n = 64, curve = new Float32Array(n); for (var i = 0; i < n; i++) { var u = i / (n - 1); curve[i] = 30 * u * u * (1 - u) * (1 - u) / 1.875; }
+        x.loop = true; v.gain.setValueCurveAtTime(curve, t, 1.3); x.start(t); x.stop(t + 1.32);
+      } else x.start(t);
+      if (g.with) {
+        var w = d.gecis[g.with].filter(function (o) { return o.letter === c.letter; })[0];
+        if (w) load('sesler/' + w.file).then(function (b2) { var y = ctx.createBufferSource(); y.buffer = b2; y.connect(ctx.destination); y.start(t + (g.key === 'dalis' ? buf.duration : Math.max(0, buf.duration - .05))); });
+      }
+    });
+  }
+  get('sesler100.json').then(function (r) { return r.json(); }).then(function (d) {
+    GEC.forEach(function (g) {
+      gec.appendChild(el('<h3 class="sub">' + g.title + '</h3>'));
+      gec.appendChild(el('<p class="hint">' + g.hint + '</p>'));
+      d.gecis[g.key].forEach(function (c) {
+        var extra = g.with ? ' + ' + d.gecis[g.with].filter(function (o) { return o.letter === c.letter; })[0].name.toLowerCase() : '';
+        var card = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div>' +
+          '<div class="name">' + tag(c.letter, KEYS[g.key] === c.letter) + c.name + extra + '</div>' +
+          '<div class="meta">' + secs(c.seconds) + ' · ' + c.credit + ' · <a href="' + c.link + '" target="_blank" rel="noopener">CC0</a></div><div class="row"></div></div></div>');
+        card.querySelector('.play').addEventListener('click', function () { playGecis(g, c, d); });
+        var row = card.querySelector('.row');
+        row.appendChild(chooseBtn(g.key, c.letter));
+        row.insertAdjacentHTML('beforeend', tryLink(FLAGS[g.key], c.letter));
+        card.dataset.kind = g.key; card.dataset.letter = c.letter;
+        gec.appendChild(card);
+      });
+    });
+    // ---- PM_100 §2-3: the mix and the jam / exit test ----
+    var rows = Object.keys(d.mix).map(function (k) { var m = d.mix[k]; return '<tr><td>' + k + '</td><td>' + (m.before == null ? '–' : String(m.before).replace('.', ',')) + '</td><td><b>' + String(m.after).replace('.', ',') + '</b></td><td>' + String(m.peak).replace('.', ',') + '</td></tr>'; }).join('');
+    mixSec.appendChild(el('<table class="mix"><tr><th>ses</th><th>önce</th><th>sonra</th><th>tepe dBFS</th></tr>' + rows + '</table>'));
+    mixSec.appendChild(el('<p class="hint">Ses yüksekliği: en yüksek 400 ms (LUFS); büyük sayı = daha yüksek. Oyun efektleri tık düzeyinin 1,5 dB üstünde; müzik 3 dB aşağıda.</p>'));
+    var t = d.test, jam = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div><div class="name">Takılma, sonra çıkış</div>' +
+      '<div class="meta">takılmada yalnız kısa kalkış (' + t.lift_ms + ' ms) ve temasla çarpma; çıkışta yalnız kayma. Ses merkezleri: takılma ' + t.jam_centroid + ' Hz, çıkış ' + t.exit_centroid + ' Hz</div></div></div>');
+    jam.querySelector('.play').addEventListener('click', function () { audio(); stop(); load('sesler/takilma-sonra-cikis.wav').then(function (buf) { var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination); x.start(); }); });
+    mixSec.appendChild(jam);
+    save(true);
+  });
+  var mixSec = section('Ses düzeyi (yeni karışım)', 'Takılma ve sürükleme sesleri artık tık kadar yüksek, müzik 3 dB aşağıda. Telefonda orta seste dene; istersen efektleri daha da aç ya da müziği kıs:', true);
+  mixSec.appendChild(el('<div class="row"><a class="btn" href="' + GAME + '">Yeni karışım</a><a class="btn" href="' + GAME + '&sfx=1.5&muzikses=0.7">Efekt 1,5 · müzik 0,7</a><a class="btn" href="' + GAME + '&sfx=1.25">Efekt 1,25</a><a class="btn" href="' + GAME + '&muzikses=0.7">Müzik 0,7</a></div>'));
+
   // PM_99 §2: the soft exits (Tools/make_sfx99.py): a take at a time, or the recorded 10 in a row
   var soft = section('Çıkış (yumuşak)', 'Parça tahtadan çıkarken: yumuşak kayma, boing yok. ▶ her basışta başka bir kaydı ±%4 perdeyle çalar. "10 çıkış art arda" oyunda üst üste on çıkış gibi; yorucu mu, ona bak. En altta şimdiki c ile karşılaştır.', true);
   function tenBtn(file) {
@@ -305,7 +386,7 @@
     b.addEventListener('click', function () { audio(); stop(); load('sesler/' + file).then(function (buf) { var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination); x.start(); }); });
     return b;
   }
-  fetch('sesler99.json').then(function (r) { return r.json(); }).then(function (d) {
+  get('sesler99.json').then(function (r) { return r.json(); }).then(function (d) {
     d.cikis.forEach(function (c) {
       var card = sfxCard({ key:'cikis', flag:'sescikis', vol:1 }, { letter:c.letter, name:c.name + ' (' + secs(c.length) + ', yumuşaklık ' + String(c.softness).replace('.', ',') + ')', credit:c.credit, link:c.link, takes:c.takes, 'default':c['default'] });
       card.querySelector('.row').insertBefore(tenBtn(c.ten), card.querySelector('.row').children[1]);
@@ -329,10 +410,10 @@
   var winAb = section('Kazanma ekranı: 7 mi 5 mi?', 'Her vuruşta bir öğe gelir. 7 vuruş: ışık · Harika! · Jigo · +50 · Sonraki · Menü · konfeti. 5 vuruş (fanfarın ortadaki iki vuruşu çıkarılmış hâli): ışık + Harika! · Jigo · +50 · Sonraki · Menü + konfeti. İkisini de oyunda dene.', true);
   winAb.appendChild(el('<div class="row"><a class="btn" href="' + GAME + '&kazanmavurus=5">5 vuruş (varsayılan)</a><a class="btn" href="' + GAME + '&kazanmavurus=7">7 vuruş</a></div>'));
   var win = section('Kazanma fanfarı', 'Bölüm müziği kesilir, fanfar çalar. Kazanma ekranındaki her olay bir vuruşa oturur: ışık, "Harika!", Jiggle\'lar, konfeti ve Jigo, sonda altın ve düğmeler.', true);
-  fetch('vurus.json').then(function (r) { return r.json(); }).then(function (map) {
+  get('vurus.json').then(function (r) { return r.json(); }).then(function (map) {
     var by = {}; map.fanfares.forEach(function (f) { by[f.letter] = f; });
     FANFARES.forEach(function (f) { var m = by[f.l] || {}; f.beats = m.beats; f.strong = m.strong; f.length = m.length; win.appendChild(fanfareCard(f)); });
-    return fetch('sesler.json');
+    return get('sesler.json');
   }).then(function (r) { return r.json(); }).then(function (data) {
     SFX.forEach(function (s) {
       var sec = section(s.title, s.hint);
@@ -344,7 +425,7 @@
   });
 
   function save(quiet) {
-    try { localStorage.setItem('rs-pm99-pick', JSON.stringify(pick)); } catch (e) {}
+    try { localStorage.setItem('rs-pm100-pick', JSON.stringify(pick)); } catch (e) {}
     document.querySelectorAll('.btn.pick').forEach(function (b) { var on = pick[b.dataset.kind] === b.dataset.letter; b.classList.toggle('on', on); b.textContent = on ? 'Seçildi ✓' : b.dataset.label; });
     document.querySelectorAll('.card').forEach(function (c) {
       var kinds = (c.dataset.kind || '').split(' ');
