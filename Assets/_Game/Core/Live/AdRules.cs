@@ -4,7 +4,7 @@ using ReverseSolver.Core.Json;
 namespace ReverseSolver.Core
 {
     /* PM_81 §3 / PM_82 §4: the ad placements and when they may show. Pure rules; the game asks, the ad network
-       (AppLovin MAX on iOS, none on the web) shows.
+       (Google AdMob on iOS, PM_101; none on the web) shows.
          R1  rewarded      the time-up panel: +30 s, once per attempt
          R2  rewarded      the win screen: 2x gold (+50 -> +100); Next is always one tap
          R3  rewarded      a booster at 0: +1 of it, at most r3_gunluk a day

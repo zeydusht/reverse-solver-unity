@@ -7,8 +7,7 @@
         "ReverseSolver.Editing",
         "ReverseSolver.Presentation",
         "Unity.InputSystem",
-        "Unity.TextMeshPro",
-        "MaxSdk.Scripts.IntegrationManager.Editor"
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [
         "Editor"

@@ -937,10 +937,10 @@ namespace ReverseSolver.Presentation
             if (id == null) return;
             if (id == "version")
             {
-                // PM_81: the hidden test menu: the version line tapped 5 times (within 3 s) -> MAX's Mediation Debugger
+                // PM_81: the hidden test menu: the version line tapped 5 times (within 3 s); PM_101: the ad test card
                 _versionTaps = Time.unscaledTime - _versionTapAt > 3 ? 1 : _versionTaps + 1;
                 _versionTapAt = Time.unscaledTime;
-                if (_versionTaps >= 5) { _versionTaps = 0; Ads.Debugger(); }
+                if (_versionTaps >= 5) { _versionTaps = 0; OpenAdTest101(); }
                 return;
             }
             if (id == "story")
@@ -2119,6 +2119,12 @@ namespace ReverseSolver.Presentation
 
             if (_mode == Mode.Menu)
             {
+                if (_card != null && _cardKind == "adtest")
+                {
+                    string aid = _card.HitButton(pt);
+                    if (aid != null) AdTestAction101(aid);
+                    return;
+                }
                 if (_card != null && _cardKind == "settings")
                 {
                     string sid = _card.HitButton(pt);

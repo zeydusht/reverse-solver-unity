@@ -1,8 +1,10 @@
 {
-  "_not": "PM_81: AppLovin MAX anahtarları. Zeyd göndermeden yer tutucu kalır; yer tutucuyla reklam açılmaz, tuşlar görünmez.",
-  "sdk_key": "BURAYA_SDK_KEY",
-  "ios_rewarded": "BURAYA_IOS_REWARDED_ID",
-  "ios_interstitial": "BURAYA_IOS_INTERSTITIAL_ID",
+  "_not": "PM_101: Google AdMob kimlikleri (docs/ADMOB_KIMLIKLER.md; gizli değil, uygulamada zaten görünürler). Mağaza build'i (IosBuild.Build) gerçek kimlikleri kullanır; test build'i (IosBuild.BuildTest), editör ve test cihazı Google'ın test kimliklerini (AdKeys). test_devices: SDK'nın Xcode günlüğünde yazdığı test cihazı kimlikleri (isteğe bağlı; Zeyd'in iPhone'u gizli test menüsünden de test cihazı yapılır).",
+  "publisher": "pub-4171335473466896",
+  "ios_app_id": "ca-app-pub-4171335473466896~6469853119",
+  "ios_rewarded": "ca-app-pub-4171335473466896/2134575175",
+  "ios_interstitial": "ca-app-pub-4171335473466896/7814724376",
+  "test_devices": [],
   "privacy_url": "https://zeydusht.github.io/reverse-solver-unity/privacy/",
   "terms_url": "https://zeydusht.github.io/reverse-solver-unity/privacy/#terms"
 }

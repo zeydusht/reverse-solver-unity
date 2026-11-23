@@ -1,0 +1,20 @@
+{
+    "name": "ReverseSolver.Platform.AdMob",
+    "rootNamespace": "ReverseSolver.Platform",
+    "references": [
+        "ReverseSolver.Core",
+        "ReverseSolver.Presentation"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "iOS"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

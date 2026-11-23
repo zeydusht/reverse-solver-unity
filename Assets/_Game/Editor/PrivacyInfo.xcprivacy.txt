@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!-- PM_81: Reverse Solver's own privacy manifest (IosBuild copies it into the Xcode project). The game sends its own
-     gameplay data to our Supabase (device id = IDFV, moves and results, crashes); no tracking by us. AppLovin MAX's
-     SDK brings its own manifest for the ads (advertising data, IDFA with ATT permission). -->
+     gameplay data to our Supabase (device id = IDFV, moves and results, crashes); no tracking by us. PM_101: the
+     Google Mobile Ads SDK brings its own manifest for the ads (advertising data, IDFA with ATT permission). -->
 <plist version="1.0">
 <dict>
 	<key>NSPrivacyTracking</key>

@@ -7,20 +7,25 @@ namespace ReverseSolver.Presentation
 {
     public enum AdResult { Rewarded, Closed, Failed, NotReady }
 
-    /* An ad network as the game sees it. iOS: AppLovin MAX (ReverseSolver.Platform.Max). Web: none (no ads, no
-       buttons); &reklam=sahte: a fake one that is always ready, to try the placements in a browser. */
+    /* An ad network as the game sees it; the game knows no provider. iOS: Google AdMob (ReverseSolver.Platform.AdMob,
+       PM_101; AppLovin MAX before it). Web: none (no ads, no buttons); &reklam=sahte: a fake one that is always ready,
+       to try the placements in a browser. */
     public interface IAdNetwork
     {
         string Name { get; }
         bool Initialized { get; }
-        /* Starts the SDK; MAX's terms and privacy flow asks the ATT question here (status: "authorized", "denied", …). */
+        /* Starts the SDK: the consent form where the law asks for one (Google UMP), then the ATT question, then the ads
+           (status: "authorized", "denied", ...). */
         void Init(Action<string> attStatus);
         bool IsReady(bool rewarded);
         /* error: why it failed (Failed), else null. */
         void Show(bool rewarded, string placement, Action<AdResult, string> done);
-        /* placement, network, revenue in USD (MAX OnAdRevenuePaidEvent). */
+        /* placement, network, revenue in USD (AdMob OnAdPaid: micros / 1e6). */
         event Action<string, string, double> Revenue;
+        /* The hidden test menu: the network's inspector (AdMob's Ad Inspector), its privacy choices, a line about it. */
         void ShowDebugger();
+        void ShowPrivacyOptions();
+        string Describe();
     }
 
     /* PM_81 §3: the game's one way to an ad. Every rule is in Core.AdRules and live/config.json; this keeps the device's
@@ -143,7 +148,7 @@ namespace ReverseSolver.Presentation
             Network.Revenue += (placement, network, revenue) => Event?.Invoke("ad_shown", placement, network, revenue, null);
         }
 
-        /* Settings: the version line tapped 5 times (the hidden test menu). */
+        /* Settings: the version line tapped 5 times (the hidden test menu, GameRoot.OpenAdTest101). */
         public static void Debugger() => Network?.ShowDebugger();
     }
 
@@ -159,6 +164,8 @@ namespace ReverseSolver.Presentation
         public void Init(Action<string> attStatus) { Initialized = true; attStatus?.Invoke("not_applicable"); }
         public bool IsReady(bool rewarded) => true;
         public void ShowDebugger() => Debug.Log("[ads] fake network: no debugger");
+        public void ShowPrivacyOptions() => Debug.Log("[ads] fake network: no privacy options");
+        public string Describe() => "sahte ağ (web testi)";
 
         public void Show(bool rewarded, string placement, Action<AdResult, string> done) => _host.StartCoroutine(Run(rewarded, placement, done));
 

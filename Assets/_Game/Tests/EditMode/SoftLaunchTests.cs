@@ -148,7 +148,7 @@ namespace ReverseSolver.Core.Tests
             var store = new MemoryStore();
             var q = new TelemetryQueue(store, "sl");
             q.Add("e1", SlEventRow.Json("e1", "first_open", "p", "s"));
-            q.Add("e2", SlEventRow.Json("e2", "ad_shown", "p", "s", "r1_sure", "AppLovin", 0.0123));
+            q.Add("e2", SlEventRow.Json("e2", "ad_shown", "p", "s", "r1_sure", "AdMob", 0.0123));
             q.Add("e1", SlEventRow.Json("e1", "first_open", "p", "s"));      // the same row once only
             var offline = new TelemetrySender(q, new NoNet(), "https://x", "k", true, "sl_events?on_conflict=row_id");
             offline.Flush();

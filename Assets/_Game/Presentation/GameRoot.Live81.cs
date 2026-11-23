@@ -8,8 +8,9 @@ namespace ReverseSolver.Presentation
          content     iOS (and the web with &kaynak=live) reads GitHub Pages' live/ folder: the levels, the settings, the
                      paintings; the device's copy or the app's own when offline (Live, Core.ContentLoader)
          the set     sl100 (100 levels, resolved: no runtime tuning on top); ?set=sl100 on the web
-         ads         AppLovin MAX on iOS (R1 time-up +30 s, R2 2x gold, I1 after a win; PM_82: R3, R4); none on the web,
-                     &reklam=sahte a fake network to try them; the SDK (and its ATT question) starts after level 2
+         ads         Google AdMob on iOS (PM_101; AppLovin MAX before) (R1 time-up +30 s, R2 2x gold, I1 after a win;
+                     PM_82: R3, R4); none on the web, &reklam=sahte a fake network to try them; the SDK (its consent form
+                     where the law asks, then the ATT question) starts after level 2
          telemetry   cohort sl1 sends sl_events (first open, sessions, ATT, ads, crashes) */
     public sealed partial class GameRoot
     {
@@ -89,7 +90,7 @@ namespace ReverseSolver.Presentation
             return _progress.Next();
         }
 
-        /* The ad network starts (and MAX asks the ATT question) once level 2 is won and nothing else is on the screen
+        /* The ad network starts (the consent form, the ATT question) once level 2 is won and nothing else is on the screen
            (not with the profile question, not over a win screen or a dive). A fake network starts at once. */
         void AdsTick81()
         {
@@ -99,6 +100,30 @@ namespace ReverseSolver.Presentation
                 _continuePanel != null || _celebration != null || _corridor != null || _awaitingName)) return;
             _adsAsked = true;
             Ads.Network.Init(status => SlTelemetry.Emit("att_status", value: status));
+        }
+
+        /* PM_101: the hidden test menu (the version line tapped 5 times): AdMob's Ad Inspector, this device as a test
+           device (Google's test ads only, from the next start: no real ad to click by mistake), the consent choices. */
+        void OpenAdTest101()
+        {
+            _menuSettings?.Destroy(); _menuSettings = null;
+            string info = Ads.Network != null ? Ads.Network.Describe() : "Reklam ağı yok (web).";
+            string device = AdKeys.TestDevice ? "Test cihazı: AÇIK (yalnız test reklamı)" : "Test cihazı: kapalı";
+            OpenCard("adtest", new Card(_world, _screen, CardOrder, "AdTest") { Compact = true }.Title("Reklam testi")
+                .Body(info + "\n" + device + "\nDeğişiklik uygulama yeniden açılınca geçerli.", sizePt: 12)
+                .Button("inspector", "Ad Inspector", true)
+                .Button("testdevice", AdKeys.TestDevice ? "Test cihazını kapat" : "Bu cihazı test cihazı yap", false)
+                .Button("privacy", "Gizlilik seçenekleri", false)
+                .Button("close", Texts.Close, false).Finish());
+        }
+
+        void AdTestAction101(string id)
+        {
+            Haptics.Button();
+            if (id == "inspector") { CloseCard(); Ads.Debugger(); }
+            else if (id == "testdevice") { AdKeys.TestDevice = !AdKeys.TestDevice; Debug.Log($"[ads] test cihazı {(AdKeys.TestDevice ? "açık" : "kapalı")}"); CloseCard(); OpenAdTest101(); }
+            else if (id == "privacy") { CloseCard(); Ads.Network?.ShowPrivacyOptions(); }
+            else CloseCard();
         }
 
         /* R1: the time-up offer shows "Watch an ad, +30 s" next to the gold button, once per attempt. */

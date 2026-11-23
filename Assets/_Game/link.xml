@@ -10,4 +10,5 @@
 <linker>
   <assembly fullname="ReverseSolver.Core" preserve="all"/>
   <assembly fullname="ReverseSolver.Platform" preserve="all" ignoreIfMissing="1"/>
+  <assembly fullname="ReverseSolver.Platform.AdMob" preserve="all" ignoreIfMissing="1"/>
 </linker>
