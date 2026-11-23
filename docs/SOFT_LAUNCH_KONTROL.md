@@ -23,8 +23,10 @@ Son güncelleme: 18 Kasım 2026, gece. ✅ yapıldı ve doğrulandı · 🟡 yap
 ## 2. Uzaktan ayar `live/config.json`
 - ✅ Reklam sıklıkları, devam fiyatları (900 / 1900 / 2900), başlangıç altını (5000), +30 sn, `reklam_acik`, R1–R4 aç/kapa, R3/R4 günlük sınır, R4 altını. Dosya inmezse gömülü varsayılanlar.
 
-## 3. AppLovin MAX
-- ✅ Eklenti: AppLovin MAX Unity Plugin 8.6.6 (iOS SDK 13.6.4). Yalnız AppLovin ağı; adaptör yok.
+## 3. Google AdMob (PM_101; AppLovin yeni yayıncı almadığı için MAX çıktı)
+- ✅ Eklenti: Google Mobile Ads Unity Plugin 11.7.0 (iOS SDK 13.12.0). Bağımlılıklar: projede zaten olan Google External Dependency Manager 1.2.186 (eklentinin Unity kayıt defterinden EDM 2.1.1 kurması kapalı: o sunucuya bu makineden erişilemedi; eklenti eski EDM'yi destekliyor). Yalnız AdMob; mediation yok (ileride Unity Ads, Mintegral, AppLovin bidding eklenebilir). MAX ve MAX adaptörü silindi.
+- ✅ Kimlikler `Assets/Config/ads.json` (`docs/ADMOB_KIMLIKLER.md`): mağaza build'i gerçek kimlikler; test build'i (`IosBuild.BuildTest`), editör ve test cihazı Google'ın test kimlikleri. Mağaza build'inde test ya da yer tutucu kimlik varsa build durur.
+- ✅ Zeyd'in iPhone'u test cihazı: gizli test menüsünde "Bu cihazı test cihazı yap" (o cihazda yalnız test reklamı). AdMob panelinde de eklenebilir: Ayarlar → Test cihazları → menüde görünen IDFA.
 - ❌ Anahtarlar: `Assets/Config/ads.json`'da yer tutucu. Zeyd SDK Key + iOS Rewarded ID + iOS Interstitial ID'yi gönderince doldurulacak. Yer tutucuyla build çalışır, reklam açılmaz, tuşlar görünmez.
 - ✅ Yerleşimler:
   - R1: "Süre doldu"da "Reklam izle +30 sn", deneme başına 1; `continue_type` gold/ad.
@@ -37,18 +39,19 @@ Son güncelleme: 18 Kasım 2026, gece. ✅ yapıldı ve doğrulandı · 🟡 yap
   - reklam sırasında süre durur ve ses kısılır;
   - ödül yalnız "ödül kazanıldı" geri çağrısında verilir;
   - hata olursa oyun aynen devam eder.
-- ✅ Gizli test menüsü: Ayarlar'da sürüm yazısına 5 dokunuş → MAX Mediation Debugger.
+- ✅ Gizli test menüsü: Ayarlar'da sürüm yazısına 5 dokunuş → "Reklam testi": Google Ad Inspector, test cihazı aç/kapa, gizlilik seçenekleri (UMP), IDFA.
 - ✅ Web'de reklam yok; `&reklam=sahte` ile tarayıcıda sahte reklamla denenebilir.
 - 🟡 Gerçek reklam gösterimi iPhone'da denenmedi (anahtar gelince TestFlight).
 
 ## 4. İzin, gizlilik, Apple kuralları
-- ✅ MAX'in şartlar ve gizlilik akışı açık (gizlilik linki: `/privacy/`). Build sırasında `ads.json`'dan kuruluyor.
-- ✅ ATT sorusu ilk açılışta değil: MAX, 2. bölüm kazanıldıktan ve profil sorusu kapandıktan sonra başlatılıyor (soruyu o soruyor). Bu yüzden 1–2. bölümde reklam yok.
+- ✅ Onay: Google UMP formu (AB/İngiltere'de; Türkiye'de görünmeyebilir), sonra ATT (Google'ın önerdiği sıra). UMP reklama izin vermezse reklam istenmez. **AdMob panelinde Gizlilik ve mesajlar → GDPR mesajı oluşturulmalı** (yoksa AB'de form çıkmaz).
+- ✅ ATT sorusu ilk açılışta değil: reklam katmanı 2. bölüm kazanıldıktan ve profil sorusu kapandıktan sonra başlıyor (UMP → ATT → SDK). Bu yüzden 1–2. bölümde reklam yok.
 - ✅ `NSUserTrackingUsageDescription`: Info.plist'te EN, `tr.lproj/InfoPlist.strings` içinde TR. `CFBundleLocalizations` tr, en.
-- 🟡 `SKAdNetworkItems`: MAX'in kendi iOS işlemi ekliyor (build anında AppLovin'in listesini indirir). Mac'teki Xcode projesinde kontrol edilecek.
-- ✅ `PrivacyInfo.xcprivacy` bizim (cihaz kimliği, ürün etkileşimi, çökme; izleme yok) + AppLovin SDK'nın kendi manifesti.
+- ✅ `GADApplicationIdentifier` ve Google'ın `SKAdNetworkItems` listesi: eklentinin iOS işlemi yazıyor; `IosBuild` build sırasında kontrol ediyor (yoksa durur).
+- ✅ `PrivacyInfo.xcprivacy` bizim (cihaz kimliği, ürün etkileşimi, çökme; izleme yok) + Google Mobile Ads SDK'nın kendi manifesti.
 - ✅ `ITSAppUsesNonExemptEncryption = false`.
-- ✅ Gizlilik sayfası TR + EN güncellendi: AppLovin, IDFA (izinle), IDFV, Supabase, KVKK, silme e-postası, kullanım koşulları (`#terms`).
+- ✅ Gizlilik sayfası TR + EN güncellendi: Google AdMob (Google'ın veri kullanımı linki, AB onay formu), IDFA (izinle), IDFV, Supabase, KVKK, silme e-postası, kullanım koşulları (`#terms`).
+- 🟡 `app-ads.txt`: `zeydusht.github.io` köküne konacak (`docs/APP_ADS_TXT.md`); Zeyd'in kök deposu açması gerekiyor.
 
 ## 5. Telemetri `sl1`
 - ✅ Mağaza build'i: `cohort = sl1`, `platform = ios`, `app_version`, `content_version`; cihaz kimliği IDFV.
@@ -71,7 +74,7 @@ Son güncelleme: 18 Kasım 2026, gece. ✅ yapıldı ve doğrulandı · 🟡 yap
 - ✅ 1.0.0 (8), yalnız iPhone, yalnız dikey, 60 fps, onaylı ikon ve açılış ekranı, Unity açılış logosu kapalı (Unity 6 lisansı izin veriyor).
 - 🟡 Ayarlar `IosBuild` içinde: 1.0.0 (8), yalnız iPhone, dikey, logo kapalı, Info.plist ve gizlilik manifesti. Testler geçti.
 - ❌ Bu işte iOS dışa aktarımı (Xcode projesi) çalıştırılmadı; PM_84'te zip ile birlikte üretilecek.
-- 🟡 Mac'te MAX'in CocoaPods'u için `pod install` gerekecek, sonra `.xcworkspace` açılacak (`rs-yukle.sh` buna göre güncellenmeli).
+- 🟡 Mac'te Google Mobile Ads pod'ları için `pod install` gerekecek, sonra `.xcworkspace` açılacak (`rs-yukle.sh` buna göre güncellenmeli).
 
 ## Apple'ın istedikleri (inceleme)
 - ✅ ATT metni ve izin akışı; reddedilirse de oyun ve reklam çalışıyor.
@@ -84,11 +87,11 @@ Son güncelleme: 18 Kasım 2026, gece. ✅ yapıldı ve doğrulandı · 🟡 yap
    - "Veri topluyor musunuz?" → **Evet**.
    - **Tanımlayıcılar:**
      - Cihaz Kimliği: analiz + uygulama işlevi, kimliğinize bağlı değil, izleme yok.
-     - Reklam Verileri / Reklam Kimliği: üçüncü taraf reklam, **izleme: evet** (AppLovin).
+     - Reklam Verileri / Reklam Kimliği: üçüncü taraf reklam, **izleme: evet** (Google AdMob).
    - **Kullanım Verileri:** Ürün Etkileşimi (analiz); Reklam Verileri (üçüncü taraf reklam).
    - **Tanılama:** Çökme Verileri (uygulama işlevi).
    - Gizlilik politikası adresi: `https://zeydusht.github.io/reverse-solver-unity/privacy/`.
 2. **Yaş Derecelendirmesi:** bütün sorulara "Yok". Reklam içerdiği sorulursa "Evet". Sonuç 4+ olmalı.
 3. **Fiyatlandırma ve Kullanılabilirlik:** Ücretsiz; ülkeler: **yalnız Türkiye**.
 4. **Sürüm 1.0.0:** "Elle yayınla" seçili. Ekran görüntüleri ve açıklama PM_84'te gelecek.
-5. **AppLovin:** SDK Key + iki Ad Unit ID (Rewarded, Interstitial) PM'e.
+5. ✅ **AdMob:** App ID, Rewarded ID, Interstitial ID ve yayıncı kimliği geldi (`docs/ADMOB_KIMLIKLER.md`). AdMob'un ödeme incelemesi ve uygulamanın mağaza linkiyle eşlenmesi bekleniyor.
