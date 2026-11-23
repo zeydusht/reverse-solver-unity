@@ -1,0 +1,308 @@
+{
+ "booster": {
+  "makas": [
+   {
+    "letter": "a",
+    "name": "Makas (kâğıt)",
+    "credit": "OpenGameArt \"Scissors\"",
+    "link": "https://opengameart.org/content/scissors",
+    "files": [
+     {
+      "part": "kesim",
+      "file": "booster-makas-kesim-a.wav",
+      "seconds": 0.22,
+      "lufs": -14.6,
+      "peak": -3.0
+     }
+    ],
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Saç makası",
+    "credit": "OpenGameArt \"Various Scissors\"",
+    "link": "https://opengameart.org/content/various-scissors",
+    "files": [
+     {
+      "part": "kesim",
+      "file": "booster-makas-kesim-b.wav",
+      "seconds": 0.25,
+      "lufs": -14.7,
+      "peak": -3.0
+     }
+    ],
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Bahçe makası, hafif",
+    "credit": "OpenGameArt \"Various Scissors\"",
+    "link": "https://opengameart.org/content/various-scissors",
+    "files": [
+     {
+      "part": "kesim",
+      "file": "booster-makas-kesim-c.wav",
+      "seconds": 0.25,
+      "lufs": -14.7,
+      "peak": -3.0
+     }
+    ],
+    "default": false
+   }
+  ],
+  "degnek": [
+   {
+    "letter": "a",
+    "name": "Rüzgâr çanı + puf",
+    "credit": "VCSL Mark Trees + Swishes Sound Pack",
+    "link": "https://github.com/sgossner/VCSL",
+    "files": [
+     {
+      "part": "donusum",
+      "file": "booster-degnek-donusum-a.wav",
+      "seconds": 0.9,
+      "lufs": -15.6,
+      "peak": -4.1
+     }
+    ],
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Glockenspiel glisandosu + puf",
+    "credit": "VSCO 2 CE + Swishes Sound Pack",
+    "link": "https://github.com/sgossner/VSCO-2-CE",
+    "files": [
+     {
+      "part": "donusum",
+      "file": "booster-degnek-donusum-b.wav",
+      "seconds": 0.9,
+      "lufs": -15.6,
+      "peak": -7.8
+     }
+    ],
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Çan ağacı + puf",
+    "credit": "VCSL Bell Tree + Swishes Sound Pack",
+    "link": "https://github.com/sgossner/VCSL",
+    "files": [
+     {
+      "part": "donusum",
+      "file": "booster-degnek-donusum-c.wav",
+      "seconds": 0.9,
+      "lufs": -15.6,
+      "peak": -6.1
+     }
+    ],
+    "default": false
+   }
+  ],
+  "cekic": [
+   {
+    "letter": "a",
+    "name": "Tahta vuruş + çatlama",
+    "credit": "OpenGameArt \"75 CC0 breaking / falling / hit sfx\"",
+    "link": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx",
+    "files": [
+     {
+      "part": "vurus",
+      "file": "booster-cekic-vurus-a.wav",
+      "seconds": 0.31,
+      "lufs": -14.6,
+      "peak": -3.0
+     },
+     {
+      "part": "kirinti",
+      "file": "booster-cekic-kirinti-a.wav",
+      "seconds": 0.44,
+      "lufs": -22.6,
+      "peak": -6.3
+     }
+    ],
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Seramik kırılma",
+    "credit": "OpenGameArt \"75 CC0 breaking / falling / hit sfx\"",
+    "link": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx",
+    "files": [
+     {
+      "part": "vurus",
+      "file": "booster-cekic-vurus-b.wav",
+      "seconds": 0.36,
+      "lufs": -14.6,
+      "peak": -3.0
+     },
+     {
+      "part": "kirinti",
+      "file": "booster-cekic-kirinti-b.wav",
+      "seconds": 0.4,
+      "lufs": -22.6,
+      "peak": -5.3
+     }
+    ],
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Kalın tahta, yumuşak",
+    "credit": "Kenney Impact Sounds + OpenGameArt 75 CC0",
+    "link": "https://kenney.nl/assets/impact-sounds",
+    "files": [
+     {
+      "part": "vurus",
+      "file": "booster-cekic-vurus-c.wav",
+      "seconds": 0.3,
+      "lufs": -14.6,
+      "peak": -3.0
+     },
+     {
+      "part": "kirinti",
+      "file": "booster-cekic-kirinti-c.wav",
+      "seconds": 0.35,
+      "lufs": -22.6,
+      "peak": -3.0
+     }
+    ],
+    "default": false
+   }
+  ],
+  "saat": [
+   {
+    "letter": "a",
+    "name": "Duvar saati",
+    "credit": "OpenGameArt \"Ticking Clock\" + \"Ice Breaking/Shattering\"",
+    "link": "https://opengameart.org/content/ticking-clock",
+    "files": [
+     {
+      "part": "tiktak",
+      "file": "booster-saat-tiktak-a.wav",
+      "seconds": 1.0,
+      "lufs": -26.6,
+      "peak": -9.6
+     },
+     {
+      "part": "donma",
+      "file": "booster-saat-donma-a.wav",
+      "seconds": 0.32,
+      "lufs": -18.6,
+      "peak": -3.0
+     },
+     {
+      "part": "kirilma",
+      "file": "booster-saat-kirilma-a.wav",
+      "seconds": 0.5,
+      "lufs": -16.6,
+      "peak": -3.0
+     }
+    ],
+    "default": true
+   },
+   {
+    "letter": "b",
+    "name": "Tik-tak",
+    "credit": "OpenGameArt \"Tick and Tock\" + \"Ice Breaking/Shattering\"",
+    "link": "https://opengameart.org/content/tick-and-tock",
+    "files": [
+     {
+      "part": "tiktak",
+      "file": "booster-saat-tiktak-b.wav",
+      "seconds": 1.0,
+      "lufs": -26.6,
+      "peak": -11.9
+     },
+     {
+      "part": "donma",
+      "file": "booster-saat-donma-b.wav",
+      "seconds": 0.3,
+      "lufs": -18.6,
+      "peak": -3.0
+     },
+     {
+      "part": "kirilma",
+      "file": "booster-saat-kirilma-b.wav",
+      "seconds": 0.6,
+      "lufs": -16.6,
+      "peak": -5.9
+     }
+    ],
+    "default": false
+   },
+   {
+    "letter": "c",
+    "name": "Küçük saat",
+    "credit": "OpenGameArt \"Clock tick\" + \"75 CC0 breaking\"",
+    "link": "https://opengameart.org/content/clock-tick-0",
+    "files": [
+     {
+      "part": "tiktak",
+      "file": "booster-saat-tiktak-c.wav",
+      "seconds": 1.0,
+      "lufs": -26.6,
+      "peak": -6.7
+     },
+     {
+      "part": "donma",
+      "file": "booster-saat-donma-c.wav",
+      "seconds": 0.21,
+      "lufs": -18.6,
+      "peak": -3.0
+     },
+     {
+      "part": "kirilma",
+      "file": "booster-saat-kirilma-c.wav",
+      "seconds": 0.39,
+      "lufs": -16.6,
+      "peak": -3.0
+     }
+    ],
+    "default": false
+   }
+  ]
+ },
+ "carpma": {
+  "before": [
+   -15.31,
+   -14.64,
+   -14.97,
+   -14.77
+  ],
+  "before_peak": [
+   -3.0,
+   -3.0,
+   -3.0,
+   -3.0
+  ],
+  "before_len": [
+   0.118,
+   0.183,
+   0.135,
+   0.14
+  ],
+  "after": [
+   -13.77,
+   -13.2,
+   -13.48,
+   -13.32
+  ],
+  "after_peak": [
+   -1.5,
+   -1.5,
+   -1.5,
+   -1.5
+  ],
+  "after_len": [
+   0.15,
+   0.15,
+   0.15,
+   0.15
+  ],
+  "exit_played": -15.98,
+  "target": -13.48,
+  "tick": -16.12
+ }
+}

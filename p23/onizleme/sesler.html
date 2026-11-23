@@ -54,7 +54,7 @@
 <body>
 <header>
   <h1>Ses seçimi</h1>
-  <p>En üstte yeniler: kazanma fanfarının tınıları, geçiş sesleri ve yeni ses düzeyi. Her sesi dinle, beğendiğini <b>Seç</b>. "Oyunda dene" o sesle 3. bölümü açar.</p>
+  <p>En üstte yeniler: senin seçtiğin kazanma fanfarı g'nin tınıları ve booster sesleri. Her sesi dinle, beğendiğini <b>Seç</b>. "Oyunda dene" o sesle oyunu açar (booster'lar için 23. bölüm).</p>
 </header>
 <main>
   <div class="warn">iPhone: yan taraftaki <b>sessiz anahtarı kapalı</b> olsun. İlk dokunuşta ses açılır. Fanfarda noktalar kazanma ekranındaki olayların vuruşlarını gösterir. Turuncu kenarlı nokta en güçlü vuruş: konfeti ve Jigo'nun zıplaması.</div>
@@ -123,7 +123,7 @@
   // PM_96 §1: Zeyd's choices are the defaults; the level's until he picks: r
   // PM_98 §1: Zeyd's picks (23 Nov); the level c for now
   // PM_99: the level E (Zeyd, 23 Nov), the exit f (the softest, shortest); the last piece has no sound of its own now
-  var KEYS = { lobi:'n', bolum:'E', kazanma:'b', ton:'piyano', cikis:'f', carpma:'a', tik:'b', koridor:'a', dalis:'a', cizgi:'a', geri:'a', sekme:'a' };
+  var KEYS = { lobi:'n', bolum:'E', kazanma:'g', ton:'piyano', cikis:'f', carpma:'a', tik:'b', makas:'a', degnek:'a', cekic:'a', saat:'a', koridor:'a', dalis:'a', cizgi:'a', geri:'a', sekme:'a' };
   // PM_98 §2: the level's new candidates. A-D ours (VCSL recordings + our bass; Tools/make_level98.py), E-G found (CC0).
   // perc: the percussive share (the reference: 0.92); the bar was 0.6
   var LEVEL98 = [
@@ -138,11 +138,12 @@
   LEVEL98.forEach(function (m) { m.url = '../../music/pm98/music-' + m.l + '.mp3'; m.local = '../../../../Assets/Audio/Music98/music-' + m.l + '.mp3'; m.start = 1105 / 44100; });
   // the reference (Block Out!) is never published: only a local preview of the repo finds it
   var REF = '../../pm96/ref/ref_bolum.mp3';
-  var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', ton:'Tını', cikis:'Çıkış', carpma:'Çarpma', tik:'Tık', koridor:'Koridor', dalis:'Dalış', cizgi:'Çizgi', geri:'Geri', sekme:'Sekme' };
+  var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', ton:'Tını', cikis:'Çıkış', carpma:'Çarpma', tik:'Tık', makas:'Makas', degnek:'Değnek', cekic:'Çekiç', saat:'Saat', koridor:'Koridor', dalis:'Dalış', cizgi:'Çizgi', geri:'Geri', sekme:'Sekme' };
   var FLAGS = { lobi:'lobi', bolum:'bolummuzik', kazanma:'kazanma', ton:'kazanmaton', cikis:'sescikis', carpma:'sescarpma', bitis:'sesbitis', tik:'sestik',
+                makas:'sesmakas', degnek:'sesdegnek', cekic:'sescekic', saat:'sessaat',
                 koridor:'geciskoridor', dalis:'gecisdalis', cizgi:'geciscizgi', geri:'gecisgeri', sekme:'gecissekme' };
   var pick = {};
-  try { pick = JSON.parse(localStorage.getItem('rs-pm100-pick') || '{}'); } catch (e) {}
+  try { pick = JSON.parse(localStorage.getItem('rs-pm102-pick') || '{}'); } catch (e) {}
 
   // ---- audio: one context, unlocked on the first touch (iOS) ----
   var ctx = null, buffers = {}, current = null;
@@ -157,11 +158,11 @@
     return ctx;
   }
   ['touchend', 'pointerup', 'click'].forEach(function (e) { document.addEventListener(e, function () { try { audio(); } catch (x) {} }, true); });
-  function get(u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u); return r; }).catch(function () { return fetch('../../pm99/onizleme/' + u); }); }
+  function tryEach(list) { return list.reduce(function (p, u) { return p.catch(function () { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u); return r; }); }); }, Promise.reject()); }
+  function get(u) { return tryEach([u, '../../pm100/onizleme/' + u, '../../pm99/onizleme/' + u]); }
   function load(url, local) {
-    if (!local && url.indexOf('sesler/') === 0) local = '../../pm99/onizleme/' + url;
-    if (!buffers[url]) buffers[url] = fetch(url).then(function (r) { if (!r.ok) throw new Error(url); return r.arrayBuffer(); })
-      .catch(function (e) { if (!local) throw e; return fetch(local).then(function (r) { if (!r.ok) throw e; return r.arrayBuffer(); }); })
+    var list = [url].concat(local ? [local] : url.indexOf('sesler/') === 0 ? ['../../pm100/onizleme/' + url, '../../pm99/onizleme/' + url] : []);
+    if (!buffers[url]) buffers[url] = tryEach(list).then(function (r) { return r.arrayBuffer(); })
       .then(function (a) { return new Promise(function (ok, no) { audio().decodeAudioData(a, ok, no); }); });
     return buffers[url];
   }
@@ -306,23 +307,80 @@
     return sec;
   }
   // ---- PM_100 §1: the fanfare in other instruments (the same notes, rhythm, length and beats) ----
+  var GTONES = [
+    { l:'piyano', name:'Piyano ta-da (g, senin seçimin)', what:'varsayılan', file:'../../music/pm96/kazanma-g.wav', local:'../../../../Assets/Audio/Fanfare96/kazanma-g.wav' },
+    { l:'marimba', name:'Marimba + glockenspiel', what:'sıcak, oyuncak', file:'sesler/kazanma-g-marimba.wav' },
+    { l:'pizz', name:'Pizzicato yaylılar + çan', what:'zarif, saray', file:'sesler/kazanma-g-pizz.wav' },
+    { l:'ksilofon', name:'Ksilofon + el çırpma', what:'enerjik, arcade', file:'sesler/kazanma-g-ksilofon.wav' },
+    { l:'kutu', name:'Müzik kutusu + yumuşak pad', what:'masalsı (glockenspiel + kalimba, altında synth pad)', file:'sesler/kazanma-g-kutu.wav' }
+  ];
+  var gtones = section('Kazanma tınısı (g: Piyano ta-da)', 'Senin seçtiğin g\'nin melodisi, ritmi ve uzunluğu aynı; yalnız çalgı değişiyor. Kazanma ekranı g\'nin 5 vuruşuna oturur: ışık + Harika · Jigo · +50 · Sonraki · Menü + konfeti. Hepsi aynı ses yüksekliğinde.', true);
+  GTONES.forEach(function (t) {
+    var card = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div>' +
+      '<div class="name">' + tag(t.l, KEYS.ton === t.l) + t.name + '</div><div class="meta">' + t.what + ' · 2,4 sn · 5 vuruş</div><div class="row"></div></div></div>');
+    var btn = card.querySelector('.play'), row = card.querySelector('.row');
+    btn.addEventListener('click', function () { audio(); stop(); load(t.file, t.local).then(function (buf) { var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination); x.start(); btn.classList.add('on'); setTimeout(function () { btn.classList.remove('on'); }, buf.duration * 1000); }); });
+    row.appendChild(chooseBtn('ton', t.l));
+    row.insertAdjacentHTML('beforeend', tryLink('kazanmaton', t.l, 'Kazanma ekranında dene'));
+    card.dataset.kind = 'ton'; card.dataset.letter = t.l;
+    gtones.appendChild(card);
+  });
+
+  // ---- PM_102 §4: the boosters' sounds (Tools/make_sfx102.py) ----
+  var BGAME = '../?c=p23&test=1&lang=tr&lv=23';
+  var BOOST = [
+    { key:'makas', title:'Makas', hint:'Makasın bıçakları kapandığı anda gerçek bir "şık". Eski tık kalktı.', at:{ kesim:0 } },
+    { key:'degnek', title:'Değnek', hint:'Büyülü parıltı yükselir, dönüşüm anında küçük bir "puf".', at:{ donusum:0 } },
+    { key:'cekic', title:'Çekiç', hint:'Darbe karesinde vuruş + kırılma; parça düşerken hafif tıkırtı.', at:{ vurus:0, kirinti:.18 } },
+    { key:'saat', title:'Saat', hint:'Donarken buz çatırtısı, donma boyunca kısık tik-tak (burada 2 sn), buzlu bar kırılırken buz kırılması.', at:{ donma:0, tiktak:.35, kirilma:2.6 } }
+  ];
+  var boost = section('Booster sesleri', 'Gerçek kayıtlar (CC0), oyuncak tadında; hepsi oyun efekti seviyesinde. ▶ animasyondaki sırasıyla çalar. "Oyunda dene" 23. bölümü o sesle açar.', true);
+  function playBooster(b, c) {
+    audio(); stop(); var t0 = ctx.currentTime + .03;
+    c.files.forEach(function (f) {
+      load('sesler/' + f.file).then(function (buf) {
+        var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination);
+        if (f.part === 'tiktak') { x.loop = true; x.start(t0 + b.at.tiktak); x.stop(t0 + b.at.tiktak + 2); } else x.start(t0 + (b.at[f.part] || 0));
+      });
+    });
+  }
+  get('sesler102.json').then(function (r) { return r.json(); }).then(function (d) {
+    BOOST.forEach(function (b) {
+      boost.appendChild(el('<h3 class="sub">' + b.title + '</h3>'));
+      boost.appendChild(el('<p class="hint">' + b.hint + '</p>'));
+      d.booster[b.key].forEach(function (c) {
+        var card = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div>' +
+          '<div class="name">' + tag(c.letter, KEYS[b.key] === c.letter) + c.name + '</div>' +
+          '<div class="meta">' + c.credit + ' · <a href="' + c.link + '" target="_blank" rel="noopener">CC0</a></div><div class="row"></div></div></div>');
+        card.querySelector('.play').addEventListener('click', function () { playBooster(b, c); });
+        var row = card.querySelector('.row');
+        row.appendChild(chooseBtn(b.key, c.letter));
+        row.insertAdjacentHTML('beforeend', '<a class="btn" href="' + BGAME + '&' + FLAGS[b.key] + '=' + c.letter + '">Oyunda dene</a>');
+        card.dataset.kind = b.key; card.dataset.letter = c.letter;
+        boost.appendChild(card);
+      });
+    });
+    var k = d.carpma;
+    boost.appendChild(el('<p class="hint">Lastik takılma sesi: dört kaydı aynı uzunluğa, aynı ses yüksekliğine ve aynı tepeye getirdim (önce ' + k.before.map(function (v) { return String(v).replace('.', ','); }).join(' / ') + ' LUFS, sonra ' + k.after.map(function (v) { return String(v).replace('.', ','); }).join(' / ') + '); kayma sesinin 2,5 dB üstünde, boşluksuz takılmada da aynı.</p>'));
+    save(true);
+  });
+
+  // ---- PM_100 §1: b's tones (the old ones) ----
   var TONES = [
-    { l:'piyano', name:'Piyano (şimdiki)', what:'bugünkü fanfar', file:'../../music/pm96/kazanma-b5.wav', local:'../../../../Assets/Audio/Fanfare96/kazanma-b5.wav' },
+    { l:'piyano', name:'Pizzicato zafer (b)', what:'eski varsayılan', file:'../../music/pm96/kazanma-b5.wav', local:'../../../../Assets/Audio/Fanfare96/kazanma-b5.wav' },
     { l:'marimba', name:'Marimba + glockenspiel', what:'sıcak, oyuncak', file:'sesler/kazanma-marimba.wav' },
     { l:'pizz', name:'Pizzicato yaylılar + çan', what:'zarif, saray', file:'sesler/kazanma-pizz.wav' },
     { l:'ksilofon', name:'Ksilofon + el çırpma', what:'enerjik, arcade', file:'sesler/kazanma-ksilofon.wav' },
     { l:'kutu', name:'Müzik kutusu + yumuşak pad', what:'masalsı (glockenspiel + kalimba, altında synth pad)', file:'sesler/kazanma-kutu.wav' },
     { l:'bakir', name:'Trompet + tuba (bakır)', what:'kısa trompet vurguları, timpani', file:'sesler/kazanma-bakir.wav' }
   ];
-  var tones = section('Kazanma tınısı', 'Aynı notalar, aynı ritim, aynı uzunluk; yalnız çalgı değişiyor. Kazanma ekranı aynı vuruşlara oturur. Hepsi aynı ses yüksekliğinde. Burada 5 vuruşlu hâli çalar.', true);
+  var tones = section('Kazanma tınısı: eski (b)', 'PM_100\'de b\'nin ritmiyle yapılanlar; karşılaştırma için.', false);
   TONES.forEach(function (t) {
     var card = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div>' +
       '<div class="name">' + tag(t.l, KEYS.ton === t.l) + t.name + '</div><div class="meta">' + t.what + ' · 1,9 sn · 5 vuruş</div><div class="row"></div></div></div>');
     var btn = card.querySelector('.play'), row = card.querySelector('.row');
     btn.addEventListener('click', function () { audio(); stop(); load(t.file, t.local).then(function (buf) { var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination); x.start(); btn.classList.add('on'); setTimeout(function () { btn.classList.remove('on'); }, buf.duration * 1000); }); });
-    row.appendChild(chooseBtn('ton', t.l));
-    row.insertAdjacentHTML('beforeend', tryLink('kazanmaton', t.l, 'Kazanma ekranında dene') + '<a class="btn" href="' + GAME + '&kazanmaton=' + t.l + '&kazanmavurus=7">7 vuruşla</a>');
-    card.dataset.kind = 'ton'; card.dataset.letter = t.l;
+    row.insertAdjacentHTML('beforeend', '<a class="btn" href="' + GAME + '&kazanma=b&kazanmaton=' + t.l + '">Kazanma ekranında dene</a>');
     tones.appendChild(card);
   });
 
@@ -376,7 +434,7 @@
     mixSec.appendChild(jam);
     save(true);
   });
-  var mixSec = section('Ses düzeyi (yeni karışım)', 'Takılma ve sürükleme sesleri artık tık kadar yüksek, müzik 3 dB aşağıda. Telefonda orta seste dene; istersen efektleri daha da aç ya da müziği kıs:', true);
+  var mixSec = section('Ses düzeyi (PM_100 karışımı)', 'Takılma ve sürükleme sesleri artık tık kadar yüksek, müzik 3 dB aşağıda. Telefonda orta seste dene; istersen efektleri daha da aç ya da müziği kıs:', true);
   mixSec.appendChild(el('<div class="row"><a class="btn" href="' + GAME + '">Yeni karışım</a><a class="btn" href="' + GAME + '&sfx=1.5&muzikses=0.7">Efekt 1,5 · müzik 0,7</a><a class="btn" href="' + GAME + '&sfx=1.25">Efekt 1,25</a><a class="btn" href="' + GAME + '&muzikses=0.7">Müzik 0,7</a></div>'));
 
   // PM_99 §2: the soft exits (Tools/make_sfx99.py): a take at a time, or the recorded 10 in a row
@@ -425,7 +483,7 @@
   });
 
   function save(quiet) {
-    try { localStorage.setItem('rs-pm100-pick', JSON.stringify(pick)); } catch (e) {}
+    try { localStorage.setItem('rs-pm102-pick', JSON.stringify(pick)); } catch (e) {}
     document.querySelectorAll('.btn.pick').forEach(function (b) { var on = pick[b.dataset.kind] === b.dataset.letter; b.classList.toggle('on', on); b.textContent = on ? 'Seçildi ✓' : b.dataset.label; });
     document.querySelectorAll('.card').forEach(function (c) {
       var kinds = (c.dataset.kind || '').split(' ');
