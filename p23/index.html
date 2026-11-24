@@ -20,6 +20,35 @@
 <link rel="icon" href="TemplateData/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <script>
+  /* PM_107 §C4: a limiter on every audio context's output (Unity's effects, the music, the opening story): whatever
+     plays at once never clips the speaker. Every connection to a context's speakers goes through that context's
+     DynamicsCompressor (threshold -4 dBFS, ratio 20, attack 2 ms, release 150 ms; the node's own makeup gain is taken
+     back by a trim), so a burst of flicks or a bang over the fanfare is held at the ceiling instead of cracking.
+     ?limiter=0 leaves it out (the before/after recordings). */
+  (function () {
+    if (/[?&]limiter=0/.test(location.search) || !window.AudioNode) return;
+    var connect = AudioNode.prototype.connect;
+    function limiter(c) {
+      if (c.__rsLimiter) return c.__rsLimiter;
+      var k = c.createDynamicsCompressor(), trim = c.createGain();
+      k.threshold.value = -4; k.knee.value = 0; k.ratio.value = 20; k.attack.value = .002; k.release.value = .15;
+      trim.gain.value = .84;   // the compressor's automatic makeup (+2.3 dB here) taken back to a -3 dBFS ceiling: with the music's context on top, under -1
+      connect.call(k, trim); connect.call(trim, c.destination);
+      return c.__rsLimiter = k;
+    }
+    AudioNode.prototype.connect = function (dest) {
+      try {
+        if (dest instanceof AudioDestinationNode && this.context && this.context.createDynamicsCompressor) {
+          var args = Array.prototype.slice.call(arguments); args[0] = limiter(this.context);
+          return connect.apply(this, args);
+        }
+      } catch (e) {}
+      return connect.apply(this, arguments);
+    };
+    window.rsLimiter = true;
+  })();
+</script>
+<script>
   /* PM_104_EK: a sound the browser cannot decode (iPhone Safari: "EncodingError: Decoding failed") must never show
      Unity's alert. Unity's WebAudio, Music.jslib and Intro.jslib call decodeAudioData with callbacks; Safari also
      returns a promise that rejects, nobody catches it, and Unity's unhandledrejection listener turns it into the
@@ -395,9 +424,9 @@ window.ltBoot = function (msg) {
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/252cb6f31d1c7a931db6aea14423ca41.data.unityweb",
-    frameworkUrl: "Build/81bb0ee9e5b7194a0248650ec34cac47.framework.js.unityweb",
-    codeUrl: "Build/e0b0be5eba702702087e5eae8fc07932.wasm.unityweb",
+    dataUrl: "Build/59eb35706f5a9ebafb0750917639a9e2.data.unityweb",
+    frameworkUrl: "Build/35a60ec5b3c104216f567b3a9b14c82b.framework.js.unityweb",
+    codeUrl: "Build/ada4c64448744671346eae218e6b3b35.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
