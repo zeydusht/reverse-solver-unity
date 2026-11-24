@@ -65,13 +65,20 @@ namespace ReverseSolver.EditorTools
                 return false;
             }
 
-            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            // PM_104_EK: the sounds the game plays as raw samples, for this build only (iPhone Safari's decode errors)
+            UnityEditor.Build.Reporting.BuildReport report;
+            WebAudioFormat.Write();
+            try
             {
-                scenes = scenes,
-                locationPathName = outputDir,
-                target = BuildTarget.WebGL,
-                options = BuildOptions.DetailedBuildReport
-            });
+                report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+                {
+                    scenes = scenes,
+                    locationPathName = outputDir,
+                    target = BuildTarget.WebGL,
+                    options = BuildOptions.DetailedBuildReport
+                });
+            }
+            finally { WebAudioFormat.Remove(); }
 
             // A backup or comparison build must not leave its format behind.
             PlayerSettings.WebGL.compressionFormat = ShippedCompression;

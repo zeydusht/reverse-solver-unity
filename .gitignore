@@ -91,3 +91,7 @@ Crashpad/
 # Zeyd screen recordings (too large for git)
 docs/art/reff/*.MP4
 docs/art/reff/*.mp4
+
+# PM_104_EK: the web build writes the chosen sounds as raw samples for the build only (WebAudioFormat)
+Assets/_Game/Presentation/Resources/WebPcm/
+Assets/_Game/Presentation/Resources/WebPcm.meta

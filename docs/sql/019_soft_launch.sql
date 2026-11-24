@@ -3,7 +3,8 @@
 -- column (null when not used). Events:
 --   first_open, session_start, session_end (seconds), att_status (value: authorized / denied / not_determined /
 --   restricted / unavailable), ad_shown (placement, network, revenue USD from MAX OnAdRevenuePaidEvent), ad_reward,
---   ad_failed (value: the error), ad_skipped_not_ready, crash (value: message + 5 stack lines)
+--   ad_failed (value: the error), ad_skipped_not_ready, crash (value: message + 5 stack lines),
+--   audio_decode_fail (PM_104_EK, value: the sound file the device could not decode)
 -- Placements: r1_sure (time-up +30 s), r2_altin (2x gold), r3_booster (+1 booster), r4_hediye (menu gift),
 --   i1_gecis (interstitial).
 
@@ -11,7 +12,7 @@ create table if not exists public.sl_events (
   row_id text primary key,
   created_at timestamptz not null default now(),
   event text not null check (event in ('first_open','session_start','session_end','att_status','ad_shown','ad_reward',
-                                       'ad_failed','ad_skipped_not_ready','crash')),
+                                       'ad_failed','ad_skipped_not_ready','crash','audio_decode_fail')),
   player text,
   session text,
   cohort text,

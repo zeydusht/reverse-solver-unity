@@ -49,7 +49,10 @@ mergeInto(LibraryManager.library, {
         var t = tracks[p];
         if (!t.bytes || t.decoding) return;
         t.decoding = true;
-        M.ctx.decodeAudioData(t.bytes, function (buffer) { if (!finished) { t.buffer = buffer; audio(); } }, function () {});
+        window.rsAudioName = 'intro' + p + '.mp3';
+        var dp = M.ctx.decodeAudioData(t.bytes, function (buffer) { if (!finished) { t.buffer = buffer; audio(); } }, function () {});
+        if (dp && dp.catch) dp.catch(function () {});   // PM_104_EK: Safari's promise too
+        window.rsAudioName = '';
         t.bytes = null;
       });
       if (document.hidden || phase !== 'playing' || current.paused || M.ctx.state !== 'running' || !track.buffer || source) return;

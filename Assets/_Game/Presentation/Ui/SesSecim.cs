@@ -42,8 +42,15 @@ namespace ReverseSolver.Presentation
         /* Resources.Load for the sound loaders: remembers what was found. */
         public static T Load<T>(string path) where T : Object
         {
-            var a = Resources.Load<T>(path);
+            // PM_104_EK: on the web the chosen sounds come from their raw samples (WebPcm: Safari decodes nothing)
+            var a = typeof(T) == typeof(AudioClip) ? WebPcm.Load(path) as T : null;
+            if (a != null) { _used.Add(path); return a; }
+            bool clip = typeof(T) == typeof(AudioClip);
+            if (clip) AudioDecodeWatch.Loading(path);
+            a = Resources.Load<T>(path);
+            if (clip) AudioDecodeWatch.Loading(null);
             if (a != null) _used.Add(path);
+            if (a is AudioClip c) AudioDecodeWatch.Watch(path, c);   // PM_104_EK: a file the browser cannot decode is reported
             return a;
         }
 

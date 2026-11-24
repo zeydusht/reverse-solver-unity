@@ -239,6 +239,7 @@ namespace ReverseSolver.EditorTools
             var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
             if (Directory.Exists(Out)) Directory.Delete(Out, true);
             RestoreCandidates();   // a build that died half way
+            WebAudioFormat.Remove();   // PM_104_EK: the web's raw samples never in the app
             // PM_103: the chosen music in this build (the web streams it from Pages), and only the chosen sounds
             EmbedMusic();
             var stashed = StashCandidates();

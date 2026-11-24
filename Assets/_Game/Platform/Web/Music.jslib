@@ -7,6 +7,17 @@
 //   fanfare -> its own gain (the Sound switch) -> out
 // M.gain stays the master: the opening story (Intro.jslib) silences it while it plays.
 mergeInto(LibraryManager.library, {
+  /* PM_104_EK: the sound file Unity is loading (AudioDecodeWatch, around Resources.Load), so the page's decode guard
+     (index.html) can name a file Safari could not decode; and those names, the new ones since the last call. */
+  RS_AudioName: function (namePtr) { window.rsAudioName = namePtr ? UTF8ToString(namePtr) : ''; },
+  RS_AudioFailsTake: function () {
+    var f = window.rsAudioFails || [], i = window.rsAudioFailsTaken || 0, out = [];
+    for (; i < f.length; i++) if (f[i].error !== 'rejection' && f[i].error !== 'error') out.push(f[i].name || (f[i].size + ' B'));
+    window.rsAudioFailsTaken = i;
+    var s = out.join('\n'), n = lengthBytesUTF8(s) + 1, b = _malloc(n);
+    stringToUTF8(s, b, n);
+    return b;
+  },
   RS_MusicInit: function (lobbyUrl, lobbyStart, lobbyLength, levelUrl, levelStart, levelLength, fanfareUrl, volume, on) {
     var M = window.rsMusic = window.rsMusic || {};
     M.volume = volume; M.on = !!on;
@@ -23,7 +34,7 @@ mergeInto(LibraryManager.library, {
     var events = ['touchend', 'click', 'pointerup', 'keydown'];
     function decode(url) {
       return fetch(url).then(function (r) { if (!r.ok) throw 0; return r.arrayBuffer(); })
-        .then(function (b) { return new Promise(function (ok, no) { M.ctx.decodeAudioData(b, ok, no); }); });
+        .then(function (b) { return new Promise(function (ok, no) { window.rsAudioName = url.split('/').pop(); var p = M.ctx.decodeAudioData(b, ok, no); window.rsAudioName = ''; if (p && p.catch) p.catch(no); }); });   // PM_104_EK: Safari's promise too
     }
     function load(name) {
       var T = M.tracks[name];

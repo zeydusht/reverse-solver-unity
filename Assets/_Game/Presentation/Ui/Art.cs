@@ -86,7 +86,16 @@ namespace ReverseSolver.Presentation
         public static bool T15 => Get("jiggle-counter") != null;
         public static TMPro.TMP_FontAsset Lilita => On ? Resources.Load<TMPro.TMP_FontAsset>("Fonts/Lilita") : null;
         public static Texture2D Texture(string key) => Load<Texture2D>(key);
-        public static AudioClip Sound(string key) => Load<AudioClip>("audio/" + key);
+        public static AudioClip Sound(string key)
+        {
+            var clip = On ? WebPcm.Load("Art/audio/" + key) : null;   // PM_104_EK: the web's raw samples
+            if (clip != null) return clip;
+            AudioDecodeWatch.Loading("Art/audio/" + key);
+            clip = Load<AudioClip>("audio/" + key);
+            AudioDecodeWatch.Loading(null);
+            AudioDecodeWatch.Watch("Art/audio/" + key, clip);   // PM_104_EK
+            return clip;
+        }
 
         /* An icon sprite centred at c (pt); false when the art is off (draw the vector icon instead). */
         public static bool Icon(Transform parent, string key, Vector2 c, float size, int order)
