@@ -166,5 +166,26 @@ namespace ReverseSolver.Core.Tests
             Assert.That(html, Does.Not.Contain("with:'ting'"));
             StringAssert.Contains("cikis:'q'", html);
         }
+
+        /* PM_106_EK2: the page was blank on the iPhone (and everywhere): one apostrophe ("Durdur'daki") in a quoted hint
+           stopped the one script that built every section. Now each section is its own <script> (a syntax error or a
+           throw leaves the others and says "yüklenemedi" in its place), and Tools/webkit_sesler.js opened it in WebKit at
+           390 x 844 and played every section's first sound. */
+        [Test]
+        public void TheListeningPageStandsSectionBySection()
+        {
+            string html = File.ReadAllText("docs/art/pm102/onizleme/sesler.html");
+            Assert.That(Regex.Matches(html, "<script data-sec=\"[^\"]+\">\\s*block\\('").Count, Is.GreaterThanOrEqualTo(10), "a script per section");
+            StringAssert.Contains("function block(title, fn)", html);
+            StringAssert.Contains("Bu bölüm yüklenemedi", html);
+            StringAssert.Contains("if (!RAN[s.dataset.sec]) failed(", html);
+            Assert.That(html, Does.Not.Contain("(Durdur'daki"));
+            string run = File.ReadAllText("docs/art/pm106/sesler_webkit.json");
+            StringAssert.Contains("\"pass\": true", run);
+            StringAssert.Contains("\"viewport\": \"390x844\"", run);
+            Assert.That(Regex.IsMatch(run, "\"broken\": true"), Is.False, "no section yüklenemedi");
+            Assert.That(Regex.IsMatch(run, "\"decodeErrors\": \\[\\s*\""), Is.False, "no decode failed");
+            Assert.That(File.Exists("docs/art/pm106/sesler_webkit.png"));
+        }
     }
 }

@@ -1,0 +1,368 @@
+{
+ "url": "http://127.0.0.1:8124/p23/onizleme/sesler.html",
+ "webkit": {
+  "viewport": "390x844",
+  "audio": false,
+  "sections": [
+   {
+    "title": "Bugünkü seçim",
+    "broken": false,
+    "cards": 25,
+    "links": 0,
+    "played": null
+   },
+   {
+    "title": "Sürükleme / çıkış (Block Out tarzı)",
+    "broken": false,
+    "cards": 5,
+    "links": 5,
+    "played": null
+   },
+   {
+    "title": "Zincir (gerçek zincir kaydı)",
+    "broken": false,
+    "cards": 6,
+    "links": 6,
+    "played": null
+   },
+   {
+    "title": "Kaydırma (swoosh)",
+    "broken": false,
+    "cards": 7,
+    "links": 7,
+    "played": null
+   },
+   {
+    "title": "Düğme (tok)",
+    "broken": false,
+    "cards": 7,
+    "links": 7,
+    "played": null
+   },
+   {
+    "title": "Kazanma tınısı (g: Piyano ta-da)",
+    "broken": false,
+    "cards": 5,
+    "links": 5,
+    "played": null
+   },
+   {
+    "title": "Booster sesleri",
+    "broken": false,
+    "cards": 12,
+    "links": 12,
+    "played": null
+   },
+   {
+    "title": "Kazanma tınısı: eski (b)",
+    "broken": false,
+    "cards": 6,
+    "links": 6,
+    "played": null
+   },
+   {
+    "title": "Geçiş sesleri",
+    "broken": false,
+    "cards": 15,
+    "links": 15,
+    "played": null
+   },
+   {
+    "title": "Ses düzeyi (PM_100 karışımı)",
+    "broken": false,
+    "cards": 1,
+    "links": 4,
+    "played": null
+   },
+   {
+    "title": "Çıkış (yumuşak)",
+    "broken": false,
+    "cards": 6,
+    "links": 5,
+    "played": null
+   },
+   {
+    "title": "Bölüm (yeni)",
+    "broken": false,
+    "cards": 8,
+    "links": 8,
+    "played": null
+   },
+   {
+    "title": "Lobi (menü müziği)",
+    "broken": false,
+    "cards": 5,
+    "links": 5,
+    "played": null
+   },
+   {
+    "title": "Bölüm: PM_96 adayları",
+    "broken": false,
+    "cards": 7,
+    "links": 7,
+    "played": null
+   },
+   {
+    "title": "Kazanma ekranı: 7 mi 5 mi?",
+    "broken": false,
+    "cards": 0,
+    "links": 2,
+    "played": null
+   },
+   {
+    "title": "Kazanma fanfarı",
+    "broken": false,
+    "cards": 8,
+    "links": 8,
+    "played": null
+   },
+   {
+    "title": "Zincir şıkırtısı (sürüklerken / sallanırken)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": null
+   },
+   {
+    "title": "Zincir gerilip takılınca (çın + şıkırtı)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": null
+   },
+   {
+    "title": "Kilitli parçaya dokununca",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": null
+   },
+   {
+    "title": "Kilit açılınca (anahtar dönüşü + kilidin düşüşü)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": null
+   },
+   {
+    "title": "Bomba patlayınca (oyuncak tadında)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": null
+   },
+   {
+    "title": "Kırmızı duvara çarpınca (bonk)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": null
+   },
+   {
+    "title": "Çıkış: eski adaylar",
+    "broken": false,
+    "cards": 5,
+    "links": 5,
+    "played": null
+   },
+   {
+    "title": "Çarpma (lastik takılma)",
+    "broken": false,
+    "cards": 4,
+    "links": 4,
+    "played": null
+   },
+   {
+    "title": "Önceki müzik adayları",
+    "broken": false,
+    "cards": 13,
+    "links": 26,
+    "played": null
+   }
+  ],
+  "pageErrors": []
+ },
+ "play": {
+  "engine": "chrome",
+  "sections": [
+   {
+    "title": "Bugünkü seçim",
+    "broken": false,
+    "cards": 25,
+    "links": 0,
+    "played": true
+   },
+   {
+    "title": "Sürükleme / çıkış (Block Out tarzı)",
+    "broken": false,
+    "cards": 5,
+    "links": 5,
+    "played": true
+   },
+   {
+    "title": "Zincir (gerçek zincir kaydı)",
+    "broken": false,
+    "cards": 6,
+    "links": 6,
+    "played": true
+   },
+   {
+    "title": "Kaydırma (swoosh)",
+    "broken": false,
+    "cards": 7,
+    "links": 7,
+    "played": true
+   },
+   {
+    "title": "Düğme (tok)",
+    "broken": false,
+    "cards": 7,
+    "links": 7,
+    "played": true
+   },
+   {
+    "title": "Kazanma tınısı (g: Piyano ta-da)",
+    "broken": false,
+    "cards": 5,
+    "links": 5,
+    "played": true
+   },
+   {
+    "title": "Booster sesleri",
+    "broken": false,
+    "cards": 12,
+    "links": 12,
+    "played": true
+   },
+   {
+    "title": "Kazanma tınısı: eski (b)",
+    "broken": false,
+    "cards": 6,
+    "links": 6,
+    "played": true
+   },
+   {
+    "title": "Geçiş sesleri",
+    "broken": false,
+    "cards": 15,
+    "links": 15,
+    "played": true
+   },
+   {
+    "title": "Ses düzeyi (PM_100 karışımı)",
+    "broken": false,
+    "cards": 1,
+    "links": 4,
+    "played": true
+   },
+   {
+    "title": "Çıkış (yumuşak)",
+    "broken": false,
+    "cards": 6,
+    "links": 5,
+    "played": true
+   },
+   {
+    "title": "Bölüm (yeni)",
+    "broken": false,
+    "cards": 8,
+    "links": 8,
+    "played": true
+   },
+   {
+    "title": "Lobi (menü müziği)",
+    "broken": false,
+    "cards": 5,
+    "links": 5,
+    "played": true
+   },
+   {
+    "title": "Bölüm: PM_96 adayları",
+    "broken": false,
+    "cards": 7,
+    "links": 7,
+    "played": true
+   },
+   {
+    "title": "Kazanma ekranı: 7 mi 5 mi?",
+    "broken": false,
+    "cards": 0,
+    "links": 2,
+    "played": null
+   },
+   {
+    "title": "Kazanma fanfarı",
+    "broken": false,
+    "cards": 8,
+    "links": 8,
+    "played": true
+   },
+   {
+    "title": "Zincir şıkırtısı (sürüklerken / sallanırken)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": true
+   },
+   {
+    "title": "Zincir gerilip takılınca (çın + şıkırtı)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": true
+   },
+   {
+    "title": "Kilitli parçaya dokununca",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": true
+   },
+   {
+    "title": "Kilit açılınca (anahtar dönüşü + kilidin düşüşü)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": true
+   },
+   {
+    "title": "Bomba patlayınca (oyuncak tadında)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": true
+   },
+   {
+    "title": "Kırmızı duvara çarpınca (bonk)",
+    "broken": false,
+    "cards": 3,
+    "links": 3,
+    "played": true
+   },
+   {
+    "title": "Çıkış: eski adaylar",
+    "broken": false,
+    "cards": 5,
+    "links": 5,
+    "played": true
+   },
+   {
+    "title": "Çarpma (lastik takılma)",
+    "broken": false,
+    "cards": 4,
+    "links": 4,
+    "played": true
+   },
+   {
+    "title": "Önceki müzik adayları",
+    "broken": false,
+    "cards": 13,
+    "links": 26,
+    "played": true
+   }
+  ],
+  "pageErrors": [],
+  "decodeErrors": []
+ },
+ "pass": true
+}
