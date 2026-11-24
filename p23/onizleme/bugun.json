@@ -6,7 +6,6 @@
   "kazanmaton": "marimba",
   "cikis": "f",
   "carpma": "a",
-  "tik": "b",
   "makas": "c",
   "degnek": "a",
   "cekic": "a",
@@ -16,7 +15,13 @@
   "cizgi": "a",
   "geri": "a",
   "sekme": "a",
-  "dugme": "a"
+  "dugme": "a",
+  "zincir": "a",
+  "zincirger": "a",
+  "kilitdokun": "a",
+  "kilitac": "a",
+  "patlama": "a",
+  "duvar": "a"
  },
  "events": [
   {
@@ -54,32 +59,10 @@
    ]
   },
   {
-   "name": "Tık (oyun içi)",
-   "letter": "b",
-   "files": [
-    "tik-b1.wav",
-    "tik-b2.wav",
-    "tik-b3.wav",
-    "tik-b4.wav"
-   ]
-  },
-  {
-   "name": "Düğme tıkı (diğer düğmeler)",
-   "letter": "b",
-   "files": [
-    "ui-tick-b1.wav",
-    "ui-tick-b2.wav",
-    "ui-tick-b3.wav",
-    "ui-tick-b4.wav"
-   ]
-  },
-  {
-   "name": "Düğme (tok): Durdur, Devam, Menü, sekmeler, Ayarlar",
+   "name": "Düğme (tok): bütün düğmeler",
    "letter": "a",
    "files": [
-    "ui-tok-a1.wav",
-    "ui-tok-a2.wav",
-    "ui-tok-a3.wav"
+    "ui-tok-a1.wav"
    ]
   },
   {
@@ -116,10 +99,55 @@
    ]
   },
   {
-   "name": "Kilit açılır",
-   "letter": "",
+   "name": "Zincir şıkırtısı (sürüklerken / sallanırken)",
+   "letter": "a",
    "files": [
-    "kilit-a1.wav"
+    "zincir-a1.wav",
+    "zincir-a2.wav",
+    "zincir-a3.wav",
+    "zincir-a4.wav"
+   ]
+  },
+  {
+   "name": "Zincir gerilip takılınca (çın + şıkırtı)",
+   "letter": "a",
+   "files": [
+    "zincirger-a1.wav",
+    "zincirger-a2.wav",
+    "zincirger-a3.wav"
+   ]
+  },
+  {
+   "name": "Kilitli parçaya dokununca",
+   "letter": "a",
+   "files": [
+    "kilitdokun-a1.wav",
+    "kilitdokun-a2.wav",
+    "kilitdokun-a3.wav"
+   ]
+  },
+  {
+   "name": "Kilit açılınca (anahtar dönüşü + kilidin düşüşü)",
+   "letter": "a",
+   "files": [
+    "kilitac-a1.wav",
+    "kilitac-a2.wav"
+   ]
+  },
+  {
+   "name": "Bomba patlayınca (oyuncak tadında)",
+   "letter": "a",
+   "files": [
+    "patlama-a1.wav"
+   ]
+  },
+  {
+   "name": "Kırmızı duvara çarpınca (bonk)",
+   "letter": "a",
+   "files": [
+    "duvar-a1.wav",
+    "duvar-a2.wav",
+    "duvar-a3.wav"
    ]
   },
   {
