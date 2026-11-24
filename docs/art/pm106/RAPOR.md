@@ -140,6 +140,10 @@ Tablo: `lastik_olcum.md`.
   - Çıkışta `cikis-q1` çalıyor.
   - **Bulunup düzeltilen:** WebGL'de yeni başlayan ses kaynağı birkaç kare "çalmıyor" göründüğü için döngü 0,1 sn'de bir değişiyordu. Döngünün bitişi artık saatle hesaplanıyor.
   - Bölüm açılırken zincirin sallanması da şıkırtı çaldırıyordu. İlk 3 sn sessiz.
+- **`verify_build`:**
+  - yerel 4/4;
+  - gönderimli 7/7 (TEST_PM106, TEST_PM106B);
+  - canlı p23 4/4 (gh-pages cef27f30).
 - **Dinleme sayfası = oyun:** `ses_eslesme.md`, 24 olay, uyuşmayan 0.
 - **Boyut:** data 37,94 MB Brotli. PM_105'te 36,77 MB'tı.
   - +1,2 MB'ın kaynağı: yeni sesler, özellikle 9 zincir döngüsü, ve iPhone'da denenebilsinler diye bütün PM_106 adaylarının ham örnekleri.
