@@ -39,6 +39,7 @@ Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. �
 | Anahtar (ses, müzik, titreşim, dil) | UI Audio (switch16, switch18) | Kenney | https://kenney.nl/assets/ui-audio | CC0 |
 | Panel açılış ve kapanış vuşu | Swishes Sound Pack (swish-4, swish-5) | artisticdude | https://opengameart.org/content/swishes-sound-pack | CC0 |
 | Pasif düğme (tok) | Impact Sounds (impactWood_light) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
+| Düğme toku: Durdur, Devam, Menü, alt sekmeler, Ayarlar (PM_104, a) | Impact Sounds (impactWood_light_000, _002, _004) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
 
 ## Booster sesleri
 

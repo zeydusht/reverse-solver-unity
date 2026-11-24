@@ -1,0 +1,194 @@
+{
+ "secim": {
+  "lobi": "n",
+  "bolum": "E",
+  "kazanma": "g",
+  "kazanmaton": "marimba",
+  "cikis": "f",
+  "carpma": "a",
+  "tik": "b",
+  "makas": "c",
+  "degnek": "a",
+  "cekic": "a",
+  "saat": "a",
+  "koridor": "a",
+  "dalis": "a",
+  "cizgi": "a",
+  "geri": "a",
+  "sekme": "a",
+  "dugme": "a"
+ },
+ "events": [
+  {
+   "name": "Kaydırma (parça çıkışı)",
+   "letter": "f",
+   "files": [
+    "cikis-f1.wav",
+    "cikis-f2.wav",
+    "cikis-f3.wav",
+    "cikis-f4.wav"
+   ]
+  },
+  {
+   "name": "Kalkış (takılmada, kısa ve uzun)",
+   "letter": "f",
+   "files": [
+    "kalkis-f1.wav",
+    "kalkis-f2.wav",
+    "kalkis-f3.wav",
+    "kalkis-f4.wav",
+    "kalkisk-f1.wav",
+    "kalkisk-f2.wav",
+    "kalkisk-f3.wav",
+    "kalkisk-f4.wav"
+   ]
+  },
+  {
+   "name": "Çarpma (takılma)",
+   "letter": "a",
+   "files": [
+    "carpma-a1.wav",
+    "carpma-a2.wav",
+    "carpma-a3.wav",
+    "carpma-a4.wav"
+   ]
+  },
+  {
+   "name": "Tık (oyun içi)",
+   "letter": "b",
+   "files": [
+    "tik-b1.wav",
+    "tik-b2.wav",
+    "tik-b3.wav",
+    "tik-b4.wav"
+   ]
+  },
+  {
+   "name": "Düğme tıkı (diğer düğmeler)",
+   "letter": "b",
+   "files": [
+    "ui-tick-b1.wav",
+    "ui-tick-b2.wav",
+    "ui-tick-b3.wav",
+    "ui-tick-b4.wav"
+   ]
+  },
+  {
+   "name": "Düğme (tok): Durdur, Devam, Menü, sekmeler, Ayarlar",
+   "letter": "a",
+   "files": [
+    "ui-tok-a1.wav",
+    "ui-tok-a2.wav",
+    "ui-tok-a3.wav"
+   ]
+  },
+  {
+   "name": "Panel açılır / kapanır (vuş)",
+   "letter": "",
+   "files": [
+    "ui-close1.wav",
+    "ui-close2.wav",
+    "ui-open1.wav",
+    "ui-open2.wav"
+   ]
+  },
+  {
+   "name": "Anahtar (ses, müzik, titreşim)",
+   "letter": "",
+   "files": [
+    "ui-toggle1.wav",
+    "ui-toggle2.wav"
+   ]
+  },
+  {
+   "name": "Olmayan düğme (pasif)",
+   "letter": "",
+   "files": [
+    "ui-dull1.wav",
+    "ui-dull2.wav"
+   ]
+  },
+  {
+   "name": "Bomba sökülür",
+   "letter": "",
+   "files": [
+    "bomba-a1.wav"
+   ]
+  },
+  {
+   "name": "Kilit açılır",
+   "letter": "",
+   "files": [
+    "kilit-a1.wav"
+   ]
+  },
+  {
+   "name": "Makas",
+   "letter": "c",
+   "files": [
+    "booster-makas-kesim-c.wav"
+   ]
+  },
+  {
+   "name": "Değnek",
+   "letter": "a",
+   "files": [
+    "booster-degnek-donusum-a.wav"
+   ]
+  },
+  {
+   "name": "Çekiç",
+   "letter": "a",
+   "files": [
+    "booster-cekic-kirinti-a.wav",
+    "booster-cekic-vurus-a.wav"
+   ]
+  },
+  {
+   "name": "Saat",
+   "letter": "a",
+   "files": [
+    "booster-saat-donma-a.wav",
+    "booster-saat-kirilma-a.wav",
+    "booster-saat-tiktak-a.wav"
+   ]
+  },
+  {
+   "name": "Koridor",
+   "letter": "a",
+   "files": [
+    "gecis-koridor-a.wav"
+   ]
+  },
+  {
+   "name": "Dalış (+ ting)",
+   "letter": "a",
+   "files": [
+    "gecis-dalis-a.wav",
+    "gecis-ting-a.wav"
+   ]
+  },
+  {
+   "name": "Çizgi",
+   "letter": "a",
+   "files": [
+    "gecis-cizgi-a.wav"
+   ]
+  },
+  {
+   "name": "Geri çekilme (+ HUD tıkı)",
+   "letter": "a",
+   "files": [
+    "gecis-geri-a.wav",
+    "gecis-hud-a.wav"
+   ]
+  },
+  {
+   "name": "Sekme",
+   "letter": "a",
+   "files": [
+    "gecis-sekme-a.wav"
+   ]
+  }
+ ]
+}

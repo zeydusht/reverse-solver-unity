@@ -118,6 +118,9 @@ namespace ReverseSolver.Presentation
                 }
         }
 
+        /* PM_104 §3: the tabs' swish under the tok, 12 dB down (the tok leads). */
+        public const float SekmeUnderTok104 = .25f;
+
         /* The pages to `to` from wherever they are now; the first step on this very frame. */
         void MovePages88(int to, float seconds)
         {
@@ -127,7 +130,7 @@ namespace ReverseSolver.Presentation
             _pageAnimFrame = Time.frameCount;
             _pageFrames = _pageSlow = 0; _pageMaxDt = 0;
             MenuTabs.Sliding = _pageAnim;
-            if (_pageAnim && Mathf.Abs(_pageTo - _pageFrom) > .3f) { Gecis100.Event("sekme kayışı"); Gecis100.Play(Gecis100.Kind.Sekme); }   // PM_100 §4: a short swish
+            if (_pageAnim && Mathf.Abs(_pageTo - _pageFrom) > .3f) { Gecis100.Event("sekme kayışı"); Gecis100.Play(Gecis100.Kind.Sekme, UiSounds.DugmeLetter == '0' ? 1 : SekmeUnderTok104); }   // PM_100 §4: a short swish
             float k = Mathf.Clamp01(_pageT / Mathf.Max(.05f, seconds));
             _pagePos = _pageAnim ? Mathf.LerpUnclamped(_pageFrom, _pageTo, OutQuint(k)) : to;
             PlacePages();
@@ -162,7 +165,7 @@ namespace ReverseSolver.Presentation
             int tab = _tabs?.Hit(pt) ?? -1;
             if (tab < 0) return false;
             var clock = System.Diagnostics.Stopwatch.StartNew();
-            Haptics.Button();
+            Haptics.Button(); UiSounds.AsTok();   // PM_104 §3: the tabs' tok
             float haptics = (float)clock.Elapsed.TotalMilliseconds;
             _pageInputMs = (float)(inputAge * 1000);
             if (_levelsMapOpen || !PagesOn)
@@ -213,7 +216,7 @@ namespace ReverseSolver.Presentation
             else if (v < -SwipeFlick && d < -.02f || v <= SwipeFlick && d < -.5f) target--;
             target = Mathf.Clamp(target, 0, 3);
             Debug.Log($"[sekme] swipe {(target != (int)_swipeBase ? "settles" : "springs back")} at {d:0.00}, {v:0} pt/s");
-            if (target != (int)_tab) { Haptics.Button(); RememberMenuScroll(); ChooseTab88(target); }
+            if (target != (int)_tab) { Haptics.Button(); UiSounds.AsTok(); RememberMenuScroll(); ChooseTab88(target); }
             _pageInputMs = 0;
             MovePages88(target, PageSeconds);
             if (!_pageAnim) MenuTabs.Sliding = false;

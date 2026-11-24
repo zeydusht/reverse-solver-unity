@@ -962,7 +962,7 @@ namespace ReverseSolver.Presentation
                 Lang.Tr = id == "tr"; RememberMenuScroll(); Layout(); OpenSettings(); return;
             }
             _menuSettings.Destroy(); _menuSettings = null;
-            if (id != "close") OpenSettings(); else UiSounds.Request(UiSounds.Kind.Close);
+            if (id != "close") OpenSettings(); else { UiSounds.AsTok(); UiSounds.Request(UiSounds.Kind.Close); }
         }
 
         int TotalStars()
@@ -989,7 +989,7 @@ namespace ReverseSolver.Presentation
         {
             if (Art.On)
             {
-                if (_menuSettings == null) UiSounds.Request(UiSounds.Kind.Open);   // PM_98 §4 (rebuilt in place: no swish)
+                if (_menuSettings == null) { UiSounds.AsTok(); UiSounds.Request(UiSounds.Kind.Open); }   // PM_98 §4 (rebuilt in place: no swish); PM_104 §3: Ayarlar's tok
                 _menuSettings?.Destroy(); _menuSettings = new MenuSettings(_world, _screen, CardOrder);
                 PanelMotion76.Open(_menuSettings.Root, _screen / 2 + new Vector2(0, 17));   // PM_76: a soft open
                 return;
@@ -1016,10 +1016,11 @@ namespace ReverseSolver.Presentation
         readonly AudioSource[] _sfx = new AudioSource[6];
         AudioSource _sfxLate;
         int _sfxNext;
-        bool PlaySfx(Sfx95.Kind kind, float volumeScale, float delay = 0)
+        bool PlaySfx(Sfx95.Kind kind, float volumeScale, float delay = 0, float pitchScale = 1)
         {
             var clip = Sfx95.Pick(kind, out float pitch);
             if (clip == null) return false;
+            pitch *= pitchScale;
             if (SesLog) Debug.Log($"[ses] {kind} {clip.name} {Time.unscaledTime:0.000}");
             if (Art.Muted) return true;
             // PM_100 §3: the game's effects (not the jingles) times &sfx=; over 1 a second copy on the next source, started
@@ -1076,12 +1077,22 @@ namespace ReverseSolver.Presentation
         readonly System.Collections.Generic.Dictionary<int, (float at, bool unused)> _pendingExits = new System.Collections.Generic.Dictionary<int, (float, bool)>();
         int _exitFrame = -1;
         bool _unlockPending;
-        void ExitSound(bool bomb, bool last, bool unlocked, bool lastTap = true)
+        /* PM_104 §2: the slide follows the piece's speed: a fast flick a little brighter and shorter (pitch up to +4 %,
+           +1 dB), a slow push a little softer (-4 %, -1 dB); speed in cells/s at release, below 0: not known (as before). */
+        public const float ExitSlow = 5, ExitFast = 35;
+        public static (float pitch, float volume) ExitBySpeed(float cells)
         {
+            if (cells < 0) return (1, 1);
+            float k = Mathf.Clamp01((cells - ExitSlow) / (ExitFast - ExitSlow));
+            return (Mathf.Lerp(.96f, 1.04f, k), Mathf.Lerp(.89f, 1.12f, k));
+        }
+        void ExitSound(bool bomb, bool last, bool unlocked, bool lastTap = true, float speedCells = -1)
+        {
+            var (exitPitch, exitVol) = ExitBySpeed(speedCells);
             // PM_99 §4: the last piece leaves with the ordinary exit sound (no sound of its own); the fanfare follows
             // PM_74: the tick (every exit) was the loudest sound (-14 dB peak window); -4 dB, the defuse -1.5 dB
             // PM_100 §3: the bomb's defuse and the lock at the effects' level (pm100), the exit as well
-            if (P21JuiceView.Enabled && (bomb ? !PlaySfx(Sfx95.Kind.Bomb, 1f) : !PlaySfx(Sfx95.Kind.Exit, ExitLevel))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
+            if (P21JuiceView.Enabled && (bomb ? !PlaySfx(Sfx95.Kind.Bomb, 1f) : !PlaySfx(Sfx95.Kind.Exit, ExitLevel * exitVol, 0, exitPitch))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
             if (unlocked && !PlaySfx(Sfx95.Kind.Unlock, 1f)) PlaySound("pm72-unlock");
             if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
             else if (lastTap) Haptics.Play(Haptics.Kind.Success);   // otherwise Finished taps
@@ -1090,7 +1101,7 @@ namespace ReverseSolver.Presentation
         {
             if (!_pendingExits.Remove(piece)) return;
             bool freed = _unlockPending; _unlockPending = false;
-            ExitSound(bomb, last && _session.Outcome == Outcome.Win, freed);
+            ExitSound(bomb, last && _session.Outcome == Outcome.Win, freed, speedCells: _board != null ? _board.ExitSpeedCells : -1);
         }
         /* An exit that never reached the edge on screen (the board was rebuilt) still gets its sound. */
         void FlushExits()
@@ -1161,6 +1172,8 @@ namespace ReverseSolver.Presentation
                 bool last = _session.Board.PresentCount == 0;
                 bool bomb = _session.Level.Bombs.ContainsKey(e.Piece);
                 if (!e.ByHammer && P21JuiceView.Enabled && _board != null) { _pendingExits[e.Piece] = (Time.unscaledTime, false); _exitFrame = Time.frameCount; }
+                // PM_104 §1: a piece the hammer removes has the hammer's blow and crumbs (BoosterSounds102), not the slide too
+                else if (e.ByHammer && !bomb && BoosterSounds102.On(BoosterSounds102.Part.CekicVurus)) { if (!last) Haptics.Play(Haptics.Kind.Light); }
                 else ExitSound(bomb, last, false, lastTap: false);
             }
             else if (P21JuiceView.Enabled && e.Kind == EventKind.NailFreed)
@@ -1168,7 +1181,8 @@ namespace ReverseSolver.Presentation
                 if (_exitFrame == Time.frameCount && _pendingExits.Count > 0) _unlockPending = true;
                 else { if (!PlaySfx(Sfx95.Kind.Unlock, 1f)) PlaySound("pm72-unlock"); Haptics.Play(Haptics.Kind.Light); }
             }
-            else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) PlaySound("piece");
+            // PM_104 §1: the scissors' cut has its own snip (BoosterSounds102, makas c); the old tok only without one
+            else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) { if (!BoosterSounds102.On(BoosterSounds102.Part.MakasKesim)) PlaySound("piece"); }
             // PM_75: a stuck piece that slides first knocks at the contact (BoardView.ContactHit), not here
             else if (e.Kind == EventKind.Jammed && !(_board != null && _drag != null && _drag.Piece == e.Piece && _board.WillSlide(e.Piece, _drag.Direction)))
             { if (!Knock102()) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }   // PM_102 §2: no room to slide: the same knock (it was -3 dB)
@@ -1559,6 +1573,8 @@ namespace ReverseSolver.Presentation
 
         /* PM_98 §4: the panels a player opens swish open and closed (a card rebuilt in place: both in one frame, neither). */
         static bool Swishes98(string kind) => kind == "pause" || kind == "settings" || kind == "ask";
+        /* PM_104 §3: the pause and settings cards' buttons (Devam, Menü, Ayarlar ...) sound the tok. */
+        static bool TokCard104(string kind) => kind == "pause" || kind == "settings";
         void OpenCard(string kind, Card card)
         {
             CloseCard();
@@ -1792,7 +1808,9 @@ namespace ReverseSolver.Presentation
             var src = _ui[_uiNext] != null ? _ui[_uiNext] : _ui[_uiNext] = gameObject.AddComponent<AudioSource>();
             _uiNext = (_uiNext + 1) % _ui.Length;
             src.ignoreListenerPause = true; src.playOnAwake = false;
-            src.Stop(); src.clip = clip; src.pitch = pitch; src.volume = 1; src.Play();
+            // PM_104 §3: a panel's swish under a tok 9 dB down: the tok leads
+            float vol = (kind == UiSounds.Kind.Open || kind == UiSounds.Kind.Close) && UiSounds.SwishUnderTok ? UiSounds.SwishUnderTokVolume : 1;
+            src.Stop(); src.clip = clip; src.pitch = pitch; src.volume = vol; src.Play();
         }
 
         /* PM_98 §4: what the player can see change after a tap (the tap-feedback test compares it before and after). */
@@ -2175,13 +2193,13 @@ namespace ReverseSolver.Presentation
                         _cardTap = null;
                         if (_card != card) return;
                         _cardFiring = true;
-                        try { Haptics.Button(); Press(at); } finally { _cardFiring = false; }
+                        try { Haptics.Button(); if (TokCard104(_cardKind)) UiSounds.AsTok(); Press(at); } finally { _cardFiring = false; }
                     });
                     return;
                 }
                 string id = _card.HitButton(pt);
                 if (id == null) return;
-                if (!_cardFiring) Haptics.Button();   // PM_98 §4: a button without the pressed look ticks too
+                if (!_cardFiring) { Haptics.Button(); if (TokCard104(_cardKind)) UiSounds.AsTok(); }   // PM_98 §4: a button without the pressed look ticks too
                 switch (_cardKind)
                 {
                     case "intro": _introOpen = false; CloseCard(); ShowScriptedTutorial(); break;
@@ -2257,7 +2275,7 @@ namespace ReverseSolver.Presentation
                 return;
             }
 
-            if (UseHud54 && _bar.HitAction(pt) == BarAction.Pause) { Haptics.Button(); OpenPause54(); return; }   // PM_98 §3: tick + select
+            if (UseHud54 && _bar.HitAction(pt) == BarAction.Pause) { Haptics.Button(); UiSounds.AsTok(); OpenPause54(); return; }   // PM_104 §3: Durdur's tok   // PM_98 §3: tick + select
             if (_hud.RestartRect.Contains(pt))
             {
                 Haptics.Button();

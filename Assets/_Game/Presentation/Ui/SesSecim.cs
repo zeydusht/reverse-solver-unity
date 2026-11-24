@@ -14,7 +14,7 @@ namespace ReverseSolver.Presentation
         public const string Asset = "Assets/Config/Resources/ses.json";
         /* The keys of ses.json, Zeyd's table. */
         public static readonly string[] Keys =
-            { "lobi", "bolum", "kazanma", "kazanmaton", "cikis", "carpma", "tik", "makas", "degnek", "cekic", "saat", "koridor", "dalis", "cizgi", "geri", "sekme" };
+            { "lobi", "bolum", "kazanma", "kazanmaton", "cikis", "carpma", "tik", "makas", "degnek", "cekic", "saat", "koridor", "dalis", "cizgi", "geri", "sekme", "dugme" };
 
         static Dictionary<string, string> _map;
         static Dictionary<string, string> Map

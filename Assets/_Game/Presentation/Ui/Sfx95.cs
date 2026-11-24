@@ -86,6 +86,7 @@ namespace ReverseSolver.Presentation
         /* PM_99: a take from PM_99's sounds (the soft exits f-j, the louder knock a) before PM_95's; PM_100: its own
            (the exits high-passed, the knock softened on top, all at the effects' level) before both. */
         static AudioClip Take(string key, char letter, int n) =>
+            (letter >= 'k' && letter <= 'p' ? SesSecim.Load<AudioClip>($"Art/audio/pm104/{key}-{letter}{n}") : null) ??   // PM_104 §2: the swooshes k-p
             SesSecim.Load<AudioClip>($"Art/audio/pm102/{key}-{letter}{n}") ??   // PM_102: the knock's takes evened out
             SesSecim.Load<AudioClip>($"Art/audio/pm100/{key}-{letter}{n}") ?? SesSecim.Load<AudioClip>($"Art/audio/pm99/{key}-{letter}{n}") ??
             SesSecim.Load<AudioClip>($"Art/audio/pm95/{key}-{letter}{n}");

@@ -14,7 +14,7 @@ namespace ReverseSolver.Core.Tests
         static readonly (string key, string choice)[] Zeyd =
         {
             ("lobi", "n"), ("bolum", "E"), ("kazanma", "g"), ("kazanmaton", "marimba"), ("cikis", "f"), ("carpma", "a"), ("tik", "b"),
-            ("makas", "c"), ("degnek", "a"), ("cekic", "a"), ("saat", "a"), ("koridor", "a"), ("dalis", "a"), ("cizgi", "a"), ("geri", "a"), ("sekme", "a"),
+            ("makas", "c"), ("degnek", "a"), ("cekic", "a"), ("saat", "a"), ("koridor", "a"), ("dalis", "a"), ("cizgi", "a"), ("geri", "a"), ("sekme", "a"), ("dugme", "a"),
         };
 
         [Test]

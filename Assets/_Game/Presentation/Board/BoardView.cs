@@ -40,6 +40,8 @@ namespace ReverseSolver.Presentation
         public const float FlySeconds = .34f;
         /* The moment a dragged piece crosses the board edge: piece, bomb piece, last piece, freed a lock. */
         public System.Action<int, bool, bool, bool> ExitBurst;
+        /* PM_104 §2: the speed (cells/s, the finger's at release) of the piece whose ExitBurst is being raised. */
+        public float ExitSpeedCells { get; private set; }
         public float FlyingUntil { get; private set; } = -1;
         int _freedFrame = -1;
         float _dragSpeed, _dragAt = -1;
@@ -741,7 +743,7 @@ namespace ReverseSolver.Presentation
                     burstPending = false;
                     _juice.ExitAt(pv, center + axis * burstDistance);
                     if (breath > 0) slowFrom = real;
-                    if (dragged) ExitBurst?.Invoke(pv.Index, bomb, last, unlocked);
+                    if (dragged) { ExitSpeedCells = releaseSpeed / Mathf.Max(1e-3f, Cell); ExitBurst?.Invoke(pv.Index, bomb, last, unlocked); }
                 }
                 float puff = Mathf.Clamp01((along - (travelCells + .65f) * Cell) / (1.95f * Cell));
                 float stretch = .07f * Mathf.Sin(t * Mathf.PI);

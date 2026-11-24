@@ -10,10 +10,13 @@ namespace ReverseSolver.Presentation
          Dull    a button that can't act now (a locked booster, too little gold): a dull wooden knock
        A press asks for one sound per frame: Toggle and Dull win over the plain Tick. Open and Close play beside it; both
        in one frame (a panel rebuilt in place, e.g. after a switch) play neither. GameRoot plays them (Flush, each
-       frame) on a source the pause does not stop. Played: every sound, for the tests (docs/TITRESIM_HARITASI.md). */
+       frame) on a source the pause does not stop. Played: every sound, for the tests (docs/TITRESIM_HARITASI.md).
+       PM_104 §3: Tok, a short full "tok" (Tools/make_sfx104.py, pm104/ui-tok-<letter>) instead of the tick on Durdur,
+       Devam, Menü, the bottom tabs and Ayarlar (AsTok: the press of this frame); &sesdugme= a-g, 0 the tick; without
+       one ses.json's "dugme". A panel's swish under a tok plays 9 dB down (SwishUnderTok): the tok leads. */
     public static class UiSounds
     {
-        public enum Kind { Tick, Toggle, Open, Close, Dull }
+        public enum Kind { Tick, Toggle, Open, Close, Dull, Tok }
         public static System.Action<Kind> Played;
 
         static Kind? _press;
@@ -25,7 +28,28 @@ namespace ReverseSolver.Presentation
             if (kind == Kind.Close) { _close = true; return; }
             if (_press == null || Rank(kind) > Rank(_press.Value)) _press = kind;
         }
-        static int Rank(Kind k) => k == Kind.Dull ? 2 : k == Kind.Toggle ? 1 : 0;
+        static int Rank(Kind k) => k == Kind.Dull ? 3 : k == Kind.Toggle ? 2 : k == Kind.Tok ? 1 : 0;
+
+        /* PM_104 §3: this frame's button press is a tok (a plain tick turns into it; none yet: a tok). */
+        public static void AsTok()
+        {
+            if (DugmeLetter == '0') return;
+            if (_press == null || _press == Kind.Tick) _press = Kind.Tok;
+        }
+
+        /* The tok's candidate: &sesdugme=, else ses.json "dugme". */
+        public static char DugmeLetter
+        {
+            get
+            {
+                string q = Host.Current?.Query("sesdugme");
+                return !string.IsNullOrEmpty(q) && (q[0] == '0' || q[0] >= 'a' && q[0] <= 'g') ? q[0] : SesSecim.Letter("dugme");
+            }
+        }
+
+        /* The last Take had a tok with a panel's swish: the swish 9 dB down. */
+        public static bool SwishUnderTok { get; private set; }
+        public const float SwishUnderTokVolume = .35f;
 
         /* What this frame asked for (then cleared). */
         public static List<Kind> Take()
@@ -33,6 +57,7 @@ namespace ReverseSolver.Presentation
             var list = new List<Kind>();
             if (_press.HasValue) list.Add(_press.Value);
             if (_open != _close) list.Add(_open ? Kind.Open : Kind.Close);
+            SwishUnderTok = _press == Kind.Tok && _open != _close;
             _press = null; _open = _close = false;
             return list;
         }
@@ -46,7 +71,7 @@ namespace ReverseSolver.Presentation
             var list = new List<AudioClip>();
             for (int n = 1; n <= 6; n++)
             {
-                var clip = SesSecim.Load<AudioClip>($"Art/audio/pm98/{prefix}{n}");
+                var clip = SesSecim.Load<AudioClip>($"Art/audio/{prefix}{n}");
                 if (clip == null) break;
                 clip.LoadAudioData(); list.Add(clip);
             }
@@ -56,8 +81,9 @@ namespace ReverseSolver.Presentation
         /* The tick follows the button tick candidate (&sestik=: a, b, c; 0 the old one). */
         static string Prefix(Kind kind) => kind switch
         {
-            Kind.Tick => "ui-tick-" + Sfx95.Letter(Sfx95.Kind.Tick),
-            Kind.Toggle => "ui-toggle", Kind.Open => "ui-open", Kind.Close => "ui-close", _ => "ui-dull",
+            Kind.Tick => "pm98/ui-tick-" + Sfx95.Letter(Sfx95.Kind.Tick),
+            Kind.Tok => "pm104/ui-tok-" + DugmeLetter,
+            Kind.Toggle => "pm98/ui-toggle", Kind.Open => "pm98/ui-open", Kind.Close => "pm98/ui-close", _ => "pm98/ui-dull",
         };
 
         /* PM_103: read again (SesSecim.Collect). */

@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 24 Kasım 2026 (Claude Code, PM_104_EK)
+Son güncelleme: 24 Kasım 2026 (Claude Code, PM_104)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -217,6 +217,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_102 p23'te (23 Kasım): fanfar g + tınıları, lastik sesi sabit (20 takılmada 0,87 dB), kayma −1 dB, booster sesleri (3'er aday), koridor whoosh duyulur. Bekleyen: Zeyd'in seçimleri.
 - ✅ PM_103 (24 Kasım): sesler kesinleşti, seçimler `ses.json`'da; iOS'a üç müzik gömülü (çevrimdışı), adaylar iOS dışında; `docs/SES_LISANSLARI.md`. Açık: iPhone'da dinleme.
 - ✅ PM_104_EK (24 Kasım): iPhone Safari'de "Decoding failed" uyarısı; seçili sesler web'de ham örnek, her çözme hatası yakalanıyor (`audio_decode_fail`). Açık: iPhone'da deneme.
+- ✅ PM_104 (24 Kasım): sayfa = oyun (uyuşmayan 0, Bugünkü seçim); booster olaylarında tek ses (makas, çekiç); kaydırma swoosh k–p; düğme toku a–g. Açık: Zeyd'in swoosh ve tok seçimi, telefonda dinleme.
 - ✅ PM_101 (23 Kasım): AppLovin MAX → Google AdMob (UMP + ATT, test/gerçek kimlik ayrımı, test cihazı, Ad Inspector, gizlilik sayfası, app-ads.txt adımları). Bekleyen: app-ads.txt kök deposu, AdMob GDPR mesajı, Mac'te pod install.
 - ✅ PM_100 p23'te (23 Kasım): kazanma tınıları (aynı ritim, 5 çalgı); takılma/kayma ayrıldı (kalkış + bonk); efektler yükseldi, müzik −3 dB, `&sfx` `&muzikses`; geçiş sesleri 3'er aday. Bekleyen: Zeyd'in seçimleri; elle temasta çift takılma sesi (PM kararı).
 - ✅ PM_99 p23'te (23 Kasım): bölüm müziği E (A/B 64 sn); yumuşak çıkış adayları f–j; çarpma duyulur; son parça sesi yok; kazanma ekranı her vuruş bir öğe, 7/5 vuruş A/B. Bekleyen: Zeyd'in çıkış ve 7/5 seçimi.
