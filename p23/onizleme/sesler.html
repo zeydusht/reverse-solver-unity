@@ -123,8 +123,8 @@
   // PM_96 §1: Zeyd's choices are the defaults; the level's until he picks: r
   // PM_98 §1: Zeyd's picks (23 Nov); the level c for now
   // PM_99: the level E (Zeyd, 23 Nov), the exit f (the softest, shortest); the last piece has no sound of its own now
-  var KEYS = { lobi:'n', bolum:'E', kazanma:'g', ton:'marimba', cikis:'f', carpma:'a', makas:'c', degnek:'a', cekic:'a', saat:'a', koridor:'a', dalis:'a', cizgi:'a', geri:'a', sekme:'a', dugme:'a',
-               zincir:'a', zincirger:'a', kilitdokun:'a', kilitac:'a', patlama:'a', duvar:'a' };   // PM_105: the tick gone, the obstacles' sounds
+  var KEYS = { lobi:'n', bolum:'E', kazanma:'g', ton:'marimba', cikis:'q', carpma:'a', makas:'c', degnek:'a', cekic:'a', saat:'a', koridor:'a', dalis:'a', cizgi:'a', geri:'a', sekme:'a', dugme:'a',
+               zincir:'d', zincirger:'d', kilitdokun:'a', kilitac:'a', patlama:'a', duvar:'a' };   // PM_105: the tick gone, the obstacles' sounds
   // PM_98 §2: the level's new candidates. A-D ours (VCSL recordings + our bass; Tools/make_level98.py), E-G found (CC0).
   // perc: the percussive share (the reference: 0.92); the bar was 0.6
   var LEVEL98 = [
@@ -162,9 +162,9 @@
   }
   ['touchend', 'pointerup', 'click'].forEach(function (e) { document.addEventListener(e, function () { try { audio(); } catch (x) {} }, true); });
   function tryEach(list) { return list.reduce(function (p, u) { return p.catch(function () { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u); return r; }); }); }, Promise.reject()); }
-  function get(u) { return tryEach([u, '../../pm100/onizleme/' + u, '../../pm99/onizleme/' + u]); }
+  function get(u) { return tryEach([u, '../../pm106/onizleme/' + u, '../../pm105/onizleme/' + u, '../../pm104/onizleme/' + u, '../../pm100/onizleme/' + u, '../../pm99/onizleme/' + u]); }
   function load(url, local) {
-    var list = [url].concat(local ? [local] : url.indexOf('sesler/') === 0 ? ['../../pm100/onizleme/' + url, '../../pm99/onizleme/' + url] : []);
+    var list = [url].concat(local ? [local] : url.indexOf('sesler/') === 0 ? ['../../pm106/onizleme/' + url, '../../pm105/onizleme/' + url, '../../pm104/onizleme/' + url, '../../pm100/onizleme/' + url, '../../pm99/onizleme/' + url] : []);
     if (!buffers[url]) buffers[url] = tryEach(list).then(function (r) { return r.arrayBuffer(); })
       .then(function (a) { return new Promise(function (ok, no) { var p = audio().decodeAudioData(a, ok, no); if (p && p.catch) p.catch(no); }); });
     return buffers[url];
@@ -230,6 +230,7 @@
     if (n > 1) { i = Math.floor(Math.random() * (n - 1)); if (lastTake[key + c.letter] != null && i >= lastTake[key + c.letter]) i++; }
     lastTake[key + c.letter] = i;
     var jitter = { cikis:.04, carpma:.05, zincir:.06, duvar:.03 }[key] || 0;   // PM_105: the tok always the same
+    if ((key === 'cikis' && c.letter >= 'q') || (key === 'zincir' && c.letter >= 'd')) jitter = 0;   // PM_106: Block Out's one pitch; the chain's loops as they are
     return load('sesler/' + takes[i].file).then(function (buf) {
       var s = ctx.createBufferSource(), g = ctx.createGain();
       s.buffer = buf; s.playbackRate.value = 1 + (Math.random() * 2 - 1) * jitter; g.gain.value = vol;
@@ -336,6 +337,65 @@
       });
     }).catch(function () { grid.insertAdjacentHTML('beforeend', '<p class="hint">Liste yüklenemedi.</p>'); });
   })();
+
+  // ---- PM_106 §2-3: Block Out's manner (docs/art/pm106/BLOCKOUT_SES_ANALIZ.md) and a real chain: Tools/make_sfx106.py ----
+  var BO = '../../pm106/referans/';   // Block Out's own sounds: never published, only a local preview finds them
+  var refHere106 = fetch(BO + 'blockout_birakma.wav', { method:'HEAD' }).then(function (r) { return r.ok; }).catch(function () { return false; });
+  var cikis106 = section('Sürükleme / çıkış (Block Out tarzı)', 'Block Out\'u kare kare inceledim (BLOCKOUT_SES_ANALIZ.md): sürüklerken hiç ses yok; parça yerine oturunca kısa, tok bir "tok" (her seferinde aynı kayıt, aynı perde); çıkışta kırçıl bir ufalanma; art arda çıkışlarda perde yükselmiyor; dokunuşta ses yok. Bizde: sürüklerken ve kalkışta ses yok, parça tahtadan çıktığı karede bu ses (tek kayıt, hep aynı). Varsayılan q. "10 art arda" üst üste on çıkış. "Block Out ile" önce Block Out\'un bırakma ve çıkış sesini, sonra adayı çalar (yalnız yerel önizlemede). Perdenin her çıkışta yarım ton yükselmesini denemek istersen oyun linkine &cikisperde=1 ekle.', true);
+  var zincir106 = section('Zincir (gerçek zincir kaydı)', 'PM_105\'teki zincir neden zincire benzemiyordu: tek bir sallamanın 0,11 sn\'lik parçalarıydı, enerjisi 8,8 kHz\'de (halka gövdesi yok, yalnız tıs), kısık ve aralıklı çalıyordu. Şimdi gerçek zincir kayıtları (Freesound, CC0): her adayda 3 kesintisiz şıkırtı; zincir hareket ettikçe biri çalar, bitince başkasına geçer (aynısı üst üste gelmez), zincir hızlandıkça yükselir, durunca söner. "Sürükle" hızlanıp yavaşlayan bir sürüklemeyi çalar. Altta zincir gerilince çalan "çın" adayları. Varsayılan d.', true);
+  function bo106(c, row) {
+    refHere106.then(function (ok) {
+      if (!ok) return;
+      var b = el('<button class="btn">Block Out ile</button>');
+      b.addEventListener('click', function () {
+        audio(); stop();
+        Promise.all([load(BO + 'blockout_birakma.wav'), load(BO + 'blockout_cikis.wav')]).then(function (bufs) {
+          var t = ctx.currentTime + .05;
+          [[bufs[0], 0], [bufs[1], .5]].forEach(function (p) { var x = ctx.createBufferSource(); x.buffer = p[0]; x.connect(ctx.destination); x.start(t + p[1]); });
+          playSfx('cikis', c, 1, 1.7); playSfx('cikis', c, 1, 2.2);
+        });
+      });
+      row.insertBefore(b, row.children[2] || null);
+    });
+  }
+  function dragBed(c) {   // the game's bed (Sfx105.Bed): 2.4 s, 0 -> 12 -> 0 cells/s, the loops one after another
+    var b = el('<button class="btn">Sürükle</button>');
+    b.addEventListener('click', function () {
+      audio(); stop();
+      Promise.all(c.takes.map(function (t) { return load('sesler/' + t.file); })).then(function (bufs) {
+        var g = ctx.createGain(), t0 = ctx.currentTime + .05, D = 2.4, n = bufs.length;
+        g.connect(ctx.destination); g.gain.setValueAtTime(0, t0);
+        for (var f = 0; f <= 48; f++) { var v = 12 * Math.sin(Math.PI * f / 48), lvl = v <= 1.2 ? 0 : .25 + .75 * Math.min(1, (v - 1.2) / 7.8); g.gain.linearRampToValueAtTime(lvl, t0 + f / 48 * D); }
+        var at = 0, last = -1;
+        while (at < D) {
+          var i = last < 0 ? Math.floor(Math.random() * n) : Math.floor(Math.random() * (n - 1)); if (last >= 0 && i >= last) i++;
+          last = i; var x = ctx.createBufferSource(); x.buffer = bufs[i]; x.connect(g); x.start(t0 + at, 0); x.stop(t0 + D + .05); at += bufs[i].duration - .08;
+        }
+      });
+    });
+    return b;
+  }
+  get('sesler106.json').then(function (r) { return r.json(); }).then(function (d) {
+    d.cikis.candidates.forEach(function (c) {
+      var card = sfxCard({ key:'cikis', flag:'sescikis', vol:1 }, c), row = card.querySelector('.row');
+      row.insertBefore(ten('cikis', c), row.children[1]);
+      bo106(c, row);
+      cikis106.appendChild(card);
+    });
+    d.zincir.candidates.forEach(function (c) {
+      var card = sfxCard({ key:'zincir', flag:'seszincir', vol:1 }, c), row = card.querySelector('.row');
+      row.insertBefore(dragBed(c), row.children[1]);
+      var a = row.querySelector('a.btn'); if (a) a.href = '../?c=p23&test=1&lang=tr&lv=31&seszincir=' + c.letter;
+      zincir106.appendChild(card);
+    });
+    zincir106.appendChild(el('<h3 class="sub">Zincir gerilince (çın + zincir)</h3>'));
+    d.zincirger.candidates.forEach(function (c) {
+      var card = sfxCard({ key:'zincirger', flag:'seszincirger', vol:1, burst:true }, c);
+      var a = card.querySelector('.row a.btn'); if (a) a.href = '../?c=p23&test=1&lang=tr&lv=31&seszincirger=' + c.letter;
+      zincir106.appendChild(card);
+    });
+    save(true);
+  }).catch(function () {});
 
   // ---- PM_104 §2-3: the slide as a swoosh (k-p) and the buttons' tok (a-g): Tools/make_sfx104.py ----
   var swoosh = section('Kaydırma (swoosh)', 'Parça tahtadan çıkarken: kısa, yumuşak bir hava sesi; sürtünme, tahta, boing yok. Hepsi bugünkü kaydırma f ile aynı ses yüksekliğinde. Oyunda hızlı fiskede biraz daha parlak, yavaş itişte biraz daha yumuşak çalar. "10 art arda" oyunda üst üste on çıkış gibi.', true);
@@ -481,7 +541,7 @@
   // ---- PM_100 §4: the transitions' sounds ----
   var GEC = [
     { key:'koridor', title:'Kazanma → koridor kayışı', hint:'Duvar sağa kayarken. Ses kayışın hızını izler: kalkışta artar, ortada en yüksek, oturuşta söner (burada 1,3 sn\'lik kayış gibi çalar).' },
-    { key:'dalis', title:'Dalış: tabloya yaklaşma', hint:'İçeri doğru yükselen hafif whoosh; resme değdiği an küçük bir parıltı.', with:'ting' },
+    { key:'dalis', title:'Dalış: tabloya yaklaşma', hint:'İçeri doğru yükselen hafif whoosh (PM_106: resme değdiği anki ting kalktı).' },
     { key:'cizgi', title:'Çizgiler oluşurken', hint:'Çok hafif kâğıt / fırça dokusu (istersen kapat: 0).' },
     { key:'geri', title:'Geri çekilme + HUD', hint:'Yumuşak ters whoosh; HUD otururken minik tık.', with:'hud' },
     { key:'sekme', title:'Alt menü sekme kayışı', hint:'Sayfalar kayarken kısa, çok hafif swish.' }

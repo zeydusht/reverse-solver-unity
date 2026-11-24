@@ -4,7 +4,7 @@
   "bolum": "E",
   "kazanma": "g",
   "kazanmaton": "marimba",
-  "cikis": "f",
+  "cikis": "q",
   "carpma": "a",
   "makas": "c",
   "degnek": "a",
@@ -16,8 +16,8 @@
   "geri": "a",
   "sekme": "a",
   "dugme": "a",
-  "zincir": "a",
-  "zincirger": "a",
+  "zincir": "d",
+  "zincirger": "d",
   "kilitdokun": "a",
   "kilitac": "a",
   "patlama": "a",
@@ -26,26 +26,9 @@
  "events": [
   {
    "name": "Kaydırma (parça çıkışı)",
-   "letter": "f",
+   "letter": "q",
    "files": [
-    "cikis-f1.wav",
-    "cikis-f2.wav",
-    "cikis-f3.wav",
-    "cikis-f4.wav"
-   ]
-  },
-  {
-   "name": "Kalkış (takılmada, kısa ve uzun)",
-   "letter": "f",
-   "files": [
-    "kalkis-f1.wav",
-    "kalkis-f2.wav",
-    "kalkis-f3.wav",
-    "kalkis-f4.wav",
-    "kalkisk-f1.wav",
-    "kalkisk-f2.wav",
-    "kalkisk-f3.wav",
-    "kalkisk-f4.wav"
+    "cikis-q1.wav"
    ]
   },
   {
@@ -99,22 +82,20 @@
    ]
   },
   {
-   "name": "Zincir şıkırtısı (sürüklerken / sallanırken)",
-   "letter": "a",
+   "name": "Zincir şıkırtısı (gerçek zincir, sürüklerken / sallanırken)",
+   "letter": "d",
    "files": [
-    "zincir-a1.wav",
-    "zincir-a2.wav",
-    "zincir-a3.wav",
-    "zincir-a4.wav"
+    "zincir-d1.wav",
+    "zincir-d2.wav",
+    "zincir-d3.wav"
    ]
   },
   {
-   "name": "Zincir gerilip takılınca (çın + şıkırtı)",
-   "letter": "a",
+   "name": "Zincir gerilip takılınca (çın + gerçek zincir)",
+   "letter": "d",
    "files": [
-    "zincirger-a1.wav",
-    "zincirger-a2.wav",
-    "zincirger-a3.wav"
+    "zincirger-d1.wav",
+    "zincirger-d2.wav"
    ]
   },
   {
@@ -189,11 +170,10 @@
    ]
   },
   {
-   "name": "Dalış (+ ting)",
+   "name": "Dalış (PM_106: ting yok)",
    "letter": "a",
    "files": [
-    "gecis-dalis-a.wav",
-    "gecis-ting-a.wav"
+    "gecis-dalis-a.wav"
    ]
   },
   {
