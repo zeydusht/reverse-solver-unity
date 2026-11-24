@@ -28,6 +28,12 @@ Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. �
 |---|---|---|---|---|
 | Parça çıkışı (yumuşak swish) ve kayma kalkışı | Swishes Sound Pack (swish-3, -4, -7, -8) | artisticdude | https://opengameart.org/content/swishes-sound-pack | CC0 |
 | Lastik takılma (çarpma) | Impact Sounds (impactSoft_medium) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
+| Kırmızı duvara çarpma (PM_105, a) | Impact Sounds (impactWood_heavy_000, _002, _003) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
+| Zincir şıkırtısı (PM_105, a) | 80 CC0 RPG SFX (chain_01-03) | rubberduck | https://opengameart.org/content/80-cc0-rpg-sfx | CC0 |
+| Zincir gerilmesi (PM_105, a) | 100 CC0 metal and wood SFX (metal_hit_01, _04, _05) + 80 CC0 RPG SFX (chain_01) | rubberduck | https://opengameart.org/content/100-cc0-metal-and-wood-sfx | CC0 |
+| Kilitli parçaya dokunma (PM_105, a) | Door Lock Sounds (LockedDoorHandleJiggle) | cough-e | https://opengameart.org/content/door-lock-sounds | CC0 |
+| Kilit açılması (PM_105, a) | 100 CC0 SFX (key_open_01, _02) + Impact Sounds (impactMetal_light_001, _004) | rubberduck, Kenney | https://opengameart.org/content/100-cc0-sfx | CC0 |
+| Bomba patlaması (PM_105, a) | 100 CC0 SFX (explosion) + Pop sounds (pop3) | rubberduck, cogitollc | https://opengameart.org/content/100-cc0-sfx , https://opengameart.org/content/pop-sounds | CC0 |
 | Bomba sönmesi, kilit açılması | bizim sentezimiz (`Tools/make_pm72_sounds.py`) | – | – | bizim |
 | Parça kopması (zincir), kaybetme | bizim sentezimiz (özgün oyun sesleri, kayıt örneği yok) | – | – | bizim |
 
@@ -35,11 +41,10 @@ Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. �
 
 | Ses | Kaynak | Yazar | Sayfa | Lisans |
 |---|---|---|---|---|
-| Düğme tıkı | 87 Clickety Clips | OwlishMedia | https://opengameart.org/content/87-clickety-clips | CC0 |
 | Anahtar (ses, müzik, titreşim, dil) | UI Audio (switch16, switch18) | Kenney | https://kenney.nl/assets/ui-audio | CC0 |
 | Panel açılış ve kapanış vuşu | Swishes Sound Pack (swish-4, swish-5) | artisticdude | https://opengameart.org/content/swishes-sound-pack | CC0 |
 | Pasif düğme (tok) | Impact Sounds (impactWood_light) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
-| Düğme toku: Durdur, Devam, Menü, alt sekmeler, Ayarlar (PM_104, a) | Impact Sounds (impactWood_light_000, _002, _004) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
+| Düğme toku: bütün düğmeler (PM_104 a; PM_105: tek kayıt, eski tık kalktı) | Impact Sounds (impactWood_light_000) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
 
 ## Booster sesleri
 

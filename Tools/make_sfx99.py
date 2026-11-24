@@ -23,7 +23,7 @@ PM95 = 'Assets/_Game/Presentation/Resources/Art/audio/pm95'
 OUT = 'Assets/_Game/Presentation/Resources/Art/audio/pm99'
 PAGE = 'docs/art/pm99/onizleme'
 CEIL = 10 ** (-1 / 20)
-META = open(os.path.join(PM95, 'tik-b1.wav.meta'), encoding='utf8').read()
+META = open(os.path.join(PM95, '..', 'pm104', 'ui-tok-a1.wav.meta'), encoding='utf8').read()  # PM_105: the tick's files are gone (the same import settings)
 rng = np.random.default_rng(99)
 casino = lambda f: os.path.join(KEN, 'casino-audio', 'Audio', f)
 rpg = lambda f: os.path.join(KEN, 'rpg-audio', 'Audio', f)

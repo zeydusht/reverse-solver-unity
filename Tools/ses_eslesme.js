@@ -13,7 +13,7 @@ const out = (i => i >= 0 ? args[i + 1] : 'docs/art/pm104/ses_eslesme.md')(args.i
 const game = JSON.parse(fs.readFileSync('docs/art/pm104/oyun_sesleri.json', 'utf8'));
 const K = game.secim;
 const J = f => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch (e) { return {}; } };
-const S95 = J('sesler.json'), S99 = J('sesler99.json'), S100 = J('sesler100.json'), S102 = J('sesler102.json'), S104 = J('sesler104.json');
+const S95 = J('sesler.json'), S99 = J('sesler99.json'), S100 = J('sesler100.json'), S102 = J('sesler102.json'), S104 = J('sesler104.json'), S105 = J('sesler105.json');
 const pageOut = (i => i >= 0 ? args[i + 1] : null)(args.indexOf('--page'));
 const sha = f => fs.existsSync(f) ? crypto.createHash('sha1').update(fs.readFileSync(f)).digest('hex').slice(0, 10) : null;
 const pageFile = f => { for (const d of [path.join(dir, 'sesler')]) { const p = path.join(d, f); if (fs.existsSync(p)) return p; } return null; };
@@ -28,14 +28,15 @@ const rows = [
   ['Kaydırma (parça çıkışı)', 'cikis', takes(pick(S104.cikis, K.cikis) || pick(S99.cikis, K.cikis) || pick(S95.cikis, K.cikis)), new RegExp(`/cikis-${K.cikis}\\d`)],
   ['Kalkış (takılmada, kısa ve uzun)', 'cikis', [], new RegExp(`/kalkisk?-${K.cikis}\\d`)],
   ['Çarpma (takılma)', 'carpma', takes(pick(S95.carpma, K.carpma)), new RegExp(`/carpma-${K.carpma}\\d`)],
-  ['Tık (oyun içi)', 'tik', takes(pick(S95.tik, K.tik)), new RegExp(`/tik-${K.tik}\\d`)],
-  ['Düğme tıkı (diğer düğmeler)', 'tik', [], new RegExp(`/ui-tick-${K.tik}\\d`)],
-  ['Düğme (tok): Durdur, Devam, Menü, sekmeler, Ayarlar', 'dugme', takes(pick(S104.dugme, K.dugme)), new RegExp(`/ui-tok-${K.dugme}\\d`)],
+  // PM_105: every button plays the tok, one take (the tick is gone)
+  ['Düğme (tok): bütün düğmeler', 'dugme', takes(pick(S104.dugme, K.dugme)).slice(0, 1), new RegExp(`/ui-tok-${K.dugme}\\d`)],
   ['Panel açılır / kapanır (vuş)', null, [], /\/ui-(open|close)\d/],
   ['Anahtar (ses, müzik, titreşim)', null, [], /\/ui-toggle\d/],
   ['Olmayan düğme (pasif)', null, [], /\/ui-dull\d/],
   ['Bomba sökülür', null, [], /\/bomba-a\d/],
-  ['Kilit açılır', null, [], /\/kilit-a\d/],
+  ['Kilit açılır (eski kırılma, yedek)', null, [], /\/kilit-a\d/],
+  // PM_105 §2: the obstacles' sounds
+  ...['zincir', 'zincirger', 'kilitdokun', 'kilitac', 'patlama', 'duvar'].map(k => [(S105[k] || {}).title || k, k, takes(pick((S105[k] || {}).candidates, K[k])), new RegExp(`/pm105/${k}-${K[k]}\\d`)]),
   ['Makas', 'makas', takes(pick((S102.booster || {}).makas, K.makas)), new RegExp(`/booster-makas-\\w+-${K.makas}\\.`)],
   ['Değnek', 'degnek', takes(pick((S102.booster || {}).degnek, K.degnek)), new RegExp(`/booster-degnek-\\w+-${K.degnek}\\.`)],
   ['Çekiç', 'cekic', takes(pick((S102.booster || {}).cekic, K.cekic)), new RegExp(`/booster-cekic-\\w+-${K.cekic}\\.`)],
@@ -65,7 +66,7 @@ for (const [name, key, pageFiles, re] of rows) {
   }
   const short = f => f.replace(/^.*Resources\/Art\/audio\//, '');
   lines.push(`| ${name} | ${key ? K[key] : '—'} | ${pageFiles.join(', ') || '—'} | ${g.map(short).join(', ') || '—'} | ${same} |`);
-  today.push({ name, letter: key ? K[key] : '', files: g.filter(f => f.endsWith('.wav')).map(f => path.basename(f)) });
+  if (!/yedek/.test(name)) today.push({ name, letter: key ? K[key] : '', files: g.filter(f => f.endsWith('.wav')).map(f => path.basename(f)) });
 }
 if (pageOut) {
   fs.mkdirSync(path.join(pageOut, 'sesler'), { recursive: true });

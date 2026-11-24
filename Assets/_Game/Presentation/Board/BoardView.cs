@@ -339,7 +339,7 @@ namespace ReverseSolver.Presentation
                 if (_ropes.TryGetValue(drag.Piece, out var rope) && rope != null) { rope.Kick(); rope.SetOrder(LiftOrder + PieceStride); }
                 Tweens.Kill(pv);
                 Tweens.Kill((pv, "deal"));
-                pv.transform.localScale = Vector3.one;
+                pv.transform.localScale = Vector3.one; pv.ResetShape();
                 pv.SetAlpha(1);
                 pv.SortingOrder = LiftOrder;
                 pv.SetLift(1);
@@ -393,9 +393,24 @@ namespace ReverseSolver.Presentation
             dir.HasValue && Session.Board.IsPresent(piece) && Session.NailAt(piece) <= 0 &&
             !TravelRule.Limit(Session.Board, piece, dir.Value).Exit && Contact.Distance(Session.Board, piece, dir.Value) >= SlamMin;
 
+        /* PM_105: the knock being raised (ContactHit) is against a red wall / is a chained pair's. */
+        public bool LastContactWall { get; private set; }
+        public bool LastContactChained { get; private set; }
+        /* PM_105: what stops `piece` towards `dir` is a red wall (a sealed lane), not a piece. */
+        public bool StopsAtWall(int piece, Dir dir)
+        {
+            if (!Session.Board.IsPresent(piece)) return false;
+            var l = TravelRule.Limit(Session.Board, piece, dir);
+            return !l.Exit && l.Hard && l.Blocker < 0;
+        }
+
         void Knock(int piece, Dir dir, int blocker)
         {
+            LastContactWall = blocker < 0 && StopsAtWall(piece, dir);
+            LastContactChained = IsChained(piece);
             if (blocker >= 0) FlashBlocker(blocker);
+            // PM_105: a chained pair's knock pulls its chain taut: it shakes
+            if (_ropes.TryGetValue(piece, out var rope) && rope != null) rope.Kick();
             ContactHit?.Invoke(piece);
         }
 
@@ -463,7 +478,7 @@ namespace ReverseSolver.Presentation
                 {
                     if (RubberLog) Debug.Log($"[lastik] piece {piece} PM_75 slam, frames {oldFrames}, over 20 ms {oldSlow}, longest {oldMax:0.0} ms");
                     if (pv == null) return;
-                    pv.transform.localScale = Vector3.one; pv.SetOffset(Vector2.zero);
+                    pv.transform.localScale = Vector3.one; pv.ResetShape(); pv.SetOffset(Vector2.zero);
                     pv.SortingOrder = home; pv.SetLift(0);
                     if (rope != null) rope.SetOrder(ChainOrder);
                 });
@@ -500,13 +515,54 @@ namespace ReverseSolver.Presentation
 
         /* The piece's shape: its leading edge `lead` points along the axis from home, `along` its length on the axis
            (1 at rest) about that edge, the other way 1 / sqrt(along). */
-        void SetRubber(PieceView pv, Vector2 axis, Vector2 anchor, float lead, float along)
+        void SetRubber(PieceView pv, Vector2 axis, Vector2 anchor, float lead, float along, float[] cellWeights = null)
         {
             along = Mathf.Max(.3f, along);
             float across = Mathf.Pow(along, along < 1 ? -_rubberWiden : -.5f);
             var scale = axis.x != 0 ? new Vector2(along, across) : new Vector2(across, along);
+            if (pv.Cells.Length > 1 && ChainPerCell)
+            {
+                // PM_105: a chained pair slides as one; each cell squashes and stretches about its own leading edge
+                pv.transform.localScale = Vector3.one;
+                pv.SetCellScale(scale, axis * (Cell * .5f), cellWeights);
+                pv.transform.localPosition = Draw.W(axis * lead);
+                return;
+            }
             pv.transform.localScale = new Vector3(scale.x, scale.y, 1);
             pv.transform.localPosition = Draw.W(axis * lead + Vector2.Scale(anchor, Vector2.one - scale));
+        }
+
+        /* PM_105: a chained pair deforms cell by cell (false: PM_93's whole-piece scale, the bug: the far end flew). */
+        public static bool ChainPerCell = true;
+        /* PM_105: the cell of a chained pair that does not touch squashes this share of the one that does. */
+        public const float ChainFarShare = .3f;
+        /* PM_105: a chained pair passes home on the way back by at most this (cells; PM_94's lastik 2 rule). */
+        public const float ChainOver = .06f;
+        /* PM_105: a chained pair with no room squashes where it stands (its limit is the contact), no 8 % nudge in. */
+        public const float ChainNudge = .01f;
+
+        /* PM_105: per cell of a chained pair, how much of the knock's squash it takes: 1 for the cell that touches
+           (the blocker's, else the one furthest along dir), ChainFarShare for the other. Null for a single cell. */
+        float[] ContactWeights(int piece, Dir dir, TravelLimit limit)
+        {
+            var cells = Session.Level.Pieces[piece];
+            if (cells.Length < 2) return null;
+            int best = -1;
+            if (!limit.Exit && limit.Blocker >= 0)
+                for (int i = 0; i < cells.Length; i++)
+                    if (Session.Board.PieceAt(cells[i].Step(dir, limit.Cells + 1)) == limit.Blocker) { best = i; break; }
+            if (best < 0)
+            {
+                float far = float.MinValue;
+                for (int i = 0; i < cells.Length; i++)
+                {
+                    float d = cells[i].X * dir.Dx() + cells[i].Y * dir.Dy();
+                    if (d > far) { far = d; best = i; }
+                }
+            }
+            var w = new float[cells.Length];
+            for (int i = 0; i < w.Length; i++) w[i] = i == best ? 1 : ChainFarShare;
+            return w;
         }
 
         /* reach: where the leading edge touches (points from home); slideIn: it slides there first (else the finger
@@ -521,6 +577,8 @@ namespace ReverseSolver.Presentation
             int home = HomeOrder(piece);
             _ropes.TryGetValue(piece, out var rope);
             Tweens.Kill(pv);
+            bool chained = pv.Cells.Length > 1 && ChainPerCell;
+            var weights = chained ? ContactWeights(piece, dir, limit) : null;
             float wobble = RubberWobbleAt(Rubber);
             float backX = 1 + .1f * wobble;   // PM_94: room for the second swing (the whole knock still <= .5 s)
             float k = RubberSeconds > 0 ? RubberSeconds / (gap ? SquashIn + SquashHold + SpringBack * backX : NudgeSquashIn + SquashHold + NudgeBack * backX) : 1;
@@ -541,7 +599,7 @@ namespace ReverseSolver.Presentation
             float vRef = 6 * Cell;   // pt/s at which the stretch is full
             // the way back: a spring from the contact, damped so it passes home by ~4 % of a cell once (PM_94: 6 % at
             // 1.5, 8 % at 2); at 2 from that pass on a looser, quicker one: a second swing (below 1.5 the same spring)
-            float over = Mathf.Clamp(RubberOverAt(Rubber) * Cell / Mathf.Max(1e-3f, reach), .005f, .3f);
+            float over = Mathf.Clamp((chained ? Mathf.Min(ChainOver, RubberOverAt(Rubber)) : RubberOverAt(Rubber)) * Cell / Mathf.Max(1e-3f, reach), .005f, .3f);
             float Zeta(float o) { float ln = Mathf.Log(o); return -ln / Mathf.Sqrt(Mathf.PI * Mathf.PI + ln * ln); }
             float zeta = Zeta(over);
             float omega = 4.2f / (zeta * Mathf.Max(.05f, back)) * (1 + .25f * wobble), wd = omega * Mathf.Sqrt(1 - zeta * zeta);
@@ -605,7 +663,7 @@ namespace ReverseSolver.Presentation
                         pv.SetLift(1 - x);
                     }
                 }
-                SetRubber(pv, axis, anchor, lead, along);
+                SetRubber(pv, axis, anchor, lead, along, weights);
                 if (log != null)
                 {
                     // the knock's own frames; the release's frame (the touch, the jam's sound, its row) is the one before
@@ -618,11 +676,24 @@ namespace ReverseSolver.Presentation
             {
                 if (log != null) Debug.Log($"[lastik] piece {piece} {(gap ? "gap" : "nudge")} level {Rubber:0.##} {total:0.000} s (slide {slide:0.000}, release {releaseSpeed / Cell:0.0} cells/s), frames {frames}, over 20 ms {slow}, longest {maxDt:0.0} ms (the release's frame before it {releaseDt:0.0} ms; in the release's own frame {before:0.0} ms went before the knock began); frames ms{dts}; t:lead(cells)/along{log}");
                 if (pv == null) return;
-                pv.transform.localScale = Vector3.one; pv.SetOffset(Vector2.zero);
+                pv.transform.localScale = Vector3.one; pv.ResetShape(); pv.SetOffset(Vector2.zero);
                 pv.SortingOrder = home; pv.SetLift(0);
                 if (rope != null) rope.SetOrder(ChainOrder);
             });
         }
+
+        /* PM_105: the fastest chain on the board (cells/s), for its rattle. */
+        public float ChainMotion
+        {
+            get
+            {
+                float m = 0;
+                foreach (var r in _ropes.Values) if (r != null) m = Mathf.Max(m, r.Motion);
+                return m;
+            }
+        }
+        /* PM_105: the piece is a chained pair. */
+        public bool IsChained(int piece) => piece >= 0 && piece < Session.Level.Pieces.Count && Session.Level.Pieces[piece].Length > 1;
 
         static float SmoothStep01(float x) { x = Mathf.Clamp01(x); return x * x * (3 - 2 * x); }
 
@@ -652,7 +723,7 @@ namespace ReverseSolver.Presentation
                 // PM_93: no room (or a nail): a nudge into what stops it, a squash, a spring back (held there by the
                 // finger: from where it is)
                 bool thrown = autoSlide, held = result == DragRelease.SnappedBack && pv.Offset.magnitude <= DragModel.GiveHard * Cell + .5f;
-                float at = thrown ? RubberNudge * Cell : Mathf.Max(.02f * Cell, Vector2.Dot(pv.Offset, new Vector2(dir.Dx(), dir.Dy())));
+                float at = thrown ? (IsChained(piece) && ChainPerCell ? ChainNudge : RubberNudge) * Cell : Mathf.Max(.02f * Cell, Vector2.Dot(pv.Offset, new Vector2(dir.Dx(), dir.Dy())));
                 if (thrown || held) { RubberKnock(pv, piece, dir, at, thrown, false); return; }
             }
             if (autoSlide)
@@ -752,6 +823,14 @@ namespace ReverseSolver.Presentation
                     : new Vector2(1 - stretch * .4f, 1 + stretch);
                 scale *= 1 + puff * .12f;
                 if (pop) scale *= 1 + .14f * Mathf.Sin(Mathf.Min(1, t / .45f) * Mathf.PI);
+                if (pv.Cells.Length > 1 && ChainPerCell)
+                {
+                    // PM_105: a chained pair puffs cell by cell (about the pair's middle the far cell would jump)
+                    pv.SetCellScale(scale, Vector2.zero);
+                    pv.SetOffset(offset);
+                    pv.SetAlpha(1 - puff);
+                    return;
+                }
                 pv.transform.localScale = new Vector3(scale.x, scale.y, 1);
                 // Scale about the piece centre rather than the board origin.
                 pv.SetOffset(offset + center - Vector2.Scale(center, scale));

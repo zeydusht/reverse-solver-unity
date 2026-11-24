@@ -118,13 +118,13 @@
   // the game's volumes for each effect (GameRoot), so they compare as they will sound
   var SFX = [
     { key:'cikis', flag:'sescikis', title:'Çıkış: eski adaylar', hint:'PM_95 adayları; karşılaştırma için.', vol:1, burst:true },
-    { key:'carpma', flag:'sescarpma', title:'Çarpma (lastik takılma)', hint:'Senin seçimin a; oyunda artık tık kadar yüksek ve telefon hoparlöründe duyulsun diye üst tınısı güçlendirildi (bu sayfadaki eski kayıtlar).', vol:1, burst:true },
-    { key:'tik', flag:'sestik', title:'Düğme tıkı', hint:'Her düğmede.', vol:.45, burst:true }
+    { key:'carpma', flag:'sescarpma', title:'Çarpma (lastik takılma)', hint:'Senin seçimin a; oyunda artık tık kadar yüksek ve telefon hoparlöründe duyulsun diye üst tınısı güçlendirildi (bu sayfadaki eski kayıtlar).', vol:1, burst:true }
   ];
   // PM_96 §1: Zeyd's choices are the defaults; the level's until he picks: r
   // PM_98 §1: Zeyd's picks (23 Nov); the level c for now
   // PM_99: the level E (Zeyd, 23 Nov), the exit f (the softest, shortest); the last piece has no sound of its own now
-  var KEYS = { lobi:'n', bolum:'E', kazanma:'g', ton:'marimba', cikis:'f', carpma:'a', tik:'b', makas:'c', degnek:'a', cekic:'a', saat:'a', koridor:'a', dalis:'a', cizgi:'a', geri:'a', sekme:'a', dugme:'a' };
+  var KEYS = { lobi:'n', bolum:'E', kazanma:'g', ton:'marimba', cikis:'f', carpma:'a', makas:'c', degnek:'a', cekic:'a', saat:'a', koridor:'a', dalis:'a', cizgi:'a', geri:'a', sekme:'a', dugme:'a',
+               zincir:'a', zincirger:'a', kilitdokun:'a', kilitac:'a', patlama:'a', duvar:'a' };   // PM_105: the tick gone, the obstacles' sounds
   // PM_98 §2: the level's new candidates. A-D ours (VCSL recordings + our bass; Tools/make_level98.py), E-G found (CC0).
   // perc: the percussive share (the reference: 0.92); the bar was 0.6
   var LEVEL98 = [
@@ -139,10 +139,12 @@
   LEVEL98.forEach(function (m) { m.url = '../../music/pm98/music-' + m.l + '.mp3'; m.local = '../../../../Assets/Audio/Music98/music-' + m.l + '.mp3'; m.start = 1105 / 44100; });
   // the reference (Block Out!) is never published: only a local preview of the repo finds it
   var REF = '../../pm96/ref/ref_bolum.mp3';
-  var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', ton:'Tını', cikis:'Çıkış', carpma:'Çarpma', tik:'Tık', makas:'Makas', degnek:'Değnek', cekic:'Çekiç', saat:'Saat', koridor:'Koridor', dalis:'Dalış', cizgi:'Çizgi', geri:'Geri', sekme:'Sekme', dugme:'Düğme' };
-  var FLAGS = { lobi:'lobi', bolum:'bolummuzik', kazanma:'kazanma', ton:'kazanmaton', cikis:'sescikis', carpma:'sescarpma', bitis:'sesbitis', tik:'sestik',
+  var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', ton:'Tını', cikis:'Çıkış', carpma:'Çarpma', makas:'Makas', degnek:'Değnek', cekic:'Çekiç', saat:'Saat', koridor:'Koridor', dalis:'Dalış', cizgi:'Çizgi', geri:'Geri', sekme:'Sekme', dugme:'Düğme',
+                zincir:'Zincir', zincirger:'Zincir gerilme', kilitdokun:'Kilit dokunma', kilitac:'Kilit açılma', patlama:'Patlama', duvar:'Duvar' };
+  var FLAGS = { lobi:'lobi', bolum:'bolummuzik', kazanma:'kazanma', ton:'kazanmaton', cikis:'sescikis', carpma:'sescarpma', bitis:'sesbitis',
                 makas:'sesmakas', degnek:'sesdegnek', cekic:'sescekic', saat:'sessaat',
-                koridor:'geciskoridor', dalis:'gecisdalis', cizgi:'geciscizgi', geri:'gecisgeri', sekme:'gecissekme', dugme:'sesdugme' };
+                koridor:'geciskoridor', dalis:'gecisdalis', cizgi:'geciscizgi', geri:'gecisgeri', sekme:'gecissekme', dugme:'sesdugme',
+                zincir:'seszincir', zincirger:'seszincirger', kilitdokun:'seskilitdokun', kilitac:'seskilitac', patlama:'sespatlama', duvar:'sesduvar' };
   var pick = {};
   try { pick = JSON.parse(localStorage.getItem('rs-pm102-pick') || '{}'); } catch (e) {}
 
@@ -227,7 +229,7 @@
     var takes = c.takes, n = takes.length, i = 0;
     if (n > 1) { i = Math.floor(Math.random() * (n - 1)); if (lastTake[key + c.letter] != null && i >= lastTake[key + c.letter]) i++; }
     lastTake[key + c.letter] = i;
-    var jitter = { cikis:.04, carpma:.05, tik:.04, dugme:.04 }[key] || 0;
+    var jitter = { cikis:.04, carpma:.05, zincir:.06, duvar:.03 }[key] || 0;   // PM_105: the tok always the same
     return load('sesler/' + takes[i].file).then(function (buf) {
       var s = ctx.createBufferSource(), g = ctx.createGain();
       s.buffer = buf; s.playbackRate.value = 1 + (Math.random() * 2 - 1) * jitter; g.gain.value = vol;
@@ -337,7 +339,7 @@
 
   // ---- PM_104 §2-3: the slide as a swoosh (k-p) and the buttons' tok (a-g): Tools/make_sfx104.py ----
   var swoosh = section('Kaydırma (swoosh)', 'Parça tahtadan çıkarken: kısa, yumuşak bir hava sesi; sürtünme, tahta, boing yok. Hepsi bugünkü kaydırma f ile aynı ses yüksekliğinde. Oyunda hızlı fiskede biraz daha parlak, yavaş itişte biraz daha yumuşak çalar. "10 art arda" oyunda üst üste on çıkış gibi.', true);
-  var dugme = section('Düğme (tok)', 'Durdur, Devam, Menü, alt sekmeler ve Ayarlar. Kısa, tok, gövdeli; tiz değil. Bugün bu düğmelerde tık b ile panel ya da sekme sesi üst üste çalıyordu; artık tok önde, panel sesi 9 dB, sekme sesi 12 dB kısık. "×5" art arda beş basış.', true);
+  var dugme = section('Düğme (tok)', 'PM_105: artık BÜTÜN düğmeler bunu çalar (Durdur'daki, beğendiğin a): tek kayıt, hep aynı perde ve aynı ses yüksekliği. Eski "çıt" (tık b) oyundan silindi. Başka bir tok seçersen her düğme onu çalar. "×5" art arda beş basış.', true);
   function ten(key, c) {
     var b = el('<button class="btn">10 art arda</button>');
     b.addEventListener('click', function () { audio(); stop(); for (var k = 0; k < 10; k++) playSfx(key, c, 1, k * .42); });
@@ -354,9 +356,49 @@
     var nc = sfxCard({ key:'cikis', flag:'sescikis', vol:1 }, now);
     nc.querySelector('.row').insertBefore(ten('cikis', now), nc.querySelector('.row').children[1]);
     swoosh.appendChild(nc);
-    d.dugme.forEach(function (c) { dugme.appendChild(sfxCard({ key:'dugme', flag:'sesdugme', vol:1, burst:true }, c)); });
+    d.dugme.forEach(function (c) { c = Object.assign({}, c, { takes: c.takes.slice(0, 1) }); dugme.appendChild(sfxCard({ key:'dugme', flag:'sesdugme', vol:1, burst:true }, c)); });   // PM_105: one take
     save(true);
   });
+
+  // ---- PM_105 §2: the obstacles' sounds (Tools/make_sfx105.py, sesler105.json) ----
+  var LV105 = { zincir:31, zincirger:31, kilitdokun:3, kilitac:3, patlama:31, duvar:31 };
+  var HINT105 = {
+    zincir: 'Zincirli parça sürüklenirken ya da sallanırken: kısa şıkırtılar, zincir hızlandıkça sıklaşır ve yükselir, durunca biter. "Sürükle" bir sürüklemeyi taklit eder (hızlanır, yavaşlar).',
+    zincirger: 'Zincirli parça takılınca: kısa metal "çın" ve ardından şıkırtı. Oyunda çarpma sesiyle birlikte, onun 3 dB altında.',
+    kilitdokun: 'Kilitli parçaya dokununca (henüz açılmamışken): kısa "kilitli" tıkırtısı.',
+    kilitac: 'Kilit açılınca: anahtar dönüşü, sonra kilidin düşüşü. Eski ses (kırılma) için &seskilitac=0.',
+    patlama: 'Bomba patlayınca: oyuncak tadında pof, korkutucu bas yok. Ardından kayıp sesi ve paneli gelir.',
+    duvar: 'Kırmızı duvara çarpınca: parçaya çarpmadan biraz daha sert bir "bonk".'
+  };
+  function drag105(c) {
+    var b = el('<button class="btn">Sürükle</button>');
+    b.addEventListener('click', function () {
+      audio(); stop();
+      // the game's rattle (Sfx105.Rattle): a grain every .5 cell moved, the level with the speed; 1.6 s, 0 -> 12 -> 0 cells/s
+      var t = 0, travel = 0, since = 1, dt = 1 / 60;
+      for (var f = 0; f < 96; f++) {
+        var v = 12 * Math.sin(Math.PI * f / 96), lvl = v <= 1.2 ? 0 : .25 + .75 * Math.min(1, (v - 1.2) / 7.8);
+        t += dt; since += dt;
+        if (lvl <= 0) { travel = 0; continue; }
+        travel += v * dt;
+        if (travel >= .5 && since >= .07) { travel = 0; since = 0; playSfx('zincir', c, lvl, t); }
+      }
+    });
+    return b;
+  }
+  get('sesler105.json').then(function (r) { return r.json(); }).then(function (d) {
+    Object.keys(d).forEach(function (key) {
+      var sec = section(d[key].title, HINT105[key] || '', true);
+      d[key].candidates.forEach(function (c) {
+        var card = sfxCard({ key:key, flag:FLAGS[key], vol:1, burst:key !== 'kilitac' && key !== 'patlama' }, c);
+        var row = card.querySelector('.row');
+        if (key === 'zincir') row.insertBefore(drag105(c), row.children[1]);
+        var a = row.querySelector('a.btn'); if (a) a.href = '../?c=p23&test=1&lang=tr&lv=' + LV105[key] + '&' + FLAGS[key] + '=' + c.letter;
+        sec.appendChild(card);
+      });
+    });
+    save(true);
+  }).catch(function () {});
 
   // ---- PM_100 §1: the fanfare in other instruments (the same notes, rhythm, length and beats) ----
   var GTONES = [

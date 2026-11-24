@@ -32,7 +32,7 @@ KEN, DL = sys.argv[1], sys.argv[2]
 RES = 'Assets/_Game/Presentation/Resources/Art/audio'
 OUT = os.path.join(RES, 'pm104')
 PAGE = 'docs/art/pm104/onizleme'
-META = open(os.path.join(RES, 'pm95', 'tik-b1.wav.meta'), encoding='utf8').read()
+META = open(os.path.join(RES, 'pm104', 'ui-tok-a1.wav.meta'), encoding='utf8').read()  # PM_105: the tick's files are gone (the same import settings)
 
 
 def read(p): return librosa.load(p, sr=SR, mono=True)[0].astype(np.float64)
@@ -116,8 +116,8 @@ KEN_IMP = ('Kenney, Impact Sounds', 'https://kenney.nl/assets/impact-sounds')
 # the level of today's slide f and of the UI tick (what the game plays)
 F_NOW = [read(os.path.join(RES, 'pm100', f'cikis-f{n}.wav')) for n in range(1, 5)]
 FX = float(np.mean([loud(x) for x in F_NOW]))
-TICK = [read(os.path.join(RES, 'pm98', f'ui-tick-b{n}.wav')) for n in range(1, 5)]
-UI = float(np.mean([loud(x) for x in TICK]))
+TICK = [read(os.path.join(RES, 'pm98', f'ui-tick-b{n}.wav')) for n in range(1, 5)] if os.path.exists(os.path.join(RES, 'pm98', 'ui-tick-b1.wav')) else None   # PM_105: gone
+UI = float(np.mean([loud(x) for x in TICK])) if TICK else -16.1   # PM_105: the tick's measured level (its files are gone)
 print(f'kayma f: {FX:.1f} LUFS, tepe {max(peak(x) for x in F_NOW):.1f}; UI tık: {UI:.1f} LUFS')
 
 

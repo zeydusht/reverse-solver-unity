@@ -19,7 +19,7 @@ namespace ReverseSolver.Presentation
         {
             Kind.Exit or Kind.Lift or Kind.LiftShort => SesSecim.Letter("cikis"),
             Kind.Knock => SesSecim.Letter("carpma"),
-            Kind.Tick => SesSecim.Letter("tik"),
+            Kind.Tick => '0',   // PM_105: the tick is gone (every button: UiSounds' tok)
             Kind.Win => 'b',
             _ => 'a',
         };
@@ -52,7 +52,7 @@ namespace ReverseSolver.Presentation
             _takes = new AudioClip[Keys.Length][];
             for (int k = 0; k < Keys.Length; k++)
             {
-                string q = Host.Current?.Query("ses" + Keys[k]);
+                string q = (Kind)k == Kind.Tick ? null : Host.Current?.Query("ses" + Keys[k]);   // PM_105: no &sestik=
                 char letter = string.IsNullOrEmpty(q) ? DefaultOf(k) : q[0];
                 if ((Kind)k == Kind.Lift || (Kind)k == Kind.LiftShort) letter = _letters[(int)Kind.Exit] == '0' ? '0' : Letter(Kind.Exit);   // the exit's own
                 _letters[k] = letter;

@@ -13,11 +13,16 @@ namespace ReverseSolver.Presentation
        frame) on a source the pause does not stop. Played: every sound, for the tests (docs/TITRESIM_HARITASI.md).
        PM_104 §3: Tok, a short full "tok" (Tools/make_sfx104.py, pm104/ui-tok-<letter>) instead of the tick on Durdur,
        Devam, Menü, the bottom tabs and Ayarlar (AsTok: the press of this frame); &sesdugme= a-g, 0 the tick; without
-       one ses.json's "dugme". A panel's swish under a tok plays 9 dB down (SwishUnderTok): the tok leads. */
+       one ses.json's "dugme". A panel's swish under a tok plays 9 dB down (SwishUnderTok): the tok leads.
+       PM_105 §3: Zeyd liked Durdur's tok and not the "çıt" (the tick b: four takes, a random pitch, -1 dB peaks): every
+       button now plays the tok, one take (ui-tok-<letter>1), at one pitch and one level. The tick's files are gone;
+       Tick stays only as the kind of a plain press (it sounds the tok). */
     public static class UiSounds
     {
         public enum Kind { Tick, Toggle, Open, Close, Dull, Tok }
         public static System.Action<Kind> Played;
+        /* PM_105: the file each UI sound played (GameRoot.PlayUi), for the tests: the old tick never. */
+        public static System.Action<string> PlayedClip;
 
         static Kind? _press;
         static bool _open, _close;
@@ -33,7 +38,6 @@ namespace ReverseSolver.Presentation
         /* PM_104 §3: this frame's button press is a tok (a plain tick turns into it; none yet: a tok). */
         public static void AsTok()
         {
-            if (DugmeLetter == '0') return;
             if (_press == null || _press == Kind.Tick) _press = Kind.Tok;
         }
 
@@ -43,7 +47,7 @@ namespace ReverseSolver.Presentation
             get
             {
                 string q = Host.Current?.Query("sesdugme");
-                return !string.IsNullOrEmpty(q) && (q[0] == '0' || q[0] >= 'a' && q[0] <= 'g') ? q[0] : SesSecim.Letter("dugme");
+                return !string.IsNullOrEmpty(q) && q[0] >= 'a' && q[0] <= 'g' ? q[0] : SesSecim.Letter("dugme");
             }
         }
 
@@ -57,7 +61,7 @@ namespace ReverseSolver.Presentation
             var list = new List<Kind>();
             if (_press.HasValue) list.Add(_press.Value);
             if (_open != _close) list.Add(_open ? Kind.Open : Kind.Close);
-            SwishUnderTok = _press == Kind.Tok && _open != _close;
+            SwishUnderTok = (_press == Kind.Tok || _press == Kind.Tick) && _open != _close;   // PM_105: every press is the tok
             _press = null; _open = _close = false;
             return list;
         }
@@ -69,7 +73,7 @@ namespace ReverseSolver.Presentation
         {
             if (Clips.TryGetValue(prefix, out var c)) return c;
             var list = new List<AudioClip>();
-            for (int n = 1; n <= 6; n++)
+            for (int n = 1; n <= (prefix.StartsWith("pm104/ui-tok-") ? 1 : 6); n++)   // PM_105: the tok: one take
             {
                 var clip = SesSecim.Load<AudioClip>($"Art/audio/{prefix}{n}");
                 if (clip == null) break;
@@ -81,8 +85,7 @@ namespace ReverseSolver.Presentation
         /* The tick follows the button tick candidate (&sestik=: a, b, c; 0 the old one). */
         static string Prefix(Kind kind) => kind switch
         {
-            Kind.Tick => "pm98/ui-tick-" + Sfx95.Letter(Sfx95.Kind.Tick),
-            Kind.Tok => "pm104/ui-tok-" + DugmeLetter,
+            Kind.Tick or Kind.Tok => "pm104/ui-tok-" + DugmeLetter,
             Kind.Toggle => "pm98/ui-toggle", Kind.Open => "pm98/ui-open", Kind.Close => "pm98/ui-close", _ => "pm98/ui-dull",
         };
 
@@ -101,7 +104,7 @@ namespace ReverseSolver.Presentation
             if (takes.Length == 1) i = 0;
             else { i = Random.Range(0, takes.Length - (last >= 0 ? 1 : 0)); if (last >= 0 && i >= last) i++; }
             Last[kind] = i;
-            pitch = 1 + Random.Range(-.04f, .04f);
+            pitch = kind == Kind.Tick || kind == Kind.Tok ? 1 : 1 + Random.Range(-.04f, .04f);   // PM_105: the tok always the same
             return takes[i];
         }
     }

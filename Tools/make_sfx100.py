@@ -23,7 +23,7 @@ PACKS, WHOOSH, VCSL = sys.argv[1], sys.argv[2], sys.argv[3]
 RES = 'Assets/_Game/Presentation/Resources/Art/audio'
 OUT = os.path.join(RES, 'pm100')
 PAGE = 'docs/art/pm100/onizleme'
-META = open(os.path.join(RES, 'pm95', 'tik-b1.wav.meta'), encoding='utf8').read()
+META = open(os.path.join(RES, 'pm104', 'ui-tok-a1.wav.meta'), encoding='utf8').read()  # PM_105: the tick's files are gone (the same import settings)
 rng = np.random.default_rng(100)
 
 
@@ -132,7 +132,8 @@ for f in os.listdir(OUT):
 mix = {}
 
 # ---- §3: the reference, the tick (UI, Zeyd's b) ----------------------------------------------------------------------
-tick = [read(os.path.join(RES, 'pm98', f'ui-tick-b{n}.wav')) for n in range(1, 5)]
+tick = [read(os.path.join(RES, 'pm98', f'ui-tick-b{n}.wav')) for n in range(1, 5)] if os.path.exists(os.path.join(RES, 'pm98', 'ui-tick-b1.wav')) else None   # PM_105: gone
+if tick is None: sys.exit('PM_105: the button tick (pm98/ui-tick-b, its level reference) is gone; this script made its files once and is not run again')
 REF = float(np.mean([loud(x) for x in tick])); FX = REF + 1.5
 PH = float(np.mean([loud(sosfilt(phone, x)) for x in tick]))
 mix['tik (UI, referans)'] = dict(before=round(REF, 1), after=round(REF, 1), peak=round(max(peak(x) for x in tick), 1), phone_before=round(PH, 1), phone_after=round(PH, 1))

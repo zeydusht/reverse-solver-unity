@@ -97,7 +97,47 @@ namespace ReverseSolver.Presentation
             _mesh.SetColors(colors);
             _mesh.SetTriangles(tris, 0);
             _mesh.RecalculateBounds();
+            _home = null; _shapedNow = false;
             Apply();
+        }
+
+        /* PM_105: a chained pair is one rigid piece whose two cells sit far apart. Scaling its transform (the rubber
+           knock's squash and stretch, about the pair's bounding box) moved the far cell by the squash times the span:
+           it jumped and flew. Here each cell deforms about its own point instead (pivot: from the cell's centre, in
+           points; weight per cell 0..1 of the deformation), the transform only slides. (1, 1) puts the mesh back. */
+        Vector3[] _home, _shaped;
+        bool _shapedNow;
+        public void SetCellScale(Vector2 scale, Vector2 pivot, float[] weight = null)
+        {
+            if (_mesh == null) return;
+            if (_home == null || _home.Length != _mesh.vertexCount) { _home = _mesh.vertices; _shaped = new Vector3[_home.Length]; }
+            bool identity = scale == Vector2.one;
+            if (identity && !_shapedNow) return;
+            for (int i = 0; i < Cells.Length && i * 4 + 3 < _home.Length; i++)
+            {
+                var s = Vector2.LerpUnclamped(Vector2.one, scale, weight == null || i >= weight.Length ? 1 : weight[i]);
+                var p = Draw.W(new Vector2((Cells[i].X + .5f) * _cell, (Cells[i].Y + .5f) * _cell) + pivot);
+                for (int k = 0; k < 4; k++)
+                {
+                    var v = _home[i * 4 + k];
+                    _shaped[i * 4 + k] = new Vector3(p.x + (v.x - p.x) * s.x, p.y + (v.y - p.y) * s.y, v.z);
+                }
+            }
+            _mesh.vertices = identity ? _home : _shaped;
+            _shapedNow = !identity;
+        }
+        public void ResetShape() { if (_shapedNow) SetCellScale(Vector2.one, Vector2.zero); }
+
+        /* The drawn body of cell i (its square, without tabs) where it is now, in the board's layout points (y down):
+           the mesh as shaped, then the transform. */
+        public Rect CellBody(int i)
+        {
+            var v = _mesh.vertices;
+            float f0 = Pad / (100 + 2 * Pad), f1 = (100 + Pad) / (100 + 2 * Pad);
+            Vector3 a = Vector3.Lerp(v[i * 4], v[i * 4 + 2], f0), c = Vector3.Lerp(v[i * 4], v[i * 4 + 2], f1);
+            a = Vector3.Scale(a, transform.localScale) + transform.localPosition;
+            c = Vector3.Scale(c, transform.localScale) + transform.localPosition;
+            return Rect.MinMaxRect(Mathf.Min(a.x, c.x), Mathf.Min(-a.y, -c.y), Mathf.Max(a.x, c.x), Mathf.Max(-a.y, -c.y));
         }
 
         /* web colorOf: palette[colors[y * w + x]] */

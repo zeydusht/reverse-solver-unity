@@ -52,6 +52,7 @@ namespace ReverseSolver.Presentation
             Vector2 a = broken ? _sim[0] : (Vector2)_piece.TransformPoint(_a);
             Vector2 b = broken ? _sim[_sim.Count - 1] : (Vector2)_piece.TransformPoint(_b);
             _sim.Advance(Time.unscaledDeltaTime, a, b);
+            Measure();
             Layout();
             if (!broken) return;
             float alpha = 1 - Mathf.InverseLerp(ChainTuning.Hang, ChainTuning.BreakLife, age);
@@ -65,6 +66,18 @@ namespace ReverseSolver.Presentation
                     var r = _anchors[i].GetComponent<SpriteRenderer>();
                     var c = r.color; c.a = alpha; r.color = c;
                 }
+        }
+
+        /* PM_105: how fast the chain moves (cells/s, the mean of its links' speeds this frame): the rattle follows it. */
+        public float Motion { get; private set; }
+        Vector2[] _was;
+        void Measure()
+        {
+            float dt = Time.unscaledDeltaTime;
+            if (_was == null || _was.Length != _sim.Count) { _was = new Vector2[_sim.Count]; for (int i = 0; i < _was.Length; i++) _was[i] = _sim[i]; Motion = 0; return; }
+            float sum = 0;
+            for (int i = 0; i < _was.Length; i++) { sum += Vector2.Distance(_sim[i], _was[i]); _was[i] = _sim[i]; }
+            Motion = dt > 1e-4f && _cell > 0 && _brokenAt < 0 ? sum / _was.Length / dt / _cell : 0;
         }
 
         void Layout()

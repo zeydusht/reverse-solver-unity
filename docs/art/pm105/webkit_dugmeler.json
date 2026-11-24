@@ -1,0 +1,91 @@
+{
+ "base": "http://127.0.0.1:8123/br/",
+ "screens": [
+  {
+   "name": "menü",
+   "taps": 72,
+   "played": 29,
+   "toks": 27,
+   "files": {
+    "ui Tick ui-tok-a1": 27,
+    "ui Open ui-open2": 1,
+    "ui Close ui-close1": 1
+   }
+  },
+  {
+   "name": "menü sekmeleri",
+   "taps": 6,
+   "played": 7,
+   "toks": 7,
+   "files": {
+    "ui Tick ui-tok-a1": 1,
+    "ui Tok ui-tok-a1": 6
+   }
+  },
+  {
+   "name": "bölüm 3 (kilit)",
+   "taps": 72,
+   "played": 5,
+   "toks": 2,
+   "files": {
+    "ui Tick ui-tok-a1": 1,
+    "KilitDokun kilitdokun-a2": 1,
+    "Knock carpma-a2": 1,
+    "ui Tok ui-tok-a1": 1,
+    "ui Open ui-open1": 1
+   }
+  },
+  {
+   "name": "durdur paneli",
+   "taps": 72,
+   "played": 5,
+   "toks": 2,
+   "files": {
+    "ui Tick ui-tok-a1": 1,
+    "KilitDokun kilitdokun-a2": 1,
+    "Knock carpma-a1": 1,
+    "ui Tok ui-tok-a1": 1,
+    "ui Open ui-open2": 1
+   }
+  },
+  {
+   "name": "süre doldu (altın / reklam ile devam)",
+   "taps": 72,
+   "played": 6,
+   "toks": 3,
+   "files": {
+    "ui Tick ui-tok-a1": 2,
+    "KilitDokun kilitdokun-a2": 1,
+    "Knock carpma-a2": 1,
+    "ui Tok ui-tok-a1": 1,
+    "ui Open ui-open2": 1
+   }
+  },
+  {
+   "name": "kazanma",
+   "taps": 72,
+   "played": 3,
+   "toks": 2,
+   "files": {
+    "ui Tick ui-tok-a1": 1,
+    "ui Tok ui-tok-a1": 1,
+    "ui Open ui-open1": 1
+   }
+  },
+  {
+   "name": "sandık",
+   "taps": 72,
+   "played": 3,
+   "toks": 2,
+   "files": {
+    "ui Tick ui-tok-a1": 1,
+    "ui Tok ui-tok-a1": 1,
+    "ui Open ui-open2": 1
+   }
+  }
+ ],
+ "old": [],
+ "pageErrors": [],
+ "alerts": [],
+ "pass": true
+}

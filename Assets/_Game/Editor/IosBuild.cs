@@ -31,7 +31,7 @@ namespace ReverseSolver.EditorTools
         public const string MusicInBuild = "Assets/_Game/Presentation/Resources/Music", Stash = "Assets/_IosDisi";
         const string AudioRoot = "Assets/_Game/Presentation/Resources/Art/audio";
         /* The candidates' folders: every file in them is a sound some flag can pick. */
-        public static readonly string[] CandidateFolders = { "pm95", "pm96", "pm98", "pm99", "pm100", "pm102", "pm104" };
+        public static readonly string[] CandidateFolders = { "pm95", "pm96", "pm98", "pm99", "pm100", "pm102", "pm104", "pm105" };
 
         /* PM_103: the chosen lobby and level loops (their own Ogg files: no lead-in, the exact loop) and the fanfare (its
            chosen tone) into Resources/Music as lobi, bolum, kazanma: Music reads them there. */

@@ -18,7 +18,7 @@ KENNEY, SWISH = sys.argv[1], sys.argv[2]
 PM95 = 'Assets/_Game/Presentation/Resources/Art/audio/pm95'
 OUT = 'Assets/_Game/Presentation/Resources/Art/audio/pm98'
 CEIL = 10 ** (-1 / 20)
-META = open(os.path.join(PM95, 'tik-b1.wav.meta'), encoding='utf8').read()
+META = open(os.path.join(PM95, '..', 'pm104', 'ui-tok-a1.wav.meta'), encoding='utf8').read()  # PM_105: the tick's files are gone (the same import settings)
 
 
 def read(p):

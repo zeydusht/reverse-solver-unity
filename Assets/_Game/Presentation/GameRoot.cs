@@ -1052,6 +1052,46 @@ namespace ReverseSolver.Presentation
             return PlaySfx(Sfx95.Kind.Knock, 1f);
         }
 
+        /* PM_105 §2: the knock against a red wall is its own firmer bonk; a chained pair's knock adds the chain's ting and
+           rattle (taut), 3 dB under the knock. */
+        bool Knock105(bool wall, bool chained)
+        {
+            bool fresh = !(_knockAt >= 0 && Time.unscaledTime - _knockAt < KnockGap);
+            bool played;
+            if (wall && Sfx105.On(Sfx105.Kind.Duvar)) { if (fresh) { _knockAt = Time.unscaledTime; PlaySfx105(Sfx105.Kind.Duvar, 1f); } played = true; }
+            else played = Knock102();
+            if (chained && fresh) PlaySfx105(Sfx105.Kind.ZincirGer, .71f);
+            return played;
+        }
+        bool JamAtWall105(int piece) => _board != null && _drag != null && _drag.Piece == piece && _drag.Direction.HasValue && _board.StopsAtWall(piece, _drag.Direction.Value);
+        /* PM_105: a lock opening: the key and the drop (pm105), else PM_72's crack (Sfx95 kilit). */
+        bool PlayUnlock105() => PlaySfx105(Sfx105.Kind.KilitAc, 1f) || PlaySfx(Sfx95.Kind.Unlock, 1f);
+        /* PM_105: the bang leads the loss sound by this. */
+        public const float PatlamaLead105 = .45f;
+
+        /* PM_105 §2: one of the obstacles' sounds on the effects' sources (their own pitch); false: none chosen. */
+        bool PlaySfx105(Sfx105.Kind kind, float volumeScale)
+        {
+            var clip = Sfx105.Pick(kind, out float pitch);
+            if (clip == null) return false;
+            if (SesLog) Debug.Log($"[ses] {kind} {clip.name} {Time.unscaledTime:0.000}");
+            Sfx105Played?.Invoke(kind, clip.name);
+            if (Art.Muted) return true;
+            float v = volumeScale * Sfx95.Gain;
+            var src = NextSfx();
+            src.Stop(); src.clip = clip; src.pitch = pitch; src.volume = Mathf.Min(1, v); src.Play();
+            return true;
+        }
+        public static System.Action<Sfx105.Kind, string> Sfx105Played;
+
+        /* PM_105 §2: the chain's rattle, each frame from the fastest chain on the board. */
+        readonly Sfx105.Rattle _rattle105 = new Sfx105.Rattle();
+        void Rattle105()
+        {
+            if (_board == null || _session == null || _session.IsOver) return;
+            if (_rattle105.Tick(_board.ChainMotion, Time.unscaledDeltaTime, out float level)) PlaySfx105(Sfx105.Kind.Zincir, level);
+        }
+
         /* The lift-off is 45 ms (the short one 25 ms): each plays when it is over at least 10 ms before the contact. */
         public const float LiftRoom = .055f, LiftShortRoom = .035f;
         AudioSource NextSfx()
@@ -1093,7 +1133,7 @@ namespace ReverseSolver.Presentation
             // PM_74: the tick (every exit) was the loudest sound (-14 dB peak window); -4 dB, the defuse -1.5 dB
             // PM_100 §3: the bomb's defuse and the lock at the effects' level (pm100), the exit as well
             if (P21JuiceView.Enabled && (bomb ? !PlaySfx(Sfx95.Kind.Bomb, 1f) : !PlaySfx(Sfx95.Kind.Exit, ExitLevel * exitVol, 0, exitPitch))) PlaySound(bomb ? "pm72-defuse" : "pm72-tick", bomb ? .85f : .62f);
-            if (unlocked && !PlaySfx(Sfx95.Kind.Unlock, 1f)) PlaySound("pm72-unlock");
+            if (unlocked && !PlayUnlock105()) PlaySound("pm72-unlock");
             if (!last) Haptics.Play(bomb ? Haptics.Kind.Medium : Haptics.Kind.Light);
             else if (lastTap) Haptics.Play(Haptics.Kind.Success);   // otherwise Finished taps
         }
@@ -1179,14 +1219,15 @@ namespace ReverseSolver.Presentation
             else if (P21JuiceView.Enabled && e.Kind == EventKind.NailFreed)
             {
                 if (_exitFrame == Time.frameCount && _pendingExits.Count > 0) _unlockPending = true;
-                else { if (!PlaySfx(Sfx95.Kind.Unlock, 1f)) PlaySound("pm72-unlock"); Haptics.Play(Haptics.Kind.Light); }
+                else { if (!PlayUnlock105()) PlaySound("pm72-unlock"); Haptics.Play(Haptics.Kind.Light); }
             }
             // PM_104 §1: the scissors' cut has its own snip (BoosterSounds102, makas c); the old tok only without one
             else if (P21JuiceView.Enabled && e.Kind == EventKind.JointCut) { if (!BoosterSounds102.On(BoosterSounds102.Part.MakasKesim)) PlaySound("piece"); }
             // PM_75: a stuck piece that slides first knocks at the contact (BoardView.ContactHit), not here
             else if (e.Kind == EventKind.Jammed && !(_board != null && _drag != null && _drag.Piece == e.Piece && _board.WillSlide(e.Piece, _drag.Direction)))
-            { if (!Knock102()) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }   // PM_102 §2: no room to slide: the same knock (it was -3 dB)
+            { if (!Knock105(JamAtWall105(e.Piece), _board != null && _board.IsChained(e.Piece))) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }   // PM_102 §2: no room to slide: the same knock (it was -3 dB)
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) { if (!P21WinArt) PlaySoundLater("win", .7f); }   // PM_96: the fanfare starts with the win screen
+            else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Bomb && PlaySfx105(Sfx105.Kind.Patlama, 1f)) { PlaySoundLater("loss", PatlamaLead105); Music.Duck(true); }   // PM_105: the bang, then the loss
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) { PlaySound("loss"); Music.Duck(true); }   // PM_96: the level's music at 40 % under the loss
             if (e.Kind != EventKind.Finished) return;
             Debug.Log($"[input] flick={_flickInputs} drag={_dragInputs}");
@@ -1425,7 +1466,7 @@ namespace ReverseSolver.Presentation
                 _hud.SetLevel(_p21Flow ? _index + 1 : _session.Level.Number);
                 var origin = PlayingBoardPlacement(_screen, _safe, _session.Level, out float cell);
                 _board = BoardView.Create(_world, _session, cell, origin, P21Boosters);
-                _board.ContactHit = _ => { if (!Knock102()) PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
+                _board.ContactHit = _ => { if (!Knock105(_board.LastContactWall, _board.LastContactChained)) PlaySound(Art.Sound("pm75-tok") != null ? "pm75-tok" : "piece", .9f); Haptics.Play(Haptics.Kind.Jam); };
                 // PM_100 §2: a jam that slides first: a short soft lift-off as it sets off, over before the knock at the
                 // contact (a slide too short for both: the knock alone)
                 _board.SlideStart = (_, slide) =>
@@ -1801,10 +1842,11 @@ namespace ReverseSolver.Presentation
         void PlayUi(UiSounds.Kind kind)
         {
             UiSounds.Played?.Invoke(kind);
-            if (Art.Muted) return;
             var clip = UiSounds.Pick(kind, out float pitch);
-            if (clip == null && kind == UiSounds.Kind.Tick) clip = Art.Sound("pm72-tick");
-            if (clip == null) return;
+            if (clip == null) return;   // PM_105: no old tick behind it
+            UiSounds.PlayedClip?.Invoke(clip.name);
+            if (SesLog) Debug.Log($"[ses] ui {kind} {clip.name} {Time.unscaledTime:0.000}");
+            if (Art.Muted) return;
             var src = _ui[_uiNext] != null ? _ui[_uiNext] : _ui[_uiNext] = gameObject.AddComponent<AudioSource>();
             _uiNext = (_uiNext + 1) % _ui.Length;
             src.ignoreListenerPause = true; src.playOnAwake = false;
@@ -1826,6 +1868,7 @@ namespace ReverseSolver.Presentation
             if (!_started) return;   // PM_81: the content is still being read
             AdsTick81();
             Tick82();
+            Rattle105();
             if (_perfFrames > 0 && PerfOn) { Debug.Log($"[perf] frame {Time.unscaledDeltaTime * 1000:0} ms"); _perfFrames--; }
             if (_introPlaying) return;
             _continuePanel?.Tick();
@@ -2313,7 +2356,7 @@ namespace ReverseSolver.Presentation
             if (_boosters.BlocksDrag) return;
             // a press just outside the board takes the nearest edge piece (PRODUCT.md K1)
             piece = _board.GrabAt(pt, out bool outside);
-            if (piece >= 0 && _session.NailAt(piece) > 0) _board.Clang(piece);     // web: pinned, refuse and say so
+            if (piece >= 0 && _session.NailAt(piece) > 0) { _board.Clang(piece); PlaySfx105(Sfx105.Kind.KilitDokun, 1f); }     // web: pinned, refuse and say so; PM_105: its locked rattle
             if (piece >= 0 && _drag.Press(piece, pt.x, pt.y, Time.unscaledTimeAsDouble, outside)) { BeginGesture(pt); }
         }
 

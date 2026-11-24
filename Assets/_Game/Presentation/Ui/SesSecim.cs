@@ -14,7 +14,8 @@ namespace ReverseSolver.Presentation
         public const string Asset = "Assets/Config/Resources/ses.json";
         /* The keys of ses.json, Zeyd's table. */
         public static readonly string[] Keys =
-            { "lobi", "bolum", "kazanma", "kazanmaton", "cikis", "carpma", "tik", "makas", "degnek", "cekic", "saat", "koridor", "dalis", "cizgi", "geri", "sekme", "dugme" };
+            { "lobi", "bolum", "kazanma", "kazanmaton", "cikis", "carpma", "makas", "degnek", "cekic", "saat", "koridor", "dalis", "cizgi", "geri", "sekme", "dugme",
+              "zincir", "zincirger", "kilitdokun", "kilitac", "patlama", "duvar" };   // PM_105: "tik" gone (every button: the tok)
 
         static Dictionary<string, string> _map;
         static Dictionary<string, string> Map
@@ -64,6 +65,7 @@ namespace ReverseSolver.Presentation
             UiSounds.Preload();
             Gecis100.Load();
             BoosterSounds102.Load();
+            Sfx105.Load();
             BeatMap.Has(Music.FanfareKey);
             return new HashSet<string>(_used);
         }

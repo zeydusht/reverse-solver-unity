@@ -1,0 +1,490 @@
+{
+ "zincir": {
+  "title": "Zincir şıkırtısı (sürüklerken / sallanırken)",
+  "lufs": -24.0,
+  "candidates": [
+   {
+    "letter": "a",
+    "name": "Zincir halkaları",
+    "credit": "rubberduck, \"80 CC0 RPG SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/80-cc0-rpg-sfx",
+    "takes": [
+     {
+      "file": "zincir-a1.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -6.6,
+      "centroid": 8709
+     },
+     {
+      "file": "zincir-a2.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -9.4,
+      "centroid": 8110
+     },
+     {
+      "file": "zincir-a3.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -10.3,
+      "centroid": 8492
+     },
+     {
+      "file": "zincir-a4.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -10.9,
+      "centroid": 8315
+     }
+    ]
+   },
+   {
+    "letter": "b",
+    "name": "Anahtar destesi",
+    "credit": "rubberduck, \"100 CC0 metal and wood SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+    "takes": [
+     {
+      "file": "zincir-b1.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -8.1,
+      "centroid": 7537
+     },
+     {
+      "file": "zincir-b2.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -8.3,
+      "centroid": 7866
+     },
+     {
+      "file": "zincir-b3.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -5.8,
+      "centroid": 8160
+     },
+     {
+      "file": "zincir-b4.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -3.8,
+      "centroid": 8146
+     }
+    ]
+   },
+   {
+    "letter": "c",
+    "name": "Toka ve metal ufaklık",
+    "credit": "Kenney, RPG Audio (CC0)",
+    "link": "https://kenney.nl/assets/rpg-audio",
+    "takes": [
+     {
+      "file": "zincir-c1.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -4.1,
+      "centroid": 7325
+     },
+     {
+      "file": "zincir-c2.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -2.2,
+      "centroid": 7520
+     },
+     {
+      "file": "zincir-c3.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -2.0,
+      "centroid": 7135
+     },
+     {
+      "file": "zincir-c4.wav",
+      "seconds": 0.11,
+      "lufs": -24.0,
+      "peak": -2.0,
+      "centroid": 7384
+     }
+    ]
+   }
+  ]
+ },
+ "zincirger": {
+  "title": "Zincir gerilip takılınca (çın + şıkırtı)",
+  "lufs": -13.4,
+  "candidates": [
+   {
+    "letter": "a",
+    "name": "İnce metal çın + zincir",
+    "credit": "rubberduck, \"100 CC0 metal and wood SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+    "takes": [
+     {
+      "file": "zincirger-a1.wav",
+      "seconds": 0.135,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 6804
+     },
+     {
+      "file": "zincirger-a2.wav",
+      "seconds": 0.164,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 6115
+     },
+     {
+      "file": "zincirger-a3.wav",
+      "seconds": 0.151,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 6706
+     }
+    ]
+   },
+   {
+    "letter": "b",
+    "name": "Hafif metal vuruş + toka",
+    "credit": "Kenney, Impact Sounds (CC0)",
+    "link": "https://kenney.nl/assets/impact-sounds",
+    "takes": [
+     {
+      "file": "zincirger-b1.wav",
+      "seconds": 0.156,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 3377
+     },
+     {
+      "file": "zincirger-b2.wav",
+      "seconds": 0.135,
+      "lufs": -13.6,
+      "peak": -2.0,
+      "centroid": 4876
+     },
+     {
+      "file": "zincirger-b3.wav",
+      "seconds": 0.135,
+      "lufs": -13.7,
+      "peak": -2.0,
+      "centroid": 5031
+     }
+    ]
+   },
+   {
+    "letter": "c",
+    "name": "Metal tını + anahtar",
+    "credit": "rubberduck, \"80 CC0 RPG SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/80-cc0-rpg-sfx",
+    "takes": [
+     {
+      "file": "zincirger-c1.wav",
+      "seconds": 0.22,
+      "lufs": -13.5,
+      "peak": -2.0,
+      "centroid": 6955
+     },
+     {
+      "file": "zincirger-c2.wav",
+      "seconds": 0.22,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 6375
+     }
+    ]
+   }
+  ]
+ },
+ "kilitdokun": {
+  "title": "Kilitli parçaya dokununca",
+  "lufs": -15.4,
+  "candidates": [
+   {
+    "letter": "a",
+    "name": "Kilitli kapı kolu",
+    "credit": "cough-e, \"Door Lock Sounds\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/door-lock-sounds",
+    "takes": [
+     {
+      "file": "kilitdokun-a1.wav",
+      "seconds": 0.2,
+      "lufs": -15.4,
+      "peak": -2.0,
+      "centroid": 2251
+     },
+     {
+      "file": "kilitdokun-a2.wav",
+      "seconds": 0.2,
+      "lufs": -15.4,
+      "peak": -2.0,
+      "centroid": 1487
+     },
+     {
+      "file": "kilitdokun-a3.wav",
+      "seconds": 0.2,
+      "lufs": -15.4,
+      "peak": -2.0,
+      "centroid": 1735
+     }
+    ]
+   },
+   {
+    "letter": "b",
+    "name": "Kilit tıkırtısı",
+    "credit": "rubberduck, \"80 CC0 RPG SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/80-cc0-rpg-sfx",
+    "takes": [
+     {
+      "file": "kilitdokun-b1.wav",
+      "seconds": 0.22,
+      "lufs": -15.5,
+      "peak": -2.0,
+      "centroid": 5546
+     },
+     {
+      "file": "kilitdokun-b2.wav",
+      "seconds": 0.203,
+      "lufs": -15.4,
+      "peak": -2.0,
+      "centroid": 4230
+     }
+    ]
+   },
+   {
+    "letter": "c",
+    "name": "Metal mandal",
+    "credit": "Kenney, RPG Audio (CC0)",
+    "link": "https://kenney.nl/assets/rpg-audio",
+    "takes": [
+     {
+      "file": "kilitdokun-c1.wav",
+      "seconds": 0.095,
+      "lufs": -15.5,
+      "peak": -2.0,
+      "centroid": 7482
+     },
+     {
+      "file": "kilitdokun-c2.wav",
+      "seconds": 0.2,
+      "lufs": -15.4,
+      "peak": -2.0,
+      "centroid": 5657
+     }
+    ]
+   }
+  ]
+ },
+ "kilitac": {
+  "title": "Kilit açılınca (anahtar dönüşü + kilidin düşüşü)",
+  "lufs": -15.0,
+  "candidates": [
+   {
+    "letter": "a",
+    "name": "Anahtar + metal düşüş",
+    "credit": "rubberduck, \"100 CC0 SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/100-cc0-sfx",
+    "takes": [
+     {
+      "file": "kilitac-a1.wav",
+      "seconds": 0.371,
+      "lufs": -15.0,
+      "peak": -3.1,
+      "centroid": 4396
+     },
+     {
+      "file": "kilitac-a2.wav",
+      "seconds": 0.29,
+      "lufs": -15.0,
+      "peak": -2.0,
+      "centroid": 3808
+     }
+    ]
+   },
+   {
+    "letter": "b",
+    "name": "Kapı kilidi açılır + düşüş",
+    "credit": "cough-e, \"Door Lock Sounds\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/door-lock-sounds",
+    "takes": [
+     {
+      "file": "kilitac-b1.wav",
+      "seconds": 0.444,
+      "lufs": -15.0,
+      "peak": -2.0,
+      "centroid": 2303
+     }
+    ]
+   },
+   {
+    "letter": "c",
+    "name": "Asma kilit açılır",
+    "credit": "rubberduck, \"100 CC0 metal and wood SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+    "takes": [
+     {
+      "file": "kilitac-c1.wav",
+      "seconds": 0.576,
+      "lufs": -15.0,
+      "peak": -2.0,
+      "centroid": 3876
+     }
+    ]
+   }
+  ]
+ },
+ "patlama": {
+  "title": "Bomba patlayınca (oyuncak tadında)",
+  "lufs": -12.4,
+  "candidates": [
+   {
+    "letter": "a",
+    "name": "Yumuşak patlama + pof",
+    "credit": "rubberduck, \"100 CC0 SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/100-cc0-sfx",
+    "takes": [
+     {
+      "file": "patlama-a1.wav",
+      "seconds": 0.192,
+      "lufs": -12.5,
+      "peak": -2.0,
+      "centroid": 1548
+     }
+    ]
+   },
+   {
+    "letter": "b",
+    "name": "Kısa bang, oyuncak",
+    "credit": "rubberduck, \"25 CC0 bang / firework SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/25-cc0-bang-firework-sfx",
+    "takes": [
+     {
+      "file": "patlama-b1.wav",
+      "seconds": 0.357,
+      "lufs": -12.5,
+      "peak": -2.0,
+      "centroid": 2089
+     },
+     {
+      "file": "patlama-b2.wav",
+      "seconds": 0.328,
+      "lufs": -12.4,
+      "peak": -2.0,
+      "centroid": 1797
+     }
+    ]
+   },
+   {
+    "letter": "c",
+    "name": "Konfeti patlaması",
+    "credit": "rubberduck, \"25 CC0 bang / firework SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/25-cc0-bang-firework-sfx",
+    "takes": [
+     {
+      "file": "patlama-c1.wav",
+      "seconds": 0.517,
+      "lufs": -12.5,
+      "peak": -2.0,
+      "centroid": 1747
+     }
+    ]
+   }
+  ]
+ },
+ "duvar": {
+  "title": "Kırmızı duvara çarpınca (bonk)",
+  "lufs": -11.9,
+  "candidates": [
+   {
+    "letter": "a",
+    "name": "Ahşap bonk (çarpmadan tok)",
+    "credit": "Kenney, Impact Sounds (CC0)",
+    "link": "https://kenney.nl/assets/impact-sounds",
+    "takes": [
+     {
+      "file": "duvar-a1.wav",
+      "seconds": 0.105,
+      "lufs": -12.6,
+      "peak": -2.0,
+      "centroid": 229
+     },
+     {
+      "file": "duvar-a2.wav",
+      "seconds": 0.093,
+      "lufs": -12.6,
+      "peak": -2.0,
+      "centroid": 206
+     },
+     {
+      "file": "duvar-a3.wav",
+      "seconds": 0.096,
+      "lufs": -12.4,
+      "peak": -2.0,
+      "centroid": 268
+     }
+    ]
+   },
+   {
+    "letter": "b",
+    "name": "Ahşap vuruş",
+    "credit": "rubberduck, \"100 CC0 metal and wood SFX\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+    "takes": [
+     {
+      "file": "duvar-b1.wav",
+      "seconds": 0.143,
+      "lufs": -12.3,
+      "peak": -2.0,
+      "centroid": 3112
+     },
+     {
+      "file": "duvar-b2.wav",
+      "seconds": 0.19,
+      "lufs": -12.0,
+      "peak": -2.0,
+      "centroid": 2383
+     },
+     {
+      "file": "duvar-b3.wav",
+      "seconds": 0.095,
+      "lufs": -13.0,
+      "peak": -2.0,
+      "centroid": 1037
+     }
+    ]
+   },
+   {
+    "letter": "c",
+    "name": "Yumuşak ağır vuruş",
+    "credit": "Kenney, Impact Sounds (CC0)",
+    "link": "https://kenney.nl/assets/impact-sounds",
+    "takes": [
+     {
+      "file": "duvar-c1.wav",
+      "seconds": 0.131,
+      "lufs": -11.9,
+      "peak": -2.0,
+      "centroid": 198
+     },
+     {
+      "file": "duvar-c2.wav",
+      "seconds": 0.131,
+      "lufs": -11.9,
+      "peak": -2.0,
+      "centroid": 187
+     },
+     {
+      "file": "duvar-c3.wav",
+      "seconds": 0.131,
+      "lufs": -11.9,
+      "peak": -2.0,
+      "centroid": 182
+     }
+    ]
+   }
+  ]
+ }
+}

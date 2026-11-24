@@ -13,8 +13,10 @@ namespace ReverseSolver.Core.Tests
     {
         static readonly (string key, string choice)[] Zeyd =
         {
-            ("lobi", "n"), ("bolum", "E"), ("kazanma", "g"), ("kazanmaton", "marimba"), ("cikis", "f"), ("carpma", "a"), ("tik", "b"),
+            ("lobi", "n"), ("bolum", "E"), ("kazanma", "g"), ("kazanmaton", "marimba"), ("cikis", "f"), ("carpma", "a"),
             ("makas", "c"), ("degnek", "a"), ("cekic", "a"), ("saat", "a"), ("koridor", "a"), ("dalis", "a"), ("cizgi", "a"), ("geri", "a"), ("sekme", "a"), ("dugme", "a"),
+            // PM_105: the tick is gone (every button: the tok); the obstacles' sounds, a until Zeyd picks
+            ("zincir", "a"), ("zincirger", "a"), ("kilitdokun", "a"), ("kilitac", "a"), ("patlama", "a"), ("duvar", "a"),
         };
 
         [Test]
@@ -37,7 +39,7 @@ namespace ReverseSolver.Core.Tests
             Assert.That(Sfx95.Letter(Sfx95.Kind.Exit), Is.EqualTo('f'));
             Assert.That(Sfx95.Letter(Sfx95.Kind.Lift), Is.EqualTo('f'));
             Assert.That(Sfx95.Letter(Sfx95.Kind.Knock), Is.EqualTo('a'));
-            Assert.That(Sfx95.Letter(Sfx95.Kind.Tick), Is.EqualTo('b'));
+            Assert.That(Sfx95.Letter(Sfx95.Kind.Tick), Is.EqualTo('0'), "PM_105: no tick");
             foreach (var (b, l) in new[] { ("makas", 'c'), ("degnek", 'a'), ("cekic", 'a'), ("saat", 'a') })
                 Assert.That(BoosterSounds102.Letter(b), Is.EqualTo(l), b);
             Assert.That(BoosterSounds102.Clip(BoosterSounds102.Part.MakasKesim), Is.SameAs(Resources.Load<AudioClip>("Art/audio/pm102/booster-makas-kesim-c")), "the garden shears");
@@ -54,7 +56,7 @@ namespace ReverseSolver.Core.Tests
             foreach (var p in new[]
             {
                 "Art/audio/pm100/cikis-f1", "Art/audio/pm100/kalkis-f1", "Art/audio/pm100/kalkisk-f1", "Art/audio/pm102/carpma-a1", "Art/audio/pm102/carpma-a4",
-                "Art/audio/pm95/tik-b1", "Art/audio/pm98/ui-tick-b1", "Art/audio/pm98/ui-toggle1", "Art/audio/pm102/booster-makas-kesim-c",
+                "Art/audio/pm104/ui-tok-a1", "Art/audio/pm98/ui-toggle1", "Art/audio/pm105/zincir-a1", "Art/audio/pm105/duvar-a1", "Art/audio/pm102/booster-makas-kesim-c",
                 "Art/audio/pm102/booster-degnek-donusum-a", "Art/audio/pm102/booster-saat-tiktak-a", "Art/audio/pm102/gecis-koridor-a",
                 "Art/audio/pm100/gecis-dalis-a", "Art/audio/pm100/gecis-sekme-a", "Art/audio/pm96/vurus_haritasi",
             })
@@ -63,7 +65,7 @@ namespace ReverseSolver.Core.Tests
             foreach (var p in used)
             {
                 string name = p.Substring(p.LastIndexOf('/') + 1);
-                Assert.That(name, Does.Not.Match("^booster-makas-.*-[ab]$|^booster-(degnek|cekic|saat)-.*-[bc]$|^gecis-.*-[bc]$|^cikis-[a-eg-j]|^carpma-[b-d]|^tik-[ac]|^ui-tick-[ac]"), p);
+                Assert.That(name, Does.Not.Match("^booster-makas-.*-[ab]$|^booster-(degnek|cekic|saat)-.*-[bc]$|^gecis-.*-[bc]$|^cikis-[a-eg-j]|^carpma-[b-d]|^tik-|^ui-tick-|^ui-tok-a[23]|^(zincir|zincirger|kilitdokun|kilitac|patlama|duvar)-[bc]"), p);
             }
             Assert.That(used.Count(p => p.Contains("carpma-a")), Is.EqualTo(4), "the knock's own four takes (pm102), not the older copies");
             // the iOS build leaves the rest out

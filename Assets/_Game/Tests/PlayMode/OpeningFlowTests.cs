@@ -78,6 +78,10 @@ namespace ReverseSolver.PlayMode.Tests
             Action<UiSounds.Kind> onSound = _ => sounds++;
             Action<Haptics.Kind> onTap = _ => taps++;
             UiSounds.Played += onSound; Haptics.Asked += onTap;
+            // PM_105 §3: the file every UI sound played: Durdur's tok for every button, never the old tick
+            var clips = new System.Collections.Generic.Dictionary<string, int>();
+            Action<string> onClip = n => clips[n] = clips.TryGetValue(n, out int k) ? k + 1 : 1;
+            UiSounds.PlayedClip += onClip;
             var missing = new System.Collections.Generic.List<string>();
             var report = new System.Text.StringBuilder();
             string State() => (string)typeof(GameRoot).GetMethod("UiState98", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
@@ -134,7 +138,11 @@ namespace ReverseSolver.PlayMode.Tests
                 report.Append($" {name}: {changed} düğme dokunuşu;");
                 Debug.Log($"[dokunus] {name}: {changed} durum değiştiren dokunuş, eksik şimdiye dek {missing.Count}");
             }
-            UiSounds.Played -= onSound; Haptics.Asked -= onTap;
+            UiSounds.Played -= onSound; Haptics.Asked -= onTap; UiSounds.PlayedClip -= onClip;
+            Debug.Log("[dokunus] çalan dosyalar: " + string.Join(", ", System.Linq.Enumerable.Select(clips, c => c.Key + " x" + c.Value)));
+            Assert.That(System.Linq.Enumerable.Where(clips.Keys, k => k.StartsWith("ui-tick") || k.StartsWith("tik-")), Is.Empty, "the old tick played");
+            Assert.That(clips.ContainsKey("ui-tok-a1"), Is.True, "the tok played");
+            Assert.That(System.Linq.Enumerable.Where(clips.Keys, k => k.StartsWith("ui-tok-") && k != "ui-tok-a1"), Is.Empty, "one take of the tok");
             Debug.Log($"[dokunus] {checkedTaps} dokunuş;{report} sessiz/titreşimsiz {missing.Count}" + (missing.Count > 0 ? ":\n" + string.Join("\n", missing) : ""));
             Assert.That(missing, Is.Empty, "tappable things without a sound or a tap");
         }

@@ -7,7 +7,6 @@
  "kazanmaton": "marimba",
  "cikis": "f",
  "carpma": "a",
- "tik": "b",
  "makas": "c",
  "degnek": "a",
  "cekic": "a",
@@ -18,5 +17,12 @@
  "geri": "a",
  "sekme": "a",
  "dugme": "a",
- "dugme_not": "PM_104: Durdur, Devam, Menü, alt sekmeler, Ayarlar; Zeyd seçene kadar a (yumuşak ahşap)"
+ "dugme_not": "PM_104: Durdur'da Zeyd'in beğendiği tok (a); PM_105: her düğme bu ses, tek kayıt, aynı perde ve düzey",
+ "zincir": "a",
+ "zincirger": "a",
+ "kilitdokun": "a",
+ "kilitac": "a",
+ "patlama": "a",
+ "duvar": "a",
+ "pm105_not": "PM_105: zincir, zincir gerilme, kilit dokunma, kilit açılma, bomba patlaması, kırmızı duvar; Zeyd seçene kadar a"
 }

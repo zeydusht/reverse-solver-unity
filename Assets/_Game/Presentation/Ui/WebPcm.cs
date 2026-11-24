@@ -16,6 +16,7 @@ namespace ReverseSolver.Presentation
         static readonly Dictionary<string, AudioClip> _cache = new Dictionary<string, AudioClip>();
         /* How many clips came from raw samples this run. */
         public static int Count => _cache.Count;
+        static bool _warned;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Reset() => _cache.Clear();
@@ -44,9 +45,21 @@ namespace ReverseSolver.Presentation
             if (channels < 1 || rate <= 0 || frames <= 0 || b.Length < 13 + n * 2) return null;
             var data = new float[n];
             for (int i = 0, o = 13; i < n; i++, o += 2) data[i] = (short)(b[o] | (b[o + 1] << 8)) / 32768f;
-            var clip = AudioClip.Create(name, frames, channels, rate, false);
-            clip.SetData(data, 0);
-            return clip;
+            // PM_105: a browser with no Web Audio at all (Playwright's WebKit on Windows) makes an empty clip and SetData
+            // throws: that stopped the game's start. Then no clip: the loader goes on to the asset (silent there).
+            AudioClip clip = null;
+            try
+            {
+                clip = AudioClip.Create(name, frames, channels, rate, false);
+                clip.SetData(data, 0);
+                return clip;
+            }
+            catch (System.Exception e)
+            {
+                if (clip != null) Object.Destroy(clip);
+                if (!_warned) { _warned = true; Debug.LogWarning($"[audio] ham örnek kurulamadı ({name}): {e.Message}"); }
+                return null;
+            }
         }
     }
 }

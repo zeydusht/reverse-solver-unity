@@ -14,7 +14,7 @@ namespace ReverseSolver.Core.Tests
             Assert.That(Music.DefaultFanfare, Is.EqualTo('g'));   // PM_102   // PM_99 moved the level to E and the exit to f (Pm99Tests)
             Assert.That(Sfx95.Letter(Sfx95.Kind.Knock), Is.EqualTo('a'));
             Assert.That(Sfx95.Letter(Sfx95.Kind.Last), Is.EqualTo('a'));
-            Assert.That(Sfx95.Letter(Sfx95.Kind.Tick), Is.EqualTo('b'));
+            Assert.That(Sfx95.Letter(Sfx95.Kind.Tick), Is.EqualTo('0'), "PM_105: the tick is gone (every button: the tok)");
         }
 
         [Test]

@@ -49,7 +49,8 @@ def exactly(xs, target, ceil_db):
 
 
 # ---- §2 the knock ----------------------------------------------------------------------------------------------------
-tick = [read(os.path.join(RES, 'pm98', f'ui-tick-b{n}.wav')) for n in range(1, 5)]
+tick = [read(os.path.join(RES, 'pm98', f'ui-tick-b{n}.wav')) for n in range(1, 5)] if os.path.exists(os.path.join(RES, 'pm98', 'ui-tick-b1.wav')) else None   # PM_105: gone
+if tick is None: sys.exit('PM_105: the button tick (pm98/ui-tick-b, its level reference) is gone; this script made its files once and is not run again')
 exits = [read(os.path.join(RES, 'pm100', f'cikis-f{n}.wav')) for n in range(1, 5)]
 EXIT_PLAYED = float(np.mean([loud(x, 10 ** (-1 / 20)) for x in exits]))   # the exit, 1 dB down (GameRoot.ExitLevel)
 KNOCK = EXIT_PLAYED + 2.5
