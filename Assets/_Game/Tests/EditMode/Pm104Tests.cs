@@ -78,12 +78,11 @@ namespace ReverseSolver.Core.Tests
                 Assert.That(c, Is.Not.Null, $"ui-tok-{l}1");
                 Assert.That(c.length, Is.LessThanOrEqualTo(.125f));
             }
-            // a plain tick turns into the tok; a switch still sounds a switch; a panel's swish goes under the tok
+            // a plain tick turns into the tok; a switch still sounds a switch; PM_106: a press drops the panel's swish
             UiSounds.Take();
             UiSounds.Request(UiSounds.Kind.Tick); UiSounds.AsTok(); UiSounds.Request(UiSounds.Kind.Open);
             var t = UiSounds.Take();
-            Assert.That(t, Is.EquivalentTo(new[] { UiSounds.Kind.Tok, UiSounds.Kind.Open }));
-            Assert.That(UiSounds.SwishUnderTok, Is.True);
+            Assert.That(t, Is.EquivalentTo(new[] { UiSounds.Kind.Tok }));
             UiSounds.Request(UiSounds.Kind.Toggle); UiSounds.AsTok();
             Assert.That(UiSounds.Take(), Is.EquivalentTo(new[] { UiSounds.Kind.Toggle }));
             Assert.That(UiSounds.SwishUnderTok, Is.False);
@@ -109,10 +108,10 @@ namespace ReverseSolver.Core.Tests
             foreach (var s in new[] { "Bugünkü seçim", "Kaydırma (swoosh)", "Düğme (tok)", "10 art arda", "bugun.json", "sesler104.json", "dugme:'a'" })
                 StringAssert.Contains(s, html);
             string today = File.ReadAllText("docs/art/pm104/onizleme/bugun.json");
-            foreach (var f in new[] { "booster-makas-kesim-c.wav", "cikis-f1.wav", "carpma-a1.wav", "ui-tok-a1.wav", "gecis-sekme-a.wav" })
+            foreach (var f in new[] { "booster-makas-kesim-c.wav", "cikis-q1.wav", "carpma-a1.wav", "ui-tok-a1.wav", "gecis-sekme-a.wav" })
                 StringAssert.Contains(f, today);
             // the page's copies are the game's files, byte for byte
-            foreach (var (page, game) in new[] { ("cikis-f1.wav", "pm100/cikis-f1.wav"), ("carpma-a1.wav", "pm102/carpma-a1.wav"), ("booster-makas-kesim-c.wav", "pm102/booster-makas-kesim-c.wav") })
+            foreach (var (page, game) in new[] { ("cikis-q1.wav", "pm106/cikis-q1.wav"), ("cikis-f1.wav", "pm100/cikis-f1.wav"), ("carpma-a1.wav", "pm102/carpma-a1.wav"), ("booster-makas-kesim-c.wav", "pm102/booster-makas-kesim-c.wav") })
                 Assert.That(File.ReadAllBytes("docs/art/pm104/onizleme/sesler/" + page), Is.EqualTo(File.ReadAllBytes(Audio + game)), page);
         }
     }

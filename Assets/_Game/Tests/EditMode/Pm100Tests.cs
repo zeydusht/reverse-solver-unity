@@ -47,7 +47,8 @@ namespace ReverseSolver.Core.Tests
             Assert.That(Resources.Load<AudioClip>("Art/audio/pm100/bomba-a1"), Is.Not.Null);
             Assert.That(Resources.Load<AudioClip>("Art/audio/pm100/kilit-a1"), Is.Not.Null);
             Sfx95.Load();
-            Assert.That(Sfx95.Letter(Sfx95.Kind.Lift), Is.EqualTo(Sfx95.Letter(Sfx95.Kind.Exit)), "the lift-off is the exit's own");
+            // the lift-off is the exit's own; PM_106: Block Out's exits (q-u) have none
+            Assert.That(Sfx95.Letter(Sfx95.Kind.Lift), Is.EqualTo(Sfx95.ExitFixed ? '0' : Sfx95.Letter(Sfx95.Kind.Exit)), "the lift-off is the exit's own");
             Assert.That(Sfx95.On(Sfx95.Kind.Bomb) && Sfx95.On(Sfx95.Kind.Unlock), Is.True);
         }
 
@@ -69,6 +70,7 @@ namespace ReverseSolver.Core.Tests
             foreach (Gecis100.Kind k in System.Enum.GetValues(typeof(Gecis100.Kind)))
             {
                 Assert.That(Gecis100.Letter(k), Is.EqualTo(Gecis100.DefaultOf(k)));
+                if (k == Gecis100.Kind.Ting) { Assert.That(Gecis100.Clip(k), Is.Null, "PM_106: the dive's ting is gone"); continue; }
                 Assert.That(Gecis100.Clip(k), Is.Not.Null, k.ToString());
             }
             Assert.That(Gecis100.Clip(Gecis100.Kind.Dalis).length, Is.EqualTo(Gecis100.DiveLead).Within(.03f), "the rising whoosh ends at the touch");

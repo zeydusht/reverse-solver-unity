@@ -16,7 +16,8 @@ namespace ReverseSolver.Presentation
        one ses.json's "dugme". A panel's swish under a tok plays 9 dB down (SwishUnderTok): the tok leads.
        PM_105 §3: Zeyd liked Durdur's tok and not the "çıt" (the tick b: four takes, a random pitch, -1 dB peaks): every
        button now plays the tok, one take (ui-tok-<letter>1), at one pitch and one level. The tick's files are gone;
-       Tick stays only as the kind of a plain press (it sounds the tok). */
+       Tick stays only as the kind of a plain press (it sounds the tok).
+       PM_106 §1: one sound per frame: a press drops the panel's swish (Ayarlar sounded twice). */
     public static class UiSounds
     {
         public enum Kind { Tick, Toggle, Open, Close, Dull, Tok }
@@ -34,6 +35,9 @@ namespace ReverseSolver.Presentation
             if (_press == null || Rank(kind) > Rank(_press.Value)) _press = kind;
         }
         static int Rank(Kind k) => k == Kind.Dull ? 3 : k == Kind.Toggle ? 2 : k == Kind.Tok ? 1 : 0;
+
+        /* PM_106 §1: a press already asked for its sound this frame (a sound of the press's own result stays quiet). */
+        public static bool Pressing => _press.HasValue;
 
         /* PM_104 §3: this frame's button press is a tok (a plain tick turns into it; none yet: a tok). */
         public static void AsTok()
@@ -60,8 +64,10 @@ namespace ReverseSolver.Presentation
         {
             var list = new List<Kind>();
             if (_press.HasValue) list.Add(_press.Value);
-            if (_open != _close) list.Add(_open ? Kind.Open : Kind.Close);
-            SwishUnderTok = (_press == Kind.Tok || _press == Kind.Tick) && _open != _close;   // PM_105: every press is the tok
+            // PM_106 §1: one sound per press: a panel opened or closed by a press is the press's sound alone (Ayarlar played
+            // the tok and the panel's swish: Zeyd heard two ticks); the swish only when a panel moves on its own
+            if (_open != _close && !_press.HasValue) list.Add(_open ? Kind.Open : Kind.Close);
+            SwishUnderTok = false;
             _press = null; _open = _close = false;
             return list;
         }

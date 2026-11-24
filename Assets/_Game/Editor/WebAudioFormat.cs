@@ -14,7 +14,8 @@ namespace ReverseSolver.EditorTools
        ones Art.Sound loads (Art/audio/*.wav) also go into the web build as raw samples: Resources/WebPcm/<path>.bytes
        (WebPcm reads them; nothing for Safari to decode). Written from each clip's source file as its importer would
        (its rate; mono when it forces mono, the channels' mean), for the web build only: WebBuild writes them before
-       the build and removes them after; the iOS build never sees them. The candidates (only with a flag) stay AAC. */
+       the build and removes them after; the iOS build never sees them. The candidates (only with a flag) stay AAC, but for
+       the request being tried (pm106). */
     public static class WebAudioFormat
     {
         public const string AudioRoot = "Assets/_Game/Presentation/Resources/Art/audio";
@@ -30,7 +31,10 @@ namespace ReverseSolver.EditorTools
             {
                 if (f.EndsWith(".meta") || !(AssetImporter.GetAtPath(f) is AudioImporter)) continue;
                 bool root = Path.GetDirectoryName(f).Replace('\\', '/') == AudioRoot;
-                if (root || used.Contains(ResourcePath(f))) files.Add(f);
+                // PM_106: this request's candidates too (pm106: the exits q-u, the chain d-f), so Zeyd can try each one
+                // with its flag on the iPhone (an AAC candidate may not decode there)
+                bool trying = f.Contains("/audio/pm106/");
+                if (root || trying || used.Contains(ResourcePath(f))) files.Add(f);
             }
             return files.OrderBy(x => x).ToList();
         }

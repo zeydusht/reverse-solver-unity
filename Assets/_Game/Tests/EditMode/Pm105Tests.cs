@@ -30,11 +30,10 @@ namespace ReverseSolver.Core.Tests
                     Assert.That(clip.name, Is.EqualTo(first), "one take");
                 }
             Assert.That(first, Is.EqualTo("ui-tok-a1"), "Durdur's tok (Zeyd: liked)");
-            // a plain press is the tok too: a panel's swish goes under it
+            // a plain press is the tok too, alone (PM_106: no swish beside it)
             UiSounds.Take();
             UiSounds.Request(UiSounds.Kind.Tick); UiSounds.Request(UiSounds.Kind.Open);
-            UiSounds.Take();
-            Assert.That(UiSounds.SwishUnderTok, Is.True);
+            Assert.That(UiSounds.Take(), Is.EquivalentTo(new[] { UiSounds.Kind.Tick }));
         }
 
         [Test]
@@ -121,8 +120,10 @@ namespace ReverseSolver.Core.Tests
             var used = SesSecim.Collect();
             foreach (var key in Sfx105.Keys)
             {
-                Assert.That(Sfx105.Letter((Sfx105.Kind)System.Array.IndexOf(Sfx105.Keys, key)), Is.EqualTo('a'), key);
-                Assert.That(used, Does.Contain($"{Sfx105.Folder}{key}-a1"));
+                var kind = (Sfx105.Kind)System.Array.IndexOf(Sfx105.Keys, key);
+                char l = kind == Sfx105.Kind.Zincir || kind == Sfx105.Kind.ZincirGer ? 'd' : 'a';   // PM_106: the real chain
+                Assert.That(Sfx105.Letter(kind), Is.EqualTo(l), key);
+                Assert.That(used, Does.Contain($"{Sfx105.FolderOf(kind, l)}{key}-{l}1"));
                 Assert.That(used.Any(u => u.Contains($"/pm105/{key}-b") || u.Contains($"/pm105/{key}-c")), Is.False, key);
             }
             var unused = IosBuild.Unused(used);
@@ -150,7 +151,7 @@ namespace ReverseSolver.Core.Tests
             StringAssert.Contains("ui-tok-a1", map);
             var rows = map.Split('\n').Where(l => l.StartsWith("|")).ToArray();
             Assert.That(rows.Where(r => Regex.IsMatch(r, @"\|\s*tık\b") || r.Contains("ui-tick") || r.Contains("tik-")), Is.Empty, "no row plays the tick");
-            foreach (var s in new[] { "zincir-a", "zincirger-a", "kilitdokun-a", "kilitac-a", "patlama-a", "duvar-a" })
+            foreach (var s in new[] { "zincir-d", "zincirger-d", "kilitdokun-a", "kilitac-a", "patlama-a", "duvar-a" })   // PM_106: the real chain
                 StringAssert.Contains(s, map);
         }
 

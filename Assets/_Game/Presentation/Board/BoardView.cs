@@ -498,13 +498,13 @@ namespace ReverseSolver.Presentation
         public static float Rubber = 2;          // &lastik= (the level: 1 PM_93, 1.5 deeper, 2 most, with two swings, PM_95: the default; 0: PM_75's knock)
         public static float RubberSeconds = -1;  // &lastiksure= (s): from the contact on (the squash and the way back)
         public static bool RubberLog;            // &lastiklog=1: one [lastik] line a knock, at its end (a log a frame would itself make long frames)
-        const float RubberStretch = .07f, RubberSquash = .20f, RubberNudgeSquash = .11f, RubberOver = .04f, RubberNudge = .08f;
+        const float RubberStretch = .07f, RubberSquash = .20f, RubberOver = .04f, RubberNudge = .08f;
         const float SquashIn = .055f, SquashHold = .02f, SpringBack = .28f, NudgeIn = .06f, NudgeSquashIn = .045f, NudgeBack = .2f;
         /* PM_94: the levels (&lastik=1, 1.5, 2; between them straight, below 1 down to nothing, above 2 on):
            the squash on the axis, the widening the other way, the pass of home (cells), the second swing (0..1). */
         static float RubberLevel(float r, float at1, float at15, float at2) =>
             r <= 1 ? at1 * r : r <= 1.5f ? Mathf.Lerp(at1, at15, (r - 1) / .5f) : Mathf.LerpUnclamped(at15, at2, (r - 1.5f) / .5f);
-        static float RubberSquashAt(float r) => RubberLevel(r, RubberSquash, .29f, .38f);
+        public static float RubberSquashAt(float r) => RubberLevel(r, RubberSquash, .29f, .38f);
         static float RubberWidenAt(float r) => RubberLevel(r, .118f, .15f, .19f);
         static float RubberOverAt(float r) => RubberLevel(r, RubberOver, .06f, .08f);
         static float RubberWobbleAt(float r) => r <= 1.5f ? 0 : Mathf.Clamp01((r - 1.5f) / .5f);
@@ -577,6 +577,7 @@ namespace ReverseSolver.Presentation
             int home = HomeOrder(piece);
             _ropes.TryGetValue(piece, out var rope);
             Tweens.Kill(pv);
+            Tweens.Kill((pv, "clang"));   // PM_106 §4: a locked piece's press jiggle gives way to the rubber
             bool chained = pv.Cells.Length > 1 && ChainPerCell;
             var weights = chained ? ContactWeights(piece, dir, limit) : null;
             float wobble = RubberWobbleAt(Rubber);
@@ -593,7 +594,8 @@ namespace ReverseSolver.Presentation
                 slide = Mathf.Max(.03f, 2 * dist / (v0 * (1 + RubberRise)));
             }
             float squashIn = (gap ? SquashIn : NudgeSquashIn) * k, hold = SquashHold * k, back = (gap ? SpringBack : NudgeBack) * backX * k;
-            float squash1 = RubberSquashAt(Rubber), squash = gap ? squash1 : RubberNudgeSquash * squash1 / RubberSquash;
+            // PM_106 §4: every jam squashes alike, with room or none (the nudge squashed 55 % of it: "no rubber at the wall")
+            float squash1 = RubberSquashAt(Rubber), squash = squash1;
             _rubberWiden = squash1 > 1e-3f ? Mathf.Log(1 + RubberWidenAt(Rubber)) / -Mathf.Log(1 - Mathf.Min(.9f, squash1)) : .5f;
             float stretchMax = RubberStretch * Rubber;
             float vRef = 6 * Cell;   // pt/s at which the stretch is full
@@ -717,8 +719,9 @@ namespace ReverseSolver.Presentation
                 if (contact >= SlamMin && (autoSlide || touched)) { Slam(pv, piece, dir, contact, !touched, releaseSpeed); return; }
             }
             _contactPiece = -1;
-            if (Rubber > 0 && Session.Board.IsPresent(piece) && travelCells == 0 && !TravelRule.Limit(Session.Board, piece, dir).Exit &&
-                (Session.NailAt(piece) > 0 || Contact.Distance(Session.Board, piece, dir) < SlamMin))
+            // PM_106 §4: a locked piece flicked towards an open way out knocks too (it sprang back with no rubber)
+            if (Rubber > 0 && Session.Board.IsPresent(piece) && travelCells == 0 &&
+                (Session.NailAt(piece) > 0 || (!TravelRule.Limit(Session.Board, piece, dir).Exit && Contact.Distance(Session.Board, piece, dir) < SlamMin)))
             {
                 // PM_93: no room (or a nail): a nudge into what stops it, a squash, a spring back (held there by the
                 // finger: from where it is)

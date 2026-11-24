@@ -611,6 +611,8 @@ namespace ReverseSolver.Presentation
         {
             PerfClock.Restart(); PerfLine.Clear();
             _r1Used = false;   // PM_81: one R1 ad continue per attempt
+            ResetLadder106();   // PM_106: the exit ladder (&cikisperde=1) starts over each level
+            _bedQuietUntil = Time.unscaledTime + 3f;   // PM_106: the chain's rattle waits for the board to settle
             LeaveLevel();
             Perf("leave");
             _index = Mathf.Clamp(index, 0, _set.Levels.Count - 1);
@@ -1088,8 +1090,51 @@ namespace ReverseSolver.Presentation
         readonly Sfx105.Rattle _rattle105 = new Sfx105.Rattle();
         void Rattle105()
         {
-            if (_board == null || _session == null || _session.IsOver) return;
+            if (_board == null || _session == null || _session.IsOver) { Bed106(0); return; }
+            // PM_106 §3: the real chain; not while the board settles in (the chain's sag swings as the level opens)
+            if (Sfx105.Continuous) { Bed106(Time.unscaledTime < _bedQuietUntil ? 0 : _board.ChainMotion); return; }
             if (_rattle105.Tick(_board.ChainMotion, Time.unscaledDeltaTime, out float level)) PlaySfx105(Sfx105.Kind.Zincir, level);
+        }
+
+        /* PM_106 §3: the real chain's bed (Sfx105.Bed): two sources, the new loop fading in over the old one. */
+        readonly Sfx105.Bed _bed106 = new Sfx105.Bed();
+        readonly AudioSource[] _bedSrc = new AudioSource[2];
+        readonly float[] _bedFade = new float[2];
+        int _bedCur;
+        float _bedEnd = -1, _bedQuietUntil;   // when the playing loop ends (unscaled s; -1: none). Not the source's isPlaying/time: on
+                              // WebGL a source just started still says it is not playing for a few frames (the loop
+                              // changed every 0.1 s there)
+        public static float BedVolume { get; private set; }
+        void Bed106(float speed)
+        {
+            var loops = Sfx105.Continuous ? Sfx105.Takes(Sfx105.Kind.Zincir) : null;
+            float left = _bedEnd < 0 ? -1 : Mathf.Max(0, _bedEnd - Time.unscaledTime);
+            int start = loops == null ? -1 : _bed106.Tick(speed, Time.unscaledDeltaTime, loops.Length, left);
+            BedVolume = _bed106.Volume;
+            if (start >= 0)
+            {
+                _bedCur = 1 - _bedCur;
+                var s = _bedSrc[_bedCur] != null ? _bedSrc[_bedCur] : _bedSrc[_bedCur] = gameObject.AddComponent<AudioSource>();
+                s.playOnAwake = false; s.loop = false; s.Stop(); s.clip = loops[start];
+                bool fresh = left < 0;   // a new movement: anywhere in the loop; at a loop's end: from its start
+                s.time = fresh ? Random.Range(0, Mathf.Max(0, loops[start].length - .4f)) : 0;
+                s.pitch = .96f + .08f * Mathf.Clamp01((_bed106.Volume - .25f) / .75f);
+                _bedEnd = Time.unscaledTime + (loops[start].length - s.time) / s.pitch;
+                _bedFade[_bedCur] = 0;
+                if (!Art.Muted) s.Play();
+                if (SesLog) Debug.Log($"[ses] Zincir {loops[start].name} {Time.unscaledTime:0.000}");
+                Sfx105Played?.Invoke(Sfx105.Kind.Zincir, loops[start].name);
+            }
+            float k = Mathf.Clamp01((_bed106.Volume - .25f) / .75f);
+            for (int i = 0; i < 2; i++)
+            {
+                var s = _bedSrc[i];
+                if (s == null) continue;
+                _bedFade[i] = Mathf.MoveTowards(_bedFade[i], i == _bedCur ? 1 : 0, Time.unscaledDeltaTime / Sfx105.Bed.Cross);
+                if (_bed106.Volume <= 0 || (_bedFade[i] <= 0 && i != _bedCur) || Art.Muted) { if (s.isPlaying) s.Stop(); if (i == _bedCur) _bedEnd = -1; continue; }
+                s.volume = Mathf.Min(1, _bed106.Volume * _bedFade[i] * Sfx95.Gain);
+                s.pitch = .96f + .08f * k;   // a little brighter the faster it goes
+            }
         }
 
         /* The lift-off is 45 ms (the short one 25 ms): each plays when it is over at least 10 ms before the contact. */
@@ -1126,9 +1171,18 @@ namespace ReverseSolver.Presentation
             float k = Mathf.Clamp01((cells - ExitSlow) / (ExitFast - ExitSlow));
             return (Mathf.Lerp(.96f, 1.04f, k), Mathf.Lerp(.89f, 1.12f, k));
         }
+        /* PM_106 §2: Block Out's exits keep one pitch (measured: hypothesis 3 false). &cikisperde=1 tries the ladder
+           anyway: each exit a semitone up, back to the start after LadderSteps, from the start again after a jam or a
+           loss (and each level). */
+        public const int LadderSteps = 5;
+        int _ladder106;
+        static bool Ladder106 => Host.Current?.Query("cikisperde") == "1";
+        public static float LadderPitch(int step) => Mathf.Pow(2, (step % LadderSteps) / 12f);
+        void ResetLadder106() => _ladder106 = 0;
         void ExitSound(bool bomb, bool last, bool unlocked, bool lastTap = true, float speedCells = -1)
         {
-            var (exitPitch, exitVol) = ExitBySpeed(speedCells);
+            var (exitPitch, exitVol) = Sfx95.ExitFixed ? (1f, 1f) : ExitBySpeed(speedCells);   // PM_106: q-u always the same
+            if (Ladder106 && !bomb) { exitPitch *= LadderPitch(_ladder106); _ladder106 = (_ladder106 + 1) % LadderSteps; }
             // PM_99 §4: the last piece leaves with the ordinary exit sound (no sound of its own); the fanfare follows
             // PM_74: the tick (every exit) was the loudest sound (-14 dB peak window); -4 dB, the defuse -1.5 dB
             // PM_100 §3: the bomb's defuse and the lock at the effects' level (pm100), the exit as well
@@ -1207,6 +1261,7 @@ namespace ReverseSolver.Presentation
             // breaking a crack and a light tap; a jam a very short weak tap; the last piece the success tap (Finished).
             // PM_73: a dragged exit plays at the moment the piece crosses the edge (BoardView.ExitBurst, with the spark
             // and the breath); a hammer or any other removal plays now.
+            if (e.Kind == EventKind.Jammed || (e.Kind == EventKind.Finished && e.Outcome != Outcome.Win)) ResetLadder106();   // PM_106
             if (e.Kind == EventKind.PieceRemoved)
             {
                 bool last = _session.Board.PresentCount == 0;

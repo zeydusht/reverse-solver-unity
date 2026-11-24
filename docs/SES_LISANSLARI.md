@@ -26,11 +26,12 @@ Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. �
 
 | Ses | Kaynak | Yazar | Sayfa | Lisans |
 |---|---|---|---|---|
-| Parça çıkışı (yumuşak swish) ve kayma kalkışı | Swishes Sound Pack (swish-3, -4, -7, -8) | artisticdude | https://opengameart.org/content/swishes-sound-pack | CC0 |
+| Parça çıkışı (eski f, &sescikis=f ile) ve kayma kalkışı | Swishes Sound Pack (swish-3, -4, -7, -8) | artisticdude | https://opengameart.org/content/swishes-sound-pack | CC0 |
 | Lastik takılma (çarpma) | Impact Sounds (impactSoft_medium) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
 | Kırmızı duvara çarpma (PM_105, a) | Impact Sounds (impactWood_heavy_000, _002, _003) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
-| Zincir şıkırtısı (PM_105, a) | 80 CC0 RPG SFX (chain_01-03) | rubberduck | https://opengameart.org/content/80-cc0-rpg-sfx | CC0 |
-| Zincir gerilmesi (PM_105, a) | 100 CC0 metal and wood SFX (metal_hit_01, _04, _05) + 80 CC0 RPG SFX (chain_01) | rubberduck | https://opengameart.org/content/100-cc0-metal-and-wood-sfx | CC0 |
+| Zincir şıkırtısı (PM_106, d; oyunda varsayılan) | chain-rattle-small.aif (Freesound 124399) | alienistcog | https://freesound.org/s/124399/ | CC0 |
+| Zincir gerilmesi (PM_106, d; oyunda varsayılan) | 100 CC0 metal and wood SFX (metal_hit_01, _04) + chain-rattle-small.aif (Freesound 124399) | rubberduck, alienistcog | https://opengameart.org/content/100-cc0-metal-and-wood-sfx , https://freesound.org/s/124399/ | CC0 |
+| Parça çıkışı (PM_106, q; oyunda varsayılan) | Impact Sounds (impactWood_light_000) + Casino Audio (chips-handle-4) | Kenney | https://kenney.nl/assets/impact-sounds , https://kenney.nl/assets/casino-audio | CC0 |
 | Kilitli parçaya dokunma (PM_105, a) | Door Lock Sounds (LockedDoorHandleJiggle) | cough-e | https://opengameart.org/content/door-lock-sounds | CC0 |
 | Kilit açılması (PM_105, a) | 100 CC0 SFX (key_open_01, _02) + Impact Sounds (impactMetal_light_001, _004) | rubberduck, Kenney | https://opengameart.org/content/100-cc0-sfx | CC0 |
 | Bomba patlaması (PM_105, a) | 100 CC0 SFX (explosion) + Pop sounds (pop3) | rubberduck, cogitollc | https://opengameart.org/content/100-cc0-sfx , https://opengameart.org/content/pop-sounds | CC0 |

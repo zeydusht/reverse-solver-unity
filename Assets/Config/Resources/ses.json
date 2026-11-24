@@ -5,7 +5,7 @@
  "bolum": "E",
  "kazanma": "g",
  "kazanmaton": "marimba",
- "cikis": "f",
+ "cikis": "q",
  "carpma": "a",
  "makas": "c",
  "degnek": "a",
@@ -18,11 +18,12 @@
  "sekme": "a",
  "dugme": "a",
  "dugme_not": "PM_104: Durdur'da Zeyd'in beğendiği tok (a); PM_105: her düğme bu ses, tek kayıt, aynı perde ve düzey",
- "zincir": "a",
- "zincirger": "a",
+ "zincir": "d",
+ "zincirger": "d",
  "kilitdokun": "a",
  "kilitac": "a",
  "patlama": "a",
  "duvar": "a",
- "pm105_not": "PM_105: zincir, zincir gerilme, kilit dokunma, kilit açılma, bomba patlaması, kırmızı duvar; Zeyd seçene kadar a"
+ "pm105_not": "PM_105: zincir, zincir gerilme, kilit dokunma, kilit açılma, bomba patlaması, kırmızı duvar; Zeyd seçene kadar a",
+ "pm106_not": "PM_106: çıkış Block Out tarzı q (Zeyd'in eski seçimi f: &sescikis=f; adaylar q-u); zincir ve zincir gerilme gerçek zincir d (adaylar d-f; eski a-c). Zeyd seçene kadar"
 }

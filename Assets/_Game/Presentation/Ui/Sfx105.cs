@@ -19,6 +19,9 @@ namespace ReverseSolver.Presentation
         public enum Kind { Zincir, ZincirGer, KilitDokun, KilitAc, Patlama, Duvar }
         public static readonly string[] Keys = { "zincir", "zincirger", "kilitdokun", "kilitac", "patlama", "duvar" };
         public const string Folder = "Art/audio/pm105/";
+        /* PM_106 §3: the real chain (Tools/make_sfx106.py, Freesound CC0): zincir and zincirger d-f in pm106. */
+        public const string Folder106 = "Art/audio/pm106/";
+        public static string FolderOf(Kind kind, char letter) => (kind == Kind.Zincir || kind == Kind.ZincirGer) && letter >= 'd' && letter <= 'f' ? Folder106 : Folder;
         static AudioClip[][] _takes;
         static readonly int[] _last = { -1, -1, -1, -1, -1, -1 };
         /* Pitch spread (+-): the rattle's grains vary, the rest barely. */
@@ -28,7 +31,8 @@ namespace ReverseSolver.Presentation
         {
             string key = Keys[(int)kind];
             string q = Host.Current?.Query("ses" + key);
-            if (!string.IsNullOrEmpty(q) && (q[0] == '0' || q[0] >= 'a' && q[0] <= 'c')) return q[0];
+            char top = kind == Kind.Zincir || kind == Kind.ZincirGer ? 'f' : 'c';   // PM_106: the chain's d-f
+            if (!string.IsNullOrEmpty(q) && (q[0] == '0' || q[0] >= 'a' && q[0] <= top)) return q[0];
             return SesSecim.Letter(key, '0');
         }
 
@@ -43,7 +47,7 @@ namespace ReverseSolver.Presentation
                 if (l != '0')
                     for (int n = 1; n <= 6; n++)
                     {
-                        var clip = SesSecim.Load<AudioClip>($"{Folder}{Keys[k]}-{l}{n}");
+                        var clip = SesSecim.Load<AudioClip>($"{FolderOf((Kind)k, l)}{Keys[k]}-{l}{n}");
                         if (clip == null) break;
                         clip.LoadAudioData();
                         list.Add(clip);
@@ -77,6 +81,43 @@ namespace ReverseSolver.Presentation
         public const float Still = 1.2f, Full = 9f, Step = .5f, MinGap = .07f, Quietest = .25f;
         public static float RattleLevel(float cellsPerSecond) =>
             cellsPerSecond <= Still ? 0 : Mathf.Lerp(Quietest, 1, Mathf.Clamp01((cellsPerSecond - Still) / (Full - Still)));
+
+        /* PM_106 §3: the real chain (d-f) is a bed, not grains: its loops play on and on while the chain moves, the
+           level following the speed (RattleLevel, eased: up in Attack, down in Release), and at a loop's end, or on a
+           new movement, another one (never the one just played) crossfades in over Cross. */
+        public static bool Continuous
+        {
+            get
+            {
+                if (_takes == null) Load();
+                var t = _takes[(int)Kind.Zincir];
+                if (t == null) return false;
+                char l = t[0].name.Length > 7 ? t[0].name[7] : 'a';   // zincir-<letter><n>
+                return l >= 'd' && l <= 'f';
+            }
+        }
+        public static AudioClip[] Takes(Kind kind) { if (_takes == null) Load(); return _takes[(int)kind]; }
+
+        public sealed class Bed
+        {
+            public const float Attack = .05f, Release = .18f, Cross = .08f;
+            float _vol; int _last = -1; bool _on;
+            public float Volume => _vol;
+            public int Last => _last;
+            /* Each frame: the chain's speed, dt, how many loops, and the playing one's time left (s; below 0: none).
+               Returns the loop to start now (crossfading from the one playing), -1: none; Volume 0: stop them. */
+            public int Tick(float cellsPerSecond, float dt, int loops, float left)
+            {
+                float target = RattleLevel(cellsPerSecond);
+                _vol = Mathf.MoveTowards(_vol, target, dt / (target > _vol ? Attack : Release));
+                if (_vol <= .001f) { _vol = 0; _on = false; return -1; }
+                if (_on && left >= Cross) return -1;
+                _on = true;
+                int i = loops <= 1 ? 0 : _last < 0 ? Random.Range(0, loops) : Random.Range(0, loops - 1);
+                if (loops > 1 && _last >= 0 && i >= _last) i++;
+                return _last = i;
+            }
+        }
 
         /* Feed it the chain's speed every frame; true: play a grain now at `level`. */
         public sealed class Rattle

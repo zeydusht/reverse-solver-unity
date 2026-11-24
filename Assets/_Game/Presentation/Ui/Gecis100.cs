@@ -51,6 +51,7 @@ namespace ReverseSolver.Presentation
             {
                 char l = _letters[k] = Letter((Kind)k);
                 // PM_102: the corridor's texture louder (pm102) before PM_100's
+                if ((Kind)k == Kind.Ting) l = _letters[k] = '0';   // PM_106 §1: the dive's ting is gone
                 if (l != '0') _clips[k] = SesSecim.Load<AudioClip>($"Art/audio/pm102/gecis-{Keys[k]}-{l}") ?? SesSecim.Load<AudioClip>($"Art/audio/pm100/gecis-{Keys[k]}-{l}");
                 _clips[k]?.LoadAudioData();
                 said.Append(' ').Append(Keys[k]).Append(' ').Append(_clips[k] == null ? "-" : l.ToString());

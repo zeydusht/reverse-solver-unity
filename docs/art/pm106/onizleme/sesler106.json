@@ -1,0 +1,248 @@
+{
+ "cikis": {
+  "title": "Sürükleme / çıkış (Block Out tarzı)",
+  "lufs": -12.4,
+  "candidates": [
+   {
+    "letter": "q",
+    "name": "Tok + plastik kırıntı",
+    "credit": "Kenney, Impact Sounds (CC0)",
+    "link": "https://kenney.nl/assets/impact-sounds",
+    "takes": [
+     {
+      "file": "cikis-q1.wav",
+      "seconds": 0.292,
+      "lufs": -12.5,
+      "peak": -2.0,
+      "centroid": 3451
+     }
+    ]
+   },
+   {
+    "letter": "r",
+    "name": "Yalın tok (Block Out bırakma)",
+    "credit": "Kenney, Impact Sounds (CC0)",
+    "link": "https://kenney.nl/assets/impact-sounds",
+    "takes": [
+     {
+      "file": "cikis-r1.wav",
+      "seconds": 0.18,
+      "lufs": -14.0,
+      "peak": -2.0,
+      "centroid": 573
+     }
+    ]
+   },
+   {
+    "letter": "s",
+    "name": "Plastik şak + kırıntı",
+    "credit": "Kenney, Casino Audio (CC0)",
+    "link": "https://kenney.nl/assets/casino-audio",
+    "takes": [
+     {
+      "file": "cikis-s1.wav",
+      "seconds": 0.235,
+      "lufs": -12.5,
+      "peak": -2.0,
+      "centroid": 4323
+     }
+    ]
+   },
+   {
+    "letter": "t",
+    "name": "Pop + parıltı",
+    "credit": "cogitollc, \"Pop sounds\" (OpenGameArt, CC0)",
+    "link": "https://opengameart.org/content/pop-sounds",
+    "takes": [
+     {
+      "file": "cikis-t1.wav",
+      "seconds": 0.119,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 1730
+     }
+    ]
+   },
+   {
+    "letter": "u",
+    "name": "Tok + uzun ufalanma (Block Out çıkışı)",
+    "credit": "Kenney, Casino Audio (CC0)",
+    "link": "https://kenney.nl/assets/casino-audio",
+    "takes": [
+     {
+      "file": "cikis-u1.wav",
+      "seconds": 0.56,
+      "lufs": -12.4,
+      "peak": -2.0,
+      "centroid": 3516
+     }
+    ]
+   }
+  ]
+ },
+ "zincir": {
+  "title": "Zincir şıkırtısı (gerçek zincir, sürüklerken / sallanırken)",
+  "lufs": -18.4,
+  "candidates": [
+   {
+    "letter": "d",
+    "name": "Küçük zincir",
+    "credit": "alienistcog, \"chain-rattle-small.aif\" (Freesound, CC0)",
+    "link": "https://freesound.org/s/124399/",
+    "takes": [
+     {
+      "file": "zincir-d1.wav",
+      "seconds": 1.3,
+      "lufs": -18.4,
+      "peak": -4.9,
+      "centroid": 4106
+     },
+     {
+      "file": "zincir-d2.wav",
+      "seconds": 1.3,
+      "lufs": -18.4,
+      "peak": -6.6,
+      "centroid": 3851
+     },
+     {
+      "file": "zincir-d3.wav",
+      "seconds": 1.3,
+      "lufs": -18.4,
+      "peak": -6.4,
+      "centroid": 7785
+     }
+    ]
+   },
+   {
+    "letter": "e",
+    "name": "Zincir (orta)",
+    "credit": "freemaster2, \"Chains 2\" (Freesound, CC0)",
+    "link": "https://freesound.org/s/348974/",
+    "takes": [
+     {
+      "file": "zincir-e1.wav",
+      "seconds": 1.3,
+      "lufs": -18.4,
+      "peak": -9.5,
+      "centroid": 5914
+     },
+     {
+      "file": "zincir-e2.wav",
+      "seconds": 1.3,
+      "lufs": -18.4,
+      "peak": -8.7,
+      "centroid": 6648
+     },
+     {
+      "file": "zincir-e3.wav",
+      "seconds": 1.3,
+      "lufs": -18.4,
+      "peak": -10.8,
+      "centroid": 6702
+     }
+    ]
+   },
+   {
+    "letter": "f",
+    "name": "Zincir elde",
+    "credit": "Kneeling, \"pickingchain.ogg\" (Freesound, CC0)",
+    "link": "https://freesound.org/s/643863/",
+    "takes": [
+     {
+      "file": "zincir-f1.wav",
+      "seconds": 1.1,
+      "lufs": -18.4,
+      "peak": -6.8,
+      "centroid": 6834
+     },
+     {
+      "file": "zincir-f2.wav",
+      "seconds": 1.1,
+      "lufs": -18.4,
+      "peak": -2.0,
+      "centroid": 3264
+     },
+     {
+      "file": "zincir-f3.wav",
+      "seconds": 1.1,
+      "lufs": -18.4,
+      "peak": -2.0,
+      "centroid": 3507
+     }
+    ]
+   }
+  ]
+ },
+ "zincirger": {
+  "title": "Zincir gerilip takılınca (çın + gerçek zincir)",
+  "lufs": -13.4,
+  "candidates": [
+   {
+    "letter": "d",
+    "name": "Metal çın + küçük zincir",
+    "credit": "alienistcog, \"chain-rattle-small.aif\" (Freesound, CC0)",
+    "link": "https://freesound.org/s/124399/",
+    "takes": [
+     {
+      "file": "zincirger-d1.wav",
+      "seconds": 0.3,
+      "lufs": -13.5,
+      "peak": -2.0,
+      "centroid": 4008
+     },
+     {
+      "file": "zincirger-d2.wav",
+      "seconds": 0.26,
+      "lufs": -13.5,
+      "peak": -2.0,
+      "centroid": 4294
+     }
+    ]
+   },
+   {
+    "letter": "e",
+    "name": "Metal vuruş + zincir",
+    "credit": "freemaster2, \"Chains 2\" (Freesound, CC0)",
+    "link": "https://freesound.org/s/348974/",
+    "takes": [
+     {
+      "file": "zincirger-e1.wav",
+      "seconds": 0.3,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 7718
+     },
+     {
+      "file": "zincirger-e2.wav",
+      "seconds": 0.26,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 7805
+     }
+    ]
+   },
+   {
+    "letter": "f",
+    "name": "Metal tını + zincir elde",
+    "credit": "Kneeling, \"pickingchain.ogg\" (Freesound, CC0)",
+    "link": "https://freesound.org/s/643863/",
+    "takes": [
+     {
+      "file": "zincirger-f1.wav",
+      "seconds": 0.3,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 7668
+     },
+     {
+      "file": "zincirger-f2.wav",
+      "seconds": 0.26,
+      "lufs": -13.4,
+      "peak": -2.0,
+      "centroid": 6603
+     }
+    ]
+   }
+  ]
+ }
+}

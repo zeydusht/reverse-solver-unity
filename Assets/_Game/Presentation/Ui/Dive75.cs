@@ -548,7 +548,7 @@ namespace ReverseSolver.Presentation
                 _cueIn = true; Gecis100.Event("dalış (değmeye " + left.ToString("0.00") + " s)");
                 Gecis100.Play(Gecis100.Kind.Dalis, 1, Gecis100.DiveLead - left);
             }
-            if (!_cueTouch && t >= h0) { _cueTouch = _cueIn = true; Gecis100.Event("değme"); Gecis100.Play(Gecis100.Kind.Ting); Gecis100.Play(Gecis100.Kind.Cizgi); }
+            if (!_cueTouch && t >= h0) { _cueTouch = _cueIn = true; Gecis100.Event("değme"); Gecis100.Play(Gecis100.Kind.Cizgi); }   // PM_106 §1: no ting at the touch (Zeyd: the "klink" goes; the whoosh stays)
             if (!_cueBack && t >= h1) { _cueBack = true; Gecis100.Event("geri çekilme"); Gecis100.Play(Gecis100.Kind.Geri); }
             if (!_cueHud && t >= h2) { _cueHud = true; Gecis100.Event("HUD oturdu"); Gecis100.Play(Gecis100.Kind.Hud); }
         }

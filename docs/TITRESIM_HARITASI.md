@@ -14,13 +14,13 @@ Kodla aynı tutulur: `Presentation/Ui/Haptics.cs`, `Presentation/Ui/UiSounds.cs`
 |---|---|---|---|
 | düğme toku | `pm104/ui-tok-a1` (tek kayıt) | −16 LUFS | Kenney Impact, yumuşak ahşap (PM_104; Zeyd Durdur'da beğendi) |
 | anahtar | `pm98/ui-toggle1-2` | −14 | Kenney gerçek düğme |
-| panel açılış / kapanış vuş | `pm98/ui-open1-2`, `ui-close1-2` | −17 (tokun altında −26) | el kaydı swish; kapanış aynı sesin tersi |
+| panel açılış / kapanış vuş | `pm98/ui-open1-2`, `ui-close1-2` | −17 | el kaydı swish; kapanış aynı sesin tersi. PM_106: yalnız panel kendiliğinden açılıp kapanınca; bir dokunuşla açılıyorsa yalnız tok çalar |
 | pasif tok | `pm98/ui-dull1-2` | −15 | Kenney tahta vuruşu |
 
 - **PM_105 §3:** bütün düğmeler **aynı tok**u çalar: tek dosya (`ui-tok-a1`), rastgele perde yok, hep aynı düzey. Eski "çıt" (tık b: `pm98/ui-tick-*`, `pm95/tik-*`; dört kayıt, ±%4 perde, −1 dB tepe) projeden silindi; hiçbir kod yolu onu çalamaz. `&sesdugme=a…g` tok adayını değiştirir; seçilen her düğmede çalar.
 - Müzik −18 LUFS'luk dosyanın 0,35'i, yani yaklaşık −27 LUFS duyulur.
 - Bir basışta tek ses çalar: anahtar ve pasif tok, düz tokun yerine geçer.
-- Açılış ve kapanış vuşu tokun yanında 9 dB kısık çalar (sekme kayışı 12 dB kısık). Bir panel aynı karede kapanıp yeniden açılırsa (anahtar sonrası yeniden kurulum) ikisi de çalmaz.
+- PM_106: bir dokunuş tek ses çalar. Dokunuşla açılan ya da kapanan panelde vuş çalmaz (Ayarlar'da tok ve vuş birlikte "iki tık" gibi duyuluyordu); aynı karede iki ses yok (dokunuş testi bunu denetler). Sekmeye basınca da yalnız tok çalar (sayfa kayışı sesi aynı karede ikinci ses oluyordu). Bir panel aynı karede kapanıp yeniden açılırsa (anahtar sonrası yeniden kurulum) ikisi de çalmaz.
 - **İstisnalar (kendi sesi):** sandık açılışı, ödül uçuşu ve satın alma onayında ayrı bir ses yok; dokunuşları tok çalar, onay Success titreşimidir.
 
 **Duraklatma (PM_98 §3):**
@@ -37,7 +37,7 @@ Kodla aynı tutulur: `Presentation/Ui/Haptics.cs`, `Presentation/Ui/UiSounds.cs`
   - iPhone Safari'de web titreşimi yok; sessizce yok sayılır. Select web'de hiç çalmaz.
   - Ayarlar'da ve Durdur panelinde titreşim anahtarının altında yalnız web'de "Titreşim uygulamada çalışır" yazar.
 
-**Denetim:** `OpeningFlowTests.EveryTapHasSoundAndTap` (PlayMode; PM_105: çalan her dosya kaydedilir, `ui-tick` hiç çalmaz) ve `Tools/webkit_buttons.js` (WebKit; menü, sekmeler, bölüm, Durdur, süre doldu paneli, kazanma, sandık; çalan dosya listesi).
+**Denetim:** `OpeningFlowTests.EveryTapHasSoundAndTap` (PlayMode; PM_105: çalan her dosya kaydedilir, `ui-tick` hiç çalmaz; PM_106: aynı karede iki ses olursa kalır) ve `Tools/webkit_buttons.js` (WebKit; menü, sekmeler, bölüm, Durdur, süre doldu paneli, kazanma, sandık; çalan dosya listesi).
 
 - **Taranan ekranlar:** menü, Koleksiyon, Jiggle'lar, Ödüller, Ayarlar, bölüm, Durdur, kazanma.
 - **Yöntem:** her ekranda 9 × 19 noktalık bir dokunuş ızgarası. Görünen durumu değiştiren her dokunuş (`GameRoot.UiState98`) hem bir UI sesi çalmalı hem titreşim istemeli.
@@ -47,12 +47,12 @@ Kodla aynı tutulur: `Presentation/Ui/Haptics.cs`, `Presentation/Ui/UiSounds.cs`
 | An | Titreşim | Ses | Kodda |
 |---|---|---|---|
 | Her düğmeye basış (menü, kart, kazanma, kayıp, devam paneli) | Select | `ui-tok-a1` | `Haptics.Button()`: GameRoot (menü dokunuşu, kart, kart düğmesi, kayıp, devam), P21WinView.Sink |
-| Alt sekmeler, Oyna, Koleksiyon kartları, kapatma (X) | Select | `ui-tok-a1` (panel açılıyorsa + `ui-open` −9 dB) | menüde her dokunuş `Haptics.Button()`; Koleksiyon kartı vuşla açılır |
-| Durdur düğmesi | Select | `ui-tok-a1` + `ui-open` (−9 dB) | GameRoot.Press (`BarAction.Pause`) |
+| Alt sekmeler, Oyna, Koleksiyon kartları, kapatma (X) | Select | `ui-tok-a1` (PM_106: vuş yok, tek ses) | menüde her dokunuş `Haptics.Button()`; Koleksiyon kartı vuşla açılır |
+| Durdur düğmesi | Select | `ui-tok-a1` (PM_106: vuş yok, tek ses) | GameRoot.Press (`BarAction.Pause`) |
 | Devam / Tekrar / Menü (Durdur paneli) | Select | `ui-tok-a1` + `ui-close` (−9 dB) | kart düğmesi, CloseCard |
 | Ses / Müzik / Titreşim / Dil anahtarı | Select | `ui-toggle` | `Toggle98`: Durdur paneli, Ayarlar (menü ve kart) |
-| Ayarlar açılış / kapanış | Select | `ui-tok-a1` + `ui-open` / `ui-close` (−9 dB) | OpenSettings, SettingsAction("close") |
-| Profil kartı, bölüm listesi, tablo ayrıntısı açılış / kapanış | Select | `ui-tok-a1` + `ui-open` / `ui-close` (−9 dB) | OpenPlayerProfile / ProfileAction, OpenList, PaintingDetail |
+| Ayarlar açılış / kapanış | Select | `ui-tok-a1` (PM_106: vuş yok, tek ses) | OpenSettings, SettingsAction("close") |
+| Profil kartı, bölüm listesi, tablo ayrıntısı açılış / kapanış | Select | `ui-tok-a1` (PM_106: vuş yok, tek ses) | OpenPlayerProfile / ProfileAction, OpenList, PaintingDetail |
 | Booster seçimi | Select | `ui-tok-a1` | GameRoot.Press (bar), SelectBooster21 |
 | Kilitli booster | Select | `ui-dull` | aynı (`LockedNotice`) |
 | Altın yetmeyen devam | Select | `ui-dull` | GameRoot.ResolveContinue |
@@ -72,10 +72,10 @@ Kodla aynı tutulur: `Presentation/Ui/Haptics.cs`, `Presentation/Ui/UiSounds.cs`
 | Devam satın alma (altınla) | Success | `ui-tok-a1` (süre doldu panelinde altınla ve reklamla devam da) | GameRoot.ResolveContinue |
 | Reklam ödülü (devam, çift altın, booster, hediye) | Success | — | Ads.ShowReward |
 | Kont mührü (çok zor bölüm başı şeridi) | Heavy | — | GameRoot.Sl82.TickHardRibbon82 |
-| Parça çıkışı | Light (bomba parçası Medium) | `pm100/cikis-f1-4` (bomba parçası `pm100/bomba-a1`) | GameRoot.ExitSound (PM_45/46, aynen) |
+| Parça çıkışı | Light (bomba parçası Medium) | `pm106/cikis-q1` (PM_106: Block Out tarzı, tek kayıt, sabit perde; bomba parçası `pm100/bomba-a1`) | GameRoot.ExitSound (PM_45/46, aynen) |
 | Kilit açılması | Light | `pm105/kilitac-a1-2` (anahtar + düşüş; yoksa `pm100/kilit-a1`) | aynen |
-| Takılma | Jam (çok kısa, zayıf) | `pm102/carpma-a1-4`; kırmızı duvarda `pm105/duvar-a1-3`; zincirli parçada + `pm105/zincirger-a1-3` (−3 dB) | aynen |
+| Takılma | Jam (çok kısa, zayıf) | `pm102/carpma-a1-4`; kırmızı duvarda `pm105/duvar-a1-3`; zincirli parçada + `pm106/zincirger-d1-2` (−3 dB) | aynen |
 | Kilitli parçaya dokunma | — (sallanma) | `pm105/kilitdokun-a1-3` | GameRoot.Press (`Clang`) |
-| Zincirli parça sürüklenirken / sallanırken | — | `pm105/zincir-a1-4` (hıza göre sıklık ve düzey, durunca yok) | GameRoot.Rattle105 (`BoardView.ChainMotion`) |
+| Zincirli parça sürüklenirken / sallanırken | — | `pm106/zincir-d1-3` (PM_106: gerçek zincir, kesintisiz; hıza göre düzey, biri bitince başkası, durunca söner) | GameRoot.Bed106 (`BoardView.ChainMotion`) |
 | Bomba patlaması | Heavy | `pm105/patlama-a1`, 0,45 sn sonra `loss` | GameRoot.OnSessionEvent (Finished, bomba) |
 | Kazanma (son parça) | Success | son parça, sonra fanfar (`Music/kazanma-g-marimba`) | aynen |

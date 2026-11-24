@@ -54,7 +54,7 @@ namespace ReverseSolver.Presentation
             {
                 string q = (Kind)k == Kind.Tick ? null : Host.Current?.Query("ses" + Keys[k]);   // PM_105: no &sestik=
                 char letter = string.IsNullOrEmpty(q) ? DefaultOf(k) : q[0];
-                if ((Kind)k == Kind.Lift || (Kind)k == Kind.LiftShort) letter = _letters[(int)Kind.Exit] == '0' ? '0' : Letter(Kind.Exit);   // the exit's own
+                if ((Kind)k == Kind.Lift || (Kind)k == Kind.LiftShort) letter = _letters[(int)Kind.Exit] == '0' || ExitFixed ? '0' : Letter(Kind.Exit);   // the exit's own; PM_106: none (Block Out: silent until it lands)
                 _letters[k] = letter;
                 if (letter == '0') continue;
                 var list = new System.Collections.Generic.List<AudioClip>();
@@ -83,9 +83,25 @@ namespace ReverseSolver.Presentation
 
         public static bool On(Kind kind) => Takes(kind) != null;
 
+        /* PM_106 §2: the exits q-u (Tools/make_sfx106.py, docs/art/pm106/BLOCKOUT_SES_ANALIZ.md) are Block Out's: one
+           take, always the same pitch and level (no random pitch, none with the speed), and no lift-off before a jam's
+           knock (silent until something happens). */
+        public static bool ExitFixed
+        {
+            get
+            {
+                if (_takes == null) Load();
+                var t = _takes[(int)Kind.Exit];
+                if (t == null) return false;
+                char l = t[0].name.Length > 6 ? t[0].name[6] : '0';   // cikis-<letter><n>
+                return l >= 'q' && l <= 'u';
+            }
+        }
+
         /* PM_99: a take from PM_99's sounds (the soft exits f-j, the louder knock a) before PM_95's; PM_100: its own
            (the exits high-passed, the knock softened on top, all at the effects' level) before both. */
         static AudioClip Take(string key, char letter, int n) =>
+            (letter >= 'q' && letter <= 'u' ? SesSecim.Load<AudioClip>($"Art/audio/pm106/{key}-{letter}{n}") : null) ??   // PM_106 §2: Block Out's manner
             (letter >= 'k' && letter <= 'p' ? SesSecim.Load<AudioClip>($"Art/audio/pm104/{key}-{letter}{n}") : null) ??   // PM_104 §2: the swooshes k-p
             SesSecim.Load<AudioClip>($"Art/audio/pm102/{key}-{letter}{n}") ??   // PM_102: the knock's takes evened out
             SesSecim.Load<AudioClip>($"Art/audio/pm100/{key}-{letter}{n}") ?? SesSecim.Load<AudioClip>($"Art/audio/pm99/{key}-{letter}{n}") ??
@@ -112,7 +128,7 @@ namespace ReverseSolver.Presentation
             else if (_last[k] < 0) i = Random.Range(0, takes.Length);
             else { i = Random.Range(0, takes.Length - 1); if (i >= _last[k]) i++; }   // never the same take twice in a row
             _last[k] = i;
-            pitch = 1 + Random.Range(-Pitch[k], Pitch[k]);
+            pitch = kind == Kind.Exit && ExitFixed ? 1 : 1 + Random.Range(-Pitch[k], Pitch[k]);
             return takes[i];
         }
 

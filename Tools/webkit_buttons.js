@@ -4,7 +4,8 @@
 // &seslog=1: the game logs every UI sound it plays ("[ses] ui <kind> <file>") and every effect ("[ses] <kind> <file>").
 // Screens: the menu and its four tabs, Ayarlar, a level (lv=3: the lock), the pause panel, the time-up panel
 // (&devam=1: gold and ad continue), the win screen (&kazan=1) and the chest (&sandik=1).
-// Writes the files played per screen and passes when a tok played on every screen and no tick ever did.
+// Writes the files played per screen and passes when a tok played on every screen, no tick ever did and no frame
+// played two UI sounds (PM_106 §1).
 // usage: node Tools/webkit_buttons.js <game base url, e.g. http://127.0.0.1:8123/br/> [--out file.json] [--pw <playwright-core dir>] [--chrome <chrome.exe>]
 const fs = require('fs'), path = require('path');
 const args = process.argv.slice(2);
@@ -30,15 +31,15 @@ const SCREENS = [
     ? await chromium.launch({ executablePath: chrome, headless: true, args: ['--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] })
     : await webkit.launch({});
   console.log(`[dugmeler] ${chrome ? 'chrome' : 'webkit'} ${browser.version()}`);
-  const out = { base, screens: [], old: [], pageErrors: [], alerts: [] };
+  const out = { base, screens: [], old: [], doubles: [], pageErrors: [], alerts: [] };
   for (const s of SCREENS) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
     await ctx.route(/supabase\.co/, r => r.abort());
     const page = await ctx.newPage();
     const played = [];
     page.on('console', m => {
-      const t = m.text(), r = /\[ses\] (ui )?(\w+) (\S+-\S+) \d/.exec(t);   // a play (not the start's list)
-      if (r) played.push({ ui: !!r[1], kind: r[2], file: r[3] });
+      const t = m.text(), r = /\[ses\] (ui )?(\w+) (\S+-\S+) (\d+[.,]\d+)/.exec(t);   // a play (not the start's list)
+      if (r) played.push({ ui: !!r[1], kind: r[2], file: r[3], at: r[4] });
     });
     page.on('pageerror', e => out.pageErrors.push(s.name + ': ' + String(e.message || e).slice(0, 160)));
     page.on('dialog', d => { out.alerts.push(d.message()); d.dismiss().catch(() => {}); });
@@ -58,16 +59,21 @@ const SCREENS = [
     for (const p of mine) files[(p.ui ? 'ui ' : '') + p.kind + ' ' + p.file] = (files[(p.ui ? 'ui ' : '') + p.kind + ' ' + p.file] || 0) + 1;
     const toks = mine.filter(p => p.ui && /^ui-tok-/.test(p.file)).length;
     const old = mine.filter(p => OLD.test(p.file));
+    // PM_106 §1: one press, one sound: two UI sounds with the same frame's time (Ayarlar: the tok and the panel's swish)
+    const byAt = {};
+    for (const p of mine) if (p.ui) (byAt[p.at] = byAt[p.at] || []).push(p.file);
+    const doubles = Object.entries(byAt).filter(([, f]) => f.length > 1).map(([at, f]) => `${at}: ${f.join(' + ')}`);
+    out.doubles.push(...doubles.map(d => s.name + ' ' + d));
     out.old.push(...old.map(o => s.name + ': ' + o.file));
-    out.screens.push({ name: s.name, taps: pts.length, played: mine.length, toks, files });
-    console.log(`[dugmeler] ${s.name}: ${pts.length} dokunuş, ${mine.length} ses (${toks} tok), eski çıt ${old.length}; ` + Object.entries(files).map(([k, v]) => `${k} x${v}`).join(', '));
+    out.screens.push({ name: s.name, taps: pts.length, played: mine.length, toks, files, doubles: doubles.length });
+    console.log(`[dugmeler] ${s.name}: ${pts.length} dokunuş, ${mine.length} ses (${toks} tok), eski çıt ${old.length}, aynı karede iki ses ${doubles.length}; ` + Object.entries(files).map(([k, v]) => `${k} x${v}`).join(', '));
     await ctx.close();
   }
   await browser.close();
   const noTok = out.screens.filter(s => s.toks === 0).map(s => s.name);
-  out.pass = out.old.length === 0 && noTok.length === 0 && out.alerts.length === 0;
+  out.pass = out.old.length === 0 && noTok.length === 0 && out.alerts.length === 0 && out.doubles.length === 0;
   const file = opt('out', null);
   if (file) fs.writeFileSync(file, JSON.stringify(out, null, 1));
-  console.log(`[dugmeler] eski çıt ${out.old.length}, toksuz ekran ${noTok.length ? noTok.join(', ') : 0}, uyarı ${out.alerts.length}, sayfa hatası ${out.pageErrors.length}: ${out.pass ? 'GEÇTİ' : 'KALDI'}`);
+  console.log(`[dugmeler] eski çıt ${out.old.length}, aynı karede iki ses ${out.doubles.length}${out.doubles.length ? ' (' + out.doubles.slice(0, 5).join('; ') + ')' : ''}, toksuz ekran ${noTok.length ? noTok.join(', ') : 0}, uyarı ${out.alerts.length}, sayfa hatası ${out.pageErrors.length}: ${out.pass ? 'GEÇTİ' : 'KALDI'}`);
   process.exit(out.pass ? 0 : 1);
 })().catch(e => { console.error(e); process.exit(2); });

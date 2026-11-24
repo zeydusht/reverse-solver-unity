@@ -33,7 +33,7 @@ namespace ReverseSolver.Core.Tests
             UiSounds.Request(UiSounds.Kind.Dull); UiSounds.Request(UiSounds.Kind.Tick);
             Assert.That(UiSounds.Take(), Is.EqualTo(new[] { UiSounds.Kind.Dull }));
             UiSounds.Request(UiSounds.Kind.Tick); UiSounds.Request(UiSounds.Kind.Open);
-            Assert.That(UiSounds.Take(), Is.EqualTo(new[] { UiSounds.Kind.Tick, UiSounds.Kind.Open }));
+            Assert.That(UiSounds.Take(), Is.EqualTo(new[] { UiSounds.Kind.Tick }), "PM_106: one sound per press");
             UiSounds.Request(UiSounds.Kind.Close); UiSounds.Request(UiSounds.Kind.Open);   // a panel rebuilt in place
             Assert.That(UiSounds.Take(), Is.Empty);
         }

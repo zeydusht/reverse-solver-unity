@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 24 Kasım 2026 (Claude Code, PM_105)
+Son güncelleme: 24 Kasım 2026 (Claude Code, PM_106)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -48,6 +48,7 @@ Kurallar:
 | Playtest daveti: her davetli 1–2 kişiye iletsin mi, ek bir grup var mı? (cevap bekliyor) | Playtest'ten önce | 1 dk |
 | 4G kontrolü | Playtest'ten önce | 10 dk |
 | PM_105: p23'te zincir (31. bölüm), kilit (3. bölüm), menü düğmelerini dene; dinleme sayfasında 6 yeni sesin adayını seç | Boş vaktinde | ~15 dk |
+| PM_106: dinleme sayfasında Block Out tarzı çıkış (q–u) ve gerçek zincir (d–f) adaylarını dinle, seç; 31. bölümde zincir sesi + lastik, 21. bölümde kırmızı duvar + lastik, menüde Ayarlar tek tık | Boş vaktinde | ~15 dk |
 
 ## PM
 
@@ -219,6 +220,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_103 (24 Kasım): sesler kesinleşti, seçimler `ses.json`'da; iOS'a üç müzik gömülü (çevrimdışı), adaylar iOS dışında; `docs/SES_LISANSLARI.md`. Açık: iPhone'da dinleme.
 - ✅ PM_104_EK (24 Kasım): iPhone Safari'de "Decoding failed" uyarısı; seçili sesler web'de ham örnek, her çözme hatası yakalanıyor (`audio_decode_fail`). Açık: iPhone'da deneme.
 - ✅ PM_104 (24 Kasım): sayfa = oyun (uyuşmayan 0, Bugünkü seçim); booster olaylarında tek ses (makas, çekiç); kaydırma swoosh k–p; düğme toku a–g. Açık: Zeyd'in swoosh ve tok seçimi, telefonda dinleme.
+- ✅ PM_106 (24 Kasım): Block Out sesi analiz edildi (`docs/art/pm106/BLOCKOUT_SES_ANALIZ.md`: sürüklerken ses yok, bırakmada tek tok, çıkışta ufalanma, perde artmıyor); çıkış sesi Block Out tarzı q (5 aday q–u, tek kayıt, sabit perde, kalkış sesi yok; `&cikisperde=1` deneme); zincir gerçek zincir kaydı (d–f, kesintisiz, hıza göre); lastik bütün takılmalarda tam (boşluksuzda %55'ti, kilitli parçada eksikti; 32 takılma ölçüldü); Ayarlar ve sekmelerde tek ses; dalış sonu ting kalktı. Açık: Zeyd'in seçimleri, telefonda deneme.
 - ✅ PM_105 (24 Kasım): zincirli parçada lastik düzeldi (uçlar arası fark 0,76 → 0 hücre, GIF `docs/art/pm105/zincir_once_sonra.gif`); zincir, zincir gerilme, kilit dokunma, kilit açılma, patlama, kırmızı duvar sesleri (3'er aday, varsayılan a); bütün düğmeler Durdur'un toku (tek kayıt), eski "çıt" silindi. Açık: Zeyd'in ses seçimleri, telefonda deneme.
 - ✅ PM_101 (23 Kasım): AppLovin MAX → Google AdMob (UMP + ATT, test/gerçek kimlik ayrımı, test cihazı, Ad Inspector, gizlilik sayfası, app-ads.txt adımları). Bekleyen: app-ads.txt kök deposu, AdMob GDPR mesajı, Mac'te pod install.
 - ✅ PM_100 p23'te (23 Kasım): kazanma tınıları (aynı ritim, 5 çalgı); takılma/kayma ayrıldı (kalkış + bonk); efektler yükseldi, müzik −3 dB, `&sfx` `&muzikses`; geçiş sesleri 3'er aday. Bekleyen: Zeyd'in seçimleri; elle temasta çift takılma sesi (PM kararı).

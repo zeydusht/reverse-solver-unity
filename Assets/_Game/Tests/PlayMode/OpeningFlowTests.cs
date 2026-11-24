@@ -80,8 +80,13 @@ namespace ReverseSolver.PlayMode.Tests
             UiSounds.Played += onSound; Haptics.Asked += onTap;
             // PM_105 §3: the file every UI sound played: Durdur's tok for every button, never the old tick
             var clips = new System.Collections.Generic.Dictionary<string, int>();
-            Action<string> onClip = n => clips[n] = clips.TryGetValue(n, out int k) ? k + 1 : 1;
-            UiSounds.PlayedClip += onClip;
+            // PM_106 §1: one sound per frame (Ayarlar played the tok and the panel's swish together: "two ticks")
+            var perFrame = new System.Collections.Generic.Dictionary<int, System.Collections.Generic.List<string>>();
+            void Heard(string what) { if (!perFrame.TryGetValue(Time.frameCount, out var l)) perFrame[Time.frameCount] = l = new System.Collections.Generic.List<string>(); l.Add(what); }
+            Action<string> onClip = n => { clips[n] = clips.TryGetValue(n, out int k) ? k + 1 : 1; Heard(n); };
+            Action<Gecis100.Kind> onGecis = g => Heard("gecis " + g);
+            Action<Sfx105.Kind, string> onSfx = (_, n) => Heard(n);
+            UiSounds.PlayedClip += onClip; Gecis100.Played += onGecis; GameRoot.Sfx105Played += onSfx;
             var missing = new System.Collections.Generic.List<string>();
             var report = new System.Text.StringBuilder();
             string State() => (string)typeof(GameRoot).GetMethod("UiState98", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
@@ -138,7 +143,10 @@ namespace ReverseSolver.PlayMode.Tests
                 report.Append($" {name}: {changed} düğme dokunuşu;");
                 Debug.Log($"[dokunus] {name}: {changed} durum değiştiren dokunuş, eksik şimdiye dek {missing.Count}");
             }
-            UiSounds.Played -= onSound; Haptics.Asked -= onTap; UiSounds.PlayedClip -= onClip;
+            UiSounds.Played -= onSound; Haptics.Asked -= onTap; UiSounds.PlayedClip -= onClip; Gecis100.Played -= onGecis; GameRoot.Sfx105Played -= onSfx;
+            var doubles = System.Linq.Enumerable.ToList(System.Linq.Enumerable.Select(System.Linq.Enumerable.Where(perFrame, f => f.Value.Count > 1), f => $"kare {f.Key}: {string.Join(" + ", f.Value)}"));
+            Debug.Log($"[dokunus] aynı karede iki ses: {doubles.Count}" + (doubles.Count > 0 ? " " + string.Join("; ", doubles) : ""));
+            Assert.That(doubles, Is.Empty, "two sounds in one frame");
             Debug.Log("[dokunus] çalan dosyalar: " + string.Join(", ", System.Linq.Enumerable.Select(clips, c => c.Key + " x" + c.Value)));
             Assert.That(System.Linq.Enumerable.Where(clips.Keys, k => k.StartsWith("ui-tick") || k.StartsWith("tik-")), Is.Empty, "the old tick played");
             Assert.That(clips.ContainsKey("ui-tok-a1"), Is.True, "the tok played");
@@ -340,15 +348,15 @@ namespace ReverseSolver.PlayMode.Tests
                 yield return WaitFor(() => Field<bool[]>("_pageBuilt").All(b => b), "the four pages built ahead");
                 var tabs = Field<MenuTabs>("_tabs");
                 yield return Click(tabs.TabCentre(3));
-                Assert.That(played, Does.Contain(Gecis100.Kind.Sekme), "the tab's pages slide with a swish");
+                Assert.That(played, Has.No.Member(Gecis100.Kind.Sekme), "PM_106: a tab's press is its tok alone (no swish in the same frame)");
                 yield return WaitFor(() => !Field<bool>("_pageAnim"), "the pages settling");
                 yield return Click(tabs.TabCentre(0));
                 yield return WaitFor(() => !Field<bool>("_pageAnim"), "back home");
                 played.Clear();
                 yield return Click(LayoutPoint(MenuPlay));
                 yield return WaitForLong(() => played.Contains(Gecis100.Kind.Hud), 15, "the dive's sounds to the HUD's tick");
-                Assert.That(played, Is.EqualTo(new[] { Gecis100.Kind.Dalis, Gecis100.Kind.Ting, Gecis100.Kind.Cizgi, Gecis100.Kind.Geri, Gecis100.Kind.Hud }),
-                    "the dive: in, the touch (ting, paper), back, the HUD");
+                Assert.That(played, Is.EqualTo(new[] { Gecis100.Kind.Dalis, Gecis100.Kind.Cizgi, Gecis100.Kind.Geri, Gecis100.Kind.Hud }),
+                    "the dive: in, the touch (paper; PM_106: no ting), back, the HUD");
             }
             finally { Gecis100.Played -= hear; }
         }
@@ -391,7 +399,7 @@ namespace ReverseSolver.PlayMode.Tests
                 Assert.That(loudest, Is.GreaterThan(.9f), "loudest at the slide's fastest");
                 Assert.That(Gecis100.CorridorVolume, Is.LessThan(.05f), "gone as it settles");
                 yield return WaitForLong(() => played.Contains(Gecis100.Kind.Hud), 15, "the dive into level 3 to the HUD's tick");
-                Assert.That(played.IndexOf(Gecis100.Kind.Koridor), Is.LessThan(played.IndexOf(Gecis100.Kind.Ting)), "the corridor, then the dive");
+                Assert.That(played.IndexOf(Gecis100.Kind.Koridor), Is.LessThan(played.IndexOf(Gecis100.Kind.Dalis)), "the corridor, then the dive");
                 Assert.That(played, Does.Contain(Gecis100.Kind.Geri));
             }
             finally { Gecis100.Played -= hear; }

@@ -189,7 +189,7 @@ namespace ReverseSolver.Presentation
         // @keyframes fuse { 0%,100% scale 1; 50% scale 1.16 } .7s infinite
         void Pulse()
         {
-            Tweens.Run(this, .7f, t => _body.localScale = Vector3.one * (1f + .16f * Mathf.Sin(t * Mathf.PI)),
+            Tweens.Run(this, .7f, t => { if (_body != null) _body.localScale = Vector3.one * (1f + .16f * Mathf.Sin(t * Mathf.PI)); },
                        () => { if (_hot && _body != null) Pulse(); });
         }
 
