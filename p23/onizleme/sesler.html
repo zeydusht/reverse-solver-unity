@@ -163,7 +163,7 @@
   function load(url, local) {
     var list = [url].concat(local ? [local] : url.indexOf('sesler/') === 0 ? ['../../pm100/onizleme/' + url, '../../pm99/onizleme/' + url] : []);
     if (!buffers[url]) buffers[url] = tryEach(list).then(function (r) { return r.arrayBuffer(); })
-      .then(function (a) { return new Promise(function (ok, no) { audio().decodeAudioData(a, ok, no); }); });
+      .then(function (a) { return new Promise(function (ok, no) { var p = audio().decodeAudioData(a, ok, no); if (p && p.catch) p.catch(no); }); });
     return buffers[url];
   }
   // PM_98 §2: 10 s of the reference, then 10 s of the candidate (from its start)

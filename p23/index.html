@@ -20,6 +20,61 @@
 <link rel="icon" href="TemplateData/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <script>
+  /* PM_104_EK: a sound the browser cannot decode (iPhone Safari: "EncodingError: Decoding failed") must never show
+     Unity's alert. Unity's WebAudio, Music.jslib and Intro.jslib call decodeAudioData with callbacks; Safari also
+     returns a promise that rejects, nobody catches it, and Unity's unhandledrejection listener turns it into the
+     alert. Every call's promise is caught here; the sound stays silent (the game reports the file: AudioDecodeWatch).
+     Any other audio decode error that still reaches the page is stopped before Unity's listener, and the Unity
+     config's errorHandler (below) drops it too. ?sestest=bozuk makes every decode fail (the test). */
+  (function () {
+    var fails = window.rsAudioFails = [];
+    var broken = /[?&]sestest=bozuk\b/.test(location.search);
+    window.rsAudioError = function (x) {
+      var s = x && typeof x === 'object' ? (x.name || '') + ' ' + (x.message || '') : String(x || '');
+      return /EncodingError|Decoding failed|decodeAudioData|Unable to decode audio|audio data/i.test(s);
+    };
+    [window.AudioContext, window.webkitAudioContext].forEach(function (C) {
+      if (!C || !C.prototype.decodeAudioData || C.prototype.decodeAudioData.rsSafe) return;
+      var orig = C.prototype.decodeAudioData;
+      var safe = function (data, ok, no) {
+        // the file: the game names it while Unity loads the clip (Music.jslib: RS_AudioName), the music its URL
+        var size = data && data.byteLength || 0, called = false, name = window.rsAudioName || '';
+        var fail = function (e) {
+          if (called) return; called = true;
+          fails.push({ name: name, size: size, error: String(e && e.name || e) });
+          try { console.warn('[audio] decode fail ' + (name || size + ' B') + ' ' + (e && e.name || e)); } catch (_) {}
+          if (no) { try { no(e); } catch (_) {} }
+        };
+        var p;
+        if (broken) {
+          var err; try { err = new DOMException('Decoding failed', 'EncodingError'); } catch (_) { err = new Error('EncodingError: Decoding failed'); }
+          setTimeout(function () { fail(err); }, 0);
+          p = Promise.reject(err);
+        } else {
+          try { p = orig.call(this, data, ok, fail); }
+          catch (e) { setTimeout(function () { fail(e); }, 0); p = Promise.reject(e); }
+        }
+        if (p && p.catch) p.catch(function (e) { fail(e); });
+        return p;
+      };
+      safe.rsSafe = true;
+      C.prototype.decodeAudioData = safe;
+    });
+    // Unity's own audio alert (a browser without Web Audio: "Web Audio API is not supported") goes to the console
+    var alert0 = window.alert;
+    window.alert = function (m) {
+      if (/Web Audio|AudioContext|EncodingError|Decoding failed/i.test(String(m))) { try { console.warn('[audio] ' + m); } catch (_) {} return; }
+      return alert0.apply(window, arguments);
+    };
+    window.addEventListener('unhandledrejection', function (e) {
+      if (window.rsAudioError(e.reason)) { fails.push({ name: '', size: 0, error: 'rejection' }); e.preventDefault(); e.stopImmediatePropagation(); }
+    }, true);
+    window.addEventListener('error', function (e) {
+      if (window.rsAudioError(e.error || e.message)) { fails.push({ name: '', size: 0, error: 'error' }); e.preventDefault(); e.stopImmediatePropagation(); }
+    }, true);
+  })();
+</script>
+<script>
   // SET40 v3 preview (?set=redesign): the approved blue icon; the live page keeps the old one until Build 5
   if (!/[?&]set=(classic|zeydbot|designs|levels)\b/.test(location.search)) {   // Build 5: the new look everywhere but the old sets
     document.querySelector('link[rel="apple-touch-icon"]').href = 'TemplateData/icon-v3-180.png';
@@ -335,20 +390,22 @@ window.ltBoot = function (msg) {
   window.rsUpdateLanguage();
 </script>
 
-<script src="Build/2b097a1bebd123944e49e6962cf58e1a.loader.js"></script>
+<script src="Build/8de04da19306b42ee9cdbe2fd118fe45.loader.js"></script>
 <script>
   var canvas = document.getElementById('unity-canvas');
   createUnityInstance(canvas, {
     arguments: [],
-    dataUrl: "Build/ae05a64cf0abfd63b9177749adb136ce.data.unityweb",
-    frameworkUrl: "Build/65089a53d1f0c0b52d43fdf8704b9eee.framework.js.unityweb",
-    codeUrl: "Build/2bc117cfe76a1f9db79da3a348d5f5c1.wasm.unityweb",
+    dataUrl: "Build/214016f7f253106887e13b42b39fb9fd.data.unityweb",
+    frameworkUrl: "Build/e8facaf9ca623467dbf841245b0a0409.framework.js.unityweb",
+    codeUrl: "Build/f74827af0eefef51f27d052dfd51a44e.wasm.unityweb",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "zeydusht",
     productName: "Reverse Solver",
     productVersion: "1.0.0",
     // iPhones report 3; rendering a 2D board at 3x costs fill rate for no visible gain.
-    devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
+    devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+    // PM_104_EK: an audio decode error never shows Unity's alert (true: handled)
+    errorHandler: function (message) { return !!(window.rsAudioError && window.rsAudioError(message)); }
   }, function (p) {
     document.getElementById('fill').style.width = Math.round(p * 100) + '%';
     if (window.rsFilm && window.rsFilm.progress) window.rsFilm.progress(p);
