@@ -18,12 +18,13 @@ namespace ReverseSolver.Presentation
         };
 
         static Fanfare[] _all;
+        public static void Clear() => _all = null;
         static Fanfare[] All
         {
             get
             {
                 if (_all != null) return _all;
-                var text = Resources.Load<TextAsset>("Art/audio/pm96/vurus_haritasi");
+                var text = SesSecim.Load<TextAsset>("Art/audio/pm96/vurus_haritasi");
                 _all = text == null ? new Fanfare[0] : JsonUtility.FromJson<File>(text.text)?.fanfares ?? new Fanfare[0];
                 return _all;
             }

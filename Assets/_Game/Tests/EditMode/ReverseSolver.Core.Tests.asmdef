@@ -6,6 +6,7 @@
         "ReverseSolver.Editing",
         "ReverseSolver.Generation",
         "ReverseSolver.Presentation",
+        "ReverseSolver.Editor",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

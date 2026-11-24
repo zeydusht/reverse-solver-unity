@@ -16,11 +16,11 @@ namespace ReverseSolver.Core.Tests
             Assert.That(g.beats.Length, Is.EqualTo(5), "light + Great!, Jigo, +50, Next, Menu + confetti");
             Assert.That(P21WinView.Plan(5), Is.EqualTo(new[] { 0, 0, 1, 2, 3, 4, 4 }));
             Assert.That(Music.TonesOf('g'), Is.EqualTo(new[] { "piyano", "marimba", "pizz", "ksilofon", "kutu" }));
-            Assert.That(Music.FanfareClipKey, Is.EqualTo("g"), "the piano: g itself");
+            Assert.That(Music.FanfareClipKey, Is.EqualTo("g-marimba"), "PM_103: g in its marimba tone");
 #if UNITY_EDITOR
             foreach (var tone in Music.TonesOf('g'))
             {
-                if (tone == Music.DefaultTone) continue;
+                if (tone == Music.Piano) continue;
                 var clip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>($"Assets/Audio/Fanfare96/kazanma-g-{tone}.wav");
                 Assert.That(clip, Is.Not.Null, tone);
                 Assert.That(clip.length, Is.EqualTo(g.length).Within(.01f), $"{tone}: g's length (its beat map)");

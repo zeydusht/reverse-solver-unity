@@ -10,14 +10,14 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void TheFanfareTonesKeepItsBeats()
         {
-            Assert.That(Music.DefaultTone, Is.EqualTo("piyano"), "today's fanfare stays the default");
-            Assert.That(Music.Tone, Is.EqualTo("piyano"));
-            Assert.That(Music.FanfareClipKey, Is.EqualTo(Music.FanfareKey), "the piano plays the beats' own clip");
+            Assert.That(Music.DefaultTone, Is.EqualTo("marimba"), "PM_103: Zeyd's marimba");
+            Assert.That(Music.Tone, Is.EqualTo("marimba"));
+            Assert.That(Music.FanfareClipKey, Is.EqualTo(Music.FanfareKey + "-marimba"), "the tone's clip, the beats' own map");
             Assert.That(Music.TonesOf('b'), Is.EquivalentTo(new[] { "piyano", "marimba", "pizz", "ksilofon", "kutu", "bakir" }));
 #if UNITY_EDITOR
             foreach (var tone in Music.TonesOf('b'))
             {
-                if (tone == Music.DefaultTone) continue;
+                if (tone == Music.Piano) continue;
                 foreach (var key in new[] { "b", "b5" })
                 {
                     var clip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>($"Assets/Audio/Fanfare96/kazanma-{key}-{tone}.wav");
@@ -68,7 +68,7 @@ namespace ReverseSolver.Core.Tests
             Gecis100.Load();
             foreach (Gecis100.Kind k in System.Enum.GetValues(typeof(Gecis100.Kind)))
             {
-                Assert.That(Gecis100.Letter(k), Is.EqualTo(Gecis100.Default));
+                Assert.That(Gecis100.Letter(k), Is.EqualTo(Gecis100.DefaultOf(k)));
                 Assert.That(Gecis100.Clip(k), Is.Not.Null, k.ToString());
             }
             Assert.That(Gecis100.Clip(Gecis100.Kind.Dalis).length, Is.EqualTo(Gecis100.DiveLead).Within(.03f), "the rising whoosh ends at the touch");

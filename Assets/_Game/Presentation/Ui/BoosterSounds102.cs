@@ -10,12 +10,13 @@ namespace ReverseSolver.Presentation
          cekic   vurus    the blow and the break, on the strike;   kirinti  a soft clatter as the piece falls
          saat    tiktak   a quiet tick-tock loop through the freeze;   donma  the ice crackling as it freezes;
                  kirilma  the ice breaking as the frozen bar breaks
-       &sesmakas=, &sesdegnek=, &sescekic=, &sessaat=: a, b or c (the default a), 0 the old sounds. Off with the sound
+       &sesmakas=, &sesdegnek=, &sescekic=, &sessaat=: a, b or c, 0 the old sounds; without one Zeyd's choice (PM_103,
+       SesSecim: the scissors c, the others a). Off with the sound
        switch; &sfx= as the other effects. */
     public static class BoosterSounds102
     {
         public const float WandLead = .40f;
-        public const char Default = 'a';
+        public static char DefaultOf(string booster) => SesSecim.Letter(booster);
         public enum Part { MakasKesim, DegnekDonusum, CekicVurus, CekicKirinti, SaatTiktak, SaatDonma, SaatKirilma }
         static readonly string[] Booster = { "makas", "degnek", "cekic", "cekic", "saat", "saat", "saat" };
         static readonly string[] Name = { "kesim", "donusum", "vurus", "kirinti", "tiktak", "donma", "kirilma" };
@@ -29,8 +30,8 @@ namespace ReverseSolver.Presentation
         public static char Letter(string booster)
         {
             string q = Host.Current?.Query("ses" + booster);
-            if (string.IsNullOrEmpty(q)) return Default;
-            return q[0] == '0' || q[0] == 'a' || q[0] == 'b' || q[0] == 'c' ? q[0] : Default;
+            if (string.IsNullOrEmpty(q)) return DefaultOf(booster);
+            return q[0] == '0' || q[0] == 'a' || q[0] == 'b' || q[0] == 'c' ? q[0] : DefaultOf(booster);
         }
 
         public static void Load()
@@ -40,7 +41,7 @@ namespace ReverseSolver.Presentation
             for (int i = 0; i < Name.Length; i++)
             {
                 char l = Letter(Booster[i]);
-                if (l != '0') _clips[i] = Resources.Load<AudioClip>($"Art/audio/pm102/booster-{Booster[i]}-{Name[i]}-{l}");
+                if (l != '0') _clips[i] = SesSecim.Load<AudioClip>($"Art/audio/pm102/booster-{Booster[i]}-{Name[i]}-{l}");
                 _clips[i]?.LoadAudioData();
                 said.Append(' ').Append(Booster[i]).Append('/').Append(Name[i]).Append(' ').Append(_clips[i] == null ? "eski" : l.ToString());
             }

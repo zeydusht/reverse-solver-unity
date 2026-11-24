@@ -19,11 +19,124 @@ namespace ReverseSolver.EditorTools
               (BuildTest: a development build with Google's test ids); the App ID into the plugin's settings (it writes
               GADApplicationIdentifier and Google's SKAdNetworkItems into Info.plist); the ATT text (TR + EN); our
               PrivacyInfo.xcprivacy (the Google Mobile Ads SDK brings its own)
+         sounds (PM_103): Zeyd's choices (Assets/Config/Resources/ses.json) in the build, offline: the lobby's and the
+              level's loop and the win fanfare copied into Resources/Music for this build only (Vorbis; the web streams
+              them from Pages); every sound candidate no loader picks with the defaults (SesSecim.Collect) moved out of
+              Resources for the build (Assets/_IosDisi) and back after it; the build's audio listed in its log
 
          bash Tools/unity_batch.sh method ReverseSolver.EditorTools.IosBuild.Build -buildTarget iOS       (the store)
          bash Tools/unity_batch.sh method ReverseSolver.EditorTools.IosBuild.BuildTest -buildTarget iOS   (test ads) */
     public static class IosBuild
     {
+        public const string MusicInBuild = "Assets/_Game/Presentation/Resources/Music", Stash = "Assets/_IosDisi";
+        const string AudioRoot = "Assets/_Game/Presentation/Resources/Art/audio";
+        /* The candidates' folders: every file in them is a sound some flag can pick. */
+        public static readonly string[] CandidateFolders = { "pm95", "pm96", "pm98", "pm99", "pm100", "pm102" };
+
+        /* PM_103: the chosen lobby and level loops (their own Ogg files: no lead-in, the exact loop) and the fanfare (its
+           chosen tone) into Resources/Music as lobi, bolum, kazanma: Music reads them there. */
+        public static void EmbedMusic()
+        {
+            AssetDatabase.DeleteAsset(MusicInBuild);
+            Directory.CreateDirectory(MusicInBuild);
+            foreach (var (src, name, loop) in new[]
+            {
+                (Music.SourceOf(Music.DefaultLobby), "lobi", true), (Music.SourceOf(Music.DefaultLevel), "bolum", true),
+                (Music.FanfareSource(Music.FanfareClipKey), "kazanma", false),
+            })
+            {
+                if (!File.Exists(src)) throw new BuildFailedException($"seçilen müzik yok: {src}");
+                string dst = $"{MusicInBuild}/{name}{Path.GetExtension(src)}";
+                AssetDatabase.CopyAsset(src, dst);
+                var imp = (AudioImporter)AssetImporter.GetAtPath(dst);
+                var ios = imp.GetOverrideSampleSettings(BuildTargetGroup.iOS);
+                ios.compressionFormat = AudioCompressionFormat.Vorbis;
+                // the loops streamed from the app's own files; the fanfare in memory (its beats follow its clock)
+                ios.quality = loop ? .5f : .7f; ios.loadType = loop ? AudioClipLoadType.Streaming : AudioClipLoadType.DecompressOnLoad;
+                ios.preloadAudioData = !loop;
+                imp.SetOverrideSampleSettings(BuildTargetGroup.iOS, ios);
+                imp.SaveAndReimport();
+                Debug.Log($"[ios] müzik {name}: {src}");
+            }
+        }
+
+        /* The candidates no loader picks with Zeyd's choices: moved out of Resources (into Stash, their .meta with them),
+           so this build leaves them out. Returns how many. */
+        public static int StashCandidates()
+        {
+            var used = SesSecim.Collect();
+            var move = Unused(used);
+            AssetDatabase.StartAssetEditing();
+            try
+            {
+                foreach (var path in move)
+                {
+                    string dst = path.Replace(AudioRoot, Stash + "/audio");
+                    Directory.CreateDirectory(Path.GetDirectoryName(dst));
+                    File.Move(path, dst); File.Move(path + ".meta", dst + ".meta");
+                }
+            }
+            finally { AssetDatabase.StopAssetEditing(); AssetDatabase.Refresh(); }
+            Debug.Log($"[ios] sesler: {used.Count} seçili dosya yüklenecek, {move.Count} aday build dışında");
+            return move.Count;
+        }
+
+        /* The candidate files (Assets paths) not in `used` (Resources paths, no extension). */
+        public static List<string> Unused(ICollection<string> used)
+        {
+            var list = new List<string>();
+            foreach (var folder in CandidateFolders)
+            {
+                string dir = $"{AudioRoot}/{folder}";
+                if (!Directory.Exists(dir)) continue;
+                foreach (var f in Directory.GetFiles(dir).Select(x => x.Replace('\\', '/')).Where(x => !x.EndsWith(".meta")).OrderBy(x => x))
+                    if (!used.Contains($"Art/audio/{folder}/{Path.GetFileNameWithoutExtension(f)}")) list.Add(f);
+            }
+            return list;
+        }
+
+        /* Everything Stash holds back where it was. */
+        public static void RestoreCandidates()
+        {
+            if (!Directory.Exists(Stash)) return;
+            int n = 0;
+            foreach (var f in Directory.GetFiles(Stash, "*", SearchOption.AllDirectories).Select(x => x.Replace('\\', '/')).Where(x => !x.EndsWith(".meta")))
+            {
+                string dst = f.Replace(Stash + "/audio", AudioRoot);
+                Directory.CreateDirectory(Path.GetDirectoryName(dst));
+                File.Move(f, dst);
+                if (File.Exists(f + ".meta")) File.Move(f + ".meta", dst + ".meta");
+                n++;
+            }
+            Directory.Delete(Stash, true);
+            if (File.Exists(Stash + ".meta")) File.Delete(Stash + ".meta");
+            AssetDatabase.Refresh();
+            Debug.Log($"[ios] {n} aday yerine döndü");
+        }
+
+        /* The build's sound files (the report's packed assets; a clip is two entries, its header and its data): how many,
+           their size, and that no unchosen candidate slipped in. */
+        static void LogAudio(UnityEditor.Build.Reporting.BuildReport r, int stashed)
+        {
+            var used = SesSecim.Used;
+            long bytes = 0;
+            var files = new HashSet<string>();
+            var strays = new HashSet<string>();
+            var lines = new List<string>();
+            foreach (var pack in r.packedAssets)
+                foreach (var a in pack.contents)
+                {
+                    if (a.type != typeof(AudioClip)) continue;
+                    files.Add(a.sourceAssetPath); bytes += (long)a.packedSize;
+                    string folder = CandidateFolders.FirstOrDefault(f => a.sourceAssetPath.Contains($"/audio/{f}/"));
+                    if (folder != null && !used.Contains($"Art/audio/{folder}/{Path.GetFileNameWithoutExtension(a.sourceAssetPath)}")) strays.Add(a.sourceAssetPath);
+                    lines.Add($"{a.packedSize,9} {a.sourceAssetPath}");
+                }
+            File.WriteAllLines("Logs/ios_audio.txt", lines.OrderBy(x => x));
+            Debug.Log($"[ios] build'deki sesler: {files.Count} dosya, {bytes / 1024} KB; seçilmemiş aday {strays.Count} (dışarıda bırakılan {stashed}); liste Logs/ios_audio.txt");
+            if (strays.Count > 0) throw new BuildFailedException("seçilmemiş aday build'de: " + string.Join(", ", strays.Take(5)));
+        }
+
         public const string BundleId = "com.zeydtekin.reversesolver", Version = "1.0.0", BuildNumber = "8", Out = "Builds/iOS";
         const string Icon = "Assets/Art/Icon/Exports/2-market-mavi-1024.png";   // the approved app icon
         public const string AttEn = "Used to show you more relevant ads and keep the game free.";
@@ -125,15 +238,10 @@ namespace ReverseSolver.EditorTools
             }
             var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
             if (Directory.Exists(Out)) Directory.Delete(Out, true);
-            // background music: the Vorbis clip only in this build (the web streams the MP3 from Pages)
-            const string music = "Assets/_Game/Presentation/Resources/Music/music.ogg";
-            Directory.CreateDirectory(Path.GetDirectoryName(music));
-            AssetDatabase.CopyAsset("Assets/Audio/Music/music.ogg", music);
-            var imp = (AudioImporter)AssetImporter.GetAtPath(music);
-            var ios = imp.GetOverrideSampleSettings(BuildTargetGroup.iOS);
-            ios.compressionFormat = AudioCompressionFormat.Vorbis; ios.quality = .5f; ios.loadType = AudioClipLoadType.Streaming;
-            imp.SetOverrideSampleSettings(BuildTargetGroup.iOS, ios);
-            imp.SaveAndReimport();
+            RestoreCandidates();   // a build that died half way
+            // PM_103: the chosen music in this build (the web streams it from Pages), and only the chosen sounds
+            EmbedMusic();
+            var stashed = StashCandidates();
             // the ad ids (with "build") and paintings 1-20 (the offline start), for this build only
             File.WriteAllText(AdsInBuild, adsJson);
             Directory.CreateDirectory(EmbeddedPaintings);
@@ -155,12 +263,14 @@ namespace ReverseSolver.EditorTools
             }
             finally
             {
-                AssetDatabase.DeleteAsset(music); AssetDatabase.DeleteAsset(Path.GetDirectoryName(music).Replace('\\', '/'));
+                AssetDatabase.DeleteAsset(MusicInBuild);
+                RestoreCandidates();
                 AssetDatabase.DeleteAsset(AdsInBuild);
                 AssetDatabase.DeleteAsset("Assets/StreamingAssets/live");
                 AssetDatabase.Refresh();
             }
             Debug.Log($"[ios] build {(store ? "mağaza" : "test")} {r.summary.result}: {Out}, {r.summary.totalErrors} hata, {r.summary.totalTime}, {copied.Count} gömülü tablo");
+            LogAudio(r, stashed);
             if (r.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded) EditorApplication.Exit(1);
         }
     }

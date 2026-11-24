@@ -13,7 +13,16 @@ namespace ReverseSolver.Presentation
            exit's); Bomb and Unlock, the bomb's defuse and the lock's opening at the effects' level (pm100). */
         public enum Kind { Exit, Knock, Last, Win, Tick, Lift, Bomb, Unlock, LiftShort }
         static readonly string[] Keys = { "cikis", "carpma", "bitis", "kazan", "tik", "kalkis", "bomba", "kilit", "kalkisk" };
-        static readonly char[] Defaults = { 'f', 'a', 'a', 'b', 'b', 'f', 'a', 'a', 'f' };   // PM_96 §1: Zeyd's choices; PM_99 §2: the soft swish f (docs/art/pm99)
+        /* PM_103: the exit, the knock and the tick are Zeyd's choices (SesSecim, ses.json); the lift-offs follow the exit;
+           the rest have one sound each (the last piece's and the win's are no longer played). */
+        static char DefaultOf(int k) => (Kind)k switch
+        {
+            Kind.Exit or Kind.Lift or Kind.LiftShort => SesSecim.Letter("cikis"),
+            Kind.Knock => SesSecim.Letter("carpma"),
+            Kind.Tick => SesSecim.Letter("tik"),
+            Kind.Win => 'b',
+            _ => 'a',
+        };
         static readonly float[] Pitch = { .04f, .03f, .02f, 0, .04f, .04f, .02f, .03f, .04f };   // PM_99: the exit +-4 %; PM_102: the knock +-3 %, its volume never random
         static AudioClip[][] _takes;
         static readonly char[] _letters = new char[9];
@@ -44,7 +53,7 @@ namespace ReverseSolver.Presentation
             for (int k = 0; k < Keys.Length; k++)
             {
                 string q = Host.Current?.Query("ses" + Keys[k]);
-                char letter = string.IsNullOrEmpty(q) ? Defaults[k] : q[0];
+                char letter = string.IsNullOrEmpty(q) ? DefaultOf(k) : q[0];
                 if ((Kind)k == Kind.Lift || (Kind)k == Kind.LiftShort) letter = _letters[(int)Kind.Exit] == '0' ? '0' : Letter(Kind.Exit);   // the exit's own
                 _letters[k] = letter;
                 if (letter == '0') continue;
@@ -56,10 +65,10 @@ namespace ReverseSolver.Presentation
                     clip.LoadAudioData();
                     list.Add(clip);
                 }
-                if (list.Count == 0 && letter != Defaults[k])   // an unknown letter: the default
+                if (list.Count == 0 && letter != DefaultOf(k))   // an unknown letter: the default
                     for (int n = 1; n <= 4; n++)
                     {
-                        var clip = Take(Keys[k], Defaults[k], n);
+                        var clip = Take(Keys[k], DefaultOf(k), n);
                         if (clip == null) break;
                         clip.LoadAudioData();
                         list.Add(clip);
@@ -77,9 +86,9 @@ namespace ReverseSolver.Presentation
         /* PM_99: a take from PM_99's sounds (the soft exits f-j, the louder knock a) before PM_95's; PM_100: its own
            (the exits high-passed, the knock softened on top, all at the effects' level) before both. */
         static AudioClip Take(string key, char letter, int n) =>
-            Resources.Load<AudioClip>($"Art/audio/pm102/{key}-{letter}{n}") ??   // PM_102: the knock's takes evened out
-            Resources.Load<AudioClip>($"Art/audio/pm100/{key}-{letter}{n}") ?? Resources.Load<AudioClip>($"Art/audio/pm99/{key}-{letter}{n}") ??
-            Resources.Load<AudioClip>($"Art/audio/pm95/{key}-{letter}{n}");
+            SesSecim.Load<AudioClip>($"Art/audio/pm102/{key}-{letter}{n}") ??   // PM_102: the knock's takes evened out
+            SesSecim.Load<AudioClip>($"Art/audio/pm100/{key}-{letter}{n}") ?? SesSecim.Load<AudioClip>($"Art/audio/pm99/{key}-{letter}{n}") ??
+            SesSecim.Load<AudioClip>($"Art/audio/pm95/{key}-{letter}{n}");
 
         /* PM_98: the candidate's letter in play (an unknown one: the default; '0': the old sound). */
         public static char Letter(Kind kind)

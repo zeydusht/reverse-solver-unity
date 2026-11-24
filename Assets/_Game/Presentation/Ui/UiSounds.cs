@@ -46,7 +46,7 @@ namespace ReverseSolver.Presentation
             var list = new List<AudioClip>();
             for (int n = 1; n <= 6; n++)
             {
-                var clip = Resources.Load<AudioClip>($"Art/audio/pm98/{prefix}{n}");
+                var clip = SesSecim.Load<AudioClip>($"Art/audio/pm98/{prefix}{n}");
                 if (clip == null) break;
                 clip.LoadAudioData(); list.Add(clip);
             }
@@ -59,6 +59,9 @@ namespace ReverseSolver.Presentation
             Kind.Tick => "ui-tick-" + Sfx95.Letter(Sfx95.Kind.Tick),
             Kind.Toggle => "ui-toggle", Kind.Open => "ui-open", Kind.Close => "ui-close", _ => "ui-dull",
         };
+
+        /* PM_103: read again (SesSecim.Collect). */
+        public static void Clear() { Clips.Clear(); Last.Clear(); }
 
         public static void Preload() { foreach (Kind k in System.Enum.GetValues(typeof(Kind))) Load(Prefix(k)); }
 

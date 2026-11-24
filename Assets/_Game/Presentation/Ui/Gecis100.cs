@@ -12,13 +12,13 @@ namespace ReverseSolver.Presentation
          geri     the pull back to the board: a falling whoosh, and a tiny tick as the HUD settles
          sekme    the menu's pages moving under the tab bar: a short swish
        (the panels keep PM_98's swish). &geciskoridor=, &gecisdalis= (its ting too), &geciscizgi=, &gecisgeri= (its tick
-       too), &gecissekme=: a, b or c (the default a), 0 none. */
+       too), &gecissekme=: a, b or c, 0 none; without one Zeyd's choice (PM_103, SesSecim: all a). */
     public static class Gecis100
     {
         public enum Kind { Koridor, Dalis, Ting, Cizgi, Geri, Hud, Sekme }
         static readonly string[] Keys = { "koridor", "dalis", "ting", "cizgi", "geri", "hud", "sekme" };
         static readonly int[] FlagOf = { 0, 1, 1, 3, 4, 4, 6 };   // the ting follows the dive's letter, the HUD's tick the pull back's
-        public const char Default = 'a';
+        public static char DefaultOf(Kind kind) => SesSecim.Letter(Keys[FlagOf[(int)kind]]);
         /* The rising whoosh's length: it starts this long before the touch. */
         public const float DiveLead = .6f;
 
@@ -38,8 +38,8 @@ namespace ReverseSolver.Presentation
         public static char Letter(Kind kind)
         {
             string q = Host.Current?.Query("gecis" + Keys[FlagOf[(int)kind]]);
-            if (string.IsNullOrEmpty(q)) return Default;
-            return q[0] == '0' || q[0] == 'a' || q[0] == 'b' || q[0] == 'c' ? q[0] : Default;
+            if (string.IsNullOrEmpty(q)) return DefaultOf(kind);
+            return q[0] == '0' || q[0] == 'a' || q[0] == 'b' || q[0] == 'c' ? q[0] : DefaultOf(kind);
         }
 
         /* The chosen clips, read now (no decode on the first play). */
@@ -51,7 +51,7 @@ namespace ReverseSolver.Presentation
             {
                 char l = _letters[k] = Letter((Kind)k);
                 // PM_102: the corridor's texture louder (pm102) before PM_100's
-                if (l != '0') _clips[k] = Resources.Load<AudioClip>($"Art/audio/pm102/gecis-{Keys[k]}-{l}") ?? Resources.Load<AudioClip>($"Art/audio/pm100/gecis-{Keys[k]}-{l}");
+                if (l != '0') _clips[k] = SesSecim.Load<AudioClip>($"Art/audio/pm102/gecis-{Keys[k]}-{l}") ?? SesSecim.Load<AudioClip>($"Art/audio/pm100/gecis-{Keys[k]}-{l}");
                 _clips[k]?.LoadAudioData();
                 said.Append(' ').Append(Keys[k]).Append(' ').Append(_clips[k] == null ? "-" : l.ToString());
             }
