@@ -1,0 +1,414 @@
+{
+ "cikis": [
+  {
+   "letter": "k",
+   "name": "Bambu swoosh, parlak",
+   "credit": "qubodup (Iwan Gabovitch), \"Swish - bamboo stick weapon swhoshes\"",
+   "link": "https://opengameart.org/content/swish-bamboo-stick-weapon-swhoshes",
+   "takes": [
+    {
+     "file": "cikis-k1.wav",
+     "seconds": 0.22,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3299
+    },
+    {
+     "file": "cikis-k2.wav",
+     "seconds": 0.22,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3354
+    },
+    {
+     "file": "cikis-k3.wav",
+     "seconds": 0.22,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3093
+    },
+    {
+     "file": "cikis-k4.wav",
+     "seconds": 0.22,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3925
+    }
+   ]
+  },
+  {
+   "letter": "l",
+   "name": "Bambu swoosh, kısa",
+   "credit": "qubodup (Iwan Gabovitch), \"Swish - bamboo stick weapon swhoshes\"",
+   "link": "https://opengameart.org/content/swish-bamboo-stick-weapon-swhoshes",
+   "takes": [
+    {
+     "file": "cikis-l1.wav",
+     "seconds": 0.16,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 4453
+    },
+    {
+     "file": "cikis-l2.wav",
+     "seconds": 0.16,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3675
+    },
+    {
+     "file": "cikis-l3.wav",
+     "seconds": 0.16,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3573
+    },
+    {
+     "file": "cikis-l4.wav",
+     "seconds": 0.16,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3625
+    }
+   ]
+  },
+  {
+   "letter": "m",
+   "name": "Bambu swoosh, geniş",
+   "credit": "qubodup (Iwan Gabovitch), \"Swish - bamboo stick weapon swhoshes\"",
+   "link": "https://opengameart.org/content/swish-bamboo-stick-weapon-swhoshes",
+   "takes": [
+    {
+     "file": "cikis-m1.wav",
+     "seconds": 0.25,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3956
+    },
+    {
+     "file": "cikis-m2.wav",
+     "seconds": 0.25,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3797
+    },
+    {
+     "file": "cikis-m3.wav",
+     "seconds": 0.209,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3218
+    },
+    {
+     "file": "cikis-m4.wav",
+     "seconds": 0.246,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3585
+    }
+   ]
+  },
+  {
+   "letter": "n",
+   "name": "Hava whoosh",
+   "credit": "\"Air whoosh\" (OpenGameArt, CC0)",
+   "link": "https://opengameart.org/content/air-whoosh",
+   "takes": [
+    {
+     "file": "cikis-n1.wav",
+     "seconds": 0.2,
+     "lufs": -15.0,
+     "peak": -3.3,
+     "centroid": 5924
+    },
+    {
+     "file": "cikis-n2.wav",
+     "seconds": 0.2,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 5856
+    },
+    {
+     "file": "cikis-n3.wav",
+     "seconds": 0.2,
+     "lufs": -15.0,
+     "peak": -3.4,
+     "centroid": 5942
+    },
+    {
+     "file": "cikis-n4.wav",
+     "seconds": 0.2,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 5926
+    }
+   ]
+  },
+  {
+   "letter": "o",
+   "name": "İnce hava taraması",
+   "credit": "Kenney, Interface Sounds",
+   "link": "https://kenney.nl/assets/interface-sounds",
+   "takes": [
+    {
+     "file": "cikis-o1.wav",
+     "seconds": 0.2,
+     "lufs": -15.0,
+     "peak": -7.7,
+     "centroid": 5297
+    },
+    {
+     "file": "cikis-o2.wav",
+     "seconds": 0.2,
+     "lufs": -15.0,
+     "peak": -9.8,
+     "centroid": 3325
+    },
+    {
+     "file": "cikis-o3.wav",
+     "seconds": 0.2,
+     "lufs": -15.0,
+     "peak": -3.2,
+     "centroid": 7810
+    },
+    {
+     "file": "cikis-o4.wav",
+     "seconds": 0.2,
+     "lufs": -15.0,
+     "peak": -4.8,
+     "centroid": 7707
+    }
+   ]
+  },
+  {
+   "letter": "p",
+   "name": "Bambu swoosh, yükseltilmiş",
+   "credit": "qubodup (Iwan Gabovitch), \"Swish - bamboo stick weapon swhoshes\"",
+   "link": "https://opengameart.org/content/swish-bamboo-stick-weapon-swhoshes",
+   "takes": [
+    {
+     "file": "cikis-p1.wav",
+     "seconds": 0.18,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3172
+    },
+    {
+     "file": "cikis-p2.wav",
+     "seconds": 0.18,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3272
+    },
+    {
+     "file": "cikis-p3.wav",
+     "seconds": 0.18,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 2998
+    },
+    {
+     "file": "cikis-p4.wav",
+     "seconds": 0.18,
+     "lufs": -15.0,
+     "peak": -3.0,
+     "centroid": 3824
+    }
+   ]
+  }
+ ],
+ "dugme": [
+  {
+   "letter": "a",
+   "name": "Yumuşak ahşap",
+   "credit": "Kenney, Impact Sounds",
+   "link": "https://kenney.nl/assets/impact-sounds",
+   "takes": [
+    {
+     "file": "ui-tok-a1.wav",
+     "seconds": 0.071,
+     "lufs": -16.3,
+     "peak": -3.0,
+     "centroid": 447
+    },
+    {
+     "file": "ui-tok-a2.wav",
+     "seconds": 0.07,
+     "lufs": -16.6,
+     "peak": -3.0,
+     "centroid": 433
+    },
+    {
+     "file": "ui-tok-a3.wav",
+     "seconds": 0.061,
+     "lufs": -16.5,
+     "peak": -3.0,
+     "centroid": 447
+    }
+   ]
+  },
+  {
+   "letter": "b",
+   "name": "Ahşap, dolgun",
+   "credit": "Kenney, Impact Sounds",
+   "link": "https://kenney.nl/assets/impact-sounds",
+   "takes": [
+    {
+     "file": "ui-tok-b1.wav",
+     "seconds": 0.116,
+     "lufs": -16.2,
+     "peak": -3.0,
+     "centroid": 246
+    },
+    {
+     "file": "ui-tok-b2.wav",
+     "seconds": 0.117,
+     "lufs": -16.1,
+     "peak": -3.0,
+     "centroid": 267
+    },
+    {
+     "file": "ui-tok-b3.wav",
+     "seconds": 0.12,
+     "lufs": -16.1,
+     "peak": -3.0,
+     "centroid": 256
+    }
+   ]
+  },
+  {
+   "letter": "c",
+   "name": "Yumuşak, boğuk",
+   "credit": "Kenney, Impact Sounds",
+   "link": "https://kenney.nl/assets/impact-sounds",
+   "takes": [
+    {
+     "file": "ui-tok-c1.wav",
+     "seconds": 0.117,
+     "lufs": -16.2,
+     "peak": -3.0,
+     "centroid": 179
+    },
+    {
+     "file": "ui-tok-c2.wav",
+     "seconds": 0.12,
+     "lufs": -16.2,
+     "peak": -3.0,
+     "centroid": 141
+    },
+    {
+     "file": "ui-tok-c3.wav",
+     "seconds": 0.12,
+     "lufs": -16.3,
+     "peak": -3.0,
+     "centroid": 145
+    }
+   ]
+  },
+  {
+   "letter": "d",
+   "name": "Plastik tok",
+   "credit": "Kenney, Interface Sounds",
+   "link": "https://kenney.nl/assets/interface-sounds",
+   "takes": [
+    {
+     "file": "ui-tok-d1.wav",
+     "seconds": 0.064,
+     "lufs": -16.1,
+     "peak": -3.0,
+     "centroid": 839
+    },
+    {
+     "file": "ui-tok-d2.wav",
+     "seconds": 0.067,
+     "lufs": -16.1,
+     "peak": -3.0,
+     "centroid": 745
+    },
+    {
+     "file": "ui-tok-d3.wav",
+     "seconds": 0.087,
+     "lufs": -16.1,
+     "peak": -3.0,
+     "centroid": 1176
+    }
+   ]
+  },
+  {
+   "letter": "e",
+   "name": "Plastik seçim",
+   "credit": "Kenney, Interface Sounds",
+   "link": "https://kenney.nl/assets/interface-sounds",
+   "takes": [
+    {
+     "file": "ui-tok-e1.wav",
+     "seconds": 0.12,
+     "lufs": -16.1,
+     "peak": -3.0,
+     "centroid": 1395
+    },
+    {
+     "file": "ui-tok-e2.wav",
+     "seconds": 0.12,
+     "lufs": -16.1,
+     "peak": -4.1,
+     "centroid": 816
+    }
+   ]
+  },
+  {
+   "letter": "f",
+   "name": "Yumuşak menü toku",
+   "credit": "Lokif, \"GUI Sound Effects\" (OpenGameArt, CC0)",
+   "link": "https://opengameart.org/content/gui-sound-effects",
+   "takes": [
+    {
+     "file": "ui-tok-f1.wav",
+     "seconds": 0.12,
+     "lufs": -16.1,
+     "peak": -3.6,
+     "centroid": 663
+    },
+    {
+     "file": "ui-tok-f2.wav",
+     "seconds": 0.12,
+     "lufs": -16.1,
+     "peak": -3.0,
+     "centroid": 964
+    }
+   ]
+  },
+  {
+   "letter": "g",
+   "name": "Küçük tahta",
+   "credit": "Kenney, Impact Sounds",
+   "link": "https://kenney.nl/assets/impact-sounds",
+   "takes": [
+    {
+     "file": "ui-tok-g1.wav",
+     "seconds": 0.12,
+     "lufs": -16.3,
+     "peak": -3.0,
+     "centroid": 719
+    },
+    {
+     "file": "ui-tok-g2.wav",
+     "seconds": 0.12,
+     "lufs": -16.3,
+     "peak": -3.0,
+     "centroid": 711
+    }
+   ]
+  }
+ ],
+ "esles": {
+  "cikis-f1.wav": "pm100",
+  "cikis-f2.wav": "pm100",
+  "cikis-f3.wav": "pm100",
+  "cikis-f4.wav": "pm100",
+  "carpma-a1.wav": "pm102",
+  "carpma-a2.wav": "pm102",
+  "carpma-a3.wav": "pm102",
+  "carpma-a4.wav": "pm102"
+ }
+}

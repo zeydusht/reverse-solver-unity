@@ -54,10 +54,11 @@
 <body>
 <header>
   <h1>Ses seçimi</h1>
-  <p>En üstte yeniler: senin seçtiğin kazanma fanfarı g'nin tınıları ve booster sesleri. Her sesi dinle, beğendiğini <b>Seç</b>. "Oyunda dene" o sesle oyunu açar (booster'lar için 23. bölüm).</p>
+  <p>En üstte <b>Bugünkü seçim</b>: şu an oyunda çalan her ses. Sonra yeniler: kaydırma (swoosh) ve düğme (tok) adayları. Her sesi dinle, beğendiğini <b>Seç</b>. "Oyunda dene" o sesle oyunu açar (booster'lar için 23. bölüm).</p>
 </header>
 <main>
   <div class="warn">iPhone: yan taraftaki <b>sessiz anahtarı kapalı</b> olsun. İlk dokunuşta ses açılır. Fanfarda noktalar kazanma ekranındaki olayların vuruşlarını gösterir. Turuncu kenarlı nokta en güçlü vuruş: konfeti ve Jigo'nun zıplaması.</div>
+  <div id="today"></div>
   <div id="sections"></div>
 </main>
 <footer>
@@ -123,7 +124,7 @@
   // PM_96 §1: Zeyd's choices are the defaults; the level's until he picks: r
   // PM_98 §1: Zeyd's picks (23 Nov); the level c for now
   // PM_99: the level E (Zeyd, 23 Nov), the exit f (the softest, shortest); the last piece has no sound of its own now
-  var KEYS = { lobi:'n', bolum:'E', kazanma:'g', ton:'marimba', cikis:'f', carpma:'a', tik:'b', makas:'c', degnek:'a', cekic:'a', saat:'a', koridor:'a', dalis:'a', cizgi:'a', geri:'a', sekme:'a' };
+  var KEYS = { lobi:'n', bolum:'E', kazanma:'g', ton:'marimba', cikis:'f', carpma:'a', tik:'b', makas:'c', degnek:'a', cekic:'a', saat:'a', koridor:'a', dalis:'a', cizgi:'a', geri:'a', sekme:'a', dugme:'a' };
   // PM_98 §2: the level's new candidates. A-D ours (VCSL recordings + our bass; Tools/make_level98.py), E-G found (CC0).
   // perc: the percussive share (the reference: 0.92); the bar was 0.6
   var LEVEL98 = [
@@ -138,10 +139,10 @@
   LEVEL98.forEach(function (m) { m.url = '../../music/pm98/music-' + m.l + '.mp3'; m.local = '../../../../Assets/Audio/Music98/music-' + m.l + '.mp3'; m.start = 1105 / 44100; });
   // the reference (Block Out!) is never published: only a local preview of the repo finds it
   var REF = '../../pm96/ref/ref_bolum.mp3';
-  var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', ton:'Tını', cikis:'Çıkış', carpma:'Çarpma', tik:'Tık', makas:'Makas', degnek:'Değnek', cekic:'Çekiç', saat:'Saat', koridor:'Koridor', dalis:'Dalış', cizgi:'Çizgi', geri:'Geri', sekme:'Sekme' };
+  var NAMES = { lobi:'Lobi', bolum:'Bölüm', kazanma:'Kazanma', ton:'Tını', cikis:'Çıkış', carpma:'Çarpma', tik:'Tık', makas:'Makas', degnek:'Değnek', cekic:'Çekiç', saat:'Saat', koridor:'Koridor', dalis:'Dalış', cizgi:'Çizgi', geri:'Geri', sekme:'Sekme', dugme:'Düğme' };
   var FLAGS = { lobi:'lobi', bolum:'bolummuzik', kazanma:'kazanma', ton:'kazanmaton', cikis:'sescikis', carpma:'sescarpma', bitis:'sesbitis', tik:'sestik',
                 makas:'sesmakas', degnek:'sesdegnek', cekic:'sescekic', saat:'sessaat',
-                koridor:'geciskoridor', dalis:'gecisdalis', cizgi:'geciscizgi', geri:'gecisgeri', sekme:'gecissekme' };
+                koridor:'geciskoridor', dalis:'gecisdalis', cizgi:'geciscizgi', geri:'gecisgeri', sekme:'gecissekme', dugme:'sesdugme' };
   var pick = {};
   try { pick = JSON.parse(localStorage.getItem('rs-pm102-pick') || '{}'); } catch (e) {}
 
@@ -226,7 +227,7 @@
     var takes = c.takes, n = takes.length, i = 0;
     if (n > 1) { i = Math.floor(Math.random() * (n - 1)); if (lastTake[key + c.letter] != null && i >= lastTake[key + c.letter]) i++; }
     lastTake[key + c.letter] = i;
-    var jitter = { cikis:.04, carpma:.05, tik:.04 }[key];
+    var jitter = { cikis:.04, carpma:.05, tik:.04, dugme:.04 }[key] || 0;
     return load('sesler/' + takes[i].file).then(function (buf) {
       var s = ctx.createBufferSource(), g = ctx.createGain();
       s.buffer = buf; s.playbackRate.value = 1 + (Math.random() * 2 - 1) * jitter; g.gain.value = vol;
@@ -306,6 +307,57 @@
     document.getElementById('sections').appendChild(sec);
     return sec;
   }
+  // ---- PM_104 §4: what the game plays today, every event (bugun.json: Tools/ses_eslesme.js, the game's own files) ----
+  (function () {
+    var box = document.getElementById('today');
+    box.innerHTML = '<section class="new"><h2>Bugünkü seçim</h2><p class="hint">Şu an oyunda çalan sesler, oyunun kendi dosyalarıyla. ▶ her basışta başka bir kaydı çalar.</p><div class="grid"></div></section>';
+    var grid = box.querySelector('.grid');
+    var MUSIC = [
+      { name:'Lobi (menü müziği)', letter:'n', url:'../../music/pm96/music-n.mp3' },
+      { name:'Bölüm müziği', letter:'E', url:'../../music/pm98/music-E.mp3' },
+      { name:'Kazanma fanfarı (marimba)', letter:'g', url:'sesler/kazanma-g-marimba.wav' }
+    ];
+    var c0 = null, b0 = null;
+    function row(name, letter, play) {
+      var c = el('<div class="card"><button class="play" aria-label="Çal">' + ICON_PLAY + '</button><div><div class="name">' + (letter ? '<span class="tag def">' + letter + '</span>' : '') + name + '</div></div></div>');
+      var b = c.querySelector('.play');
+      b.addEventListener('click', function () { audio(); stop(); c0 = c; b0 = b; play(); b.classList.add('on'); setTimeout(function () { b.classList.remove('on'); }, 220); });
+      grid.appendChild(c);
+    }
+    MUSIC.forEach(function (m) {
+      row(m.name, m.letter, function () { load(m.url).then(function (buf) { var x = ctx.createBufferSource(), g = ctx.createGain(); x.buffer = buf; g.gain.value = .8; x.connect(g); g.connect(ctx.destination); x.start(0, 0, Math.min(buf.duration, 12)); current = { src: x, card: c0, btn: b0, raf: 0 }; }); });
+    });
+    get('bugun.json').then(function (r) { return r.json(); }).then(function (d) {
+      d.events.forEach(function (ev) {
+        var i = 0;
+        row(ev.name, ev.letter, function () { var f = ev.files[i++ % ev.files.length]; load('sesler/' + f).then(function (buf) { var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination); x.start(); }); });
+      });
+    }).catch(function () { grid.insertAdjacentHTML('beforeend', '<p class="hint">Liste yüklenemedi.</p>'); });
+  })();
+
+  // ---- PM_104 §2-3: the slide as a swoosh (k-p) and the buttons' tok (a-g): Tools/make_sfx104.py ----
+  var swoosh = section('Kaydırma (swoosh)', 'Parça tahtadan çıkarken: kısa, yumuşak bir hava sesi; sürtünme, tahta, boing yok. Hepsi bugünkü kaydırma f ile aynı ses yüksekliğinde. Oyunda hızlı fiskede biraz daha parlak, yavaş itişte biraz daha yumuşak çalar. "10 art arda" oyunda üst üste on çıkış gibi.', true);
+  var dugme = section('Düğme (tok)', 'Durdur, Devam, Menü, alt sekmeler ve Ayarlar. Kısa, tok, gövdeli; tiz değil. Bugün bu düğmelerde tık b ile panel ya da sekme sesi üst üste çalıyordu; artık tok önde, panel sesi 9 dB, sekme sesi 12 dB kısık. "×5" art arda beş basış.', true);
+  function ten(key, c) {
+    var b = el('<button class="btn">10 art arda</button>');
+    b.addEventListener('click', function () { audio(); stop(); for (var k = 0; k < 10; k++) playSfx(key, c, 1, k * .42); });
+    return b;
+  }
+  get('sesler104.json').then(function (r) { return r.json(); }).then(function (d) {
+    d.cikis.forEach(function (c) {
+      var card = sfxCard({ key:'cikis', flag:'sescikis', vol:1 }, c);
+      card.querySelector('.row').insertBefore(ten('cikis', c), card.querySelector('.row').children[1]);
+      swoosh.appendChild(card);
+    });
+    var now = { letter:'f', name:'Bugünkü kaydırma (yumuşak swish)', credit:'artisticdude, Swishes Sound Pack', link:'https://opengameart.org/content/swishes-sound-pack',
+                takes:[1, 2, 3, 4].map(function (n) { return { file:'cikis-f' + n + '.wav', seconds:.25 }; }) };
+    var nc = sfxCard({ key:'cikis', flag:'sescikis', vol:1 }, now);
+    nc.querySelector('.row').insertBefore(ten('cikis', now), nc.querySelector('.row').children[1]);
+    swoosh.appendChild(nc);
+    d.dugme.forEach(function (c) { dugme.appendChild(sfxCard({ key:'dugme', flag:'sesdugme', vol:1, burst:true }, c)); });
+    save(true);
+  });
+
   // ---- PM_100 §1: the fanfare in other instruments (the same notes, rhythm, length and beats) ----
   var GTONES = [
     { l:'piyano', name:'Piyano ta-da (g)', what:'g, piyano', file:'../../music/pm96/kazanma-g.wav', local:'../../../../Assets/Audio/Fanfare96/kazanma-g.wav' },
