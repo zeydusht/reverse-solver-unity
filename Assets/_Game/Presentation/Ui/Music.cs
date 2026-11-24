@@ -171,12 +171,15 @@ namespace ReverseSolver.Presentation
             Debug.Log($"[muzik] lobi {Name(LobbyVariant)}, bolum {Name(LevelVariant)}, kazanma {FanfareKey} ({Beats.Length} vurus, {Tone}), ses {Volume:0.000}");
         }
         static void Apply() => RS_MusicSetOn(On ? 1 : 0);
-        public static void Play(Scene scene, float fadeOut = CrossFade, float fadeIn = CrossFade) => RS_MusicScene(scene == Scene.Level ? 1 : 0, fadeOut, fadeIn);
+        public static void Play(Scene scene, float fadeOut = CrossFade, float fadeIn = CrossFade) { Mix107.FanfareEnd(); RS_MusicScene(scene == Scene.Level ? 1 : 0, fadeOut, fadeIn); }
         public static void Duck(bool on) => RS_MusicDuck(on ? 1 : 0);
         /* PM_98 §3: a panel over the game (pause, settings): the music down to 35 %, back in .3 s when it closes. */
         public static void Panel(bool on) => RS_MusicPanel(on ? 1 : 0);
         /* Starts the fanfare (silent with the sound off: its clock still runs); false: none (the screen keeps its own time). */
-        public static bool Fanfare() => RS_MusicFanfare(Art.Muted ? 0 : 1) > 0;
+        public static bool Fanfare() { Mix107.Fanfare(FanfareLength); return RS_MusicFanfare(Art.Muted ? 0 : 1) > 0; }
+        [DllImport("__Internal")] static extern void RS_MusicMix(float g);
+        /* PM_107 §C3: the mix's ducking of the loops (Mix107), linear. */
+        public static void Mix(float g) => RS_MusicMix(g);
         /* The fanfare's position at the speaker (s); below -10: none. */
         public static float FanfareTime => RS_MusicFanfareTime();
 #else
@@ -258,7 +261,7 @@ namespace ReverseSolver.Presentation
                 if (t.startAt >= 0 && AudioSettings.dspTime >= t.startAt) Voice(t, t.startFade);
                 t.fade = Mathf.MoveTowards(t.fade, t.target, t.rate * dt);
                 if (t.fade <= 0 && t.target <= 0 && t.src.isPlaying) { if (t.resume) t.src.Pause(); else t.src.Stop(); }
-                t.src.volume = master * _panel * (t == _level ? _duck : 1) * t.fade;
+                t.src.volume = master * _panel * _mix * (t == _level ? _duck : 1) * t.fade;
             }
         }
 
@@ -266,6 +269,7 @@ namespace ReverseSolver.Presentation
 
         public static void Play(Scene scene, float fadeOut = CrossFade, float fadeIn = CrossFade)
         {
+            Mix107.FanfareEnd();
             var t = scene == Scene.Level ? _level : _lobby;
             var other = scene == Scene.Level ? _lobby : _level;
             if (_lobby != null) _lobby.startAt = -1;
@@ -277,6 +281,9 @@ namespace ReverseSolver.Presentation
         }
         /* A loss / time up: the level's music down to 40 % in .25 s (on) and back in .5 s (off). */
         public static void Duck(bool on) { _duckTarget = on ? .4f : 1; _duckRate = (1 - .4f) / (on ? .25f : .5f); }
+        /* PM_107 §C3: the mix's ducking of the loops (Mix107; it glides itself), linear. */
+        static float _mix = 1;
+        public static void Mix(float g) => _mix = Mathf.Clamp01(g);
         /* PM_98 §3: a panel over the game (pause, settings): the music down to 35 % in .15 s, back in .3 s. */
         public static void Panel(bool on) { _panelTarget = on ? PanelLevel : 1; _panelRate = (1 - PanelLevel) / (on ? .15f : PanelBack); }
 
@@ -301,6 +308,7 @@ namespace ReverseSolver.Presentation
            after the fanfare the lobby's music comes back in 1 s. */
         public static bool Fanfare()
         {
+            Mix107.Fanfare(FanfareLength);
             _fanAt = -1;
             var clip = FanfareClip(FanfareClipKey);
             FadeOut(_level, .15f); FadeOut(_lobby, .15f);

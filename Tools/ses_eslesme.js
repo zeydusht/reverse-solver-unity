@@ -38,7 +38,7 @@ const rows = [
   // PM_105 §2: the obstacles' sounds
   // PM_106 §3: the chain d-f (pm106) before PM_105's a-c
   ...['zincir', 'zincirger', 'kilitdokun', 'kilitac', 'patlama', 'duvar'].map(k => { const s = pick((S106[k] || {}).candidates, K[k]) ? S106[k] : S105[k] || {};
-    return [s.title || k, k, takes(pick(s.candidates, K[k])), new RegExp(`/pm10[56]/${k}-${K[k]}\\d`)]; }),
+    return [s.title || k, k, takes(pick(s.candidates, K[k])), new RegExp(`/pm10[567]/${k}-${K[k]}\\d`)]; }),
   ['Makas', 'makas', takes(pick((S102.booster || {}).makas, K.makas)), new RegExp(`/booster-makas-\\w+-${K.makas}\\.`)],
   ['Değnek', 'degnek', takes(pick((S102.booster || {}).degnek, K.degnek)), new RegExp(`/booster-degnek-\\w+-${K.degnek}\\.`)],
   ['Çekiç', 'cekic', takes(pick((S102.booster || {}).cekic, K.cekic)), new RegExp(`/booster-cekic-\\w+-${K.cekic}\\.`)],

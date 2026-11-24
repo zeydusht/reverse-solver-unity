@@ -156,8 +156,9 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(doubles, Is.Empty, "two sounds in one frame");
             Debug.Log("[dokunus] çalan dosyalar: " + string.Join(", ", System.Linq.Enumerable.Select(clips, c => c.Key + " x" + c.Value)));
             Assert.That(System.Linq.Enumerable.Where(clips.Keys, k => k.StartsWith("ui-tick") || k.StartsWith("tik-")), Is.Empty, "the old tick played");
-            Assert.That(clips.ContainsKey("ui-tok-a1"), Is.True, "the tok played");
-            Assert.That(System.Linq.Enumerable.Where(clips.Keys, k => k.StartsWith("ui-tok-") && k != "ui-tok-a1"), Is.Empty, "one take of the tok");
+            string tok = "ui-tok-" + SesSecim.Letter("dugme") + "1";   // PM_107: Zeyd's c
+            Assert.That(clips.ContainsKey(tok), Is.True, "the tok played");
+            Assert.That(System.Linq.Enumerable.Where(clips.Keys, k => k.StartsWith("ui-tok-") && k != tok), Is.Empty, "one take of the tok");
             Debug.Log($"[dokunus] {checkedTaps} dokunuş;{report} sessiz/titreşimsiz {missing.Count}" + (missing.Count > 0 ? ":\n" + string.Join("\n", missing) : ""));
             Assert.That(missing, Is.Empty, "tappable things without a sound or a tap");
             // PM_106_EK: these opened real Chrome tabs and the mailto chooser on Zeyd's computer at every run

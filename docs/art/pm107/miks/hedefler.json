@@ -1,0 +1,548 @@
+{
+ "bomba-a1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm100/bomba-a1.wav",
+  "target": -17.5,
+  "smooth": false,
+  "before": {
+   "lufs": -17.7,
+   "peak": -3.0
+  },
+  "after": {
+   "lufs": -17.5,
+   "peak": -2.9
+  }
+ },
+ "booster-cekic-kirinti-c": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/booster-cekic-kirinti-c.wav",
+  "target": -21.0,
+  "smooth": true,
+  "before": {
+   "lufs": -25.6,
+   "peak": -3.0
+  },
+  "after": {
+   "lufs": -21.5,
+   "peak": -1.5
+  }
+ },
+ "booster-cekic-vurus-c": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/booster-cekic-vurus-c.wav",
+  "target": -18.0,
+  "smooth": false,
+  "before": {
+   "lufs": -17.6,
+   "peak": -3.0
+  },
+  "after": {
+   "lufs": -18.0,
+   "peak": -3.4
+  }
+ },
+ "booster-degnek-donusum-a": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/booster-degnek-donusum-a.wav",
+  "target": -18.0,
+  "smooth": false,
+  "before": {
+   "lufs": -18.6,
+   "peak": -4.1
+  },
+  "after": {
+   "lufs": -18.0,
+   "peak": -3.5
+  }
+ },
+ "booster-makas-kesim-c": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/booster-makas-kesim-c.wav",
+  "target": -18.0,
+  "smooth": false,
+  "before": {
+   "lufs": -17.7,
+   "peak": -3.0
+  },
+  "after": {
+   "lufs": -18.0,
+   "peak": -3.4
+  }
+ },
+ "booster-saat-donma-b": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/booster-saat-donma-b.wav",
+  "target": -18.0,
+  "smooth": false,
+  "before": {
+   "lufs": -21.6,
+   "peak": -3.0
+  },
+  "after": {
+   "lufs": -18.0,
+   "peak": -1.6
+  }
+ },
+ "booster-saat-kirilma-b": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/booster-saat-kirilma-b.wav",
+  "target": -18.0,
+  "smooth": false,
+  "before": {
+   "lufs": -19.6,
+   "peak": -5.9
+  },
+  "after": {
+   "lufs": -18.0,
+   "peak": -4.3
+  }
+ },
+ "booster-saat-tiktak-b": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/booster-saat-tiktak-b.wav",
+  "target": -21.5,
+  "smooth": false,
+  "before": {
+   "lufs": -29.6,
+   "peak": -11.9
+  },
+  "after": {
+   "lufs": -21.5,
+   "peak": -3.8
+  }
+ },
+ "carpma-a1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/carpma-a1.wav",
+  "target": -17.5,
+  "smooth": false,
+  "before": {
+   "lufs": -16.8,
+   "peak": -1.5
+  },
+  "after": {
+   "lufs": -17.6,
+   "peak": -2.5
+  }
+ },
+ "carpma-a2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/carpma-a2.wav",
+  "target": -17.5,
+  "smooth": false,
+  "before": {
+   "lufs": -16.2,
+   "peak": -1.5
+  },
+  "after": {
+   "lufs": -17.5,
+   "peak": -2.9
+  }
+ },
+ "carpma-a3": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/carpma-a3.wav",
+  "target": -17.5,
+  "smooth": false,
+  "before": {
+   "lufs": -16.5,
+   "peak": -1.5
+  },
+  "after": {
+   "lufs": -17.5,
+   "peak": -2.7
+  }
+ },
+ "carpma-a4": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/carpma-a4.wav",
+  "target": -17.5,
+  "smooth": false,
+  "before": {
+   "lufs": -16.3,
+   "peak": -1.5
+  },
+  "after": {
+   "lufs": -17.5,
+   "peak": -2.8
+  }
+ },
+ "cikis-u1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm106/cikis-u1.wav",
+  "target": -17.0,
+  "smooth": true,
+  "before": {
+   "lufs": -15.5,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -17.0,
+   "peak": -3.0
+  }
+ },
+ "duvar-a1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm105/duvar-a1.wav",
+  "target": -17.0,
+  "smooth": false,
+  "before": {
+   "lufs": -15.6,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -17.0,
+   "peak": -3.4
+  }
+ },
+ "duvar-a2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm105/duvar-a2.wav",
+  "target": -17.0,
+  "smooth": false,
+  "before": {
+   "lufs": -15.6,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -17.0,
+   "peak": -3.4
+  }
+ },
+ "duvar-a3": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm105/duvar-a3.wav",
+  "target": -17.0,
+  "smooth": false,
+  "before": {
+   "lufs": -15.4,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -17.0,
+   "peak": -3.6
+  }
+ },
+ "gecis-cizgi-c": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm100/gecis-cizgi-c.wav",
+  "target": null,
+  "smooth": true,
+  "before": {
+   "lufs": -39.3,
+   "peak": -19.5
+  },
+  "after": {
+   "lufs": -40.4,
+   "peak": -20.9
+  }
+ },
+ "gecis-dalis-a": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm100/gecis-dalis-a.wav",
+  "target": -24.0,
+  "smooth": true,
+  "before": {
+   "lufs": -33.0,
+   "peak": -18.2
+  },
+  "after": {
+   "lufs": -24.0,
+   "peak": -8.9
+  }
+ },
+ "gecis-geri-a": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm100/gecis-geri-a.wav",
+  "target": null,
+  "smooth": true,
+  "before": {
+   "lufs": -34.0,
+   "peak": -20.2
+  },
+  "after": {
+   "lufs": -34.5,
+   "peak": -20.7
+  }
+ },
+ "gecis-hud-a": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm100/gecis-hud-a.wav",
+  "target": null,
+  "smooth": true,
+  "before": {
+   "lufs": -32.0,
+   "peak": -6.8
+  },
+  "after": {
+   "lufs": -32.1,
+   "peak": -6.9
+  }
+ },
+ "gecis-koridor-a": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm102/gecis-koridor-a.wav",
+  "target": -25.0,
+  "smooth": true,
+  "before": {
+   "lufs": -28.0,
+   "peak": -15.3
+  },
+  "after": {
+   "lufs": -25.0,
+   "peak": -12.3
+  }
+ },
+ "gecis-sekme-a": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm100/gecis-sekme-a.wav",
+  "target": null,
+  "smooth": true,
+  "before": {
+   "lufs": -32.0,
+   "peak": -9.9
+  },
+  "after": {
+   "lufs": -32.0,
+   "peak": -9.9
+  }
+ },
+ "kilitac-a1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm105/kilitac-a1.wav",
+  "target": -18.5,
+  "smooth": false,
+  "before": {
+   "lufs": -18.0,
+   "peak": -3.1
+  },
+  "after": {
+   "lufs": -18.5,
+   "peak": -3.6
+  }
+ },
+ "kilitac-a2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm105/kilitac-a2.wav",
+  "target": -18.5,
+  "smooth": false,
+  "before": {
+   "lufs": -18.0,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -18.5,
+   "peak": -2.7
+  }
+ },
+ "kilitdokun-a1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm105/kilitdokun-a1.wav",
+  "target": -18.5,
+  "smooth": false,
+  "before": {
+   "lufs": -18.5,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -18.5,
+   "peak": -2.4
+  }
+ },
+ "kilitdokun-a2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm105/kilitdokun-a2.wav",
+  "target": -18.5,
+  "smooth": false,
+  "before": {
+   "lufs": -18.5,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -18.5,
+   "peak": -2.4
+  }
+ },
+ "kilitdokun-a3": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm105/kilitdokun-a3.wav",
+  "target": -18.5,
+  "smooth": false,
+  "before": {
+   "lufs": -18.5,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -18.5,
+   "peak": -2.4
+  }
+ },
+ "patlama-a1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm105/patlama-a1.wav",
+  "target": -16.0,
+  "smooth": false,
+  "before": {
+   "lufs": -15.5,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -16.0,
+   "peak": -2.7
+  }
+ },
+ "ui-close1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm98/ui-close1.wav",
+  "target": -23.0,
+  "smooth": true,
+  "before": {
+   "lufs": -22.4,
+   "peak": -2.7
+  },
+  "after": {
+   "lufs": -23.0,
+   "peak": -3.4
+  }
+ },
+ "ui-close2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm98/ui-close2.wav",
+  "target": -23.0,
+  "smooth": true,
+  "before": {
+   "lufs": -22.2,
+   "peak": -2.5
+  },
+  "after": {
+   "lufs": -23.0,
+   "peak": -3.3
+  }
+ },
+ "ui-dull1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm98/ui-dull1.wav",
+  "target": -21.0,
+  "smooth": false,
+  "before": {
+   "lufs": -21.0,
+   "peak": -1.0
+  },
+  "after": {
+   "lufs": -21.1,
+   "peak": -1.9
+  }
+ },
+ "ui-dull2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm98/ui-dull2.wav",
+  "target": -21.0,
+  "smooth": false,
+  "before": {
+   "lufs": -21.0,
+   "peak": -1.0
+  },
+  "after": {
+   "lufs": -21.1,
+   "peak": -1.9
+  }
+ },
+ "ui-open1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm98/ui-open1.wav",
+  "target": -23.0,
+  "smooth": true,
+  "before": {
+   "lufs": -22.4,
+   "peak": -2.7
+  },
+  "after": {
+   "lufs": -23.0,
+   "peak": -3.4
+  }
+ },
+ "ui-open2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm98/ui-open2.wav",
+  "target": -23.0,
+  "smooth": true,
+  "before": {
+   "lufs": -22.2,
+   "peak": -2.5
+  },
+  "after": {
+   "lufs": -23.0,
+   "peak": -3.3
+  }
+ },
+ "ui-toggle1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm98/ui-toggle1.wav",
+  "target": -21.0,
+  "smooth": false,
+  "before": {
+   "lufs": -20.5,
+   "peak": -1.0
+  },
+  "after": {
+   "lufs": -21.1,
+   "peak": -2.1
+  }
+ },
+ "ui-toggle2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm98/ui-toggle2.wav",
+  "target": -21.0,
+  "smooth": false,
+  "before": {
+   "lufs": -20.9,
+   "peak": -1.0
+  },
+  "after": {
+   "lufs": -21.1,
+   "peak": -2.0
+  }
+ },
+ "ui-tok-c1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm104/ui-tok-c1.wav",
+  "target": -20.0,
+  "smooth": false,
+  "before": {
+   "lufs": -19.2,
+   "peak": -3.0
+  },
+  "after": {
+   "lufs": -20.0,
+   "peak": -3.8
+  }
+ },
+ "zincir-f1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm106/zincir-f1.wav",
+  "target": -22.5,
+  "smooth": true,
+  "before": {
+   "lufs": -21.7,
+   "peak": -6.8
+  },
+  "after": {
+   "lufs": -22.5,
+   "peak": -6.5
+  }
+ },
+ "zincir-f2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm106/zincir-f2.wav",
+  "target": -22.5,
+  "smooth": true,
+  "before": {
+   "lufs": -21.5,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -22.5,
+   "peak": -2.6
+  }
+ },
+ "zincir-f3": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm106/zincir-f3.wav",
+  "target": -22.5,
+  "smooth": true,
+  "before": {
+   "lufs": -22.1,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -22.5,
+   "peak": -2.8
+  }
+ },
+ "zincirger-f1": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm106/zincirger-f1.wav",
+  "target": -17.0,
+  "smooth": false,
+  "before": {
+   "lufs": -16.5,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -17.0,
+   "peak": -2.7
+  }
+ },
+ "zincirger-f2": {
+  "source": "Assets/_Game/Presentation/Resources/Art/audio/pm106/zincirger-f2.wav",
+  "target": -17.0,
+  "smooth": false,
+  "before": {
+   "lufs": -16.5,
+   "peak": -2.0
+  },
+  "after": {
+   "lufs": -17.0,
+   "peak": -2.7
+  }
+ }
+}

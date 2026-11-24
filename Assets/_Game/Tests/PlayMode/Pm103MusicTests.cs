@@ -50,7 +50,7 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(Music.Now.levelVolume, Is.EqualTo(Music.BaseVolume).Within(.01f));
 
             Assert.That(Music.Fanfare(), Is.True);
-            Assert.That(Music.FanfareClipName, Is.EqualTo("kazanma-g-marimba"));
+            Assert.That(Music.FanfareClipName, Is.EqualTo("kazanma-g-pizz"), "PM_107: Zeyd's pizzicato");
             yield return Wait(.3f);
             now = Music.Now;
             Assert.That(!now.lobby && !now.level, Is.True, "the fanfare alone");

@@ -54,7 +54,8 @@ mergeInto(LibraryManager.library, {
           M.gain = M.ctx.createGain();
           M.gain.gain.value = M.on && !(window.rsIntro && window.rsIntro.active) ? M.volume : 0;
           M.gain.connect(M.ctx.destination);
-          M.panel = M.ctx.createGain(); M.panel.gain.value = M.panelOn ? .35 : 1; M.panel.connect(M.gain);
+          M.mix = M.ctx.createGain(); M.mix.gain.value = M.mixLevel == null ? 1 : M.mixLevel; M.mix.connect(M.gain);   // PM_107: the mix's ducking (Mix107)
+          M.panel = M.ctx.createGain(); M.panel.gain.value = M.panelOn ? .35 : 1; M.panel.connect(M.mix);
           ['lobby', 'level'].forEach(function (name) { var T = M.tracks[name]; T.duck = M.ctx.createGain(); T.duck.connect(M.panel); });
           M.fan.gain = M.ctx.createGain(); M.fan.gain.connect(M.ctx.destination);
           // the scene's loop first, then the other one, then the fanfare (small)
@@ -130,6 +131,16 @@ mergeInto(LibraryManager.library, {
     var g = M.panel.gain, t = M.ctx.currentTime;
     g.cancelScheduledValues(t); g.setValueAtTime(g.value, t);
     g.linearRampToValueAtTime(on ? .35 : 1, t + (on ? .15 : .3));
+  },
+
+  /* PM_107 §C3: the mix's ducking of the music (Mix107: the clock running, a bang, the fanfare), a gain between the
+     panel and the switch; glides there in about 60 ms. */
+  RS_MusicMix: function (g) {
+    var M = window.rsMusic; if (!M) return;
+    M.mixLevel = g;
+    if (!M.ctx || !M.mix) return;
+    var t = M.ctx.currentTime;
+    M.mix.gain.cancelScheduledValues(t); M.mix.gain.setTargetAtTime(g, t, .02);
   },
 
   /* A loss / time up: the level's music down to 40 % (on) and back (off). */

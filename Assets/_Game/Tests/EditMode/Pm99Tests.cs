@@ -12,7 +12,7 @@ namespace ReverseSolver.Core.Tests
         {
             Assert.That(Music.DefaultLevel, Is.EqualTo('E'), "the level: Cat in Space");
             Assert.That(Music.LevelVariant, Is.EqualTo('E'));
-            Assert.That(Sfx95.Letter(Sfx95.Kind.Exit), Is.EqualTo('q'), "the exit: PM_106 Block Out's tok and crumble (PM_99: f)");
+            Assert.That(Sfx95.Letter(Sfx95.Kind.Exit), Is.EqualTo('u'), "the exit: PM_107 Zeyd's u (tok and a long crumble; PM_106 q, PM_99 f)");
             Assert.That(Sfx95.Letter(Sfx95.Kind.Knock), Is.EqualTo('a'), "the knock stays a (louder)");
             Assert.That(Music.DefaultWinBeats, Is.EqualTo(5));
             Assert.That(Music.FanfareKey, Is.EqualTo("g"), "PM_102: g by default (5 beats of its own)");

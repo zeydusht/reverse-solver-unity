@@ -1,6 +1,6 @@
 # Oyunda kullanılan seslerin lisansları
 
-Mağaza ve gizlilik sayfası için tek liste (PM_103, 24 Kasım 2026). Yalnız oyunun bugün çaldığı sesler burada. Seçilmeyen adaylar dinleme sayfasında kalır, mağaza build'ine girmez.
+Mağaza ve gizlilik sayfası için tek liste (PM_103, 24 Kasım 2026; PM_107: Zeyd'in 24 Kasım 23:59 seçimleri). Yalnız oyunun bugün çaldığı sesler burada. Seçilmeyen adaylar dinleme sayfasında kalır, mağaza build'ine girmez.
 
 Seçimler `Assets/Config/Resources/ses.json` içinde.
 
@@ -12,7 +12,7 @@ Seçimler `Assets/Config/Resources/ses.json` içinde.
 - Kenney paketlerinin `License.txt` dosyasında: "Creative Commons Zero, CC0 … Crediting is not mandatory";
 - VCSL ve VSCO 2 CE depolarının `LICENSE` dosyası: CC0 1.0 Universal.
 
-Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. Üzerlerinde yaptığımız kısaltma, süzgeç ve ses düzeyi işleri `Tools/make_*.py` araçlarında.
+Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. Üzerlerinde yaptığımız kısaltma, süzgeç ve ses düzeyi işleri `Tools/make_*.py` araçlarında. PM_107: oyunun çaldığı her sesin miksaj kopyası (düzey, tiz yumuşatma, saldırı) `Tools/make_miks107.py` ile `Resources/Art/audio/pm107/`de; kaynakları aynı.
 
 ## Müzik
 
@@ -20,7 +20,7 @@ Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. �
 |---|---|---|---|---|
 | Lobi (menü) | Urban Shop | MintoDog | https://opengameart.org/content/urban-shop | CC0 |
 | Bölüm | Cat in Space (iki 32 sn yarısı sırayla) | mutantleg | https://opengameart.org/content/cat-in-space | CC0 |
-| Kazanma fanfarı | "Piyano ta-da", marimba tınısı: bizim bestemiz. Çalgılar VCSL kayıtları: marimba, glockenspiel, trampet, büyük davul, zil, timpani | Versilian Studios (VCSL) | https://github.com/sgossner/VCSL | CC0 |
+| Kazanma fanfarı | "Piyano ta-da", pizzicato tınısı (PM_107): bizim bestemiz. Çalgılar: keman ve çello pizzicato (VSCO 2 CE), el çanları, trampet, büyük davul, zil, timpani (VCSL) | Versilian Studios (VSCO 2 CE, VCSL) | https://github.com/sgossner/VCSL , https://github.com/sgossner/VSCO-2-CE | CC0 |
 
 ## Oyun efektleri
 
@@ -29,9 +29,9 @@ Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. �
 | Parça çıkışı (eski f, &sescikis=f ile) ve kayma kalkışı | Swishes Sound Pack (swish-3, -4, -7, -8) | artisticdude | https://opengameart.org/content/swishes-sound-pack | CC0 |
 | Lastik takılma (çarpma) | Impact Sounds (impactSoft_medium) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
 | Kırmızı duvara çarpma (PM_105, a) | Impact Sounds (impactWood_heavy_000, _002, _003) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
-| Zincir şıkırtısı (PM_106, d; oyunda varsayılan) | chain-rattle-small.aif (Freesound 124399) | alienistcog | https://freesound.org/s/124399/ | CC0 |
-| Zincir gerilmesi (PM_106, d; oyunda varsayılan) | 100 CC0 metal and wood SFX (metal_hit_01, _04) + chain-rattle-small.aif (Freesound 124399) | rubberduck, alienistcog | https://opengameart.org/content/100-cc0-metal-and-wood-sfx , https://freesound.org/s/124399/ | CC0 |
-| Parça çıkışı (PM_106, q; oyunda varsayılan) | Impact Sounds (impactWood_light_000) + Casino Audio (chips-handle-4) | Kenney | https://kenney.nl/assets/impact-sounds , https://kenney.nl/assets/casino-audio | CC0 |
+| Zincir şıkırtısı (PM_107: f, oyunda varsayılan) | pickingchain.ogg (Freesound 643863) | Kneeling | https://freesound.org/s/643863/ | CC0 |
+| Zincir gerilmesi (PM_107: f, oyunda varsayılan) | 80 CC0 RPG SFX (metal_01, metal_03) + pickingchain.ogg (Freesound 643863) | rubberduck, Kneeling | https://opengameart.org/content/80-cc0-rpg-sfx , https://freesound.org/s/643863/ | CC0 |
+| Parça çıkışı (PM_107: u, oyunda varsayılan; tok + uzun ufalanma) | Impact Sounds (impactWood_light_000) + Casino Audio (chips-handle-5) | Kenney | https://kenney.nl/assets/impact-sounds , https://kenney.nl/assets/casino-audio | CC0 |
 | Kilitli parçaya dokunma (PM_105, a) | Door Lock Sounds (LockedDoorHandleJiggle) | cough-e | https://opengameart.org/content/door-lock-sounds | CC0 |
 | Kilit açılması (PM_105, a) | 100 CC0 SFX (key_open_01, _02) + Impact Sounds (impactMetal_light_001, _004) | rubberduck, Kenney | https://opengameart.org/content/100-cc0-sfx | CC0 |
 | Bomba patlaması (PM_105, a) | 100 CC0 SFX (explosion) + Pop sounds (pop3) | rubberduck, cogitollc | https://opengameart.org/content/100-cc0-sfx , https://opengameart.org/content/pop-sounds | CC0 |
@@ -45,7 +45,7 @@ Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. �
 | Anahtar (ses, müzik, titreşim, dil) | UI Audio (switch16, switch18) | Kenney | https://kenney.nl/assets/ui-audio | CC0 |
 | Panel açılış ve kapanış vuşu | Swishes Sound Pack (swish-4, swish-5) | artisticdude | https://opengameart.org/content/swishes-sound-pack | CC0 |
 | Pasif düğme (tok) | Impact Sounds (impactWood_light) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
-| Düğme toku: bütün düğmeler (PM_104 a; PM_105: tek kayıt, eski tık kalktı) | Impact Sounds (impactWood_light_000) | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
+| Düğme toku: bütün düğmeler (PM_107: c, yumuşak boğuk; tek kayıt) | Impact Sounds | Kenney | https://kenney.nl/assets/impact-sounds | CC0 |
 
 ## Booster sesleri
 
@@ -54,18 +54,17 @@ Kaynak dosyalar repoda değil; aşağıdaki sayfalardan yeniden indirilebilir. �
 | Makas | bahçe makası "şık" | Various Scissors (garden_shears_01) | OpenGameArt | https://opengameart.org/content/various-scissors | CC0 |
 | Değnek | rüzgâr çanı parıltısı | VCSL Mark Trees | Versilian Studios | https://github.com/sgossner/VCSL | CC0 |
 | | "puf" | Swishes Sound Pack (swish-7) | artisticdude | https://opengameart.org/content/swishes-sound-pack | CC0 |
-| Çekiç | tahta vuruş + çatlama, tahta düşüşü | 75 CC0 breaking / falling / hit sfx | OpenGameArt | https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx | CC0 |
-| Saat | tik-tak | Ticking Clock | OpenGameArt | https://opengameart.org/content/ticking-clock | CC0 |
+| Çekiç (PM_107: c) | kalın tahta vuruş, yumuşak kırıntı | Impact Sounds + 75 CC0 breaking / falling / hit sfx | Kenney, OpenGameArt | https://kenney.nl/assets/impact-sounds , https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx | CC0 |
+| Saat (PM_107: b) | tik-tak | Tick and Tock | OpenGameArt | https://opengameart.org/content/tick-and-tock | CC0 |
 | | buz çatırtısı, buz kırılması | Ice Breaking/Shattering | OpenGameArt | https://opengameart.org/content/ice-breakingshattering | CC0 |
 
 ## Geçiş sesleri
 
 | Geçiş | Kaynak | Yazar | Sayfa | Lisans |
 |---|---|---|---|---|
-| Koridor kayışı | Wind Whoosh Loop | OpenGameArt | https://opengameart.org/content/wind-whoosh-loop | CC0 |
+| Koridor kayışı ve dalışın havası (PM_107) | Wind Whoosh Loop | OpenGameArt | https://opengameart.org/content/wind-whoosh-loop | CC0 |
 | Dalış ve geri çekilme | Air Whoosh | OpenGameArt | https://opengameart.org/content/air-whoosh | CC0 |
-| Dalış tingi | VCSL glockenspiel | Versilian Studios | https://github.com/sgossner/VCSL | CC0 |
-| Kesik çizgileri | Casino Audio (card-shuffle) | Kenney | https://kenney.nl/assets/casino-audio | CC0 |
+| Kesik çizgileri (PM_107: c, fırça) | VCSL küçük çalkalayıcı | Versilian Studios | https://github.com/sgossner/VCSL | CC0 |
 | HUD tıkı | UI Audio (click2) | Kenney | https://kenney.nl/assets/ui-audio | CC0 |
 | Sekme kayışı | Swishes Sound Pack (swish-12) | artisticdude | https://opengameart.org/content/swishes-sound-pack | CC0 |
 

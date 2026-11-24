@@ -10,9 +10,9 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void TheFanfareTonesKeepItsBeats()
         {
-            Assert.That(Music.DefaultTone, Is.EqualTo("marimba"), "PM_103: Zeyd's marimba");
-            Assert.That(Music.Tone, Is.EqualTo("marimba"));
-            Assert.That(Music.FanfareClipKey, Is.EqualTo(Music.FanfareKey + "-marimba"), "the tone's clip, the beats' own map");
+            Assert.That(Music.DefaultTone, Is.EqualTo("pizz"), "PM_107: Zeyd's pizzicato (PM_103: marimba)");
+            Assert.That(Music.Tone, Is.EqualTo("pizz"));
+            Assert.That(Music.FanfareClipKey, Is.EqualTo(Music.FanfareKey + "-pizz"), "the tone's clip, the beats' own map");
             Assert.That(Music.TonesOf('b'), Is.EquivalentTo(new[] { "piyano", "marimba", "pizz", "ksilofon", "kutu", "bakir" }));
 #if UNITY_EDITOR
             foreach (var tone in Music.TonesOf('b'))

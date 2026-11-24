@@ -691,9 +691,14 @@ namespace ReverseSolver.Presentation
             {
                 float m = 0;
                 foreach (var r in _ropes.Values) if (r != null) m = Mathf.Max(m, r.Motion);
+                // PM_107 §B: a chained pair sliding out: its chain still rattles until the piece is gone
+                _leavingRopes.RemoveAll(r => r == null);
+                foreach (var r in _leavingRopes) m = Mathf.Max(m, r.Motion);
                 return m;
             }
         }
+        /* PM_107 §B: the ropes of chained pairs on their way out (no longer on the board, still moving, still heard). */
+        readonly List<ChainRope> _leavingRopes = new List<ChainRope>();
         /* PM_105: the piece is a chained pair. */
         public bool IsChained(int piece) => piece >= 0 && piece < Session.Level.Pieces.Count && Session.Level.Pieces[piece].Length > 1;
 
@@ -795,6 +800,7 @@ namespace ReverseSolver.Presentation
             };
             float burstDistance = Mathf.Max(0, edgeDistance - .15f * Cell);
             bool burstPending = pop;
+            if (_ropes.TryGetValue(pv.Index, out var leaving) && leaving != null) _leavingRopes.Add(leaving);
             _ropes.Remove(pv.Index);
             _pieces.Remove(pv.Index);
             Tweens.Run(pv, total, real01 =>

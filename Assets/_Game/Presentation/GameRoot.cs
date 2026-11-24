@@ -1011,7 +1011,10 @@ namespace ReverseSolver.Presentation
             var clip = Art.Sound(key);
             if (clip == null || Art.Muted) return;
             if (_audio == null) _audio = gameObject.AddComponent<AudioSource>();
-            _audio.PlayOneShot(clip, volumeScale);
+            if (!Mix107.Admit(clip)) return;
+            float g = volumeScale * Mix107.Gain(Mix107.Bus.Sfx);
+            Mix107.Log(Mix107.Bus.Sfx, clip.name, g);
+            _audio.PlayOneShot(clip, g);
         }
 
         /* PM_95: a recorded candidate (Sfx95) at its own pitch, on one of a few sources (the pitch is a source's:
@@ -1029,7 +1032,12 @@ namespace ReverseSolver.Presentation
             // PM_100 §3: the game's effects (not the jingles) times &sfx=; over 1 a second copy on the next source, started
             // on the same frame (the same audio clock: the two add up exactly), as a source's volume stops at 1
             bool fx = kind != Sfx95.Kind.Win && kind != Sfx95.Kind.Tick && kind != Sfx95.Kind.Last;
-            float v = volumeScale * (fx ? Sfx95.Gain : 1);
+            // PM_107 §C: the effects on their bus (ducked under the clock and the fanfare), the timer's ticks on the UI's,
+            // the old win on the fanfare's; the same clip at most twice at once
+            if (!Mix107.Admit(clip, pitch)) return true;
+            var bus = fx ? Mix107.Bus.Sfx : kind == Sfx95.Kind.Win ? Mix107.Bus.Fanfare : Mix107.Bus.Ui;
+            float v = volumeScale * (fx ? Sfx95.Gain : 1) * Mix107.Gain(bus);
+            Mix107.Log(bus, clip.name, v);
             AudioSource src;
             if (delay > 0) src = _sfxLate != null ? _sfxLate : _sfxLate = gameObject.AddComponent<AudioSource>();   // its own: not cut by the ring
             else src = NextSfx();
@@ -1080,7 +1088,9 @@ namespace ReverseSolver.Presentation
             if (SesLog) Debug.Log($"[ses] {kind} {clip.name} {Time.unscaledTime:0.000}");
             Sfx105Played?.Invoke(kind, clip.name);
             if (Art.Muted) return true;
-            float v = volumeScale * Sfx95.Gain;
+            if (!Mix107.Admit(clip, pitch)) return true;
+            float v = volumeScale * Sfx95.Gain * Mix107.Gain(Mix107.Bus.Sfx);
+            Mix107.Log(Mix107.Bus.Sfx, clip.name, v);
             var src = NextSfx();
             src.Stop(); src.clip = clip; src.pitch = pitch; src.volume = Mathf.Min(1, v); src.Play();
             return true;
@@ -1091,7 +1101,7 @@ namespace ReverseSolver.Presentation
         readonly Sfx105.Rattle _rattle105 = new Sfx105.Rattle();
         void Rattle105()
         {
-            if (_board == null || _session == null || _session.IsOver) { Bed106(0); return; }
+            if (_board == null || _session == null) { Bed106(0); return; }   // PM_107 §B: the last chained pair leaving (the win) still rattles
             // PM_106 §3: the real chain; not while the board settles in (the chain's sag swings as the level opens)
             if (Sfx105.Continuous) { Bed106(Time.unscaledTime < _bedQuietUntil ? 0 : _board.ChainMotion); return; }
             if (_rattle105.Tick(_board.ChainMotion, Time.unscaledDeltaTime, out float level)) PlaySfx105(Sfx105.Kind.Zincir, level);
@@ -1133,7 +1143,8 @@ namespace ReverseSolver.Presentation
                 if (s == null) continue;
                 _bedFade[i] = Mathf.MoveTowards(_bedFade[i], i == _bedCur ? 1 : 0, Time.unscaledDeltaTime / Sfx105.Bed.Cross);
                 if (_bed106.Volume <= 0 || (_bedFade[i] <= 0 && i != _bedCur) || Art.Muted) { if (s.isPlaying) s.Stop(); if (i == _bedCur) _bedEnd = -1; continue; }
-                s.volume = Mathf.Min(1, _bed106.Volume * _bedFade[i] * Sfx95.Gain);
+                s.volume = Mathf.Min(1, _bed106.Volume * _bedFade[i] * Sfx95.Gain * Mix107.Gain(Mix107.Bus.Bed));
+                if (i == _bedCur && s.clip != null) Mix107.LogLevel(Mix107.Bus.Bed, s.clip.name, s.volume);
                 s.pitch = .96f + .08f * k;   // a little brighter the faster it goes
             }
         }
@@ -1155,7 +1166,8 @@ namespace ReverseSolver.Presentation
             var clip = Art.Sound(key);
             if (clip == null || Art.Muted) return;
             if (_late == null) _late = gameObject.AddComponent<AudioSource>();
-            _late.clip = clip;
+            _late.clip = clip; _late.volume = Mix107.Gain(Mix107.Bus.Sfx);
+            Mix107.Log(Mix107.Bus.Sfx, clip.name, _late.volume);
             _late.PlayDelayed(delay);
         }
 
@@ -1283,7 +1295,7 @@ namespace ReverseSolver.Presentation
             else if (e.Kind == EventKind.Jammed && !(_board != null && _drag != null && _drag.Piece == e.Piece && _board.WillSlide(e.Piece, _drag.Direction)))
             { if (!Knock105(JamAtWall105(e.Piece), _board != null && _board.IsChained(e.Piece))) PlaySound("piece"); Haptics.Play(Haptics.Kind.Jam); }   // PM_102 §2: no room to slide: the same knock (it was -3 dB)
             else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Win) { if (!P21WinArt) PlaySoundLater("win", .7f); }   // PM_96: the fanfare starts with the win screen
-            else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Bomb && PlaySfx105(Sfx105.Kind.Patlama, 1f)) { PlaySoundLater("loss", PatlamaLead105); Music.Duck(true); }   // PM_105: the bang, then the loss
+            else if (e.Kind == EventKind.Finished && e.Outcome == Outcome.Bomb && PlaySfx105(Sfx105.Kind.Patlama, 1f)) { PlaySoundLater("loss", PatlamaLead105); Music.Duck(true); Mix107.Bang(); }   // PM_105: the bang, then the loss
             else if (e.Kind == EventKind.Finished && e.Outcome != Outcome.Quit) { PlaySound("loss"); Music.Duck(true); }   // PM_96: the level's music at 40 % under the loss
             if (e.Kind != EventKind.Finished) return;
             Debug.Log($"[input] flick={_flickInputs} drag={_dragInputs}");
@@ -1551,6 +1563,7 @@ namespace ReverseSolver.Presentation
                 }
                 if (_session.IsOver && _session.Outcome == Outcome.Win && _paintSet && _board.Image != null) ShowFinishedPicture(false);
                 _drag = new DragModel(new SessionDragTarget(_session), cell);
+                _bedQuietUntil = 0;   // PM_107 §B: the player moves a piece: the chain is heard from the first touch
                 Perf("image+drag");
                 _bar = new BoosterBar(_world, _screen, _safe.w, BarOrder, UseHud54);
                 _wandIdleDirty = true;
@@ -1908,6 +1921,9 @@ namespace ReverseSolver.Presentation
             src.ignoreListenerPause = true; src.playOnAwake = false;
             // PM_104 §3: a panel's swish under a tok 9 dB down: the tok leads
             float vol = (kind == UiSounds.Kind.Open || kind == UiSounds.Kind.Close) && UiSounds.SwishUnderTok ? UiSounds.SwishUnderTokVolume : 1;
+            if (!Mix107.Admit(clip, pitch)) return;
+            vol *= Mix107.Gain(Mix107.Bus.Ui);
+            Mix107.Log(Mix107.Bus.Ui, clip.name, vol);
             src.Stop(); src.clip = clip; src.pitch = pitch; src.volume = vol; src.Play();
         }
 
@@ -1921,6 +1937,7 @@ namespace ReverseSolver.Presentation
 
         void Update()
         {
+            Mix107.Tick(Time.unscaledDeltaTime);   // PM_107 §C3: the buses glide to their ducks
             if (!_started) return;   // PM_81: the content is still being read
             AdsTick81();
             Tick82();

@@ -36,13 +36,36 @@ namespace ReverseSolver.Presentation
         /* Its letter; `fallback` only when the file has none. */
         public static char Letter(string key, char fallback = 'a') { var v = Of(key); return v != null ? v[0] : fallback; }
 
+        /* PM_107: the mastered copies' folder. */
+        public const string Mastered = "Art/audio/pm107/";
         static readonly HashSet<string> _used = new HashSet<string>();
+        static readonly HashSet<string> _replaced = new HashSet<string>();
+        /* PM_107: the original files a mastered copy (pm107) played in place of. */
+        public static IReadOnlyCollection<string> Replaced => _replaced;
+        /* What the game chose: the files it loaded, the originals of the mastered copies among them. */
+        public static HashSet<string> Chosen() { var c = new HashSet<string>(_used); c.UnionWith(_replaced); return c; }
         /* The Resources paths (no extension) of every sound file loaded so far. */
         public static IReadOnlyCollection<string> Used => _used;
 
         /* Resources.Load for the sound loaders: remembers what was found. */
         public static T Load<T>(string path) where T : Object
         {
+            // PM_107 §C: the mastered copy of a chosen sound (Tools/make_miks107.py: its level in the mix, its highs and its
+            // attack softened) plays in its place; &miks=0 the original
+            if (typeof(T) == typeof(AudioClip) && Mix107.On && !path.StartsWith(Mastered))
+            {
+                var m = Load<T>(Mastered + path.Substring(path.LastIndexOf('/') + 1));
+                if (m != null)
+                {
+#if UNITY_EDITOR
+                    // the original that is really there (a loader asks pm102 first, then pm100 ...: the newest folder holding
+                    // the name, as Tools/make_miks107.py took it)
+                    var original = OriginalOf(path);
+                    if (original != null) _replaced.Add(original);
+#endif
+                    return m;
+                }
+            }
             // PM_104_EK: on the web the chosen sounds come from their raw samples (WebPcm: Safari decodes nothing)
             var a = typeof(T) == typeof(AudioClip) ? WebPcm.Load(path) as T : null;
             if (a != null) { _used.Add(path); return a; }
@@ -55,10 +78,28 @@ namespace ReverseSolver.Presentation
             return a;
         }
 
+#if UNITY_EDITOR
+        static string OriginalOf(string path)
+        {
+            const string Root = "Assets/_Game/Presentation/Resources/";
+            if (!string.IsNullOrEmpty(UnityEditor.AssetDatabase.AssetPathToGUID(Root + path + ".wav", UnityEditor.AssetPathToGUIDOptions.OnlyExistingAssets))) return path;
+            string name = path.Substring(path.LastIndexOf('/') + 1), best = null; int bestN = -1;
+            foreach (var g in UnityEditor.AssetDatabase.FindAssets(name, new[] { Root + "Art/audio" }))
+            {
+                string a = UnityEditor.AssetDatabase.GUIDToAssetPath(g);
+                if (System.IO.Path.GetFileNameWithoutExtension(a) != name || a.Contains("/pm107/")) continue;
+                var m = Regex.Match(a, "/pm(\\d+)/");
+                int n = m.Success ? int.Parse(m.Groups[1].Value) : 0;
+                if (n > bestN) { bestN = n; best = a.Substring(Root.Length, a.Length - Root.Length - System.IO.Path.GetExtension(a).Length); }
+            }
+            return best;
+        }
+#endif
+
         /* What the game plays with no flags: every loader run with the defaults (the editor, the iOS build). */
         public static HashSet<string> Collect()
         {
-            _used.Clear(); _map = null;
+            _used.Clear(); _replaced.Clear(); _map = null;
             UiSounds.Clear();
             BeatMap.Clear();
             Sfx95.Load();

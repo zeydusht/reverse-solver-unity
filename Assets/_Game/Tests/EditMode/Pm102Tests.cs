@@ -16,7 +16,7 @@ namespace ReverseSolver.Core.Tests
             Assert.That(g.beats.Length, Is.EqualTo(5), "light + Great!, Jigo, +50, Next, Menu + confetti");
             Assert.That(P21WinView.Plan(5), Is.EqualTo(new[] { 0, 0, 1, 2, 3, 4, 4 }));
             Assert.That(Music.TonesOf('g'), Is.EqualTo(new[] { "piyano", "marimba", "pizz", "ksilofon", "kutu" }));
-            Assert.That(Music.FanfareClipKey, Is.EqualTo("g-marimba"), "PM_103: g in its marimba tone");
+            Assert.That(Music.FanfareClipKey, Is.EqualTo("g-pizz"), "PM_107: g in its pizzicato tone");
 #if UNITY_EDITOR
             foreach (var tone in Music.TonesOf('g'))
             {
@@ -70,7 +70,9 @@ namespace ReverseSolver.Core.Tests
         public void TheCorridorsWhooshIsTheLouderOne()
         {
             Gecis100.Load();
-            Assert.That(Gecis100.Clip(Gecis100.Kind.Koridor), Is.SameAs(Resources.Load<AudioClip>("Art/audio/pm102/gecis-koridor-a")));
+            // PM_107: its mastered copy (pm107), made from pm102's (docs/art/pm107/miks/hedefler.json)
+            Assert.That(Gecis100.Clip(Gecis100.Kind.Koridor), Is.SameAs(Resources.Load<AudioClip>("Art/audio/pm107/gecis-koridor-a")));
+            StringAssert.Contains("\"source\": \"Assets/_Game/Presentation/Resources/Art/audio/pm102/gecis-koridor-a.wav\"", System.IO.File.ReadAllText("docs/art/pm107/miks/hedefler.json"));
         }
     }
 }

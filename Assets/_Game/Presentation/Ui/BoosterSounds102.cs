@@ -78,7 +78,11 @@ namespace ReverseSolver.Presentation
             if (clip == null) return false;
             if (Art.Muted || !Application.isPlaying) return true;
             var s = Source();
-            s.Stop(); s.clip = clip; s.pitch = 1 + Random.Range(-.02f, .02f); s.volume = Mathf.Min(1, Sfx95.Gain); s.Play();
+            float pitch = 1 + Random.Range(-.02f, .02f);
+            if (!Mix107.Admit(clip, pitch)) return true;
+            float v = Mathf.Min(1, Sfx95.Gain * Mix107.Gain(Mix107.Bus.Sfx));
+            Mix107.Log(Mix107.Bus.Sfx, clip.name, v);
+            s.Stop(); s.clip = clip; s.pitch = pitch; s.volume = v; s.Play();
             Played?.Invoke(p);
             if (Host.Current?.Query("seslog") == "1") Debug.Log($"[booster ses] {Booster[(int)p]} {Name[(int)p]}");
             return true;
@@ -88,6 +92,7 @@ namespace ReverseSolver.Presentation
         public static void Ticking(bool on)
         {
             var clip = Clip(Part.SaatTiktak);
+            Mix107.Clock(on && clip != null);   // PM_107 §C3: the effects and the music step back while it ticks
             if (!on || clip == null || Art.Muted || !Application.isPlaying)
             {
                 if (_loop != null && _loop.isPlaying) _loop.Stop();
@@ -95,8 +100,16 @@ namespace ReverseSolver.Presentation
             }
             if (_host == null || _loop == null) Source();
             if (_loop.isPlaying && _loop.clip == clip) return;
-            _loop.clip = clip; _loop.volume = Mathf.Min(1, Sfx95.Gain); _loop.Play();
+            _loop.clip = clip; _loop.volume = Mathf.Min(1, Sfx95.Gain * Mix107.Gain(Mix107.Bus.Clock)); _loop.Play();
             Played?.Invoke(Part.SaatTiktak);
+        }
+
+        /* PM_107: each frame (Mix107.Tick) the tick-tock's level follows its bus. */
+        internal static void Mix()
+        {
+            if (_loop == null || !_loop.isPlaying) return;
+            _loop.volume = Mathf.Min(1, Sfx95.Gain * Mix107.Gain(Mix107.Bus.Clock));
+            Mix107.LogLevel(Mix107.Bus.Clock, _loop.clip != null ? _loop.clip.name : null, _loop.volume);
         }
 
         public static bool TickingNow => _loop != null && _loop.isPlaying;

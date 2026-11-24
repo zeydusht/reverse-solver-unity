@@ -488,6 +488,9 @@ namespace ReverseSolver.Presentation
             float h0 = _flight + _p.Approach, h1 = h0 + _p.Hold, h2 = h1 + _p.Back;
             _s.FadeUi?.Invoke(1 - SmoothStep(t / .3f));   // the menu's controls, over the first .3 s
             Cues100(t, h0, h1, h2);
+            // PM_107 §C6: the air follows the motion: the flight and the approach are one smootherstep over [0, h0]
+            // (PM_86), its speed 30 u^2 (1-u)^2, 1 at the middle
+            Gecis100.Dive(t < h0 ? Bell107(t / Mathf.Max(.05f, h0)) : 0);
             if (t < h0)
             {
                 float u = Mathf.Clamp01((t - _flight) / _p.Approach);
@@ -546,7 +549,7 @@ namespace ReverseSolver.Presentation
                 // part way (its end still on the touch)
                 float left = (h0 - t) / rate;
                 _cueIn = true; Gecis100.Event("dalış (değmeye " + left.ToString("0.00") + " s)");
-                Gecis100.Play(Gecis100.Kind.Dalis, 1, Gecis100.DiveLead - left);
+                Gecis100.Play(Gecis100.Kind.Dalis, Gecis100.DiveWhooshVolume, Gecis100.DiveLead - left);
             }
             if (!_cueTouch && t >= h0) { _cueTouch = _cueIn = true; Gecis100.Event("değme"); Gecis100.Play(Gecis100.Kind.Cizgi); }   // PM_106 §1: no ting at the touch (Zeyd: the "klink" goes; the whoosh stays)
             if (!_cueBack && t >= h1) { _cueBack = true; Gecis100.Event("geri çekilme"); Gecis100.Play(Gecis100.Kind.Geri); }
@@ -1053,8 +1056,12 @@ namespace ReverseSolver.Presentation
         }
 
         /* Ends now, whatever the phase: the level is built, the camera home, the overlays gone. */
+        /* PM_107 §C6: the smootherstep's speed at u (0..1), 1 at its peak. */
+        public static float Bell107(float u) { u = Mathf.Clamp01(u); return 16 * u * u * (1 - u) * (1 - u); }
+
         public void Finish()
         {
+            Gecis100.Dive(0);
             if (_finished) return;
             if (!_built) BuildLevel();
             if (!_revealed) StartReveal();

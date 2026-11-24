@@ -1,0 +1,28 @@
+| Olay | ses.json harfi | sayfadaki dosya | oyunda çalan dosya(lar) | aynı mı |
+|---|---|---|---|---|
+| Kaydırma (parça çıkışı) | u | cikis-u1.wav | pm107/cikis-u1.wav | HAYIR: cikis-u1.wav farklı (62e9e2dc2e / b1c953c607) |
+| Kalkış (takılmada, kısa ve uzun) | u | — | — | sayfada yok |
+| Çarpma (takılma) | a | carpma-a1.wav, carpma-a2.wav, carpma-a3.wav, carpma-a4.wav | pm107/carpma-a1.wav, pm107/carpma-a2.wav, pm107/carpma-a3.wav, pm107/carpma-a4.wav | HAYIR: carpma-a1.wav farklı (918031b483 / 1336187f2a); carpma-a2.wav farklı (0a84d3ccba / 08ceb302e3); carpma-a3.wav farklı (afd86392ac / d4cb0a0355); carpma-a4.wav farklı (2d1437ca94 / 5e1d616cb0) |
+| Düğme (tok): bütün düğmeler | c | ui-tok-c1.wav | pm107/ui-tok-c1.wav | HAYIR: ui-tok-c1.wav farklı (99675c6ec2 / c69379b3b2) |
+| Panel açılır / kapanır (vuş) | — | — | pm107/ui-close1.wav, pm107/ui-close2.wav, pm107/ui-open1.wav, pm107/ui-open2.wav | sayfada yok |
+| Anahtar (ses, müzik, titreşim) | — | — | pm107/ui-toggle1.wav, pm107/ui-toggle2.wav | sayfada yok |
+| Olmayan düğme (pasif) | — | — | pm107/ui-dull1.wav, pm107/ui-dull2.wav | sayfada yok |
+| Bomba sökülür | — | — | pm107/bomba-a1.wav | sayfada yok |
+| Kilit açılır (eski kırılma, yedek) | — | — | pm100/kilit-a1.wav | sayfada yok |
+| Zincir şıkırtısı (gerçek zincir, sürüklerken / sallanırken) | f | zincir-f1.wav, zincir-f2.wav, zincir-f3.wav | pm107/zincir-f1.wav, pm107/zincir-f2.wav, pm107/zincir-f3.wav | HAYIR: zincir-f1.wav farklı (c8a67072b9 / 04bc3513dc); zincir-f2.wav farklı (0ebfb95494 / 501d40d483); zincir-f3.wav farklı (ad4dfcaee5 / 6f53eb3d7a) |
+| Zincir gerilip takılınca (çın + gerçek zincir) | f | zincirger-f1.wav, zincirger-f2.wav | pm107/zincirger-f1.wav, pm107/zincirger-f2.wav | HAYIR: zincirger-f1.wav farklı (ce0fd24ce9 / c31f6a77bd); zincirger-f2.wav farklı (7fcd53d9ef / 4a73701c9e) |
+| Kilitli parçaya dokununca | a | kilitdokun-a1.wav, kilitdokun-a2.wav, kilitdokun-a3.wav | pm107/kilitdokun-a1.wav, pm107/kilitdokun-a2.wav, pm107/kilitdokun-a3.wav | HAYIR: kilitdokun-a1.wav farklı (87944da157 / 9879333498); kilitdokun-a2.wav farklı (c8c742386c / da4fd0074b); kilitdokun-a3.wav farklı (700f252352 / 855f8e717c) |
+| Kilit açılınca (anahtar dönüşü + kilidin düşüşü) | a | kilitac-a1.wav, kilitac-a2.wav | pm107/kilitac-a1.wav, pm107/kilitac-a2.wav | HAYIR: kilitac-a1.wav farklı (ce81438f7f / a1ed85a2b8); kilitac-a2.wav farklı (3146dd753c / f94c951bee) |
+| Bomba patlayınca (oyuncak tadında) | a | patlama-a1.wav | pm107/patlama-a1.wav | HAYIR: patlama-a1.wav farklı (8d1fd48ec3 / d7336c2ca9) |
+| Kırmızı duvara çarpınca (bonk) | a | duvar-a1.wav, duvar-a2.wav, duvar-a3.wav | pm107/duvar-a1.wav, pm107/duvar-a2.wav, pm107/duvar-a3.wav | HAYIR: duvar-a1.wav farklı (ecd087c8b2 / 79a1218f85); duvar-a2.wav farklı (98f326d5f3 / a035b0c13f); duvar-a3.wav farklı (b789344eec / 0e2d899117) |
+| Makas | c | booster-makas-kesim-c.wav | pm107/booster-makas-kesim-c.wav | HAYIR: booster-makas-kesim-c.wav farklı (045d54a717 / 287e5b2dea) |
+| Değnek | a | booster-degnek-donusum-a.wav | pm107/booster-degnek-donusum-a.wav | HAYIR: booster-degnek-donusum-a.wav farklı (2a7e1dc2ad / 53b5c37e2a) |
+| Çekiç | c | booster-cekic-vurus-c.wav, booster-cekic-kirinti-c.wav | pm107/booster-cekic-kirinti-c.wav, pm107/booster-cekic-vurus-c.wav | HAYIR: booster-cekic-vurus-c.wav farklı (074a104656 / 8ef48b0365); booster-cekic-kirinti-c.wav farklı (40746ac249 / 316b0a41d4) |
+| Saat | b | booster-saat-tiktak-b.wav, booster-saat-donma-b.wav, booster-saat-kirilma-b.wav | pm107/booster-saat-donma-b.wav, pm107/booster-saat-kirilma-b.wav, pm107/booster-saat-tiktak-b.wav | HAYIR: booster-saat-tiktak-b.wav farklı (da6d776fe9 / ea1eb196e7); booster-saat-donma-b.wav farklı (c53c9b69bd / 3779df8453); booster-saat-kirilma-b.wav farklı (40bd01c1ae / a772bda091) |
+| Koridor | a | gecis-koridor-a.wav | pm107/gecis-koridor-a.wav | HAYIR: gecis-koridor-a.wav farklı (8d97abebdb / 9edb4c1b31) |
+| Dalış (PM_106: ting yok) | a | gecis-dalis-a.wav | pm107/gecis-dalis-a.wav | HAYIR: gecis-dalis-a.wav farklı (c99846563f / 7df6b17f17) |
+| Çizgi | c | gecis-cizgi-c.wav | pm107/gecis-cizgi-c.wav | HAYIR: gecis-cizgi-c.wav farklı (6d14fc283b / 136241005e) |
+| Geri çekilme (+ HUD tıkı) | a | gecis-geri-a.wav, gecis-hud-a.wav | pm107/gecis-geri-a.wav, pm107/gecis-hud-a.wav | HAYIR: gecis-geri-a.wav farklı (e02462ab1d / 4c52250c47); gecis-hud-a.wav farklı (4427e5b994 / f5b83258fc) |
+| Sekme | a | gecis-sekme-a.wav | pm107/gecis-sekme-a.wav | HAYIR: gecis-sekme-a.wav farklı (2314a0d6df / 5e946dc515) |
+
+Ayrıca oyunun çaldığı (ses.json'da harfi olmayan): pm95/bitis-a1.wav, pm95/kazan-b1.wav, pm96/vurus_haritasi.json

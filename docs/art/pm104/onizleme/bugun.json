@@ -3,21 +3,21 @@
   "lobi": "n",
   "bolum": "E",
   "kazanma": "g",
-  "kazanmaton": "marimba",
-  "cikis": "q",
+  "kazanmaton": "pizz",
+  "cikis": "u",
   "carpma": "a",
   "makas": "c",
   "degnek": "a",
-  "cekic": "a",
-  "saat": "a",
+  "cekic": "c",
+  "saat": "b",
   "koridor": "a",
   "dalis": "a",
-  "cizgi": "a",
+  "cizgi": "c",
   "geri": "a",
   "sekme": "a",
-  "dugme": "a",
-  "zincir": "d",
-  "zincirger": "d",
+  "dugme": "c",
+  "zincir": "f",
+  "zincirger": "f",
   "kilitdokun": "a",
   "kilitac": "a",
   "patlama": "a",
@@ -26,9 +26,9 @@
  "events": [
   {
    "name": "Kaydırma (parça çıkışı)",
-   "letter": "q",
+   "letter": "u",
    "files": [
-    "cikis-q1.wav"
+    "cikis-u1.wav"
    ]
   },
   {
@@ -43,9 +43,9 @@
   },
   {
    "name": "Düğme (tok): bütün düğmeler",
-   "letter": "a",
+   "letter": "c",
    "files": [
-    "ui-tok-a1.wav"
+    "ui-tok-c1.wav"
    ]
   },
   {
@@ -83,19 +83,19 @@
   },
   {
    "name": "Zincir şıkırtısı (gerçek zincir, sürüklerken / sallanırken)",
-   "letter": "d",
+   "letter": "f",
    "files": [
-    "zincir-d1.wav",
-    "zincir-d2.wav",
-    "zincir-d3.wav"
+    "zincir-f1.wav",
+    "zincir-f2.wav",
+    "zincir-f3.wav"
    ]
   },
   {
    "name": "Zincir gerilip takılınca (çın + gerçek zincir)",
-   "letter": "d",
+   "letter": "f",
    "files": [
-    "zincirger-d1.wav",
-    "zincirger-d2.wav"
+    "zincirger-f1.wav",
+    "zincirger-f2.wav"
    ]
   },
   {
@@ -147,19 +147,19 @@
   },
   {
    "name": "Çekiç",
-   "letter": "a",
+   "letter": "c",
    "files": [
-    "booster-cekic-kirinti-a.wav",
-    "booster-cekic-vurus-a.wav"
+    "booster-cekic-kirinti-c.wav",
+    "booster-cekic-vurus-c.wav"
    ]
   },
   {
    "name": "Saat",
-   "letter": "a",
+   "letter": "b",
    "files": [
-    "booster-saat-donma-a.wav",
-    "booster-saat-kirilma-a.wav",
-    "booster-saat-tiktak-a.wav"
+    "booster-saat-donma-b.wav",
+    "booster-saat-kirilma-b.wav",
+    "booster-saat-tiktak-b.wav"
    ]
   },
   {
@@ -178,9 +178,9 @@
   },
   {
    "name": "Çizgi",
-   "letter": "a",
+   "letter": "c",
    "files": [
-    "gecis-cizgi-a.wav"
+    "gecis-cizgi-c.wav"
    ]
   },
   {

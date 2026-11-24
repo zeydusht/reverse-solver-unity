@@ -530,7 +530,7 @@ namespace ReverseSolver.Presentation
                 float t = age < mid ? Span(age, ScissorsArrive, mid) : Span(age, mid, snap);
                 pose = t < .3f ? "half" : t < .75f ? "open" : "closed";
                 point = rest + back * size * (age < mid ? .1f : .04f) * (1 - t);
-                if (age >= mid - .02f && Once(5)) { Haptics.Play(Haptics.Kind.Light); Sound?.Invoke("pm72-tick", .7f); }
+                if (age >= mid - .02f && Once(5)) { Haptics.Play(Haptics.Kind.Light); if (!BoosterSounds102.On(BoosterSounds102.Part.MakasKesim)) Sound?.Invoke("pm72-tick", .7f); }
             }
             else if (age < snap - .06f)
             {
@@ -837,8 +837,8 @@ namespace ReverseSolver.Presentation
                 if (ringing)
                 {
                     float t = idea == ClockIdea.A ? Span(age, ClockArrive, touch + .22f) : Span(age, .26f, .62f);
-                    if (ClockOnce(0)) { Haptics.Play(Haptics.Kind.Light); Sound?.Invoke("pm72-tick", .8f); }
-                    if (t > .5f && ClockOnce(1)) { Haptics.Play(Haptics.Kind.Light); Sound?.Invoke("pm72-tick", .8f); }
+                    if (ClockOnce(0)) { Haptics.Play(Haptics.Kind.Light); if (!BoosterSounds102.On(BoosterSounds102.Part.SaatDonma)) Sound?.Invoke("pm72-tick", .8f); }   // PM_107: the freeze's own sound, not the old tick under it
+                    if (t > .5f && ClockOnce(1)) { Haptics.Play(Haptics.Kind.Light); if (!BoosterSounds102.On(BoosterSounds102.Part.SaatDonma)) Sound?.Invoke("pm72-tick", .8f); }
                     float w = (t * 2.2f) % 1;
                     Paint(_clockRing, Get("saat/glow_ring", "Boosters/Wand/touch-burst/02"), point, Vector2.one * size * scale * Mathf.Lerp(.9f, 1.6f, w), .6f * (1 - w));
                 }

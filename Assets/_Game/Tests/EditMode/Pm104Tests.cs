@@ -70,8 +70,8 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void TheButtonsTok()
         {
-            Assert.That(SesSecim.Of("dugme"), Is.EqualTo("a"));
-            Assert.That(UiSounds.DugmeLetter, Is.EqualTo('a'));
+            Assert.That(SesSecim.Of("dugme"), Is.EqualTo("c"), "PM_107: Zeyd's c (PM_104: a)");
+            Assert.That(UiSounds.DugmeLetter, Is.EqualTo('c'));
             foreach (char l in "abcdefg")
             {
                 var c = Resources.Load<AudioClip>($"Art/audio/pm104/ui-tok-{l}1");
@@ -86,32 +86,33 @@ namespace ReverseSolver.Core.Tests
             UiSounds.Request(UiSounds.Kind.Toggle); UiSounds.AsTok();
             Assert.That(UiSounds.Take(), Is.EquivalentTo(new[] { UiSounds.Kind.Toggle }));
             Assert.That(UiSounds.SwishUnderTok, Is.False);
-            Assert.That(UiSounds.Pick(UiSounds.Kind.Tok, out _).name, Does.StartWith("ui-tok-a"));
+            Assert.That(UiSounds.Pick(UiSounds.Kind.Tok, out _).name, Does.StartWith("ui-tok-c"), "PM_107: Zeyd's c");
         }
 
         [Test]
         public void OnlyTheChosenOnesAreLoadedAndTheRestStaysOutOfIos()
         {
             var used = SesSecim.Collect();
-            Assert.That(used, Does.Contain("Art/audio/pm104/ui-tok-a1"));
+            Assert.That(SesSecim.Chosen(), Does.Contain("Art/audio/pm104/ui-tok-c1"), "PM_107: Zeyd's c");
+            Assert.That(used, Does.Contain("Art/audio/pm107/ui-tok-c1"), "its mastered copy");
             Assert.That(used.Any(u => u.Contains("/pm104/cikis-") || u.Contains("/pm104/ui-tok-b")), Is.False);
             var unused = IosBuild.Unused(used);
             Assert.That(unused, Does.Contain(Audio + "pm104/cikis-k1.wav"));
             Assert.That(unused, Does.Contain(Audio + "pm104/ui-tok-g1.wav"));
-            Assert.That(unused, Does.Not.Contain(Audio + "pm104/ui-tok-a1.wav"));
+            Assert.That(unused, Does.Not.Contain(Audio + "pm107/ui-tok-c1.wav"));
         }
 
         [Test]
         public void TheListeningPagePlaysWhatTheGamePlays()
         {
             string html = File.ReadAllText("docs/art/pm102/onizleme/sesler.html");
-            foreach (var s in new[] { "Bugünkü seçim", "Kaydırma (swoosh)", "Düğme (tok)", "10 art arda", "bugun.json", "sesler104.json", "dugme:'a'" })
+            foreach (var s in new[] { "Bugünkü seçim", "Kaydırma (swoosh)", "Düğme (tok)", "10 art arda", "bugun.json", "sesler104.json", "dugme:'c'" })
                 StringAssert.Contains(s, html);
             string today = File.ReadAllText("docs/art/pm104/onizleme/bugun.json");
-            foreach (var f in new[] { "booster-makas-kesim-c.wav", "cikis-q1.wav", "carpma-a1.wav", "ui-tok-a1.wav", "gecis-sekme-a.wav" })
+            foreach (var f in new[] { "booster-makas-kesim-c.wav", "cikis-u1.wav", "carpma-a1.wav", "ui-tok-c1.wav", "gecis-sekme-a.wav" })
                 StringAssert.Contains(f, today);
             // the page's copies are the game's files, byte for byte
-            foreach (var (page, game) in new[] { ("cikis-q1.wav", "pm106/cikis-q1.wav"), ("cikis-f1.wav", "pm100/cikis-f1.wav"), ("carpma-a1.wav", "pm102/carpma-a1.wav"), ("booster-makas-kesim-c.wav", "pm102/booster-makas-kesim-c.wav") })
+            foreach (var (page, game) in new[] { ("cikis-u1.wav", "pm107/cikis-u1.wav"), ("cikis-f1.wav", "pm100/cikis-f1.wav"), ("carpma-a1.wav", "pm107/carpma-a1.wav"), ("booster-makas-kesim-c.wav", "pm107/booster-makas-kesim-c.wav") })
                 Assert.That(File.ReadAllBytes("docs/art/pm104/onizleme/sesler/" + page), Is.EqualTo(File.ReadAllBytes(Audio + game)), page);
         }
     }

@@ -31,10 +31,9 @@ namespace ReverseSolver.EditorTools
             {
                 if (f.EndsWith(".meta") || !(AssetImporter.GetAtPath(f) is AudioImporter)) continue;
                 bool root = Path.GetDirectoryName(f).Replace('\\', '/') == AudioRoot;
-                // PM_106: this request's candidates too (pm106: the exits q-u, the chain d-f), so Zeyd can try each one
-                // with its flag on the iPhone (an AAC candidate may not decode there)
-                bool trying = f.Contains("/audio/pm106/");
-                if (root || trying || used.Contains(ResourcePath(f))) files.Add(f);
+                // PM_107: Zeyd chose (24 Nov 23:59): PM_106's candidates are no longer carried for trying; the chosen
+                // sounds come as their mastered copies (pm107)
+                if (root || used.Contains(ResourcePath(f))) files.Add(f);
             }
             return files.OrderBy(x => x).ToList();
         }

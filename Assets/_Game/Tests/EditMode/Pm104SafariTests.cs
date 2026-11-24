@@ -37,7 +37,7 @@ namespace ReverseSolver.Core.Tests
                 Object.DestroyImmediate(clip);
             }
             // the shortest effects above all: the lift (0.025 / 0.045 s) and the ticks
-            Assert.That(pcm.Count(f => f.Contains("/pm106/cikis-")), Is.GreaterThanOrEqualTo(5), "PM_106: the exits (the lift-offs are no longer played)");
+            Assert.That(pcm.Count(f => f.Contains("/pm107/cikis-")), Is.EqualTo(1), "PM_107: the chosen exit's mastered copy (the lift-offs are no longer played)");
         }
 
         static float Rms(AudioClip c)
@@ -54,13 +54,13 @@ namespace ReverseSolver.Core.Tests
             var pcm = WebAudioFormat.PcmFiles();
             var unused = IosBuild.Unused(SesSecim.Collect());
             Assert.That(unused.Count, Is.GreaterThan(100));
-            Assert.That(pcm.Intersect(unused).Where(f => !f.Contains("/audio/pm106/")), Is.Empty, "PM_106's candidates only: Zeyd tries them on the iPhone");
+            Assert.That(pcm.Intersect(unused), Is.Empty, "PM_107: Zeyd chose; only what the game plays");
             Assert.That(Directory.Exists(WebAudioFormat.OutRoot), Is.False, "written only during the web build");
             var (files, bytes) = WebAudioFormat.Write();
             try
             {
                 Assert.That(files, Is.EqualTo(pcm.Count));
-                Assert.That(Resources.Load<TextAsset>(WebPcm.Folder + "Art/audio/pm106/cikis-q1"), Is.Not.Null);
+                Assert.That(Resources.Load<TextAsset>(WebPcm.Folder + "Art/audio/pm107/cikis-u1"), Is.Not.Null);
                 Assert.That(bytes, Is.LessThan(3 * 1024 * 1024));
             }
             finally { WebAudioFormat.Remove(); }

@@ -51,7 +51,7 @@ namespace ReverseSolver.Core.Tests
         public void TheExitIsBlockOutsOneTake()
         {
             SesSecim.Collect();
-            Assert.That(SesSecim.Letter("cikis"), Is.EqualTo('q'));
+            Assert.That(SesSecim.Letter("cikis"), Is.EqualTo('u'), "PM_107: Zeyd's u");
             Assert.That(Sfx95.ExitFixed, Is.True);
             foreach (char l in "qrstu")
             {
@@ -63,7 +63,7 @@ namespace ReverseSolver.Core.Tests
             for (int i = 0; i < 8; i++)
             {
                 var clip = Sfx95.Pick(Sfx95.Kind.Exit, out float pitch);
-                Assert.That(clip.name, Is.EqualTo("cikis-q1"));
+                Assert.That(clip.name, Is.EqualTo("cikis-u1"));
                 Assert.That(pitch, Is.EqualTo(1f), "no random pitch");
             }
             Assert.That(Sfx95.On(Sfx95.Kind.Lift), Is.False, "no lift-off: silent until it lands");
@@ -94,8 +94,8 @@ namespace ReverseSolver.Core.Tests
         public void TheChainIsARealChainPlayedAsABed()
         {
             SesSecim.Collect();
-            Assert.That(Sfx105.Letter(Sfx105.Kind.Zincir), Is.EqualTo('d'));
-            Assert.That(Sfx105.Letter(Sfx105.Kind.ZincirGer), Is.EqualTo('d'));
+            Assert.That(Sfx105.Letter(Sfx105.Kind.Zincir), Is.EqualTo('f'), "PM_107: Zeyd's f");
+            Assert.That(Sfx105.Letter(Sfx105.Kind.ZincirGer), Is.EqualTo('f'));
             Assert.That(Sfx105.Continuous, Is.True);
             Assert.That(Sfx105.Takes(Sfx105.Kind.Zincir).Length, Is.EqualTo(3), "three loops");
             foreach (char l in "def")
@@ -138,13 +138,15 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void TheWebCarriesTheCandidatesBeingTried()
         {
+            // PM_107: Zeyd chose (u, f); the web carries the chosen ones (their mastered copies), not every candidate
             var files = WebAudioFormat.PcmFiles();
-            Assert.That(files, Does.Contain(Audio + "pm106/cikis-u1.wav"), "Zeyd tries each one on the iPhone");
-            Assert.That(files, Does.Contain(Audio + "pm106/zincir-f3.wav"));
+            Assert.That(files, Does.Contain(Audio + "pm107/cikis-u1.wav"));
+            Assert.That(files, Does.Contain(Audio + "pm107/zincir-f3.wav"));
+            Assert.That(files, Does.Not.Contain(Audio + "pm106/cikis-q1.wav"));
             Assert.That(IosBuild.CandidateFolders, Does.Contain("pm106"));
             var unused = IosBuild.Unused(SesSecim.Collect());
-            Assert.That(unused, Does.Contain(Audio + "pm106/cikis-u1.wav"), "iOS: only the chosen");
-            Assert.That(unused, Does.Not.Contain(Audio + "pm106/cikis-q1.wav"));
+            Assert.That(unused, Does.Contain(Audio + "pm106/cikis-q1.wav"), "iOS: only the chosen");
+            Assert.That(unused, Does.Not.Contain(Audio + "pm107/cikis-u1.wav"));
         }
 
         [Test]
@@ -164,7 +166,7 @@ namespace ReverseSolver.Core.Tests
             foreach (var s in new[] { "sesler106.json", "Sürükleme / çıkış (Block Out tarzı)", "Block Out ile", "10 art arda", "Zincir (gerçek zincir kaydı)", "dragBed", "cikisperde" })
                 StringAssert.Contains(s, html);
             Assert.That(html, Does.Not.Contain("with:'ting'"));
-            StringAssert.Contains("cikis:'q'", html);
+            StringAssert.Contains("cikis:'u'", html);
         }
 
         /* PM_106_EK2: the page was blank on the iPhone (and everywhere): one apostrophe ("Durdur'daki") in a quoted hint

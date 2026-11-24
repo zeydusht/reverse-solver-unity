@@ -87,6 +87,8 @@ namespace ReverseSolver.Presentation
             var clip = Clip(kind);
             if (clip == null) return false;
             var s = Source();
+            volume *= Mix107.Gain(Mix107.Bus.Ui);
+            Mix107.Log(Mix107.Bus.Ui, clip.name, volume);
             s.Stop(); s.clip = clip; s.pitch = 1; s.volume = volume;
             s.time = Mathf.Clamp(from, 0, clip.length - .01f);   // PM_102: a sound that must end on a moment, started late, joins it part way
             s.Play();
@@ -117,10 +119,41 @@ namespace ReverseSolver.Presentation
                 if (Log) Debug.Log("[gecis] ses Koridor");
             }
             // PM_102 §5: a little fuller in its rise and fall (it was under the lobby's music coming back)
-            _loop.volume = Mathf.Pow(Mathf.Clamp01(speed), .75f);
+            _loop.volume = Mathf.Pow(Mathf.Clamp01(speed), .75f) * Mix107.Gain(Mix107.Bus.Ui);
             _loop.pitch = .9f + .2f * Mathf.Clamp01(speed);
+            Mix107.LogLevel(Mix107.Bus.Ui, clip.name, _loop.volume);
         }
 
         public static float CorridorVolume => _loop != null && _loop.isPlaying ? _loop.volume : 0;
+
+        /* PM_107 §C6 (Zeyd: "pressing Play, almost no sound while it nears the painting, only a "fışt" at the very end"):
+           the dive's air from the start of the motion: the corridor's texture on its own source, its level following
+           the camera's speed (0..1: the dive's bell), a little higher in pitch the faster, gone at the arrival (0). The
+           whoosh into the picture (Dalis) stays on the touch, softer (DiveWhooshVolume): the air carries the motion. */
+        public const float DiveAirLevel = .9f, DiveWhooshSoft = .55f;
+        public static float DiveWhooshVolume => Mix107.On ? DiveWhooshSoft : 1;   // &miks=0: as before
+        static AudioSource _dive;
+        public static void Dive(float speed)
+        {
+            if (speed <= 0 || !Mix107.On || Off || Art.Muted || !Application.isPlaying)
+            {
+                if (_dive != null && _dive.isPlaying) { _dive.Stop(); Mix107.LogLevel(Mix107.Bus.Ui, "gecis-dalis-hava", 0); }
+                return;
+            }
+            var clip = Clip(Kind.Koridor);
+            if (clip == null) return;
+            if (_host == null) Source();
+            if (_dive == null) { _dive = _host.AddComponent<AudioSource>(); _dive.playOnAwake = false; _dive.loop = true; }
+            if (!_dive.isPlaying || _dive.clip != clip)
+            {
+                _dive.clip = clip; _dive.time = 0; _dive.volume = 0; _dive.Play();
+                if (Log) Debug.Log("[gecis] ses Dalış havası");
+            }
+            float s = Mathf.Clamp01(speed);
+            _dive.volume = DiveAirLevel * Mathf.Pow(s, .75f) * Mix107.Gain(Mix107.Bus.Ui);
+            _dive.pitch = .85f + .3f * s;
+            Mix107.LogLevel(Mix107.Bus.Ui, clip.name, _dive.volume);
+        }
+        public static float DiveVolume => _dive != null && _dive.isPlaying ? _dive.volume : 0;
     }
 }

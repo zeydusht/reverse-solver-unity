@@ -29,7 +29,7 @@ namespace ReverseSolver.Core.Tests
                     first ??= clip.name;
                     Assert.That(clip.name, Is.EqualTo(first), "one take");
                 }
-            Assert.That(first, Is.EqualTo("ui-tok-a1"), "Durdur's tok (Zeyd: liked)");
+            Assert.That(first, Is.EqualTo("ui-tok-" + SesSecim.Letter("dugme") + "1"), "the chosen tok (PM_107: Zeyd's c)");
             // a plain press is the tok too, alone (PM_106: no swish beside it)
             UiSounds.Take();
             UiSounds.Request(UiSounds.Kind.Tick); UiSounds.Request(UiSounds.Kind.Open);
@@ -117,18 +117,19 @@ namespace ReverseSolver.Core.Tests
         [Test]
         public void TheGameLoadsTheChosenObstacleSoundsAndIosLeavesTheRest()
         {
-            var used = SesSecim.Collect();
+            SesSecim.Collect();
+            var used = SesSecim.Chosen();   // PM_107: the originals of the mastered copies too
             foreach (var key in Sfx105.Keys)
             {
                 var kind = (Sfx105.Kind)System.Array.IndexOf(Sfx105.Keys, key);
-                char l = kind == Sfx105.Kind.Zincir || kind == Sfx105.Kind.ZincirGer ? 'd' : 'a';   // PM_106: the real chain
+                char l = kind == Sfx105.Kind.Zincir || kind == Sfx105.Kind.ZincirGer ? 'f' : 'a';   // PM_107: Zeyd's real chain f
                 Assert.That(Sfx105.Letter(kind), Is.EqualTo(l), key);
                 Assert.That(used, Does.Contain($"{Sfx105.FolderOf(kind, l)}{key}-{l}1"));
                 Assert.That(used.Any(u => u.Contains($"/pm105/{key}-b") || u.Contains($"/pm105/{key}-c")), Is.False, key);
             }
-            var unused = IosBuild.Unused(used);
+            var unused = IosBuild.Unused(new System.Collections.Generic.HashSet<string>(SesSecim.Used));
             Assert.That(unused, Does.Contain(Audio + "pm105/patlama-b1.wav"));
-            Assert.That(unused, Does.Not.Contain(Audio + "pm105/patlama-a1.wav"));
+            Assert.That(unused, Does.Not.Contain(Audio + "pm107/patlama-a1.wav"), "PM_107: the mastered copy");
             Assert.That(unused, Does.Contain(Audio + "pm104/ui-tok-a2.wav"), "the tok's other takes");
         }
 
@@ -148,7 +149,7 @@ namespace ReverseSolver.Core.Tests
         public void TheMapListsEveryButtonsSound()
         {
             string map = File.ReadAllText("docs/TITRESIM_HARITASI.md");
-            StringAssert.Contains("ui-tok-a1", map);
+            StringAssert.Contains("ui-tok-c1", map);   // PM_107: Zeyd's c
             var rows = map.Split('\n').Where(l => l.StartsWith("|")).ToArray();
             Assert.That(rows.Where(r => Regex.IsMatch(r, @"\|\s*tık\b") || r.Contains("ui-tick") || r.Contains("tik-")), Is.Empty, "no row plays the tick");
             foreach (var s in new[] { "zincir-d", "zincirger-d", "kilitdokun-a", "kilitac-a", "patlama-a", "duvar-a" })   // PM_106: the real chain
