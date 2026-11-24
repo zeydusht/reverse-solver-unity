@@ -132,4 +132,32 @@ Hepsi `Tools/make_sfx105.py` ile üretildi. Lisanslar `LISANS.md`'de. Web'de ham
 
 ## Doğrulama
 
-(teslimde dolduruldu, aşağıda)
+- **EditMode:** 805 geçti, 2 atlandı, 0 kaldı. PM_105 testleri:
+  - tek tok, sabit perde;
+  - eski tıkın dosyası da kod yolu da yok;
+  - 6 olay × 3 aday var, süre ve düzeyleri doğru;
+  - patlamanın bası az;
+  - şıkırtı hıza bağlı;
+  - sesler doğru anlara bağlı;
+  - tablo ve sayfa güncel.
+- **PlayMode:** 18/18.
+  - Zincir testi 6/6.
+  - Dokunuş testi 1088 dokunuş. Çalan dosyalar: `ui-tok-a1` ×718, `ui-open` 86, `ui-toggle` 19, `ui-close` 10. `ui-tick` 0.
+- **Dokunuş testi (`Tools/webkit_buttons.js`)**, 7 ekran: menü, sekmeler, bölüm 3, Durdur, süre doldu (altın/reklam), kazanma, sandık.
+  - WebKit 26.5 (`webkit_dugmeler.json`): GEÇTİ. Eski çıt 0, her ekranda tok, uyarı 0, sayfa hatası 0.
+  - Chrome (`chrome_dugmeler.json`): GEÇTİ. Menüde 162 dokunuşta 121 tok.
+  - Bölümde kilitli parçaya dokununca `kilitdokun-a` çalıyor.
+- **Bulunan ve düzeltilen hata:** Web Audio'su olmayan bir tarayıcıda (Windows'taki WebKit) ham örnekten ses kurmak istisna atıyor ve oyunun açılışını durduruyordu. Artık o ses sessiz kalıyor, oyun açılıyor.
+  - iPhone Safari'de Web Audio var; orada bu hata görülmemişti.
+- **Dinleme sayfası = oyun:** 24 olay, uyuşmayan 0 (`ses_eslesme.md`).
+- **`verify_build`:**
+  - yerel 4/4;
+  - gönderimli 7/7 (TEST_PM105B);
+  - canlı p23 4/4 (gh-pages 53f8cc03).
+- **Boyut:** data 36,77 MB Brotli. PM_104'te 36,49 MB'tı; fark yeni sesler.
+
+## Doğrulanmayan
+
+- Seslerin telefonda nasıl duyulduğu; Zeyd dinleyip seçecek.
+- Zincirin gerçek parmakla sürüklenişi. Testler kurulu tahtada ve PC'de.
+- Şıkırtının hız eşiklerine sentetik sürüklemeyle bakıldı. Telefonda çok sık ya da çok seyrek gelirse ayarlanır.
