@@ -112,7 +112,11 @@ Tablo: `ses_eslesme.md`. Araç `node Tools/ses_eslesme.js`: sayfanın çaldığ�
   - tok'un tık yerine geçmesi, anahtarın kalması, panel sesinin kısılması;
   - yalnız seçilenlerin yüklenmesi ve adayların iOS dışında kalması;
   - sayfanın oyunun dosyalarını bayt bayt aynı çalması.
-- PlayMode 17/17.
+- PlayMode 17/17. EditMode tamamı 796 geçti, 2 atlandı, 0 kaldı.
+- `verify_build`: yerel gönderimli 7/7 (TEST_PM104B), canlı p23 4/4 (gh-pages 3a1c0c69).
+  - Kart ölçümünde "ana düğme 128,5 pt" görünüyor. Sebep: bu koşuda bölüm 2 yıldızla bitti, ortadaki turuncu yıldız ölçüme girdi. Düğme aynı (≈46 pt).
+- Chrome'da p23: AAC çözme 0, uyarı 0, sayfa hatası 0. Dinleme sayfası 25 dosya, 0 hata.
+- WebKit'te: uyarı 0, sayfa hatası 0 (Web Audio yok).
 
 ## Doğrulanmayan
 
