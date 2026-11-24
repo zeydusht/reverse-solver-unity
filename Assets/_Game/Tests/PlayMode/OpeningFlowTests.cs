@@ -19,6 +19,7 @@ namespace ReverseSolver.PlayMode.Tests
         Mouse _mouse;
         InputSettings.UpdateMode _previousUpdateMode;
         InputSettings.BackgroundBehavior _previousBackground;
+        bool _previousMuted, _previousMusic, _previousHaptics;   // PlayerPrefs: the sweep flips Ayarlar's switches
 #if UNITY_EDITOR
         InputSettings.EditorInputBehaviorInPlayMode _previousEditorInput;
 #endif
@@ -28,6 +29,9 @@ namespace ReverseSolver.PlayMode.Tests
         {
             _previousHost = Host.Current;
             Host.Current = _host = new LocalHost();
+            // the sweep over Ayarlar turns the sound off and it stayed off (PlayerPrefs) for the tests after it
+            _previousMuted = Art.Muted; _previousMusic = Music.On; _previousHaptics = Haptics.On;
+            Art.Muted = false; Music.On = true; Haptics.On = true;
             var input = InputSystem.settings;
             _previousUpdateMode = input.updateMode;
             _previousBackground = input.backgroundBehavior;
@@ -45,6 +49,8 @@ namespace ReverseSolver.PlayMode.Tests
         public IEnumerator RestoreHost()
         {
             BoosterSounds102.Played -= HearBooster;
+            Art.Muted = _previousMuted; Music.On = _previousMusic; Haptics.On = _previousHaptics;
+            AudioListener.pause = false;   // a test ending on an open panel (Ayarlar pauses the game's sound) left it paused
             if (_mouse != null && _mouse.added) InputSystem.RemoveDevice(_mouse);
             var input = InputSystem.settings;
             input.updateMode = _previousUpdateMode;
@@ -87,6 +93,7 @@ namespace ReverseSolver.PlayMode.Tests
             Action<Gecis100.Kind> onGecis = g => Heard("gecis " + g);
             Action<Sfx105.Kind, string> onSfx = (_, n) => Heard(n);
             UiSounds.PlayedClip += onClip; Gecis100.Played += onGecis; GameRoot.Sfx105Played += onSfx;
+            LinkAcici.Kayit.Clear();   // PM_106_EK: the sweep presses Gizlilik and the mail button: logged, never opened
             var missing = new System.Collections.Generic.List<string>();
             var report = new System.Text.StringBuilder();
             string State() => (string)typeof(GameRoot).GetMethod("UiState98", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
@@ -153,6 +160,35 @@ namespace ReverseSolver.PlayMode.Tests
             Assert.That(System.Linq.Enumerable.Where(clips.Keys, k => k.StartsWith("ui-tok-") && k != "ui-tok-a1"), Is.Empty, "one take of the tok");
             Debug.Log($"[dokunus] {checkedTaps} dokunuş;{report} sessiz/titreşimsiz {missing.Count}" + (missing.Count > 0 ? ":\n" + string.Join("\n", missing) : ""));
             Assert.That(missing, Is.Empty, "tappable things without a sound or a tap");
+            // PM_106_EK: these opened real Chrome tabs and the mailto chooser on Zeyd's computer at every run
+            Debug.Log("[dokunus] açılacak bağlantılar: " + LinkAcici.Kayit.Count + " (" + string.Join(", ", System.Linq.Enumerable.Distinct(LinkAcici.Kayit)) + ")");
+            Assert.That(LinkAcici.Holds, Is.True);
+            Assert.That(LinkAcici.Kayit, Does.Contain(MenuSettings.PrivacyUrl), "the sweep pressed Gizlilik and nothing opened");
+        }
+
+        /* PM_106_EK: Ayarlar's Gizlilik and the data deletion e-mail, pressed in the editor: "[link] açılacaktı: ..." in
+           the log and in LinkAcici.Kayit; no tab, no mail app. */
+        [UnityTest]
+        public IEnumerator SettingsLinksAreLoggedNotOpened()
+        {
+            _host.Links = "c=p23&lang=tr";
+            _host.Store = new MemoryStore();
+            // a player past the opening (as the sweep): a fresh one starts the story, whose music state outlives the test
+            var save = new SaveData(_host.Store, () => "seed");
+            save.SetPlayer("QA");
+            save.MergeBest(new System.Collections.Generic.Dictionary<string, int> { ["S41"] = 3, ["S42"] = 3, ["S43"] = 3, ["SL004"] = 3 });
+            _host.Store.Set("rs_profile_p23", "0");
+            yield return SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+            yield return MenuSettled("the fresh menu");
+            Call("OpenSettings");
+            yield return new WaitForSecondsRealtime(.5f);
+            LinkAcici.Kayit.Clear();
+            LogAssert.Expect(LogType.Log, "[link] açılacaktı: " + MenuSettings.PrivacyUrl);
+            LogAssert.Expect(LogType.Log, "[link] açılacaktı: " + MenuSettings.ContactUrl);
+            Call("SettingsAction", "privacy");
+            Call("SettingsAction", "contact");
+            yield return null;
+            Assert.That(LinkAcici.Kayit, Is.EqualTo(new[] { MenuSettings.PrivacyUrl, MenuSettings.ContactUrl }));
         }
 
         /* PM_72: whatever the link, level 1 is the PM_60 story opening: the Jigo chat box and the gold glow; no hand, no

@@ -164,6 +164,7 @@ namespace ReverseSolver.Presentation
             Art.CohortOverride = launchCohort;
             if (Host.Current is TestHost wrapped) Host.Current = wrapped.Inner;   // static: no domain reload between Play sessions
             _testMode = LaunchPlan.TestMode(Host.Current.Query("c"), Host.Current.Query("test"));
+            LinkAcici.TestPlay = _testMode;   // PM_106_EK: no real tab or mail app opens in test play
             // PM_72: test play keeps its writes in memory and sends nothing; free continues
             if (_testMode) { Host.Current = new TestHost(Host.Current); _continueRules = new ContinueRules(new[] { 0, 0, 0 }); }
             string jamTap = Host.Current.Query("takilmatitresim");   // PM_72: Zeyd's switch for the jam tap (default on)
@@ -953,8 +954,8 @@ namespace ReverseSolver.Presentation
                 PlayStory("ABC", true, ShowMenu);
                 return;
             }
-            if (id == "privacy") { Application.OpenURL(MenuSettings.PrivacyUrl); return; }
-            if (id == "contact") { Application.OpenURL(MenuSettings.ContactUrl); return; }
+            if (id == "privacy") { LinkAcici.Ac(MenuSettings.PrivacyUrl); return; }
+            if (id == "contact") { LinkAcici.Ac(MenuSettings.ContactUrl); return; }
             if (id == "sound" || id == "music" || id == "haptics" || id == "tr" || id == "en") Toggle98();
             if (id == "sound") Art.Muted = !Art.Muted;
             else if (id == "music") Music.On = !Music.On;

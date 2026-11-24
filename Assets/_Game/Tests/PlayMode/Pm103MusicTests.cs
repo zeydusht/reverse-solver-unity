@@ -21,8 +21,8 @@ namespace ReverseSolver.PlayMode.Tests
         [UnityTest]
         public IEnumerator TheMusicPlaysOfflineWithItsCrossfades()
         {
-            bool wasOn = Music.On;
-            Music.On = true;
+            bool wasOn = Music.On, wasMuted = Art.Muted;
+            Music.On = true; Art.Muted = false;   // PlayerPrefs: a test before may have left the sound off
             _go = new GameObject("Pm103Music");
             Music.Start(_go.AddComponent<MusicDriver>());
             yield return Wait(.5f);
@@ -59,7 +59,7 @@ namespace ReverseSolver.PlayMode.Tests
             now = Music.Now;
             Assert.That(now.lobby && !now.level, Is.True, "after the fanfare the lobby comes back");
             Assert.That(now.lobbyVolume, Is.InRange(.005f, Music.BaseVolume), "fading in over 1 s");
-            Music.On = wasOn;
+            Music.On = wasOn; Art.Muted = wasMuted;
         }
     }
 }
