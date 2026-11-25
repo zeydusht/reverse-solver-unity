@@ -45,6 +45,14 @@ namespace ReverseSolver.Presentation
         public static float TouchMax = .025f;   // &degme=: on arrival the camera runs on into the picture by at most this
         const float TouchSeconds = .04f;        // (its speed falling off over about this), then holds
         const float MenuHold91 = .285f, CorridorHold91 = .227f;   // the picture covers the screen as the approach arrives
+        /* PM_111 (Zeyd on B: "came and went"): the menu's hold shorter, &resimbekle= 0 / .07 / .145 (the corridor keeps
+           its own). The speed runs on through it: the pull back sets off with the camera's rate as the hold ends (the
+           arrival's, the touch cut short when the hold is), turning in a moment, no bounce. A short hold (under
+           MenuHold91) draws the cuts from the arrival, its share of PM_85's Lines by the hold's end, all by
+           LinesDone111 of the pull back (the pieces' own look from there, PM_86); and the pull back's whoosh comes in
+           under the touch's paper by GeriDuck111 when they meet within GeriNear111 s (no pile-up on the speakers). */
+        const float LinesDone111 = .8f, GeriNear111 = .15f, GeriDuck111 = .6f;
+        public static float LinesEnd = .7f;   // the share of this dive's pull back by which the cuts are all drawn
         /* PM_92 (Zeyd on PM_91: "somewhere in the middle it feels as if it slows down, a struggle, then it flows; go
            straight into the wall with the acceleration it set off with"): the approach's speed is set as the eye sees
            it, the wall's motion on the screen (its growth and its slide along the arc together, Flow92), and only
@@ -93,7 +101,7 @@ namespace ReverseSolver.Presentation
            speed shape over it. &dalisgeri= that speed. Variant110: 'a' the third drawing (Speed110) so scaled; 'b' the pull back's own speed backwards
            (BackSpeed110: its measured shape, 0..1 over its time, read from the end); 'c' the third drawing at its own
            time (Seconds110, 1.07 s). &dalis110=a|b|c; 0 PM_109's. */
-        public static char Variant110 = 'a';
+        public static char Variant110 = 'b';   // PM_111: B, Zeyd's pick
         public static float BackSpeed = .56f;   // screen heights a second (&dalisgeri=)
         static readonly float[] BackSpeed110 = { .07f, .10f, .30f, .52f, .68f, .81f, .91f, .97f, 1.00f, .96f, .92f, .92f, .90f, .87f, .80f, .72f, .63f, .53f, .43f, .31f, .16f };
 
@@ -168,6 +176,7 @@ namespace ReverseSolver.Presentation
            over the whole approach, never squeezed into its end. */
         float _fitA, _fitX, _fitY;
         bool _new91, _calm;                // PM_91: the new timing; the frame after the level is built does not jump
+        bool _shortHold;   // PM_111
         float _lensT, _step, _touch, _touchTau;   // the old lens shift's length; the last frame's step; the arrival's touch
         bool _fit;
         Func<float, float, Vector2> _endAt, _gluedUv;
@@ -214,10 +223,12 @@ namespace ReverseSolver.Presentation
             _new91 = Arrive91 && !Legacy && Variant == 'a';
             if (_new91)
             {
-                if (HoldSec < 0) { _p.Hold = _s.Diorama != null ? MenuHold91 : CorridorHold91; _p.Push = .015f * _p.Hold / .8f; }
+                if (HoldSec < 0 || _s.Diorama == null) { _p.Hold = _s.Diorama != null ? MenuHold91 : CorridorHold91; _p.Push = .015f * _p.Hold / .8f; }
                 if (_s.Diorama == null) _p.Approach = CorridorSeconds92;
             }
             _rate = _p.Hold > .01f ? Mathf.Log(1 + _p.Push) / _p.Hold : 0;
+            _shortHold = _new91 && _s.Diorama != null && _p.Hold < MenuHold91 - .005f;
+            LinesEnd = _shortHold ? LinesDone111 : LinesDone;
             if (_s.Diorama != null)
             {
                 float ch2 = Mathf.Max(screen.y, screen.x / Mathf.Max(.1f, _s.BoardAspect)), cw2 = ch2 * _s.BoardAspect;
@@ -564,7 +575,8 @@ namespace ReverseSolver.Presentation
                 {
                     float u = Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back));
                     float l0 = lnCover - lnPush, l1 = Mathf.Log(_homeSize);
-                    float l = Hermite3(l0, -Push91Rate(_p.Hold) * _p.Back, l1, 0, u);
+                    // PM_111: after a short hold a soft start (a quintic: the same speed, no step in the acceleration either)
+                    float l = _shortHold ? Hermite5(l0, -Push91Rate(_p.Hold) * _p.Back, l1, u) : Hermite3(l0, -Push91Rate(_p.Hold) * _p.Back, l1, 0, u);
                     _s.Cam.orthographicSize = Mathf.Exp(l);
                     _s.Cam.transform.position = Vector3.LerpUnclamped(from, _homePos, Mathf.Abs(l1 - l0) > 1e-5f ? (l - l0) / (l1 - l0) : u);
                 }
@@ -596,7 +608,13 @@ namespace ReverseSolver.Presentation
                 Gecis100.Play(Gecis100.Kind.Dalis, Gecis100.DiveWhooshVolume, Gecis100.DiveLead - left);
             }
             if (!_cueTouch && t >= h0) { _cueTouch = _cueIn = true; Gecis100.Event("değme"); Gecis100.Play(Gecis100.Kind.Cizgi); }   // PM_106 §1: no ting at the touch (Zeyd: the "klink" goes; the whoosh stays)
-            if (!_cueBack && t >= h1) { _cueBack = true; Gecis100.Event("geri çekilme"); Gecis100.Play(Gecis100.Kind.Geri); }
+            if (!_cueBack && t >= h1)
+            {
+                _cueBack = true; Gecis100.Event("geri çekilme");
+                // PM_111: on a short hold the pull back's whoosh meets the touch's paper; it comes in under it
+                float near = _shortHold ? Mathf.Clamp01((h1 - h0) / GeriNear111) : 1;
+                Gecis100.Play(Gecis100.Kind.Geri, Mathf.Lerp(GeriDuck111, 1, near));
+            }
             if (!_cueHud && t >= h2) { _cueHud = true; Gecis100.Event("HUD oturdu"); Gecis100.Play(Gecis100.Kind.Hud); }
         }
 
@@ -808,10 +826,10 @@ namespace ReverseSolver.Presentation
            first (a pen), even through the hold's end. &cizgihiz= runs it faster or slower. */
         float LineFrac(float t, float h0, float h1)
         {
-            float a = h0, b = h1, c = h1 + LinesDone * _p.Back, tt = a + (t - a) * Mathf.Max(.1f, LineK);
+            float a = h0, b = h1, c = h1 + LinesEnd * _p.Back, tt = a + (t - a) * Mathf.Max(.1f, LineK);
             if (tt <= a) return 0;
             if (tt >= c) return 1;
-            float at = b - a > .01f ? _p.Lines : 0;
+            float at = b - a > .01f ? (_shortHold ? _p.Lines * (b - a) / MenuHold91 : _p.Lines) : 0;   // PM_111: the same pace
             float d1 = b - a > .01f ? at / (b - a) : 0, d2 = (1 - at) / Mathf.Max(.01f, c - b);
             float s = d1 > 0 && d2 > 0 ? 2 / (1 / d1 + 1 / d2) : 0;   // the slope at the hold's end (a harmonic mean: no overshoot)
             return tt < b ? Hermite3(0, 0, at, s * (b - a), (tt - a) / (b - a)) : Hermite3(at, s * (c - b), 1, 0, (tt - b) / (c - b));
@@ -969,6 +987,13 @@ namespace ReverseSolver.Presentation
             float u2 = u * u, u3 = u2 * u;
             return Mathf.Min(1, (u2 / 2 - 2 * u3 / 3 + u2 * u2 / 4 + c * (u - u2 + u3 / 3)) / (1f / 12 + c / 3));   // float rounding: never past 1
         }
+        /* PM_111: from p0 at the slope m0 with no acceleration to p1 at rest (the quintic Hermite). */
+        static float Hermite5(float p0, float m0, float p1, float u)
+        {
+            float u2 = u * u, u3 = u2 * u, u4 = u3 * u, u5 = u4 * u;
+            return p0 * (1 - 10 * u3 + 15 * u4 - 6 * u5) + m0 * (u - 6 * u3 + 8 * u4 - 3 * u5) + p1 * (10 * u3 - 15 * u4 + 6 * u5);
+        }
+
         static float Hermite3(float p0, float m0, float p1, float m1, float u)
         {
             float u2 = u * u, u3 = u2 * u;
@@ -1686,7 +1711,7 @@ namespace ReverseSolver.Presentation
                 {
                     // PM_86: every cut is drawn by LinesDone of the pull back; from there to its end the pieces take their
                     // own look (at least .2 s), the shadow and the parting with it
-                    _look = sm((back - Dive75.LinesDone) / Mathf.Max(.05f, 1 - Dive75.LinesDone));
+                    _look = sm((back - Dive75.LinesEnd) / Mathf.Max(.05f, 1 - Dive75.LinesEnd));
                     Render(time, 1, 1, Shadow);
                     return;
                 }

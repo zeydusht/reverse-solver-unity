@@ -9,7 +9,7 @@ namespace ReverseSolver.Core.Tests
        time what that takes at PM_109's peak speed, .9..1.1 s; &dalis110=0 PM_109's. */
     public class Pm110Tests
     {
-        [TearDown] public void Restore() { Dive75.Peak108 = 1.65f; Dive75.Peak110 = 2f; Dive75.Dive108 = Dive75.Dive109 = Dive75.Dive110 = true; Dive75.Variant110 = 'a'; Dive75.BackSpeed = .56f; }
+        [TearDown] public void Restore() { Dive75.Peak108 = 1.65f; Dive75.Peak110 = 2f; Dive75.Dive108 = Dive75.Dive109 = Dive75.Dive110 = true; Dive75.Variant110 = 'b'; Dive75.BackSpeed = .56f; }
 
         [Test]
         public void TheSpeedHasTheThirdDrawingsShape()
@@ -68,7 +68,7 @@ namespace ReverseSolver.Core.Tests
             StringAssert.Contains("Dive75.Peak110 = QueryFloat(\"dalistepe\", 2f, 1.05f, 3);", root);
             StringAssert.Contains("_plan110 = _plan109 && Dive110;", d);
             StringAssert.Contains("Dive75.BackSpeed = QueryFloat(\"dalisgeri\", .56f, .2f, 2);", root);
-            StringAssert.Contains("Dive75.Variant110 = v110 == \"b\" || v110 == \"c\" ? v110[0] : 'a';", root);
+            StringAssert.Contains("Dive75.Variant110 = v110 == \"a\" || v110 == \"c\" ? v110[0] : 'b';", root);
         }
     }
 }
