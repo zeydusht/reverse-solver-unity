@@ -43,6 +43,7 @@ Shader "ReverseSolver/Piece"
         _RvTime ("PM_84 dive: the drawing's clock (s)", Float) = 0
         _RvEdgeSec ("PM_84 dive: one cut's drawing time (s)", Float) = 0.55
         _RvLook ("PM_86 dive: the plain picture (0) .. the pieces' own look (1)", Float) = 1
+        _RvRim ("PM_114 dive: the board's rim drawn, cells along each of its two pens", Float) = 1000
     }
     SubShader
     {
@@ -74,7 +75,7 @@ Shader "ReverseSolver/Piece"
                 float _PtToUnit, _Lift, _Gray, _Glow, _Flash, _Alpha, _ImageMix;
                 float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
                 float _SkinMix, _KitOn;
-                float _RvOn, _RvTime, _RvEdgeSec, _RvLook;
+                float _RvOn, _RvTime, _RvEdgeSec, _RvLook, _RvRim;
                 float4 _ImageH0, _ImageH1, _ImageH2;   // PM_90: the dive's pull back (rows of a homography, board uv -> picture uv)
                 float _ImageWarp;
             CBUFFER_END
@@ -128,6 +129,17 @@ Shader "ReverseSolver/Piece"
                 if (d.y < m) { m = d.y; ek = e.y; st = starts.y; along = q.y; outw = q.x - 100.0; }
                 if (d.z < m) { m = d.z; ek = e.z; st = starts.z; along = q.x; outw = q.y - 100.0; }
                 if (d.w < m) { m = d.w; ek = e.w; st = starts.w; along = q.y; outw = -q.x; }
+                if (st < -0.5)
+                {
+                    /* PM_114: a side of the board's rim, drawn by one of two pens from the top's middle round to the
+                       bottom's (_RvRim cells along each): -(1 + 1000 mode + 2 k0), k0 where its pen reaches it (cells),
+                       mode 0 along it, 1 against, 2 from its middle out (the top's middle cell), 3 from its ends in
+                       (the bottom's) */
+                    float code = floor(-st - 1.0 + 0.5), mode = floor(code / 1000.0), k0 = (code - mode * 1000.0) * 0.5;
+                    float a = clamp(along, 0.0, 100.0) / 100.0;
+                    float sr = mode < 0.5 ? a : mode < 1.5 ? 1.0 - a : mode < 2.5 ? abs(a - 0.5) : 0.5 - abs(a - 0.5);
+                    return saturate((_RvRim - k0 - sr) / 0.015 + 0.5);
+                }
                 float f = saturate((_RvTime - st) / max(_RvEdgeSec, 1e-3));
                 f = f * f * (3.0 - 2.0 * f);
                 if (f <= 0.0) return 0.0;

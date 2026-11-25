@@ -40,7 +40,7 @@ namespace ReverseSolver.Core.Tests
         {
             string d = File.ReadAllText("Assets/_Game/Presentation/Ui/Dive75.cs"), root = File.ReadAllText("Assets/_Game/Presentation/GameRoot.cs");
             Assert.That(Dive75.U, Is.EqualTo(0f));
-            StringAssert.Contains("Dive75.U = QueryFloat(\"u\", 0, 0, 5);", root);
+            StringAssert.Contains("Dive75.U = QueryFloat(\"u\", Dive75.HoldSec >= 0 || Dive75.Bungee > 0 ? 0 : 1, 0, 5);", root);   // PM_114: U1 the default
             StringAssert.Contains("if (U > 0) PlanU113(); else if (Bungee > 0) PlanBungee112();", d);
             StringAssert.Contains("const float Depth113 = .04f, Edge113 = .33f, MinFall113 = .08f;", d);
             StringAssert.Contains("_bungee = _u = true;", d);   // the bungee's sounds, air, cuts and no touch

@@ -37,6 +37,16 @@ namespace ReverseSolver.Presentation
         public static float LinesDone = .7f;  // PM_84/85: the share of the pull back by which the cuts are all drawn
         public static float CorridorApproach = .6f;   // PM_85: after the corridor (no flight) the approach is .6 s
         public static bool Log;               // &dalislog=1: every frame's painting / board corners on screen, for the speed graphs
+        /* PM_114 (Zeyd: "the lines round the board come at once"; "no jump, no slip"): the board's rim (the pieces' own
+           cut along the board's edge) drawn as the cuts are, by two pens from the top's middle round both sides to the
+           bottom's middle, from the bottom of the dive to LinesEnd of the pull back (the cuts' end), eased in and out
+           (RimEase114, even in the middle); the pens' glowing tips (the cuts' too) fade in and out over TipFade114 of
+           their stroke instead of coming and going in a frame; the drawing's clock ends where its last cut does (it
+           jumped to the biggest board's end as the cuts were done: what was left of the rim came in one frame); and the
+           press and the frame after the cuts take over step at most 1/60 s like the frame after the build (PM_91): a
+           long frame there is a beat, not a jump. &kenar=0: PM_113's, all of it. */
+        public static bool Fix114 = true;
+        const float RimRamp114 = .25f, TipFade114 = .3f;
         /* PM_91 (Zeyd: "it goes well at first but slows down as it nears the painting"): the approach keeps its speed
            into the painting (PM_92: rising all the way, see MenuSeconds92; the old curves came to rest), and the
            picture holds half as long (PM_90 measured .55 s from the menu, .43 s after the corridor).
@@ -219,6 +229,7 @@ namespace ReverseSolver.Presentation
             var clock = System.Diagnostics.Stopwatch.StartNew();
             d.Prepare();
             d.Note($"prepare {clock.Elapsed.TotalMilliseconds:0} ms");
+            d._calm = Fix114;   // PM_114: the press's long frame a beat, not a jump
             if (s.Diorama == null || s.Seamless) s.Hide?.Invoke();   // otherwise the diorama fades in over the menu first (CrossIn)
             d._lastFrame = Time.frameCount;      // the clock starts on the next frame
             d.Step();
@@ -620,10 +631,12 @@ namespace ReverseSolver.Presentation
             // PM_90 §3: the arriving picture held through the hold, then eased to the board's own over the whole pull back
             // (the one difference spread out; the camera alone scales it, the same across and down; the cuts are the board's)
             PullBack90(Even90((t - h1) / Mathf.Max(.01f, _p.Back)));
-            _reveal?.Flow(LineFrac(t, h0, h1), Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back)));
+            float share = LineFrac(t, h0, h1), rim = Fix114 ? RimEase114(RimShare114(t, h0, h1)) : -1;
+            _reveal?.Flow(share, Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back)), rim);
             LogBoardPicture();
-            float hud = Mathf.Min(.3f, _p.Back);
-            _s.Slide?.Invoke(BoosterFx74.OutCubic(Mathf.Clamp01((t - (h2 - hud)) / hud)));
+            float hud = Mathf.Min(.3f, _p.Back), slide = BoosterFx74.OutCubic(Mathf.Clamp01((t - (h2 - hud)) / hud));
+            _s.Slide?.Invoke(slide);
+            if (Log && _reveal != null) Debug.Log($"[cizgi] {t:0.0000} share {share:0.0000} rim {rim:0.0000} time {_reveal.DrawTime:0.0000} look {_reveal.Look:0.0000} hud {slide:0.0000}");
             LogBoard(t);
             if (t >= h2) Finish();
         }
@@ -1014,6 +1027,58 @@ namespace ReverseSolver.Presentation
 
         /* How much of the cuts is drawn: 0 at the hold's start, Lines at its end, all at 80 % of the back; slow at
            first (a pen), even through the hold's end. &cizgihiz= runs it faster or slower. */
+        /* PM_114: the rim's share of its drawing at t: from the bottom (h1) to where the cuts are all drawn (LineFrac's c). */
+        float RimShare114(float t, float h0, float h1)
+        {
+            float c = h1 + LinesEnd * _p.Back, tt = h0 + (t - h0) * Mathf.Max(.1f, LineK);
+            return Mathf.Clamp01((tt - h1) / Mathf.Max(.01f, c - h1));
+        }
+
+        /* PM_114: the rim's pens eased: their speed up over RimRamp114 (a smoothstep), even, then down the same. */
+        public static float RimEase114(float x)
+        {
+            x = Mathf.Clamp01(x);
+            const float a = RimRamp114;
+            float L;
+            if (x < a) { float y = x / a; L = a * (y * y * y - y * y * y * y / 2); }
+            else if (x > 1 - a) { float y = (1 - x) / a; L = (1 - a) - a * (y * y * y - y * y * y * y / 2); }
+            else L = a / 2 + (x - a);
+            return L / (1 - a);
+        }
+
+        /* PM_114: where the pens reach a side of the board's rim (see Piece.shader RvSeam): -(1 + 1000 mode + 2 k0), k0
+           the cells along the pen's way, mode 0 along the side, 1 against it, 2 from its middle out, 3 from its ends in. */
+        public static float RimStart114(int x, int y, Dir d, int w, int h)
+        {
+            float half = w / 2f, k0; int mode;
+            switch (d)
+            {
+                case Dir.U:
+                    if (x + 1 <= half) { k0 = half - (x + 1); mode = 1; }
+                    else if (x >= half) { k0 = x - half; mode = 0; }
+                    else { k0 = 0; mode = 2; }
+                    break;
+                case Dir.D:
+                    if (x + 1 <= half) { k0 = half + h + x; mode = 0; }
+                    else if (x >= half) { k0 = half + h + (w - (x + 1)); mode = 1; }
+                    else { k0 = half + h + (half - .5f); mode = 3; }
+                    break;
+                default: k0 = half + y; mode = 0; break;   // the right side for the right pen, the left for the left: down
+            }
+            return -(1 + 1000 * mode + Mathf.Round(2 * k0));
+        }
+
+        /* PM_114: the pen's place (cells, y down) d cells along its way from the top's middle; right: the right pen. */
+        public static Vector2 RimPoint114(float d, bool right, int w, int h)
+        {
+            float half = w / 2f; Vector2 p;
+            d = Mathf.Clamp(d, 0, w + h);
+            if (d <= half) p = new Vector2(half + d, 0);
+            else if (d <= half + h) p = new Vector2(w, d - half);
+            else p = new Vector2(w - (d - half - h), h);
+            return right ? p : new Vector2(w - p.x, p.y);
+        }
+
         float LineFrac(float t, float h0, float h1)
         {
             float a = h0, b = h1, c = h1 + LinesEnd * _p.Back, tt = a + (t - a) * Mathf.Max(.1f, LineK);
@@ -1375,6 +1440,7 @@ namespace ReverseSolver.Presentation
             _paint?.Dispose(); _paint = null;
             _ghost?.Dispose(); _ghost = null;
             Note($"reveal {clock.Elapsed.TotalMilliseconds:0} ms at {_clock:0.00} s");
+            if (Fix114) _calm = true;   // PM_114: and the frame after it
             if (Log) Debug.Log($"[devir] {_clock:0.0000}");   // PM_86: the frame the dive's painting hands over to the board
         }
 
@@ -1744,12 +1810,15 @@ namespace ReverseSolver.Presentation
                 if (flow && Art.Texture("kit-mask") != null)
                 {
                     float outer = Spread + .05f;
+                    r._rimW = l.Width; r._rimH = l.Height; r._rimCell = cell;
+                    // PM_114: the board's rim by its two pens (RimStart114); &kenar=0 with the last cuts
+                    float Outer(Cell c, Dir d) => Fix114 ? RimStart114(c.X, c.Y, d, l.Width, l.Height) : outer;
                     float StartOf(Cell c, Dir d) => d switch
                     {
-                        Dir.L => c.X > 0 && r._vStart.TryGetValue((c.X, c.Y), out var a) ? a : outer,
-                        Dir.R => c.X + 1 < l.Width && r._vStart.TryGetValue((c.X + 1, c.Y), out var b2) ? b2 : outer,
-                        Dir.U => c.Y > 0 && r._hStart.TryGetValue((c.X, c.Y), out var u) ? u : outer,
-                        _ => c.Y + 1 < l.Height && r._hStart.TryGetValue((c.X, c.Y + 1), out var dd) ? dd : outer,
+                        Dir.L => c.X > 0 && r._vStart.TryGetValue((c.X, c.Y), out var a) ? a : Outer(c, d),
+                        Dir.R => c.X + 1 < l.Width && r._vStart.TryGetValue((c.X + 1, c.Y), out var b2) ? b2 : Outer(c, d),
+                        Dir.U => c.Y > 0 && r._hStart.TryGetValue((c.X, c.Y), out var u) ? u : Outer(c, d),
+                        _ => c.Y + 1 < l.Height && r._hStart.TryGetValue((c.X, c.Y + 1), out var dd) ? dd : Outer(c, d),
                     };
                     for (int i = 0; i < l.Pieces.Count; i++)
                     {
@@ -1766,7 +1835,7 @@ namespace ReverseSolver.Presentation
                     lr.enabled = false;
                 }
                 if (_dot == null) _dot = MakeDot();
-                for (int i = 0; i < 24; i++)
+                for (int i = 0; i < 26; i++)   // PM_114: the last two the rim's pens
                 {
                     var tip = new GameObject("tip").AddComponent<SpriteRenderer>();
                     tip.transform.SetParent(r._root, false);
@@ -1849,6 +1918,9 @@ namespace ReverseSolver.Presentation
                 return start;
             }
 
+            /* PM_114: a pen's tip fades in and out over TipFade114 of its stroke (&kenar=0: at once). */
+            static float TipAlpha(float f) => Fix114 ? Mathf.Clamp01(Mathf.Min(f, 1 - f) / TipFade114) : 1;
+
             static Sprite MakeDot()
             {
                 const int n = 32;
@@ -1868,7 +1940,8 @@ namespace ReverseSolver.Presentation
             bool _flow;
             float[] _drawn;          // PM_80: the share of all the cuts drawn at each step of the drawing's own clock
             const int DrawSteps = 64;
-            float DrawEnd => Spread + .05f + EdgeSeconds;
+            float _drawEnd;
+            float DrawEnd => _drawEnd > 0 ? _drawEnd : Spread + .05f + EdgeSeconds;
             float EdgeEase(float f) => _flow ? f * f * (3 - 2 * f) : BoosterFx74.OutCubic(f);   // PM_80: a pen's even stroke
 
             void MeasureDrawing()
@@ -1876,6 +1949,12 @@ namespace ReverseSolver.Presentation
                 _drawn = new float[DrawSteps + 1];
                 float total = 0;
                 foreach (var e in _edges) total += e.length;
+                if (Fix114 && _edges.Count > 0)
+                {
+                    float last = 0;   // PM_114: the drawing ends with its last cut
+                    foreach (var e in _edges) last = Mathf.Max(last, e.start);
+                    _drawEnd = last + EdgeSeconds;
+                }
                 for (int i = 0; i <= DrawSteps; i++)
                 {
                     float time = DrawEnd * i / DrawSteps, sum = 0;
@@ -1886,8 +1965,12 @@ namespace ReverseSolver.Presentation
 
             /* PM_80: share 0..1 of the cuts drawn (from the centre out); back 0..1 the pull back: the picture gives way
                to the pieces from 60 %, the cuts' shadow widens a little (the pieces part, 1-2 px), then they fade. */
-            public void Flow(float share, float back)
+            public float DrawTime { get; private set; }
+            public float Look => _look;
+            int _rimW, _rimH; float _rimCell, _rim = -1;
+            public void Flow(float share, float back, float rim = -1)
             {
+                _rim = rim;
                 float time = DrawEnd;
                 if (_drawn != null && share < 1)
                 {
@@ -1917,6 +2000,7 @@ namespace ReverseSolver.Presentation
 
             void Render(float time, float pictureAlpha, float lineAlpha, float shadow)
             {
+                DrawTime = time;
                 SetPicAlpha(pictureAlpha);
                 var verts = new List<Vector3>(); var cols = new List<Color>(); var tris = new List<int>();
                 int tip = 0;
@@ -1926,18 +2010,28 @@ namespace ReverseSolver.Presentation
                     if (f <= 0) continue;
                     float drawn = EdgeEase(f) * length;
                     Vector2 end = Seams ? PointAt(pts, drawn) : Polyline(pts, drawn, verts, cols, tris, lineAlpha, shadow);
-                    if (f < 1 && tip < _tips.Count)
+                    if (f < 1 && tip < _tips.Count - 2)
                     {
                         var s = _tips[tip++]; s.enabled = true;
                         s.transform.localPosition = Draw.W(end);
-                        s.color = new Color(1, 1, 1, lineAlpha);
+                        s.color = new Color(1, 1, 1, lineAlpha * TipAlpha(f));
                     }
                 }
-                for (int i = tip; i < _tips.Count; i++) _tips[i].enabled = false;
+                for (int i = tip; i < _tips.Count - 2; i++) _tips[i].enabled = false;
+                // PM_114: the rim's two pens (from the top's middle, round both sides)
+                float rimD = _rim < 0 ? 1000 : _rim * (_rimW + _rimH + .06f) - .03f;
+                for (int k = 0; k < 2; k++)
+                {
+                    var s = _tips[_tips.Count - 2 + k];
+                    s.enabled = Seams && _rim > 0 && _rim < 1;
+                    if (!s.enabled) continue;
+                    s.transform.localPosition = Draw.W(RimPoint114(rimD, k == 1, _rimW, _rimH) * _rimCell);
+                    s.color = new Color(1, 1, 1, lineAlpha * TipAlpha(_rim));
+                }
                 if (Seams)
                 {
                     float look = Mathf.Max(0, _look);
-                    foreach (var pv in _seams) if (pv != null) pv.SetReveal(true, time, EdgeSeconds, look);
+                    foreach (var pv in _seams) if (pv != null) pv.SetReveal(true, time, EdgeSeconds, look, rimD);
                     SetPicAlpha(1 - look);
                     Badges(look);
                 }

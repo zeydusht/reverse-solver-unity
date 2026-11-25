@@ -131,7 +131,7 @@ const TAP = `(function () {
     if (m.id && pend.has(m.id)) { pend.get(m.id)(m); pend.delete(m.id); }
     if (m.method === 'Runtime.consoleAPICalled') {
       const line = (m.params.args || []).map(a => a.value ?? '').join(' ');
-      if (/^\[(cerceve|dalis|gecis|mix|ses|yay|varis|geri)\]/.test(line)) logs.push(m.params.timestamp.toFixed(1) + ' ' + line.slice(0, 1500));
+      if (/^\[(cerceve|dalis|gecis|mix|ses|yay|varis|geri|dl|cizgi|devir|perf)\]/.test(line)) logs.push(m.params.timestamp.toFixed(1) + ' ' + line.slice(0, 1500));
     }
     if (m.method === 'Page.screencastFrame') {
       cdp('Page.screencastFrameAck', { sessionId: m.params.sessionId });

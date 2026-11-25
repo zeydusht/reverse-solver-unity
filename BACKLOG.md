@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 25 Kasım 2026 (Claude Code, PM_113)
+Son güncelleme: 26 Kasım 2026 (Claude Code, PM_114)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -48,7 +48,7 @@ Kurallar:
 | Playtest daveti: her davetli 1–2 kişiye iletsin mi, ek bir grup var mı? (cevap bekliyor) | Playtest'ten önce | 1 dk |
 | 4G kontrolü | Playtest'ten önce | 10 dk |
 | PM_107: telefonda dinle: 18. bölümde saat + kayma (tik-tak duyuluyor mu), 31. bölümde zincir, menüden Oyna'da dalış sesi; menüde yeni alt çubuk, altın ve koleksiyon | Boş vaktinde | ~10 dk |
-| PM_113: U önizlemesini izle (`docs/art/pm113/u_yan_yana.mp4` ve yarım hızı, vol 2 \| U1 \| U2 \| U3; grafik `yakinlik.png`): birini seç, onaylarsan yayınlanır | Boş vaktinde | ~3 dk |
+| PM_114: kenar önizlemesini izle (`docs/art/pm114/once_sonra.mp4` ve yarım hızı, şimdiki \| düzeltilmiş): kenarlar çizilerek geliyor mu, sıçrama kaldı mı; onaylarsan yayınlanır | Boş vaktinde | ~3 dk |
 
 ## PM
 
@@ -223,6 +223,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_106 (24 Kasım): Block Out sesi analiz edildi (`docs/art/pm106/BLOCKOUT_SES_ANALIZ.md`: sürüklerken ses yok, bırakmada tek tok, çıkışta ufalanma, perde artmıyor); çıkış sesi Block Out tarzı q (5 aday q–u, tek kayıt, sabit perde, kalkış sesi yok; `&cikisperde=1` deneme); zincir gerçek zincir kaydı (d–f, kesintisiz, hıza göre); lastik bütün takılmalarda tam (boşluksuzda %55'ti, kilitli parçada eksikti; 32 takılma ölçüldü); Ayarlar ve sekmelerde tek ses; dalış sonu ting kalktı. Açık: Zeyd'in seçimleri, telefonda deneme.
 - ✅ PM_106_EK2 (24 Kasım): dinleme sayfası her yerde boştu (PM_105'te bir ipucundaki kesme işareti, "Durdur'daki", sayfanın tek betiğini durduruyordu). Artık her bölüm ayrı kuruluyor; biri bozulursa yalnız o "yüklenemedi" der. `Tools/webkit_sesler.js`: WebKit 390×844'te 25 bölüm kuruldu, sayfa hatası 0; Chrome'da ses çalan 24 bölümün 24'ü çaldı, çözme hatası 0 (Playwright WebKit'te Windows'ta Web Audio yok). Canlı p23'te.
 - ✅ PM_106_EK (24 Kasım): testlerin Zeyd'in Chrome'unda gizlilik sekmesi ve mailto açması. Sebep: PlayMode'daki "her düğmeye bas" taraması Ayarlar'da Gizlilik ve e-posta düğmelerine basıyordu; editörde `Application.OpenURL` gerçek tarayıcıyı açıyor. Bütün dış bağlantılar `LinkAcici.Ac`'tan geçiyor: editörde ve `&test=1`'de açılmıyor, günlüğe "açılacaktı" yazıyor; gerçek oyunda açılıyor.
+- ✅ PM_114 önizleme (26 Kasım): U1 varsayılan (`&u=0` vol 2). Tahtanın dış kenarı artık dipten sonra iki kalemle üst ortadan çevre boyunca çiziliyor ve iç çizgilerle geri çekilmenin %80'inde bitiyor (önce tek karede %87 geliyordu: çizim saati çizgiler bitince atlıyordu). Kalem uçları yumuşak açılıp kapanıyor; basış ve çizgi devri karelerindeki saat atlaması (sıçrama) giderildi. Toplam 1,60 sn. Bulundu, düzeltilmedi (PM kararı): 0,27 sn'de uçuştan yaklaşmaya geçişte dönmenin tek karede durması; dipte ekran kartı kaynaklı 5 kare 25–30 ms. Yayın yok (`docs/art/pm114/`, `&kenar=0` eski hâl).
 - ✅ PM_113 önizleme (25 Kasım): `&u=1 / 2 / 3` ile resimde durma yerine geniş, yuvarlak U. Süre birebir vol 2 (1,60 sn), dip vol 2'nin bekleme ortasında (0,75 sn), %4 içeride. Hız dipte sıfırdan düz bir çizgiyle geçiyor: +0,3 → −0,3 0,20 / 0,31 / 0,41 sn, iki yan eşit. Gidiş B'nin şekliyle biraz hızlanıyor (×1,005 / 1,10 / 1,29); geri çekilmedeki kayma için çıkış ivmesi düzeltildi. Kenar boşluğu 0, ses boşluksuz; yayın yok (`docs/art/pm113/`).
 - ✅ PM_112 önizleme (25 Kasım): vol 2 varsayılan; `&bungee=2 / 4 / 6` ile resimde durma yerine bungee dönüşü (durma yok, hız dipte bir kez sıfırdan geçiyor, ivme kesintisiz). B tabloya neredeyse durarak vardığı için frenleme tablonun içine taşındı (B tepesine kadar aynı); dönüş 0,09 / 0,13 / 0,16 sn, toplam 1,60 sn; kenar boşluğu 0, ses boşluksuz ve üst üste binmeden; yayın yok (`docs/art/pm112/`).
 - ✅ PM_111 önizleme (25 Kasım): B varsayılan; resimde kalış 3 varyant (`&resimbekle=0 / 0.07 / 0.145`), toplam 1,81 → 1,52 / 1,60 / 1,67 sn; dönüşte köşe yok (kısa kalışta yumuşak kalkışlı geri çekilme), çizgiler varışta başlayıp geri çekilmenin %80'inde bitiyor, sesler üst üste binmiyor; yayın yok (`docs/art/pm111/`).
