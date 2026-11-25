@@ -57,6 +57,18 @@ namespace ReverseSolver.Presentation
            (the line on from there meets 0 at half that time: Rise = 1 + 2 (Peak - RiseFrom) / RiseFrom), so it keeps
            accelerating evenly into the wall, no elbow (PM_92's first try eased off at .17 s, like PM_91's at .2 s) */
         const float CorridorRiseFrom92 = .2f, CorridorRise92 = 1 + 2 * (Peak92 - CorridorRiseFrom92) / CorridorRiseFrom92;
+        /* PM_108 (Zeyd's drawing, 25 Nov: "it seemed slow at the start"): the menu's dive (the arc and the approach) in
+           1.2 s, its speed on the screen (Flow92, the way as PM_92 lays it out) off at once at Start108 of the peak, up
+           to the peak by Rise108 of the time (a cubic, the acceleration with no step), the peak held to Hold108, down
+           to 1 / Peak108 of it by Fall108, then even to the arrival; the last EndEase108 s ease to EndLand108 of it (the
+           touch, PM_91, then takes over at that speed). &dalis108=0 PM_92's; &dalistepe= the peak over the even speed;
+           &dalishiz= still a factor on the speed (1.25: 0.96 s). The corridor's dive is not changed. */
+        public static bool Dive108 = true;
+        public static float Peak108 = 1.65f;
+        const float MenuSeconds108 = 1.2f, Start108 = .55f, Rise108 = .25f, Hold108 = .45f, Fall108 = .60f;
+        const float EndEase108 = .03f, EndLand108 = .85f;
+        bool _plan108;
+        float[] _speed108;   // the design's speed over the time (1 at the peak), for the dive's air
 
         struct Plan { public float Flight, Approach, Hold, Back, Lines, Push; }
         static Plan Current
@@ -220,7 +232,9 @@ namespace ReverseSolver.Presentation
                     Note($"bell split {_bellSplit:0.00}");
                     if (_new91)
                     {
-                        float T = MenuSeconds92 / Mathf.Max(.25f, DiveSpeed);
+                        _plan108 = Dive108;
+                        float T = (_plan108 ? MenuSeconds108 : MenuSeconds92) / Mathf.Max(.25f, DiveSpeed);
+                        if (_plan108) _flight = T * _bellSplit;   // (the clock's split only; the camera follows Way92)
                         _p.Approach = T - _flight;
                         Plan92(MenuQuad92, T, true);
                     }
@@ -440,7 +454,7 @@ namespace ReverseSolver.Presentation
         {
             if (_finished || _s.Cam == null || Time.frameCount == _lastFrame) return;
             _lastFrame = Time.frameCount;
-            _frames++; if (Time.unscaledDeltaTime > .02f) _slow++; _maxDt = Mathf.Max(_maxDt, Time.unscaledDeltaTime);   // PM_84
+            _frames++; if (Time.unscaledDeltaTime > .02f) { _slow++; if (Log) Note($"long frame {Time.unscaledDeltaTime * 1000:0} ms at {_clock:0.00} s"); } _maxDt = Mathf.Max(_maxDt, Time.unscaledDeltaTime);   // PM_84
             // a long frame (the level being built) must not eat the hold: at most 1/30 s a frame
             // PM_91: the level is built on the approach's last frame, at speed: the next frame steps on at most 1/60 s
             // (a beat on the touch, not a jump)
@@ -490,7 +504,8 @@ namespace ReverseSolver.Presentation
             Cues100(t, h0, h1, h2);
             // PM_107 §C6: the air follows the motion: the flight and the approach are one smootherstep over [0, h0]
             // (PM_86), its speed 30 u^2 (1-u)^2, 1 at the middle
-            Gecis100.Dive(t < h0 ? Bell107(t / Mathf.Max(.05f, h0)) : 0);
+            // PM_108: the menu's dive its own speed (off at once, the peak, then even), the air the same
+            Gecis100.Dive(t >= h0 ? 0 : _speed108 != null ? Interp(_speed108, t / Mathf.Max(.05f, h0)) : Bell107(t / Mathf.Max(.05f, h0)));
             if (t < h0)
             {
                 float u = Mathf.Clamp01((t - _flight) / _p.Approach);
@@ -601,7 +616,8 @@ namespace ReverseSolver.Presentation
             var prev = quad(0);
             for (int i = 1; i <= WaySteps92; i++) { var q = quad(i / (float)WaySteps92); _wayD[i] = _wayD[i - 1] + Flow92(prev, q); prev = q; }
             float D = _wayD[WaySteps92], v0 = 0, a0 = 0;
-            if (menu && _bellT > 0)
+            bool p108 = menu && _plan108;
+            if (menu && _bellT > 0 && !p108)
             {
                 float At(float t) => Interp(_wayD, Launch(t / _bellT));
                 v0 = (At(.02f) - At(0)) / .02f;
@@ -613,6 +629,7 @@ namespace ReverseSolver.Presentation
                 float riseFrom = menu ? RiseFrom92 : CorridorRiseFrom92, rise = menu ? Rise92 : CorridorRise92;
                 float t1 = riseFrom * T, t2 = Peak92 * T, m = (rise - 1) / Mathf.Max(1e-3f, t2 - t1);
                 var v = new float[TimeSteps92 + 1];
+                if (p108) { for (int k = 0; k <= TimeSteps92; k++) v[k] = lam * Speed108(k / (float)TimeSteps92, T); return v; }
                 for (int k = 0; k <= TimeSteps92; k++)
                 {
                     float t = T * k / TimeSteps92;
@@ -626,11 +643,23 @@ namespace ReverseSolver.Presentation
             float s0 = Area(Speeds(0, v0, a0)), s1 = Area(Speeds(1, 0, 0));
             float lambda = Mathf.Max(1e-4f, (D - s0) / Mathf.Max(1e-6f, s1));
             var vs = Speeds(lambda, v0, a0);
+            if (p108) { _speed108 = new float[TimeSteps92 + 1]; for (int k = 0; k <= TimeSteps92; k++) _speed108[k] = Speed108(k / (float)TimeSteps92, T); }
             _timeD = new float[TimeSteps92 + 1];
             for (int k = 1; k <= TimeSteps92; k++) _timeD[k] = _timeD[k - 1] + (vs[k] + vs[k - 1]) / 2 * T / TimeSteps92;
             float scale = D / Mathf.Max(1e-6f, _timeD[TimeSteps92]);
             for (int k = 0; k <= TimeSteps92; k++) _timeD[k] *= scale;
             Note($"PM_92: {D:0.000} screen heights in {T:0.00} s, from {v0:0.000} (+{a0:0.00}/s) through {lambda:0.000}");
+        }
+
+        /* PM_108: the menu dive's speed at the share x of its time T, 1 at the peak (see Dive108). */
+        public static float Speed108(float x, float T)
+        {
+            float even = 1 / Mathf.Max(1.01f, Peak108), te = T > 0 ? Mathf.Clamp01(1 - EndEase108 / T) : 1;
+            if (x < Rise108) return Hermite3(Start108, 1.5f * (1 - Start108), 1, 0, x / Rise108);
+            if (x < Hold108) return 1;
+            if (x < Fall108) return Hermite3(1, 0, even, 0, (x - Hold108) / (Fall108 - Hold108));
+            if (x < te) return even;
+            return Hermite3(even, 0, even * EndLand108, 0, Mathf.Clamp01((x - te) / Mathf.Max(1e-4f, 1 - te)));
         }
 
         /* PM_92: the way (0..1) reached at t. */
@@ -1212,7 +1241,7 @@ namespace ReverseSolver.Presentation
             /* PM_78: a texture of size texSize laid out on an nx x ny grid by pxAt(u, v) (texture px, y down), each
                grid point's 3D point at(px) (the grid may follow a slanted edge, e.g. the wall's foot). */
             public static Layer FromGrid(Transform parent, string name, Texture tex, Material baseMat, Vector2 texSize,
-                                         Func<float, float, Vector2> pxAt, Func<Vector2, Vector3> at, int nx, int ny, int order)
+                                         Func<float, float, Vector2> pxAt, Func<Vector2, Vector3> at, int nx, int ny, int order, bool clampUv = false)
             {
                 var l = new Layer { _n = nx };
                 var uv = new List<Vector2>(); var tris = new List<int>(); var p3 = new List<Vector3>();
@@ -1220,7 +1249,8 @@ namespace ReverseSolver.Presentation
                     for (int i = 0; i <= nx; i++)
                     {
                         var px = pxAt((float)i / nx, (float)j / ny);
-                        uv.Add(new Vector2(px.x / texSize.x, 1 - px.y / texSize.y));
+                        var t = new Vector2(px.x / texSize.x, 1 - px.y / texSize.y);
+                        uv.Add(clampUv ? new Vector2(Mathf.Clamp01(t.x), Mathf.Clamp01(t.y)) : t);   // PM_108: past the plate, its edge
                         p3.Add(at(px));
                         if (i < nx && j < ny) { int s = j * (nx + 1) + i; tris.AddRange(new[] { s, s + 1, s + nx + 2, s, s + nx + 2, s + nx + 1 }); }
                     }

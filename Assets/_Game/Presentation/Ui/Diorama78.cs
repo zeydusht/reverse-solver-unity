@@ -208,9 +208,12 @@ namespace ReverseSolver.Presentation
         void Seen(out Rect wall, out float floorBottom)
         {
             float x0 = 1e9f, x1 = -1e9f, y0 = 1e9f, y1 = -1e9f;
-            for (int s = 0; s <= 24 + Extra.Count; s++)
+            // PM_108: each point of the arc with the lens at both ends too (the dive's lens shift follows its own clock,
+            // not the arc's share: early on the camera looked further right and down than CameraAt(o) does)
+            for (int s = 0; s <= 3 * 25 + Extra.Count - 1; s++)
             {
-                var c = s <= 24 ? CameraAt(s / 24f) : CameraAt(Extra[s - 25], 1);
+                int k = s % 25, lens = s / 25;
+                var c = s < 75 ? (lens == 0 ? CameraAt(k / 24f) : CameraAt(PathAt(k / 24f) * _scale, lens - 1)) : CameraAt(Extra[s - 75], 1);
                 for (int e = 0; e < 4; e++)
                     for (int i = 0; i <= 32; i++)
                     {
@@ -228,8 +231,11 @@ namespace ReverseSolver.Presentation
                     }
             }
             const float margin = 24;
-            var lo = -_a.ImageOrigin; var hi = _a.PlateSize - _a.ImageOrigin;
-            wall = Rect.MinMaxRect(Mathf.Max(lo.x, x0 - margin), Mathf.Max(lo.y, y0 - margin), Mathf.Min(hi.x, x1 + margin), 0);
+            // PM_108: past the plate's sides and foot as far as the camera sees (at most a quarter of the plate), the
+            // plate's edge pixels drawn on (Layer.FromGrid clampUv): early in the arc the camera saw a corner past the
+            // floor's right edge, the backdrop showing there for about .2 s (PM_88's bottom-right gap)
+            var lo = -_a.ImageOrigin - _a.PlateSize * .25f; var hi = _a.PlateSize * 1.25f - _a.ImageOrigin;
+            wall = Rect.MinMaxRect(Mathf.Max(lo.x, x0 - margin), Mathf.Max(-_a.ImageOrigin.y, y0 - margin), Mathf.Min(hi.x, x1 + margin), 0);
             floorBottom = Mathf.Min(hi.y, y1 + margin);
         }
 
@@ -241,10 +247,10 @@ namespace ReverseSolver.Presentation
             Vector2 Plate(Vector2 px) => px + _a.ImageOrigin;
             layers.Add(Dive75.Layer.FromGrid(parent, "wall", _a.Room, mat, _a.PlateSize,
                 (u, v) => { float x = Mathf.Lerp(x0, x1, u); return Plate(new Vector2(x, Mathf.Lerp(top, FootY(x), v))); },
-                px => OnPlaneZ(px - _a.ImageOrigin, 0), 40, 48, order));
+                px => OnPlaneZ(px - _a.ImageOrigin, 0), 40, 48, order, clampUv: true));
             layers.Add(Dive75.Layer.FromGrid(parent, "floor", _a.Room, mat, _a.PlateSize,
                 (u, v) => { float x = Mathf.Lerp(x0, x1, u); return Plate(new Vector2(x, Mathf.Lerp(FootY(x), bottom, v))); },
-                px => OnFloor(px - _a.ImageOrigin), 40, 20, order));
+                px => OnFloor(px - _a.ImageOrigin), 40, 20, order, clampUv: true));
         }
 
         /* The column, its banner and its sconce: each a cut-out on its own plane in front of the wall. */

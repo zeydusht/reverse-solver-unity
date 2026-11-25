@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 25 Kasım 2026 (Claude Code, PM_107)
+Son güncelleme: 25 Kasım 2026 (Claude Code, PM_108)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -48,6 +48,7 @@ Kurallar:
 | Playtest daveti: her davetli 1–2 kişiye iletsin mi, ek bir grup var mı? (cevap bekliyor) | Playtest'ten önce | 1 dk |
 | 4G kontrolü | Playtest'ten önce | 10 dk |
 | PM_107: telefonda dinle: 18. bölümde saat + kayma (tik-tak duyuluyor mu), 31. bölümde zincir, menüden Oyna'da dalış sesi; menüde yeni alt çubuk, altın ve koleksiyon | Boş vaktinde | ~10 dk |
+| PM_108: dalış önizlemesini izle (`docs/art/pm108/dalis_yan_yana.mp4`): onaylarsan yayınlanır; istersen `&dalistepe=` / `&dalishiz=` değerleri söyle | Boş vaktinde | ~3 dk |
 
 ## PM
 
@@ -222,6 +223,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_106 (24 Kasım): Block Out sesi analiz edildi (`docs/art/pm106/BLOCKOUT_SES_ANALIZ.md`: sürüklerken ses yok, bırakmada tek tok, çıkışta ufalanma, perde artmıyor); çıkış sesi Block Out tarzı q (5 aday q–u, tek kayıt, sabit perde, kalkış sesi yok; `&cikisperde=1` deneme); zincir gerçek zincir kaydı (d–f, kesintisiz, hıza göre); lastik bütün takılmalarda tam (boşluksuzda %55'ti, kilitli parçada eksikti; 32 takılma ölçüldü); Ayarlar ve sekmelerde tek ses; dalış sonu ting kalktı. Açık: Zeyd'in seçimleri, telefonda deneme.
 - ✅ PM_106_EK2 (24 Kasım): dinleme sayfası her yerde boştu (PM_105'te bir ipucundaki kesme işareti, "Durdur'daki", sayfanın tek betiğini durduruyordu). Artık her bölüm ayrı kuruluyor; biri bozulursa yalnız o "yüklenemedi" der. `Tools/webkit_sesler.js`: WebKit 390×844'te 25 bölüm kuruldu, sayfa hatası 0; Chrome'da ses çalan 24 bölümün 24'ü çaldı, çözme hatası 0 (Playwright WebKit'te Windows'ta Web Audio yok). Canlı p23'te.
 - ✅ PM_106_EK (24 Kasım): testlerin Zeyd'in Chrome'unda gizlilik sekmesi ve mailto açması. Sebep: PlayMode'daki "her düğmeye bas" taraması Ayarlar'da Gizlilik ve e-posta düğmelerine basıyordu; editörde `Application.OpenURL` gerçek tarayıcıyı açıyor. Bütün dış bağlantılar `LinkAcici.Ac`'tan geçiyor: editörde ve `&test=1`'de açılmıyor, günlüğe "açılacaktı" yazıyor; gerçek oyunda açılıyor.
+- ✅ PM_108 önizleme (25 Kasım): menü → bölüm dalışı Zeyd'in hız çizimiyle (yay + yaklaşma 1,5 → 1,2 sn; başta orta hız, ortada tepe, sonda sabit), uçuş başındaki sağ alt köşe boşluğu 0; yayın yok, yerel dal `pm108-onizleme` (`docs/art/pm108/`).
 - ✅ PM_107 (25 Kasım gece): ses tablosu varsayılan; zincir kayarken de; tam miksaj (kanallar, kısma, miksaj kopyaları, sınırlayıcı, dalış havası; 7 senaryo kaydı `docs/art/pm107/miks/`); görsel denetim ve düzeltmeler (koleksiyon detayı, kartlar, kaydırma donması, alt çubuk, altın, rozet, küçük yazılar).
 - ✅ PM_105 (24 Kasım): zincirli parçada lastik düzeldi (uçlar arası fark 0,76 → 0 hücre, GIF `docs/art/pm105/zincir_once_sonra.gif`); zincir, zincir gerilme, kilit dokunma, kilit açılma, patlama, kırmızı duvar sesleri (3'er aday, varsayılan a); bütün düğmeler Durdur'un toku (tek kayıt), eski "çıt" silindi. Açık: Zeyd'in ses seçimleri, telefonda deneme.
 - ✅ PM_101 (23 Kasım): AppLovin MAX → Google AdMob (UMP + ATT, test/gerçek kimlik ayrımı, test cihazı, Ad Inspector, gizlilik sayfası, app-ads.txt adımları). Bekleyen: app-ads.txt kök deposu, AdMob GDPR mesajı, Mac'te pod install.
