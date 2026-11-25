@@ -192,6 +192,7 @@ namespace ReverseSolver.Presentation
             Dive75.DiveSpeed = QueryFloat("dalishiz", 1, .25f, 4);   // PM_86 §10
             Dive75.Dive108 = Host.Current.Query("dalis108") != "0";       // PM_108: the menu dive's speed shape (&dalis108=0 PM_92's)
             Dive75.Peak108 = QueryFloat("dalistepe", 1.65f, 1.05f, 3);    // PM_108: the peak over the even approach speed
+            Dive75.Dive109 = Host.Current.Query("dalis109") != "0";       // PM_109: the second drawing (&dalis109=0 PM_108's)
             BoardView.Rubber = QueryFloat("lastik", 2, 0, 3);                 // PM_93 §1, PM_94 §2: 1, 1.5, 2 (0: PM_75's knock); PM_95: Zeyd chose 2
             BoardView.RubberSeconds = QueryFloat("lastiksure", -1, .1f, 3);
             BoardView.RubberLog = Host.Current.Query("lastiklog") == "1";

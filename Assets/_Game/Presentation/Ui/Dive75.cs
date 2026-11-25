@@ -69,6 +69,14 @@ namespace ReverseSolver.Presentation
         const float EndEase108 = .03f, EndLand108 = .85f;
         bool _plan108;
         float[] _speed108;   // the design's speed over the time (1 at the peak), for the dive's air
+        /* PM_109 (Zeyd's second drawing, 25 Nov 10:47): off lower (Start109 of the peak) but up steeply, to Climb109
+           of it by Rise109 of the time; then a long high plateau rising slowly to the peak by Top109, the peak held to
+           Hold109, down to 1 / Peak108 of it by Fall109 (later than PM_108's), then even, and the same last ease and
+           touch. Its time is what that shape takes at PM_108's even speed (the same way, the same low approach):
+           Seconds109, kept within .9..1.1 s. &dalis109=0 PM_108's; &dalistepe= and &dalishiz= as there. */
+        public static bool Dive109 = true;
+        const float Start109 = .40f, Climb109 = .85f, Rise109 = .10f, Top109 = .65f, Hold109 = .72f, Fall109 = .82f;
+        bool _plan109;
 
         struct Plan { public float Flight, Approach, Hold, Back, Lines, Push; }
         static Plan Current
@@ -232,8 +240,8 @@ namespace ReverseSolver.Presentation
                     Note($"bell split {_bellSplit:0.00}");
                     if (_new91)
                     {
-                        _plan108 = Dive108;
-                        float T = (_plan108 ? MenuSeconds108 : MenuSeconds92) / Mathf.Max(.25f, DiveSpeed);
+                        _plan108 = Dive108; _plan109 = Dive108 && Dive109;
+                        float T = (_plan109 ? Seconds109() : _plan108 ? MenuSeconds108 : MenuSeconds92) / Mathf.Max(.25f, DiveSpeed);
                         if (_plan108) _flight = T * _bellSplit;   // (the clock's split only; the camera follows Way92)
                         _p.Approach = T - _flight;
                         Plan92(MenuQuad92, T, true);
@@ -629,7 +637,7 @@ namespace ReverseSolver.Presentation
                 float riseFrom = menu ? RiseFrom92 : CorridorRiseFrom92, rise = menu ? Rise92 : CorridorRise92;
                 float t1 = riseFrom * T, t2 = Peak92 * T, m = (rise - 1) / Mathf.Max(1e-3f, t2 - t1);
                 var v = new float[TimeSteps92 + 1];
-                if (p108) { for (int k = 0; k <= TimeSteps92; k++) v[k] = lam * Speed108(k / (float)TimeSteps92, T); return v; }
+                if (p108) { for (int k = 0; k <= TimeSteps92; k++) v[k] = lam * MenuSpeed(k / (float)TimeSteps92, T); return v; }
                 for (int k = 0; k <= TimeSteps92; k++)
                 {
                     float t = T * k / TimeSteps92;
@@ -643,7 +651,7 @@ namespace ReverseSolver.Presentation
             float s0 = Area(Speeds(0, v0, a0)), s1 = Area(Speeds(1, 0, 0));
             float lambda = Mathf.Max(1e-4f, (D - s0) / Mathf.Max(1e-6f, s1));
             var vs = Speeds(lambda, v0, a0);
-            if (p108) { _speed108 = new float[TimeSteps92 + 1]; for (int k = 0; k <= TimeSteps92; k++) _speed108[k] = Speed108(k / (float)TimeSteps92, T); }
+            if (p108) { _speed108 = new float[TimeSteps92 + 1]; for (int k = 0; k <= TimeSteps92; k++) _speed108[k] = MenuSpeed(k / (float)TimeSteps92, T); }
             _timeD = new float[TimeSteps92 + 1];
             for (int k = 1; k <= TimeSteps92; k++) _timeD[k] = _timeD[k - 1] + (vs[k] + vs[k - 1]) / 2 * T / TimeSteps92;
             float scale = D / Mathf.Max(1e-6f, _timeD[TimeSteps92]);
@@ -660,6 +668,32 @@ namespace ReverseSolver.Presentation
             if (x < Fall108) return Hermite3(1, 0, even, 0, (x - Hold108) / (Fall108 - Hold108));
             if (x < te) return even;
             return Hermite3(even, 0, even * EndLand108, 0, Mathf.Clamp01((x - te) / Mathf.Max(1e-4f, 1 - te)));
+        }
+
+        float MenuSpeed(float x, float T) => _plan109 ? Speed109(x, T) : Speed108(x, T);
+
+        /* PM_109: the menu dive's speed at the share x of its time T, 1 at the peak (see Dive109). The climb meets the
+           plateau's slope, so the acceleration has no step there. */
+        public static float Speed109(float x, float T)
+        {
+            float even = 1 / Mathf.Max(1.01f, Peak108), te = T > 0 ? Mathf.Clamp01(1 - EndEase108 / T) : 1;
+            const float lean = .2f;   // the plateau's slope at its start (over its own span), easing to 0 at the top
+            if (x < Rise109) return Hermite3(Start109, 1.5f * (Climb109 - Start109), Climb109, lean * Rise109 / (Top109 - Rise109), x / Rise109);
+            if (x < Top109) return Hermite3(Climb109, lean, 1, 0, (x - Rise109) / (Top109 - Rise109));
+            if (x < Hold109) return 1;
+            if (x < Fall109) return Hermite3(1, 0, even, 0, (x - Hold109) / (Fall109 - Hold109));
+            if (x < te) return even;
+            return Hermite3(even, 0, even * EndLand108, 0, Mathf.Clamp01((x - te) / Mathf.Max(1e-4f, 1 - te)));
+        }
+
+        /* PM_109: the time at which its shape keeps PM_108's even speed over the same way (PM_108's area over its own,
+           at DiveSpeed 1), within .9..1.1 s. */
+        public static float Seconds109()
+        {
+            static float Area(System.Func<float, float> f) { float a = 0; for (int k = 1; k <= 600; k++) a += (f(k / 600f) + f((k - 1) / 600f)) / 2 / 600; return a; }
+            float a108 = MenuSeconds108 * Area(x => Speed108(x, MenuSeconds108)), T = 1;
+            for (int i = 0; i < 3; i++) { float t = T; T = a108 / Mathf.Max(1e-4f, Area(x => Speed109(x, t))); }
+            return Mathf.Clamp(T, .9f, 1.1f);
         }
 
         /* PM_92: the way (0..1) reached at t. */
