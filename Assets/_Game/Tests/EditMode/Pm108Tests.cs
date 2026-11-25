@@ -41,7 +41,7 @@ namespace ReverseSolver.Core.Tests
             StringAssert.Contains("Dive75.Dive108 = Host.Current.Query(\"dalis108\") != \"0\";", root);
             StringAssert.Contains("Dive75.Peak108 = QueryFloat(\"dalistepe\", 1.65f", root);
             StringAssert.Contains("const float MenuSeconds108 = 1.2f", d);
-            StringAssert.Contains("float T = (_plan109 ? Seconds109() : _plan108 ? MenuSeconds108 : MenuSeconds92) / Mathf.Max(.25f, DiveSpeed);", d);
+            StringAssert.Contains("float T = (_plan110 ? Seconds110() : _plan109 ? Seconds109() : _plan108 ? MenuSeconds108 : MenuSeconds92) / Mathf.Max(.25f, DiveSpeed);", d);
             StringAssert.Contains("if (_s.Diorama == null) _p.Approach = CorridorSeconds92;", d);   // the corridor's dive as it was
         }
 
