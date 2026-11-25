@@ -80,3 +80,8 @@ Dalış ve koridorun görüntüsü, çerçeve, lastik, kazanma ekranı yerleşim
 ## Doğrulanmayan
 - **iPhone:** Hoparlörde dinleme ve iPhone'da koleksiyon kaydırma hissi yapılmadı. İşlemci yavaşlatılarak (6×) ölçüldü.
 - **Sandık ekranı:** Sesi ayrıca kaydedilmedi; nedeni `MIKS_RAPORU.md`'de.
+
+## PM'e not
+- **Sürüm damgası:** `BuildStamp.Value` 16 Kasım'dan (PM_76) beri `p23-2026-11-16j`. Dosyanın yorumu "her yayınlanan build'de değiştir" diyor, ama 30 PM'dir aynı. Telemetrideki `app_version` buna dayanıyor; bilinçli bırakıldıysa sorun yok. Bu bir veri kararı olduğu için değiştirmedim.
+- **Yayın sırası:** Bu gece `verify_build --send` (A6b, M5) yapılmadı, çünkü PM_107 "Supabase'e yazma yok" diyor. Yerel ve canlı p23 bayraksız koşular 4/4.
+

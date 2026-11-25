@@ -201,5 +201,16 @@ namespace ReverseSolver.Core.Tests
             Assert.That(win, Does.Not.Contain("Reward/Flight/coin-counter"), "no box under the gold count");
             StringAssert.Contains("v.At(195, 704)", File.ReadAllText("Assets/_Game/Presentation/Ui/LossView74.cs"));
         }
+
+        /* §C: the scenarios before and after on the listening page (effects and music together, mp3: Safari plays it). */
+        [Test]
+        public void TheListeningPageHasTheMixBeforeAndAfter()
+        {
+            string html = File.ReadAllText("docs/art/pm102/onizleme/sesler.html");
+            StringAssert.Contains("<script data-sec=\"Miksaj: önce / sonra (PM_107)\">", html);
+            foreach (var sc in new[] { "bolum", "saat", "zincir", "bomba", "kazanma", "menu", "dalis" })
+                foreach (var t in new[] { "once", "sonra" })
+                    Assert.That(File.Exists($"docs/art/pm107/onizleme/miks/{sc}-{t}.mp3"), sc + " " + t);
+        }
     }
 }
