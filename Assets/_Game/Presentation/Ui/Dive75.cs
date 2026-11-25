@@ -86,6 +86,16 @@ namespace ReverseSolver.Presentation
         public static float Peak110 = 2f;
         const float Start110 = .90f, Flat110 = .97f, Rise110 = .08f, Top110 = .55f, Fall110At = .62f, Low110 = .82f, Lift110 = 1.1f;
         bool _plan110;
+        /* PM_110's real aim (Zeyd: the way in should be at least as quick as the way back): the pull back's mean speed
+           on the screen, measured as PM_92 measures the dive (Flow92: a 9 x 19 grid on the screen, its mean motion;
+           the pull back's from its camera, [geri] kamera, p23 level 1 at 390 x 844: 0.438 screen heights in 0.78 s,
+           0.56 a second), and the dive's time is its own way (Flow92) at that mean speed (0.40 / 0.56: 0.71 s), its
+           speed shape over it. &dalisgeri= that speed. Variant110: 'a' the third drawing (Speed110) so scaled; 'b' the pull back's own speed backwards
+           (BackSpeed110: its measured shape, 0..1 over its time, read from the end); 'c' the third drawing at its own
+           time (Seconds110, 1.07 s). &dalis110=a|b|c; 0 PM_109's. */
+        public static char Variant110 = 'a';
+        public static float BackSpeed = .56f;   // screen heights a second (&dalisgeri=)
+        static readonly float[] BackSpeed110 = { .07f, .10f, .30f, .52f, .68f, .81f, .91f, .97f, 1.00f, .96f, .92f, .92f, .90f, .87f, .80f, .72f, .63f, .53f, .43f, .31f, .16f };
 
         struct Plan { public float Flight, Approach, Hold, Back, Lines, Push; }
         static Plan Current
@@ -250,7 +260,7 @@ namespace ReverseSolver.Presentation
                     if (_new91)
                     {
                         _plan108 = Dive108; _plan109 = Dive108 && Dive109; _plan110 = _plan109 && Dive110;
-                        float T = (_plan110 ? Seconds110() : _plan109 ? Seconds109() : _plan108 ? MenuSeconds108 : MenuSeconds92) / Mathf.Max(.25f, DiveSpeed);
+                        float T = (_plan110 ? (Variant110 == 'c' ? Seconds110() : MenuWay92(MenuQuad92) / Mathf.Max(.05f, BackSpeed)) : _plan109 ? Seconds109() : _plan108 ? MenuSeconds108 : MenuSeconds92) / Mathf.Max(.25f, DiveSpeed);
                         if (_plan108) _flight = T * _bellSplit;   // (the clock's split only; the camera follows Way92)
                         _p.Approach = T - _flight;
                         Plan92(MenuQuad92, T, true);
@@ -454,6 +464,8 @@ namespace ReverseSolver.Presentation
             // the uv at the screen's middle (layout x = c.x, y = -c.y there)
             float u = (c.x - o.x) / z.x, v = 1 - (-c.y - o.y) / z.y;
             LogVaris("board", z.x * s, 0, 0, -z.y * s, new Vector2(u, v));
+            // PM_110: the camera itself (screen points per unit, its centre), for the pull back's speed on the screen
+            Debug.Log($"[geri] kamera {_clock:0.0000} {s:0.00000} {c.x:0.00000} {c.y:0.00000} {_s.Screen.x:0} {_s.Screen.y:0}");
         }
 
         /* The sprites' own material (a shader found by name may be stripped from the build). */
@@ -626,6 +638,15 @@ namespace ReverseSolver.Presentation
         /* PM_92: the way (0..1) laid out by its screen distance, and the time by the speed (see MenuSeconds92); the
            start's speed and acceleration the old curve's (the menu: Launch over its first .2 s; the corridor: from
            rest, as its Hermite). */
+        /* PM_110: the menu dive's way on the screen (Flow92, screen heights), as Plan92 lays it out. */
+        float MenuWay92(System.Func<float, Vector2[]> quad)
+        {
+            float d = 0; var prev = quad(0);
+            for (int i = 1; i <= WaySteps92; i++) { var q = quad(i / (float)WaySteps92); d += Flow92(prev, q); prev = q; }
+            Note($"PM_110: the way {d:0.000} screen heights at {BackSpeed:0.000} a second");
+            return d;
+        }
+
         void Plan92(System.Func<float, Vector2[]> quad, float T, bool menu)
         {
             _quad92 = quad; _T92 = T;
@@ -679,7 +700,7 @@ namespace ReverseSolver.Presentation
             return Hermite3(even, 0, even * EndLand108, 0, Mathf.Clamp01((x - te) / Mathf.Max(1e-4f, 1 - te)));
         }
 
-        float MenuSpeed(float x, float T) => _plan110 ? Speed110(x, T) : _plan109 ? Speed109(x, T) : Speed108(x, T);
+        float MenuSpeed(float x, float T) => _plan110 ? (Variant110 == 'b' ? SpeedBack110(x) : Speed110(x, T)) : _plan109 ? Speed109(x, T) : Speed108(x, T);
 
         /* PM_110: the menu dive's speed at the share x of its time T, 1 at the peak (see Dive110). The fall ends on
            the last stretch's slope, so the acceleration has no step there. */
@@ -694,6 +715,17 @@ namespace ReverseSolver.Presentation
             float Last(float u) => low + lift * (u - Low110);
             if (x < te) return Last(x);
             return Hermite3(Last(te), lift * (1 - te), Last(te) * EndLand108, 0, Mathf.Clamp01((x - te) / Mathf.Max(1e-4f, 1 - te)));
+        }
+
+        /* PM_110 'b': the pull back's speed on the screen backwards (its slow end first), smooth between the measured
+           points (Catmull-Rom). */
+        public static float SpeedBack110(float x)
+        {
+            int n = BackSpeed110.Length - 1;
+            float f = Mathf.Clamp01(1 - x) * n; int i = Mathf.Min(n - 1, (int)f); float u = f - i;
+            float P(int k) => BackSpeed110[Mathf.Clamp(k, 0, n)];
+            float p0 = P(i - 1), p1 = P(i), p2 = P(i + 1), p3 = P(i + 2);
+            return Mathf.Max(.02f, .5f * (2 * p1 + (p2 - p0) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u * u + (3 * p1 - p0 - 3 * p2 + p3) * u * u * u));
         }
 
         /* PM_110: the time at which its shape keeps PM_109's peak speed over the same way, within .9..1.1 s. */

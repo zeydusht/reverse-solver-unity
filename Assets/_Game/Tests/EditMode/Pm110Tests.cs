@@ -9,7 +9,7 @@ namespace ReverseSolver.Core.Tests
        time what that takes at PM_109's peak speed, .9..1.1 s; &dalis110=0 PM_109's. */
     public class Pm110Tests
     {
-        [TearDown] public void Restore() { Dive75.Peak108 = 1.65f; Dive75.Peak110 = 2f; Dive75.Dive108 = Dive75.Dive109 = Dive75.Dive110 = true; }
+        [TearDown] public void Restore() { Dive75.Peak108 = 1.65f; Dive75.Peak110 = 2f; Dive75.Dive108 = Dive75.Dive109 = Dive75.Dive110 = true; Dive75.Variant110 = 'a'; Dive75.BackSpeed = .56f; }
 
         [Test]
         public void TheSpeedHasTheThirdDrawingsShape()
@@ -41,6 +41,25 @@ namespace ReverseSolver.Core.Tests
             Assert.That(Dive75.Speed110(.82f, 1), Is.EqualTo(.4f).Within(1e-4f));
         }
 
+        /* the real aim: the way in at least as quick as the way back (its mean speed on the screen) */
+        [Test]
+        public void TheDiveIsAsQuickAsThePullBack()
+        {
+            // the pull back measured as PM_92 measures the dive: 0.438 screen heights in 0.78 s
+            Assert.That(Dive75.BackSpeed, Is.GreaterThanOrEqualTo(.438f / .783f - .005f));
+            string d = File.ReadAllText("Assets/_Game/Presentation/Ui/Dive75.cs");
+            StringAssert.Contains("MenuWay92(MenuQuad92) / Mathf.Max(.05f, BackSpeed)", d);
+        }
+
+        [Test]
+        public void TheBVariantIsThePullBackBackwards()
+        {
+            Assert.That(Dive75.SpeedBack110(0), Is.EqualTo(.16f).Within(1e-4f), "the pull back's end first");
+            Assert.That(Dive75.SpeedBack110(1), Is.EqualTo(.07f).Within(1e-4f), "its start last");
+            Assert.That(Dive75.SpeedBack110(.6f), Is.EqualTo(1).Within(1e-4f), "its peak (at 40 % of it) at 60 %");
+            for (int i = 1; i <= 1000; i++) Assert.That(System.Math.Abs(Dive75.SpeedBack110(i / 1000f) - Dive75.SpeedBack110((i - 1) / 1000f)), Is.LessThan(.03f), "smooth");
+        }
+
         [Test]
         public void TheFlagsAreWired()
         {
@@ -48,6 +67,8 @@ namespace ReverseSolver.Core.Tests
             StringAssert.Contains("Dive75.Dive110 = Host.Current.Query(\"dalis110\") != \"0\";", root);
             StringAssert.Contains("Dive75.Peak110 = QueryFloat(\"dalistepe\", 2f, 1.05f, 3);", root);
             StringAssert.Contains("_plan110 = _plan109 && Dive110;", d);
+            StringAssert.Contains("Dive75.BackSpeed = QueryFloat(\"dalisgeri\", .56f, .2f, 2);", root);
+            StringAssert.Contains("Dive75.Variant110 = v110 == \"b\" || v110 == \"c\" ? v110[0] : 'a';", root);
         }
     }
 }

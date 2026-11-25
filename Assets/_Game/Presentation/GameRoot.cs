@@ -194,6 +194,8 @@ namespace ReverseSolver.Presentation
             Dive75.Peak108 = QueryFloat("dalistepe", 1.65f, 1.05f, 3);    // PM_108: the peak over the even approach speed
             Dive75.Dive109 = Host.Current.Query("dalis109") != "0";       // PM_109: the second drawing (&dalis109=0 PM_108's)
             Dive75.Dive110 = Host.Current.Query("dalis110") != "0";       // PM_110: the third drawing (&dalis110=0 PM_109's)
+            { string v110 = Host.Current.Query("dalis110"); Dive75.Variant110 = v110 == "b" || v110 == "c" ? v110[0] : 'a'; }   // PM_110: a (default) | b | c
+            Dive75.BackSpeed = QueryFloat("dalisgeri", .56f, .2f, 2);    // PM_110: the pull back's mean screen speed, the dive's at least
             Dive75.Peak110 = QueryFloat("dalistepe", 2f, 1.05f, 3);       // PM_110: the peak over the low speed (50 %)
             BoardView.Rubber = QueryFloat("lastik", 2, 0, 3);                 // PM_93 §1, PM_94 §2: 1, 1.5, 2 (0: PM_75's knock); PM_95: Zeyd chose 2
             BoardView.RubberSeconds = QueryFloat("lastiksure", -1, .1f, 3);

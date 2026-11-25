@@ -2,8 +2,8 @@
 efektler.webm / muzik.webm with meta.json's start on the same clock, log.txt for the dive's start: its first [cerceve]
 line). A constant 60 fps (each tick the newest frame captured by then), 390 x 844 a side, H.264 + AAC.
   one capture   the dive with its own sound
-  two captures  side by side (left | right, labelled), played twice: first with the left's sound, then the right's
-                (the side heard is marked "SES")
+  two or more   side by side (labelled), played once per capture, each time with the next one's sound (the side
+                heard is marked "SES"; PM_110: three, PM_109 | A | B)
 usage: python -I Tools/pm108_video.py <out.mp4> <from> <to> <capture dir> [<capture dir>] [--labels ŞİMDİKİ,YENİ]
   from / to: seconds from each capture's dive start."""
 import glob, json, os, re, subprocess, sys, tempfile
@@ -55,7 +55,7 @@ clips = [load(d) for d in caps]
 font = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 22)
 small = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 18)
 ticks = int((b - a) * FPS)
-passes = [0, 1] if len(clips) == 2 else [0]
+passes = list(range(len(clips)))
 tmp = tempfile.mkdtemp(prefix='pm108v-')
 wav = os.path.join(tmp, 'ses.wav')
 audio = np.concatenate([clips[p][3] for p in passes])
@@ -80,7 +80,7 @@ for heard in passes:
             frame.paste(cache[f], (c * W, 0))
         if len(cache) > 8: cache.clear()
         d = ImageDraw.Draw(frame, 'RGBA')
-        if len(clips) == 2:
+        if len(clips) > 1:
             for c, lab in enumerate(labels):
                 x = c * W + W // 2; tw = d.textlength(lab, font=font)
                 d.rounded_rectangle((x - tw / 2 - 10, 54, x + tw / 2 + 10, 84), 8, fill=(0, 0, 0, 150))
@@ -89,7 +89,7 @@ for heard in passes:
                     tw2 = d.textlength('SES', font=small)
                     d.rounded_rectangle((x - tw2 / 2 - 8, 90, x + tw2 / 2 + 8, 114), 7, fill=(227, 181, 78, 230))
                     d.text((x - tw2 / 2, 92), 'SES', font=small, fill=(14, 34, 68))
-            d.rectangle((W - 1, 0, W, H), fill=(255, 255, 255, 255))
+            for c in range(1, len(clips)): d.rectangle((c * W - 1, 0, c * W, H), fill=(255, 255, 255, 255))
         clock = f'{max(0.0, t):.2f} s'
         d.text((W * len(clips) - d.textlength(clock, font=small) - 10, H - 30), clock, font=small, fill=(255, 255, 255, 200))
         p.stdin.write(frame.tobytes())

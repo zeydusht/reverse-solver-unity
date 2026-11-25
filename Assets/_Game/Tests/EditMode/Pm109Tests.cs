@@ -44,7 +44,7 @@ namespace ReverseSolver.Core.Tests
             string root = File.ReadAllText("Assets/_Game/Presentation/GameRoot.cs"), d = File.ReadAllText("Assets/_Game/Presentation/Ui/Dive75.cs");
             StringAssert.Contains("Dive75.Dive109 = Host.Current.Query(\"dalis109\") != \"0\";", root);
             StringAssert.Contains("_plan108 = Dive108; _plan109 = Dive108 && Dive109;", d);
-            StringAssert.Contains("float MenuSpeed(float x, float T) => _plan110 ? Speed110(x, T) : _plan109 ? Speed109(x, T) : Speed108(x, T);", d);
+            StringAssert.Contains("float MenuSpeed(float x, float T) => _plan110 ? (Variant110 == 'b' ? SpeedBack110(x) : Speed110(x, T)) : _plan109 ? Speed109(x, T) : Speed108(x, T);", d);
         }
     }
 }
