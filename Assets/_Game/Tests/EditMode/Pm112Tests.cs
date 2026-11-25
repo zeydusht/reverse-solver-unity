@@ -94,7 +94,7 @@ namespace ReverseSolver.Core.Tests
             StringAssert.Contains("float end = _bungee ? h1 : h0;", d);   // the dive's whoosh ends at the bottom
             StringAssert.Contains("_bungee && t < h1 ? air * (1 - SmoothStep((t - h0) / Mathf.Max(.01f, h1 - h0))) : 0", d);   // the air too
             StringAssert.Contains("if (_new91 && TouchMax > 0 && !_bungee)", d);   // no touch
-            StringAssert.Contains("float l = _bungee ? Quintic(l0, 0, _bungeeTurn, l1, 0, 0, _p.Back, t - h1)", d);
+            StringAssert.Contains(": _bungee ? Quintic(l0, 0, _bungeeTurn, l1, 0, 0, _p.Back, t - h1)", d);   // (PM_113: after the U)
         }
     }
 }

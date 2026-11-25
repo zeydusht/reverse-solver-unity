@@ -69,6 +69,20 @@ namespace ReverseSolver.Presentation
         public static float Bungee;           // &bungee= (per cent of the size)
         bool _bungee, _turned;
         float _bungeeDepth, _bungeeV, _bungeeA, _bungeeTurn, _bungeeBack;   // ln; the arrival's ln/s, ln/s^2; the turn's ln/s^2
+        /* PM_113 (Zeyd on the bungee: "short"; his drawing: not vol 2's flat floor, not the bungee's V, a wide round U):
+           &u=1 / 2 / 3 (0: off) the U: the same time as vol 2 from the press to the board, the bottom (Depth113 in from
+           the board's framing) at the middle of vol 2's hold, and around it the distance a parabola: the speed passes
+           zero on a straight line (it runs from +Edge113 to -Edge113), from +.3 to -.3 screen heights/s in .2 / .3 / .4 s (U113Width), the same
+           both sides. The way in: B (each speed by Mu, so it covers the way in time) up to Ts, then a cubic (its
+           braking no harder than B's own, Brake112, starting as late as that allows) onto the line; the framing met on
+           the line, the cuts and the touch's paper there. The way out: the line up to -Edge113, then a quintic (that
+           speed and acceleration -> the board's view at rest) to vol 2's end. The sounds and the air as the bungee's. */
+        const float Depth113 = .04f, Edge113 = .33f, MinFall113 = .08f;
+        public static float U;                // &u= (the U's width: .1 + .1 U s from +.3 to -.3)
+        static float U113Width(float u) => Mathf.Clamp(.1f + .1f * u, .1f, .6f);
+        bool _u;
+        float _uA, _uEdge, _uOut;   // the bottom's acceleration (ln/s^2); the line's time after the bottom (s); the way out's (ln/s^2)
+        struct UPlan { public float A, VL, Tb, Ta, Va, TL, Ts, Mu, P, M, Tau, Brake; }
         /* PM_92 (Zeyd on PM_91: "somewhere in the middle it feels as if it slows down, a struggle, then it flows; go
            straight into the wall with the acceleration it set off with"): the approach's speed is set as the eye sees
            it, the wall's motion on the screen (its growth and its slide along the arc together, Flow92), and only
@@ -291,7 +305,7 @@ namespace ReverseSolver.Presentation
                         if (_plan108) _flight = T * _bellSplit;   // (the clock's split only; the camera follows Way92)
                         _p.Approach = T - _flight;
                         Plan92(MenuQuad92, T, true);
-                        if (Bungee > 0) PlanBungee112();
+                        if (U > 0) PlanU113(); else if (Bungee > 0) PlanBungee112();
                     }
                     _morphFrom = MorphGate(screen);
                     // PM_87 §2: the opening's first view against the menu's own (the first frame must be the menu's)
@@ -588,14 +602,16 @@ namespace ReverseSolver.Presentation
                 var from = new Vector3(rect.center.x, -rect.center.y, _homePos.z);
                 float lnCover = Mathf.Log(Dive74.CoverSize(rect.size, _s.Screen)), lnPush = _bungee ? _bungeeDepth : Push91(_p.Hold);
                 if (_fit) { FittedView(out from, out float fs); lnCover = Mathf.Log(fs); }   // PM_88 §1: from where the picture arrived
-                if (_bungee && !_turned) TurnBungee112(Mathf.Log(_homeSize) - lnCover);
+                if (_bungee && !_u && !_turned) TurnBungee112(Mathf.Log(_homeSize) - lnCover);
+                if (_u && !_turned) TurnU113(from, lnCover - _bungeeDepth, Mathf.Log(_homeSize));
                 if (t < h1) { _s.Cam.orthographicSize = Mathf.Exp(lnCover - (_bungee ? BungeeIn112(t - h0) : Push91(t - h0))); _s.Cam.transform.position = from; }
                 else
                 {
                     float u = Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back));
                     float l0 = lnCover - lnPush, l1 = Mathf.Log(_homeSize);
                     // PM_111: after a short hold a soft start (a quintic: the same speed, no step in the acceleration either)
-                    float l = _bungee ? Quintic(l0, 0, _bungeeTurn, l1, 0, 0, _p.Back, t - h1)   // PM_112: from the bottom, turning
+                    float l = _u ? UBack113(l0, l1, _uOut, _uEdge, _p.Back, t - h1)   // PM_113: the U's way out
+                            : _bungee ? Quintic(l0, 0, _bungeeTurn, l1, 0, 0, _p.Back, t - h1)   // PM_112: from the bottom, turning
                             : _shortHold ? Hermite5(l0, -Push91Rate(_p.Hold) * _p.Back, l1, u) : Hermite3(l0, -Push91Rate(_p.Hold) * _p.Back, l1, 0, u);
                     _s.Cam.orthographicSize = Mathf.Exp(l);
                     _s.Cam.transform.position = Vector3.LerpUnclamped(from, _homePos, Mathf.Abs(l1 - l0) > 1e-5f ? (l - l0) / (l1 - l0) : u);
@@ -647,7 +663,92 @@ namespace ReverseSolver.Presentation
 
         /* PM_112: the bungee's way in (ln of the size, from the arrival): the arrival's speed and acceleration -> the
            bottom (_bungeeDepth) at rest, decelerating there by _bungeeTurn (the pull back's start). */
-        float BungeeIn112(float x) => Quintic(0, _bungeeV, _bungeeA, _bungeeDepth, 0, -_bungeeTurn, _p.Hold, x);
+        float BungeeIn112(float x) => _u ? _bungeeDepth - _uA / 2 * (x - _p.Hold) * (x - _p.Hold)   // PM_113: the U's parabola
+                                         : Quintic(0, _bungeeV, _bungeeA, _bungeeDepth, 0, -_bungeeTurn, _p.Hold, x);
+
+        /* PM_113: the U (see U). B's speeds v (screen heights/s over T, the way D), the picture's ln growth a screen
+           height at the framing, the bottom's time tb, the width (s from +Edge113 to -Edge113), the depth (ln). */
+        static UPlan PlanU113(float[] v, float T, float D, float perScreen, float tb, float width, float depth)
+        {
+            int N = v.Length - 1; float dk = T / N;
+            var u = new UPlan { A = .6f / width, VL = Edge113, Tb = tb };   // the line's slope (screen heights/s^2): +.3 -> -.3 in width s
+            u.Ta = tb - Mathf.Sqrt(2 * depth / Mathf.Max(1e-3f, perScreen * u.A)); u.Va = u.A * (tb - u.Ta); u.TL = tb - u.VL / u.A;
+            float line = (u.VL + u.Va) / 2 * (u.Ta - u.TL), way = 0;
+            UPlan late = default, mild = default; bool haveLate = false; mild.Brake = float.NegativeInfinity;
+            for (int k = 1; k < N; k++)
+            {
+                way += (v[k] + v[k - 1]) / 2 * dk;   // B's way by k
+                float ts = k * dk, tau = u.TL - ts;
+                if (tau < MinFall113) break;
+                if (k < N / 5) continue;
+                float pk = v[k], mk = (v[k + 1] - v[k - 1]) / (2 * dk);
+                float mu = (D - line - tau * u.VL / 2 - tau * tau * u.A / 12) / Mathf.Max(1e-6f, way + tau * pk / 2 + tau * tau * mk / 12);
+                if (mu <= 0) continue;
+                float brake = float.PositiveInfinity;   // the fall's strongest braking
+                for (int i = 0; i <= 32; i++) brake = Mathf.Min(brake, Hermite3Slope(mu * pk, mu * mk * tau, u.VL, -u.A * tau, i / 32f) / tau);
+                var c = u; c.Ts = ts; c.Mu = mu; c.P = pk; c.M = mk; c.Tau = tau; c.Brake = brake;
+                if (brake >= -Brake112) { late = c; haveLate = true; }
+                if (brake > mild.Brake) mild = c;
+            }
+            return haveLate ? late : mild;
+        }
+        static float Hermite3Slope(float p0, float m0, float p1, float m1, float u)
+            => (6 * u * u - 6 * u) * p0 + (3 * u * u - 4 * u + 1) * m0 + (6 * u - 6 * u * u) * p1 + (3 * u * u - 2 * u) * m1;
+
+        /* PM_113: the U's speed on the screen at t (to the framing, Ta; on past it the line to the bottom). */
+        static float SpeedU113(in UPlan u, float[] v, float T, float t)
+            => t < u.Ts ? u.Mu * Interp(v, t / T)
+             : t < u.TL ? Hermite3(u.Mu * u.P, u.Mu * u.M * u.Tau, u.VL, -u.A * u.Tau, (t - u.Ts) / u.Tau)
+             : u.VL - u.A * (t - u.TL);
+
+        /* PM_113: the U's way out (ln of the size) x s after the bottom l0: the parabola for edge s, then the quintic
+           to l1 at rest by back. */
+        static float UBack113(float l0, float l1, float a, float edge, float back, float x)
+            => x < edge ? l0 + a / 2 * x * x : Quintic(l0 + a / 2 * edge * edge, a * edge, a, l1, 0, 0, back - edge, x - edge);
+
+        /* PM_113: the way out also slides the camera to the board's view (in step with the size), so on the screen it
+           moves faster for the same ln: its acceleration out is the bottom's over that (the 9 x 19 grid, as Flow92),
+           so the speed passes -.3 as long after the bottom as +.3 before it. */
+        void TurnU113(Vector3 from, float l0, float l1)
+        {
+            _turned = true;
+            Vector2 sc = _s.Screen; float o = Mathf.Exp(l0), span = Mathf.Max(1e-4f, l1 - l0);
+            var c = new Vector2(_homePos.x - from.x, _homePos.y - from.y) / (2 * o * span);   // the slide per ln, screen heights
+            float zoom = 0, both = 0;
+            for (int i = 0; i <= 8; i++)
+                for (int j = 0; j <= 18; j++)
+                {
+                    var q = new Vector2((i / 8f - .5f) * sc.x / Mathf.Max(1, sc.y), j / 18f - .5f);
+                    zoom += q.magnitude; both += (q + c).magnitude;
+                }
+            float k = Mathf.Max(1, both / Mathf.Max(1e-4f, zoom));
+            _uOut = _uA / k;
+            Note($"PM_113: the way out slides x{k:0.000} on the screen, out at {_uOut:0.00} ln/s2");
+        }
+
+        /* PM_113: the U laid over B (Plan92's): the approach to the framing, then the parabola and the way out. */
+        void PlanU113()
+        {
+            int N = TimeSteps92, W = WaySteps92;
+            float T = _T92, dk = T / N, D = _timeD[N], span = _p.Hold + _p.Back;
+            var v = new float[N + 1];   // B's screen speed (screen heights/s)
+            for (int k = 0; k <= N; k++) v[k] = (_timeD[Mathf.Min(N, k + 1)] - _timeD[Mathf.Max(0, k - 1)]) / ((Mathf.Min(N, k + 1) - Mathf.Max(0, k - 1)) * dk);
+            // the picture's ln growth a screen height at the framing (the way's own, not the clock's)
+            float perScreen = (LnHeight(_quad92(1)) - LnHeight(_quad92((W - 2f) / W))) / Mathf.Max(1e-6f, _wayD[W] - _wayD[W - 2]);
+            float depth = Mathf.Log(1 + Depth113), tb = T + _p.Hold / 2, end = T + span;
+            var u = PlanU113(v, T, D, perScreen, tb, U113Width(U), depth);
+            var timeD = new float[N + 1]; float top = 0;
+            for (int k = 1; k <= N; k++) timeD[k] = timeD[k - 1] + (SpeedU113(u, v, T, u.Ta * k / N) + SpeedU113(u, v, T, u.Ta * (k - 1) / N)) / 2 * u.Ta / N;
+            float scale = D / Mathf.Max(1e-6f, timeD[N]);
+            for (int k = 0; k <= N; k++) { timeD[k] *= scale; top = Mathf.Max(top, SpeedU113(u, v, T, u.Ta * k / N)); }
+            _timeD = timeD; _T92 = u.Ta; _p.Approach = u.Ta - _flight;
+            if (_speed108 != null) for (int k = 0; k <= N; k++) _speed108[k] = SpeedU113(u, v, T, u.Ta * k / N) / Mathf.Max(1e-4f, top);   // the air follows
+            _bungee = _u = true; _turned = false; _bungeeDepth = depth;
+            _uA = _uOut = u.A * perScreen; _uEdge = u.VL / u.A;
+            _p.Hold = tb - u.Ta; _p.Back = end - tb;
+            _rate = 0; _touch = _touchTau = 0;
+            Note($"PM_113: U {U:0.#} ({.6f / u.A:0.000} s from +.3 to -.3), B x{u.Mu:0.000} to {u.Ts:0.000} s, its fall braking at most {-u.Brake:0.00} screen heights/s2, the line from {u.TL:0.000} s, the framing at {u.Ta:0.000} s ({u.Va:0.000} screen heights/s), the bottom at {tb:0.000} s ({depth:0.0000} ln, {u.A:0.00} screen heights/s2, {_uA:0.00} ln/s2), the end at {end:0.000} s (B {T:0.000} s, scale {scale:0.0000}, top {top:0.000}), {perScreen:0.00} ln a screen height");
+        }
 
         /* PM_112: the bungee's approach and times (Plan92 laid B out; see Bungee). */
         void PlanBungee112()
