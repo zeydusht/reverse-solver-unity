@@ -387,6 +387,33 @@ block('Bugünkü seçim', function (fail) {
 
 });
 </script>
+<script data-sec="Miksaj: önce / sonra (PM_107)">
+block('Miksaj: önce / sonra (PM_107)', function (fail) {
+  // PM_107 §C: the scenario recordings (Tools/pm107_miks.js): the game's own output, effects and music together;
+  // "Önce" the old mix (&miks=0&limiter=0), "Sonra" tonight's. Same moves, same choices.
+  var sec = section('Miksaj: önce / sonra', 'Aynı hamleler, iki miks: önce (eski) ve sonra (bu gece). Telefonda orta seste dinle. Saatte tik-tak artık kaymanın üstünde; dalışta ses yaklaşmanın başından geliyor; patlamada müzik iniyor.', true);
+  var SC = [['saat', 'Saat açıkken kayma (18. bölüm)'], ['dalis', 'Menüden Oyna: dalış'], ['bolum', 'Bölüm: 10 çıkış, 3 takılma'], ['zincir', 'Zincirli bölüm (31)'],
+            ['bomba', 'Bomba + kayıp (20)'], ['kazanma', 'Kazanma fanfarı'], ['menu', 'Menü: sekmeler, Ayarlar']];
+  SC.forEach(function (sc) {
+    var card = el('<div class="card"><button class="play" aria-label="Sonra">' + ICON_PLAY + '</button><div><div class="name"><span class="tag def">sonra</span>' + sc[1] + '</div>' +
+      '<div class="meta">▶ bu gecenin miksi · "Önce" eski miks</div><div class="row"></div></div></div>');
+    var btn = card.querySelector('.play'), row = card.querySelector('.row');
+    function playFile(file, b) {
+      audio(); stop();
+      load('miks/' + file).then(function (buf) {
+        var x = ctx.createBufferSource(); x.buffer = buf; x.connect(ctx.destination); x.start();
+        current = { src: x, card: card, btn: btn, raf: 0 };   // stop() resets the ▶ (never the Önce button's words)
+        b.classList.add('on'); x.onended = function () { b.classList.remove('on'); };
+      }).catch(fail);
+    }
+    btn.addEventListener('click', function () { playFile(sc[0] + '-sonra.mp3', btn); });
+    var before = el('<button class="btn">Önce (eski miks)</button>');
+    before.addEventListener('click', function () { playFile(sc[0] + '-once.mp3', before); });
+    row.appendChild(before);
+    sec.appendChild(card);
+  });
+});
+</script>
 <script data-sec="Sürükleme / çıkış ve zincir (PM_106)">
 block('Sürükleme / çıkış ve zincir (PM_106)', function (fail) {
   // ---- PM_106 §2-3: Block Out's manner (docs/art/pm106/BLOCKOUT_SES_ANALIZ.md) and a real chain: Tools/make_sfx106.py ----
