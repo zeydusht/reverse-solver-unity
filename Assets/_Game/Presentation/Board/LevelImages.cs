@@ -24,17 +24,23 @@ namespace ReverseSolver.Presentation
         readonly Dictionary<string, Texture2D> _ready = new Dictionary<string, Texture2D>();
         readonly Dictionary<string, List<Action<Texture2D>>> _waiting = new Dictionary<string, List<Action<Texture2D>>>();
         readonly HashSet<string> _failed = new HashSet<string>();
+        static int _decodeFrame = -1;
 
         public static LevelImages Create() => new GameObject("LevelImages").AddComponent<LevelImages>();
 
         /* PM_MESAJ_18: the SET40 v3 paintings live on GitHub Pages, never in the build; the iOS app keeps a copy. */
         public const string PaintingsUrl = "https://zeydusht.github.io/reverse-solver-unity/paintings-v2/";   // PM_MESAJ_39: Task25 paintings (root and p19 keep /paintings/)
-        static bool Remote(string image) => image.StartsWith("painting-");
+        static bool Remote(string image) => image.StartsWith("painting-") || image.StartsWith(Thumb);
+        /* PM_107 §D2: a painting's thumbnail for the collection's grid (210x280, ~16 KB: Tools/make_kucuk107.py) instead
+           of the full 1024x1024 one; its tones are never needed (no board is cut from it). */
+        public const string Thumb = "kucuk-";
+        public static string ThumbOf(string painting) => Thumb + painting;
         static string CachePath(string image) => Path.Combine(Application.persistentDataPath, "paintings-v2", image + ".jpg");
         static bool DiskCache => Application.platform == RuntimePlatform.IPhonePlayer;
 
         public static string Url(string image)
         {
+            if (image.StartsWith(Thumb)) return PaintingsUrl + "kucuk/" + image.Substring(Thumb.Length) + ".jpg";
             if (Remote(image)) return PaintingsUrl + image + ".jpg";
             string path = $"{Application.streamingAssetsPath}/{Folder}/{image}";
             return path.Contains("://") ? path : new Uri(path).AbsoluteUri;   // editor and desktop: a file path (spaces escaped)
@@ -43,7 +49,9 @@ namespace ReverseSolver.Presentation
         /* The picture if it is already here, else null; `arrived` runs once it is (never on failure). */
         public Texture2D Get(string image, Action<Texture2D> arrived = null)
         {
-            if (string.IsNullOrEmpty(image) || _failed.Contains(image)) return null;
+            if (string.IsNullOrEmpty(image)) return null;
+            if (image.StartsWith(Thumb) && (Live.Active || _failed.Contains(image))) image = image.Substring(Thumb.Length);   // the store build, or no thumbnail: the painting itself
+            if (_failed.Contains(image)) return null;
             if (_ready.TryGetValue(image, out var tex)) return tex;
             if (_waiting.TryGetValue(image, out var list)) { if (arrived != null) list.Add(arrived); return null; }
             _waiting[image] = new List<Action<Texture2D>>();
@@ -129,8 +137,20 @@ namespace ReverseSolver.Presentation
                     yield return alt.SendWebRequest();
                     if (alt.result == UnityWebRequest.Result.Success) data = alt.downloadHandler.data;
                 }
+            // PM_107 §D2: one picture decoded per frame (a row of cards arriving together froze the scroll)
+            while (_decodeFrame == Time.frameCount) yield return null;
+            _decodeFrame = Time.frameCount;
             var callbacks = _waiting[image];
             _waiting.Remove(image);
+            bool thumb = image.StartsWith(Thumb);
+            if (data == null && thumb)
+            {
+                // no thumbnail: the painting itself, for whoever waited
+                _failed.Add(image);
+                var full = image.Substring(Thumb.Length);
+                foreach (var cb in callbacks) { var have = Get(full, cb); if (have != null) cb?.Invoke(have); }
+                yield break;
+            }
             var tex = data == null ? null : new Texture2D(2, 2, TextureFormat.RGB24, false);
             var sw = System.Diagnostics.Stopwatch.StartNew();   // PM_74 &perf=1
             if (tex == null || !tex.LoadImage(data, false))
@@ -141,7 +161,7 @@ namespace ReverseSolver.Presentation
                 yield break;
             }
             double decode = sw.Elapsed.TotalMilliseconds; sw.Restart();
-            Tones[tex] = ToneGrid(tex);
+            if (!thumb) Tones[tex] = ToneGrid(tex);
             double tone = sw.Elapsed.TotalMilliseconds; sw.Restart();
             tex.Apply(false, true);                                             // then no CPU copy kept
             if (Host.Current != null && Host.Current.Query("perf") == "1")

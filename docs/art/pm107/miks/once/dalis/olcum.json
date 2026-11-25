@@ -1,0 +1,33 @@
+{
+ "dir": "dalis",
+ "sounds": 7,
+ "drowned": 0,
+ "drowned_list": [],
+ "peaks_over": 0,
+ "peak_dbfs": -2.79,
+ "effects_lufs_max": -21.3,
+ "music_lufs_median": -36.2,
+ "mix_lufs_max": -20.7,
+ "by_clip": {
+  "gecis-cizgi-c": {
+   "count": 1,
+   "level": -39.3
+  },
+  "gecis-dalis-a": {
+   "count": 1,
+   "level": -33.0
+  },
+  "gecis-geri-a": {
+   "count": 1,
+   "level": -34.0
+  },
+  "gecis-hud-a": {
+   "count": 1,
+   "level": -32.0
+  },
+  "ui-tok-c1": {
+   "count": 3,
+   "level": -19.2
+  }
+ }
+}

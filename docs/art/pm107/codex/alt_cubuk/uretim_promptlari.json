@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "task": "PM_107 §D3 / PM_74 döngüsü",
+  "tool": "built-in image_gen.imagegen",
+  "cli_or_external_api_used": false,
+  "output_directory": "docs/art/pm107/codex/alt_cubuk/",
+  "started_utc": "2026-11-24T22:55:29Z",
+  "transparency": "Gerçek RGBA saydam üretim. #FF00FF arka plan kullanılmadı.",
+  "interpretation": "Mor yasağı çubuk, panel ve diğer üç ikona uygulanır; görevde açıkça korunan mavi/pembe/mor Jiggle üçlüsü istisnadır.",
+  "generations": [
+    {
+      "id": "A",
+      "iteration": "fikir",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: a SINGLE production sprite atlas for one mobile game bottom navigation design, concept A 'Ivory gallery'.\nInput images are reference-only: our existing museum home, two paintings, blue pink purple jigsaw characters and gold trophy establish identities; screenshot establishes our premium museum-game style; Block Out images establish only depth and elevated tab hierarchy. Do NOT reproduce their palette or icons.\nCreate a square 2048 x 2048 transparent PNG sprite atlas, orthographic UI artwork, with SEVEN separately extractable unlabelled elements in this rigid layout:\nTOP HALF y=0..1023: four icons in a 2x2 grid: museum centered (512,256), two overlapping framed landscape paintings centered (1536,256), group of THREE smiling anthropomorphic JIGSAW PUZZLE characters centered (512,768), trophy centered (1536,768). Each icon fits within a 700x420 area. Leave all cell edges empty by at least 64 pixels. No background tiles behind icons. Rounded thick silhouettes, high end toy-like 3D rendering, simplified details legible at 48pt.\nMIDDLE y=1024..1535: at x=64..600 a raised selected-tab panel alone, a softly rounded rectangular IVORY CREAM plaque with slim double bevel gold border, vertical rounded rectangle, empty center, no icon no text. Its entire outer contour including shadow must fit within x=64..600,y=1040..1520. At x=1000..1020 a SINGLE slender vertical cream-gold divider 260px long with soft fading ends, otherwise empty middle area.\nBOTTOM y=1600..2047: a full-width horizontal dark OLD MONEY NAVY navigation BAR BASE, rectangular 6.5:1 aspect ratio, x=48..2000,y=1650..1980, smooth slightly rounded top corners, subtle top bevel and deep low shadow, simple quiet surface with NO icons, NO labels, NO panel, NO separators. Exportable as its own transparent-edged strip.\nColor palette for architecture/panels: navy #0E2244 #153E75 #234670; cream #FFF6D8; gold #E3B54E edges #8A6420; secondary orange #F0A742. Museum must have cream stone, navy roof with gold trim; two paintings must have gold/navy frames; trophy gold with navy plinth. ONLY the three existing Jiggle characters may use blue/pink/purple, matching the input reference shapes (big jigsaw knobs and arms, expressive eyes). Do not use purple anywhere else.\nVisual direction A: restrained ivory and brushed gold, soft ceramic, front upper-left light, deep readable silhouettes, premium casual game polish, simpler than existing icons. Soft narrow contact shadows integrated into objects. All seven elements must be independent, no touching, on genuine transparent background. NO labels, NO text, NO grid, NO watermark, NO phone mockup. No ornamental flourishes or sparkle particles. Make panel much lighter than bar for instantly obvious selected state.",
+      "references": [
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-home-selected-large.png",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-collection-selected-large.png",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-jiggles-selected-large.png",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-trophy-selected-large.png",
+        "docs/art/pm107/once_sonra/menu_once.png"
+      ],
+      "source_atlas_path": "C:/Users/zeydt/.codex/generated_images/01a20fc5-20ac-78c1-b546-52374196c2f6/exec-0ac94785-ea33-435b-8812-388530fa4019.png",
+      "source_atlas_size": [
+        1254,
+        1254
+      ],
+      "delivered_suffixes": [
+        "onizleme.png",
+        "strip.png",
+        "selected.png",
+        "divider.png",
+        "icon_home.png",
+        "icon_collection.png",
+        "icon_jiggles.png",
+        "icon_trophy.png"
+      ]
+    },
+    {
+      "id": "B",
+      "iteration": "fikir",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: a SINGLE transparent production sprite atlas for Reverse Solver's bottom tab bar, concept B 'Blue salon'.\nInput images are reference-only for our museum, two paintings, THREE friendly blue/pink/purple JIGSAW PUZZLE people and trophy identities. Keep these subjects.\nGenerate a 2048x2048 square true-transparent PNG atlas. Rigid 2x2 top-half icon grid: museum top-left cell x0..1023 y0..511; TWO overlapping paintings top-right cell x1024..2047 y0..511; three jigsaw characters lower-left x0..1023 y512..1023; trophy lower-right x1024..2047 y512..1023. Keep every icon inside its own cell with 64px clear margin. No text.\nMiddle left x80..620,y1080..1540: one empty SELECTED TAB PANEL, nearly SQUARE standing plate, upper corners gently sloped like a low architectural pediment, medium light desaturated navy blue enamel #234670 and #3B5E87 with a clean GOLD TOP BROW ONLY, NO gold border along sides or bottom. Broad soft ceramic edge, subtly lit lighter center. No icons or text on panel.\nMiddle center x1050,y1120..1500: one thin desaturated blue-gold vertical divider, isolated.\nBottom x50..2000,y1660..1980: one long 6.5:1 navy-blue horizontal bar base, simple perfectly quiet satin enamel, thin straight ivory top highlight and recessed dark lower lip. No icons, panels, dividers or text on bar.\nVisual direction B: satin painted wooden toys / matte porcelain, chunkier simplified bold silhouettes, fewer seams and reflections than reference, contemporary and calm but tactile high-end mobile game. Museum pale cream body with wide slate navy roof, just two large windows, gold doors; landscape frames wide cream with small gold corners, navy landscape outlines; trophy simple smooth gold cup with broad dark navy pedestal; jigsaw characters blue center pink left purple right with correct jigsaw knobs and simple faces.\nOld-money palette navy #0E2244 #153E75 #234670, cream #FFF6D8, gold #E3B54E edge #8A6420, orange #F0A742. Purple ONLY on the existing purple Jiggle character. No extra characters. Light from upper left, clear volume, tight shadows. Genuinely transparent surroundings, NO background panels behind icons, NO cast shadow clouds, NO labels, NO watermark. Seven independent elements with generous empty space between them. Selection panel should clearly read as a light blue lifted tab when composited on navy base.",
+      "references": [
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-home-selected-large.png",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-collection-selected-large.png",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-jiggles-selected-large.png",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-trophy-selected-large.png"
+      ],
+      "source_atlas_path": "C:/Users/zeydt/.codex/generated_images/01a20fc5-20ac-78c1-b546-52374196c2f6/exec-6ad99fff-ac66-4836-a563-00baf1d07ffd.png",
+      "source_atlas_size": [
+        1254,
+        1254
+      ],
+      "delivered_suffixes": [
+        "onizleme.png",
+        "strip.png",
+        "selected.png",
+        "divider.png",
+        "icon_home.png",
+        "icon_collection.png",
+        "icon_jiggles.png",
+        "icon_trophy.png"
+      ]
+    },
+    {
+      "id": "C",
+      "iteration": "fikir",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: a SINGLE production sprite atlas for mobile puzzle museum game Reverse Solver, concept C 'Navy jewel'.\nUse the four input images ONLY to preserve subjects and friendly jigsaw character identities. Draw distinct new simplified high quality artwork. Create true transparent 2048x2048 square PNG with exactly SEVEN distinct assets, no labels:\nTOP HALF in 2x2 grid: museum centered at (512,256), TWO overlapping paintings centered at (1536,256), THREE friendly blue pink purple jigsaw-piece characters centered at (512,768), gold trophy centered at (1536,768). Every icon must stay in its own 1024x512 cell with 60px transparent margin. Icons standalone without backing cards.\nMIDDLE LEFT x70..600,y1080..1540: empty nearly SQUARE selected-tab panel with sculpted round top corners, deep navy interior #153E75, broad prominent warm GOLD outer frame #E3B54E with #8A6420 outer bevel. Face has a restrained soft inner glow of desaturated blue near its upper center. Double metal bevel creates jewelry-box depth. No text or icons inside.\nMIDDLE CENTER x1060,y1130..1500: one narrow elegant gold vertical divider with fading tapered ends.\nBOTTOM x40..2008,y1660..1980: standalone 6.5:1 horizontal bar base, deepest navy #0E2244, thin inset gold top rail, deep but narrow lower lip. Very quiet matte center, NO icons NO labels NO separators.\nConcept C styling: navy-and-gold enameled miniature collectibles, strong beveled edges and deep compact shadows, unmistakable simple silhouettes, refined premium casual mobile-game look. Museum cream with navy roof and generous gold edging; two landscape pictures with thicker gold/navy frame; three jigsaw people matching reference shapes and big eyes but simplify fingers/facial details; trophy gold with navy base and one small orange inset gem. All characters in one coherent render style, light upper left. Old-money palette #0E2244 #153E75 #234670 #FFF6D8 #E3B54E #8A6420 #F0A742. Purple only permitted on existing purple Jiggle character. No sparkles, no ornate scrollwork, no royal crown motifs, no background, no typography, no watermark. Make seven independent easily extracted objects with clean alpha edges.",
+      "references": [
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-home-selected-large.png",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-collection-selected-large.png",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-jiggles-selected-large.png",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-trophy-selected-large.png"
+      ],
+      "source_atlas_path": "C:/Users/zeydt/.codex/generated_images/01a20fc5-20ac-78c1-b546-52374196c2f6/exec-342f1282-a0d5-42d5-8388-0c6c53de0c9e.png",
+      "source_atlas_size": [
+        1254,
+        1254
+      ],
+      "delivered_suffixes": [
+        "onizleme.png",
+        "strip.png",
+        "selected.png",
+        "divider.png",
+        "icon_home.png",
+        "icon_collection.png",
+        "icon_jiggles.png",
+        "icon_trophy.png"
+      ]
+    },
+    {
+      "id": "final",
+      "iteration": "A seçeneği üzerinde kaynak atlas bağlı 1 iyileştirme turu",
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit / stylized-concept.\nAsset type: final revised production sprite atlas for Reverse Solver bottom navigation.\nINPUT 1 is the chosen A 'Ivory gallery' atlas: revise this exact design, preserve all seven object identities, ivory active panel, old-money navy base, navy/gold/cream icon palette, blue/pink/purple jigsaw trio. INPUT 2 preserves our exact jigsaw characters. INPUT 3 is our screenshot for compatible visual weight.\nTARGETED REVISION after small-size review: simplify museum greenery to TWO smooth broad bushes with no tiny leaves; reduce roof seams and stair details; keep clear cream facade and navy roof. Simplify the TWO framed landscape paintings to broad gold/navy borders and simple landscape masses, no tiny frame embellishments. Jiggles: correct interlocking jigsaw-piece silhouette, each has head knob, side knobs and feet, exactly THREE blue center pink left purple right, bold readable faces, no fingernail details. Trophy: smooth simple gold cup and navy pedestal, compact handles, avoid tiny decoration. Give every icon the SAME upper-left key light, soft narrow shadow, similar strong outline and restrained highlight, remove harsh white glare.\nSelected panel: explicitly a NEARLY SQUARE empty ivory-cream rounded rectangle (not wide landscape), thin SINGLE clean warm gold beveled rim with bronze edge, no double decorative molding, gentle cream center #FFF6D8, no text no icon. Thin fading divider. Quiet navy bar #0E2244 to #153E75 with fine gold-cream upper edge and soft lower shadow.\nCreate a SINGLE 2048x2048 truly transparent atlas with exactly seven isolated elements:\n- Top-left quadrant cell x0..1023,y0..511 museum icon.\n- Top-right cell x1024..2047,y0..511 two overlapping paintings.\n- Left cell x0..1023,y512..1023 jigsaw trio.\n- Right cell x1024..2047,y512..1023 trophy.\nEach icon fits its own cell, leave 64px transparent cell margins. No background behind icons.\n- Middle left x80..600,y1080..1580 the SQUARE selected panel, equal width and height, all edges isolated.\n- Middle center x1050..1070,y1120..1500 ONE slender vertical cream-gold divider, no thick caps.\n- Bottom x48..2000,y1680..1980 ONE horizontal 6.5:1 navy bar, full quiet empty surface, no segmentation.\nEverything unlabelled and separate, generous clear space between objects, clean alpha edges. No text, letters, sparkles, outlines around invisible bounds, no magenta key background. Purple ONLY belongs to the existing purple Jiggle. Preserve original chosen A design language while making the final simpler and cleaner. These are polished tactile toy-like rendered sprites, not flat vector icons.",
+      "references": [
+        "A üretim atlası (iyileştirme hedefi)",
+        "Assets/_Game/Presentation/Resources/Art/t21-tab-icon-jiggles-selected-large.png",
+        "docs/art/pm107/once_sonra/menu_once.png"
+      ],
+      "source_atlas_path": "C:/Users/zeydt/.codex/generated_images/01a20fc5-20ac-78c1-b546-52374196c2f6/exec-31b8f75e-ef7f-4920-9c03-764ee5e520db.png",
+      "source_atlas_size": [
+        1254,
+        1254
+      ],
+      "delivered_suffixes": [
+        "onizleme.png",
+        "strip.png",
+        "selected.png",
+        "divider.png",
+        "icon_home.png",
+        "icon_collection.png",
+        "icon_jiggles.png",
+        "icon_trophy.png"
+      ]
+    }
+  ],
+  "quality_references": [
+    "docs/art/pm107/ref/bo_a_3.jpg",
+    "docs/art/pm107/ref/bo_a_7.jpg"
+  ],
+  "postprocessing": {
+    "tool": "Pillow 13.0.0 / NumPy 2.5.4; komut içinde kullanıldı, kod dosyası teslim edilmedi.",
+    "steps": [
+      "Atlasın ayrı nesnelerini boş hücre sınırlarından kırp.",
+      "Alfa <=12 saçakları sıfırla; kalan alfayı 0–255 aralığına taşı.",
+      "Alfa >96 desteğine 3 px medyan ve genişletme uygula; uzaktaki düşük alfa taneciklerini temizle.",
+      "Lanczos ile istenen kesin piksel boyutlarına indir/ölçekle.",
+      "İkonları 384×384 kutuda en fazla 352×332 iç boyuta, ortalanmış yerleştir.",
+      "Paneli 330×330 saydam tuvalde (12,6) başlangıcında 306×318 iç kutuya yerleştir.",
+      "Ayırıcıyı 12×180 saydam tuvalde (4,5) başlangıcında 4×170 iç kutuya yerleştir.",
+      "Son yeniden örnekleme sonrası R>=240,G<=30,B>=240 ve alfa>0 magenta benzeri kenar piksellerini temizle.",
+      "Alfa=0 piksellerinin RGB değerlerini de sıfırla.",
+      "Orijinal 780×1688 ekranın üzerine strip 780×176 ve selected 220×220 olarak birleştir; başka ekran içeriğini yeniden üretme."
+    ],
+    "preview": {
+      "strip_xy": [
+        0,
+        1512
+      ],
+      "selected_xy": [
+        0,
+        1472
+      ],
+      "selected_size": [
+        220,
+        220
+      ],
+      "home_icon_xy": [
+        34,
+        1483
+      ],
+      "home_icon_size": [
+        152,
+        152
+      ],
+      "inactive_icon_size": [
+        112,
+        112
+      ],
+      "inactive_centers_x": [
+        313,
+        500,
+        687
+      ],
+      "inactive_y": 1531,
+      "divider_x": [
+        220,
+        407,
+        593
+      ],
+      "divider_y": 1535,
+      "label": "Ev",
+      "label_font": "Assets/_Game/Presentation/Resources/Fonts/Baloo2-ExtraBold.ttf",
+      "label_size_px": 31,
+      "label_position": [
+        110,
+        1620
+      ],
+      "label_color_final": "#0E2244",
+      "legacy_tab_shoulder_cleanup": "Yalnız x212..282/y1476..1511 içindeki R>145,G>85 eski altın omuz, aynı satırdaki x300..370 halı örneğiyle temizlendi."
+    },
+    "review_font": "C:/Windows/Fonts/segoeuib.ttf (yalnız inceleme JPG'lerinde Türkçe glifler için)",
+    "requested_png_count": 32
+  },
+  "discarded_generation": {
+    "id": "final_bagimsiz_deneme",
+    "reason": "Kaynak referans argümanı boş kaldığından kullanılmadı; son set A atlası bağlanarak yeniden üretildi.",
+    "prompt": "Use case: precise-object-edit / stylized-concept.\nAsset type: final revised production sprite atlas for Reverse Solver bottom navigation.\nINPUT 1 is the chosen A 'Ivory gallery' atlas: revise this exact design, preserve all seven object identities, ivory active panel, old-money navy base, navy/gold/cream icon palette, blue/pink/purple jigsaw trio. INPUT 2 preserves our exact jigsaw characters. INPUT 3 is our screenshot for compatible visual weight.\nTARGETED REVISION after small-size review: simplify museum greenery to TWO smooth broad bushes with no tiny leaves; reduce roof seams and stair details; keep clear cream facade and navy roof. Simplify the TWO framed landscape paintings to broad gold/navy borders and simple landscape masses, no tiny frame embellishments. Jiggles: correct interlocking jigsaw-piece silhouette, each has head knob, side knobs and feet, exactly THREE blue center pink left purple right, bold readable faces, no fingernail details. Trophy: smooth simple gold cup and navy pedestal, compact handles, avoid tiny decoration. Give every icon the SAME upper-left key light, soft narrow shadow, similar strong outline and restrained highlight, remove harsh white glare.\nSelected panel: explicitly a NEARLY SQUARE empty ivory-cream rounded rectangle (not wide landscape), thin SINGLE clean warm gold beveled rim with bronze edge, no double decorative molding, gentle cream center #FFF6D8, no text no icon. Thin fading divider. Quiet navy bar #0E2244 to #153E75 with fine gold-cream upper edge and soft lower shadow.\nCreate a SINGLE 2048x2048 truly transparent atlas with exactly seven isolated elements:\n- Top-left quadrant cell x0..1023,y0..511 museum icon.\n- Top-right cell x1024..2047,y0..511 two overlapping paintings.\n- Left cell x0..1023,y512..1023 jigsaw trio.\n- Right cell x1024..2047,y512..1023 trophy.\nEach icon fits its own cell, leave 64px transparent cell margins. No background behind icons.\n- Middle left x80..600,y1080..1580 the SQUARE selected panel, equal width and height, all edges isolated.\n- Middle center x1050..1070,y1120..1500 ONE slender vertical cream-gold divider, no thick caps.\n- Bottom x48..2000,y1680..1980 ONE horizontal 6.5:1 navy bar, full quiet empty surface, no segmentation.\nEverything unlabelled and separate, generous clear space between objects, clean alpha edges. No text, letters, sparkles, outlines around invisible bounds, no magenta key background. Purple ONLY belongs to the existing purple Jiggle. Preserve original chosen A design language while making the final simpler and cleaner. These are polished tactile toy-like rendered sprites, not flat vector icons.",
+    "referenced_images": [],
+    "source_atlas_path": "C:/Users/zeydt/.codex/generated_images/01a20fc5-20ac-78c1-b546-52374196c2f6/exec-f60a6471-6c38-4608-8278-7a23f5e13ff7.png"
+  }
+}

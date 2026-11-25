@@ -1,0 +1,25 @@
+{
+ "dir": "menu",
+ "sounds": 15,
+ "drowned": 0,
+ "drowned_list": [],
+ "peaks_over": 1,
+ "peak_dbfs": -0.99,
+ "effects_lufs_max": -18.3,
+ "music_lufs_median": -36.2,
+ "mix_lufs_max": -18.0,
+ "by_clip": {
+  "ui-toggle1": {
+   "count": 1,
+   "level": -20.6
+  },
+  "ui-toggle2": {
+   "count": 1,
+   "level": -20.9
+  },
+  "ui-tok-c1": {
+   "count": 13,
+   "level": -19.2
+  }
+ }
+}

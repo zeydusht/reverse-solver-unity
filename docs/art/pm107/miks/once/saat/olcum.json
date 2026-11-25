@@ -1,0 +1,107 @@
+{
+ "dir": "saat",
+ "sounds": 75,
+ "drowned": 11,
+ "drowned_list": [
+  {
+   "t": 11.38,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 12.63,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 12.93,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 13.84,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 14.16,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 16.01,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 16.32,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 16.64,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 16.96,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 18.82,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  },
+  {
+   "t": 19.14,
+   "clip": "booster-saat-tiktak-b",
+   "level": -29.6,
+   "by": "cikis-u1",
+   "by_level": -16.5
+  }
+ ],
+ "peaks_over": 0,
+ "peak_dbfs": -2.03,
+ "effects_lufs_max": -16.8,
+ "music_lufs_median": -34.8,
+ "mix_lufs_max": -16.7,
+ "by_clip": {
+  "booster-saat-donma-b": {
+   "count": 2,
+   "level": -21.6
+  },
+  "booster-saat-kirilma-b": {
+   "count": 2,
+   "level": -19.6
+  },
+  "booster-saat-tiktak-b": {
+   "count": 65,
+   "level": -29.6
+  },
+  "cikis-u1": {
+   "count": 6,
+   "level": -16.5
+  }
+ }
+}

@@ -1,0 +1,422 @@
+[
+ {
+  "t": -0.976056884765625,
+  "line": "[ses] cikis u (1 kayıt, Loaded) carpma a (4 kayıt, Loaded) bitis a (1 kayıt, Loaded) kazan b (1 kayıt, Loaded) tik eski kalkis eski bomba a (1 kayıt, Loaded) kilit a (1 kayıt, Loaded) kalkisk eski\n"
+ },
+ {
+  "t": -0.969637939453125,
+  "line": "[gecis] koridor a dalis a ting - cizgi c geri a hud a sekme a\n"
+ },
+ {
+  "t": -0.96409912109375,
+  "line": "[booster ses] makas/kesim c degnek/donusum a cekic/vurus c cekic/kirinti c saat/tiktak b saat/donma b saat/kirilma b\n"
+ },
+ {
+  "t": 12.122298095703124,
+  "line": "[ses] Exit cikis-u1 13,242\n"
+ },
+ {
+  "t": 12.123048095703124,
+  "line": "[mix] Sfx cikis-u1 0.891 13,242\n"
+ },
+ {
+  "t": 12.917449951171875,
+  "line": "[ses] Exit cikis-u1 14,038\n"
+ },
+ {
+  "t": 12.91827490234375,
+  "line": "[mix] Sfx cikis-u1 0.891 14,038\n"
+ },
+ {
+  "t": 14.316283935546876,
+  "line": "[ses] Exit cikis-u1 15,438\n"
+ },
+ {
+  "t": 14.316839111328125,
+  "line": "[mix] Sfx cikis-u1 0.891 15,438\n"
+ },
+ {
+  "t": 15.69939599609375,
+  "line": "[ses] Exit cikis-u1 16,821\n"
+ },
+ {
+  "t": 15.700219970703126,
+  "line": "[mix] Sfx cikis-u1 0.891 16,821\n"
+ },
+ {
+  "t": 17.247823974609375,
+  "line": "[ses] Exit cikis-u1 18,370\n"
+ },
+ {
+  "t": 17.248221923828126,
+  "line": "[mix] Sfx cikis-u1 0.891 18,370\n"
+ },
+ {
+  "t": 19.083674072265627,
+  "line": "[ses] Exit cikis-u1 20,205\n"
+ },
+ {
+  "t": 19.08414990234375,
+  "line": "[mix] Sfx cikis-u1 0.891 20,205\n"
+ },
+ {
+  "t": 20.063158935546873,
+  "line": "[ses] Exit cikis-u1 21,185\n"
+ },
+ {
+  "t": 20.063631103515625,
+  "line": "[mix] Sfx cikis-u1 0.891 21,185\n"
+ },
+ {
+  "t": 20.064678955078126,
+  "line": "[ses] KilitAc kilitac-a1 21,185\n"
+ },
+ {
+  "t": 20.065111083984377,
+  "line": "[mix] Sfx kilitac-a1 1.000 21,185\n"
+ },
+ {
+  "t": 21.2639189453125,
+  "line": "[ses] Exit cikis-u1 22,385\n"
+ },
+ {
+  "t": 21.26456689453125,
+  "line": "[mix] Sfx cikis-u1 0.891 22,385\n"
+ },
+ {
+  "t": 22.696736083984376,
+  "line": "[ses] Exit cikis-u1 23,818\n"
+ },
+ {
+  "t": 22.69710400390625,
+  "line": "[mix] Sfx cikis-u1 0.891 23,818\n"
+ },
+ {
+  "t": 22.69756689453125,
+  "line": "[ses] KilitAc kilitac-a2 23,818\n"
+ },
+ {
+  "t": 22.697802978515625,
+  "line": "[mix] Sfx kilitac-a2 1.000 23,818\n"
+ },
+ {
+  "t": 24.328239990234376,
+  "line": "[ses] Exit cikis-u1 25,450\n"
+ },
+ {
+  "t": 24.328887939453125,
+  "line": "[mix] Sfx cikis-u1 0.891 25,450\n"
+ },
+ {
+  "t": 25.47780908203125,
+  "line": "[ses] Exit cikis-u1 26,599\n"
+ },
+ {
+  "t": 25.478261962890624,
+  "line": "[mix] Sfx cikis-u1 0.891 26,599\n"
+ },
+ {
+  "t": 26.82802490234375,
+  "line": "[ses] Exit cikis-u1 27,949\n"
+ },
+ {
+  "t": 26.828614990234374,
+  "line": "[mix] Sfx cikis-u1 0.891 27,949\n"
+ },
+ {
+  "t": 28.82889208984375,
+  "line": "[ses] Exit cikis-u1 29,951\n"
+ },
+ {
+  "t": 28.829238037109373,
+  "line": "[mix] Sfx cikis-u1 0.891 29,951\n"
+ },
+ {
+  "t": 29.6258701171875,
+  "line": "[ses] Exit cikis-u1 30,747\n"
+ },
+ {
+  "t": 29.626346923828127,
+  "line": "[mix] Sfx cikis-u1 0.891 30,747\n"
+ },
+ {
+  "t": 31.29172802734375,
+  "line": "[ses] Exit cikis-u1 32,413\n"
+ },
+ {
+  "t": 31.292195068359376,
+  "line": "[mix] Sfx cikis-u1 0.891 32,413\n"
+ },
+ {
+  "t": 32.6739560546875,
+  "line": "[ses] Exit cikis-u1 33,796\n"
+ },
+ {
+  "t": 32.67443994140625,
+  "line": "[mix] Sfx cikis-u1 0.891 33,796\n"
+ },
+ {
+  "t": 34.04043505859375,
+  "line": "[ses] Exit cikis-u1 35,162\n"
+ },
+ {
+  "t": 34.04100390625,
+  "line": "[mix] Sfx cikis-u1 0.891 35,162\n"
+ },
+ {
+  "t": 35.439947998046875,
+  "line": "[ses] Exit cikis-u1 36,562\n"
+ },
+ {
+  "t": 35.440659912109375,
+  "line": "[mix] Sfx cikis-u1 0.891 36,562\n"
+ },
+ {
+  "t": 37.175282958984376,
+  "line": "[ses] Exit cikis-u1 38,297\n"
+ },
+ {
+  "t": 37.175637939453125,
+  "line": "[mix] Sfx cikis-u1 0.891 38,297\n"
+ },
+ {
+  "t": 38.205342041015626,
+  "line": "[ses] Exit cikis-u1 39,327\n"
+ },
+ {
+  "t": 38.20577197265625,
+  "line": "[mix] Sfx cikis-u1 0.891 39,327\n"
+ },
+ {
+  "t": 39.58810400390625,
+  "line": "[ses] Exit cikis-u1 40,710\n"
+ },
+ {
+  "t": 39.58861206054687,
+  "line": "[mix] Sfx cikis-u1 0.891 40,710\n"
+ },
+ {
+  "t": 41.00397802734375,
+  "line": "[ses] Exit cikis-u1 42,126\n"
+ },
+ {
+  "t": 41.004472900390624,
+  "line": "[mix] Sfx cikis-u1 0.891 42,126\n"
+ },
+ {
+  "t": 42.38672509765625,
+  "line": "[ses] Exit cikis-u1 43,508\n"
+ },
+ {
+  "t": 42.387322998046876,
+  "line": "[mix] Sfx cikis-u1 0.891 43,508\n"
+ },
+ {
+  "t": 43.78589306640625,
+  "line": "[ses] Exit cikis-u1 44,908\n"
+ },
+ {
+  "t": 43.786260986328124,
+  "line": "[mix] Sfx cikis-u1 0.891 44,908\n"
+ },
+ {
+  "t": 45.185678955078124,
+  "line": "[ses] Exit cikis-u1 46,307\n"
+ },
+ {
+  "t": 45.18615698242188,
+  "line": "[mix] Sfx cikis-u1 0.891 46,307\n"
+ },
+ {
+  "t": 45.426573974609376,
+  "line": "[mix] Fanfare kazanma-g-pizz 1.000 46,548\n"
+ },
+ {
+  "t": 62.46646801757812,
+  "line": "[ses] ui Tick ui-tok-c1 63,587\n"
+ },
+ {
+  "t": 62.46699291992188,
+  "line": "[mix] Ui ui-tok-c1 1.000 63,587\n"
+ },
+ {
+  "t": 62.60163500976562,
+  "line": "[gecis] olay koridor açıldı\n"
+ },
+ {
+  "t": 63.01059594726563,
+  "line": "[gecis] olay koridor kayış\n"
+ },
+ {
+  "t": 63.01188500976563,
+  "line": "[gecis] ses Koridor\n"
+ },
+ {
+  "t": 63.01318701171875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.011 64,132\n"
+ },
+ {
+  "t": 63.02777392578125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.031 64,149\n"
+ },
+ {
+  "t": 63.043861083984375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.057 64,166\n"
+ },
+ {
+  "t": 63.06108203125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.086 64,183\n"
+ },
+ {
+  "t": 63.077635986328126,
+  "line": "[mix] ~Ui gecis-koridor-a 0.117 64,199\n"
+ },
+ {
+  "t": 63.094083984375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.151 64,216\n"
+ },
+ {
+  "t": 63.111458984375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.188 64,233\n"
+ },
+ {
+  "t": 63.14414599609375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.261 64,266\n"
+ },
+ {
+  "t": 63.17715087890625,
+  "line": "[mix] ~Ui gecis-koridor-a 0.337 64,299\n"
+ },
+ {
+  "t": 63.21081909179688,
+  "line": "[mix] ~Ui gecis-koridor-a 0.413 64,332\n"
+ },
+ {
+  "t": 63.260574951171876,
+  "line": "[mix] ~Ui gecis-koridor-a 0.525 64,382\n"
+ },
+ {
+  "t": 63.31097192382813,
+  "line": "[mix] ~Ui gecis-koridor-a 0.633 64,433\n"
+ },
+ {
+  "t": 63.318375,
+  "line": "[gecis] olay dalış (değmeye 0,50 s)\n"
+ },
+ {
+  "t": 63.3190400390625,
+  "line": "[mix] Ui gecis-dalis-a 0.550 64,436\n"
+ },
+ {
+  "t": 63.31998388671875,
+  "line": "[gecis] ses Dalis\n"
+ },
+ {
+  "t": 63.34409790039062,
+  "line": "[gecis] ses Dalış havası\n"
+ },
+ {
+  "t": 63.34447998046875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.096 64,466\n"
+ },
+ {
+  "t": 63.36095703125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.179 64,483\n"
+ },
+ {
+  "t": 63.37755590820313,
+  "line": "[mix] ~Ui gecis-koridor-a 0.263 64,499\n"
+ },
+ {
+  "t": 63.39386499023438,
+  "line": "[mix] ~Ui gecis-koridor-a 0.355 64,516\n"
+ },
+ {
+  "t": 63.41080493164063,
+  "line": "[mix] ~Ui gecis-koridor-a 0.440 64,532\n"
+ },
+ {
+  "t": 63.44402490234375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.608 64,566\n"
+ },
+ {
+  "t": 63.47751708984375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.742 64,599\n"
+ },
+ {
+  "t": 63.5442119140625,
+  "line": "[mix] ~Ui gecis-koridor-a 0.891 64,666\n"
+ },
+ {
+  "t": 63.660444091796876,
+  "line": "[mix] ~Ui gecis-koridor-a 0.708 64,782\n"
+ },
+ {
+  "t": 63.6936669921875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.561 64,816\n"
+ },
+ {
+  "t": 63.72739892578125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.392 64,849\n"
+ },
+ {
+  "t": 63.74396508789062,
+  "line": "[mix] ~Ui gecis-koridor-a 0.301 64,866\n"
+ },
+ {
+  "t": 63.76068701171875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.215 64,882\n"
+ },
+ {
+  "t": 63.77727392578125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.129 64,899\n"
+ },
+ {
+  "t": 63.79385888671875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.058 64,915\n"
+ },
+ {
+  "t": 63.81047705078125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.005 64,932\n"
+ },
+ {
+  "t": 63.8446259765625,
+  "line": "[gecis] olay değme\n"
+ },
+ {
+  "t": 63.8449599609375,
+  "line": "[mix] Ui gecis-cizgi-c 1.000 64,966\n"
+ },
+ {
+  "t": 63.84531005859375,
+  "line": "[gecis] ses Cizgi\n"
+ },
+ {
+  "t": 63.84553100585938,
+  "line": "[mix] ~Ui gecis-dalis-hava 0.000 64,966\n"
+ },
+ {
+  "t": 64.073712890625,
+  "line": "[gecis] olay geri çekilme\n"
+ },
+ {
+  "t": 64.07406396484375,
+  "line": "[mix] Ui gecis-geri-a 1.000 65,196\n"
+ },
+ {
+  "t": 64.0745859375,
+  "line": "[gecis] ses Geri\n"
+ },
+ {
+  "t": 64.51028002929688,
+  "line": "[gecis] olay HUD oturdu\n"
+ },
+ {
+  "t": 64.51089501953125,
+  "line": "[mix] Ui gecis-hud-a 1.000 65,632\n"
+ },
+ {
+  "t": 64.51159497070313,
+  "line": "[gecis] ses Hud\n"
+ }
+]

@@ -30,11 +30,15 @@ def clip_table():
     if os.path.exists(TABLE) and os.path.getmtime(TABLE) >= stamp:
         return json.load(open(TABLE, encoding='utf-8'))
     out = {}
-    for f in files:
+    import re as _re
+    order = lambda f: int(_re.search(r'pm(\d+)', f).group(1)) if _re.search(r'pm(\d+)', f) else 0
+    for f in sorted(files, key=order):   # the newest folder last: the one the loaders take; pm107 (mastered) apart
         y, sr = sf.read(f, always_2d=True)
         y = y.mean(axis=1)
-        out[os.path.splitext(os.path.basename(f))[0]] = dict(lufs=round(short_lufs(y, sr), 2), peak=round(20 * np.log10(np.max(np.abs(y)) + 1e-9), 2),
-                                                             seconds=round(len(y) / sr, 3), folder=os.path.basename(os.path.dirname(f)))
+        name = os.path.splitext(os.path.basename(f))[0]
+        entry = dict(lufs=round(short_lufs(y, sr), 2), peak=round(20 * np.log10(np.max(np.abs(y)) + 1e-9), 2),
+                     seconds=round(len(y) / sr, 3), folder=os.path.basename(os.path.dirname(f)))
+        out[(name + '@pm107') if entry['folder'] == 'pm107' else name] = entry
     os.makedirs(os.path.dirname(TABLE), exist_ok=True)
     json.dump(out, open(TABLE, 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
     return out
@@ -85,6 +89,11 @@ def curve(y, win=.4, hop=.05):
 
 
 clips = clip_table()
+_meta = json.load(open(os.path.join(d, 'meta.json'))) if os.path.exists(os.path.join(d, 'meta.json')) else {}
+BEFORE = bool(_meta.get('before'))
+def clip_of(name):
+    """after: the mastered copy (pm107) where there is one; before (&miks=0): the original file"""
+    return (None if BEFORE else clips.get(name + '@pm107')) or clips.get(name)
 fx = decode('efektler'); mu = decode('muzik')
 # the music's recorder starts with its context (the first touch): its silence before that put back
 meta = json.load(open(os.path.join(d, 'meta.json'))) if os.path.exists(os.path.join(d, 'meta.json')) else {}
@@ -105,7 +114,7 @@ for x in logs:
     m = re.match(r'\[mix\] (~?)(\w+) (\S+) ([\d.,]+)', x['line'])
     if not m: continue
     cont, bus, name, vol = m.group(1) == '~', m.group(2), m.group(3), float(m.group(4).replace(',', '.'))
-    c = clips.get(name)
+    c = clip_of(name)
     if c is None: continue
     level = c['lufs'] + 20 * np.log10(max(vol, 1e-4))
     events.append(dict(t=x['t'], bus=bus, clip=name, vol=vol, level=round(level, 1), len=c['seconds'], cont=cont))
@@ -124,8 +133,23 @@ for e in events:
     rivals = [(f['level'], f['clip']) for f in events if f is not e and f['t'] < b and f['t'] + min(.4, f['len']) > a and not (f['cont'] and f['vol'] < .02)]
     rivals.append((music_at(a + .2), 'müzik'))
     top = max(rivals)
+    # the dive's air fading under the same dive's whoosh: one transition, its two parts (not a sound lost)
+    if e['cont'] and e['clip'].startswith('gecis-') and str(top[1]).startswith('gecis-'): continue
     if e['level'] < top[0] - MASK_DB:
         drowned.append(dict(t=round(e['t'], 2), clip=e['clip'], level=e['level'], by=top[1], by_level=round(top[0], 1)))
+
+# a continuous sound (the chain, the tick-tock, the dive's air): its line at the run's very start or end (fading in
+# or out, within .35 s of the run's edge) is not a lost sound; anywhere else in the run it is (the tick-tock under a
+# slide is exactly what Zeyd heard lost)
+def run_edge(d):
+    ts = sorted(e['t'] for e in events if e['cont'] and e['clip'] == d['clip'])
+    k = min(range(len(ts)), key=lambda i: abs(ts[i] - d['t']))
+    a = k
+    while a > 0 and ts[a] - ts[a - 1] < .45: a -= 1
+    b = k
+    while b < len(ts) - 1 and ts[b + 1] - ts[b] < .45: b += 1
+    return d['t'] - ts[a] <= .35 or ts[b] - d['t'] <= .35
+drowned = [d for d in drowned if not (any(e['cont'] and e['clip'] == d['clip'] for e in events) and run_edge(d))]
 
 # the peaks of what reaches the speaker (effects + music, unfiltered)
 rf, rm = raw.get('efektler', np.zeros(0)), raw.get('muzik', np.zeros(0))

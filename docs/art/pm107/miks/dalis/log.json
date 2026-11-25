@@ -1,0 +1,214 @@
+[
+ {
+  "t": -0.98481591796875,
+  "line": "[ses] cikis u (1 kayıt, Loaded) carpma a (4 kayıt, Loaded) bitis a (1 kayıt, Loaded) kazan b (1 kayıt, Loaded) tik eski kalkis eski bomba a (1 kayıt, Loaded) kilit a (1 kayıt, Loaded) kalkisk eski\n"
+ },
+ {
+  "t": -0.978114990234375,
+  "line": "[gecis] koridor a dalis a ting - cizgi c geri a hud a sekme a\n"
+ },
+ {
+  "t": -0.9714970703125,
+  "line": "[booster ses] makas/kesim c degnek/donusum a cekic/vurus c cekic/kirinti c saat/tiktak b saat/donma b saat/kirilma b\n"
+ },
+ {
+  "t": 5.27910595703125,
+  "line": "[ses] ui Tick ui-tok-c1 6,427\n"
+ },
+ {
+  "t": 5.281068115234375,
+  "line": "[mix] Ui ui-tok-c1 1.000 6,427\n"
+ },
+ {
+  "t": 6.9267490234375,
+  "line": "[ses] ui Tick ui-tok-c1 8,076\n"
+ },
+ {
+  "t": 6.92730810546875,
+  "line": "[mix] Ui ui-tok-c1 1.000 8,076\n"
+ },
+ {
+  "t": 10.137,
+  "line": "[mix] olay Oyna"
+ },
+ {
+  "t": 10.2868701171875,
+  "line": "[ses] ui Tick ui-tok-c1 11,424\n"
+ },
+ {
+  "t": 10.2873369140625,
+  "line": "[mix] Ui ui-tok-c1 1.000 11,424\n"
+ },
+ {
+  "t": 10.305077880859375,
+  "line": "[gecis] ses Dalış havası\n"
+ },
+ {
+  "t": 10.306367919921875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.020 11,454\n"
+ },
+ {
+  "t": 10.32206005859375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.038 11,471\n"
+ },
+ {
+  "t": 10.3381708984375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.059 11,488\n"
+ },
+ {
+  "t": 10.35435888671875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.082 11,504\n"
+ },
+ {
+  "t": 10.3710810546875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.107 11,521\n"
+ },
+ {
+  "t": 10.38815087890625,
+  "line": "[mix] ~Ui gecis-koridor-a 0.132 11,537\n"
+ },
+ {
+  "t": 10.40426904296875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.160 11,554\n"
+ },
+ {
+  "t": 10.437427001953125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.217 11,587\n"
+ },
+ {
+  "t": 10.47129296875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.276 11,620\n"
+ },
+ {
+  "t": 10.50460791015625,
+  "line": "[mix] ~Ui gecis-koridor-a 0.337 11,654\n"
+ },
+ {
+  "t": 10.554179931640626,
+  "line": "[mix] ~Ui gecis-koridor-a 0.426 11,704\n"
+ },
+ {
+  "t": 10.6036298828125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.512 11,754\n"
+ },
+ {
+  "t": 10.670763916015625,
+  "line": "[mix] ~Ui gecis-koridor-a 0.618 11,821\n"
+ },
+ {
+  "t": 10.770469970703125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.750 11,920\n"
+ },
+ {
+  "t": 10.97047802734375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.893 12,120\n"
+ },
+ {
+  "t": 11.18740087890625,
+  "line": "[gecis] olay dalış (değmeye 0,59 s)\n"
+ },
+ {
+  "t": 11.18810400390625,
+  "line": "[mix] Ui gecis-dalis-a 0.550 12,337\n"
+ },
+ {
+  "t": 11.1892109375,
+  "line": "[gecis] ses Dalis\n"
+ },
+ {
+  "t": 11.270469970703125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.759 12,420\n"
+ },
+ {
+  "t": 11.370166015625,
+  "line": "[mix] ~Ui gecis-koridor-a 0.629 12,520\n"
+ },
+ {
+  "t": 11.43702392578125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.523 12,587\n"
+ },
+ {
+  "t": 11.487010009765624,
+  "line": "[mix] ~Ui gecis-koridor-a 0.438 12,637\n"
+ },
+ {
+  "t": 11.5370458984375,
+  "line": "[mix] ~Ui gecis-koridor-a 0.349 12,687\n"
+ },
+ {
+  "t": 11.57035400390625,
+  "line": "[mix] ~Ui gecis-koridor-a 0.290 12,720\n"
+ },
+ {
+  "t": 11.60345703125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.231 12,753\n"
+ },
+ {
+  "t": 11.636700927734376,
+  "line": "[mix] ~Ui gecis-koridor-a 0.172 12,787\n"
+ },
+ {
+  "t": 11.670468017578125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.118 12,820\n"
+ },
+ {
+  "t": 11.687114013671875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.092 12,837\n"
+ },
+ {
+  "t": 11.703464111328126,
+  "line": "[mix] ~Ui gecis-koridor-a 0.069 12,853\n"
+ },
+ {
+  "t": 11.720422119140625,
+  "line": "[mix] ~Ui gecis-koridor-a 0.047 12,870\n"
+ },
+ {
+  "t": 11.737052001953124,
+  "line": "[mix] ~Ui gecis-koridor-a 0.027 12,887\n"
+ },
+ {
+  "t": 11.753701904296875,
+  "line": "[mix] ~Ui gecis-koridor-a 0.012 12,903\n"
+ },
+ {
+  "t": 11.77027001953125,
+  "line": "[mix] ~Ui gecis-koridor-a 0.001 12,920\n"
+ },
+ {
+  "t": 11.807302978515626,
+  "line": "[gecis] olay değme\n"
+ },
+ {
+  "t": 11.80764990234375,
+  "line": "[mix] Ui gecis-cizgi-c 1.000 12,949\n"
+ },
+ {
+  "t": 11.808135009765625,
+  "line": "[gecis] ses Cizgi\n"
+ },
+ {
+  "t": 12.086993896484374,
+  "line": "[gecis] olay geri çekilme\n"
+ },
+ {
+  "t": 12.08755908203125,
+  "line": "[mix] Ui gecis-geri-a 1.000 13,237\n"
+ },
+ {
+  "t": 12.0885830078125,
+  "line": "[gecis] ses Geri\n"
+ },
+ {
+  "t": 12.886919921875,
+  "line": "[gecis] olay HUD oturdu\n"
+ },
+ {
+  "t": 12.887365966796875,
+  "line": "[mix] Ui gecis-hud-a 1.000 14,036\n"
+ },
+ {
+  "t": 12.88818408203125,
+  "line": "[gecis] ses Hud\n"
+ }
+]

@@ -1,0 +1,134 @@
+[
+ {
+  "t": -0.8657060546875,
+  "line": "[ses] cikis u (1 kayıt, Loaded) carpma a (4 kayıt, Loaded) bitis a (1 kayıt, Loaded) kazan b (1 kayıt, Loaded) tik eski kalkis eski bomba a (1 kayıt, Loaded) kilit a (1 kayıt, Loaded) kalkisk eski\n"
+ },
+ {
+  "t": -0.856946044921875,
+  "line": "[gecis] koridor a dalis a ting - cizgi c geri a hud a sekme a\n"
+ },
+ {
+  "t": -0.85106005859375,
+  "line": "[booster ses] makas/kesim c degnek/donusum a cekic/vurus c cekic/kirinti c saat/tiktak b saat/donma b saat/kirilma b\n"
+ },
+ {
+  "t": 10.76075,
+  "line": "[ses] Exit cikis-u1 11,784\n"
+ },
+ {
+  "t": 10.762321044921874,
+  "line": "[mix] Sfx cikis-u1 0.891 11,784\n"
+ },
+ {
+  "t": 11.569860107421874,
+  "line": "[ses] Exit cikis-u1 12,596\n"
+ },
+ {
+  "t": 11.570424072265626,
+  "line": "[mix] Sfx cikis-u1 0.891 12,596\n"
+ },
+ {
+  "t": 12.952739990234376,
+  "line": "[ses] Exit cikis-u1 13,979\n"
+ },
+ {
+  "t": 12.953323974609376,
+  "line": "[mix] Sfx cikis-u1 0.891 13,979\n"
+ },
+ {
+  "t": 14.418797119140624,
+  "line": "[ses] Knock carpma-a4 15,445\n"
+ },
+ {
+  "t": 14.41931591796875,
+  "line": "[mix] Sfx carpma-a4 1.000 15,445\n"
+ },
+ {
+  "t": 15.651988037109374,
+  "line": "[ses] Exit cikis-u1 16,678\n"
+ },
+ {
+  "t": 15.652721923828125,
+  "line": "[mix] Sfx cikis-u1 0.891 16,678\n"
+ },
+ {
+  "t": 17.21710595703125,
+  "line": "[ses] Exit cikis-u1 18,244\n"
+ },
+ {
+  "t": 17.21756005859375,
+  "line": "[mix] Sfx cikis-u1 0.891 18,244\n"
+ },
+ {
+  "t": 19.0357529296875,
+  "line": "[ses] Exit cikis-u1 20,062\n"
+ },
+ {
+  "t": 19.03618994140625,
+  "line": "[mix] Sfx cikis-u1 0.891 20,062\n"
+ },
+ {
+  "t": 19.900055908203125,
+  "line": "[ses] Knock carpma-a2 20,926\n"
+ },
+ {
+  "t": 19.900827880859374,
+  "line": "[mix] Sfx carpma-a2 1.000 20,926\n"
+ },
+ {
+  "t": 21.33189892578125,
+  "line": "[ses] Exit cikis-u1 22,359\n"
+ },
+ {
+  "t": 21.332404052734375,
+  "line": "[mix] Sfx cikis-u1 0.891 22,359\n"
+ },
+ {
+  "t": 21.3334599609375,
+  "line": "[ses] KilitAc kilitac-a1 22,359\n"
+ },
+ {
+  "t": 21.33397509765625,
+  "line": "[mix] Sfx kilitac-a1 1.000 22,359\n"
+ },
+ {
+  "t": 22.51523291015625,
+  "line": "[ses] Exit cikis-u1 23,542\n"
+ },
+ {
+  "t": 22.515819091796875,
+  "line": "[mix] Sfx cikis-u1 0.891 23,542\n"
+ },
+ {
+  "t": 23.931948974609377,
+  "line": "[ses] Exit cikis-u1 24,958\n"
+ },
+ {
+  "t": 23.932389892578126,
+  "line": "[mix] Sfx cikis-u1 0.891 24,958\n"
+ },
+ {
+  "t": 23.9330390625,
+  "line": "[ses] KilitAc kilitac-a2 24,958\n"
+ },
+ {
+  "t": 23.9334599609375,
+  "line": "[mix] Sfx kilitac-a2 1.000 24,958\n"
+ },
+ {
+  "t": 25.41389208984375,
+  "line": "[ses] Knock carpma-a1 26,440\n"
+ },
+ {
+  "t": 25.414383056640624,
+  "line": "[mix] Sfx carpma-a1 1.000 26,440\n"
+ },
+ {
+  "t": 26.8795849609375,
+  "line": "[ses] Exit cikis-u1 27,906\n"
+ },
+ {
+  "t": 26.8800869140625,
+  "line": "[mix] Sfx cikis-u1 0.891 27,906\n"
+ }
+]

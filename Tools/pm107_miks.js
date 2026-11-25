@@ -5,7 +5,7 @@
 //              saat     lv 18 with the clock booster (&booster=saat): the tick-tock running, 6 exits over it
 //              zincir   lv 31 (chained pairs): its solution's first moves, the pairs sliding and knocking
 //              bomba    lv 15: every move but the bomb's piece, until the bomb goes off (the bang, the loss)
-//              kazanma  the win with the chest (&sandik=1): the fanfare, its events, the chest
+//              kazanma  level 4 won by its solution: the fanfare and the win screen (the chest's own screen is not reached this way): the fanfare, its events, the chest
 //              menu     the menu: the four tabs and back, Ayarlar open and closed, a painting's detail
 //              dalis    the menu's Play: the dive into the painting (its air from the start of the motion)
 //   --before            the old mix (&miks=0&limiter=0: the original files, no ducking, no limiter)
@@ -165,8 +165,8 @@ const TAP = `(function () {
   await cdp('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 2, mobile: true });
   await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
   await cdp('Page.addScriptToEvaluateOnNewDocument', { source: TAP });
-  const LV = { bolum: 4, saat: 18, zincir: 31, bomba: 15, kazanma: 3, menu: 0, dalis: 0 }[SC];   // 18 is the clock's lesson (no move before the clock)
-  const extra = { saat: '&booster=saat', kazanma: '&sandik=1' }[SC] || '';
+  const LV = { bolum: 4, saat: 18, zincir: 31, bomba: 15, kazanma: 4, menu: 0, dalis: 0 }[SC];   // 18 is the clock's lesson (no move before the clock)
+  const extra = { saat: '&booster=saat' }[SC] || '';
   const q = `c=p23&lang=tr&intro=0&seslog=1&test=1${LV ? `&lv=${LV}` : ''}${extra}${BEFORE ? '&miks=0&limiter=0' : ''}${opt('query', '')}`;
   await cdp('Page.navigate', { url: `${base}/?${q}` });
   for (let i = 0; i < 120; i++) { await sleep(500); if (await ev(`!!(window.LT && LT.end)`)) break; }
@@ -174,11 +174,10 @@ const TAP = `(function () {
   const sr = await ev('__pm100.start()');
   const epoch = await ev('__pm100.epoch');
   console.log(`[kayıt] ${SC}${BEFORE ? ' (önce)' : ''}: başladı (${sr} Hz)`);
-  if (SC === 'kazanma') { await tap(12, 300); }   // the music's context is made on the first touch (the fanfare needs it)
-  if (SC !== 'kazanma') {
+  {
     await sleep(5000);
     await tap(12, 430); await sleep(1500);   // the first touch: the audio starts
-    if (SC !== 'menu') { await tap(12, 700); await sleep(1200); }   // a card, if any
+    if (SC !== 'menu') { await tap(12, 700); await sleep(1200); await tap(W / 2, 708); await sleep(1200); }   // a card, if any (its button)
     await sleep(2000);
   }
   const l = LV ? sl100.find(x => x.lv === LV) : null, p = l ? hudPlacement(l) : null;
@@ -230,6 +229,7 @@ const TAP = `(function () {
     }
     await sleep(4500);
   } else if (SC === 'kazanma') {
+    for (const m of l.solution) { await move(m.piece, m.dir, 'exit'); gone.add(m.piece); }
     await sleep(12000);
     for (let y = Math.round(H * .55); y < H * .9; y += 40) { await tap(W / 2, y); await sleep(700); }   // the chest, its buttons
     await sleep(3000);

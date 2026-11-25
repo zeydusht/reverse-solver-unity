@@ -133,5 +133,68 @@ namespace ReverseSolver.Core.Tests
             Assert.That(Dive75.Bell107(1), Is.EqualTo(0), "gone at the arrival");
             StringAssert.Contains("Gecis100.Dive(t < h0 ? Bell107(t / Mathf.Max(.05f, h0)) : 0);", File.ReadAllText("Assets/_Game/Presentation/Ui/Dive75.cs"));
         }
+
+        /* §D2: the collection's detail and its cards in the new palette; the grid's cards from thumbnails, one picture
+           decoded per frame (the first scroll froze for 1 s at a phone's CPU pace: the "jumping background"). */
+        [Test]
+        public void TheCollectionIsInTheNewPaletteAndLight()
+        {
+            string c = File.ReadAllText("Assets/_Game/Presentation/Ui/CollectionScreen.cs");
+            StringAssert.Contains("if (MenuUi.T48) { BuildT48(screen, c, w, h, index, images, order, bestSeconds); return; }", c);
+            string t48 = c.Substring(c.IndexOf("void BuildT48("));
+            t48 = t48.Substring(0, t48.IndexOf("static SpriteRenderer Place("));
+            foreach (var old in new[] { "modal-panel", "title-plaque", "name-band", "button-secondary", "portrait-frame" })
+                Assert.That(t48, Does.Not.Contain(old), "no old turquoise part in the detail: " + old);
+            StringAssert.Contains("\"level-plate\"", c);
+            StringAssert.Contains("thumb: true", c);
+            Assert.That(LevelImages.Url(LevelImages.ThumbOf("painting-07")), Is.EqualTo(LevelImages.PaintingsUrl + "kucuk/painting-07.jpg"));
+            string li = File.ReadAllText("Assets/_Game/Presentation/Board/LevelImages.cs");
+            StringAssert.Contains("while (_decodeFrame == Time.frameCount) yield return null;", li);
+            StringAssert.Contains("if (!thumb) Tones[tex] = ToneGrid(tex);", li);
+        }
+
+        /* §D3, §D4, §D5: the tab bar from Codex's chosen option (the files MenuTabs draws, their sizes and slicing kept),
+           one gold coin everywhere, the badge with the level. */
+        [Test]
+        public void TheBarTheCoinAndTheBadge()
+        {
+            const string Art = "Assets/_Game/Presentation/Resources/Art/";
+            var sizes = new (string f, int w, int h)[] { ("yeni/pm86/menu/pm86-tab-strip.png", 1170, 240), ("yeni/pm86/menu/pm86-tab-selected.png", 420, 270),
+                ("yeni/pm86/menu/pm86-tab-divider.png", 24, 200), ("t21-tab-icon-home-normal.png", 168, 148), ("t21-tab-icon-trophy-normal.png", 168, 148) };
+            foreach (var (f, w, h) in sizes)
+            {
+                var tex = new Texture2D(2, 2); tex.LoadImage(File.ReadAllBytes(Art + f));
+                Assert.That((tex.width, tex.height), Is.EqualTo((w, h)), f);
+                Object.DestroyImmediate(tex);
+            }
+            StringAssert.Contains("spriteBorder: {x: 70, y: 40, z: 70, w: 70}", File.ReadAllText(Art + "yeni/pm86/menu/pm86-tab-selected.png.meta"));
+            foreach (var d in new[] { "PUANLAR.md", "SECENEKLER.md", "KONTROL.md" })
+            {
+                Assert.That(File.Exists("docs/art/pm107/codex/alt_cubuk/" + d), "alt_cubuk " + d);
+                Assert.That(File.Exists("docs/art/pm107/codex/altin/" + d), "altin " + d);
+            }
+            // one coin: every coin file the game draws is the same picture (at its own size)
+            Assert.That(Resources.Load<Sprite>("Art/yeni/pm107/altin"), Is.Not.Null);
+            float[] Mean(string f) { var t = new Texture2D(2, 2); t.LoadImage(File.ReadAllBytes(Art + f)); var p = t.GetPixels32(); double r = 0, g = 0, b = 0, n = 0; foreach (var c in p) if (c.a > 200) { r += c.r; g += c.g; b += c.b; n++; } Object.DestroyImmediate(t); return new[] { (float)(r / n), (float)(g / n), (float)(b / n) }; }
+            var coin = Mean("yeni/pm107/altin.png");
+            foreach (var f in new[] { "yeni/T50/win/coin.png", "yeni/devam_v2/continue-coin.png", "yeni/win21/Reward/Flight/coin.png", "m13-token-coin.png" })
+            {
+                var m = Mean(f);
+                for (int k = 0; k < 3; k++) Assert.That(m[k], Is.EqualTo(coin[k]).Within(6f), f);
+            }
+            string screens = File.ReadAllText("Assets/_Game/Presentation/Ui/Screens.cs");
+            StringAssert.Contains("Sprite(Coin107, new Vector2(coinLeft + 20, hy), Vector2.one * 40, order + 3);", screens);
+            StringAssert.Contains("string.Format(Texts.CollectionLevel, level)", screens);
+            StringAssert.Contains("Top75(screen, safe, order, player, next + 1)", screens);
+        }
+
+        /* §D6: the lesson card's line readable, an achievement's condition on one line. */
+        [Test]
+        public void TheSmallTextsAreReadable()
+        {
+            StringAssert.Contains(".Title(title).Body(body, sizePt: 16, gapAfter: 18, maxLines: 3)", File.ReadAllText("Assets/_Game/Presentation/Ui/Screens.cs"));
+            StringAssert.Contains("tmp.textWrappingMode = TMPro.TextWrappingModes.NoWrap;", File.ReadAllText("Assets/_Game/Presentation/Ui/AchievementsScreen.cs"));
+            Assert.That(File.Exists("docs/art/pm107/DENETIM.md"));
+        }
     }
 }

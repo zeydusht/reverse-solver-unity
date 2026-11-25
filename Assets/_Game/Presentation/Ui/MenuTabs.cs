@@ -134,7 +134,7 @@ namespace ReverseSolver.Presentation
             return new Rect(c - size / 2, size);
         }
 
-        public static void Painting(Transform root, LevelImages images, int index, Vector2 c, Vector2 size, int order)
+        public static void Painting(Transform root, LevelImages images, int index, Vector2 c, Vector2 size, int order, bool thumb = false)
         {
             Action<Texture2D> show = tex =>
             {
@@ -150,7 +150,8 @@ namespace ReverseSolver.Presentation
                 r.color = new Color(1, 1, 1, 0);
                 Tweens.Run(r, .25f, t => { if (r != null) r.color = new Color(1, 1, 1, t * t * (3 - 2 * t)); });
             };
-            var pic = images.Get($"painting-{index + 1:00}", show);
+            string name = $"painting-{index + 1:00}";
+            var pic = images.Get(thumb ? LevelImages.ThumbOf(name) : name, show);   // PM_107 §D2: the grid's cards from thumbnails
             if (pic != null) show(pic);
         }
     }

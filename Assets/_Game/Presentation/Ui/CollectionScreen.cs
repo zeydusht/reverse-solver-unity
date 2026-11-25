@@ -29,14 +29,19 @@ namespace ReverseSolver.Presentation
                 bool current = !progress.Won(i) && i == next;
                 bool unlocked = progress.UnlockAll || progress.Won(i) || current;
                 var cell = Scroll.Cell(x, y, 67, unlocked
-                    ? t => MenuUi.Painting(t, images, index, new Vector2(0, -5), new Vector2(69, 92), order + 1)
+                    ? t => MenuUi.Painting(t, images, index, new Vector2(0, -5), new Vector2(69, 92), order + 1, thumb: true)
                     : (Action<Transform>)null);
                 MenuUi.Sprite(cell, "portrait-placeholder", new Vector2(0, -5), new Vector2(81, 108), order);
                 if (!unlocked) MenuUi.Sprite(cell, "icon-lock", new Vector2(0, -5), Vector2.one * 28, order + 2);
                 if (current)
                     ShapeView.Create(cell, "next-highlight", new Vector2(85, 112), 3, order + 2).Radius(8)
                         .Fill(Vector4.zero).Stroke(Draw.Hex("#ffe47e"), 2).transform.localPosition = Draw.W(0, -5);
-                var frame = MenuUi.Sprite(cell, "portrait-frame", new Vector2(0, -5), new Vector2(81, 108), order + 3);
+                // PM_107 §D2: the frame in gold, not the old turquoise
+                SpriteRenderer frame = null;
+                if (MenuUi.T48)
+                    ShapeView.Create(cell, "frame", new Vector2(79, 106), 3, order + 3).Radius(5).Fill(Vector4.zero)
+                        .Stroke(current ? Draw.Hex("#FFE47E") : Draw.Hex("#E3B54E"), 3.5f).transform.localPosition = Draw.W(0, -5);
+                else frame = MenuUi.Sprite(cell, "portrait-frame", new Vector2(0, -5), new Vector2(81, 108), order + 3);
                 if (current && frame != null) frame.color = new Color(1, 1, .6f);
                 if (levels[i].Hard) MenuUi.Sprite(cell, "hard-corner-flag", new Vector2(27, -39), new Vector2(27, 30), order + 4);
                 if (current)
@@ -44,10 +49,19 @@ namespace ReverseSolver.Presentation
                     float ribbonWidth = Mathf.Min(78, gap - 4);
                     var ribbonAt = new Vector2(0, -49);
                     ShapeView.Create(cell, "next-ribbon", new Vector2(ribbonWidth, 20), 2, order + 6).Radius(4)
-                        .Fill(Draw.Hex("#0B3A44")).Stroke(Draw.Hex("#ffe47e"), 1).transform.localPosition = Draw.W(ribbonAt);
+                        .Fill(MenuUi.T48 ? Draw.Hex("#0E2244") : Draw.Hex("#0B3A44")).Stroke(Draw.Hex("#ffe47e"), 1).transform.localPosition = Draw.W(ribbonAt);
                     MenuUi.Banner(cell, Texts.CollectionNext, ribbonAt, 12, order + 7, ribbonWidth - 8);
                 }
-                MenuUi.Label(cell, string.Format(Texts.CollectionLevel, i + 1), new Vector2(0, 59), 14, order + 5, width: gap - 4);
+                // PM_107 §D2: "Bölüm N" was thin cream on the bright gallery: a navy plate under it, the bold 3D letters
+                if (MenuUi.T48)
+                {
+                    ShapeView.Create(cell, "level-plate", new Vector2(Mathf.Min(80, gap - 10), 24), 2, order + 4).Radius(10)
+                        .Fill(Draw.Rgba(14 / 255f, 34 / 255f, 68 / 255f, .88f)).Stroke(Draw.Hex("#E3B54E"), 1.2f).transform.localPosition = Draw.W(0, 60);
+                    var name = TextView.Create(cell, "level", string.Format(Texts.CollectionLevel, i + 1), 15, Palette.Cream, false, order: order + 5);
+                    name.Heading(Draw.Hex("#0E2244")).FitWidth(Mathf.Min(74, gap - 16), 9);
+                    name.transform.localPosition = Draw.W(0, 60);
+                }
+                else MenuUi.Label(cell, string.Format(Texts.CollectionLevel, i + 1), new Vector2(0, 59), 14, order + 5, width: gap - 4);
                 if (unlocked) _cells.Add((new Rect(x - 41, y - 59, 82, 126), i));
             }
             Scroll.Set(offset);
@@ -67,13 +81,14 @@ namespace ReverseSolver.Presentation
         [Serializable] sealed class Name { public int level; public string tr, en; }
         public readonly Transform Root;
         public readonly int Index;
-        readonly Rect _close, _replay;
+        Rect _close, _replay;
         public PaintingDetail(Transform parent, Vector2 screen, int index, LevelImages images, int order, Func<int, int?> bestSeconds = null)
         {
             Index = index; Root = new GameObject("painting-detail").transform; Root.SetParent(parent, false);
             var c = screen / 2;
             ShapeView.Create(Root, "veil", screen, 0, order).Fill(Draw.Rgba(0, 0, 0, .65f)).transform.localPosition = Draw.W(c);
             float h = Mathf.Min(560, screen.y - 70), w = Mathf.Min(330, screen.x - 30);
+            if (MenuUi.T48) { BuildT48(screen, c, w, h, index, images, order, bestSeconds); return; }
             MenuUi.Sprite(Root, "modal-panel", c, new Vector2(w, h), order + 1, true);
             float top = c.y - h / 2;
             MenuUi.Sprite(Root, "title-plaque", new Vector2(c.x, top + 42), new Vector2(w - 68, 55), order + 3, true);
@@ -97,6 +112,51 @@ namespace ReverseSolver.Presentation
             MenuUi.Label(Root, earned, new Vector2(c.x, py + ph / 2 + 61), 14, order + 5, true, w - 30);
             _replay = MenuUi.Button(Root, "button-secondary", Texts.CollectionReplay, new Vector2(c.x, top + h - 57), new Vector2(w - 60, 59), order + 6);
         }
+        /* PM_107 §D2 (Zeyd: "the old blue is left in the collection's detail"): the detail in the new palette, as Ayarlar:
+           the cream panel, the 3D title, the red close, the painting in a gold frame on a navy mat, its name in navy, the
+           green "play again" button. No turquoise. */
+        void BuildT48(Vector2 screen, Vector2 c, float w, float h, int index, LevelImages images, int order, Func<int, int?> bestSeconds)
+        {
+            float top = c.y - h / 2;
+            Place(Root, "devam_v2/panel", c, new Vector2(w, h), order + 1, true);
+            var title = TextView.Create(Root, "title", Texts.CollectionDetail, 32, Palette.Cream, false, order: order + 3).Title3D().FitWidth(w - 90, 20);
+            title.transform.localPosition = Draw.W(c.x, top + 42);
+            var close = new Vector2(c.x + w / 2 - 6, top + 6);
+            Place(Root, "T48/settings/close-button", close, new Vector2(41, 43), order + 5);
+            Place(Root, "T48/settings/icon-close", close, Vector2.one * 19, order + 6);
+            _close = new Rect(close - Vector2.one * 24, Vector2.one * 48);
+            float ph = Mathf.Min(270, h - 270), pw = ph * .75f, py = top + 84 + ph / 2;
+            // the mat, the painting, the gold frame (two strokes: a dark line inside the gold reads as a moulding)
+            ShapeView.Create(Root, "mat", new Vector2(pw + 10, ph + 10), 2, order + 2).Radius(6).Fill(Draw.Hex("#0E2244")).transform.localPosition = Draw.W(c.x, py);
+            MenuUi.Painting(Root, images, index, new Vector2(c.x, py), new Vector2(pw - 8, ph - 8), order + 3);
+            ShapeView.Create(Root, "frame", new Vector2(pw + 12, ph + 12), 3, order + 4).Radius(7).Fill(Vector4.zero).Stroke(Draw.Hex("#E3B54E"), 5).transform.localPosition = Draw.W(c.x, py);
+            ShapeView.Create(Root, "frame-line", new Vector2(pw - 2, ph - 2), 3, order + 4).Radius(4).Fill(Vector4.zero).Stroke(Draw.Hex("#8A6420"), 1.2f).transform.localPosition = Draw.W(c.x, py);
+            string name = string.Format(Texts.CollectionLevel, index + 1);
+            var asset = Resources.Load<TextAsset>("painting_names");
+            if (asset != null)
+                foreach (var n in JsonUtility.FromJson<Names>(asset.text).paintings)
+                    if (n.level == index + 1) { name = Lang.Tr ? n.tr : n.en; break; }
+            float ny = py + ph / 2 + 34;
+            Place(Root, "T48/settings/row", new Vector2(c.x, ny + 12), new Vector2(w - 40, 70), order + 2, true);
+            MenuUi.Label(Root, name, new Vector2(c.x, ny), 21, order + 5, true, w - 64, true);
+            int? seconds = bestSeconds?.Invoke(index);
+            string earned = string.Format(Texts.CollectionEarned, index + 1);
+            if (seconds.HasValue) earned += $" · {seconds.Value / 60}:{seconds.Value % 60:00}";
+            MenuUi.Label(Root, earned, new Vector2(c.x, ny + 27), 14, order + 5, true, w - 64, true);
+            var by = new Vector2(c.x, top + h - 52);
+            Place(Root, "T48/settings/primary", by, new Vector2(w * .74f, 60), order + 3, true);   // sliced: as wide as its word
+            var label = TextView.Create(Root, "replay", Texts.CollectionReplay, 25, Palette.Cream, false, order: order + 4);
+            label.Heading(TextView.RimGreen).FitWidth(w * .74f - 40, 14);
+            label.transform.localPosition = Draw.W(by + new Vector2(0, -2));
+            _replay = new Rect(by - new Vector2(w * .37f, 30), new Vector2(w * .74f, 60));
+        }
+        static SpriteRenderer Place(Transform root, string key, Vector2 c, Vector2 size, int order, bool sliced = false)
+        {
+            var r = Art.Place(root, key, size, order, sliced);
+            if (r != null) r.transform.localPosition = Draw.W(c);
+            return r;
+        }
+
         public string Hit(Vector2 pt) => _close.Contains(pt) ? "close" : _replay.Contains(pt) ? "replay" : null;
         public void Destroy() { if (Root != null) UnityEngine.Object.Destroy(Root.gameObject); }
     }

@@ -256,7 +256,7 @@ namespace ReverseSolver.Presentation
                 return true;
             }
 
-            bool Top75(Vector2 screen, Vector4 safe, int order, string player)
+            bool Top75(Vector2 screen, Vector4 safe, int order, string player, int level = -1)
             {
                 if (!Top75Available) return false;
                 float w = screen.x, hy = safe.y + 44;
@@ -277,13 +277,39 @@ namespace ReverseSolver.Presentation
                 name.FitWidth(textWidth, 12);
                 name.transform.localPosition = Draw.W(textLeft + textWidth / 2, hy + 1);
                 _nameView = name; _nameWidth = textWidth;
+                // PM_107 §D5: the badge as a player's card: the Jiggle in its ring, the name, under it the level
+                if (level > 0)
+                {
+                    name.transform.localPosition = Draw.W(textLeft + textWidth / 2, hy - 8);
+                    var lv = TextView.Create(Root, "level", string.Format(Texts.CollectionLevel, level), 13, Draw.Hex("#234670"), false,
+                        align: TMPro.TextAlignmentOptions.Left, order: order + 4);
+                    lv.Font(TextView.HeadingFont); lv.Color = Draw.Hex("#234670");
+                    lv.GetComponent<TMPro.TextMeshPro>().rectTransform.sizeDelta = new Vector2(textWidth, 20);
+                    lv.FitWidth(textWidth, 9);
+                    lv.transform.localPosition = Draw.W(textLeft + textWidth / 2, hy + 14);
+                }
                 Profile = new Rect(left, hy - plateH / 2, plateW, plateH);
                 // the gold
                 float coinLeft = left + plateW + gap;
-                Sprite(Top75Key("coin_pill"), new Vector2(coinLeft + coinW / 2, hy), new Vector2(coinW, coinH), order + 2);
-                var gold = TextView.Create(Root, "gold", Mathf.Max(0, _coins).ToString(), 19, Palette.Navy, false, order: order + 4);
-                gold.Font(TextView.HeadingFont); gold.Color = Palette.Navy; gold.FitWidth(coinW * .55f, 11);
-                gold.transform.localPosition = Draw.W(coinLeft + coinW * .62f, hy + 1);
+                TextView gold;
+                if (Art.Get(Coin107) != null)
+                {
+                    // PM_107 §D4: the one gold coin of the game, its count beside it in bold 3D letters: no box, no "+"
+                    Sprite(Coin107, new Vector2(coinLeft + 20, hy), Vector2.one * 40, order + 3);
+                    gold = TextView.Create(Root, "gold", Mathf.Max(0, _coins).ToString(), 21, Palette.Cream, false,
+                        align: TMPro.TextAlignmentOptions.Left, order: order + 4);
+                    gold.Heading(Draw.Hex("#0E2244"));
+                    gold.GetComponent<TMPro.TextMeshPro>().rectTransform.sizeDelta = new Vector2(coinW - 44, coinH);
+                    gold.FitWidth(coinW - 44, 12);
+                    gold.transform.localPosition = Draw.W(coinLeft + 44 + (coinW - 44) / 2, hy + 1);
+                }
+                else
+                {
+                    Sprite(Top75Key("coin_pill"), new Vector2(coinLeft + coinW / 2, hy), new Vector2(coinW, coinH), order + 2);
+                    gold = TextView.Create(Root, "gold", Mathf.Max(0, _coins).ToString(), 19, Palette.Navy, false, order: order + 4);
+                    gold.Font(TextView.HeadingFont); gold.Color = Palette.Navy; gold.FitWidth(coinW * .55f, 11);
+                    gold.transform.localPosition = Draw.W(coinLeft + coinW * .62f, hy + 1);
+                }
                 // PM_86 §6: gold won or spent since the menu last showed it counts to the new value
                 int nowCoins = Mathf.Max(0, _coins);
                 if (ShownCoins >= 0 && ShownCoins != nowCoins) CountUp86.To(gold, ShownCoins, nowCoins, .6f);
@@ -299,7 +325,7 @@ namespace ReverseSolver.Presentation
             void Task13(Vector2 screen, Vector4 safe, int next, int order, string player, int saved, int stars, string playLabel, bool hard = false, bool levelsButton = true)
             {
                 float w = screen.x, top = safe.y, hy = top + 34;
-                if (Art.On && Top75(screen, safe, order, player)) { }
+                if (Art.On && Top75(screen, safe, order, player, next + 1)) { }
                 else if (Art.On)
                 {
                     hy = top + 45;
@@ -432,6 +458,8 @@ namespace ReverseSolver.Presentation
             { "A", new Vector2(.497f, .85f) }, { "B", new Vector2(.497f, .85f) }, { "C", new Vector2(.497f, .85f) }   // measured: hole 14..177 of 192 px
         };
         static string Top75Key(string part) => $"yeni/pm75/menu/{TopOption}_{part}";
+        /* PM_107 §D4: the game's gold coin, the same everywhere (Tools/pm107_altin.py writes it into every coin file). */
+        public const string Coin107 = "yeni/pm107/altin";
         public static bool Top75Available => Art.Get(Top75Key("name_plate")) != null;
 
         /* PM_72: the menu header's small cream pill, half clear over the background, thin gold rim. */
@@ -799,7 +827,7 @@ namespace ReverseSolver.Presentation
         static Card IntroScene(Transform parent, Vector2 screen, int order, string scene,
                                string title, string body, string button) =>
             Picture(new Card(parent, screen, order, "Intro", Art.T23Intro), Art.T23Intro + "-" + scene, 192)
-                .Title(title).Body(body, sizePt: 14, gapAfter: 18, maxLines: 2)
+                .Title(title).Body(body, sizePt: 16, gapAfter: 18, maxLines: 3)   // PM_107 §D6: the lesson's line was squeezed small into two lines
                 .Button("ok", button, true).Finish();
 
         public static Card HardWarning(Transform parent, Vector2 screen, int order) =>

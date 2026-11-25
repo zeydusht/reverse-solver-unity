@@ -1,0 +1,175 @@
+{
+  "mode": "built-in image_gen",
+  "local_date": "2026-11-25",
+  "started_utc": "2026-11-24T22:55:00Z",
+  "references": {
+    "screens": [
+      "docs/art/pm107/once_sonra/menu_once.png",
+      "docs/art/pm107/once_sonra/kazanma_once.png",
+      "docs/art/pm107/once_sonra/sure_doldu_once.png"
+    ],
+    "quality_only_do_not_copy": [
+      "docs/art/pm107/ref/bo_a_7.jpg",
+      "docs/art/pm107/ref/bo_b_6.jpg"
+    ],
+    "local_typography": "Assets/_Game/Presentation/Resources/Fonts/Baloo2-ExtraBold.ttf"
+  },
+  "generations": [
+    {
+      "id": "A",
+      "type": "coin_generation",
+      "prompt": "Use case: stylized-concept. Asset type: production mobile puzzle-game currency sprite for Reverse Solver, concept A. Generate exactly ONE isolated gold coin with genuine transparent background, square 512x512 composition. Center the coin with generous even transparent margins, about 82 percent canvas diameter. Front-facing round chunky solid gold coin with a single large embossed rounded five-point star. A broad polished bevel, thick dark warm-brown outline #8A6420 all around, warm antique-gold body #E3B54E, pale gold #F6D36B highlights. Rich premium cartoon 3D mobile game rendering, old-money elegance, smooth and very simple. Large uncomplicated star and few broad highlights readable at 24pt. Strong upper-left glint IN the rim, subtly darker lower-right rim. No separate sparkles outside coin. No ridged microdetail, no lettering, no numbers, no extra objects, no shadow on ground, no background, no checkerboard, no saturated orange, no copper, no watermark. Distinct confident silhouette, thick luxurious rim, one broad light reflection.",
+      "transparent_background": true,
+      "output": "A_coin.png"
+    },
+    {
+      "id": "B",
+      "type": "coin_generation",
+      "prompt": "Use case: stylized-concept. Asset type: premium mobile puzzle game coin sprite, Reverse Solver concept B. Primary request: ONE centered front-facing round thick GOLD COIN, transparent background, simple oversized raised JIGSAW PUZZLE PIECE emblem, not a star. Square 512x512 composition, coin diameter about 82 percent with even empty alpha margins. The embossed puzzle-piece is one solid gold shape with rounded square body, one broad round outward tab at top, one broad round outward tab at right, one inward round socket at left and one at bottom, clearly readable at tiny 24pt size. Broad bevel and strong dark golden-brown outline #8A6420 around both the coin and the emblem; a polished outer rim, recessed satin-gold center, warm muted champagne gold #E3B54E and #F6D36B. Elegant old-money wealth with playful soft sculpted cartoon 3D volume. Broad single upper-left cream glint within rim, warm right-bottom shadow. Simple clean high contrast shapes. No engravings, no fine ribbing, no lettering, no text, no numbers, no separate sparkles, no characters, no face, no blue or green on coin, no saturated orange, no ground shadow, no background or checkerboard. Beautiful premium game-ready isolated sprite with real alpha.",
+      "transparent_background": true,
+      "output": "B_coin.png"
+    },
+    {
+      "id": "C",
+      "type": "coin_generation",
+      "prompt": "Use case: stylized-concept. Asset type: Reverse Solver mobile puzzle game currency sprite, concept C. Generate exactly ONE elegant chunky gold coin at a clearly tilted THREE-QUARTER ANGLE, with the thick smooth right-hand SIDE EDGE very visible occupying about one quarter coin width. Coin front is an elliptical face angled about 28 degrees, not a straight-on circle. One simple large sunken four-point diamond glint emblem in the front face, clean bold emblem with very few details, no star or puzzle piece. Centered isolated sprite on genuine transparent alpha background; square 512x512 composition, 82 percent canvas height, balanced clear margins. Warm antique gold #E3B54E and champagne gold #F6D36B, dark warm umber #8A6420 continuous thick outer contour. A broad bright bevel at upper left and dark sculptural lower-right edge make this feel solid and expensive. Premium polished cartoon 3D game asset, old-money elegance, readable silhouette at 24pt. Thick smooth edge without fine milling lines, simple front rim, almost satin surface. Avoid photoreal microtexture, orange and copper, letters, numbers, text, ground shadow, separate sparkles, backgrounds, checkerboard, extra objects and watermark.",
+      "transparent_background": true,
+      "output": "C_coin.png"
+    },
+    {
+      "id": "final",
+      "type": "coin_refinement",
+      "input": "B_coin.png",
+      "prompt": "Use case: precise-object-edit / stylized-concept. Edit target: the attached Reverse Solver concept B gold puzzle coin. Make the FINAL refined production sprite. Preserve the one round coin, the large raised gold jigsaw silhouette with top and right round tabs and left and bottom sockets, the softly sculpted 3D style, and the upper-left broad highlight. Change these only: strengthen the continuous OUTERMOST warm dark brown #8A6420 silhouette contour to a smooth bold 10-pixel equivalent at 512px; simplify the inner bevel and increase separation between raised puzzle and inset field for crisp recognition at 24pt; remove fine grain and any edge dirt or loose pixels. Rebalance orange shadow toward warm antique gold #E3B54E, #F6D36B, umber #8A6420, restrained cream specular highlights. Even centered transparent margins, near front-facing round coin, dominant broad clean shapes, elegant premium cartoon 3D, genuine transparent alpha, exactly one sprite, square 512x512 composition with coin about 86 percent width. Clean antialiased edges without matte halos. No separate sparkle, no lettering, no number, no background, no checkerboard, no ground shadow. The final should feel expensive and understated, with a clear raised puzzle emblem.",
+      "transparent_background": true,
+      "output": "final_coin.png"
+    },
+    {
+      "id": "preview_exploration_A",
+      "type": "compositing_study",
+      "prompt": "Use case: compositing / precise-object-edit. Produce ONE landscape comparison PNG containing the THREE supplied full-height iPhone screenshots arranged side by side, in this exact order: Image 1 MENU on the left, Image 2 WIN in the middle, Image 3 TIME EXPIRED on the right. Images 1,2,3 are EDIT TARGETS. Image 4 is the exact supporting coin sprite to insert, concept A; do not redesign this coin. Aim 2340x1688 landscape, three equal 780x1688 panels, no gaps, no captions, no frame, no cropping. Preserve all screen artwork, text, characters, buttons, camera positions and proportions, editing ONLY currency areas as follows. LEFT MENU: REMOVE old star coin AND cream rounded capsule behind its 999999 currency count at top around x430-635,y60-133 in its 780px-wide source. Reconstruct the teal wall cleanly there. Place the supplied coin at same 70px height, to left of plain 999999. Render this number in bold rounded CREAM lettering with strong dark teal contour, aligned horizontally on bare wall. NO currency counter box, NO plus button or + next to this menu counter. Keep TEST name field and gear intact. MIDDLE WIN: Replace the small old star coin immediately to RIGHT of '+50' with the supplied coin at 66px height. Preserve '+50' as reward text and all other screen elements. RIGHT TIME EXPIRED: replace old coin in green continue button near x320,y1216 with supplied coin at 70px height; keep price '0'. Replace old coin left of '999999 altın' near x280,y1336 with same supplied coin at44px height. Preserve all Turkish text including '+30 sn'. Every coin on this triptych must be the supplied concept A star coin at consistent visual finish. Do not add interface elements. Exact screen-preserving localized art replacement, premium polished result.",
+      "transparent_background": false,
+      "status": "Ara görsel çalışma; son önizlemeler özgün ekranlara gerçek PNG yerleşimiyle yeniden dışa aktarıldı."
+    },
+    {
+      "id": "preview_exploration_B",
+      "type": "compositing_study",
+      "prompt": "Use case: precise-object-edit. Input 1 is the three-screen comparison image (menu / win / time expired). Input 2 is the gold PUZZLE coin sprite for concept B. Edit ONLY the FOUR currency coin sprites visible in Input 1: the coin to left of menu's top 999999, the coin to right of +50 on middle panel, the coin to left of 0 in green button on right panel, and the tiny coin to left of 999999 altın under that button. Replace all four with Input 2, preserving its exact jigsaw shape, broad gold bevel and dark contour. Keep their original visual diameters and positions. Maintain all three complete panels side by side in same frame. Keep all artwork, other symbols, typography, numbers, background, frame proportions, panel boundaries and colors unchanged. Keep menu currency plain cream 999999 on the bare teal wall, without capsule or plus. Do not replace stars on the reward progress bar: only replace the four isolated monetary coins. Output one landscape PNG with the same composition. Preserve Turkish texts exactly. No new labels or captions.",
+      "transparent_background": false,
+      "status": "Ara görsel çalışma; son önizlemeler özgün ekranlara gerçek PNG yerleşimiyle yeniden dışa aktarıldı."
+    },
+    {
+      "id": "preview_exploration_C",
+      "type": "compositing_study",
+      "prompt": "Use case: precise-object-edit. Input 1 is the three-screen comparison image (menu / win / time expired). Input 2 is the tilted thick-edge gold coin sprite for concept C. Edit ONLY the FOUR currency coin sprites visible in Input 1: the coin to left of menu's top 999999, the coin to right of +50 on middle panel, the coin to left of 0 in green button on right panel, and the tiny coin to left of 999999 altın under that button. Replace all four with Input 2, erasing every trace of the old round coin underneath and preserving its exact elliptical three-quarter silhouette, broad visible side edge, recessed four-point diamond glint emblem and warm dark contour. Keep their original visual diameters and positions. Maintain all three complete panels side by side in same frame. Keep all artwork, other symbols, typography, numbers, background, frame proportions, panel boundaries and colors unchanged. Keep menu currency plain cream 999999 on the bare teal wall, without capsule or plus. Do not replace stars on the reward progress bar: only replace the four isolated monetary coins. Output one landscape PNG with the same composition. Preserve Turkish texts exactly. No new labels or captions.",
+      "transparent_background": false,
+      "status": "Ara görsel çalışma; son önizlemeler özgün ekranlara gerçek PNG yerleşimiyle yeniden dışa aktarıldı."
+    },
+    {
+      "id": "preview_exploration_Final",
+      "type": "compositing_study",
+      "prompt": "Use case: precise-object-edit. Input 1 is the three-screen comparison image (menu / win / time expired). Input 2 is the gold PUZZLE coin sprite for REFINED FINAL concept B. Edit ONLY the FOUR currency coin sprites visible in Input 1: the coin to left of menu's top 999999, the coin to right of +50 on middle panel, the coin to left of 0 in green button on right panel, and the tiny coin to left of 999999 altın under that button. Replace all four with Input 2, preserving its exact large jigsaw shape with tabs at top and right, sockets at left and bottom, broad champagne gold bevel and extra-strong smooth umber outer contour. Keep their original visual diameters and positions. Maintain all three complete panels side by side in same frame. Keep all artwork, other symbols, typography, numbers, background, frame proportions, panel boundaries and colors unchanged. Keep menu currency plain cream 999999 on the bare teal wall, without capsule or plus. Do not replace stars on the reward progress bar: only replace the four isolated monetary coins. Refine the four inserted sprites to use restrained warm gold #E3B54E and #F6D36B, rather than saturated orange. Output one landscape PNG with the same composition. Preserve Turkish texts exactly. No new labels or captions.",
+      "transparent_background": false,
+      "status": "Ara görsel çalışma; son önizlemeler özgün ekranlara gerçek PNG yerleşimiyle yeniden dışa aktarıldı."
+    },
+    {
+      "id": "currency_clean_plate",
+      "type": "localized_background_cleanup",
+      "prompt": "Use case: precise-object-edit. Edit target: the supplied landscape three-panel phone screenshot montage. Create a clean compositing plate by removing ONLY the following FOUR monetary COIN sprites: (1) at menu top, center near x300 y62, to left of 999999; (2) center x781 y687 to RIGHT of +50 in middle win panel; (3) center x1187 y748 to LEFT of 0 inside green continue button in right panel; (4) tiny coin center x1160 y826, to LEFT of 999999 altın in right panel. Coordinates refer to full 1477x1065 image. Erase all pixels of those four sprites and reconstruct the backgrounds: bare teal wall at first, blue light ray at second, smooth green button at third, dark blue at fourth. Leave those four areas EMPTY, no substitute icons. Preserve ALL OTHER PIXELS, layout and typography, including 999999 at menu, +50 at win, 0 price, 999999 altın, all Turkish text, all characters and all three panels. Do not remove stars inside progress bar. Do not add any captions or elements. Keep EXACT SAME 1477x1065 framing and panel boundaries. Output a clean image with four small naturally inpainted empty areas ready for exact sprite compositing.",
+      "transparent_background": false
+    },
+    {
+      "id": "menu_clean_plate",
+      "type": "localized_background_cleanup",
+      "prompt": "Use case: precise-object-edit. Edit target: this original vertical iPhone menu screenshot. Remove ONLY the entire currency display at the top, between the TEST nameplate and the gear: old gold star coin centered x466 y96 and the pale cream rounded 999999 counter capsule extending x465..636,y69..125. Reconstruct the uninterrupted TEAL WALL behind this whole display to match adjacent pixels seamlessly, including subtle original lighting. Leave this top currency area EMPTY: no coin, no number, no capsule, no rectangle, no new icons. Preserve all other UI and scene content exactly, including TEST nameplate ending around x410, gear starting x655, frame, village painting, play button, bottom nav. Match the exact full 780x1688 original composition. Do not add labels, captions, numbers, or coins. This is a very small localized clean-plate edit to prepare exact sprite placement.",
+      "transparent_background": false
+    }
+  ],
+  "exports": {
+    "sprites": {
+      "A": "A_coin.png",
+      "B": "B_coin.png",
+      "C": "C_coin.png",
+      "final": "final_coin.png",
+      "small_optical_retouch": "final_coin_64.png"
+    },
+    "previews": [
+      "A_onizleme.png",
+      "B_onizleme.png",
+      "C_onizleme.png",
+      "final_onizleme.png"
+    ],
+    "preview_size": [
+      2340,
+      1688
+    ],
+    "panel_order": [
+      "Menü",
+      "Kazanma",
+      "Süre doldu"
+    ],
+    "exact_sprite_placement": [
+      {
+        "screen": "menu",
+        "center": [
+          466,
+          96
+        ],
+        "visible_height": 70
+      },
+      {
+        "screen": "win",
+        "center": [
+          456,
+          1120
+        ],
+        "visible_height": 66
+      },
+      {
+        "screen": "continue_button",
+        "center": [
+          320,
+          1216
+        ],
+        "visible_height": 70
+      },
+      {
+        "screen": "continue_balance",
+        "center": [
+          280,
+          1336
+        ],
+        "visible_height": 44
+      }
+    ],
+    "menu_number": {
+      "text": "999999",
+      "font": "Baloo2-ExtraBold",
+      "size": 40,
+      "center": [
+        570,
+        96
+      ],
+      "fill": "#FFF0C3",
+      "stroke": "#123743",
+      "stroke_width": 3
+    }
+  },
+  "postprocessing": {
+    "software": "Pillow + NumPy, yalnız bellek içi görsel işleme; kod dosyası üretilmedi",
+    "alpha": "Gerçek alfa korundu. Alfa <=8 olan düşük opaklık kalıntıları ve ana şekle bağlı olmayan parçalar temizlendi. A/B/C iç alanında alfa >240 değerleri 255 yapıldı. Tam saydam RGB sıfırlandı.",
+    "final_contour": "512 px dışa aktarımda yaklaşık 4 px #8A6420 kontur desteği; ortalama renk kayması azaltılmış yeni üretim turu.",
+    "small_64": {
+      "resampling": "Lanczos",
+      "unsharp_mask": {
+        "radius": 0.65,
+        "percent": 145,
+        "threshold": 3
+      },
+      "alpha_cutoff": 5,
+      "inner_edge_umber_blend": 0.22,
+      "alpha_sharpened": false
+    },
+    "screenshots": "Yapay zekâ temiz zeminlerinden yalnız para bölgeleri alındı. Menü duvarı sınır renklerine uyarlandı; gerçek PNG'ler özgün ekranlara kompoze edildi. Para bölgeleri dışındaki pikseller bütün seçeneklerde aynen korundu."
+  }
+}

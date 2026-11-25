@@ -1,0 +1,134 @@
+[
+ {
+  "t": -1.03855810546875,
+  "line": "[ses] cikis u (1 kayıt, Loading) carpma a (4 kayıt, Loading) bitis a (1 kayıt, Loaded) kazan b (1 kayıt, Loaded) tik eski kalkis eski bomba a (1 kayıt, Loading) kilit a (1 kayıt, Loaded) kalkisk eski\n"
+ },
+ {
+  "t": -1.028490966796875,
+  "line": "[gecis] koridor a dalis a ting - cizgi c geri a hud a sekme a\n"
+ },
+ {
+  "t": -1.02035302734375,
+  "line": "[booster ses] makas/kesim c degnek/donusum a cekic/vurus c cekic/kirinti c saat/tiktak b saat/donma b saat/kirilma b\n"
+ },
+ {
+  "t": 5.2839169921875,
+  "line": "[ses] ui Tick ui-tok-c1 6,483\n"
+ },
+ {
+  "t": 5.28589599609375,
+  "line": "[mix] Ui ui-tok-c1 1.000 6,483\n"
+ },
+ {
+  "t": 8.832674072265625,
+  "line": "[ses] ui Tok ui-tok-c1 10,034\n"
+ },
+ {
+  "t": 8.832944091796875,
+  "line": "[mix] Ui ui-tok-c1 1.000 10,034\n"
+ },
+ {
+  "t": 10.284431884765626,
+  "line": "[ses] ui Tok ui-tok-c1 11,485\n"
+ },
+ {
+  "t": 10.2848330078125,
+  "line": "[mix] Ui ui-tok-c1 1.000 11,485\n"
+ },
+ {
+  "t": 11.717760009765625,
+  "line": "[ses] ui Tok ui-tok-c1 12,918\n"
+ },
+ {
+  "t": 11.71830908203125,
+  "line": "[mix] Ui ui-tok-c1 1.000 12,918\n"
+ },
+ {
+  "t": 13.165780029296876,
+  "line": "[ses] ui Tok ui-tok-c1 14,366\n"
+ },
+ {
+  "t": 13.16610400390625,
+  "line": "[mix] Ui ui-tok-c1 1.000 14,366\n"
+ },
+ {
+  "t": 14.61394189453125,
+  "line": "[ses] ui Tok ui-tok-c1 15,815\n"
+ },
+ {
+  "t": 14.614239990234376,
+  "line": "[mix] Ui ui-tok-c1 1.000 15,815\n"
+ },
+ {
+  "t": 16.16414306640625,
+  "line": "[ses] ui Tick ui-tok-c1 17,365\n"
+ },
+ {
+  "t": 16.164510986328125,
+  "line": "[mix] Ui ui-tok-c1 1.000 17,365\n"
+ },
+ {
+  "t": 16.30489697265625,
+  "line": "[ses] ui Tok ui-tok-c1 17,495\n"
+ },
+ {
+  "t": 16.30510107421875,
+  "line": "[mix] Ui ui-tok-c1 1.000 17,495\n"
+ },
+ {
+  "t": 17.62860400390625,
+  "line": "[ses] ui Toggle ui-toggle2 18,817\n"
+ },
+ {
+  "t": 17.62902392578125,
+  "line": "[mix] Ui ui-toggle2 1.000 18,817\n"
+ },
+ {
+  "t": 18.69239501953125,
+  "line": "[ses] ui Toggle ui-toggle1 19,881\n"
+ },
+ {
+  "t": 18.693032958984375,
+  "line": "[mix] Ui ui-toggle1 1.000 19,881\n"
+ },
+ {
+  "t": 19.745089111328124,
+  "line": "[ses] ui Tok ui-tok-c1 20,947\n"
+ },
+ {
+  "t": 19.745449951171874,
+  "line": "[mix] Ui ui-tok-c1 1.000 20,947\n"
+ },
+ {
+  "t": 20.99574609375,
+  "line": "[ses] ui Tok ui-tok-c1 22,197\n"
+ },
+ {
+  "t": 20.995987060546874,
+  "line": "[mix] Ui ui-tok-c1 1.000 22,197\n"
+ },
+ {
+  "t": 22.443028076171874,
+  "line": "[ses] ui Tick ui-tok-c1 23,645\n"
+ },
+ {
+  "t": 22.443325927734374,
+  "line": "[mix] Ui ui-tok-c1 1.000 23,645\n"
+ },
+ {
+  "t": 24.2010810546875,
+  "line": "[ses] ui Tick ui-tok-c1 25,394\n"
+ },
+ {
+  "t": 24.201468994140626,
+  "line": "[mix] Ui ui-tok-c1 1.000 25,394\n"
+ },
+ {
+  "t": 25.5602958984375,
+  "line": "[ses] ui Tick ui-tok-c1 26,762\n"
+ },
+ {
+  "t": 25.560654052734375,
+  "line": "[mix] Ui ui-tok-c1 1.000 26,762\n"
+ }
+]

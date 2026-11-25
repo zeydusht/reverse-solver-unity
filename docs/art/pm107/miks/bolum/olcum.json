@@ -1,0 +1,37 @@
+{
+ "dir": "bolum",
+ "sounds": 15,
+ "drowned": 0,
+ "drowned_list": [],
+ "peaks_over": 0,
+ "peak_dbfs": -1.5,
+ "effects_lufs_max": -15.1,
+ "music_lufs_median": -34.6,
+ "mix_lufs_max": -15.0,
+ "by_clip": {
+  "carpma-a1": {
+   "count": 1,
+   "level": -17.6
+  },
+  "carpma-a2": {
+   "count": 1,
+   "level": -17.5
+  },
+  "carpma-a4": {
+   "count": 1,
+   "level": -17.5
+  },
+  "cikis-u1": {
+   "count": 10,
+   "level": -18.0
+  },
+  "kilitac-a1": {
+   "count": 1,
+   "level": -18.5
+  },
+  "kilitac-a2": {
+   "count": 1,
+   "level": -18.5
+  }
+ }
+}

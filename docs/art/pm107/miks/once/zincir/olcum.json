@@ -1,0 +1,29 @@
+{
+ "dir": "zincir",
+ "sounds": 18,
+ "drowned": 0,
+ "drowned_list": [],
+ "peaks_over": 1,
+ "peak_dbfs": -0.7,
+ "effects_lufs_max": -17.0,
+ "music_lufs_median": -35.0,
+ "mix_lufs_max": -16.8,
+ "by_clip": {
+  "carpma-a3": {
+   "count": 1,
+   "level": -16.5
+  },
+  "carpma-a4": {
+   "count": 1,
+   "level": -16.3
+  },
+  "cikis-u1": {
+   "count": 8,
+   "level": -16.5
+  },
+  "zincir-f2": {
+   "count": 8,
+   "level": -28.9
+  }
+ }
+}

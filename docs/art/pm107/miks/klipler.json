@@ -11,143 +11,485 @@
   "seconds": 0.2,
   "folder": "audio"
  },
- "bomba-a1": {
-  "lufs": -17.51,
-  "peak": -2.94,
+ "pop": {
+  "lufs": -19.32,
+  "peak": -6.02,
+  "seconds": 0.42,
+  "folder": "audio"
+ },
+ "popfull": {
+  "lufs": -16.19,
+  "peak": -6.02,
+  "seconds": 1.4,
+  "folder": "audio"
+ },
+ "weee": {
+  "lufs": -19.24,
+  "peak": -11.63,
+  "seconds": 0.78,
+  "folder": "audio"
+ },
+ "win": {
+  "lufs": -17.21,
+  "peak": -7.52,
+  "seconds": 1.3,
+  "folder": "audio"
+ },
+ "pm72-defuse": {
+  "lufs": -18.51,
+  "peak": -1.94,
   "seconds": 0.24,
-  "folder": "pm107"
+  "folder": "audio"
+ },
+ "pm72-tick": {
+  "lufs": -21.61,
+  "peak": -1.94,
+  "seconds": 0.07,
+  "folder": "audio"
+ },
+ "pm72-unlock": {
+  "lufs": -23.51,
+  "peak": -1.94,
+  "seconds": 0.15,
+  "folder": "audio"
+ },
+ "pm75-tok": {
+  "lufs": -20.38,
+  "peak": -1.72,
+  "seconds": 0.11,
+  "folder": "audio"
+ },
+ "pm89-ice": {
+  "lufs": -18.92,
+  "peak": -1.21,
+  "seconds": 0.55,
+  "folder": "audio"
+ },
+ "bitis-a1": {
+  "lufs": -9.41,
+  "peak": -0.45,
+  "seconds": 0.78,
+  "folder": "pm95"
+ },
+ "bitis-b1": {
+  "lufs": -13.39,
+  "peak": -0.45,
+  "seconds": 0.912,
+  "folder": "pm95"
+ },
+ "bitis-c1": {
+  "lufs": -15.71,
+  "peak": -0.45,
+  "seconds": 1.35,
+  "folder": "pm95"
  },
  "carpma-a1": {
-  "lufs": -17.91,
-  "peak": -1.0,
-  "seconds": 0.118,
-  "folder": "pm99"
+  "lufs": -16.78,
+  "peak": -1.5,
+  "seconds": 0.15,
+  "folder": "pm102"
  },
  "carpma-a2": {
-  "lufs": -17.45,
-  "peak": -1.0,
-  "seconds": 0.183,
-  "folder": "pm99"
+  "lufs": -16.21,
+  "peak": -1.5,
+  "seconds": 0.15,
+  "folder": "pm102"
  },
  "carpma-a3": {
-  "lufs": -17.73,
-  "peak": -1.0,
-  "seconds": 0.135,
-  "folder": "pm99"
+  "lufs": -16.49,
+  "peak": -1.5,
+  "seconds": 0.15,
+  "folder": "pm102"
  },
  "carpma-a4": {
-  "lufs": -17.88,
+  "lufs": -16.33,
+  "peak": -1.5,
+  "seconds": 0.15,
+  "folder": "pm102"
+ },
+ "carpma-b1": {
+  "lufs": -19.38,
+  "peak": -0.81,
+  "seconds": 0.28,
+  "folder": "pm95"
+ },
+ "carpma-b2": {
+  "lufs": -19.46,
+  "peak": -1.04,
+  "seconds": 0.267,
+  "folder": "pm95"
+ },
+ "carpma-b3": {
+  "lufs": -19.29,
+  "peak": -0.45,
+  "seconds": 0.28,
+  "folder": "pm95"
+ },
+ "carpma-b4": {
+  "lufs": -19.1,
+  "peak": -0.92,
+  "seconds": 0.28,
+  "folder": "pm95"
+ },
+ "carpma-c1": {
+  "lufs": -20.72,
+  "peak": -0.45,
+  "seconds": 0.349,
+  "folder": "pm95"
+ },
+ "carpma-c2": {
+  "lufs": -20.71,
+  "peak": -1.12,
+  "seconds": 0.29,
+  "folder": "pm95"
+ },
+ "carpma-c3": {
+  "lufs": -19.95,
+  "peak": -2.13,
+  "seconds": 0.33,
+  "folder": "pm95"
+ },
+ "carpma-d1": {
+  "lufs": -21.2,
+  "peak": -0.45,
+  "seconds": 0.36,
+  "folder": "pm95"
+ },
+ "carpma-d2": {
+  "lufs": -20.99,
+  "peak": -1.01,
+  "seconds": 0.302,
+  "folder": "pm95"
+ },
+ "carpma-d3": {
+  "lufs": -21.22,
+  "peak": -0.68,
+  "seconds": 0.36,
+  "folder": "pm95"
+ },
+ "cikis-a1": {
+  "lufs": -26.44,
+  "peak": -2.67,
+  "seconds": 0.145,
+  "folder": "pm95"
+ },
+ "cikis-a2": {
+  "lufs": -26.49,
+  "peak": -1.85,
+  "seconds": 0.25,
+  "folder": "pm95"
+ },
+ "cikis-a3": {
+  "lufs": -26.42,
+  "peak": -2.16,
+  "seconds": 0.25,
+  "folder": "pm95"
+ },
+ "cikis-a4": {
+  "lufs": -26.39,
+  "peak": -0.45,
+  "seconds": 0.25,
+  "folder": "pm95"
+ },
+ "cikis-b1": {
+  "lufs": -24.89,
+  "peak": -3.21,
+  "seconds": 0.145,
+  "folder": "pm95"
+ },
+ "cikis-b2": {
+  "lufs": -24.93,
+  "peak": -2.13,
+  "seconds": 0.25,
+  "folder": "pm95"
+ },
+ "cikis-b3": {
+  "lufs": -24.88,
+  "peak": -2.31,
+  "seconds": 0.25,
+  "folder": "pm95"
+ },
+ "cikis-b4": {
+  "lufs": -24.8,
+  "peak": -0.45,
+  "seconds": 0.25,
+  "folder": "pm95"
+ },
+ "cikis-c1": {
+  "lufs": -19.53,
+  "peak": -0.97,
+  "seconds": 0.129,
+  "folder": "pm95"
+ },
+ "cikis-c2": {
+  "lufs": -19.53,
+  "peak": -2.62,
+  "seconds": 0.132,
+  "folder": "pm95"
+ },
+ "cikis-c3": {
+  "lufs": -19.53,
+  "peak": -0.45,
+  "seconds": 0.151,
+  "folder": "pm95"
+ },
+ "cikis-c4": {
+  "lufs": -19.53,
+  "peak": -1.31,
+  "seconds": 0.117,
+  "folder": "pm95"
+ },
+ "cikis-d1": {
+  "lufs": -23.85,
+  "peak": -0.45,
+  "seconds": 0.3,
+  "folder": "pm95"
+ },
+ "cikis-d2": {
+  "lufs": -24.54,
+  "peak": -4.65,
+  "seconds": 0.3,
+  "folder": "pm95"
+ },
+ "cikis-d3": {
+  "lufs": -23.1,
+  "peak": -2.48,
+  "seconds": 0.3,
+  "folder": "pm95"
+ },
+ "cikis-e1": {
+  "lufs": -21.99,
+  "peak": -0.45,
+  "seconds": 0.059,
+  "folder": "pm95"
+ },
+ "cikis-e2": {
+  "lufs": -21.98,
+  "peak": -3.33,
+  "seconds": 0.062,
+  "folder": "pm95"
+ },
+ "cikis-e3": {
+  "lufs": -21.98,
+  "peak": -3.66,
+  "seconds": 0.081,
+  "folder": "pm95"
+ },
+ "cikis-e4": {
+  "lufs": -21.98,
+  "peak": -3.34,
+  "seconds": 0.047,
+  "folder": "pm95"
+ },
+ "kazan-a1": {
+  "lufs": -14.66,
+  "peak": -0.45,
+  "seconds": 3.3,
+  "folder": "pm95"
+ },
+ "kazan-b1": {
+  "lufs": -13.97,
+  "peak": -0.45,
+  "seconds": 2.54,
+  "folder": "pm95"
+ },
+ "kazan-c1": {
+  "lufs": -12.55,
+  "peak": -0.45,
+  "seconds": 2.882,
+  "folder": "pm95"
+ },
+ "kazanma-b5": {
+  "lufs": -13.71,
+  "peak": -0.45,
+  "seconds": 1.915,
+  "folder": "pm96"
+ },
+ "kazanma-d": {
+  "lufs": -13.28,
+  "peak": -1.05,
+  "seconds": 2.5,
+  "folder": "pm96"
+ },
+ "kazanma-e": {
+  "lufs": -16.02,
+  "peak": -2.93,
+  "seconds": 2.249,
+  "folder": "pm96"
+ },
+ "kazanma-f": {
+  "lufs": -13.83,
+  "peak": -1.95,
+  "seconds": 2.3,
+  "folder": "pm96"
+ },
+ "kazanma-g": {
+  "lufs": -16.19,
+  "peak": -2.6,
+  "seconds": 2.449,
+  "folder": "pm96"
+ },
+ "ui-close1": {
+  "lufs": -22.44,
+  "peak": -2.74,
+  "seconds": 0.12,
+  "folder": "pm98"
+ },
+ "ui-close2": {
+  "lufs": -22.19,
+  "peak": -2.46,
+  "seconds": 0.107,
+  "folder": "pm98"
+ },
+ "ui-dull1": {
+  "lufs": -20.99,
   "peak": -1.0,
-  "seconds": 0.14,
-  "folder": "pm99"
+  "seconds": 0.266,
+  "folder": "pm98"
+ },
+ "ui-dull2": {
+  "lufs": -21.05,
+  "peak": -1.0,
+  "seconds": 0.266,
+  "folder": "pm98"
+ },
+ "ui-open1": {
+  "lufs": -22.44,
+  "peak": -2.75,
+  "seconds": 0.12,
+  "folder": "pm98"
+ },
+ "ui-open2": {
+  "lufs": -22.19,
+  "peak": -2.46,
+  "seconds": 0.107,
+  "folder": "pm98"
+ },
+ "ui-toggle1": {
+  "lufs": -20.55,
+  "peak": -1.0,
+  "seconds": 0.219,
+  "folder": "pm98"
+ },
+ "ui-toggle2": {
+  "lufs": -20.87,
+  "peak": -1.0,
+  "seconds": 0.304,
+  "folder": "pm98"
  },
  "cikis-f1": {
-  "lufs": -22.14,
-  "peak": -5.91,
+  "lufs": -17.84,
+  "peak": -3.0,
   "seconds": 0.118,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-f2": {
-  "lufs": -22.44,
-  "peak": -2.73,
+  "lufs": -17.91,
+  "peak": -3.0,
   "seconds": 0.122,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-f3": {
-  "lufs": -22.2,
-  "peak": -4.71,
+  "lufs": -17.9,
+  "peak": -3.0,
   "seconds": 0.171,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-f4": {
-  "lufs": -22.14,
-  "peak": -2.92,
+  "lufs": -18.3,
+  "peak": -3.0,
   "seconds": 0.117,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-g1": {
-  "lufs": -19.57,
-  "peak": -1.0,
+  "lufs": -17.64,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-g2": {
-  "lufs": -21.08,
-  "peak": -1.14,
+  "lufs": -17.64,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-g3": {
-  "lufs": -20.59,
-  "peak": -1.0,
+  "lufs": -17.63,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-g4": {
-  "lufs": -21.34,
-  "peak": -1.0,
+  "lufs": -17.64,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-h1": {
-  "lufs": -22.44,
-  "peak": -1.0,
+  "lufs": -17.63,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-h2": {
-  "lufs": -21.84,
-  "peak": -1.0,
+  "lufs": -17.64,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-h3": {
-  "lufs": -22.16,
-  "peak": -1.0,
+  "lufs": -17.7,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-h4": {
-  "lufs": -22.37,
-  "peak": -1.0,
+  "lufs": -17.65,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-i1": {
-  "lufs": -21.73,
-  "peak": -1.0,
+  "lufs": -17.64,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-i2": {
-  "lufs": -21.8,
-  "peak": -1.0,
+  "lufs": -17.63,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-i3": {
-  "lufs": -21.25,
-  "peak": -1.0,
+  "lufs": -17.63,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-j1": {
-  "lufs": -21.48,
-  "peak": -6.08,
+  "lufs": -17.63,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-j2": {
-  "lufs": -21.12,
-  "peak": -1.8,
+  "lufs": -17.63,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
  },
  "cikis-j3": {
-  "lufs": -21.37,
-  "peak": -1.0,
+  "lufs": -17.68,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm99"
+  "folder": "pm100"
+ },
+ "bomba-a1": {
+  "lufs": -17.66,
+  "peak": -3.0,
+  "seconds": 0.24,
+  "folder": "pm100"
  },
  "gecis-cizgi-a": {
   "lufs": -39.01,
@@ -162,16 +504,16 @@
   "folder": "pm100"
  },
  "gecis-cizgi-c": {
-  "lufs": -40.44,
-  "peak": -20.93,
+  "lufs": -39.29,
+  "peak": -19.52,
   "seconds": 0.75,
-  "folder": "pm107"
+  "folder": "pm100"
  },
  "gecis-dalis-a": {
-  "lufs": -24.0,
-  "peak": -8.88,
+  "lufs": -33.01,
+  "peak": -18.22,
   "seconds": 0.6,
-  "folder": "pm107"
+  "folder": "pm100"
  },
  "gecis-dalis-b": {
   "lufs": -33.04,
@@ -186,10 +528,10 @@
   "folder": "pm100"
  },
  "gecis-geri-a": {
-  "lufs": -34.54,
-  "peak": -20.73,
+  "lufs": -34.01,
+  "peak": -20.15,
   "seconds": 0.75,
-  "folder": "pm107"
+  "folder": "pm100"
  },
  "gecis-geri-b": {
   "lufs": -34.04,
@@ -204,10 +546,10 @@
   "folder": "pm100"
  },
  "gecis-hud-a": {
-  "lufs": -32.13,
-  "peak": -6.89,
+  "lufs": -32.01,
+  "peak": -6.83,
   "seconds": 0.05,
-  "folder": "pm107"
+  "folder": "pm100"
  },
  "gecis-hud-b": {
   "lufs": -34.45,
@@ -222,10 +564,10 @@
   "folder": "pm100"
  },
  "gecis-koridor-a": {
-  "lufs": -25.0,
-  "peak": -12.28,
+  "lufs": -28.04,
+  "peak": -15.31,
   "seconds": 2.0,
-  "folder": "pm107"
+  "folder": "pm102"
  },
  "gecis-koridor-b": {
   "lufs": -28.03,
@@ -240,10 +582,10 @@
   "folder": "pm102"
  },
  "gecis-sekme-a": {
-  "lufs": -32.03,
-  "peak": -9.94,
+  "lufs": -32.01,
+  "peak": -9.9,
   "seconds": 0.068,
-  "folder": "pm107"
+  "folder": "pm100"
  },
  "gecis-sekme-b": {
   "lufs": -32.01,
@@ -510,10 +852,10 @@
   "folder": "pm102"
  },
  "booster-cekic-kirinti-c": {
-  "lufs": -21.48,
-  "peak": -1.52,
+  "lufs": -25.64,
+  "peak": -3.0,
   "seconds": 0.35,
-  "folder": "pm107"
+  "folder": "pm102"
  },
  "booster-cekic-vurus-a": {
   "lufs": -17.64,
@@ -528,16 +870,16 @@
   "folder": "pm102"
  },
  "booster-cekic-vurus-c": {
-  "lufs": -18.0,
-  "peak": -3.39,
+  "lufs": -17.65,
+  "peak": -3.0,
   "seconds": 0.299,
-  "folder": "pm107"
+  "folder": "pm102"
  },
  "booster-degnek-donusum-a": {
-  "lufs": -18.0,
-  "peak": -3.5,
+  "lufs": -18.64,
+  "peak": -4.11,
   "seconds": 0.9,
-  "folder": "pm107"
+  "folder": "pm102"
  },
  "booster-degnek-donusum-b": {
   "lufs": -18.65,
@@ -564,10 +906,10 @@
   "folder": "pm102"
  },
  "booster-makas-kesim-c": {
-  "lufs": -18.0,
-  "peak": -3.38,
+  "lufs": -17.67,
+  "peak": -3.0,
   "seconds": 0.25,
-  "folder": "pm107"
+  "folder": "pm102"
  },
  "booster-saat-donma-a": {
   "lufs": -21.63,
@@ -576,10 +918,10 @@
   "folder": "pm102"
  },
  "booster-saat-donma-b": {
-  "lufs": -18.03,
-  "peak": -1.6,
+  "lufs": -21.63,
+  "peak": -3.0,
   "seconds": 0.297,
-  "folder": "pm107"
+  "folder": "pm102"
  },
  "booster-saat-donma-c": {
   "lufs": -21.64,
@@ -594,10 +936,10 @@
   "folder": "pm102"
  },
  "booster-saat-kirilma-b": {
-  "lufs": -18.0,
-  "peak": -4.3,
+  "lufs": -19.63,
+  "peak": -5.93,
   "seconds": 0.6,
-  "folder": "pm107"
+  "folder": "pm102"
  },
  "booster-saat-kirilma-c": {
   "lufs": -19.63,
@@ -612,10 +954,10 @@
   "folder": "pm102"
  },
  "booster-saat-tiktak-b": {
-  "lufs": -21.5,
-  "peak": -3.81,
+  "lufs": -29.63,
+  "peak": -11.94,
   "seconds": 1.0,
-  "folder": "pm107"
+  "folder": "pm102"
  },
  "booster-saat-tiktak-c": {
   "lufs": -29.63,
@@ -1092,10 +1434,10 @@
   "folder": "pm104"
  },
  "ui-tok-c1": {
-  "lufs": -20.0,
-  "peak": -3.81,
+  "lufs": -19.19,
+  "peak": -3.0,
   "seconds": 0.117,
-  "folder": "pm107"
+  "folder": "pm104"
  },
  "ui-tok-c2": {
   "lufs": -19.23,
@@ -1164,22 +1506,22 @@
   "folder": "pm104"
  },
  "duvar-a1": {
-  "lufs": -17.01,
-  "peak": -3.38,
+  "lufs": -15.63,
+  "peak": -2.0,
   "seconds": 0.105,
-  "folder": "pm107"
+  "folder": "pm105"
  },
  "duvar-a2": {
-  "lufs": -17.01,
-  "peak": -3.39,
+  "lufs": -15.63,
+  "peak": -2.0,
   "seconds": 0.093,
-  "folder": "pm107"
+  "folder": "pm105"
  },
  "duvar-a3": {
-  "lufs": -17.0,
-  "peak": -3.57,
+  "lufs": -15.41,
+  "peak": -2.0,
   "seconds": 0.096,
-  "folder": "pm107"
+  "folder": "pm105"
  },
  "duvar-b1": {
   "lufs": -15.3,
@@ -1218,16 +1560,16 @@
   "folder": "pm105"
  },
  "kilitac-a1": {
-  "lufs": -18.5,
-  "peak": -3.6,
+  "lufs": -17.99,
+  "peak": -3.07,
   "seconds": 0.371,
-  "folder": "pm107"
+  "folder": "pm105"
  },
  "kilitac-a2": {
-  "lufs": -18.51,
-  "peak": -2.71,
+  "lufs": -17.99,
+  "peak": -2.0,
   "seconds": 0.29,
-  "folder": "pm107"
+  "folder": "pm105"
  },
  "kilitac-b1": {
   "lufs": -17.99,
@@ -1242,22 +1584,22 @@
   "folder": "pm105"
  },
  "kilitdokun-a1": {
-  "lufs": -18.51,
-  "peak": -2.41,
+  "lufs": -18.45,
+  "peak": -2.0,
   "seconds": 0.2,
-  "folder": "pm107"
+  "folder": "pm105"
  },
  "kilitdokun-a2": {
-  "lufs": -18.52,
-  "peak": -2.41,
+  "lufs": -18.45,
+  "peak": -2.0,
   "seconds": 0.2,
-  "folder": "pm107"
+  "folder": "pm105"
  },
  "kilitdokun-a3": {
-  "lufs": -18.51,
-  "peak": -2.41,
+  "lufs": -18.45,
+  "peak": -2.0,
   "seconds": 0.2,
-  "folder": "pm107"
+  "folder": "pm105"
  },
  "kilitdokun-b1": {
   "lufs": -18.48,
@@ -1284,10 +1626,10 @@
   "folder": "pm105"
  },
  "patlama-a1": {
-  "lufs": -16.02,
-  "peak": -2.7,
+  "lufs": -15.51,
+  "peak": -2.0,
   "seconds": 0.192,
-  "folder": "pm107"
+  "folder": "pm105"
  },
  "patlama-b1": {
   "lufs": -15.47,
@@ -1452,10 +1794,10 @@
   "folder": "pm106"
  },
  "cikis-u1": {
-  "lufs": -17.0,
-  "peak": -3.01,
+  "lufs": -15.45,
+  "peak": -2.0,
   "seconds": 0.56,
-  "folder": "pm107"
+  "folder": "pm106"
  },
  "zincir-d1": {
   "lufs": -21.48,
@@ -1494,22 +1836,22 @@
   "folder": "pm106"
  },
  "zincir-f1": {
-  "lufs": -22.5,
-  "peak": -6.53,
+  "lufs": -21.66,
+  "peak": -6.83,
   "seconds": 1.1,
-  "folder": "pm107"
+  "folder": "pm106"
  },
  "zincir-f2": {
-  "lufs": -22.5,
-  "peak": -2.6,
+  "lufs": -21.45,
+  "peak": -2.0,
   "seconds": 1.1,
-  "folder": "pm107"
+  "folder": "pm106"
  },
  "zincir-f3": {
-  "lufs": -22.51,
-  "peak": -2.79,
+  "lufs": -22.15,
+  "peak": -2.0,
   "seconds": 1.1,
-  "folder": "pm107"
+  "folder": "pm106"
  },
  "zincirger-d1": {
   "lufs": -16.54,
@@ -1536,357 +1878,267 @@
   "folder": "pm106"
  },
  "zincirger-f1": {
+  "lufs": -16.45,
+  "peak": -2.0,
+  "seconds": 0.3,
+  "folder": "pm106"
+ },
+ "zincirger-f2": {
+  "lufs": -16.45,
+  "peak": -2.0,
+  "seconds": 0.26,
+  "folder": "pm106"
+ },
+ "bomba-a1@pm107": {
+  "lufs": -17.51,
+  "peak": -2.94,
+  "seconds": 0.24,
+  "folder": "pm107"
+ },
+ "booster-cekic-kirinti-c@pm107": {
+  "lufs": -21.48,
+  "peak": -1.52,
+  "seconds": 0.35,
+  "folder": "pm107"
+ },
+ "booster-cekic-vurus-c@pm107": {
+  "lufs": -18.0,
+  "peak": -3.39,
+  "seconds": 0.299,
+  "folder": "pm107"
+ },
+ "booster-degnek-donusum-a@pm107": {
+  "lufs": -18.0,
+  "peak": -3.5,
+  "seconds": 0.9,
+  "folder": "pm107"
+ },
+ "booster-makas-kesim-c@pm107": {
+  "lufs": -18.0,
+  "peak": -3.38,
+  "seconds": 0.25,
+  "folder": "pm107"
+ },
+ "booster-saat-donma-b@pm107": {
+  "lufs": -18.03,
+  "peak": -1.6,
+  "seconds": 0.297,
+  "folder": "pm107"
+ },
+ "booster-saat-kirilma-b@pm107": {
+  "lufs": -18.0,
+  "peak": -4.3,
+  "seconds": 0.6,
+  "folder": "pm107"
+ },
+ "booster-saat-tiktak-b@pm107": {
+  "lufs": -21.5,
+  "peak": -3.81,
+  "seconds": 1.0,
+  "folder": "pm107"
+ },
+ "carpma-a1@pm107": {
+  "lufs": -17.6,
+  "peak": -2.52,
+  "seconds": 0.15,
+  "folder": "pm107"
+ },
+ "carpma-a2@pm107": {
+  "lufs": -17.51,
+  "peak": -2.92,
+  "seconds": 0.15,
+  "folder": "pm107"
+ },
+ "carpma-a3@pm107": {
+  "lufs": -17.55,
+  "peak": -2.71,
+  "seconds": 0.15,
+  "folder": "pm107"
+ },
+ "carpma-a4@pm107": {
+  "lufs": -17.53,
+  "peak": -2.83,
+  "seconds": 0.15,
+  "folder": "pm107"
+ },
+ "cikis-u1@pm107": {
+  "lufs": -17.0,
+  "peak": -3.01,
+  "seconds": 0.56,
+  "folder": "pm107"
+ },
+ "duvar-a1@pm107": {
+  "lufs": -17.01,
+  "peak": -3.38,
+  "seconds": 0.105,
+  "folder": "pm107"
+ },
+ "duvar-a2@pm107": {
+  "lufs": -17.01,
+  "peak": -3.39,
+  "seconds": 0.093,
+  "folder": "pm107"
+ },
+ "duvar-a3@pm107": {
+  "lufs": -17.0,
+  "peak": -3.57,
+  "seconds": 0.096,
+  "folder": "pm107"
+ },
+ "gecis-cizgi-c@pm107": {
+  "lufs": -40.44,
+  "peak": -20.93,
+  "seconds": 0.75,
+  "folder": "pm107"
+ },
+ "gecis-dalis-a@pm107": {
+  "lufs": -24.0,
+  "peak": -8.88,
+  "seconds": 0.6,
+  "folder": "pm107"
+ },
+ "gecis-geri-a@pm107": {
+  "lufs": -34.54,
+  "peak": -20.73,
+  "seconds": 0.75,
+  "folder": "pm107"
+ },
+ "gecis-hud-a@pm107": {
+  "lufs": -32.13,
+  "peak": -6.89,
+  "seconds": 0.05,
+  "folder": "pm107"
+ },
+ "gecis-koridor-a@pm107": {
+  "lufs": -25.0,
+  "peak": -12.28,
+  "seconds": 2.0,
+  "folder": "pm107"
+ },
+ "gecis-sekme-a@pm107": {
+  "lufs": -32.03,
+  "peak": -9.94,
+  "seconds": 0.068,
+  "folder": "pm107"
+ },
+ "kilitac-a1@pm107": {
+  "lufs": -18.5,
+  "peak": -3.6,
+  "seconds": 0.371,
+  "folder": "pm107"
+ },
+ "kilitac-a2@pm107": {
+  "lufs": -18.51,
+  "peak": -2.71,
+  "seconds": 0.29,
+  "folder": "pm107"
+ },
+ "kilitdokun-a1@pm107": {
+  "lufs": -18.51,
+  "peak": -2.41,
+  "seconds": 0.2,
+  "folder": "pm107"
+ },
+ "kilitdokun-a2@pm107": {
+  "lufs": -18.52,
+  "peak": -2.41,
+  "seconds": 0.2,
+  "folder": "pm107"
+ },
+ "kilitdokun-a3@pm107": {
+  "lufs": -18.51,
+  "peak": -2.41,
+  "seconds": 0.2,
+  "folder": "pm107"
+ },
+ "patlama-a1@pm107": {
+  "lufs": -16.02,
+  "peak": -2.7,
+  "seconds": 0.192,
+  "folder": "pm107"
+ },
+ "ui-close1@pm107": {
+  "lufs": -23.0,
+  "peak": -3.37,
+  "seconds": 0.12,
+  "folder": "pm107"
+ },
+ "ui-close2@pm107": {
+  "lufs": -23.0,
+  "peak": -3.33,
+  "seconds": 0.107,
+  "folder": "pm107"
+ },
+ "ui-dull1@pm107": {
+  "lufs": -21.11,
+  "peak": -1.88,
+  "seconds": 0.266,
+  "folder": "pm107"
+ },
+ "ui-dull2@pm107": {
+  "lufs": -21.1,
+  "peak": -1.87,
+  "seconds": 0.266,
+  "folder": "pm107"
+ },
+ "ui-open1@pm107": {
+  "lufs": -23.0,
+  "peak": -3.36,
+  "seconds": 0.12,
+  "folder": "pm107"
+ },
+ "ui-open2@pm107": {
+  "lufs": -23.0,
+  "peak": -3.35,
+  "seconds": 0.107,
+  "folder": "pm107"
+ },
+ "ui-toggle1@pm107": {
+  "lufs": -21.1,
+  "peak": -2.11,
+  "seconds": 0.219,
+  "folder": "pm107"
+ },
+ "ui-toggle2@pm107": {
+  "lufs": -21.1,
+  "peak": -1.98,
+  "seconds": 0.304,
+  "folder": "pm107"
+ },
+ "ui-tok-c1@pm107": {
+  "lufs": -20.0,
+  "peak": -3.81,
+  "seconds": 0.117,
+  "folder": "pm107"
+ },
+ "zincir-f1@pm107": {
+  "lufs": -22.5,
+  "peak": -6.53,
+  "seconds": 1.1,
+  "folder": "pm107"
+ },
+ "zincir-f2@pm107": {
+  "lufs": -22.5,
+  "peak": -2.6,
+  "seconds": 1.1,
+  "folder": "pm107"
+ },
+ "zincir-f3@pm107": {
+  "lufs": -22.51,
+  "peak": -2.79,
+  "seconds": 1.1,
+  "folder": "pm107"
+ },
+ "zincirger-f1@pm107": {
   "lufs": -17.0,
   "peak": -2.74,
   "seconds": 0.3,
   "folder": "pm107"
  },
- "zincirger-f2": {
+ "zincirger-f2@pm107": {
   "lufs": -17.01,
   "peak": -2.74,
   "seconds": 0.26,
   "folder": "pm107"
- },
- "ui-close1": {
-  "lufs": -22.44,
-  "peak": -2.74,
-  "seconds": 0.12,
-  "folder": "pm98"
- },
- "ui-close2": {
-  "lufs": -22.19,
-  "peak": -2.46,
-  "seconds": 0.107,
-  "folder": "pm98"
- },
- "ui-dull1": {
-  "lufs": -20.99,
-  "peak": -1.0,
-  "seconds": 0.266,
-  "folder": "pm98"
- },
- "ui-dull2": {
-  "lufs": -21.05,
-  "peak": -1.0,
-  "seconds": 0.266,
-  "folder": "pm98"
- },
- "ui-open1": {
-  "lufs": -22.44,
-  "peak": -2.75,
-  "seconds": 0.12,
-  "folder": "pm98"
- },
- "ui-open2": {
-  "lufs": -22.19,
-  "peak": -2.46,
-  "seconds": 0.107,
-  "folder": "pm98"
- },
- "ui-toggle1": {
-  "lufs": -20.55,
-  "peak": -1.0,
-  "seconds": 0.219,
-  "folder": "pm98"
- },
- "ui-toggle2": {
-  "lufs": -20.87,
-  "peak": -1.0,
-  "seconds": 0.304,
-  "folder": "pm98"
- },
- "pm72-defuse": {
-  "lufs": -18.51,
-  "peak": -1.94,
-  "seconds": 0.24,
-  "folder": "audio"
- },
- "pm72-tick": {
-  "lufs": -21.61,
-  "peak": -1.94,
-  "seconds": 0.07,
-  "folder": "audio"
- },
- "pm72-unlock": {
-  "lufs": -23.51,
-  "peak": -1.94,
-  "seconds": 0.15,
-  "folder": "audio"
- },
- "pm75-tok": {
-  "lufs": -20.38,
-  "peak": -1.72,
-  "seconds": 0.11,
-  "folder": "audio"
- },
- "pm89-ice": {
-  "lufs": -18.92,
-  "peak": -1.21,
-  "seconds": 0.55,
-  "folder": "audio"
- },
- "bitis-a1": {
-  "lufs": -9.41,
-  "peak": -0.45,
-  "seconds": 0.78,
-  "folder": "pm95"
- },
- "bitis-b1": {
-  "lufs": -13.39,
-  "peak": -0.45,
-  "seconds": 0.912,
-  "folder": "pm95"
- },
- "bitis-c1": {
-  "lufs": -15.71,
-  "peak": -0.45,
-  "seconds": 1.35,
-  "folder": "pm95"
- },
- "carpma-b1": {
-  "lufs": -19.38,
-  "peak": -0.81,
-  "seconds": 0.28,
-  "folder": "pm95"
- },
- "carpma-b2": {
-  "lufs": -19.46,
-  "peak": -1.04,
-  "seconds": 0.267,
-  "folder": "pm95"
- },
- "carpma-b3": {
-  "lufs": -19.29,
-  "peak": -0.45,
-  "seconds": 0.28,
-  "folder": "pm95"
- },
- "carpma-b4": {
-  "lufs": -19.1,
-  "peak": -0.92,
-  "seconds": 0.28,
-  "folder": "pm95"
- },
- "carpma-c1": {
-  "lufs": -20.72,
-  "peak": -0.45,
-  "seconds": 0.349,
-  "folder": "pm95"
- },
- "carpma-c2": {
-  "lufs": -20.71,
-  "peak": -1.12,
-  "seconds": 0.29,
-  "folder": "pm95"
- },
- "carpma-c3": {
-  "lufs": -19.95,
-  "peak": -2.13,
-  "seconds": 0.33,
-  "folder": "pm95"
- },
- "carpma-d1": {
-  "lufs": -21.2,
-  "peak": -0.45,
-  "seconds": 0.36,
-  "folder": "pm95"
- },
- "carpma-d2": {
-  "lufs": -20.99,
-  "peak": -1.01,
-  "seconds": 0.302,
-  "folder": "pm95"
- },
- "carpma-d3": {
-  "lufs": -21.22,
-  "peak": -0.68,
-  "seconds": 0.36,
-  "folder": "pm95"
- },
- "cikis-a1": {
-  "lufs": -26.44,
-  "peak": -2.67,
-  "seconds": 0.145,
-  "folder": "pm95"
- },
- "cikis-a2": {
-  "lufs": -26.49,
-  "peak": -1.85,
-  "seconds": 0.25,
-  "folder": "pm95"
- },
- "cikis-a3": {
-  "lufs": -26.42,
-  "peak": -2.16,
-  "seconds": 0.25,
-  "folder": "pm95"
- },
- "cikis-a4": {
-  "lufs": -26.39,
-  "peak": -0.45,
-  "seconds": 0.25,
-  "folder": "pm95"
- },
- "cikis-b1": {
-  "lufs": -24.89,
-  "peak": -3.21,
-  "seconds": 0.145,
-  "folder": "pm95"
- },
- "cikis-b2": {
-  "lufs": -24.93,
-  "peak": -2.13,
-  "seconds": 0.25,
-  "folder": "pm95"
- },
- "cikis-b3": {
-  "lufs": -24.88,
-  "peak": -2.31,
-  "seconds": 0.25,
-  "folder": "pm95"
- },
- "cikis-b4": {
-  "lufs": -24.8,
-  "peak": -0.45,
-  "seconds": 0.25,
-  "folder": "pm95"
- },
- "cikis-c1": {
-  "lufs": -19.53,
-  "peak": -0.97,
-  "seconds": 0.129,
-  "folder": "pm95"
- },
- "cikis-c2": {
-  "lufs": -19.53,
-  "peak": -2.62,
-  "seconds": 0.132,
-  "folder": "pm95"
- },
- "cikis-c3": {
-  "lufs": -19.53,
-  "peak": -0.45,
-  "seconds": 0.151,
-  "folder": "pm95"
- },
- "cikis-c4": {
-  "lufs": -19.53,
-  "peak": -1.31,
-  "seconds": 0.117,
-  "folder": "pm95"
- },
- "cikis-d1": {
-  "lufs": -23.85,
-  "peak": -0.45,
-  "seconds": 0.3,
-  "folder": "pm95"
- },
- "cikis-d2": {
-  "lufs": -24.54,
-  "peak": -4.65,
-  "seconds": 0.3,
-  "folder": "pm95"
- },
- "cikis-d3": {
-  "lufs": -23.1,
-  "peak": -2.48,
-  "seconds": 0.3,
-  "folder": "pm95"
- },
- "cikis-e1": {
-  "lufs": -21.99,
-  "peak": -0.45,
-  "seconds": 0.059,
-  "folder": "pm95"
- },
- "cikis-e2": {
-  "lufs": -21.98,
-  "peak": -3.33,
-  "seconds": 0.062,
-  "folder": "pm95"
- },
- "cikis-e3": {
-  "lufs": -21.98,
-  "peak": -3.66,
-  "seconds": 0.081,
-  "folder": "pm95"
- },
- "cikis-e4": {
-  "lufs": -21.98,
-  "peak": -3.34,
-  "seconds": 0.047,
-  "folder": "pm95"
- },
- "kazan-a1": {
-  "lufs": -14.66,
-  "peak": -0.45,
-  "seconds": 3.3,
-  "folder": "pm95"
- },
- "kazan-b1": {
-  "lufs": -13.97,
-  "peak": -0.45,
-  "seconds": 2.54,
-  "folder": "pm95"
- },
- "kazan-c1": {
-  "lufs": -12.55,
-  "peak": -0.45,
-  "seconds": 2.882,
-  "folder": "pm95"
- },
- "kazanma-b5": {
-  "lufs": -13.71,
-  "peak": -0.45,
-  "seconds": 1.915,
-  "folder": "pm96"
- },
- "kazanma-d": {
-  "lufs": -13.28,
-  "peak": -1.05,
-  "seconds": 2.5,
-  "folder": "pm96"
- },
- "kazanma-e": {
-  "lufs": -16.02,
-  "peak": -2.93,
-  "seconds": 2.249,
-  "folder": "pm96"
- },
- "kazanma-f": {
-  "lufs": -13.83,
-  "peak": -1.95,
-  "seconds": 2.3,
-  "folder": "pm96"
- },
- "kazanma-g": {
-  "lufs": -16.19,
-  "peak": -2.6,
-  "seconds": 2.449,
-  "folder": "pm96"
- },
- "pop": {
-  "lufs": -19.32,
-  "peak": -6.02,
-  "seconds": 0.42,
-  "folder": "audio"
- },
- "popfull": {
-  "lufs": -16.19,
-  "peak": -6.02,
-  "seconds": 1.4,
-  "folder": "audio"
- },
- "weee": {
-  "lufs": -19.24,
-  "peak": -11.63,
-  "seconds": 0.78,
-  "folder": "audio"
- },
- "win": {
-  "lufs": -17.21,
-  "peak": -7.52,
-  "seconds": 1.3,
-  "folder": "audio"
  }
 }

@@ -1,0 +1,354 @@
+[
+ {
+  "t": -1.1559619140625,
+  "line": "[ses] cikis u (1 kayıt, Loading) carpma a (4 kayıt, Loading) bitis a (1 kayıt, Loaded) kazan b (1 kayıt, Loaded) tik eski kalkis eski bomba a (1 kayıt, Loading) kilit a (1 kayıt, Loaded) kalkisk eski\n"
+ },
+ {
+  "t": -1.1458349609375,
+  "line": "[gecis] koridor a dalis a ting - cizgi c geri a hud a sekme a\n"
+ },
+ {
+  "t": -1.134990966796875,
+  "line": "[booster ses] makas/kesim c degnek/donusum a cekic/vurus c cekic/kirinti c saat/tiktak b saat/donma b saat/kirilma b\n"
+ },
+ {
+  "t": -0.02214697265625,
+  "line": "[mix] Sfx booster-saat-donma-b 1.000 1,301\n"
+ },
+ {
+  "t": -0.021,
+  "line": "[booster ses] saat donma\n"
+ },
+ {
+  "t": 0.0596201171875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 1,332\n"
+ },
+ {
+  "t": 0.314846923828125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 1,640\n"
+ },
+ {
+  "t": 0.631012939453125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 1,956\n"
+ },
+ {
+  "t": 1.12789697265625,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 2,452\n"
+ },
+ {
+  "t": 1.4307548828125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 2,755\n"
+ },
+ {
+  "t": 1.747822021484375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 3,072\n"
+ },
+ {
+  "t": 2.064322021484375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 3,389\n"
+ },
+ {
+  "t": 2.380239990234375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 3,705\n"
+ },
+ {
+  "t": 2.6802529296875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 4,005\n"
+ },
+ {
+  "t": 2.99673291015625,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 4,321\n"
+ },
+ {
+  "t": 3.313573974609375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 4,638\n"
+ },
+ {
+  "t": 3.613283935546875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 4,938\n"
+ },
+ {
+  "t": 3.930180908203125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 5,255\n"
+ },
+ {
+  "t": 4.246362060546875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 5,571\n"
+ },
+ {
+  "t": 4.562950927734375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 5,888\n"
+ },
+ {
+  "t": 4.86266796875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 6,188\n"
+ },
+ {
+  "t": 5.17902392578125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 6,504\n"
+ },
+ {
+  "t": 5.495693115234375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 6,820\n"
+ },
+ {
+  "t": 5.81168701171875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 7,137\n"
+ },
+ {
+  "t": 6.12843603515625,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 7,453\n"
+ },
+ {
+  "t": 6.44473193359375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 7,770\n"
+ },
+ {
+  "t": 6.76172998046875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 8,086\n"
+ },
+ {
+  "t": 7.078014892578125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 8,403\n"
+ },
+ {
+  "t": 7.378052001953125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 8,703\n"
+ },
+ {
+  "t": 7.6777119140625,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 9,003\n"
+ },
+ {
+  "t": 7.995305908203125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 9,319\n"
+ },
+ {
+  "t": 8.294333984375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 9,619\n"
+ },
+ {
+  "t": 8.610614990234374,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 9,935\n"
+ },
+ {
+  "t": 8.927052978515626,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 10,252\n"
+ },
+ {
+  "t": 9.226868896484374,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 10,552\n"
+ },
+ {
+  "t": 9.52666796875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 10,852\n"
+ },
+ {
+  "t": 9.843612060546874,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 11,168\n"
+ },
+ {
+  "t": 9.976875,
+  "line": "[mix] Sfx booster-saat-kirilma-b 1.000 11,301\n"
+ },
+ {
+  "t": 9.978055908203125,
+  "line": "[booster ses] saat kirilma\n"
+ },
+ {
+  "t": 10.742951904296875,
+  "line": "[mix] Sfx booster-saat-donma-b 1.000 12,068\n"
+ },
+ {
+  "t": 10.743552978515625,
+  "line": "[booster ses] saat donma\n"
+ },
+ {
+  "t": 10.759367919921875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 12,084\n"
+ },
+ {
+  "t": 11.05981396484375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 12,385\n"
+ },
+ {
+  "t": 11.262669921875,
+  "line": "[ses] Exit cikis-u1 12,585\n"
+ },
+ {
+  "t": 11.263138916015626,
+  "line": "[mix] Sfx cikis-u1 0.891 12,585\n"
+ },
+ {
+  "t": 11.375968994140624,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 12,701\n"
+ },
+ {
+  "t": 11.6762529296875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 13,001\n"
+ },
+ {
+  "t": 11.99231396484375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 13,317\n"
+ },
+ {
+  "t": 12.309548095703125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 13,635\n"
+ },
+ {
+  "t": 12.62552392578125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 13,950\n"
+ },
+ {
+  "t": 12.659951904296875,
+  "line": "[ses] Exit cikis-u1 13,984\n"
+ },
+ {
+  "t": 12.660458984375,
+  "line": "[mix] Sfx cikis-u1 0.891 13,984\n"
+ },
+ {
+  "t": 12.925722900390625,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 14,250\n"
+ },
+ {
+  "t": 13.225318115234375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 14,550\n"
+ },
+ {
+  "t": 13.525412109375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 14,850\n"
+ },
+ {
+  "t": 13.84164990234375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 15,167\n"
+ },
+ {
+  "t": 14.042498046875,
+  "line": "[ses] Exit cikis-u1 15,367\n"
+ },
+ {
+  "t": 14.04293896484375,
+  "line": "[mix] Sfx cikis-u1 0.891 15,367\n"
+ },
+ {
+  "t": 14.15860302734375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 15,483\n"
+ },
+ {
+  "t": 14.458486083984376,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 15,783\n"
+ },
+ {
+  "t": 14.758027099609375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 16,083\n"
+ },
+ {
+  "t": 15.0746640625,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 16,400\n"
+ },
+ {
+  "t": 15.390845947265625,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 16,716\n"
+ },
+ {
+  "t": 15.69119189453125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 17,016\n"
+ },
+ {
+  "t": 16.007529052734377,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 17,332\n"
+ },
+ {
+  "t": 16.044866943359374,
+  "line": "[ses] Exit cikis-u1 17,369\n"
+ },
+ {
+  "t": 16.04539111328125,
+  "line": "[mix] Sfx cikis-u1 0.891 17,369\n"
+ },
+ {
+  "t": 16.3239560546875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 17,649\n"
+ },
+ {
+  "t": 16.640077880859376,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 17,965\n"
+ },
+ {
+  "t": 16.8425791015625,
+  "line": "[ses] Exit cikis-u1 18,165\n"
+ },
+ {
+  "t": 16.842945068359374,
+  "line": "[mix] Sfx cikis-u1 0.891 18,165\n"
+ },
+ {
+  "t": 16.9569580078125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 18,282\n"
+ },
+ {
+  "t": 17.273406982421875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 18,598\n"
+ },
+ {
+  "t": 17.573446044921877,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 18,898\n"
+ },
+ {
+  "t": 17.889998046875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 19,215\n"
+ },
+ {
+  "t": 18.206280029296874,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 19,531\n"
+ },
+ {
+  "t": 18.522741943359375,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 19,848\n"
+ },
+ {
+  "t": 18.82302587890625,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 20,148\n"
+ },
+ {
+  "t": 18.8271650390625,
+  "line": "[ses] Exit cikis-u1 20,152\n"
+ },
+ {
+  "t": 18.827589111328123,
+  "line": "[mix] Sfx cikis-u1 0.891 20,152\n"
+ },
+ {
+  "t": 19.139638916015624,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 20,464\n"
+ },
+ {
+  "t": 19.45573388671875,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 20,781\n"
+ },
+ {
+  "t": 19.772530029296874,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 21,097\n"
+ },
+ {
+  "t": 20.08908203125,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 21,414\n"
+ },
+ {
+  "t": 20.388908935546876,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 21,714\n"
+ },
+ {
+  "t": 20.705552978515627,
+  "line": "[mix] ~Clock booster-saat-tiktak-b 1.000 22,030\n"
+ },
+ {
+  "t": 20.75531298828125,
+  "line": "[mix] Sfx booster-saat-kirilma-b 1.000 22,080\n"
+ },
+ {
+  "t": 20.755822021484374,
+  "line": "[booster ses] saat kirilma\n"
+ }
+]

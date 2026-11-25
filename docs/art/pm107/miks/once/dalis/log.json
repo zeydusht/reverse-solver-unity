@@ -1,0 +1,90 @@
+[
+ {
+  "t": -1.0140380859375,
+  "line": "[ses] cikis u (1 kayıt, Loading) carpma a (4 kayıt, Loading) bitis a (1 kayıt, Loaded) kazan b (1 kayıt, Loaded) tik eski kalkis eski bomba a (1 kayıt, Loading) kilit a (1 kayıt, Loaded) kalkisk eski\n"
+ },
+ {
+  "t": -1.002677001953125,
+  "line": "[gecis] koridor a dalis a ting - cizgi c geri a hud a sekme a\n"
+ },
+ {
+  "t": -0.9932509765625,
+  "line": "[booster ses] makas/kesim c degnek/donusum a cekic/vurus c cekic/kirinti c saat/tiktak b saat/donma b saat/kirilma b\n"
+ },
+ {
+  "t": 5.260654052734375,
+  "line": "[ses] ui Tick ui-tok-c1 6,450\n"
+ },
+ {
+  "t": 5.262403076171875,
+  "line": "[mix] Ui ui-tok-c1 1.000 6,450\n"
+ },
+ {
+  "t": 6.908735107421875,
+  "line": "[ses] ui Tick ui-tok-c1 8,101\n"
+ },
+ {
+  "t": 6.909373046875,
+  "line": "[mix] Ui ui-tok-c1 1.000 8,101\n"
+ },
+ {
+  "t": 10.134,
+  "line": "[mix] olay Oyna"
+ },
+ {
+  "t": 10.288716064453125,
+  "line": "[ses] ui Tick ui-tok-c1 11,466\n"
+ },
+ {
+  "t": 10.289152099609375,
+  "line": "[mix] Ui ui-tok-c1 1.000 11,466\n"
+ },
+ {
+  "t": 11.187047119140624,
+  "line": "[gecis] olay dalış (değmeye 0,59 s)\n"
+ },
+ {
+  "t": 11.18810205078125,
+  "line": "[mix] Ui gecis-dalis-a 1.000 12,379\n"
+ },
+ {
+  "t": 11.189550048828124,
+  "line": "[gecis] ses Dalis\n"
+ },
+ {
+  "t": 11.808535888671875,
+  "line": "[gecis] olay değme\n"
+ },
+ {
+  "t": 11.8089580078125,
+  "line": "[mix] Ui gecis-cizgi-c 1.000 12,991\n"
+ },
+ {
+  "t": 11.809449951171874,
+  "line": "[gecis] ses Cizgi\n"
+ },
+ {
+  "t": 12.086694091796875,
+  "line": "[gecis] olay geri çekilme\n"
+ },
+ {
+  "t": 12.08723388671875,
+  "line": "[mix] Ui gecis-geri-a 1.000 13,278\n"
+ },
+ {
+  "t": 12.088318115234374,
+  "line": "[gecis] ses Geri\n"
+ },
+ {
+  "t": 12.887197998046876,
+  "line": "[gecis] olay HUD oturdu\n"
+ },
+ {
+  "t": 12.88793994140625,
+  "line": "[mix] Ui gecis-hud-a 1.000 14,079\n"
+ },
+ {
+  "t": 12.8885029296875,
+  "line": "[gecis] ses Hud\n"
+ }
+]

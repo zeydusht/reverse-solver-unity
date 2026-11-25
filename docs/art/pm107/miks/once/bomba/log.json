@@ -1,0 +1,198 @@
+[
+ {
+  "t": -1.10760107421875,
+  "line": "[ses] cikis u (1 kayıt, Loading) carpma a (4 kayıt, Loading) bitis a (1 kayıt, Loaded) kazan b (1 kayıt, Loaded) tik eski kalkis eski bomba a (1 kayıt, Loading) kilit a (1 kayıt, Loaded) kalkisk eski\n"
+ },
+ {
+  "t": -1.094319091796875,
+  "line": "[gecis] koridor a dalis a ting - cizgi c geri a hud a sekme a\n"
+ },
+ {
+  "t": -1.083428955078125,
+  "line": "[booster ses] makas/kesim c degnek/donusum a cekic/vurus c cekic/kirinti c saat/tiktak b saat/donma b saat/kirilma b\n"
+ },
+ {
+  "t": 11.656677001953126,
+  "line": "[ses] ui Tick ui-tok-c1 12,932\n"
+ },
+ {
+  "t": 11.65835791015625,
+  "line": "[mix] Ui ui-tok-c1 1.000 12,932\n"
+ },
+ {
+  "t": 13.0081630859375,
+  "line": "[ses] Exit cikis-u1 14,282\n"
+ },
+ {
+  "t": 13.0085,
+  "line": "[mix] Sfx cikis-u1 0.891 14,282\n"
+ },
+ {
+  "t": 15.009327880859376,
+  "line": "[ses] Exit cikis-u1 16,286\n"
+ },
+ {
+  "t": 15.00977490234375,
+  "line": "[mix] Sfx cikis-u1 0.891 16,286\n"
+ },
+ {
+  "t": 16.423169921875,
+  "line": "[ses] Exit cikis-u1 17,700\n"
+ },
+ {
+  "t": 16.423544921875,
+  "line": "[mix] Sfx cikis-u1 0.891 17,700\n"
+ },
+ {
+  "t": 17.2204560546875,
+  "line": "[ses] Knock carpma-a4 18,497\n"
+ },
+ {
+  "t": 17.220922119140624,
+  "line": "[mix] Sfx carpma-a4 1.000 18,497\n"
+ },
+ {
+  "t": 19.25589794921875,
+  "line": "[ses] Exit cikis-u1 20,532\n"
+ },
+ {
+  "t": 19.256340087890624,
+  "line": "[mix] Sfx cikis-u1 0.891 20,532\n"
+ },
+ {
+  "t": 20.05277099609375,
+  "line": "[ses] Exit cikis-u1 21,329\n"
+ },
+ {
+  "t": 20.05334912109375,
+  "line": "[mix] Sfx cikis-u1 0.891 21,329\n"
+ },
+ {
+  "t": 21.468498046875,
+  "line": "[ses] Exit cikis-u1 22,745\n"
+ },
+ {
+  "t": 21.46893701171875,
+  "line": "[mix] Sfx cikis-u1 0.891 22,745\n"
+ },
+ {
+  "t": 22.850986083984374,
+  "line": "[ses] Knock carpma-a2 24,128\n"
+ },
+ {
+  "t": 22.851740966796875,
+  "line": "[mix] Sfx carpma-a2 1.000 24,128\n"
+ },
+ {
+  "t": 24.234033935546876,
+  "line": "[ses] Exit cikis-u1 25,510\n"
+ },
+ {
+  "t": 24.234739990234374,
+  "line": "[mix] Sfx cikis-u1 0.891 25,510\n"
+ },
+ {
+  "t": 25.81631103515625,
+  "line": "[ses] Exit cikis-u1 27,093\n"
+ },
+ {
+  "t": 25.8168359375,
+  "line": "[mix] Sfx cikis-u1 0.891 27,093\n"
+ },
+ {
+  "t": 27.0493291015625,
+  "line": "[ses] Knock carpma-a3 28,326\n"
+ },
+ {
+  "t": 27.049804931640626,
+  "line": "[mix] Sfx carpma-a3 1.000 28,326\n"
+ },
+ {
+  "t": 28.448822021484375,
+  "line": "[ses] Knock carpma-a4 29,725\n"
+ },
+ {
+  "t": 28.449385009765624,
+  "line": "[mix] Sfx carpma-a4 1.000 29,725\n"
+ },
+ {
+  "t": 29.831696044921873,
+  "line": "[ses] Knock carpma-a3 31,108\n"
+ },
+ {
+  "t": 29.832360107421874,
+  "line": "[mix] Sfx carpma-a3 1.000 31,108\n"
+ },
+ {
+  "t": 31.21385888671875,
+  "line": "[ses] Knock carpma-a4 32,490\n"
+ },
+ {
+  "t": 31.214322998046875,
+  "line": "[mix] Sfx carpma-a4 1.000 32,490\n"
+ },
+ {
+  "t": 32.76348510742187,
+  "line": "[ses] Exit cikis-u1 34,040\n"
+ },
+ {
+  "t": 32.764087890625,
+  "line": "[mix] Sfx cikis-u1 0.891 34,040\n"
+ },
+ {
+  "t": 33.99662109375,
+  "line": "[ses] Knock carpma-a2 35,273\n"
+ },
+ {
+  "t": 33.9972060546875,
+  "line": "[mix] Sfx carpma-a2 1.000 35,273\n"
+ },
+ {
+  "t": 35.41247705078125,
+  "line": "[ses] Knock carpma-a4 36,689\n"
+ },
+ {
+  "t": 35.41298608398437,
+  "line": "[mix] Sfx carpma-a4 1.000 36,689\n"
+ },
+ {
+  "t": 37.4471259765625,
+  "line": "[ses] Exit cikis-u1 38,724\n"
+ },
+ {
+  "t": 37.447509033203126,
+  "line": "[mix] Sfx cikis-u1 0.891 38,724\n"
+ },
+ {
+  "t": 38.47756103515625,
+  "line": "[ses] Exit cikis-u1 39,754\n"
+ },
+ {
+  "t": 38.47811108398437,
+  "line": "[mix] Sfx cikis-u1 0.891 39,754\n"
+ },
+ {
+  "t": 39.66047998046875,
+  "line": "[ses] Knock carpma-a3 40,937\n"
+ },
+ {
+  "t": 39.66113305664062,
+  "line": "[mix] Sfx carpma-a3 1.000 40,937\n"
+ },
+ {
+  "t": 41.05961303710937,
+  "line": "[ses] Knock carpma-a4 42,336\n"
+ },
+ {
+  "t": 41.05993994140625,
+  "line": "[mix] Sfx carpma-a4 1.000 42,336\n"
+ },
+ {
+  "t": 42.44252905273437,
+  "line": "[ses] Knock carpma-a1 43,719\n"
+ },
+ {
+  "t": 42.44295288085937,
+  "line": "[mix] Sfx carpma-a1 1.000 43,719\n"
+ }
+]

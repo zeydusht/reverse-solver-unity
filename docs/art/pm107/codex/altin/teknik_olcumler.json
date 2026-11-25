@@ -1,0 +1,280 @@
+{
+  "sprites_and_images": [
+    {
+      "file": "A_coin.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "bbox": [
+        35,
+        32,
+        477,
+        480
+      ],
+      "center": [
+        255.5,
+        255.5
+      ],
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "visible": 154136,
+      "transparent": 108008,
+      "partial": 1560,
+      "magenta": 0,
+      "near_magenta": 0,
+      "components": 1,
+      "component_sizes": [
+        154136
+      ],
+      "transparent_rgb_nonzero": 0
+    },
+    {
+      "file": "B_coin.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "bbox": [
+        39,
+        32,
+        472,
+        480
+      ],
+      "center": [
+        255.0,
+        255.5
+      ],
+      "offset": [
+        -0.5,
+        0.0
+      ],
+      "visible": 151355,
+      "transparent": 110789,
+      "partial": 1547,
+      "magenta": 0,
+      "near_magenta": 0,
+      "components": 1,
+      "component_sizes": [
+        151355
+      ],
+      "transparent_rgb_nonzero": 0
+    },
+    {
+      "file": "C_coin.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "bbox": [
+        49,
+        32,
+        462,
+        480
+      ],
+      "center": [
+        255.0,
+        255.5
+      ],
+      "offset": [
+        -0.5,
+        0.0
+      ],
+      "visible": 137455,
+      "transparent": 124689,
+      "partial": 1520,
+      "magenta": 0,
+      "near_magenta": 0,
+      "components": 1,
+      "component_sizes": [
+        137455
+      ],
+      "transparent_rgb_nonzero": 0
+    },
+    {
+      "file": "final_coin.png",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "bbox": [
+        41,
+        32,
+        471,
+        480
+      ],
+      "center": [
+        255.5,
+        255.5
+      ],
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "visible": 150914,
+      "transparent": 111230,
+      "partial": 1942,
+      "magenta": 0,
+      "near_magenta": 0,
+      "components": 1,
+      "component_sizes": [
+        150914
+      ],
+      "transparent_rgb_nonzero": 0
+    },
+    {
+      "file": "final_coin_64.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "bbox": [
+        5,
+        3,
+        59,
+        61
+      ],
+      "center": [
+        31.5,
+        31.5
+      ],
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "visible": 2439,
+      "transparent": 1657,
+      "partial": 361,
+      "magenta": 0,
+      "near_magenta": 0,
+      "components": 1,
+      "component_sizes": [
+        2439
+      ],
+      "transparent_rgb_nonzero": 0
+    },
+    {
+      "file": "A_onizleme.png",
+      "size": [
+        2340,
+        1688
+      ],
+      "mode": "RGB",
+      "bytes": 2805228
+    },
+    {
+      "file": "B_onizleme.png",
+      "size": [
+        2340,
+        1688
+      ],
+      "mode": "RGB",
+      "bytes": 2806447
+    },
+    {
+      "file": "C_onizleme.png",
+      "size": [
+        2340,
+        1688
+      ],
+      "mode": "RGB",
+      "bytes": 2802509
+    },
+    {
+      "file": "final_onizleme.png",
+      "size": [
+        2340,
+        1688
+      ],
+      "mode": "RGB",
+      "bytes": 2806185
+    },
+    {
+      "file": "okunurluk_kontrol.png",
+      "size": [
+        1280,
+        880
+      ],
+      "mode": "RGB",
+      "bytes": 406813
+    },
+    {
+      "file": "yerlesim_kontrol.png",
+      "size": [
+        780,
+        570
+      ],
+      "mode": "RGB",
+      "bytes": 232682
+    }
+  ],
+  "screenshot_preservation": [
+    {
+      "variant": "A",
+      "screen": "menu_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "A",
+      "screen": "kazanma_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "A",
+      "screen": "sure_doldu_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "B",
+      "screen": "menu_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "B",
+      "screen": "kazanma_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "B",
+      "screen": "sure_doldu_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "C",
+      "screen": "menu_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "C",
+      "screen": "kazanma_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "C",
+      "screen": "sure_doldu_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "final",
+      "screen": "menu_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "final",
+      "screen": "kazanma_once.png",
+      "changed_outside_currency": 0
+    },
+    {
+      "variant": "final",
+      "screen": "sure_doldu_once.png",
+      "changed_outside_currency": 0
+    }
+  ]
+}

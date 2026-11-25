@@ -35,10 +35,11 @@ namespace ReverseSolver.Presentation
                 MenuUi.Label(cell, Texts.AchievementName(i), new Vector2(cx, -29), 19, order + 2, true, tw);
                 var condition = MenuUi.Label(cell, Texts.AchievementCondition(i), new Vector2(cx, -3), 13, order + 2, true);
                 var tmp = condition.GetComponent<TMPro.TextMeshPro>();
-                tmp.textWrappingMode = TMPro.TextWrappingModes.Normal;
-                tmp.rectTransform.sizeDelta = new Vector2(tw, 38);
+                // PM_107 §D6: one line, smaller if it must ("Bombalı 10 bölümü ilk denemede kazan" wrapped onto the bar)
+                tmp.textWrappingMode = TMPro.TextWrappingModes.NoWrap;
+                tmp.rectTransform.sizeDelta = new Vector2(tw, 22);
                 tmp.enableAutoSizing = true;
-                tmp.fontSizeMin = 12 * TextView.PointToFontSize;
+                tmp.fontSizeMin = 10 * TextView.PointToFontSize;
                 tmp.fontSizeMax = 13 * TextView.PointToFontSize;
                 Part(cell, "track", "progress-track", new Vector2(cx, 27), new Vector2(tw, 20), order + 1, true);
                 float fill = a.Value > 0 ? Mathf.Max(16, (tw - 8) * a.Value / a.Target) : 0;

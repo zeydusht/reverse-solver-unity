@@ -1,0 +1,49 @@
+{
+ "dir": "kazanma",
+ "sounds": 60,
+ "drowned": 0,
+ "drowned_list": [],
+ "peaks_over": 0,
+ "peak_dbfs": -2.5,
+ "effects_lufs_max": -15.1,
+ "music_lufs_median": -35.3,
+ "mix_lufs_max": -15.0,
+ "by_clip": {
+  "cikis-u1": {
+   "count": 25,
+   "level": -18.0
+  },
+  "gecis-cizgi-c": {
+   "count": 1,
+   "level": -40.4
+  },
+  "gecis-dalis-a": {
+   "count": 1,
+   "level": -29.2
+  },
+  "gecis-geri-a": {
+   "count": 1,
+   "level": -34.5
+  },
+  "gecis-hud-a": {
+   "count": 1,
+   "level": -32.1
+  },
+  "gecis-koridor-a": {
+   "count": 28,
+   "level": -26.0
+  },
+  "kilitac-a1": {
+   "count": 1,
+   "level": -18.5
+  },
+  "kilitac-a2": {
+   "count": 1,
+   "level": -18.5
+  },
+  "ui-tok-c1": {
+   "count": 1,
+   "level": -20.0
+  }
+ }
+}
