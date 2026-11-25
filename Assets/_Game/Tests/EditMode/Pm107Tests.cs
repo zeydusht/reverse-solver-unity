@@ -131,7 +131,9 @@ namespace ReverseSolver.Core.Tests
             Assert.That(Dive75.Bell107(.5f), Is.EqualTo(1).Within(1e-5f));
             Assert.That(Dive75.Bell107(.1f), Is.GreaterThan(.1f), "heard early in the motion");
             Assert.That(Dive75.Bell107(1), Is.EqualTo(0), "gone at the arrival");
-            StringAssert.Contains("Gecis100.Dive(t >= h0 ? 0 : _speed108 != null ? Interp(_speed108, t / Mathf.Max(.05f, h0)) : Bell107(t / Mathf.Max(.05f, h0)));", File.ReadAllText("Assets/_Game/Presentation/Ui/Dive75.cs"));   // PM_108: the menu's own speed
+            { string d75 = File.ReadAllText("Assets/_Game/Presentation/Ui/Dive75.cs");   // PM_108: the menu's own speed; PM_112: on to a bungee's bottom
+              StringAssert.Contains("float air = _speed108 != null ? Interp(_speed108, Mathf.Min(1, t / Mathf.Max(.05f, h0))) : Bell107(t / Mathf.Max(.05f, h0));", d75);
+              StringAssert.Contains("Gecis100.Dive(t < h0 ? air : _bungee && t < h1 ? air * (1 - SmoothStep((t - h0) / Mathf.Max(.01f, h1 - h0))) : 0);", d75); }
         }
 
         /* §D2: the collection's detail and its cards in the new palette; the grid's cards from thumbnails, one picture

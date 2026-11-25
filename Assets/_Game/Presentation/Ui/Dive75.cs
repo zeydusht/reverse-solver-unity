@@ -53,6 +53,22 @@ namespace ReverseSolver.Presentation
            under the touch's paper by GeriDuck111 when they meet within GeriNear111 s (no pile-up on the speakers). */
         const float LinesDone111 = .8f, GeriNear111 = .15f, GeriDuck111 = .6f;
         public static float LinesEnd = .7f;   // the share of this dive's pull back by which the cuts are all drawn
+        /* PM_112 (Zeyd on vol 2: "the moving screen stops for a moment; think of a bungee jump: in a tiny bit more, then
+           back out"): the menu's hold is vol 2's (MenuHold112) by default, and &bungee= (per cent, 0: off) turns it into a
+           bungee: no stop; the camera runs on into the picture (the size, even across and down), slows, its speed passes
+           zero once at the bottom, Bungee % in, and turns into the pull back, the acceleration unbroken. B arrives all
+           but at rest (its own braking ends at the picture), so the braking moves into the picture: B as it is up to its
+           peak, then (a cubic) a fall that meets the picture at the speed the bungee needs and brakes on at Brake112
+           (B's own fall's braking, screen heights/s^2) to the bottom; the bottom from there, the size (two quintics:
+           the arrival's speed and acceleration -> the bottom at rest -> the board's view at rest) back at the
+           arrival's size as long after the bottom as before it. Deeper: faster into the picture and a longer turn (the
+           same cord). The time the approach saves goes to the pull back (Oyna -> the level as vol 2). The cuts and
+           the touch's paper as with the hold; the dive's whoosh and air end at the bottom, the pull back's whoosh sets
+           off there. */
+        const float MenuHold112 = .07f, Brake112 = 5.5f;
+        public static float Bungee;           // &bungee= (per cent of the size)
+        bool _bungee, _turned;
+        float _bungeeDepth, _bungeeV, _bungeeA, _bungeeTurn, _bungeeBack;   // ln; the arrival's ln/s, ln/s^2; the turn's ln/s^2
         /* PM_92 (Zeyd on PM_91: "somewhere in the middle it feels as if it slows down, a struggle, then it flows; go
            straight into the wall with the acceleration it set off with"): the approach's speed is set as the eye sees
            it, the wall's motion on the screen (its growth and its slide along the arc together, Flow92), and only
@@ -223,7 +239,7 @@ namespace ReverseSolver.Presentation
             _new91 = Arrive91 && !Legacy && Variant == 'a';
             if (_new91)
             {
-                if (HoldSec < 0 || _s.Diorama == null) { _p.Hold = _s.Diorama != null ? MenuHold91 : CorridorHold91; _p.Push = .015f * _p.Hold / .8f; }
+                if (HoldSec < 0 || _s.Diorama == null) { _p.Hold = _s.Diorama != null ? MenuHold112 : CorridorHold91; _p.Push = .015f * _p.Hold / .8f; }
                 if (_s.Diorama == null) _p.Approach = CorridorSeconds92;
             }
             _rate = _p.Hold > .01f ? Mathf.Log(1 + _p.Push) / _p.Hold : 0;
@@ -275,6 +291,7 @@ namespace ReverseSolver.Presentation
                         if (_plan108) _flight = T * _bellSplit;   // (the clock's split only; the camera follows Way92)
                         _p.Approach = T - _flight;
                         Plan92(MenuQuad92, T, true);
+                        if (Bungee > 0) PlanBungee112();
                     }
                     _morphFrom = MorphGate(screen);
                     // PM_87 §2: the opening's first view against the menu's own (the first frame must be the menu's)
@@ -545,7 +562,8 @@ namespace ReverseSolver.Presentation
             // PM_107 §C6: the air follows the motion: the flight and the approach are one smootherstep over [0, h0]
             // (PM_86), its speed 30 u^2 (1-u)^2, 1 at the middle
             // PM_108: the menu's dive its own speed (off at once, the peak, then even), the air the same
-            Gecis100.Dive(t >= h0 ? 0 : _speed108 != null ? Interp(_speed108, t / Mathf.Max(.05f, h0)) : Bell107(t / Mathf.Max(.05f, h0)));
+            float air = _speed108 != null ? Interp(_speed108, Mathf.Min(1, t / Mathf.Max(.05f, h0))) : Bell107(t / Mathf.Max(.05f, h0));
+            Gecis100.Dive(t < h0 ? air : _bungee && t < h1 ? air * (1 - SmoothStep((t - h0) / Mathf.Max(.01f, h1 - h0))) : 0);   // PM_112: on to the bottom
             if (t < h0)
             {
                 float u = Mathf.Clamp01((t - _flight) / _p.Approach);
@@ -568,15 +586,17 @@ namespace ReverseSolver.Presentation
                 // the hold: a slow push in; the back: ease in-out to the level's own view, taking over the push
                 var rect = new Rect(_board.Origin, _board.Size);
                 var from = new Vector3(rect.center.x, -rect.center.y, _homePos.z);
-                float lnCover = Mathf.Log(Dive74.CoverSize(rect.size, _s.Screen)), lnPush = Push91(_p.Hold);
+                float lnCover = Mathf.Log(Dive74.CoverSize(rect.size, _s.Screen)), lnPush = _bungee ? _bungeeDepth : Push91(_p.Hold);
                 if (_fit) { FittedView(out from, out float fs); lnCover = Mathf.Log(fs); }   // PM_88 §1: from where the picture arrived
-                if (t < h1) { _s.Cam.orthographicSize = Mathf.Exp(lnCover - Push91(t - h0)); _s.Cam.transform.position = from; }
+                if (_bungee && !_turned) TurnBungee112(Mathf.Log(_homeSize) - lnCover);
+                if (t < h1) { _s.Cam.orthographicSize = Mathf.Exp(lnCover - (_bungee ? BungeeIn112(t - h0) : Push91(t - h0))); _s.Cam.transform.position = from; }
                 else
                 {
                     float u = Mathf.Clamp01((t - h1) / Mathf.Max(.01f, _p.Back));
                     float l0 = lnCover - lnPush, l1 = Mathf.Log(_homeSize);
                     // PM_111: after a short hold a soft start (a quintic: the same speed, no step in the acceleration either)
-                    float l = _shortHold ? Hermite5(l0, -Push91Rate(_p.Hold) * _p.Back, l1, u) : Hermite3(l0, -Push91Rate(_p.Hold) * _p.Back, l1, 0, u);
+                    float l = _bungee ? Quintic(l0, 0, _bungeeTurn, l1, 0, 0, _p.Back, t - h1)   // PM_112: from the bottom, turning
+                            : _shortHold ? Hermite5(l0, -Push91Rate(_p.Hold) * _p.Back, l1, u) : Hermite3(l0, -Push91Rate(_p.Hold) * _p.Back, l1, 0, u);
                     _s.Cam.orthographicSize = Mathf.Exp(l);
                     _s.Cam.transform.position = Vector3.LerpUnclamped(from, _homePos, Mathf.Abs(l1 - l0) > 1e-5f ? (l - l0) / (l1 - l0) : u);
                 }
@@ -599,15 +619,16 @@ namespace ReverseSolver.Presentation
         void Cues100(float t, float h0, float h1, float h2)
         {
             float rate = Mathf.Max(.01f, _speed * Mathf.Max(.1f, SpeedK));   // the clock's s per real s
-            if (!_cueIn && t < h0 && (h0 - t) / rate <= Gecis100.DiveLead)
+            float end = _bungee ? h1 : h0;   // PM_112: the bungee's whoosh ends at the bottom
+            if (!_cueIn && t < end && (end - t) / rate <= Gecis100.DiveLead)
             {
                 // PM_102 §5: the whoosh ends on the touch: after the corridor the approach is shorter than it, so it joins
                 // part way (its end still on the touch)
-                float left = (h0 - t) / rate;
+                float left = (end - t) / rate;
                 _cueIn = true; Gecis100.Event("dalış (değmeye " + left.ToString("0.00") + " s)");
                 Gecis100.Play(Gecis100.Kind.Dalis, Gecis100.DiveWhooshVolume, Gecis100.DiveLead - left);
             }
-            if (!_cueTouch && t >= h0) { _cueTouch = _cueIn = true; Gecis100.Event("değme"); Gecis100.Play(Gecis100.Kind.Cizgi); }   // PM_106 §1: no ting at the touch (Zeyd: the "klink" goes; the whoosh stays)
+            if (!_cueTouch && t >= h0) { _cueTouch = true; _cueIn |= !_bungee; Gecis100.Event("değme"); Gecis100.Play(Gecis100.Kind.Cizgi); }   // PM_106 §1: no ting at the touch (Zeyd: the "klink" goes; the whoosh stays)
             if (!_cueBack && t >= h1)
             {
                 _cueBack = true; Gecis100.Event("geri çekilme");
@@ -623,6 +644,74 @@ namespace ReverseSolver.Presentation
            _touchTau), by at most TouchMax in all; then the pull back takes it from there. */
         float Push91(float x) => _rate * x + (_touchTau > 0 ? _touch * (1 - Mathf.Exp(-Mathf.Max(0, x) / _touchTau)) : 0);
         float Push91Rate(float x) => _rate + (_touchTau > 0 ? _touch / _touchTau * Mathf.Exp(-Mathf.Max(0, x) / _touchTau) : 0);
+
+        /* PM_112: the bungee's way in (ln of the size, from the arrival): the arrival's speed and acceleration -> the
+           bottom (_bungeeDepth) at rest, decelerating there by _bungeeTurn (the pull back's start). */
+        float BungeeIn112(float x) => Quintic(0, _bungeeV, _bungeeA, _bungeeDepth, 0, -_bungeeTurn, _p.Hold, x);
+
+        /* PM_112: the bungee's approach and times (Plan92 laid B out; see Bungee). */
+        void PlanBungee112()
+        {
+            int N = TimeSteps92;
+            float T = _T92, dk = T / N, D = _timeD[N], span = _p.Hold + _p.Back;
+            var v = new float[N + 1];   // B's screen speed (screen heights/s)
+            for (int k = 0; k <= N; k++) v[k] = (_timeD[Mathf.Min(N, k + 1)] - _timeD[Mathf.Max(0, k - 1)]) / ((Mathf.Min(N, k + 1) - Mathf.Max(0, k - 1)) * dk);
+            float perScreen = ArriveRate91() / Mathf.Max(1e-4f, v[N]);   // the picture's ln growth per screen height at the arrival
+            _bungeeDepth = Mathf.Log(1 + Mathf.Min(Bungee, 20) / 100);
+            float bottom = Mathf.Sqrt(2 * _bungeeDepth / Mathf.Max(1e-3f, perScreen * Brake112)), meet = Brake112 * bottom;
+            int kp = N / 3; for (int k = N / 3; k < N; k++) if (v[k] > v[kp]) kp = k;   // B's peak
+            float ts = kp * dk, p0 = v[kp], m0 = (v[Mathf.Min(N, kp + 1)] - v[kp - 1]) / (2 * dk), rest = D - _timeD[kp];
+            // the fall from the peak to the picture: a cubic from (p0, m0) to (meet, -Brake112) covering the rest of the way
+            float qa = (m0 + Brake112) / 12, qb = (p0 + meet) / 2;
+            float tau = qa > 1e-6f ? (-qb + Mathf.Sqrt(qb * qb + 4 * qa * rest)) / (2 * qa) : rest / Mathf.Max(1e-4f, qb);
+            float T2 = ts + tau;
+            float Speed(float t) => t < ts ? Interp(v, t / T) : Hermite3(p0, m0 * tau, meet, -Brake112 * tau, Mathf.Clamp01((t - ts) / tau));
+            var timeD = new float[N + 1];
+            for (int k = 1; k <= N; k++) timeD[k] = timeD[k - 1] + (Speed(T2 * k / N) + Speed(T2 * (k - 1) / N)) / 2 * T2 / N;
+            float scale = D / Mathf.Max(1e-6f, timeD[N]), top = 0;
+            for (int k = 0; k <= N; k++) { timeD[k] *= scale; top = Mathf.Max(top, v[k]); }
+            _timeD = timeD; _T92 = T2; _p.Approach = T2 - _flight;
+            if (_speed108 != null) for (int k = 0; k <= N; k++) _speed108[k] = Speed(T2 * k / N) / Mathf.Max(1e-4f, top);   // the air follows
+            // the arrival as now laid out
+            const float dt = .02f;
+            float va = ArriveRate91(), vPrev = (LnHeight(_quad92(Way92(_T92 - dt))) - LnHeight(_quad92(Way92(_T92 - 2 * dt)))) / dt;
+            _bungee = true; _turned = false;
+            _bungeeV = Mathf.Max(0, va); _bungeeA = Mathf.Min(0, (va - vPrev) / dt);
+            _p.Hold = bottom; _p.Back = span + (T - T2) - bottom;
+            _rate = 0; _touch = _touchTau = 0;
+            Note($"PM_112: B's peak at {ts:0.000} s ({p0:0.000} screen heights/s), the picture met at {meet:0.000} screen heights/s at {T2:0.000} s (B {T:0.000} s, scale {scale:0.000}), {perScreen:0.00} ln a screen height");
+        }
+
+        /* PM_112: the turn's acceleration (by bisection) so the picture is back at the arrival's size as long after the
+           bottom as the bottom after the arrival; lnOut: how far the pull back takes the size out from the arrival's (ln). */
+        void TurnBungee112(float lnOut)
+        {
+            _turned = true;
+            float d = _bungeeDepth, T = _p.Back, want = _p.Hold;
+            _bungeeBack = 9;
+            float lo = .5f, hi = 400;
+            for (int i = 0; i < 40; i++) { float m = (lo + hi) / 2; if (BackAt112(d, m, lnOut, T) > want) lo = m; else hi = m; }
+            _bungeeTurn = (lo + hi) / 2; _bungeeBack = BackAt112(d, _bungeeTurn, lnOut, T);
+            Note($"PM_112: bungee {Bungee:0.#} % ({d:0.0000} ln), arrives growing {_bungeeV:0.00} ln/s ({_bungeeA:0.0} ln/s2), bottom at +{_p.Hold:0.000} s, turning at {_bungeeTurn:0.0} ln/s2, back at the arrival's size at +{_p.Hold + _bungeeBack:0.000} s, pull back {_p.Back:0.000} s ({lnOut:0.000} ln out)");
+        }
+
+        /* the time from the bottom until the size is back at the arrival's (0 in the bungee's ln, the depth d in) */
+        static float BackAt112(float d, float turn, float lnOut, float T)
+        {
+            if (Quintic(d, 0, -turn, -lnOut, 0, 0, T, T) > 0) return 9;
+            float lo = 0, hi = T;
+            for (int i = 0; i < 30; i++) { float m = (lo + hi) / 2; if (Quintic(d, 0, -turn, -lnOut, 0, 0, T, m) > 0) lo = m; else hi = m; }
+            return (lo + hi) / 2;
+        }
+
+        /* PM_112: the quintic from p0 (speed v0, acceleration a0) to p1 (v1, a1) over T seconds, at x seconds. */
+        static float Quintic(float p0, float v0, float a0, float p1, float v1, float a1, float T, float x)
+        {
+            float u = Mathf.Clamp01(x / Mathf.Max(1e-4f, T)), u2 = u * u, u3 = u2 * u, u4 = u3 * u, u5 = u4 * u;
+            float V0 = v0 * T, A0 = a0 * T * T, V1 = v1 * T, A1 = a1 * T * T;
+            return (1 - 10 * u3 + 15 * u4 - 6 * u5) * p0 + (u - 6 * u3 + 8 * u4 - 3 * u5) * V0 + (u2 - 3 * u3 + 3 * u4 - u5) / 2 * A0
+                 + (10 * u3 - 15 * u4 + 6 * u5) * p1 + (-4 * u3 + 7 * u4 - 3 * u5) * V1 + (u3 - 2 * u4 + u5) / 2 * A1;
+        }
 
         /* PM_91: the picture's growth on the screen (ln of its size per s) as the approach arrives. */
         float ArriveRate91()
@@ -1166,7 +1255,7 @@ namespace ReverseSolver.Presentation
         void StartReveal()
         {
             _revealed = true;
-            if (_new91 && TouchMax > 0)
+            if (_new91 && TouchMax > 0 && !_bungee)
             {
                 float v = ArriveRate91();
                 _touch = Mathf.Min(TouchMax, v * TouchSeconds); _touchTau = v > 1e-3f ? _touch / v : 0;

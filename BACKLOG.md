@@ -1,6 +1,6 @@
 # Reverse Solver — BACKLOG
 
-Son güncelleme: 25 Kasım 2026 (Claude Code, PM_111)
+Son güncelleme: 25 Kasım 2026 (Claude Code, PM_112)
 
 Kurallar:
 - PM yalnız "PM" bölümünü, Claude Code yalnız "Mühendislik" bölümünü günceller.
@@ -48,7 +48,7 @@ Kurallar:
 | Playtest daveti: her davetli 1–2 kişiye iletsin mi, ek bir grup var mı? (cevap bekliyor) | Playtest'ten önce | 1 dk |
 | 4G kontrolü | Playtest'ten önce | 10 dk |
 | PM_107: telefonda dinle: 18. bölümde saat + kayma (tik-tak duyuluyor mu), 31. bölümde zincir, menüden Oyna'da dalış sesi; menüde yeni alt çubuk, altın ve koleksiyon | Boş vaktinde | ~10 dk |
-| PM_111: resimde kalış önizlemesini izle (`docs/art/pm111/kalis_yan_yana.mp4`, şimdiki \| vol 1 \| vol 2 \| vol 3): birini seç, onaylarsan yayınlanır | Boş vaktinde | ~3 dk |
+| PM_112: bungee önizlemesini izle (`docs/art/pm112/bungee_yan_yana.mp4` ve yarım hızı, vol 2 \| bungee 1 \| 2 \| 3): birini seç, onaylarsan yayınlanır | Boş vaktinde | ~3 dk |
 
 ## PM
 
@@ -223,6 +223,7 @@ Koridor zafer geçişi V2 süreklilik düzeltmesi (2026-10-30): dış cephe kald
 - ✅ PM_106 (24 Kasım): Block Out sesi analiz edildi (`docs/art/pm106/BLOCKOUT_SES_ANALIZ.md`: sürüklerken ses yok, bırakmada tek tok, çıkışta ufalanma, perde artmıyor); çıkış sesi Block Out tarzı q (5 aday q–u, tek kayıt, sabit perde, kalkış sesi yok; `&cikisperde=1` deneme); zincir gerçek zincir kaydı (d–f, kesintisiz, hıza göre); lastik bütün takılmalarda tam (boşluksuzda %55'ti, kilitli parçada eksikti; 32 takılma ölçüldü); Ayarlar ve sekmelerde tek ses; dalış sonu ting kalktı. Açık: Zeyd'in seçimleri, telefonda deneme.
 - ✅ PM_106_EK2 (24 Kasım): dinleme sayfası her yerde boştu (PM_105'te bir ipucundaki kesme işareti, "Durdur'daki", sayfanın tek betiğini durduruyordu). Artık her bölüm ayrı kuruluyor; biri bozulursa yalnız o "yüklenemedi" der. `Tools/webkit_sesler.js`: WebKit 390×844'te 25 bölüm kuruldu, sayfa hatası 0; Chrome'da ses çalan 24 bölümün 24'ü çaldı, çözme hatası 0 (Playwright WebKit'te Windows'ta Web Audio yok). Canlı p23'te.
 - ✅ PM_106_EK (24 Kasım): testlerin Zeyd'in Chrome'unda gizlilik sekmesi ve mailto açması. Sebep: PlayMode'daki "her düğmeye bas" taraması Ayarlar'da Gizlilik ve e-posta düğmelerine basıyordu; editörde `Application.OpenURL` gerçek tarayıcıyı açıyor. Bütün dış bağlantılar `LinkAcici.Ac`'tan geçiyor: editörde ve `&test=1`'de açılmıyor, günlüğe "açılacaktı" yazıyor; gerçek oyunda açılıyor.
+- ✅ PM_112 önizleme (25 Kasım): vol 2 varsayılan; `&bungee=2 / 4 / 6` ile resimde durma yerine bungee dönüşü (durma yok, hız dipte bir kez sıfırdan geçiyor, ivme kesintisiz). B tabloya neredeyse durarak vardığı için frenleme tablonun içine taşındı (B tepesine kadar aynı); dönüş 0,09 / 0,13 / 0,16 sn, toplam 1,60 sn; kenar boşluğu 0, ses boşluksuz ve üst üste binmeden; yayın yok (`docs/art/pm112/`).
 - ✅ PM_111 önizleme (25 Kasım): B varsayılan; resimde kalış 3 varyant (`&resimbekle=0 / 0.07 / 0.145`), toplam 1,81 → 1,52 / 1,60 / 1,67 sn; dönüşte köşe yok (kısa kalışta yumuşak kalkışlı geri çekilme), çizgiler varışta başlayıp geri çekilmenin %80'inde bitiyor, sesler üst üste binmiyor; yayın yok (`docs/art/pm111/`).
 - ✅ PM_110 asıl amaç (25 Kasım): geri çekilmenin ekran hızı ölçüldü (ortalama 0,56 ekran boyu/sn); gidiş en az onun kadar hızlı: yay + yaklaşma 1,07 → 0,71 sn, toplam 2,18 → 1,81 sn. A = Zeyd'in 3. çizimi, B = geri çekilmenin tersi; kenar boşluğu 0; yayın yok (`docs/art/pm110/`).
 - ✅ PM_110 ilk hâli (25 Kasım): dalış hızı 3. çizim (neredeyse tepe hızında kalkış, %8–%55 düz plato, %62 tepe, %82'ye dik iniş, %50 → %55 hafif artan son); yay + yaklaşma 1,07 sn (PM_109'la aynı çıktı); kenar boşluğu 0; yayın yok, yerel dal `pm108-onizleme` (`docs/art/pm110/`).

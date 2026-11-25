@@ -185,6 +185,7 @@ namespace ReverseSolver.Presentation
             Dive75.Orbit = Dive75.On && !Dive75.Legacy;
             Dive75.SpeedK = QueryFloat("yayhiz", 1, .25f, 4);
             Dive75.HoldSec = QueryFloat("resimbekle", -1, 0, 3);   // PM_80: none: the variant's hold (PM_85: A's .4 s)
+            Dive75.Bungee = QueryFloat("bungee", 0, 0, 20);   // PM_112: the bungee turn instead of the hold (per cent in)
             CorridorTransition.Seconds = QueryFloat("koridor", 1.5f, .5f, 5);   // PM_85: the corridor's slide (s)
             CorridorTransition.StartBeat = QueryFloat("koridorbas", .2f, 0, 2);   // PM_88 §4: the beat before the slide (s)
             CorridorTransition.EndBeat = QueryFloat("koridorson", .2f, 0, 2);     // and before the dive

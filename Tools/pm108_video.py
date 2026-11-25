@@ -4,8 +4,9 @@ line). A constant 60 fps (each tick the newest frame captured by then), 390 x 84
   one capture   the dive with its own sound
   two or more   side by side (labelled), played once per capture, each time with the next one's sound (the side
                 heard is marked "SES"; PM_110: three, PM_109 | A | B)
-usage: python -I Tools/pm108_video.py <out.mp4> <from> <to> <capture dir> [<capture dir>] [--labels ŞİMDİKİ,YENİ]
-  from / to: seconds from each capture's dive start."""
+usage: python -I Tools/pm108_video.py <out.mp4> <from> <to> <capture dir> [<capture dir>] [--labels ŞİMDİKİ,YENİ] [--slow 2]
+  from / to: seconds from each capture's dive start; --slow k: k times slower (PM_112: half speed, the sound
+  stretched as well, its pitch kept)."""
 import glob, json, os, re, subprocess, sys, tempfile
 import numpy as np
 import imageio_ffmpeg
@@ -15,6 +16,9 @@ argv = sys.argv[1:]
 labels = ['ŞİMDİKİ', 'YENİ']
 if '--labels' in argv:
     i = argv.index('--labels'); labels = argv[i + 1].split(','); del argv[i:i + 2]
+slow = 1.0
+if '--slow' in argv:
+    i = argv.index('--slow'); slow = float(argv[i + 1]); del argv[i:i + 2]
 out, a, b, caps = argv[0], float(argv[1]), float(argv[2]), argv[3:]
 W, H, FPS, SR = 390, 844, 60, 48000
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -54,7 +58,7 @@ def load(d):
 clips = [load(d) for d in caps]
 font = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 22)
 small = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 18)
-ticks = int((b - a) * FPS)
+ticks = int((b - a) * FPS * slow)
 passes = list(range(len(clips)))
 tmp = tempfile.mkdtemp(prefix='pm108v-')
 wav = os.path.join(tmp, 'ses.wav')
@@ -64,13 +68,13 @@ import wave
 with wave.open(wav, 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes(pcm.tobytes())
 cmd = [FF, '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W * len(clips)}x{H}', '-r', str(FPS), '-i', '-',
-       '-i', wav, '-c:v', 'libx264', '-preset', 'slow', '-crf', '23', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k',
+       '-i', wav, *(['-filter:a', ','.join(['atempo=0.5'] * int(round(np.log2(slow))))] if slow > 1 else []), '-c:v', 'libx264', '-preset', 'slow', '-crf', '23', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k',
        '-shortest', '-movflags', '+faststart', out]
 p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
 for heard in passes:
     idx = [0] * len(clips); cache = {}
     for k in range(ticks):
-        t = a + k / FPS
+        t = a + k / FPS / slow
         frame = Image.new('RGB', (W * len(clips), H))
         for c, (s, times, files, _) in enumerate(clips):
             at = s + t
@@ -90,7 +94,7 @@ for heard in passes:
                     d.rounded_rectangle((x - tw2 / 2 - 8, 90, x + tw2 / 2 + 8, 114), 7, fill=(227, 181, 78, 230))
                     d.text((x - tw2 / 2, 92), 'SES', font=small, fill=(14, 34, 68))
             for c in range(1, len(clips)): d.rectangle((c * W - 1, 0, c * W, H), fill=(255, 255, 255, 255))
-        clock = f'{max(0.0, t):.2f} s'
+        clock = f'{max(0.0, t):.2f} s' + (f'  (x1/{slow:g})' if slow > 1 else '')
         d.text((W * len(clips) - d.textlength(clock, font=small) - 10, H - 30), clock, font=small, fill=(255, 255, 255, 200))
         p.stdin.write(frame.tobytes())
 p.stdin.close(); p.wait()

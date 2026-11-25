@@ -19,7 +19,7 @@ namespace ReverseSolver.Core.Tests
         {
             string d = File.ReadAllText("Assets/_Game/Presentation/Ui/Dive75.cs"), root = File.ReadAllText("Assets/_Game/Presentation/GameRoot.cs");
             StringAssert.Contains("Dive75.HoldSec = QueryFloat(\"resimbekle\", -1, 0, 3);", root);
-            StringAssert.Contains("if (HoldSec < 0 || _s.Diorama == null) { _p.Hold = _s.Diorama != null ? MenuHold91 : CorridorHold91;", d);
+            StringAssert.Contains("if (HoldSec < 0 || _s.Diorama == null) { _p.Hold = _s.Diorama != null ? MenuHold112 : CorridorHold91;", d);   // PM_112: vol 2 the default
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace ReverseSolver.Core.Tests
         public void ThePullBackSetsOffWithTheHoldsRate()
         {
             string d = File.ReadAllText("Assets/_Game/Presentation/Ui/Dive75.cs");
-            StringAssert.Contains("float l = _shortHold ? Hermite5(l0, -Push91Rate(_p.Hold) * _p.Back, l1, u) : Hermite3(l0, -Push91Rate(_p.Hold) * _p.Back, l1, 0, u);", d);
+            StringAssert.Contains(": _shortHold ? Hermite5(l0, -Push91Rate(_p.Hold) * _p.Back, l1, u) : Hermite3(l0, -Push91Rate(_p.Hold) * _p.Back, l1, 0, u);", d);
         }
     }
 }
