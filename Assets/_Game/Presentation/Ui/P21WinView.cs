@@ -129,9 +129,9 @@ namespace ReverseSolver.Presentation
             {
                 _rescuedLabel = null;
                 // PM_74: the coin counter under the title, clear of the HUD's Time box (it sat on it at y 52)
-                Image("Reward/Flight/coin-counter", CoinX, CoinY, 116, 37, 8);
+                // PM_107 §D4: the coin and its count, no box
                 Image("Reward/Flight/coin", CoinX - 39, CoinY, 30, 30, 9);
-                _coins = Label(_save.Coins.ToString(), CoinX + 9, CoinY, 18);
+                _coins = Label(_save.Coins.ToString(), CoinX + 9, CoinY, 19).Heading(Draw.Hex("#0E2244"));
                 if (_done) NextButton();
                 foreach (var b in BoosterExt.All)
                 {
@@ -667,11 +667,10 @@ namespace ReverseSolver.Presentation
             _c83Amount.transform.localPosition = Draw.W(AtB(195, 524));   // where "Tap the chest!" was, clear of the title
             // the gold counter at the top: the coins fly here
             _c83CounterAt = AtB(195, 64);
-            var pill = Art.Place(_content, "yeni/win21/Reward/Flight/coin-counter", new Vector2(132, 42) * _bScale, Order + 8);
-            if (pill != null) pill.transform.localPosition = Draw.W(_c83CounterAt);
+            // PM_107 §D4: the coin and its count, no box (as the menu's)
             var coin = Art.Place(_content, CoinKey, Vector2.one * 40 * _bScale, Order + 9);
             if (coin != null) coin.transform.localPosition = Draw.W(_c83CounterAt + new Vector2(-54 * _bScale, 0));
-            _c83Counter = TextView.Create(_content, "chest counter", Shown83().ToString(), 20 * _bScale, Palette.Cream, order: Order + 10);
+            _c83Counter = TextView.Create(_content, "chest counter", Shown83().ToString(), 22 * _bScale, Palette.Cream, order: Order + 10).Heading(Draw.Hex("#0E2244"));
             _c83Counter.transform.localPosition = Draw.W(_c83CounterAt + new Vector2(10 * _bScale, 0));
         }
 

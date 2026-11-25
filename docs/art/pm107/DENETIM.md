@@ -22,17 +22,20 @@
 | Alt sekme çubuğu | Seçili sekme düz koyu mavi kutu; derinlik az. | 2 | Düzeldi (D3): altın kenarlı krem seçili panel, sadeleşmiş ikonlar (Codex A, 24/25). |
 | Başarılar | "Bombalı 10 bölümü ilk denemede kazan" iki satıra taşıp ilerleme çubuğuna değiyor. | 2 | Düzeldi: tek satır, gerekirse küçülür. |
 | Booster ders kartı (Makas) | İpucu satırı 14 pt'de iki satıra sıkışıp çok küçük kalıyor. | 2 | Düzeldi: 16 pt, en çok 3 satır. |
-| Süre doldu | "Hayır" düğmesi çok küçük görünüyor (dokunma alanı 44 pt, yeterli). | 3 | Bırakıldı (dokunma alanı doğru). |
+| Süre doldu | "Hayır" düğmesinin üstü "999999 altın" satırına biniyordu. | 3 | Düzeldi: altın satırı 6 pt yukarı, düğme 8 pt aşağı. |
 | Süre doldu (`&devam=1` testi) | Panelin içinden alttaki kilit kartının yazısı görünüyor. | 3 | Yalnız test bayrağında: gerçek oyunda kart, süre dolmadan kapanmış oluyor. Bırakıldı. |
 | Ayarlar | Uyumlu (T48). | – | – |
 | Profil | Uyumlu (krem panel, altın halka, lacivert yazı). | – | – |
-| Jiggles | Uyumlu. | – | – |
+| Jiggles | Seçili olmayan avatarlar eski turkuaz disk ve halkada. | 2 | Düzeldi: lacivert disk, ince altın halka. |
 | Durdur | Uyumlu. | – | – |
-| Kazanma, sandık | Uyumlu. Altın D4 ile yeni. | – | – |
+| Kazanma, sandık | Altın sayacı kutu içindeydi (kazanma ve sandık ekranının üstü). | 2 | Düzeldi (D4): kutusuz altın + kalın sayı. Sandık açılış ekranı önizleme bayrağıyla açılmıyor; görsel olarak gezilemedi. |
 | Engel kartları (kilit, zincir) | Uyumlu. | – | – |
 | "Yeni tablolar yolda!" | Uyumlu. | – | – |
 | Reklamla devam | Uyumlu (mavi "Reklam izle +30 sn"). | – | – |
 | Yükleme ekranı | Uyumlu (PM_88). | – | – |
+| Bölümler (merdiven) | Uyumlu. | – | – |
+| Bomba patladı (devam) | Uyumlu; yeni altın. | – | – |
+| Metin konturu (genel) | Bazı başlık ve sayılarda koyu turkuaz kontur (#0B3E47) kullanılıyor; HUD dahil. Koyu, neredeyse lacivert. | 3 | Bırakıldı: HUD Zeyd onaylı; etkisi küçük. |
 | Booster (saat, makas) | Booster'ın kendi sesinin altında eski "tık" da çalıyordu (bir basışa iki ses). | 2 | Düzeldi: booster'ın sesi varken eski tık çalmıyor. |
 
 Önce/sonra görüntüleri `docs/art/pm107/once_sonra/` altında.

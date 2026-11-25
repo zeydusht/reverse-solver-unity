@@ -79,7 +79,7 @@ namespace ReverseSolver.Presentation
                 if (_offer && !_affordable && main.Body != null) main.Body.color = new Color(.5f, .5f, .5f, .95f);
                 _primary = main.Rect;
                 if (secondary == null) return;
-                var small = Button75.Small(_buttons, At(195, y + 86), new Vector2(150, 50) * _k, secondary, _order + 6);
+                var small = Button75.Small(_buttons, At(195, y + 94), new Vector2(150, 50) * _k, secondary, _order + 6);   // PM_107 §D6: clear of the gold line
                 var sc = small.Rect.center;
                 float sTop = Mathf.Max(sc.y - 26, _primary.yMax + 2);
                 _secondary = new Rect(sc.x - 80, sTop, 160, Mathf.Max(44, sc.y + 26 - sTop));
@@ -145,7 +145,7 @@ namespace ReverseSolver.Presentation
                 v.Text(v._buttons, string.Format(Lang.T("+{0} s", "+{0} sn"), offer.Seconds), v.At(286, 620), 26, 8).Heading(Draw.Hex("#0E2244"));
                 if (showNo)
                 {
-                    var no = Button75.Small(v._buttons, v.At(195, 696), new Vector2(150, 50) * v._k, Lang.T("No, thanks", "Hayır"), order + 6);
+                    var no = Button75.Small(v._buttons, v.At(195, 704), new Vector2(150, 50) * v._k, Lang.T("No, thanks", "Hayır"), order + 6);
                     v._secondary = no.Rect;
                 }
             }
@@ -156,8 +156,8 @@ namespace ReverseSolver.Presentation
                 Art54.Place(v._buttons, "devam_v2/continue-coin", v.At(160, 608), Vector2.one * 38 * v._k, order + 8);
                 v.Text(v._buttons, offer.Price.ToString(), v.At(214, 607), 30, 8).Heading(TextView.RimGreen);
             }
-            Art54.Place(v._root, "devam_v2/continue-coin", v.At(140, 668), Vector2.one * 24 * v._k, order + 7);
-            v._coins = v.Text(v._root, string.Format(Lang.T("{0} coins", "{0} altın"), coins), v.At(210, 668), 18, 7).Heading(TextView.RimTeal);
+            Art54.Place(v._root, "devam_v2/continue-coin", v.At(140, 662), Vector2.one * 24 * v._k, order + 7);
+            v._coins = v.Text(v._root, string.Format(Lang.T("{0} coins", "{0} altın"), coins), v.At(210, 662), 18, 7).Heading(TextView.RimTeal);
             // close: on the title row, at the right (it used to sit on the HUD's Time box)
             var close = new Vector2(Mathf.Min(screen.x - 28, v.At(354, 150).x), v.At(354, 150).y);
             Art54.Place(v._root, "devam_v2/close-button", close, Vector2.one * 48, order + 7);

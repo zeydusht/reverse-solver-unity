@@ -195,6 +195,11 @@ namespace ReverseSolver.Core.Tests
             StringAssert.Contains(".Title(title).Body(body, sizePt: 16, gapAfter: 18, maxLines: 3)", File.ReadAllText("Assets/_Game/Presentation/Ui/Screens.cs"));
             StringAssert.Contains("tmp.textWrappingMode = TMPro.TextWrappingModes.NoWrap;", File.ReadAllText("Assets/_Game/Presentation/Ui/AchievementsScreen.cs"));
             Assert.That(File.Exists("docs/art/pm107/DENETIM.md"));
+            // the avatars not chosen: a navy disc with a gold ring (no old turquoise); the gold counters without a box
+            StringAssert.Contains(".Fill(Draw.Hex(\"#234670\")).Stroke(Draw.Hex(\"#E3B54E\"), 3)", File.ReadAllText("Assets/_Game/Presentation/Ui/JigglesScreen.cs"));
+            string win = File.ReadAllText("Assets/_Game/Presentation/Ui/P21WinView.cs");
+            Assert.That(win, Does.Not.Contain("Reward/Flight/coin-counter"), "no box under the gold count");
+            StringAssert.Contains("v.At(195, 704)", File.ReadAllText("Assets/_Game/Presentation/Ui/LossView74.cs"));
         }
     }
 }

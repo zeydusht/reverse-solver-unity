@@ -70,6 +70,9 @@ Ayrıntı: `DENETIM.md`; önce/sonra görüntüleri `once_sonra/`'da.
   - Booster ders kartının ipucu satırı büyüdü (14 → 16 pt, 3 satır).
   - Başarılar'da uzun koşul ilerleme çubuğuna taşmıyor (tek satır, gerekirse küçülür).
   - Saat ve makasta, booster'ın kendi sesinin altında eski tık çalıyordu (bir basışa iki ses); kalktı.
+  - Jiggles'ta seçili olmayan avatarlar eski turkuaz diskteydi; lacivert disk ve altın halka.
+  - Kazanma ve sandık ekranındaki altın sayacının kutusu kalktı; menüdeki gibi altın + kalın sayı.
+  - "Süre doldu" panelinde "Hayır" düğmesi altın satırına biniyordu; ayrıldı.
 
 ## Dokunulmayanlar (Zeyd onaylı)
 Dalış ve koridorun görüntüsü, çerçeve, lastik, kazanma ekranı yerleşimi, HUD.

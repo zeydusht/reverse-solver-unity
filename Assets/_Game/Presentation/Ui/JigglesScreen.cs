@@ -52,12 +52,17 @@ namespace ReverseSolver.Presentation
 
         public static void Avatar(Transform root, int index, Vector2 c, float size, int order, bool selected = false)
         {
-            MenuUi.Sprite(root, "avatar-disc", c, Vector2.one * size, order);
-            MenuUi.Sprite21(root, "avatar-" + Colors[index] + "-round", c, Vector2.one * size, order + 1);
+            // PM_107 §D6: the ones not chosen sat in the old turquoise disc and ring: a navy disc with a thin gold ring
+            bool plain = !selected && MenuUi.T48;
+            if (plain)
+                ShapeView.Create(root, "avatar-plate", Vector2.one * size, 3, order).Radius(size / 2)
+                    .Fill(Draw.Hex("#234670")).Stroke(Draw.Hex("#E3B54E"), 3).transform.localPosition = Draw.W(c);
+            else MenuUi.Sprite(root, "avatar-disc", c, Vector2.one * size, order);
+            MenuUi.Sprite21(root, "avatar-" + Colors[index] + "-round", c, Vector2.one * size * (plain ? .9f : 1), order + 1);
             // PM_89 §3: the chosen one in Codex's thick gold ring with its soft light (its hole is 144 of 220 px)
             var ring = selected ? Art.Place(root, Key89 + "avatar_ring_gold", Vector2.one * size * 220 / 140, order + 2) : null;
             if (ring != null) ring.transform.localPosition = Draw.W(c);
-            else MenuUi.Sprite21(root, selected ? "avatar-ring-selected" : "avatar-ring", c, Vector2.one * size, order + 2);
+            else if (!plain) MenuUi.Sprite21(root, selected ? "avatar-ring-selected" : "avatar-ring", c, Vector2.one * size, order + 2);
             if (selected)
                 MenuUi.Sprite21(root, "check-badge", c + Vector2.one * (size * .40f), Vector2.one * (size * 44 / 180), order + 3);
         }
