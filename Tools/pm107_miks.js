@@ -4,7 +4,7 @@
 //   --scenario bolum    a level of single pieces: 10 exits and 3 jams between them
 //              saat     lv 18 with the clock booster (&booster=saat): the tick-tock running, 6 exits over it
 //              zincir   lv 31 (chained pairs): its solution's first moves, the pairs sliding and knocking
-//              bomba    lv 15: every move but the bomb's piece, until the bomb goes off (the bang, the loss)
+//              bomba    lv 20: every move but the bomb's piece, until the bomb goes off (the bang, the loss)
 //              kazanma  level 4 won by its solution: the fanfare and the win screen (the chest's own screen is not reached this way): the fanfare, its events, the chest
 //              menu     the menu: the four tabs and back, Ayarlar open and closed, a painting's detail
 //              dalis    the menu's Play: the dive into the painting (its air from the start of the motion)
@@ -165,7 +165,7 @@ const TAP = `(function () {
   await cdp('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 2, mobile: true });
   await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
   await cdp('Page.addScriptToEvaluateOnNewDocument', { source: TAP });
-  const LV = { bolum: 4, saat: 18, zincir: 31, bomba: 15, kazanma: 4, menu: 0, dalis: 0 }[SC];   // 18 is the clock's lesson (no move before the clock)
+  const LV = { bolum: 4, saat: 18, zincir: 31, bomba: 20, kazanma: 4, menu: 0, dalis: 0 }[SC];   // 18 is the clock's lesson (no move before the clock)
   const extra = { saat: '&booster=saat' }[SC] || '';
   const q = `c=p23&lang=tr&intro=0&seslog=1&test=1${LV ? `&lv=${LV}` : ''}${extra}${BEFORE ? '&miks=0&limiter=0' : ''}${opt('query', '')}`;
   await cdp('Page.navigate', { url: `${base}/?${q}` });

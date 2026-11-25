@@ -1,37 +1,41 @@
 {
  "dir": "bomba",
- "sounds": 23,
+ "sounds": 59,
  "drowned": 0,
  "drowned_list": [],
  "peaks_over": 0,
- "peak_dbfs": -1.66,
- "effects_lufs_max": -17.4,
- "music_lufs_median": -35.3,
- "mix_lufs_max": -17.1,
+ "peak_dbfs": -2.68,
+ "effects_lufs_max": -14.7,
+ "music_lufs_median": -35.6,
+ "mix_lufs_max": -14.7,
  "by_clip": {
-  "carpma-a1": {
-   "count": 3,
-   "level": -17.6
-  },
-  "carpma-a2": {
-   "count": 4,
-   "level": -17.5
-  },
-  "carpma-a3": {
-   "count": 3,
-   "level": -17.6
-  },
-  "carpma-a4": {
-   "count": 1,
-   "level": -17.5
-  },
   "cikis-u1": {
-   "count": 11,
+   "count": 14,
    "level": -18.0
   },
-  "ui-tok-c1": {
+  "kilitac-a2": {
    "count": 1,
-   "level": -20.0
+   "level": -18.5
+  },
+  "loss": {
+   "count": 1,
+   "level": -20.1
+  },
+  "patlama-a1": {
+   "count": 1,
+   "level": -16.0
+  },
+  "zincir-f1": {
+   "count": 20,
+   "level": -22.5
+  },
+  "zincir-f2": {
+   "count": 19,
+   "level": -29.5
+  },
+  "zincir-f3": {
+   "count": 3,
+   "level": -46.0
   }
  }
 }

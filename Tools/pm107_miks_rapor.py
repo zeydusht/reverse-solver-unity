@@ -75,6 +75,8 @@ Her kayıt oyunun kendi çıkışından (Chrome, gerçek GPU) alındı: efektler
 |---|---|---|---|---|---|---|---|
 {chr(10).join(rows)}
 
+Bomba senaryosunda (20. bölüm) patlama 29,7. sn'de: müzik yeni miksle −40'tan −55 LUFS'e iner (kaybın −8 dB'si + patlamanın −4 dB'si), 1,6 sn sonra kaybın düzeyine (−44) döner; eskisi yalnız −8 dB.
+
 Ses kayıtları `miks/<senaryo>/efektler.webm` ve `muzik.webm`. Önce kayıtları `miks/once/<senaryo>/` altında.
 
 ## Dosya düzeyleri (Tools/make_miks107.py, Resources/Art/audio/pm107)

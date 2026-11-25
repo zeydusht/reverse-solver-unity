@@ -43,10 +43,12 @@ Her kayıt oyunun kendi çıkışından (Chrome, gerçek GPU) alındı: efektler
 | Bölüm oynanışı (10 çıkış, 3 takılma) | 15 / 15 | 0 → **0** | 2 → **0** | -0.93 → -1.5 | -14.3 → -15.1 | -35.3 → -34.6 | [grafik](miks/bolum/seviye.png) |
 | Saat booster'ı açıkken kayma | 75 / 76 | 11 → **0** | 0 → **0** | -2.03 → -2.59 | -16.8 → -17.4 | -34.8 → -36.8 | [grafik](miks/saat/seviye.png) |
 | Zincirli bölüm | 18 / 16 | 0 → **0** | 1 → **0** | -0.7 → -2.21 | -17.0 → -17.4 | -35.0 → -34.2 | [grafik](miks/zincir/seviye.png) |
-| Bomba + kayıp | 23 / 23 | 0 → **0** | 2 → **0** | -0.8 → -1.66 | -17.0 → -17.4 | -36.1 → -35.3 | [grafik](miks/bomba/seviye.png) |
+| Bomba + kayıp | 55 / 59 | 0 → **0** | 0 → **0** | -1.26 → -2.68 | -14.4 → -14.7 | -36.2 → -35.6 | [grafik](miks/bomba/seviye.png) |
 | Kazanma fanfarı (4. bölüm baştan sona) | 44 / 60 | 0 → **0** | 2 → **0** | -0.15 → -2.5 | -14.3 → -15.1 | -36.0 → -35.3 | [grafik](miks/kazanma/seviye.png) |
 | Menü gezintisi (düğmeler) | 15 / 15 | 0 → **0** | 1 → **0** | -0.99 → -1.13 | -18.3 → -16.5 | -36.2 → -35.5 | [grafik](miks/menu/seviye.png) |
 | Menüden Oyna: dalış | 7 / 37 | 0 → **0** | 0 → **0** | -2.79 → -2.69 | -21.3 → -19.3 | -36.2 → -35.4 | [grafik](miks/dalis/seviye.png) |
+
+Bomba senaryosunda (20. bölüm) patlama 29,7. sn'de: müzik yeni miksle −40'tan −55 LUFS'e iner (kaybın −8 dB'si + patlamanın −4 dB'si), 1,6 sn sonra kaybın düzeyine (−44) döner; eskisi yalnız −8 dB.
 
 Ses kayıtları `miks/<senaryo>/efektler.webm` ve `muzik.webm`. Önce kayıtları `miks/once/<senaryo>/` altında.
 
