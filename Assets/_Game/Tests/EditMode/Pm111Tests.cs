@@ -29,7 +29,7 @@ namespace ReverseSolver.Core.Tests
             StringAssert.Contains("const float LinesDone111 = .8f", d);
             StringAssert.Contains("LinesEnd = _shortHold ? LinesDone111 : LinesDone;", d);
             StringAssert.Contains("c = h1 + LinesEnd * _p.Back", d);
-            StringAssert.Contains("_look = sm((back - Dive75.LinesEnd) / Mathf.Max(.05f, 1 - Dive75.LinesEnd));", d);   // the hand-over (PM_86) follows
+            StringAssert.Contains(": sm((back - Dive75.LinesEnd) / Mathf.Max(.05f, 1 - Dive75.LinesEnd));", d);   // the hand-over (PM_86) follows (PM_116: unless &renk=)
         }
 
         [Test]

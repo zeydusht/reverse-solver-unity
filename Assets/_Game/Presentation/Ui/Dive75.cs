@@ -47,6 +47,20 @@ namespace ReverseSolver.Presentation
            long frame there is a beat, not a jump. &kenar=0: PM_113's, all of it. */
         public static bool Fix114 = true;
         const float RimRamp114 = .25f, TipFade114 = .3f;
+        /* PM_115 (Zeyd: "no sudden slip"): at the flight's end the painting turned ~1.2 deg and slid ~.7 pt a frame and
+           both stopped in one frame (the approach starts square on, its sideways speed 0). The flight's sideways (x) eased
+           to a stop over its last TurnSec115 of the clock: x + c(s), c a quintic in the way's share s that is 0 with no
+           speed or push at the window's start, 0 at the split (where the approach takes over: still square on there)
+           and takes away the path's own sideways speed there, its push 0 too. The way along the path and its pace (z,
+           the zoom) untouched; what the window turns and slides in all the same, only spread. &pm115=0: PM_114's. */
+        public static bool Fix115 = true;
+        /* PM_116 (Zeyd: "in the last ~.2 s the picture's colours fade at once"): the pieces' own look (the eased
+           contrast, the gradient and highlight, the bevel, the kit's rim, the shadow, the badges) came over the last
+           fifth of the pull back. &renk=canli: the pieces keep the picture's own colours in the game too (Piece.shader
+           _PieceVivid), the look's rest comes over the whole pull back; &renk=yavas: the game as it is, the look over the
+           whole pull back, from the bottom to the game's first frame, eased in and out. '0': PM_115's. */
+        public static char Color116 = '0';
+        const float TurnSec115 = .11f;
         /* PM_91 (Zeyd: "it goes well at first but slows down as it nears the painting"): the approach keeps its speed
            into the painting (PM_92: rising all the way, see MenuSeconds92; the old curves came to rest), and the
            picture holds half as long (PM_90 measured .55 s from the menu, .43 s after the corridor).
@@ -1190,7 +1204,11 @@ namespace ReverseSolver.Presentation
             Vector2 p; float e = 0;
             bool bell = _bellT > 0;
             float s = bell ? (_new91 && _wayD != null ? Way92(t) : Launch(t / _bellT)) : 0;   // PM_86 §10: one move over the flight and the approach (PM_87: off at once)
-            if (bell ? s <= _bellSplit : t <= _flight) p = bell ? _dio.AtLength(_dio.Length * s / _bellSplit) : _dio.AtLength(FlightLength(t));
+            if (bell ? s <= _bellSplit : t <= _flight)
+            {
+                p = bell ? _dio.AtLength(_dio.Length * s / _bellSplit) : _dio.AtLength(FlightLength(t));
+                if (bell && Fix115) p.x += TurnEase115(s);
+            }
             else
             {
                 p = bell ? ApproachEven((s - _bellSplit) / (1 - _bellSplit)) : ApproachAt((t - _flight) / _p.Approach);
@@ -1229,6 +1247,28 @@ namespace ReverseSolver.Presentation
             _paint.Fade(fade);
             _backdrop.Alpha(fade);
         }
+
+        /* PM_115: the flight's sideways ease at the way's share s (see Fix115): the window's start found on the clock
+           (TurnSec115 before the split), the path's sideways speed there per share of the way. */
+        float _turnFrom115 = -1, _turnV115;
+        float TurnEase115(float s)
+        {
+            if (_turnFrom115 < 0)
+            {
+                float T = _new91 && _wayD != null ? _T92 : _bellT;
+                float S(float t) => _new91 && _wayD != null ? Way92(t) : Launch(t / _bellT);
+                float lo = 0, hi = T;
+                for (int i = 0; i < 40; i++) { float m = (lo + hi) / 2; if (S(m) < _bellSplit) lo = m; else hi = m; }
+                _turnFrom115 = Mathf.Min(S(Mathf.Max(0, lo - TurnSec115)), _bellSplit - 1e-3f);
+                _turnV115 = _dio.EndTangent.x * _dio.Length / _bellSplit;
+                Note($"PM_115: the turn eased from {lo - TurnSec115:0.000} s (way {_turnFrom115:0.000}) to the split at {lo:0.000} s");
+            }
+            float w = _bellSplit - _turnFrom115, u = (s - _turnFrom115) / w;
+            return u <= 0 || u >= 1 ? 0 : -_turnV115 * w * TurnQ115(u);
+        }
+
+        /* PM_115: q(0) = q'(0) = q''(0) = 0, q(1) = 0, q'(1) = 1, q''(1) = 0. */
+        public static float TurnQ115(float u) => u * u * u * (-4 + u * (7 - 3 * u));
 
         static float SmoothStep(float t) { t = Mathf.Clamp01(t); return t * t * (3 - 2 * t); }
         /* PM_87 §2: the camera's progress (0..1): off at once (its speed rises from the first frame, a soft lift, no
@@ -1984,7 +2024,7 @@ namespace ReverseSolver.Presentation
                 {
                     // PM_86: every cut is drawn by LinesDone of the pull back; from there to its end the pieces take their
                     // own look (at least .2 s), the shadow and the parting with it
-                    _look = sm((back - Dive75.LinesEnd) / Mathf.Max(.05f, 1 - Dive75.LinesEnd));
+                    _look = Dive75.Color116 != '0' ? sm(back) : sm((back - Dive75.LinesEnd) / Mathf.Max(.05f, 1 - Dive75.LinesEnd));   // PM_116: over the whole pull back
                     Render(time, 1, 1, Shadow);
                     return;
                 }
@@ -2031,7 +2071,7 @@ namespace ReverseSolver.Presentation
                 if (Seams)
                 {
                     float look = Mathf.Max(0, _look);
-                    foreach (var pv in _seams) if (pv != null) pv.SetReveal(true, time, EdgeSeconds, look, rimD);
+                    foreach (var pv in _seams) if (pv != null) pv.SetReveal(true, time, EdgeSeconds, look, rimD, Fix115);
                     SetPicAlpha(1 - look);
                     Badges(look);
                 }

@@ -243,14 +243,14 @@ namespace ReverseSolver.Presentation
             Apply();
         }
         static readonly int RvOnId = Shader.PropertyToID("_RvOn"), RvTimeId = Shader.PropertyToID("_RvTime"),
-            RvEdgeId = Shader.PropertyToID("_RvEdgeSec"), RvLookId = Shader.PropertyToID("_RvLook"), RvRimId = Shader.PropertyToID("_RvRim");
+            RvEdgeId = Shader.PropertyToID("_RvEdgeSec"), RvLookId = Shader.PropertyToID("_RvLook"), RvRimId = Shader.PropertyToID("_RvRim"), RvFastId = Shader.PropertyToID("_RvFast");
         /* PM_86 dive: the piece as the plain picture with its cut drawn in (time on the drawing's clock, SetSeamStarts),
            taking its own look with look 0..1; off: as always. PM_114: rim, the board's rim drawn (cells along each of
            its two pens; the sides SetSeamStarts gives below 0). */
-        public void SetReveal(bool on, float time, float edgeSeconds, float look, float rim = 1000)
+        public void SetReveal(bool on, float time, float edgeSeconds, float look, float rim = 1000, bool fast = false)
         {
             _b.SetFloat(RvOnId, on ? 1 : 0); _b.SetFloat(RvTimeId, time); _b.SetFloat(RvEdgeId, edgeSeconds); _b.SetFloat(RvLookId, look);
-            _b.SetFloat(RvRimId, rim);
+            _b.SetFloat(RvRimId, rim); _b.SetFloat(RvFastId, on && fast ? 1 : 0);   // PM_115: the dive's plain picture skips what it does not show
             Apply();
         }
         public static void SetGhostAlpha(MeshRenderer r, float a)

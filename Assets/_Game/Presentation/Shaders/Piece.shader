@@ -44,6 +44,7 @@ Shader "ReverseSolver/Piece"
         _RvEdgeSec ("PM_84 dive: one cut's drawing time (s)", Float) = 0.55
         _RvLook ("PM_86 dive: the plain picture (0) .. the pieces' own look (1)", Float) = 1
         _RvRim ("PM_114 dive: the board's rim drawn, cells along each of its two pens", Float) = 1000
+        _RvFast ("PM_115 dive: skip what the plain picture does not show", Float) = 0
     }
     SubShader
     {
@@ -75,11 +76,12 @@ Shader "ReverseSolver/Piece"
                 float _PtToUnit, _Lift, _Gray, _Glow, _Flash, _Alpha, _ImageMix;
                 float4 _GlowColor, _BoardCells, _Image_ST, _Rim;
                 float _SkinMix, _KitOn;
-                float _RvOn, _RvTime, _RvEdgeSec, _RvLook, _RvRim;
+                float _RvOn, _RvTime, _RvEdgeSec, _RvLook, _RvRim, _RvFast;
                 float4 _ImageH0, _ImageH1, _ImageH2;   // PM_90: the dive's pull back (rows of a homography, board uv -> picture uv)
                 float _ImageWarp;
             CBUFFER_END
             float _RSEdge;   // global: 1 = the chosen thick dark navy edge on painted boards (2 = black, kept for tests)
+            float _PieceVivid;   // PM_116 &renk=canli (global): the picture's own colours on the pieces, not eased
             TEXTURE2D(_KitMask); SAMPLER(sampler_KitMask);
             TEXTURE2D(_KitOver); SAMPLER(sampler_KitOver);
             TEXTURE2D(_KitFlat); SAMPLER(sampler_KitFlat);
@@ -238,9 +240,13 @@ Shader "ReverseSolver/Piece"
                     rawImg = img;
                     float il = dot(img, float3(0.299, 0.587, 0.114));
                     img = lerp(img, float3(il, il, il), 0.55 * pinned) * lerp(1.0, 0.82, pinned);
-                    img = lerp(img, float3(0.5, 0.5, 0.5), 0.12);                                   // ease contrast so the cut reads
-                    float3 imgFill = lerp(shade(img, 0.12), shade(img, -0.10), t);    // the gradient, softer
-                    imgFill = imgFill + (1.0 - imgFill) * hA * 0.55;                  // the highlight, softer
+                    float3 imgFill = img;                                             // PM_116 &renk=canli: the picture's own
+                    if (_PieceVivid < 0.5)
+                    {
+                        img = lerp(img, float3(0.5, 0.5, 0.5), 0.12);                               // ease contrast so the cut reads
+                        imgFill = lerp(shade(img, 0.12), shade(img, -0.10), t);       // the gradient, softer
+                        imgFill = imgFill + (1.0 - imgFill) * hA * 0.55;              // the highlight, softer
+                    }
                     fill = lerp(fill, imgFill, imageAmt);
                     darkC = lerp(darkC, shade(img, -0.55), imageAmt);
                 }
@@ -261,13 +267,21 @@ Shader "ReverseSolver/Piece"
                     float2 kuv = kitUV(q, i.edges);
                     float kin = kitIn(q);
                     float m = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kuv).a * kin;
-                    float4 ov = SAMPLE_TEXTURE2D(_KitOver, sampler_KitOver, kuv) * kin;
+                    /* PM_115: in the dive's plain picture (look 0, the cuts drawn in) the samples the picture does not
+                       show are skipped: the kit's overlay, the bevel and the shadow (all times look), and the rim's
+                       ring where its cut is not drawn yet (times seam). Each skipped term is exactly 0 there, so the
+                       picture is the same to the bit; the game itself (_RvOn 0) runs as before. */
+                    bool plain = _RvOn > 0.5 && _RvFast > 0.5 && look <= 0.0;
+                    float4 ov = plain ? float4(0, 0, 0, 0) : SAMPLE_TEXTURE2D(_KitOver, sampler_KitOver, kuv) * kin;
                     if (imageAmt > 0.001)
                     {
                         // painted board (painting=1): the cut must read inside a busy picture (Zeyd 2026-10-26)
                         float thick = _RSEdge > 0.5 ? 1.5 : 1.0;
                         float r = 1.1 * thick * _PtToUnit;                            // ~3 device px (thick: ~4-5 px)
                         float mOut = 0.0, mIn = 1.0, mOut2 = 0.0;
+                        float seam = _RvOn > 0.5 ? RvSeam(q, i.edges, i.starts) : 1.0;   // PM_86: the cut drawn in by the pen
+                        bool ring = !(_RvOn > 0.5 && _RvFast > 0.5) || seam > 0.0;
+                        if (ring)
                         for (int k = 0; k < 8; k++)
                         {
                             float an = k * 0.785398;
@@ -280,9 +294,8 @@ Shader "ReverseSolver/Piece"
                             mIn = min(mIn, SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + o2, i.edges)).a * kitIn(q + o2));
                         }
                         float2 d = float2(r, r) * 1.6;                                // bevel: light top-left, dark bottom-right
-                        float bev = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + d, i.edges)).a * kitIn(q + d)
+                        float bev = plain ? 0.0 : SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q + d, i.edges)).a * kitIn(q + d)
                                   - SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q - d, i.edges)).a * kitIn(q - d);
-                        float seam = _RvOn > 0.5 ? RvSeam(q, i.edges, i.starts) : 1.0;   // PM_86: the cut drawn in by the pen
                         float3 pf = fill + bev * 0.16 * look;
                         float band = saturate(m - mIn) * seam;                        // ~2 px just inside the edge
                         pf = lerp(pf, float3(0.973, 0.922, 0.816), band * (_RSEdge > 0.5 ? 0.8 : 0.6));   // cream #F8EBD0, 60 % (80 % thick)
@@ -300,9 +313,10 @@ Shader "ReverseSolver/Piece"
                         fl.rgb = fl.rgb + (1.0 - fl.rgb) * saturate(_Flash) * 0.9;
                         col = float4(fl.rgb * fl.a, fl.a);
                     }
-                    float ms = SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q - float2(0, offY), i.edges)).a * kitIn(q - float2(0, offY));
+                    float ms = plain && imageAmt > 0.001 ? 0.0 : SAMPLE_TEXTURE2D(_KitMask, sampler_KitMask, kitUV(q - float2(0, offY), i.edges)).a * kitIn(q - float2(0, offY));
                     shA = lerp(0.42, 0.55, lift) * ms;
-                    if (imageAmt > 0.001)
+                    if (plain && imageAmt > 0.001) shA = 0.0;                         // PM_115: times look, below
+                    else if (imageAmt > 0.001)
                     {
                         float2 so = float2(4.0, 4.0) * _PtToUnit, sb = float2(1.5, 0) * _PtToUnit;
                         float s4 = 0.0;

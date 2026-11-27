@@ -190,6 +190,10 @@ namespace ReverseSolver.Presentation
             // &resimbekle= or &bungee= their own, as before)
             Dive75.U = QueryFloat("u", Dive75.HoldSec >= 0 || Dive75.Bungee > 0 ? 0 : 1, 0, 5);
             Dive75.Fix114 = Host.Current.Query("kenar") != "0";   // PM_114: &kenar=0 the rim with the last cuts, as in PM_113
+            Dive75.Fix115 = Host.Current.Query("pm115") != "0";   // PM_115: &pm115=0 the turn stopping in a frame and the bottom's full shading, as in PM_114
+            string renk = Host.Current.Query("renk");   // PM_116: &renk=canli the picture's own colours on the pieces; &renk=yavas the fade over the pull back
+            Dive75.Color116 = renk == "canli" ? 'c' : renk == "yavas" ? 'y' : '0';
+            Shader.SetGlobalFloat("_PieceVivid", renk == "canli" ? 1 : 0);
             CorridorTransition.Seconds = QueryFloat("koridor", 1.5f, .5f, 5);   // PM_85: the corridor's slide (s)
             CorridorTransition.StartBeat = QueryFloat("koridorbas", .2f, 0, 2);   // PM_88 §4: the beat before the slide (s)
             CorridorTransition.EndBeat = QueryFloat("koridorson", .2f, 0, 2);     // and before the dive

@@ -3,7 +3,7 @@
 // efektler.webm / muzik.webm, meta.json their start on the same clock) and the dive's log (log.txt: "<ms> <line>",
 // the [cerceve] / [dalis] / [gecis] / [mix] lines, as pm72_tour.js TOUR_LOG_TS=1 writes it, for pm92_flow_check.py
 // and pm91_video.py).
-// usage: node Tools/pm108_dalis.js <out dir> [--query "&dalis108=0"] [--local Builds/publish/br] [--port 9371] [--noframes]
+// usage: node Tools/pm108_dalis.js <out dir> [--query "&dalis108=0"] [--local Builds/publish/br] [--port 9371] [--noframes] [--dpr 2]
 const fs = require('fs'), path = require('path'), http = require('http'), os = require('os'), { spawn } = require('child_process');
 const args = process.argv.slice(2);
 const opt = (n, d) => { const i = args.indexOf('--' + n); return i >= 0 ? args[i + 1] : d; };
@@ -145,7 +145,7 @@ const TAP = `(function () {
   const tap = async (x, y) => { await touch('touchStart', x, y); await sleep(50); await touch('touchEnd'); };
   await cdp('Runtime.enable'); await cdp('Page.enable'); await cdp('Network.enable');
   await cdp('Network.setBlockedURLs', { urls: ['*supabase.co*'] });
-  await cdp('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 2, mobile: true });
+  await cdp('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: +opt('dpr', 2), mobile: true });
   await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
   await cdp('Page.addScriptToEvaluateOnNewDocument', { source: TAP });
   const q = `c=p23&lang=tr&intro=0&seslog=1&dalislog=1&test=1${opt('query', '')}`;
