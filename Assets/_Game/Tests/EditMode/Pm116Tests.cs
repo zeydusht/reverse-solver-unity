@@ -13,8 +13,12 @@ namespace ReverseSolver.Core.Tests
         {
             string d = File.ReadAllText("Assets/_Game/Presentation/Ui/Dive75.cs"), root = File.ReadAllText("Assets/_Game/Presentation/GameRoot.cs");
             string shader = File.ReadAllText("Assets/_Game/Presentation/Shaders/Piece.shader");
-            StringAssert.Contains("Dive75.Color116 = renk == \"canli\" ? 'c' : renk == \"yavas\" ? 'y' : '0';", root);
-            StringAssert.Contains("Shader.SetGlobalFloat(\"_PieceVivid\", renk == \"canli\" ? 1 : 0);", root);
+            StringAssert.Contains("Dive75.Color116 = renk == \"yavas\" ? 'y' : renk == \"0\" || renk == \"simdiki\" ? '0' : 'c';", root);   // canli the default
+            StringAssert.Contains("Shader.SetGlobalFloat(\"_PieceVivid\", Dive75.Color116 == 'c' ? 1 : 0);", root);
+            // the teal chain's light rim, only with the picture's own colours
+            string chain = File.ReadAllText("Assets/_Game/Presentation/Board/ChainView.cs");
+            StringAssert.Contains("bool rim = colour == \"turkuaz\" && Dive75.Color116 == 'c';", chain);
+            Assert.That(File.Exists("Assets/_Game/Presentation/Resources/Shaders/ChainRim.shader"));
             StringAssert.Contains("public static char Color116 = '0';", d);
             StringAssert.Contains("_look = Dive75.Color116 != '0' ? sm(back) : sm((back - Dive75.LinesEnd) / Mathf.Max(.05f, 1 - Dive75.LinesEnd));", d);
             // canli: the eased contrast, the gradient and the highlight only without it; the bevel and the kit's rim as before
