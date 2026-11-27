@@ -16,8 +16,9 @@ namespace ReverseSolver.Core.Tests
             StringAssert.Contains("Dive75.Color116 = renk == \"yavas\" ? 'y' : renk == \"0\" || renk == \"simdiki\" ? '0' : 'c';", root);   // canli the default
             StringAssert.Contains("Shader.SetGlobalFloat(\"_PieceVivid\", Dive75.Color116 == 'c' ? 1 : 0);", root);
             // the teal chain's light rim, only with the picture's own colours
-            string chain = File.ReadAllText("Assets/_Game/Presentation/Board/ChainView.cs");
-            StringAssert.Contains("bool rim = colour == \"turkuaz\" && Dive75.Color116 == 'c';", chain);
+            string chain = File.ReadAllText("Assets/_Game/Presentation/Board/ChainRope.cs");
+            StringAssert.Contains("bool rim = Art.T54 && colour == 1 && Dive75.Color116 == 'c';", chain);
+            StringAssert.Contains("if (rim) AddRim(link, RimLink116, order - 1);", chain);
             Assert.That(File.Exists("Assets/_Game/Presentation/Resources/Shaders/ChainRim.shader"));
             StringAssert.Contains("public static char Color116 = '0';", d);
             StringAssert.Contains("_look = Dive75.Color116 != '0' ? sm(back) : sm((back - Dive75.LinesEnd) / Mathf.Max(.05f, 1 - Dive75.LinesEnd));", d);

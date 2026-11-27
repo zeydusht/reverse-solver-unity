@@ -12,6 +12,34 @@ namespace ReverseSolver.Presentation
         RopeSim _sim;
         float _cell, _brokenAt = -1;
         int _order;
+        readonly List<SpriteRenderer> _rims = new List<SpriteRenderer>();
+
+        /* PM_116 (Zeyd: the teal chain fades into a dark picture now that the pieces keep the picture's own colours,
+           the default): the teal chain's links and anchors each get a thin light rim, their own shape in one light
+           colour (Resources/Shaders/ChainRim) a little larger behind them: RimLink116 a link (its 53 px of 64 tall:
+           about 1 pt a side on a 48 pt cell), RimAnchor116 an anchor. The sprites and their colours as they are; the
+           rims follow their link (child), its order and its fade. &renk=0 / yavas: none, as before. */
+        public const float RimLink116 = 1.23f, RimAnchor116 = 1.11f;
+        static Material _rimMaterial;
+        static Material RimMaterial()
+        {
+            if (_rimMaterial != null) return _rimMaterial;
+            var shader = Resources.Load<Shader>("Shaders/ChainRim");
+            return shader == null ? null : _rimMaterial = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
+        }
+
+        void AddRim(SpriteRenderer of, float grow, int order)
+        {
+            var m = RimMaterial();
+            if (m == null || of == null) return;
+            var r = new GameObject("rim").AddComponent<SpriteRenderer>();
+            r.transform.SetParent(of.transform, false);
+            r.transform.localScale = new Vector3(grow, grow, 1);
+            r.sprite = of.sprite;
+            r.sharedMaterial = m;
+            r.sortingOrder = order;
+            _rims.Add(r);
+        }
 
         public void Init(Vector2 a, Vector2 b, float cell, int colour, int order, Vector2 min, Vector2 max)
         {
@@ -21,11 +49,13 @@ namespace ReverseSolver.Presentation
             _sim = new RopeSim(start, end, cell, min, max);
             string[] names = { "altin", "turkuaz", "mor", "mercan", "yesil" };
             var tint = Palette.C(Draw.Hex(colour == 4 ? "#7fd67a" : ChainView.Tints[colour]));
+            bool rim = Art.T54 && colour == 1 && Dive75.Color116 == 'c';   // PM_116: the teal chain
             for (int i = 0; i < 2; i++)
             {
                 var anchor = Art.Place(transform, (Art.T54 ? "obstacles_v3/chain/" : "") + "chain-anchor-" + names[colour],
                     Vector2.one * cell * .63f * ChainTuning.AnchorScale, order + 2);
                 if (anchor != null) _anchors[i] = anchor.transform;
+                if (rim) AddRim(anchor, RimAnchor116, order + 1);   // over the links, under the anchor
             }
             float spacing = Art.T54 ? (Vector2.Distance(a, b) <= 2 * cell ? .30f : .434f * .86f)
                 : (Vector2.Distance(a, b) <= 2 * cell ? .28f : .22f * 1.6f);
@@ -38,6 +68,7 @@ namespace ReverseSolver.Presentation
                 if (link == null) continue;
                 if (!Art.T54) link.color = tint;
                 _links.Add(link);
+                if (rim) AddRim(link, RimLink116, order - 1);   // under every link
             }
             Layout();
         }
@@ -60,6 +91,7 @@ namespace ReverseSolver.Presentation
             {
                 var c = _links[i].color; c.a = alpha; _links[i].color = c;
             }
+            for (int i = 0; i < _rims.Count; i++) { var c = _rims[i].color; c.a = alpha; _rims[i].color = c; }
             for (int i = 0; i < 2; i++)
                 if (_anchors[i] != null)
                 {
@@ -112,6 +144,7 @@ namespace ReverseSolver.Presentation
             int delta = order - _order;
             if (delta == 0) return;
             for (int i = 0; i < _links.Count; i++) _links[i].sortingOrder += delta;
+            for (int i = 0; i < _rims.Count; i++) _rims[i].sortingOrder += delta;
             for (int i = 0; i < 2; i++)
                 if (_anchors[i] != null) _anchors[i].GetComponent<SpriteRenderer>().sortingOrder += delta;
             _order = order;

@@ -9,20 +9,6 @@ namespace ReverseSolver.Presentation
         public static readonly string[] Tints = { "#ffcc4d", "#5fe0d0", "#ff8fb8", "#9ecbff" };
         static readonly string[] V3Colours = { "altin", "turkuaz", "mor", "mercan" };
 
-        /* PM_116 (Zeyd: the teal chain fades into a dark picture with the picture's own colours, &renk=canli): the teal
-           chain and its locks get a thin light rim round their shape (Resources/Shaders/ChainRim); the sprites' colours
-           as they are. &renk=0 / yavas: none, as before. */
-        static readonly System.Collections.Generic.Dictionary<float, Material> _rim = new System.Collections.Generic.Dictionary<float, Material>();
-        internal static Material RimMaterial(float px)
-        {
-            if (_rim.TryGetValue(px, out var m) && m != null) return m;
-            var shader = Resources.Load<Shader>("Shaders/ChainRim");
-            if (shader == null) return null;
-            m = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
-            m.SetFloat("_RimPx", px);
-            return _rim[px] = m;
-        }
-
         public static void Build(Transform parent, Vector2 a, Vector2 b, float s, string tintHex, int order)
         {
             var root = new GameObject("Chain").transform;
@@ -48,14 +34,10 @@ namespace ReverseSolver.Presentation
                 // PM_MESAJ_22: the lock's round body (114 px wide, centred at x 80, y 110.5 from the top of the 160 px
                 // sprite) sits on the cell centre and is 45 % of a cell wide; the chain runs centre to centre into it
                 float lk = s * .45f * 160f / 114f;
-                bool rim = colour == "turkuaz" && Dive75.Color116 == 'c';
-                Material rimLink = rim ? RimMaterial(4) : null, rimLock = rim ? RimMaterial(3.5f) : null;
-                if (rimLink != null) strip.sharedMaterial = rimLink;
                 foreach (var e in new[] { a, b })
                 {
                     var end = Art.Place(root, "chain-lock-v3-" + colour, new Vector2(lk, lk), order + 2);
                     Place(end.transform, e - new Vector2(0, lk * (110.5f - 80f) / 160f), 0);   // layout is y-down
-                    if (rimLock != null) end.sharedMaterial = rimLock;
                 }
                 return;
             }
