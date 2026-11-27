@@ -1,6 +1,6 @@
 # Reverse Solver — PROJE DURUMU (PM devir dosyası)
 
-Son güncelleme: 17 Kasım 2026 akşamı (soft launch kararları). Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
+Son güncelleme: 27 Kasım 2026 gecesi (Oyuncu tahmin modeli; altta TAHMİN MODELİ, OYUNCU MODELİ ve MODEL v3 bölümleri). Önceki: 17 Kasım akşamı (soft launch kararları). Yeni sohbette önce bu dosyayı oku, sonra Zeyd'in sorusuna geç. Eski sohbeti tekrar etme.
 
 ## Dosya kuralı
 - Her iş bitince veya Zeyd "değişiklikleri PROJE_DURUMU'na ekle" deyince bu dosyayı güncelle (kısa tut, bitenleri sil, tarihi yenile). Güncelledikten sonra `/clear` hatırlat.
@@ -11,6 +11,108 @@ Son güncelleme: 17 Kasım 2026 akşamı (soft launch kararları). Yeni sohbette
 - Benim rolüm PM: proje dosyalarını cihaz köprüsüyle oku/yaz, Supabase'e bak, Claude Code için `docs/PM_MESAJ_N.md`, Codex için `docs/art/CODEX_TASKNN.md` yaz. Her cevabın sonunda "Sıradaki görev" ve açık işler.
 - Zeyd uzun terminal komutlarını elle yazamıyor: komutu **metin dosyası** olarak gönder (SendUserFile), o Drive'a yükleyip Mac'te açıyor.
 - Build/yayın durumu için dosya tarihlerine bak (`Builds/`), tahmin etme.
+
+## MODEL v3: AI LEVEL DESIGN (27 Kasım gecesi, PM yaptı)
+- **İstek (Zeyd, 27 Kasım 00:24):** Modeli eğitmek için altyapı önden hazır olsun. Eindhoven ders notlarından (`C:\Users\zeydt\Downloads\RS Model geliştirme`: TU/e 1BM110 slaytları, Sutton & Barto, Eiben & Smith, Han, Molnar) overfitting, dropout, ödül-ceza uygulansın. Regresyon Excel'de görünsün. **Asıl istek: bunları ona öğretmek.** Sabah "konu anlat, ne yaptık" diye soracak. Basit, oyundan örnekle (formül yalnız gerekince). Satranç benzetmesi: "sadece şahı koruma, fedayı da yapabil" = ara hedefe overfitting yapma.
+- **Gece verilen onaylar:** çıktılar `docs/model` + `Tools/model`; Unity'yi PM çalıştıramadığı için Python, sabah Claude Code görevi; deneme bölümü üretilebilir ama oyuna, live/'a, Supabase'e yazılmaz.
+- **Yapılanlar:** `docs/model/README.md`, `EGITIM_GUNLUGU.md`, `DERS_NOTLARI.md` (11 ders, sayılarla), `RS_Zorluk_Modeli.xlsx` (Excel'in kopyası ders klasöründe).
+- **Kod:** `Tools/model/` (Python motor kopyası; Unity replay ile 40/40 eşleşti).
+- **Sonuçlar (görülmemiş bölümde, ilk deneme kazanma, hata puanı):**
+  - hep ortalama 30,6;
+  - basit formül (bomba sıkılığı, erken bomba, süre bolluğu; iç içe CV) 16,6;
+  - detaylı 9 özellik 18,3 (fazla özellik = kötü sınav);
+  - öğrenilmiş botlarla simülatör, kalibre: 14,9, korelasyon 0,84;
+  - gürültü tabanı 7,9.
+- **Seçim beyni:** 29.989 karar, isabet rastgele %34'e karşı ~%73. Dropout'suz ağ doğrusaldan kötü; dropout + erken durdurma en iyi (sayılar EGITIM_GUNLUGU'nda).
+- **Üretici (ödül-ceza, evrimsel):**
+  - v1 ödül kandırıldı: zorluk bırakıldı, kazanma %61–96.
+  - v3'te hedef bir kapı, elitler yeniden ölçülüyor.
+  - Tek nüfus tek tahtaya çöktü (`out/cokus_A.png`, "hep ortada bomba" dersinin tıpkısı).
+  - Ada modeli: 6 farklı deneme bölümü, hepsi %38–44 → `docs/model/denemeler/gen1.json` (oyunda değil).
+  - Uyarılar: GEN04'te aha teriminin kandırılmış olabileceği koridor; GEN01'de ezber yoğunluğu.
+- **sl100 kontrolü:** rolüyle çelişebilecek 3 bölüm (S10 slot 29 veryhard ~%51, S32 slot 59 veryhard ~%61, S35 slot 64 hard ~%67). Kesin değil, oynanıp bakılmalı (Excel "sl100 tahmini", kırmızı satırlar).
+- **Sıradaki:**
+  - (1) Zeyd'e konu anlat: DERS_NOTLARI sırasıyla, sorduğu kadar.
+  - (2) PM_117 (`docs/PM_MESAJ_117.md`): BotV3'ün C#'a taşınması, editör penceresi "Model v3", `&set=gen1` önizleme. PM_116 ve dal birleşince.
+  - (3) sl1 gelince `Tools/model` baştan yeniden eğitilir (`build_dataset.py` → … → `run_islands.py`).
+  - (4) Ödül v4: art arda tek seçenekli koridor sınırı, "devam etti mi" verisiyle ağırlık ayarı (GELISIM_PLANI b4).
+
+## OYUNCU TAHMİN MODELİ (27 Kasım gecesi, PM yaptı)
+- **İstek (Zeyd, 27 Kasım 18:39, dışarıdayken):** "Python'la çalış, hazırla": ilk 7 bölümden beceri, kaç bölüm, kaç TL tahmin eden model.
+- **Yapılanlar:**
+  - Python paketi `Tools/model/oyuncu/tahmin/`.
+  - Belge `docs/model/TAHMIN_MODELI.md`.
+  - Excel `docs/model/RS_Tahmin_Modeli.xlsx`: Elo hesaplayıcı ve "kaç kurulum" hesaplayıcı, LET'li. Kopyası ders klasöründe.
+  - Grafikler `docs/model/tahmin/`. `DERS_NOTLARI` Ders 17–21.
+  - pt1 denemeleri zamanlarıyla `tahmin/veri/pt1_attempts_compact.txt`: 51 oyuncu × 9 sağlama toplamı veritabanıyla tuttu.
+- **Model:**
+  - beceri = Elo (oyuncu ve bölüm aynı cetvelde, hız dahil);
+  - kaç bölüm = tehlike modeli (sansürlü veri, 7 günlük ileri bakış penceresi);
+  - TL = bölüme ulaşma olasılığı × AdRules reklam geliri × ödüllü reklam çarpanı;
+  - segment = beceri × değer (3 × 3).
+- **Sahte dünya sınavı.** pt1'e kalibre edildi. İki dünya: "pt1 gibi" (D1 %15) ve "iyi bulmaca" (D1 %31). Zaman bölmeli, 4.000 yeni oyuncu.
+  - 7. bölümden kalan bölüm sıralaması (C-index): 0,58 / 0,67. Kâhin tavanı 0,72 / 0,77. Beceri tek başına ~0,52 (ömrü söylemiyor).
+  - Model 300–600 kurulumda tavanına yaklaşıyor.
+  - Veri süresi kritik: 14 günlük veriyle kohort gelir tahmini +%17–31 şişiyor, 28 günle ±%3.
+  - Segmentler gerçekte ayrışıyor: Yüksek değer grubu Düşük grubun 2,4 katı (7. bölüm), 5 katı (3. gün) gelir getiriyor.
+- **pt1 gerçek veri:**
+  - bölüm Elo'su model v3 ile sıra uyumu 0,92;
+  - 7. bölümde beceri ±95 Elo belirsiz;
+  - beceri kalıcı (Spearman 0,56, p 0,006);
+  - 7. bölümden ömür tahmini tutmadı (katlı sınavda 0,42–0,51).
+- **Düzeltilen:** dünkü "yapısal model 0,35, rastgeleden kötü" büyük olasılıkla sınav hatasıydı: havuzlanmış bir-oyuncu-dışarıda sınavında taban model bile 0,02 alıyor. OYUNCU_MODELI ve Ders 15'e not düşüldü.
+- **Karar:**
+  - Soft launch'ta kohort raporu (`python -m tahmin.rapor_sl1`).
+  - Kişi bazında tahmin 4+ hafta ve ~600+ kurulumla (`python -m tahmin.calistir`).
+  - Supabase'e yazan adım yok; `player_predictions` yalnız 020 + Zeyd onayıyla.
+- **İkinci tur (Zeyd 20:19: "Dediğin her şeye onay, geliştir, uzun çalış"):**
+  - **019 + 020 canlıda kurulu (27 Kasım ~21:12, Zeyd ekrandan onayladı).** İlk iki deneme, ekrandaki Supabase sorusu 2 dakikada cevaplanmadığı için zaman aşımına uğramıştı (veritabanında değişiklik olmadan).
+    - Doğrulama: canlıdaki 42 parça (görünüm tanımları, kurallar, tetikleyici, indeksler, sütun listeleri) yereldeki sınanmış kopyayla md5 olarak birebir aynı. Görünümler ve `player_predictions` anon / authenticated'a kapalı. `v_sl_dislanan_cihaz` 7 cihaz gösteriyor, sl1 verisi henüz 0. Güvenlik uyarılarında yeni bir şey yok: tek yeni bilgi notu, `player_predictions`'ta kural olmaması, o da bilerek yapıldı.
+    - 020'ye son anda bir satır eklendi: 019'un görünümleri de dışarıya kapalı (oyun hiçbir görünümü okumaz).
+  - **020b canlıda kurulu (28 Kasım ~02:40, Zeyd ekrandan onayladı).** Oyun satırları `POST <tablo>?on_conflict=row_id` + `Prefer: resolution=ignore-duplicates` ile gönderiyor (`Assets/_Game/Core/Telemetry/Telemetry.cs`). PostgreSQL bunun için (a) row_id'yi okuma izni, (b) yeni satırın bir okuma kuralından geçmesini istiyor.
+    - 019 `sl_events`'e ikisini de vermemişti: soft launch olaylarının hiçbiri yazılmayacaktı (oyun 4xx alan satırları kenara ayırır, kimse fark etmezdi). Aynı hata `continue_events`'te de vardı: 10 Kasım'daki 016 yalnız (a)'yı yapmıştı, tabloda 0 satır.
+    - 020b: anon'a yalnız row_id okuma izni + okuma kuralı (dışarıdan yalnız rastgele 32 haneli row_id'ler ve satır sayısı görünür), authenticated'ın `sl_events` yetkisi ve tahmin sayacının dış yetkisi kaldırıldı.
+    - Doğrulama: kurallar ve izinler yerel kopyayla md5 olarak aynı. Canlıda anon rolüyle oyunun yöntemi denendi ve geri alındı: iki tabloda ekleme + tekrar (atlandı) çalıştı, anon satır okuyamıyor, bilinmeyen olay reddediliyor. Geride satır kalmadı. Güvenlik uyarılarında yeni bir şey yok (eskiler: `v_attempts` / `v_abandoned` security definer, `set_rating` anon'a açık, `excluded_*` kural yok).
+    - İlk denemeler: 27 Kasım akşamı bir kez onaysız diye durduruldu, iki kez Bad Gateway; hiçbiri bir şey değiştirmedi.
+  - **020'yi PM yazdı:** `docs/sql/020_oyuncu_modeli.sql`.
+    - `ad_offer` / `ad_paid` olayları;
+    - cihaz düzeyinde dışlama `v_sl_dislanan_cihaz`: "a", "aa" adlı yabancılar artık sayılıyor, Zeyd adıyla bir kez oynamış cihaz tümden dışarıda;
+    - `v_sl_oyuncu`, `v_sl_kohort_ltv`, `v_sl_reklam`'a teklif / kabul;
+    - `player_predictions` (değişmez) + `v_sl_tahmin_karsilastir`.
+  - **Yerel PostgreSQL 16'da sınandı** (üretim şemasının kopyası, 152 sahte oyuncu): Python'la birebir; değiştirme / silme engelli. Test: `Tools/model/oyuncu/tahmin/sqltest/`.
+  - **Veri yolu:**
+    - PM çekimi `tahmin/sql/cekim_kompakt.sql`: sıkıştırılmış satırlar + cihaz başına sağlama toplamı; okuyucu `sema.kompakt_yukle` / `saglama`;
+    - `calistir.py --sql` → `tahminler.sql` → `player_predictions`;
+    - yerelde uçtan uca denendi.
+  - **"Bıraktı" penceresi artık veriden seçiliyor** (geri dönenlerin arasının %95'i; 7–21 gün, verinin 1/3'ü): iyi dünyada 1./3. gün gelir sapması −%8,5 / −%8,8'den −%2,6 / −%3,5'e.
+  - PM_118 güncellendi: SQL'i de PM yazdı. Claude Code yalnız C# (`ad_offer`, AdMob geliri) + testler + rapor betiğini sahte veriyle çalıştırma.
+- **Sıradaki:**
+  - PM_118 sonunda Claude Code `sl_events` ve `continue_events`'e `cohort = 'test'` ile birer deneme satırı gönderir (iki kez, 201 beklenir); görünümler yalnız sl1'i okuduğu için analizi etkilemez.
+  - Zeyd'in iPhone'u mağaza sürümünde "Zeyd" adıyla oynarsa kendiliğinden dışlanır. Başka adla oynarsa IDFV'si `excluded_devices`'a eklenmeli.
+  - PM_118 (Claude Code), PM_117A'dan sonra.
+  - Soft launch verisi gelince:
+    - günlük izleme `v_sl_gunluk`, `v_sl_tutma`, `v_sl_huni`, `v_sl_reklam`, `v_sl_kohort_ltv` (MCP ile küçük sorgular);
+    - haftalık `cekim_kompakt.sql` → `rapor_sl1.py --kompakt`;
+    - 4 hafta sonra `calistir.py --kompakt --sql`; sahte dünyayı gerçek veriye yeniden kalibre et (`python -m tahmin.kalibre --kompakt …`, 150 sahte kurulumla prova edildi: ölçüler tutuyor, bazı ayarlar tek başına belirlenemiyor).
+
+## OYUNCU MODELİ: segment, bırakma, LTV (27 Kasım akşamı, PM yaptı)
+- **İstek (Zeyd, 27 Kasım 18:16):** Oyuncuları sınıflandır (becerikli / değil, çok harcayan …). İlk 7 bölümden beceri, kaç bölüm oynayacağı ve ne kazandıracağı tahmin edilsin. Kohortları davranışa göre böl. "Mümkün mü?" Ders notlarına dayanarak derin analiz.
+- **Yapılanlar:** `docs/model/OYUNCU_MODELI.md` (rapor + yol haritası), `docs/model/RS_Oyuncu_Modeli.xlsx` (huni, bırakma, kümeler, anlık risk hesaplayıcı, reklam LTV hesaplayıcı LET'li), `DERS_NOTLARI` Ders 12–16. Kod `Tools/model/oyuncu/`, sayılar `Tools/model/out/oyuncu_analiz.json`.
+- **pt1 bulguları (51 oyuncu):**
+  - **Takılınca bırakıyor:** geçemediği bölümde %61, ilk denemede geçtiği bölümde %4, kaybedip geçtiği bölümde %1,5.
+  - **Beceri kalıcı:** erken hız → sonraki başarı rho −0,56. Ama **ömrü söylemiyor** (C-index 0,50–0,60). Beceri ve bağlılık iki ayrı eksen.
+  - **Anket işe yaramadı:** bulmaca deneyimi anketi hiçbir şeyi tahmin etmedi.
+  - **Kümeler:** Hopkins 0,74 (rastgele 0,49). 2 kararlı küme (ARI 0,95): Akıcılar 22, Deneyerek ilerleyenler 13.
+  - **Yapısal ömür modeli başarısız** (C-index 0,35), bırakıldı. Not: 0,35 kısmen sınav hatası; doğru sınavla ~0,5 (TAHMİN MODELİ bölümü).
+  - **Anlık risk (kayıp sonrası bırakma):** AUC 0,88–0,89; riskin çoğu oyunun başındaki ilk kayıpta.
+  - **Reklam LTV** (varsayımlı eCPM): oyuncu başı ~0,68 TL; en iyi %20 gelirin %63'ü; gelir ile oynanan bölüm arasında rho 0,96.
+- **Karar:** kişi bazında tahmin ~600+ kurulum ve ≥ 4 hafta veriyle (sahte dünya öğrenme eğrisi; zaman bölmeli sınav). Soft launch'ta kohort LTV eğrisi ve segmentler betimsel.
+- **Sıradaki:** `docs/PM_MESAJ_118.md`:
+  - `ad_offer` olayı;
+  - AdMob gelir doğrulaması;
+  - SQL 020 (`v_sl_oyuncu`, `v_sl_kohort_ltv`, `player_predictions`): yazılacak, uygulanmayacak;
+  - rapor ve tahmin betikleri PM yazdı (`Tools/model/oyuncu/tahmin/`), Claude Code yalnız sahte veriyle çalıştırıp doğrular.
+- **Zeyd'e sorulacak:** yok; 019 + 020 (27 Kasım) ve 020b (28 Kasım) canlıda kurulu. Zeyd'in elle yapacağı iş: AdMob → Ayarlar → Hesap → "Gösterim düzeyinde reklam geliri" aç.
 
 ## SOFT LAUNCH — ŞU AN EN ÖNEMLİ (17 Kasım)
 - Karar: iOS App Store, **yalnız Türkiye**, hedef **24 Kasım Salı** canlı. 100–150 indirme, bütçe 300–500 TL (Meta reklamı, Apple kampanya linkleri). Para: **AppLovin MAX** (ödüllü: süre doldu +30 sn ve kazanmada 2× altın; geçiş reklamı 12. bölümden sonra, 3 bölümde ve 120 sn'de bir; banner yok). IAP yok. **100 bölüm** (41–100 yeni, 60 yeni tablo).
@@ -43,6 +145,7 @@ Son güncelleme: 17 Kasım 2026 akşamı (soft launch kararları). Yeni sohbette
 - **24 Kasım 19:12 → PM_106:** Block Out tarzı sürükleme/çıkış sesi (önce analiz `docs/art/pm106/BLOCKOUT_SES_ANALIZ.md`), gerçek zincir kaydı, lastik bütün takılmalarda, Ayarlar çift tık, dalış sonu klink kalkar.
 - **24 Kasım → PM_106 BİTTİ (p23):** Block Out analizi (`docs/art/pm106/BLOCKOUT_SES_ANALIZ.md`: sürüklerken ses yok, bırakmada tek tok, çıkışta ufalanma; perde artmıyor, dokunuşta ses yok). Çıkış sesi q (tok + plastik kırıntı; adaylar q–u, tek kayıt, sabit perde; eski f `&sescikis=f`). Zincir gerçek kayıt d (kesintisiz, hıza göre; adaylar d–f). Lastik bütün takılmalarda lastik 2 (boşluksuz takılma %55'ti, kilitli parça açık yöne lastiksizdi; 32 takılma ölçüldü). Ayarlar ve sekmelerde tek ses; dalış sonu ting kalktı. Verify yerel 7/7, p23 4/4 (gh-pages cef27f30). Rapor `docs/art/pm106/RAPOR.md`. Bekleyen: Zeyd'in çıkış ve zincir seçimi.
 - **24 Kasım → PM_106_EK2 + PM_106_EK BİTTİ:** Dinleme sayfası her yerde boştu: bir kesme işareti sayfanın tek betiğini durduruyordu. Artık her bölüm ayrı kuruluyor; WebKit 390×844'te 25/25 bölüm, ses çalan 24/24 bölüm çaldı (`Tools/webkit_sesler.js`, `docs/art/pm106/sesler_webkit.png`); canlı p23'te. Testler gerçek sekme ve mail açmıyor: `LinkAcici.Ac`, editörde ve `&test=1`'de yalnızca günlük.
+- **28 Kasım 03:00 → PM_115 + PM_116 BİTTİ (p23):** `pm108-onizleme` → `pm83` birleşti; `&renk=canli` varsayılan + camgöbeği zincir konturu; EditMode 866/0, Brotli build alındı, verify yerel ve canlı p23 4/4 (gh-pages e1d16a91).
 - **27 Kasım 11:30 → PM_116 ÖNİZLEME HAZIR (yayın yok, yerel dal `pm108-onizleme`):** Zeyd dalışın sonundaki ani solmayı istemedi. Teşhis: oyun görünümü resmi %12 griye çekiyor, ışık geçişi (+%12/−%10) ve %25'e varan parlama ekliyor (G1, 13 Ekim: "kesim okunsun" diye; PRODUCT okunabilirlik kararı); PM_86 görünümü çizgilerden sonraya koymuş, PM_111 ile son 0,17 sn'ye sıkışmış (bunun tasarım gerekçesi bulunamadı). `&renk=canli`: oyunda resmin kendi renkleri (kenar, kabartma, gölge, rozetler duruyor), dalışta görünüm bütün geri çekilmeye yayılıyor. `&renk=yavas`: oyun bugünkü gibi, solma dipten oyunun ilk karesine yumuşak (karede en çok 0,4 doygunluk puanı; şimdiki 1,8). Okunabilirlik: tek zayıf nokta camgöbeği zincir koyu gökte (39, 19), şimdikinde de zayıf; düzeltme PM'e bırakıldı. `docs/art/pm116/` (renk_yan_yana.mp4, _yarim, oyun_ici_karsilastirma.png, renk.png, RAPOR.md). Zeyd birini seçince yayın.
 - **27 Kasım 11:00 → PM_115 ÖNİZLEME HAZIR (yayın yok):** 0,27 sn'de tablonun dönmesi/kayması artık son 0,11 sn'de yumuşakça duruyor (komşu ortalamasının 1,7–2,0 katı; önce 5–177 kat), yol ve toplam dönme aynı. Dipteki takılma: render texture yerine dalışta shader'ın sıfırla çarptığı hesaplar atlanıyor (görüntü aynı); 30 FPS düşüşü 15 koşunun hiçbirinde yok; ekran kaydıyla 2x'te 20–22 ms kareler kaldı (%31 az, ölçüt tam tutmadı). `&pm115=0` eski hâl. Bu makinede bellek yetmediği için Brotli build alınamadı, önizleme gzip'ten. `docs/art/pm115/`.
 - **26 Kasım 02:30 → PM_114 ÖNİZLEME HAZIR (yayın yok, yerel dal `pm108-onizleme`):** Zeyd U1'i seçti; kenarların bir anda belirmesini ve sıçramaları istemedi. U1 artık varsayılan (`&u=0` vol 2, `&kenar=0` PM_113'ün kendisi). Teşhis: tahtanın dış kenarı iç çizgilerin zamanlamasına girmemişti; çizgiler bitince çizim saati 0,85 → 1,30 atlıyor, kenarın %87'si tek karede geliyordu. Şimdi iki kalem üst ortadan çevre boyunca çiziyor (dipten sonra, başta/sonda yavaş, ortada sabit), iç çizgilerle aynı anda (%80) bitiyor; karede en çok %3,4. Kalem uçları tek karede açılıp kapanıyordu, artık yumuşak. Basış ve çizgi devri karelerinde saat 33 ms atlıyordu (ilk hareket karesi 2 kat); artık en çok 1/60 sn. Bulundu, düzeltilmedi: 0,27 sn'de uçuştan yaklaşmaya geçişte tablonun dönmesi tek karede duruyor (yolu değiştirmek gerekir, PM kararı); dipte 0,72–0,85 sn'de 5 kare 25–30 ms (ekran kartı; 1x'te yok, parça shader'ı ayrı iş). Video `docs/art/pm114/once_sonra.mp4` (+ `_yarim`, `u1_son.mp4`), `kenar_kareler.png`, `sicrama.png`, `RAPOR.md`.
